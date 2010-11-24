@@ -1,0 +1,98 @@
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=temp_preview 2010.11.20)  23 NOV 2010 23:26
+entering extended mode
+**temp_preview.tex
+
+("C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\bin\Debug\t
+emp_preview.tex"
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, afrikaans, ancientgreek, ar
+abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
+croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
+lician, german, german-x-2009-06-19, greek, gujarati, hindi, hungarian, iceland
+ic, indonesian, interlingua, irish, italian, kannada, kurmanji, lao, latin, lat
+vian, lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerm
+an, ngerman-x-2009-06-19, nynorsk, oriya, panjabi, pinyin, polish, portuguese, 
+romanian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swis
+sgerman, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, u
+senglishmax, welsh, loaded.
+
+("C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\bin\Debug\t
+emp_preview.aux")
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+ABD: EveryShipout initializing macros (C:\Users\tw\AppData\Roaming\MiKTeX\2.9\t
+ex\context\base\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count122
+\scratchdimen=\dimen166
+\scratchbox=\box37
+\nofMPsegments=\count123
+\nofMParguments=\count124
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count125
+\MPscratchDim=\dimen167
+\MPnumerator=\count126
+\everyMPtoPDFconversion=\toks31
+)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(0.0pt, 614.295pt, 0.0pt)
+* v-part:(T,H,B)=(0.0pt, 794.96999pt, 0.0pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=614.295pt
+* \textheight=794.96999pt
+* \oddsidemargin=-72.26999pt
+* \evensidemargin=-72.26999pt
+* \topmargin=-72.26999pt
+* \headheight=0.0pt
+* \headsep=0.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+
+C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\bin\Debug\tem
+p_preview.tex:15: Package tikz Error: Giving up on this path. Did you forget a 
+semicolon?.
+
+See the tikz package documentation for explanation.
+Type  H <return>  for immediate help 
+Here is how much of TeX's memory you used:
+ 355 strings out of 483731
+ 5544 string characters out of 2951204
+ 237985 words of memory out of 3000000
+ 13747 multiletter control sequences out of 15000+200000
+ 3640 words of font info for 14 fonts, out of 3000000 for 9000
+ 714 hyphenation exceptions out of 8191
+ 28i,6n,53p,151b,468s stack positions out of 5000i,500n,10000p,200000b,50000s
+
+C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\bin\Debug\tem
+p_preview.tex:15:  ==> Fatal error occurred, no output PDF file produced!

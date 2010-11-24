@@ -1,0 +1,1 @@
+pdflatex temp_preview.tex -interaction=nonstopmode -quiet -halt-on-error
