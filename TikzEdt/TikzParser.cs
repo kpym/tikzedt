@@ -16,6 +16,48 @@ namespace TikzEdt
     {
         public static Tikz_ParseTree Parse(string code)
         {
+            
+            simpletikzLexer lex = new simpletikzLexer(new ANTLRStringStream(code));
+            CommonTokenStream tokens = new CommonTokenStream(lex);
+
+            //for (int i = 0; i < tokens.Count; i++)
+            //{
+            //    string ds = tokens.Get(i).Text;
+            //    ds = ds + "eee";
+            //}
+
+            simpletikzParser parser = new simpletikzParser(tokens);
+
+            //tikzgrammarParser.expr_return r =
+            simpletikzParser.tikzpath_return ret = parser.tikzpath();
+            
+            //CommonTreeAdaptor adaptor = new CommonTreeAdaptor();
+            CommonTree t = (CommonTree)ret.Tree;
+            MessageBox.Show(printTree(t,0));
+
+        }
+
+/*
+        public string printTree(CommonTree t, int indent)
+        {
+            string s="";
+            if ( t != null ) {
+		        for ( int i = 0; i < indent; i++ )
+			        s = s+"   ";
+
+                string r = "";// s + t.ToString() + "\r\n";
+                
+                if (t.ChildCount >0)
+		            foreach ( object o in t.Children ) {
+			            r=r+s+o.ToString()+"\r\n" + printTree((CommonTree)o, indent+1);
+                    }
+
+                return r;
+            }  else return "";
+		}
+    }*/
+            
+            
             Tikz_ParseTree t = new Tikz_ParseTree();
 
 
@@ -87,6 +129,10 @@ namespace TikzEdt
             return text;
         }
     }
+    /// <summary>
+    /// This item represents parts of the code that the parser does not understand
+    /// or not care about, e. g., whitespace.
+    /// </summary>
     public class Tikz_Something : TikzParseItem
     {
 
@@ -101,15 +147,16 @@ namespace TikzEdt
     }
     public class TikzContainerParseItem : TikzParseItem
     {
+        public string starttag="", endtag="";
         public List<TikzParseItem> Children= new List<TikzParseItem>();
         public override string ToString()
         {
-            string s = "";
+            string s = starttag;
             foreach (TikzParseItem t in Children)
             {
                 s = s + t.ToString();
             }
-            return s;
+            return s+endtag;
         }
     }
     // the root of the parse tree

@@ -19,7 +19,18 @@ namespace TikzEdt
     /// </summary>
     public partial class PdfOverlay : UserControl
     {
+
+        public delegate void ModifiedEventHandler();
+        /// <summary>
+        /// This event is called whenever the picture gets modified.
+        /// For example, in the handler one should update the code listing
+        /// </summary>
+        public event ModifiedEventHandler OnModified;
+
         Tikz_ParseTree _parsetree;
+        /// <summary>
+        /// The Parse tree currently being displayed is stored in this property.
+        /// </summary>
         public Tikz_ParseTree ParseTree
         {
             get { return _parsetree; }
