@@ -123,7 +123,7 @@
                 -->
                 <Grid Background="Gray">
                     <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" Width="200" Height="200" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" OnCompileEvent="tikzDisplay1_OnCompileEvent" />
-                    <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" />
+                    <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" OnModified="pdfOverlay1_OnModified" />
                 </Grid>
             </ScrollViewer>
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Windows;
 
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
@@ -78,11 +79,11 @@ namespace TikzEdt
 
         static bool FillItem(TikzContainerParseItem item, CommonTree t, CommonTokenStream tokens)
         {
-            int curItem = t.TokenStartIndex;
+            int curToken = t.TokenStartIndex;
 
             foreach (CommonTree childt in t.Children)
             {
-                addSomething(item, tokens, curItem, childt.TokenStartIndex-1);
+                addSomething(item, tokens, curToken, childt.TokenStartIndex - 1);
                 
                 switch (childt.Type)
                 {
@@ -123,10 +124,11 @@ namespace TikzEdt
 
                 }
 
-                curItem = childt.TokenStopIndex + 1;               
+                curToken = childt.TokenStopIndex + 1;               
 
             }
 
+            addSomething(item, tokens, curToken, t.TokenStopIndex);
 
             return true;
         }
@@ -137,7 +139,7 @@ namespace TikzEdt
         }
         public static string getTokensString(CommonTokenStream tokens, int FirstToken, int LastToken)
         {
-            if (LastToken - FirstToken <= 0)
+            if (LastToken - FirstToken < 0)
                 return "";
             string text = "";
             for (int i = FirstToken; i <= LastToken; i++)
@@ -149,7 +151,7 @@ namespace TikzEdt
 
         static void addSomething(TikzContainerParseItem item, CommonTokenStream tokens, int FirstToken, int LastToken)
         {
-            if (LastToken-FirstToken <= 0)
+            if (LastToken-FirstToken < 0)
                 return;
 
             Tikz_Something t = new Tikz_Something(getTokensString(tokens, FirstToken, LastToken));
@@ -202,6 +204,18 @@ namespace TikzEdt
         {
             return text;
         }
+        /// <summary>
+        /// causes the object to update its text according to its contents
+        /// </summary>
+        public virtual void UpdateText() { }
+
+        /// <summary>
+        /// For testing
+        /// </summary>
+        public virtual string ToStringEx()
+        {
+            return (GetType().ToString() + ":   " +text + "\r\n");
+        }
     }
     /// <summary>
     /// This item represents parts of the code that the parser does not understand
@@ -220,9 +234,10 @@ namespace TikzEdt
     /// <summary>
     /// Parse Item having an x and y coordinate
     /// </summary>
-    public class Tikz_XYItem : TikzParseItem
+    public abstract class Tikz_XYItem : TikzParseItem
     {
         public double x, y;
+        public abstract void SetPosition(Point p);
     }
     public class Tikz_Node : Tikz_XYItem
     {
@@ -250,6 +265,11 @@ namespace TikzEdt
             return n;
         }
 
+        public override void SetPosition(Point p)
+        {
+            coord.SetPosition(p);
+        }
+
         public Tikz_Coord coord;
         public string name="";
         public string options="";
@@ -258,6 +278,18 @@ namespace TikzEdt
         public Tikz_Node(double tx, double ty)
         {
             x=tx; y=ty;
+        }
+        public override void UpdateText()
+        {
+            text = "node "; // TODO: skip this if parent path is a \node
+            if (name != "")
+                text = text + "(" + name + ") ";
+            if (coord != null)
+            {
+                coord.UpdateText();
+                text = text + "at " + coord.ToString() + " ";
+            }
+            text = text + "{" + label + "}";
         }
     }
     public enum Tikz_CoordType { Cartesian, Polar, Named }
@@ -293,6 +325,31 @@ namespace TikzEdt
             return null;
         }
 
+        public override void UpdateText()
+        {
+            text = deco + "(";
+            switch (type)
+            {
+                case Tikz_CoordType.Named:
+                    text = text + nameref;
+                    break;
+                case Tikz_CoordType.Polar:
+                    text = text + uX.ToString() + ";" + uY.ToString();
+                    break;
+                case Tikz_CoordType.Cartesian:
+                    text = text + uX.ToString() + "," + uY.ToString();
+                    break;
+            }
+            text = text + ")";
+        }
+
+        public override void SetPosition(Point p)
+        {
+            uX.number = p.X;
+            uY.number = p.Y;
+            x = p.X; y = p.Y; //hack
+        }
+
         public Tikz_CoordType type = Tikz_CoordType.Cartesian;
         public string deco = "";
         public Tikz_NumberUnit uX, uY;
@@ -313,6 +370,10 @@ namespace TikzEdt
         }
         public double number;
         public string unit;
+        public override string ToString()
+        {
+            return number.ToString() + unit;
+        }
     }
     public class TikzContainerParseItem : TikzParseItem
     {
@@ -326,6 +387,24 @@ namespace TikzEdt
                 s = s + t.ToString();
             }
             return s+endtag;
+        }
+        public override void UpdateText() 
+        {
+            foreach (TikzParseItem t in Children)
+            {
+                t.UpdateText();
+            }
+        }
+
+        public override string ToStringEx()
+        {
+            string s = starttag +"\r\n";
+            foreach (TikzParseItem t in Children)
+            {
+                s = s + "     "+ t.ToString();
+            }
+
+            return (GetType().ToString() + ":   " + s + endtag + "\r\n");
         }
     }
     // the root of the parse tree

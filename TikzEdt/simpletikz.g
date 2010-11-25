@@ -69,11 +69,14 @@ IM_ENDTAG;
 
 
 tikzpath 
-	:	path_start! tikzpathi
+	:	path_start tikzpathi path_end	-> ^(IM_PATH path_start tikzpathi path_end )
+	;
+path_end
+	:	SEMIC -> ^(IM_ENDTAG SEMIC)
 	;
 
 tikzpathi
-	:	OPTIONS? coordornode (coordornode | OPTIONS? edgeop coordornode )* SEMIC 		-> ^(IM_PATH coordornode+ )
+	:	(OPTIONS!)? coordornode (coordornode | (OPTIONS!)? edgeop! coordornode )* 
 	;
 
 coordornode
@@ -84,7 +87,10 @@ tikznodei
 	:	'node'! tikznode
 	;
 tikznodee
-	:	NODE tikznode tikzpathi
+	:	node_start tikznode tikzpathi path_end -> ^(IM_PATH node_start tikznode tikzpathi path_end) //almost hack like this
+	;
+node_start
+	:	NODE -> ^(IM_STARTTAG NODE)
 	;
 tikznode
 	:	OPTIONS? nodename? ('at' coord)? STRING		-> ^(IM_NODE OPTIONS? nodename? coord? STRING)			
@@ -118,6 +124,9 @@ unit
 	;
 
 path_start 
+	:	path_start_tag -> ^(IM_STARTTAG path_start_tag)
+	;
+path_start_tag
 	:	DRAW | FILL | PATH
 	;
 
@@ -126,15 +135,20 @@ tikzdocument
 	;
 
 tikzpicture 
-	:	 BEGINTP OPTIONS? tikzbody? ENDTP		-> ^(IM_PICTURE tikzbody?)
+	:	 tikzpicture_start OPTIONS? tikzbody? tikzpicture_end		-> ^(IM_PICTURE  tikzpicture_start tikzbody? tikzpicture_end)
 	;
-
+tikzpicture_start
+	:	BEGINTP -> ^(IM_STARTTAG BEGINTP)
+	;
+tikzpicture_end
+	:	ENDTP -> ^(IM_ENDTAG ENDTP)
+	;
 tikzbody
 	:	( tikzscope | tikzpath | tikznodee)+
 	;
 
 tikzscope
-	:	BEGINSCOPE OPTIONS? tikzbody ENDSCOPE		-> ^(IM_SCOPE tikzbody)
+	:	BEGINSCOPE OPTIONS? tikzbody ENDSCOPE		-> ^(IM_SCOPE ^(IM_STARTTAG BEGINSCOPE) tikzbody ^(IM_ENDTAG ENDSCOPE))
 	;
 
 //tikzbody2
