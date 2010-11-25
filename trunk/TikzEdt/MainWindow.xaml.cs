@@ -317,10 +317,17 @@ namespace TikzEdt
             simpletikzLexer lex = new simpletikzLexer(new ANTLRStringStream(s));
             CommonTokenStream tokens = new CommonTokenStream(lex);
 
+            for (int i = 0; i < tokens.Count; i++)
+            {
+                string ds = tokens.Get(i).Text;
+                ds = ds + "eee";
+            }
+
             simpletikzParser parser = new simpletikzParser(tokens);
 
             //tikzgrammarParser.expr_return r =
             simpletikzParser.tikzpath_return ret = parser.tikzpath();
+            
             //CommonTreeAdaptor adaptor = new CommonTreeAdaptor();
             CommonTree t = (CommonTree)ret.Tree;
             MessageBox.Show(printTree(t,0));
@@ -336,7 +343,7 @@ namespace TikzEdt
 			        s = s+"   ";
 
                 string r = "";// s + t.ToString() + "\r\n";
-
+                
                 if (t.ChildCount >0)
 		            foreach ( object o in t.Children ) {
 			            r=r+s+o.ToString()+"\r\n" + printTree((CommonTree)o, indent+1);
