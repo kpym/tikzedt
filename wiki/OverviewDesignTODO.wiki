@@ -15,8 +15,15 @@
   * draw an icon
 
 === Code editor (avalonedit) ===
+*TODO:*
+  * full syntax highlighting (complete definition xml file)
+  * code completion?
 
 == TikzDisplay ==
+*TODO*
+  * pdflatex hangs sometimes
+  * Better handling of first generation of precompiled headers. (No restart)
+  * Better error messages
 
 == TikzParser ==
 
