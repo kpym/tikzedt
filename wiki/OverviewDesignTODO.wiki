@@ -12,7 +12,7 @@
   * very basic UI working
 
 *TODO:*
-  * draw an logo icon
+  * draw an icon
 
 === Code editor (avalonedit) ===
 
