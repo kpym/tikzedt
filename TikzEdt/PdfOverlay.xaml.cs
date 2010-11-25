@@ -57,22 +57,38 @@ namespace TikzEdt
 
         public void RedrawObjects()
         {
-            // mockup
             canvas1.Children.Clear();
             foreach (TikzParseItem t in ParseTree.Children)
-                if (t is Tikz_Node)
-                {
-                    Tikz_Node tt = t as Tikz_Node;
-                    Ellipse el = new Ellipse();
-                    el.Stroke = Brushes.Red;
-                    el.Fill = Brushes.Red;
-                    //OverlayItem el = new OverlayItem();
-                    el.Width = 10;
-                    el.Height = 10;
-                    Canvas.SetLeft(el, Resolution*tt.x - el.Width/2);
-                    Canvas.SetBottom(el, Resolution*tt.y - el.Height/2);
-                    canvas1.Children.Add(el);
-                }
+                if (t is Tikz_Picture)
+                    foreach (TikzParseItem tt in (t as Tikz_Picture).Children)
+                        if (tt is Tikz_Path)
+                            foreach (TikzParseItem ttt in (tt as Tikz_Path).Children)
+                                if (ttt is Tikz_XYItem)
+                                {
+                                    Tikz_XYItem tn = ttt as Tikz_XYItem;
+                                    //Ellipse el = new Ellipse();
+                                    OverlayNode el = new OverlayNode();
+                                    el.Stroke = Brushes.Red;
+                                    el.Fill = Brushes.Red;
+                    
+                                    el.Width = 10;
+                                    el.Height = 10;
+                                    Canvas.SetLeft(el, Resolution*tn.x - el.Width/2);
+                                    Canvas.SetBottom(el, Resolution*tn.y - el.Height/2);
+                                    canvas1.Children.Add(el);
+                                }
+
+            // test 
+            /*
+            OverlayNode ell = new OverlayNode();
+            ell.Stroke = Brushes.Red;
+            ell.Fill = Brushes.Red;
+
+            ell.Width = 10;
+            ell.Height = 10;
+            Canvas.SetLeft(ell, 100);
+            Canvas.SetBottom(ell, 100);
+            canvas1.Children.Add(ell); */
         }
 
         IInputElement o;
@@ -93,6 +109,46 @@ namespace TikzEdt
                 Canvas.SetTop((UIElement) o, e.GetPosition(canvas1).Y - p.X);
             }
         }
+    }
+
+    public class OverlayNode : Shape
+    {
+        protected override Geometry DefiningGeometry
+        {
+            get
+            {
+                // Create a StreamGeometry for describing the shape
+                StreamGeometry geometry = new StreamGeometry();
+                geometry.FillRule = FillRule.EvenOdd;
+
+                using (StreamGeometryContext context = geometry.Open())
+                {
+                    InternalDrawNodeGeometry(context);
+                }
+
+                // Freeze the geometry for performance benefits
+                geometry.Freeze();
+
+                return geometry;
+            }
+        }
+
+        /// <summary>
+        /// Draw an X
+        /// </summary>
+        /// <param name="context"></param>
+        private void InternalDrawNodeGeometry(StreamGeometryContext context)
+        {
+            context.BeginFigure(new Point(0, 0), true, false);
+            context.LineTo(new Point(10, 10), true, true);
+            //context.LineTo(new Point(10, 0), true, true);
+            
+            context.BeginFigure(new Point(10, 0), false, false);
+            context.LineTo(new Point(0, 10), true, true);
+        }
+
+
+
     }
 
 }

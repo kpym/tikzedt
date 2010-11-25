@@ -11,7 +11,7 @@ public class __Test__ {
 
         simpletikzParser g = new simpletikzParser(tokens, 49100, null);
         try {
-            g.tikzpicture();
+            g.tikzdocument();
         } catch (RecognitionException e) {
             e.printStackTrace();
         }

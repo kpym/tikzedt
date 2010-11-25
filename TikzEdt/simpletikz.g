@@ -3,7 +3,7 @@ grammar simpletikz;
 options 
 {
 	output=AST;
-	//language = 'CSharp2';
+	language = 'CSharp2';
 }
 
 
@@ -58,10 +58,13 @@ tokens {
 IM_PATH;
 IM_NODE;
 IM_COORD;
-IM_COORDDECO;
 IM_NODENAME;
+IM_NUMBERUNIT;
 IM_PICTURE;
+IM_DOCUMENT;
 IM_SCOPE;
+IM_STARTTAG;
+IM_ENDTAG;
 }
 
 
@@ -70,11 +73,11 @@ tikzpath
 	;
 
 tikzpathi
-	:	OPTIONS? coordwithdeco (coordwithdeco | OPTIONS? edgeop coordwithdeco )* SEMIC 		-> ^(IM_PATH coordwithdeco+ )
+	:	OPTIONS? coordornode (coordornode | OPTIONS? edgeop coordornode )* SEMIC 		-> ^(IM_PATH coordornode+ )
 	;
 
-coordwithdeco
-	:	coord tikznodei* -> ^(IM_COORDDECO coord tikznodei*)
+coordornode
+	:	coord | tikznodei
 	;
 	
 tikznodei
@@ -84,7 +87,7 @@ tikznodee
 	:	NODE tikznode tikzpathi
 	;
 tikznode
-	:	OPTIONS? nodename? ('at' coord)? STRING		-> ^(IM_NODE nodename? 'at' coord?)			
+	:	OPTIONS? nodename? ('at' coord)? STRING		-> ^(IM_NODE OPTIONS? nodename? coord? STRING)			
 	;
 	
 edgeop	
@@ -96,7 +99,7 @@ nodename
 	;
 
 coord	
-	:	  nodename 									-> ^(IM_COORD nodename)
+	:	  nodename 								-> ^(IM_COORD nodename)
 		| ( coord_modifier? lc=LPAR numberunit KOMMA numberunit RPAR)		-> ^(IM_COORD[$lc] coord_modifier? numberunit+ )
 	;
 
@@ -105,9 +108,11 @@ coord_modifier
 	;
 
 numberunit
-	:	(FLOAT|INT) unit?
+	:	number unit? -> ^(IM_NUMBERUNIT number unit?) /// check
 	;
-
+number
+	:	(FLOAT | INT)
+	;
 unit
 	:	'cm' | 'in' | 'ex' | 'mm' | 'pt'
 	;
@@ -116,12 +121,16 @@ path_start
 	:	DRAW | FILL | PATH
 	;
 
+tikzdocument
+	:	SOMETHING* tikzpicture  SOMETHING*		-> ^(IM_DOCUMENT tikzpicture)
+	;
+
 tikzpicture 
-	:	SOMETHING* BEGINTP OPTIONS? tikzbody ENDTP  SOMETHING*		-> ^(IM_PICTURE tikzbody)
+	:	 BEGINTP OPTIONS? tikzbody? ENDTP		-> ^(IM_PICTURE tikzbody?)
 	;
 
 tikzbody
-	:	( tikzscope | tikzpath | tikznodee)*
+	:	( tikzscope | tikzpath | tikznodee)+
 	;
 
 tikzscope
