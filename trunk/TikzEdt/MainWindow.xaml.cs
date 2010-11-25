@@ -159,11 +159,15 @@ namespace TikzEdt
             // Parse
             try
             {
-                Tikz_ParseTree t = TikzParser.Parse(txtCode.Text);
-                // Refresh overlay
-                pdfOverlay1.Width = pdfOverlay1.Resolution * BB.Width;
-                pdfOverlay1.Height = pdfOverlay1.Resolution * BB.Height;
-                pdfOverlay1.ParseTree = t;
+                if (!ProgrammaticTextChange)
+                {
+                    Tikz_ParseTree t = TikzParser.Parse(txtCode.Text);
+                    // Refresh overlay
+                    pdfOverlay1.Width = pdfOverlay1.Resolution * BB.Width;
+                    pdfOverlay1.Height = pdfOverlay1.Resolution * BB.Height;
+                    pdfOverlay1.ParseTree = t;
+                }
+                //MessageBox.Show(t.ToStringEx());
             }
             catch (Exception e)
             {
@@ -361,5 +365,15 @@ namespace TikzEdt
                 return r;
             }  else return "";
 		}
+
+        bool ProgrammaticTextChange = false;
+        private void pdfOverlay1_OnModified()
+        {
+            // update code
+            ProgrammaticTextChange = true; 
+            txtCode.Text = pdfOverlay1.ParseTree.ToString();
+            ProgrammaticTextChange = false; 
+            //MessageBox.Show(pdfOverlay1.ParseTree.ToString());
+        }
     }
 }

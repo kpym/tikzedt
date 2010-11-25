@@ -151,6 +151,7 @@
     <AppDesigner Include="Properties\" />
     <None Include="TikzSyntax.xshd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -158,9 +159,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\copy.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\hip hop tip top.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\cut.png" />

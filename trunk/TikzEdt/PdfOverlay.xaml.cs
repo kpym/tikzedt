@@ -65,16 +65,16 @@ namespace TikzEdt
                             foreach (TikzParseItem ttt in (tt as Tikz_Path).Children)
                                 if (ttt is Tikz_XYItem)
                                 {
-                                    Tikz_XYItem tn = ttt as Tikz_XYItem;
-                                    //Ellipse el = new Ellipse();
                                     OverlayNode el = new OverlayNode();
+                                    el.tikzitem = ttt as Tikz_XYItem;
+                                    //Ellipse el = new Ellipse();                                   
                                     el.Stroke = Brushes.Red;
-                                    el.Fill = Brushes.Red;
+                                    el.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
                     
                                     el.Width = 10;
                                     el.Height = 10;
-                                    Canvas.SetLeft(el, Resolution*tn.x - el.Width/2);
-                                    Canvas.SetBottom(el, Resolution*tn.y - el.Height/2);
+                                    Canvas.SetLeft(el, Resolution * el.tikzitem.x - el.Width / 2);
+                                    Canvas.SetBottom(el, Resolution * el.tikzitem.y - el.Height / 2);  // not quite ok like this???
                                     canvas1.Children.Add(el);
                                 }
 
@@ -91,28 +91,49 @@ namespace TikzEdt
             canvas1.Children.Add(ell); */
         }
 
-        IInputElement o;
-        Point p;
+        OverlayNode curDragged;
+        Point DragOrigin; // relative to the currently dragged object
         private void canvas1_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            o = canvas1.InputHitTest(e.GetPosition(canvas1));
-            p = e.GetPosition(o);
-            //MessageBox.Show(o.ToString());
+            IInputElement o = canvas1.InputHitTest(e.GetPosition(canvas1));
+            if (o is OverlayNode)
+            {
+                curDragged = (OverlayNode) canvas1.InputHitTest(e.GetPosition(canvas1));
+                DragOrigin = e.GetPosition(o);
+                //MessageBox.Show(o.ToString());
+            }
 
         }
 
         private void canvas1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed && curDragged != null)
             {
-                Canvas.SetLeft((UIElement) o, e.GetPosition(canvas1).X - p.X);
-                Canvas.SetTop((UIElement) o, e.GetPosition(canvas1).Y - p.X);
+                Canvas.SetLeft(curDragged, e.GetPosition(canvas1).X - DragOrigin.X);
+                Canvas.SetTop(curDragged, e.GetPosition(canvas1).Y - DragOrigin.Y);
+                Canvas.SetBottom(curDragged, Canvas.GetTop(curDragged) + 10); //hack
+            }
+        }
+
+        private void canvas1_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            // adjust position of dragged item (in parsetree) // hack
+            if (curDragged!= null)
+            {
+                Point pp = new Point((Canvas.GetLeft(curDragged)+5) / Resolution, (Height-Canvas.GetTop(curDragged)-5) / Resolution);
+                curDragged.tikzitem.SetPosition(pp);
+                curDragged.tikzitem.UpdateText();
+                curDragged = null;
+
+                OnModified.Invoke();
             }
         }
     }
 
     public class OverlayNode : Shape
     {
+        public Tikz_XYItem tikzitem;
+
         protected override Geometry DefiningGeometry
         {
             get
@@ -140,6 +161,11 @@ namespace TikzEdt
         private void InternalDrawNodeGeometry(StreamGeometryContext context)
         {
             context.BeginFigure(new Point(0, 0), true, false);
+            context.LineTo(new Point(10, 0), false, false);
+            context.LineTo(new Point(10, 10), false, false);
+            context.LineTo(new Point(0, 10), false, false);
+
+            context.BeginFigure(new Point(0, 0), false, false);
             context.LineTo(new Point(10, 10), true, true);
             //context.LineTo(new Point(10, 0), true, true);
             

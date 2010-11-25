@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Background="{x:Null}">
     <Grid>
-        <Canvas HorizontalAlignment="Stretch" Name="canvas1" VerticalAlignment="Stretch" MouseDown="canvas1_MouseDown" MouseMove="canvas1_MouseMove" Background="#00000000"></Canvas>
+        <Canvas HorizontalAlignment="Stretch" Name="canvas1" VerticalAlignment="Stretch" MouseDown="canvas1_MouseDown" MouseMove="canvas1_MouseMove" Background="#00000000" MouseUp="canvas1_MouseUp"></Canvas>
     </Grid>
 </UserControl>
