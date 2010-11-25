@@ -24,6 +24,7 @@
   * pdflatex hangs sometimes
   * Better handling of first generation of precompiled headers. (No restart)
   * Better error messages
+  * When tikzpicture is in displaymath, there is a (vertical) margin... remove somehow.
 
 == TikzParser ==
 
