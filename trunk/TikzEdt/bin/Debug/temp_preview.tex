@@ -5,9 +5,8 @@
 \mathindent0cm \parindent0cm
 not seen
 \vfill
-\begin{tikzpicture}
-
-\draw (0,0)--(4,4) grid (8,9);
-
+\begin{tikzpicture}[ext/.style={draw, circle, fill}]
+\draw (0,0) -- (5,5) circle (3);
+\draw (6,8) node[ext] {} -> (8,8);
 \draw (0,0) rectangle (10,10); \end{tikzpicture}
 \end{document}

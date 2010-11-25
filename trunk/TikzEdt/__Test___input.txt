@@ -1,7 +1,3 @@
-sdfsdf
-\begin{tikzpicture}[something]
-\draw [something] (1,2.5) -> ++(4,4)--+(3,3) node[ext](v17) at (3,3){Hallo $kj( j\path )\}h$} -- (7,7);
-\begin{scope}
-\draw (1,1) -- (2,2);
-\end{scope}
+\begin{tikzpicture}
+ 
 \end{tikzpicture}

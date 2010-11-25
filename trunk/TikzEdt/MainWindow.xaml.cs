@@ -157,13 +157,22 @@ namespace TikzEdt
             // Compute a bounding box (hack)
             Rect BB = new Rect(0, 0, 10, 10);
             // Parse
-            Tikz_ParseTree t = TikzParser.Parse(txtCode.Text);
+            try
+            {
+                Tikz_ParseTree t = TikzParser.Parse(txtCode.Text);
+                // Refresh overlay
+                pdfOverlay1.Width = pdfOverlay1.Resolution * BB.Width;
+                pdfOverlay1.Height = pdfOverlay1.Resolution * BB.Height;
+                pdfOverlay1.ParseTree = t;
+            }
+            catch (Exception e)
+            {
+                AddStatusLine("Couldn't parse code.", true);
+            }
+
             // Compile
-            tikzDisplay1.Compile(txtCode.Text, BB);
-            // Refresh overlay
-            pdfOverlay1.Width = pdfOverlay1.Resolution * BB.Width;
-            pdfOverlay1.Height = pdfOverlay1.Resolution * BB.Height;
-            pdfOverlay1.ParseTree = t;
+            tikzDisplay1.Compile(txtCode.Text, BB);            
+
         }
 
         private void txtCode_TextChanged(object sender, EventArgs e)
