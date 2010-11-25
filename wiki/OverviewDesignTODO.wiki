@@ -1,0 +1,35 @@
+#A structural overview and TODO list.
+
+= Components =
+
+== Main Window and UI ==
+
+*Responsibilities:*
+  * Manage other components
+  * look good 
+
+*Done so far:*
+  * very basic UI working
+
+*TODO:*
+  * draw an logo icon
+
+=== Code editor (avalonedit) ===
+
+== TikzDisplay ==
+
+== TikzParser ==
+
+=== Tikz ParseTree ===
+
+== PdfOverlay ==
+
+
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
