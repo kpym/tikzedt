@@ -29,6 +29,8 @@ namespace TikzEdt
     public partial class MainWindow : Window
     {
         public static RoutedCommand CompileCommand = new RoutedCommand();
+        public static RoutedCommand CommentCommand = new RoutedCommand();
+        public static RoutedCommand UnCommentCommand = new RoutedCommand();
 
         // the current file
         private string _CurFile= Consts.defaultCurFile;
@@ -64,6 +66,10 @@ namespace TikzEdt
         public MainWindow()
         {
             InitializeComponent();
+
+            CommandBinding CommentCommandBinding = new CommandBinding(CommentCommand, CommentCommandHandler, AlwaysTrue);
+            CommandBinding UnCommentCommandBinding = new CommandBinding(UnCommentCommand, UnCommentCommandHandler, AlwaysTrue);
+
             // in the constructor:
             txtCode.TextArea.TextEntering += textEditor_TextArea_TextEntered;
             txtCode.TextArea.TextEntered += textEditor_TextArea_TextEntered;
@@ -374,6 +380,74 @@ namespace TikzEdt
             txtCode.Text = pdfOverlay1.ParseTree.ToString();
             ProgrammaticTextChange = false; 
             //MessageBox.Show(pdfOverlay1.ParseTree.ToString());
+        }
+
+        private void CommentCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            string[] lines = txtCode.Text.Split(new char[] { '\n' }), newstr = new string[lines.Length];
+            int curpos = 0, sels = txtCode.SelectionStart, sellength = txtCode.SelectionLength;
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (curpos + lines[i].Length >= txtCode.SelectionStart && curpos <= txtCode.SelectionStart + txtCode.SelectionLength)
+                {
+                    newstr[i] = "% " + lines[i];
+                    if (curpos <= txtCode.SelectionStart)
+                        sels += 2;
+                    else
+                        sellength += 2;
+                }
+                else
+                    newstr[i] = lines[i];
+                curpos += lines[i].Length + 1;
+            }
+
+            txtCode.Text = String.Join("\n", newstr);
+            // set selection
+            txtCode.SelectionStart = sels;
+            txtCode.SelectionLength = sellength;
+
+            // Comment all currently selected lines //todo: nothing selected?          
+            //string s =  txtCode.SelectedText.Replace("\n", "\n% ");
+            //if (txtCode.SelectionStart == 0 || txtCode.Text[SelectionStart-1]=='\n')
+            //    s= "% "+s;
+            //txtCode.SelectedText = s;  
+        }
+
+        private void UnCommentCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            string[] lines = txtCode.Text.Split(new char[] { '\n' }), newstr = new string[lines.Length];
+            int curpos = 0, sels = txtCode.SelectionStart, sellength = txtCode.SelectionLength;
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (curpos + lines[i].Length >= txtCode.SelectionStart && curpos <= txtCode.SelectionStart + txtCode.SelectionLength)
+                {
+                    if (lines[i].StartsWith("% "))
+                    {
+                        newstr[i] = lines[i].Remove(0, 2);
+                        if (curpos <= txtCode.SelectionStart)
+                            sels -= 2;
+                        else
+                            sellength -= 2;
+                    }
+                    else if (lines[i].StartsWith("%"))
+                    {
+                        newstr[i] = lines[i].Remove(0, 1);
+                        if (curpos <= txtCode.SelectionStart)
+                            sels -= 1;
+                        else
+                            sellength -= 1;
+                    }
+                    else newstr[i] = lines[i];
+                }
+                else
+                    newstr[i] = lines[i];
+                curpos += lines[i].Length + 1;
+            }
+
+            txtCode.Text = String.Join("\n", newstr);
+            // set selection
+            txtCode.SelectionStart = sels;
+            txtCode.SelectionLength = sellength;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿<Window x:Class="TikzEdt.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:custom="clr-namespace:TikzEdt"
         xmlns:common="clr-namespace:Common;assembly=RecentFileListLib"
         Title="MainWindow" Height="425" Width="751" xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:my="clr-namespace:TikzEdt" Loaded="Window_Loaded">
 
@@ -36,7 +37,17 @@
                     Executed="NewCommandHandler"
                     CanExecute="AlwaysTrue"
                     />
-    </Window.CommandBindings> 
+        <CommandBinding Command="{x:Static custom:MainWindow.CommentCommand}" 
+                    Executed="CommentCommandHandler" 
+                    CanExecute="AlwaysTrue" />
+        <CommandBinding Command="{x:Static custom:MainWindow.UnCommentCommand}" 
+                    Executed="UnCommentCommandHandler" 
+                    CanExecute="AlwaysTrue" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static custom:MainWindow.CommentCommand}" Key="D" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static custom:MainWindow.UnCommentCommand}" Key="D" Modifiers="Ctrl+Shift"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -54,9 +65,12 @@
                 <MenuItem Header="Quit"  />
             </MenuItem>
             <MenuItem Header="_Edit" >
-                <MenuItem Header="Copy" />
-                <MenuItem Header="Paste" />
-                <MenuItem Header="Cut"  />
+                <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
+                <MenuItem Header="Paste" Command="ApplicationCommands.Paste"/>
+                <MenuItem Header="Cut"  Command="ApplicationCommands.Cut"/>
+                <Separator/>
+                <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}"/>
+                <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
             </MenuItem>
             <MenuItem Header="_View" />
             <MenuItem Header="_Compilation">
@@ -113,8 +127,18 @@
                 </Grid.RowDefinitions>
                 <GridSplitter Background="Gray" Grid.Row="1" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />              
                 <RichTextBox Grid.Row="2" HorizontalAlignment="Stretch"  Name="txtStatus" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
-                <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" DocumentChanged="txtCode_DocumentChanged" TextChanged="txtCode_TextChanged" ShowLineNumbers="True" />
-                
+                <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" DocumentChanged="txtCode_DocumentChanged" TextChanged="txtCode_TextChanged" ShowLineNumbers="True">
+                    <avalonedit:TextEditor.ContextMenu>
+                        <ContextMenu >
+                            <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
+                            <MenuItem Header="Copy" Command="ApplicationCommands.Cut"/>
+                            <MenuItem Header="Copy" Command="ApplicationCommands.Paste"/>
+                            <Separator />
+                            <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}"/>
+                            <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
+                        </ContextMenu>                            
+                    </avalonedit:TextEditor.ContextMenu>
+                </avalonedit:TextEditor>
             </Grid>
             <GridSplitter Background="Gray" Grid.Column="1" Grid.Row="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="2">

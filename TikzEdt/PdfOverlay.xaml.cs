@@ -58,7 +58,13 @@ namespace TikzEdt
         public void RedrawObjects()
         {
             canvas1.Children.Clear();
-            foreach (TikzParseItem t in ParseTree.Children)
+
+            // set render transform
+            //canvas1.RenderTransform
+
+            DrawObject(ParseTree);
+
+          /*  foreach (TikzParseItem t in ParseTree.Children)
                 if (t is Tikz_Picture)
                     foreach (TikzParseItem tt in (t as Tikz_Picture).Children)
                         if (tt is Tikz_Path)
@@ -77,6 +83,7 @@ namespace TikzEdt
                                     Canvas.SetBottom(el, Resolution * el.tikzitem.y - el.Height / 2);  // not quite ok like this???
                                     canvas1.Children.Add(el);
                                 }
+           * */
 
             // test 
             /*
@@ -89,6 +96,49 @@ namespace TikzEdt
             Canvas.SetLeft(ell, 100);
             Canvas.SetBottom(ell, 100);
             canvas1.Children.Add(ell); */
+        }
+
+        public Rect DrawObject(TikzParseItem tpi)
+        {
+            BBGatherer bbg = new BBGatherer();
+            if (tpi is TikzContainerParseItem)
+            {
+                foreach (TikzParseItem t in (tpi as TikzContainerParseItem).Children)
+                    bbg.Add(DrawObject(t));
+            }
+            if (tpi is Tikz_Scope)
+            {
+                // draw a rectangle 
+                Rectangle r = new Rectangle();
+                r.Stroke = Brushes.Yellow;
+                Rect rr = bbg.GetRect(10);
+                r.Width = rr.Width;
+                r.Height = rr.Height;
+                Canvas.SetTop(r, rr.Y);
+                Canvas.SetLeft(r, rr.X);
+                canvas1.Children.Add(r);
+                bbg.Add(rr);
+            }
+            if (tpi is Tikz_XYItem)
+            {
+                OverlayNode el = new OverlayNode();
+                el.tikzitem = tpi as Tikz_XYItem;
+                //Ellipse el = new Ellipse();                                   
+                el.Stroke = Brushes.Red;
+                el.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+
+                el.Width = 10;
+                el.Height = 10;
+
+                // todo: add trafo
+                Canvas.SetLeft(el, Resolution * el.tikzitem.x - el.Width / 2);
+                Canvas.SetBottom(el, Resolution * el.tikzitem.y - el.Height / 2);  // not quite ok like this???
+                canvas1.Children.Add(el);
+
+                bbg.Add(new Rect(Canvas.GetLeft(el), Canvas.GetTop(el), el.Width, el.Height));
+            }
+
+            return bbg.GetRect(0);
         }
 
         OverlayNode curDragged;

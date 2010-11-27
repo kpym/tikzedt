@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.IO;
 
 namespace TikzEdt
@@ -87,4 +88,36 @@ namespace TikzEdt
 
     }
 
+    public class BBGatherer
+    {
+        public Rect r;
+        public void Add(Point p)
+        {
+            if (r == null)
+            {
+                r = new Rect(p.X, p.Y, 0, 0);
+            }
+            else
+            {
+                r = Rect.Union(r, p);
+            }
+        }
+        public void Add(Rect tr)
+        {
+            if (r == null)
+            {
+                r = tr;
+            }
+            else
+            {
+                r = Rect.Union(r, tr);
+            }            
+        }
+        public Rect GetRect(double margin)
+        {
+            return Rect.Inflate(r, margin, margin);
+                //.new Rect(r.X - margin, r.Y - margin, r.Width + 2 * margin, r.Height + 2 * margin);
+            //return rr;
+        }
+    }
 }

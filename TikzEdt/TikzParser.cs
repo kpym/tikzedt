@@ -90,7 +90,7 @@ namespace TikzEdt
                     case simpletikzParser.IM_PICTURE:
                         Tikz_Picture tp = new Tikz_Picture();
                         FillItem(tp, childt, tokens);
-                        item.Children.Add(tp);
+                        item.AddChild(tp);
                         break;
                     case simpletikzParser.IM_STARTTAG:
                         item.starttag = getTokensString(tokens, childt.TokenStartIndex, childt.TokenStopIndex);
@@ -101,22 +101,22 @@ namespace TikzEdt
                     case simpletikzParser.IM_PATH:
                         Tikz_Path tpath = new Tikz_Path();
                         FillItem(tpath, childt, tokens);
-                        item.Children.Add(tpath);
+                        item.AddChild(tpath);
                         break;
                     case simpletikzParser.IM_SCOPE:
                         Tikz_Scope tscope = new Tikz_Scope();
                         FillItem(tscope, childt, tokens);
-                        item.Children.Add(tscope);
+                        item.AddChild(tscope);
                         break;
                     case simpletikzParser.IM_COORD:
                         Tikz_Coord tc = Tikz_Coord.FromCommonTree(childt);
                         tc.text = getTokensString(tokens, childt);
-                        item.Children.Add(tc);
+                        item.AddChild(tc);
                         break;
                     case simpletikzParser.IM_NODE:
                         Tikz_Node tn = Tikz_Node.FromCommonTree(childt);
                         tn.text = getTokensString(tokens, childt);
-                        item.Children.Add(tn);
+                        item.AddChild(tn);
                         break;
                     default:
                         // getting here is an error
@@ -155,7 +155,7 @@ namespace TikzEdt
                 return;
 
             Tikz_Something t = new Tikz_Something(getTokensString(tokens, FirstToken, LastToken));
-            item.Children.Add(t);            
+            item.AddChild(t);            
         }
 
    /*     static List<string[]> DoubleSplit(string toSplit, string starttag, string endtag)
@@ -190,8 +190,49 @@ namespace TikzEdt
         */
     }
 
+    public class TikzMatrix
+    {
+        double[,] m = new double[2,3];
+
+        public TikzMatrix()
+        {
+            m[0,0] =1; m[1,1] =1;
+        }
+        public static TikzMatrix ZeroMatrix()
+        {
+            TikzMatrix ret = new TikzMatrix();
+            ret.m[0,0]=0; ret.m[1,1]=0;
+            return ret;
+        }
+         
+        public static TikzMatrix operator *(TikzMatrix M1, TikzMatrix M2)
+        {
+            TikzMatrix ret = TikzMatrix.ZeroMatrix();
+            ret.m[0,2] = M1.m[0,2];
+            ret.m[1,2] = M1.m[1,2];
+            for (int i=0; i<2;i++)
+                for (int j=0; j<2;j++)
+                {
+                    ret.m[i,2] += M1.m[i,j] * M2.m[j,2];
+                    for (int k=0; k<2;k++)
+                    {
+                        ret.m[i,j] += M1.m[i,k] * M2.m[k,j];
+                    }
+                }
+            return ret;
+        }
+        public Point Transform(Point p)
+        {
+            Point pp = new Point();
+            pp.X= m[0,0] * p.X + m[0,1] * p.Y + m[0,2]; 
+            pp.X= m[1,0] * p.X + m[1,1] * p.Y + m[1,2]; 
+            return pp;
+        }
+    }
+
     public class TikzParseItem
     {
+        public TikzContainerParseItem parent;
         public string text = "";
         public TikzParseItem(string txt)
         {
@@ -216,6 +257,7 @@ namespace TikzEdt
         {
             return (GetType().ToString() + ":   " +text + "\r\n");
         }
+
     }
     /// <summary>
     /// This item represents parts of the code that the parser does not understand
@@ -366,7 +408,7 @@ namespace TikzEdt
         {
             number = Double.Parse(t.GetChild(0).Text);
             if (t.ChildCount > 1)
-                unit = t.GetChild(1).Text;
+                unit = t.GetChild(1).Text.Trim();
         }
         public double number;
         public string unit;
@@ -374,11 +416,73 @@ namespace TikzEdt
         {
             return number.ToString() + unit;
         }
+        public double GetInCM()
+        {
+            switch (unit)
+            {
+                case "":
+                case "cm":
+                    return number;
+                    break;
+                case "in":
+                    return number * Consts.cmperin;
+                    break;
+                case "mm":
+                    return 10 * number;
+                    break;
+                default:
+                    //error 
+                    return 0;
+                    break;
+            }
+
+        }
+        public void SetInCM(double val)
+        {
+            switch (unit)
+            {
+                case "":
+                case "cm":
+                    number = val;
+                    break;
+                case "in":
+                    number = val / Consts.cmperin;
+                    break;
+                case "mm":
+                    number = val/10;
+                    break;
+                default:
+                    //error 
+                    number = val;
+                    break;
+            }
+
+        }
     }
     public class TikzContainerParseItem : TikzParseItem
     {
         public string starttag="", endtag="";
         public List<TikzParseItem> Children= new List<TikzParseItem>();
+        public Tikz_Options options;
+
+        public void AddChild(TikzParseItem tpi)
+        {
+            tpi.parent = this;
+            Children.Add(tpi);
+        }
+
+        public TikzMatrix GetCurrentTransform()
+        {
+            TikzMatrix M;
+            if (options != null)
+                M= options.GetTransform();
+            else
+                M = new TikzMatrix();
+            if (parent != null)
+                M = parent.GetCurrentTransform() * M;
+            return M;
+        }
+
         public override string ToString()
         {
             string s = starttag;
@@ -427,5 +531,21 @@ namespace TikzEdt
     public class Tikz_Scope : TikzContainerParseItem
     {
 
+    }
+
+    public class Tikz_Options : TikzParseItem
+    {
+        public List<string> options = new List<string>();
+
+        public TikzMatrix GetTransform()
+        {
+            TikzMatrix ret = new TikzMatrix();
+            return ret;
+        }
+
+        public override void UpdateText() 
+        {
+            text = "[" + String.Join(", ", options.ToArray()) + "]";
+        }
     }
 }
