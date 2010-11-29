@@ -96,6 +96,7 @@
       <DependentUpon>TikzDisplay.xaml</DependentUpon>
     </Compile>
     <Compile Include="TikzParser.cs" />
+    <Compile Include="TikzParseTree.cs" />
     <Page Include="Images\All_icon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
