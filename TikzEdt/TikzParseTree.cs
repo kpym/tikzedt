@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Windows;
-using System.Collections.Generic;
 
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
@@ -47,7 +46,7 @@ namespace TikzEdt
         {
             Point pp = new Point();
             pp.X = m[0, 0] * p.X + m[0, 1] * p.Y;
-            pp.X = m[1, 0] * p.X + m[1, 1] * p.Y;
+            pp.Y = m[1, 0] * p.X + m[1, 1] * p.Y;
 
             if (!noshift)
             {
@@ -56,6 +55,21 @@ namespace TikzEdt
             }
 
             return pp;
+        }
+        public double Det() { return m[0, 0] * m[1, 1] - m[0, 1] * m[1, 0]; }
+        public TikzMatrix Inverse()
+        {
+            TikzMatrix mi = new TikzMatrix();
+            double d = Det();
+            mi.m[0,0] = m[1, 1] / d;
+            mi.m[1, 0] = -m[1, 0] / d;
+            mi.m[0, 1] = -m[0, 1] / d;
+            mi.m[1, 1] = m[0, 0] / d;
+
+            mi.m[0, 2] = - mi.m[0,0] * mi.m[0,2] - mi.m[0,1]*mi.m[1,2];
+            mi.m[1, 2] = - mi.m[1,0] * mi.m[0, 2] - mi.m[1, 1] * mi.m[1, 2];
+
+            return mi;
         }
     }
 
@@ -73,6 +87,15 @@ namespace TikzEdt
         public override string ToString()
         {
             return text;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>Returns false if the item does not have a bounding box</returns>
+        public virtual bool GetBB(out Rect r)
+        {
+            r = new Rect(0, 0, 0, 0);
+            return false;
         }
         public virtual void RegisterNodeRefs()
         {
@@ -116,6 +139,14 @@ namespace TikzEdt
         public double x, y;
         public abstract void SetPosition(Point p);
         public abstract Point GetAbsPos();
+        public abstract void SetAbsPos(Point p);
+
+        public override bool GetBB(out Rect r)
+        {
+            Point p = GetAbsPos();
+            r = new Rect(p,p);
+            return true;
+        }
     }
     public class Tikz_Node : Tikz_XYItem
     {
@@ -149,7 +180,20 @@ namespace TikzEdt
         }
         public override Point GetAbsPos()
         {
-            return coord.GetAbsPos(this);
+            if (coord == null)
+            {
+                return (parent as Tikz_Path).GetAbsOffset(this);
+                //return new Point(0, 0);
+            }
+            else
+            {
+                return coord.GetAbsPos(this);
+            }
+        }
+        public override void SetAbsPos(Point p)
+        {
+            if (coord != null)
+                coord.SetAbsPos(p, this);
         }
 
         public Tikz_Coord coord;
@@ -206,6 +250,33 @@ namespace TikzEdt
 
             return null;
         }
+        public override void SetAbsPos(Point p)
+        {
+            SetAbsPos(p, this);
+        }
+        public void SetAbsPos(Point p, TikzParseItem relto)
+        {
+            if (type == Tikz_CoordType.Named)
+            {
+                // cannot change coord
+            }
+            else
+            {
+                Point relp; // will hold the new coordinates, in the current coordinate system
+                if (deco == "+" || deco == "++")
+                {
+                    Point offset = (relto.parent as Tikz_Path).GetAbsOffset(relto);
+                    relp = new Point(p.X - offset.X, p.Y - offset.Y);
+                    relp = relto.parent.GetCurrentTransform().Inverse().Transform(relp, false);
+                }
+                else
+                {
+                    relp = relto.parent.GetCurrentTransform().Inverse().Transform(new Point(p.X, p.Y), true);
+                }
+                uX.SetInCM(relp.X);
+                uY.SetInCM(relp.Y);
+            }
+        }
 
         public override Point GetAbsPos()
         {
@@ -227,22 +298,8 @@ namespace TikzEdt
             if (deco == "+" || deco == "++")
             {
                 // determine offset
-                if (relto.parent != null)
-                {
-                    int ind = relto.parent.Children.IndexOf(relto);
-                    Tikz_Coord previous = null;
-                    for (int i = ind - 1; i >= 0; i--)
-                    {
-                        if (relto.parent.Children[i] is Tikz_Coord)
-                        {
-                            previous = (relto.parent.Children[i] as Tikz_Coord);
-                            break;
-                        }
-                    }
-                    if (previous == null)
-                        offset = relto.parent.GetCurrentTransform().Transform(offset);
-                    else offset = previous.GetAbsPos();
-                }
+                if (relto.parent is Tikz_Path)
+                    offset = (relto.parent as Tikz_Path).GetAbsOffset(relto);
 
                 Point relpos = new Point(uX.GetInCM(), uY.GetInCM());
                 if (relto.parent != null)
@@ -299,6 +356,7 @@ namespace TikzEdt
             number = Double.Parse(t.GetChild(0).Text);
             if (t.ChildCount > 1)
                 unit = t.GetChild(1).Text.Trim();
+            else unit = "";
         }
         public double number;
         public string unit;
@@ -313,17 +371,13 @@ namespace TikzEdt
                 case "":
                 case "cm":
                     return number;
-                    break;
                 case "in":
                     return number * Consts.cmperin;
-                    break;
                 case "mm":
                     return 10 * number;
-                    break;
                 default:
                     //error 
                     return 0;
-                    break;
             }
 
         }
@@ -346,7 +400,6 @@ namespace TikzEdt
                     number = val;
                     break;
             }
-
         }
     }
     public class TikzContainerParseItem : TikzParseItem
@@ -354,6 +407,27 @@ namespace TikzEdt
         public string starttag = "", endtag = "";
         public List<TikzParseItem> Children = new List<TikzParseItem>();
         public Tikz_Options options;
+
+        public override bool GetBB(out Rect r)
+        {
+            bool hasone = false;
+            r = new Rect(0, 0, 0, 0);
+            foreach (TikzParseItem tpi in Children)
+            {
+                Rect rr;
+                if (tpi.GetBB(out rr))
+                {
+                    if (!hasone)
+                    {
+                        r = rr;
+                        hasone = true;
+                    }
+                    else
+                        r.Union(rr);
+                }
+            }
+            return hasone;
+        }
 
         public virtual void AddNodeRef(Tikz_Node tn)
         {
@@ -447,7 +521,28 @@ namespace TikzEdt
     }
     public class Tikz_Path : TikzContainerParseItem
     {
+        public Point GetAbsOffset(TikzParseItem tpi)
+        {
+            int ind = Children.IndexOf(tpi);
+            Tikz_Coord previous = null;
+            for (int i = ind - 1; i >= 0; i--)
+            {
+                if (Children[i] is Tikz_Coord)
+                {
+                    Tikz_Coord tc = Children[i] as Tikz_Coord;
 
+                    if (tc.type == Tikz_CoordType.Named || tc.deco != "+")
+                    {
+                        previous = tc;
+                        break;
+                    }
+                }
+            }
+            if (previous == null)
+                return GetCurrentTransform().Transform(new Point(0,0));
+            else 
+                return previous.GetAbsPos();
+        }
     }
     public class Tikz_Scope : TikzContainerParseItem
     {
