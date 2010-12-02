@@ -126,13 +126,8 @@ namespace TikzEdt
                 //Ellipse el = new Ellipse();                                   
                 el.Stroke = Brushes.Red;
                 el.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+                el.AdjustPosition(Resolution);
 
-                el.Width = 10;
-                el.Height = 10;
-
-                // todo: add trafo
-                Canvas.SetLeft(el, Resolution * el.tikzitem.x - el.Width / 2);
-                Canvas.SetBottom(el, Resolution * el.tikzitem.y - el.Height / 2);  // not quite ok like this???
                 canvas1.Children.Add(el);
 
                 bbg.Add(new Rect(Canvas.GetLeft(el), Canvas.GetTop(el), el.Width, el.Height));
@@ -173,6 +168,12 @@ namespace TikzEdt
                 Point pp = new Point((Canvas.GetLeft(curDragged)+5) / Resolution, (Height-Canvas.GetTop(curDragged)-5) / Resolution);
                 curDragged.tikzitem.SetPosition(pp);
                 curDragged.tikzitem.UpdateText();
+                // update all other item's positions
+                foreach (IInputElement o in canvas1.Children)
+                {
+                    if (o is OverlayNode)
+                        (o as OverlayNode).AdjustPosition(Resolution);
+                }
                 curDragged = null;
 
                 OnModified.Invoke();
@@ -183,6 +184,19 @@ namespace TikzEdt
     public class OverlayNode : Shape
     {
         public Tikz_XYItem tikzitem;
+
+        /// <summary>
+        /// Sets the item's position according to its tikzitem's value
+        /// </summary>
+        public void AdjustPosition(double Resolution)
+        {
+            Width = 10;
+            Height = 10;
+
+            Point p = tikzitem.GetAbsPos();
+            Canvas.SetLeft(this, Resolution * p.X - Width / 2);
+            Canvas.SetBottom(this, Resolution * p.Y - Height / 2);  // not quite ok like this?
+        }
 
         protected override Geometry DefiningGeometry
         {

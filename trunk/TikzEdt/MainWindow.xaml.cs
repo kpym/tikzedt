@@ -168,6 +168,12 @@ namespace TikzEdt
                 if (!ProgrammaticTextChange)
                 {
                     Tikz_ParseTree t = TikzParser.Parse(txtCode.Text);
+                    Rect newBB;
+                    if (t.GetBB(out newBB))
+                    {
+                        newBB.Inflate(3, 3);
+                        //BB = newBB;
+                    }
                     // Refresh overlay
                     pdfOverlay1.Width = pdfOverlay1.Resolution * BB.Width;
                     pdfOverlay1.Height = pdfOverlay1.Resolution * BB.Height;
@@ -175,7 +181,7 @@ namespace TikzEdt
                 }
                 //MessageBox.Show(t.ToStringEx());
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 AddStatusLine("Couldn't parse code.", true);
             }
@@ -235,7 +241,7 @@ namespace TikzEdt
                 CurFile = cFile;
                 ChangesMade = false;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 MessageBox.Show("Error: Could not load " + cFile + ". Is it in the correct format?",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);

@@ -60,12 +60,20 @@ namespace TikzEdt
         PDFLibNet.PDFWrapper mypdfDoc = null;
         System.Windows.Forms.Control dummy = new System.Windows.Forms.Control();
 
+        /// <summary>
+        /// If the compilation gets stuck (actually it shouldn't), 
+        /// one can call this method to kill the pdflatex-process.
+        /// </summary>
         public void AbortCompilation()
         {
             if (!texProcess.HasExited)
                 texProcess.Kill();
         }
 
+        /// <summary>
+        /// The main routine, starts the compilation of the Tikz-Picture.
+        /// If necessary it initiates compilation of the precompiled headers.
+        /// </summary>
         protected void doCompile()
         {
             if (isRunning || nextToCompile == "")
@@ -119,7 +127,14 @@ namespace TikzEdt
             OnCompileEvent("Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, CompileEventType.Start);
             texProcess.Start();
         }
-
+        /// <summary>
+        /// Adds a rectangle to the Tikzcode in the size specified by BB. 
+        /// The rectangle is added as the last command before the \end{tikzpicture} 
+        /// </summary>
+        /// <param name="code">The Tikz Code. Must contain an "\end{tikzpicture}" </param>
+        /// <param name="BB">The bounding box (= size of rectangle to be written) </param>
+        /// <param name="succeeded">Returns success, i.e., whether the string "\end{tikzpicture}" has been found</param>
+        /// <returns>The Tikzcode, with the "\draw rectangle ...." inserted </returns>
         string writeBBtoTikz(string code, Rect BB, out bool succeeded)
         {
             // hack
@@ -147,7 +162,9 @@ namespace TikzEdt
         }
 
         /// <summary>
-        /// Reload the PDF file
+        /// Reload the PDF file. This is called only when the pdf file changes on disk.
+        /// It is not called, for example, when the pdf just needs to be redrawn, e.g., due to 
+        /// a changed display size.
         /// </summary>
         void RefreshPDF()
         {
@@ -187,6 +204,12 @@ namespace TikzEdt
       //  [DllImport("gdi32")]
       //  static extern int DeleteObject(IntPtr o);
 
+        /// <summary>
+        /// This method converts a System.Drawing.Bitmap to a WPF Bitmap.
+        /// (This is necessary since the WPF Image control only accepts WPF bitmaps)
+        /// </summary>
+        /// <param name="source">The System.Drawing.Bitmap</param>
+        /// <returns>The same Bitmap, in Wpf format</returns>
         public static BitmapSource loadBitmap(System.Drawing.Bitmap source)
         {
             IntPtr ip = source.GetHbitmap();
@@ -223,6 +246,11 @@ namespace TikzEdt
             RedrawBMP();
         }
 
+        /// <summary>
+        /// This method draws the currently loaded Pdf into a bitmap, and displays this bitmap in the image control.
+        /// It is called, e.g., when the size of the TikzDisplay control changes
+        /// Warning: It does _not_ reload the Pdf. 
+        /// </summary>
         void RedrawBMP()
         {
             if (mypdfDoc != null)
@@ -230,27 +258,18 @@ namespace TikzEdt
                 double magicnumber = 0.45;
                 dummy.Width = Convert.ToInt32(ActualWidth / magicnumber);
                 dummy.Height = Convert.ToInt32(ActualHeight / magicnumber);
-                //WindowInteropHelper helper = new WindowInteropHelper(dummy);
+
                 mypdfDoc.FitToWidth(dummy.Handle);
                 mypdfDoc.RenderPage(dummy.Handle);
                 dummy.Width =  Convert.ToInt32(ActualWidth);
                 dummy.Height =  Convert.ToInt32(ActualHeight);
-                //int w = mypdfDoc.PageWidth;
-                //mypdfDoc.RenderDPI *= (2.7)*dummy.Width / mypdfDoc.PageWidth;
-                //int ww = mypdfDoc.PageWidth;
-
-                //PDFLibNet.PDFPage p = mypdfDoc.Pages[mypdfDoc.CurrentPage];
-
 
                 Bitmap b = new Bitmap(dummy.Width, dummy.Height);
-                //Bitmap b = p.GetBitmap(dummy.Width, dummy.Height); //new Bitmap(dummy.Width, dummy.Height);
                 Graphics gr = Graphics.FromImage(b);
                 mypdfDoc.ClientBounds = new System.Drawing.Rectangle(0, 0, b.Width, b.Height);
                 mypdfDoc.DrawPageHDC(gr.GetHdc());
                 gr.ReleaseHdc();
 
-                //b.Save("test.bmp");
-                //pictureBox1.Image = b;
                 image1.Source = loadBitmap(b);
             }
         }

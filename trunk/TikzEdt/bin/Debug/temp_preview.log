@@ -1,23 +1,15 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=temp_preview 2010.11.25)  27 NOV 2010 03:20
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=temp_preview 2010.11.24)  1 DEC 2010 20:32
 entering extended mode
 **temp_preview.tex
 
-("C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\bin\Debug\t
-emp_preview.tex"
+("C:\Users\thomas\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\bin\Deb
+ug\temp_preview.tex"
 LaTeX2e <2009/09/24>
-Babel <v3.8l> and hyphenation patterns for english, afrikaans, ancientgreek, ar
-abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
-croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
-lician, german, german-x-2009-06-19, greek, gujarati, hindi, hungarian, iceland
-ic, indonesian, interlingua, irish, italian, kannada, kurmanji, lao, latin, lat
-vian, lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerm
-an, ngerman-x-2009-06-19, nynorsk, oriya, panjabi, pinyin, polish, portuguese, 
-romanian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swis
-sgerman, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, u
-senglishmax, welsh, loaded.
+Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman, ngerman, german-x-2009-06-19, ngerman-x-2009-06-19, french, loaded.
 
-("C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\bin\Debug\t
-emp_preview.aux")
+("C:\Users\thomas\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\bin\Deb
+ug\temp_preview.aux")
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
 LaTeX Font Info:    ... okay on input line 3.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 3.
@@ -30,28 +22,26 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 3.
 LaTeX Font Info:    ... okay on input line 3.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 3.
 LaTeX Font Info:    ... okay on input line 3.
-ABD: EveryShipout initializing macros (C:\Users\tw\AppData\Roaming\MiKTeX\2.9\t
-ex\context\base\supp-pdf.mkii
+("C:\Program Files\MiKTeX 2.8\tex\context\base\supp-pdf.tex"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count122
+\scratchcounter=\count123
 \scratchdimen=\dimen166
-\scratchbox=\box37
-\nofMPsegments=\count123
-\nofMParguments=\count124
-\everyMPshowfont=\toks30
-\MPscratchCnt=\count125
+\scratchbox=\box36
+\nofMPsegments=\count124
+\nofMParguments=\count125
+\everyMPshowfont=\toks26
+\MPscratchCnt=\count126
 \MPscratchDim=\dimen167
-\MPnumerator=\count126
-\everyMPtoPDFconversion=\toks31
+\MPnumerator=\count127
+\everyMPtoPDFconversion=\toks27
 )
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
 * driver: pdftex
-* paper: <default>
-* layout: <same size as paper>
-* layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes: 
+* paper: 614.295pt, 794.96999pt (class default)
+* layout: 614.295pt, 794.96999pt
+* switch(es): 
 * h-part:(L,W,R)=(0.0pt, 614.295pt, 0.0pt)
 * v-part:(T,H,B)=(0.0pt, 794.96999pt, 0.0pt)
 * \paperwidth=614.295pt
@@ -63,7 +53,6 @@ ex\context\base\supp-pdf.mkii
 * \topmargin=-72.26999pt
 * \headheight=0.0pt
 * \headsep=0.0pt
-* \topskip=10.0pt
 * \footskip=30.0pt
 * \marginparwidth=65.0pt
 * \marginparsep=11.0pt
@@ -76,22 +65,22 @@ ex\context\base\supp-pdf.mkii
 * \@twosidefalse
 * \@mparswitchfalse
 * \@reversemarginfalse
-* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+* (1in=72.27pt, 1cm=28.453pt)
 
-[1{C:/Users/tw/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-("C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\bin\Debug\t
-emp_preview.aux") ) 
+[1{C:/Users/thomas/AppData/Local/MiKTeX/2.8/pdftex/config/pdftex.map}]
+("C:\Users\thomas\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\bin\Deb
+ug\temp_preview.aux") ) 
 Here is how much of TeX's memory you used:
- 343 strings out of 483731
- 5395 string characters out of 2951204
- 237984 words of memory out of 3000000
- 13732 multiletter control sequences out of 15000+200000
+ 308 strings out of 487007
+ 4603 string characters out of 3037091
+ 196904 words of memory out of 3000000
+ 11629 multiletter control sequences out of 15000+200000
  3640 words of font info for 14 fonts, out of 3000000 for 9000
- 714 hyphenation exceptions out of 8191
- 24i,5n,35p,192b,318s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cm/cmr10.pfb>
-Output written on temp_preview.pdf (1 page, 11646 bytes).
+ 14 hyphenation exceptions out of 8191
+ 19i,5n,35p,151b,296s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.8/fonts/type1/public/amsfonts
+/cm/cmr10.pfb>
+Output written on temp_preview.pdf (1 page, 11591 bytes).
 PDF statistics:
  13 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
