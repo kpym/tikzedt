@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g 2010-11-25 10:21:47
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g 2010-12-02 14:07:07
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 168, 219
@@ -18,28 +18,27 @@ public partial class simpletikzLexer : Lexer {
     public const int T__69 = 69;
     public const int T__66 = 66;
     public const int T__67 = 67;
-    public const int EXPONENT = 58;
+    public const int EXPONENT = 59;
     public const int T__64 = 64;
     public const int T__65 = 65;
     public const int IM_STARTTAG = 50;
-    public const int T__62 = 62;
     public const int T__63 = 63;
     public const int RBR = 17;
     public const int IM_PATH = 42;
     public const int ST_LINEWIDTH = 35;
     public const int ST_DASHSTYLE = 36;
     public const int ST_FILL = 31;
-    public const int FLOAT = 55;
     public const int BEGINTP = 6;
-    public const int SOMETHING = 57;
-    public const int ID = 54;
+    public const int FLOAT = 56;
+    public const int SOMETHING = 58;
+    public const int ID = 55;
     public const int EOF = -1;
     public const int LBR = 16;
     public const int IM_ENDTAG = 51;
     public const int AT = 26;
     public const int IM_DOCUMENT = 48;
     public const int RBRR = 19;
-    public const int ESC_SEQ = 61;
+    public const int ESC_SEQ = 62;
     public const int IN = 38;
     public const int LPAR = 14;
     public const int EVERYLOOP = 28;
@@ -49,8 +48,9 @@ public partial class simpletikzLexer : Lexer {
     public const int LOOP = 37;
     public const int BEGIN = 4;
     public const int ST_OUTERSEP = 30;
-    public const int COMMENT = 59;
+    public const int COMMENT = 60;
     public const int ST_INNERSEP = 29;
+    public const int IM_OPTIONS = 52;
     public const int NODE = 10;
     public const int UN_PTS = 40;
     public const int STYLESEP = 25;
@@ -58,7 +58,7 @@ public partial class simpletikzLexer : Lexer {
     public const int IM_PICTURE = 47;
     public const int LBRR = 18;
     public const int BEGINSCOPE = 8;
-    public const int INT = 56;
+    public const int INT = 57;
     public const int UN_CM = 41;
     public const int IM_NODE = 43;
     public const int COLON = 24;
@@ -68,7 +68,7 @@ public partial class simpletikzLexer : Lexer {
     public const int IM_NUMBERUNIT = 46;
     public const int IM_SCOPE = 49;
     public const int T__71 = 71;
-    public const int WS = 60;
+    public const int WS = 61;
     public const int T__72 = 72;
     public const int T__70 = 70;
     public const int LABEL = 27;
@@ -80,10 +80,11 @@ public partial class simpletikzLexer : Lexer {
     public const int RPAR = 15;
     public const int SEMIC = 23;
     public const int END = 5;
+    public const int T__73 = 73;
     public const int IM_NODENAME = 45;
-    public const int OPTIONS = 52;
+    public const int OPTIONS = 53;
     public const int DRAW = 11;
-    public const int STRING = 53;
+    public const int STRING = 54;
 
     // delegates
     // delegators
@@ -1008,30 +1009,6 @@ public partial class simpletikzLexer : Lexer {
     }
     // $ANTLR end "UN_CM"
 
-    // $ANTLR start "T__62"
-    public void mT__62() // throws RecognitionException [2]
-    {
-    		try
-    		{
-            int _type = T__62;
-    	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:45:7: ( 'node' )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:45:9: 'node'
-            {
-            	Match("node"); 
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally 
-    	{
-        }
-    }
-    // $ANTLR end "T__62"
-
     // $ANTLR start "T__63"
     public void mT__63() // throws RecognitionException [2]
     {
@@ -1039,10 +1016,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__63;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:46:7: ( '--' )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:46:9: '--'
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:45:7: ( 'node' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:45:9: 'node'
             {
-            	Match("--"); 
+            	Match("node"); 
 
 
             }
@@ -1063,10 +1040,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__64;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:47:7: ( 'edge' )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:47:9: 'edge'
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:46:7: ( '--' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:46:9: '--'
             {
-            	Match("edge"); 
+            	Match("--"); 
 
 
             }
@@ -1087,10 +1064,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__65;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:48:7: ( '->' )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:48:9: '->'
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:47:7: ( 'edge' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:47:9: 'edge'
             {
-            	Match("->"); 
+            	Match("edge"); 
 
 
             }
@@ -1111,10 +1088,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__66;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:49:7: ( '|-' )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:49:9: '|-'
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:48:7: ( '->' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:48:9: '->'
             {
-            	Match("|-"); 
+            	Match("->"); 
 
 
             }
@@ -1135,10 +1112,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__67;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:50:7: ( '-|' )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:50:9: '-|'
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:49:7: ( '|-' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:49:9: '|-'
             {
-            	Match("-|"); 
+            	Match("|-"); 
 
 
             }
@@ -1159,10 +1136,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__68;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:51:7: ( 'to' )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:51:9: 'to'
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:50:7: ( '-|' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:50:9: '-|'
             {
-            	Match("to"); 
+            	Match("-|"); 
 
 
             }
@@ -1183,10 +1160,11 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__69;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:52:7: ( '+' )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:52:9: '+'
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:51:7: ( 'to' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:51:9: 'to'
             {
-            	Match('+'); 
+            	Match("to"); 
+
 
             }
 
@@ -1206,11 +1184,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__70;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:53:7: ( '++' )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:53:9: '++'
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:52:7: ( '+' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:52:9: '+'
             {
-            	Match("++"); 
-
+            	Match('+'); 
 
             }
 
@@ -1230,10 +1207,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__71;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:54:7: ( 'ex' )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:54:9: 'ex'
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:53:7: ( '++' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:53:9: '++'
             {
-            	Match("ex"); 
+            	Match("++"); 
 
 
             }
@@ -1254,6 +1231,30 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__72;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:54:7: ( 'ex' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:54:9: 'ex'
+            {
+            	Match("ex"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally 
+    	{
+        }
+    }
+    // $ANTLR end "T__72"
+
+    // $ANTLR start "T__73"
+    public void mT__73() // throws RecognitionException [2]
+    {
+    		try
+    		{
+            int _type = T__73;
+    	int _channel = DEFAULT_TOKEN_CHANNEL;
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:55:7: ( 'mm' )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:55:9: 'mm'
             {
@@ -1269,7 +1270,7 @@ public partial class simpletikzLexer : Lexer {
     	{
         }
     }
-    // $ANTLR end "T__72"
+    // $ANTLR end "T__73"
 
     // $ANTLR start "ID"
     public void mID() // throws RecognitionException [2]
@@ -1278,8 +1279,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = ID;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:158:5: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:158:7: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:159:5: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:159:7: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             	if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z') || input.LA(1) == '_' || (input.LA(1) >= 'a' && input.LA(1) <= 'z') ) 
             	{
@@ -1292,7 +1293,7 @@ public partial class simpletikzLexer : Lexer {
             	    Recover(mse);
             	    throw mse;}
 
-            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:158:31: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:159:31: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             	do 
             	{
             	    int alt1 = 2;
@@ -1351,26 +1352,46 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = INT;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:161:5: ( ( '0' .. '9' )+ )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:161:7: ( '0' .. '9' )+
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:162:5: ( ( '-' )? ( '0' .. '9' )+ )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:162:7: ( '-' )? ( '0' .. '9' )+
             {
-            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:161:7: ( '0' .. '9' )+
-            	int cnt2 = 0;
+            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:162:7: ( '-' )?
+            	int alt2 = 2;
+            	int LA2_0 = input.LA(1);
+
+            	if ( (LA2_0 == '-') )
+            	{
+            	    alt2 = 1;
+            	}
+            	switch (alt2) 
+            	{
+            	    case 1 :
+            	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:162:7: '-'
+            	        {
+            	        	Match('-'); 
+
+            	        }
+            	        break;
+
+            	}
+
+            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:162:12: ( '0' .. '9' )+
+            	int cnt3 = 0;
             	do 
             	{
-            	    int alt2 = 2;
-            	    int LA2_0 = input.LA(1);
+            	    int alt3 = 2;
+            	    int LA3_0 = input.LA(1);
 
-            	    if ( ((LA2_0 >= '0' && LA2_0 <= '9')) )
+            	    if ( ((LA3_0 >= '0' && LA3_0 <= '9')) )
             	    {
-            	        alt2 = 1;
+            	        alt3 = 1;
             	    }
 
 
-            	    switch (alt2) 
+            	    switch (alt3) 
             		{
             			case 1 :
-            			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:161:7: '0' .. '9'
+            			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:162:12: '0' .. '9'
             			    {
             			    	MatchRange('0','9'); 
 
@@ -1378,16 +1399,16 @@ public partial class simpletikzLexer : Lexer {
             			    break;
 
             			default:
-            			    if ( cnt2 >= 1 ) goto loop2;
-            		            EarlyExitException eee2 =
-            		                new EarlyExitException(2, input);
-            		            throw eee2;
+            			    if ( cnt3 >= 1 ) goto loop3;
+            		            EarlyExitException eee3 =
+            		                new EarlyExitException(3, input);
+            		            throw eee3;
             	    }
-            	    cnt2++;
+            	    cnt3++;
             	} while (true);
 
-            	loop2:
-            		;	// Stops C# compiler whining that label 'loop2' has no statements
+            	loop3:
+            		;	// Stops C# compiler whining that label 'loop3' has no statements
 
 
             }
@@ -1408,109 +1429,71 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = FLOAT;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:165:5: ( ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '0' .. '9' )+ EXPONENT )
-            int alt9 = 3;
-            alt9 = dfa9.Predict(input);
-            switch (alt9) 
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:166:5: ( ( '-' )? ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | ( '-' )? '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '-' )? ( '0' .. '9' )+ EXPONENT )
+            int alt13 = 3;
+            alt13 = dfa13.Predict(input);
+            switch (alt13) 
             {
                 case 1 :
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:165:9: ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )?
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:166:9: ( '-' )? ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )?
                     {
-                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:165:9: ( '0' .. '9' )+
-                    	int cnt3 = 0;
-                    	do 
+                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:166:9: ( '-' )?
+                    	int alt4 = 2;
+                    	int LA4_0 = input.LA(1);
+
+                    	if ( (LA4_0 == '-') )
                     	{
-                    	    int alt3 = 2;
-                    	    int LA3_0 = input.LA(1);
-
-                    	    if ( ((LA3_0 >= '0' && LA3_0 <= '9')) )
-                    	    {
-                    	        alt3 = 1;
-                    	    }
-
-
-                    	    switch (alt3) 
-                    		{
-                    			case 1 :
-                    			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:165:10: '0' .. '9'
-                    			    {
-                    			    	MatchRange('0','9'); 
-
-                    			    }
-                    			    break;
-
-                    			default:
-                    			    if ( cnt3 >= 1 ) goto loop3;
-                    		            EarlyExitException eee3 =
-                    		                new EarlyExitException(3, input);
-                    		            throw eee3;
-                    	    }
-                    	    cnt3++;
-                    	} while (true);
-
-                    	loop3:
-                    		;	// Stops C# compiler whining that label 'loop3' has no statements
-
-                    	Match('.'); 
-                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:165:25: ( '0' .. '9' )*
-                    	do 
-                    	{
-                    	    int alt4 = 2;
-                    	    int LA4_0 = input.LA(1);
-
-                    	    if ( ((LA4_0 >= '0' && LA4_0 <= '9')) )
-                    	    {
-                    	        alt4 = 1;
-                    	    }
-
-
-                    	    switch (alt4) 
-                    		{
-                    			case 1 :
-                    			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:165:26: '0' .. '9'
-                    			    {
-                    			    	MatchRange('0','9'); 
-
-                    			    }
-                    			    break;
-
-                    			default:
-                    			    goto loop4;
-                    	    }
-                    	} while (true);
-
-                    	loop4:
-                    		;	// Stops C# compiler whining that label 'loop4' has no statements
-
-                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:165:37: ( EXPONENT )?
-                    	int alt5 = 2;
-                    	int LA5_0 = input.LA(1);
-
-                    	if ( (LA5_0 == 'E' || LA5_0 == 'e') )
-                    	{
-                    	    alt5 = 1;
+                    	    alt4 = 1;
                     	}
-                    	switch (alt5) 
+                    	switch (alt4) 
                     	{
                     	    case 1 :
-                    	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:165:37: EXPONENT
+                    	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:166:9: '-'
                     	        {
-                    	        	mEXPONENT(); 
+                    	        	Match('-'); 
 
                     	        }
                     	        break;
 
                     	}
 
+                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:166:14: ( '0' .. '9' )+
+                    	int cnt5 = 0;
+                    	do 
+                    	{
+                    	    int alt5 = 2;
+                    	    int LA5_0 = input.LA(1);
 
-                    }
-                    break;
-                case 2 :
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:166:9: '.' ( '0' .. '9' )+ ( EXPONENT )?
-                    {
+                    	    if ( ((LA5_0 >= '0' && LA5_0 <= '9')) )
+                    	    {
+                    	        alt5 = 1;
+                    	    }
+
+
+                    	    switch (alt5) 
+                    		{
+                    			case 1 :
+                    			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:166:15: '0' .. '9'
+                    			    {
+                    			    	MatchRange('0','9'); 
+
+                    			    }
+                    			    break;
+
+                    			default:
+                    			    if ( cnt5 >= 1 ) goto loop5;
+                    		            EarlyExitException eee5 =
+                    		                new EarlyExitException(5, input);
+                    		            throw eee5;
+                    	    }
+                    	    cnt5++;
+                    	} while (true);
+
+                    	loop5:
+                    		;	// Stops C# compiler whining that label 'loop5' has no statements
+
                     	Match('.'); 
-                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:166:13: ( '0' .. '9' )+
-                    	int cnt6 = 0;
+                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:166:30: ( '0' .. '9' )*
                     	do 
                     	{
                     	    int alt6 = 2;
@@ -1525,7 +1508,7 @@ public partial class simpletikzLexer : Lexer {
                     	    switch (alt6) 
                     		{
                     			case 1 :
-                    			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:166:14: '0' .. '9'
+                    			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:166:31: '0' .. '9'
                     			    {
                     			    	MatchRange('0','9'); 
 
@@ -1533,18 +1516,14 @@ public partial class simpletikzLexer : Lexer {
                     			    break;
 
                     			default:
-                    			    if ( cnt6 >= 1 ) goto loop6;
-                    		            EarlyExitException eee6 =
-                    		                new EarlyExitException(6, input);
-                    		            throw eee6;
+                    			    goto loop6;
                     	    }
-                    	    cnt6++;
                     	} while (true);
 
                     	loop6:
                     		;	// Stops C# compiler whining that label 'loop6' has no statements
 
-                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:166:25: ( EXPONENT )?
+                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:166:42: ( EXPONENT )?
                     	int alt7 = 2;
                     	int LA7_0 = input.LA(1);
 
@@ -1555,7 +1534,89 @@ public partial class simpletikzLexer : Lexer {
                     	switch (alt7) 
                     	{
                     	    case 1 :
-                    	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:166:25: EXPONENT
+                    	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:166:42: EXPONENT
+                    	        {
+                    	        	mEXPONENT(); 
+
+                    	        }
+                    	        break;
+
+                    	}
+
+
+                    }
+                    break;
+                case 2 :
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:9: ( '-' )? '.' ( '0' .. '9' )+ ( EXPONENT )?
+                    {
+                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:9: ( '-' )?
+                    	int alt8 = 2;
+                    	int LA8_0 = input.LA(1);
+
+                    	if ( (LA8_0 == '-') )
+                    	{
+                    	    alt8 = 1;
+                    	}
+                    	switch (alt8) 
+                    	{
+                    	    case 1 :
+                    	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:9: '-'
+                    	        {
+                    	        	Match('-'); 
+
+                    	        }
+                    	        break;
+
+                    	}
+
+                    	Match('.'); 
+                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:18: ( '0' .. '9' )+
+                    	int cnt9 = 0;
+                    	do 
+                    	{
+                    	    int alt9 = 2;
+                    	    int LA9_0 = input.LA(1);
+
+                    	    if ( ((LA9_0 >= '0' && LA9_0 <= '9')) )
+                    	    {
+                    	        alt9 = 1;
+                    	    }
+
+
+                    	    switch (alt9) 
+                    		{
+                    			case 1 :
+                    			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:19: '0' .. '9'
+                    			    {
+                    			    	MatchRange('0','9'); 
+
+                    			    }
+                    			    break;
+
+                    			default:
+                    			    if ( cnt9 >= 1 ) goto loop9;
+                    		            EarlyExitException eee9 =
+                    		                new EarlyExitException(9, input);
+                    		            throw eee9;
+                    	    }
+                    	    cnt9++;
+                    	} while (true);
+
+                    	loop9:
+                    		;	// Stops C# compiler whining that label 'loop9' has no statements
+
+                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:30: ( EXPONENT )?
+                    	int alt10 = 2;
+                    	int LA10_0 = input.LA(1);
+
+                    	if ( (LA10_0 == 'E' || LA10_0 == 'e') )
+                    	{
+                    	    alt10 = 1;
+                    	}
+                    	switch (alt10) 
+                    	{
+                    	    case 1 :
+                    	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:30: EXPONENT
                     	        {
                     	        	mEXPONENT(); 
 
@@ -1568,25 +1629,45 @@ public partial class simpletikzLexer : Lexer {
                     }
                     break;
                 case 3 :
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:9: ( '0' .. '9' )+ EXPONENT
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:168:9: ( '-' )? ( '0' .. '9' )+ EXPONENT
                     {
-                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:9: ( '0' .. '9' )+
-                    	int cnt8 = 0;
+                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:168:9: ( '-' )?
+                    	int alt11 = 2;
+                    	int LA11_0 = input.LA(1);
+
+                    	if ( (LA11_0 == '-') )
+                    	{
+                    	    alt11 = 1;
+                    	}
+                    	switch (alt11) 
+                    	{
+                    	    case 1 :
+                    	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:168:9: '-'
+                    	        {
+                    	        	Match('-'); 
+
+                    	        }
+                    	        break;
+
+                    	}
+
+                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:168:14: ( '0' .. '9' )+
+                    	int cnt12 = 0;
                     	do 
                     	{
-                    	    int alt8 = 2;
-                    	    int LA8_0 = input.LA(1);
+                    	    int alt12 = 2;
+                    	    int LA12_0 = input.LA(1);
 
-                    	    if ( ((LA8_0 >= '0' && LA8_0 <= '9')) )
+                    	    if ( ((LA12_0 >= '0' && LA12_0 <= '9')) )
                     	    {
-                    	        alt8 = 1;
+                    	        alt12 = 1;
                     	    }
 
 
-                    	    switch (alt8) 
+                    	    switch (alt12) 
                     		{
                     			case 1 :
-                    			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:10: '0' .. '9'
+                    			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:168:15: '0' .. '9'
                     			    {
                     			    	MatchRange('0','9'); 
 
@@ -1594,16 +1675,16 @@ public partial class simpletikzLexer : Lexer {
                     			    break;
 
                     			default:
-                    			    if ( cnt8 >= 1 ) goto loop8;
-                    		            EarlyExitException eee8 =
-                    		                new EarlyExitException(8, input);
-                    		            throw eee8;
+                    			    if ( cnt12 >= 1 ) goto loop12;
+                    		            EarlyExitException eee12 =
+                    		                new EarlyExitException(12, input);
+                    		            throw eee12;
                     	    }
-                    	    cnt8++;
+                    	    cnt12++;
                     	} while (true);
 
-                    	loop8:
-                    		;	// Stops C# compiler whining that label 'loop8' has no statements
+                    	loop12:
+                    		;	// Stops C# compiler whining that label 'loop12' has no statements
 
                     	mEXPONENT(); 
 
@@ -1627,26 +1708,26 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = COMMENT;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:171:5: ( '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:171:9: '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:172:5: ( '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:172:9: '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
             {
             	Match('%'); 
-            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:171:13: (~ ( '\\n' | '\\r' ) )*
+            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:172:13: (~ ( '\\n' | '\\r' ) )*
             	do 
             	{
-            	    int alt10 = 2;
-            	    int LA10_0 = input.LA(1);
+            	    int alt14 = 2;
+            	    int LA14_0 = input.LA(1);
 
-            	    if ( ((LA10_0 >= '\u0000' && LA10_0 <= '\t') || (LA10_0 >= '\u000B' && LA10_0 <= '\f') || (LA10_0 >= '\u000E' && LA10_0 <= '\uFFFF')) )
+            	    if ( ((LA14_0 >= '\u0000' && LA14_0 <= '\t') || (LA14_0 >= '\u000B' && LA14_0 <= '\f') || (LA14_0 >= '\u000E' && LA14_0 <= '\uFFFF')) )
             	    {
-            	        alt10 = 1;
+            	        alt14 = 1;
             	    }
 
 
-            	    switch (alt10) 
+            	    switch (alt14) 
             		{
             			case 1 :
-            			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:171:13: ~ ( '\\n' | '\\r' )
+            			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:172:13: ~ ( '\\n' | '\\r' )
             			    {
             			    	if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t') || (input.LA(1) >= '\u000B' && input.LA(1) <= '\f') || (input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) 
             			    	{
@@ -1664,25 +1745,25 @@ public partial class simpletikzLexer : Lexer {
             			    break;
 
             			default:
-            			    goto loop10;
+            			    goto loop14;
             	    }
             	} while (true);
 
-            	loop10:
-            		;	// Stops C# compiler whining that label 'loop10' has no statements
+            	loop14:
+            		;	// Stops C# compiler whining that label 'loop14' has no statements
 
-            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:171:27: ( '\\r' )?
-            	int alt11 = 2;
-            	int LA11_0 = input.LA(1);
+            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:172:27: ( '\\r' )?
+            	int alt15 = 2;
+            	int LA15_0 = input.LA(1);
 
-            	if ( (LA11_0 == '\r') )
+            	if ( (LA15_0 == '\r') )
             	{
-            	    alt11 = 1;
+            	    alt15 = 1;
             	}
-            	switch (alt11) 
+            	switch (alt15) 
             	{
             	    case 1 :
-            	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:171:27: '\\r'
+            	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:172:27: '\\r'
             	        {
             	        	Match('\r'); 
 
@@ -1712,8 +1793,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = WS;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:174:5: ( ( ' ' | '\\t' | '\\r' | '\\n' ) )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:174:9: ( ' ' | '\\t' | '\\r' | '\\n' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:175:5: ( ( ' ' | '\\t' | '\\r' | '\\n' ) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:175:9: ( ' ' | '\\t' | '\\r' | '\\n' )
             {
             	if ( (input.LA(1) >= '\t' && input.LA(1) <= '\n') || input.LA(1) == '\r' || input.LA(1) == ' ' ) 
             	{
@@ -1744,8 +1825,8 @@ public partial class simpletikzLexer : Lexer {
     {
     		try
     		{
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:182:10: ( ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:182:12: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:183:10: ( ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:183:12: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
             {
             	if ( input.LA(1) == 'E' || input.LA(1) == 'e' ) 
             	{
@@ -1758,15 +1839,15 @@ public partial class simpletikzLexer : Lexer {
             	    Recover(mse);
             	    throw mse;}
 
-            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:182:22: ( '+' | '-' )?
-            	int alt12 = 2;
-            	int LA12_0 = input.LA(1);
+            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:183:22: ( '+' | '-' )?
+            	int alt16 = 2;
+            	int LA16_0 = input.LA(1);
 
-            	if ( (LA12_0 == '+' || LA12_0 == '-') )
+            	if ( (LA16_0 == '+' || LA16_0 == '-') )
             	{
-            	    alt12 = 1;
+            	    alt16 = 1;
             	}
-            	switch (alt12) 
+            	switch (alt16) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:
@@ -1788,23 +1869,23 @@ public partial class simpletikzLexer : Lexer {
 
             	}
 
-            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:182:33: ( '0' .. '9' )+
-            	int cnt13 = 0;
+            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:183:33: ( '0' .. '9' )+
+            	int cnt17 = 0;
             	do 
             	{
-            	    int alt13 = 2;
-            	    int LA13_0 = input.LA(1);
+            	    int alt17 = 2;
+            	    int LA17_0 = input.LA(1);
 
-            	    if ( ((LA13_0 >= '0' && LA13_0 <= '9')) )
+            	    if ( ((LA17_0 >= '0' && LA17_0 <= '9')) )
             	    {
-            	        alt13 = 1;
+            	        alt17 = 1;
             	    }
 
 
-            	    switch (alt13) 
+            	    switch (alt17) 
             		{
             			case 1 :
-            			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:182:34: '0' .. '9'
+            			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:183:34: '0' .. '9'
             			    {
             			    	MatchRange('0','9'); 
 
@@ -1812,16 +1893,16 @@ public partial class simpletikzLexer : Lexer {
             			    break;
 
             			default:
-            			    if ( cnt13 >= 1 ) goto loop13;
-            		            EarlyExitException eee13 =
-            		                new EarlyExitException(13, input);
-            		            throw eee13;
+            			    if ( cnt17 >= 1 ) goto loop17;
+            		            EarlyExitException eee17 =
+            		                new EarlyExitException(17, input);
+            		            throw eee17;
             	    }
-            	    cnt13++;
+            	    cnt17++;
             	} while (true);
 
-            	loop13:
-            		;	// Stops C# compiler whining that label 'loop13' has no statements
+            	loop17:
+            		;	// Stops C# compiler whining that label 'loop17' has no statements
 
 
             }
@@ -1840,26 +1921,26 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = OPTIONS;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:184:9: ( '[' (~ ( ']' ) )* ']' )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:184:11: '[' (~ ( ']' ) )* ']'
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:185:9: ( '[' (~ ( ']' ) )* ']' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:185:11: '[' (~ ( ']' ) )* ']'
             {
             	Match('['); 
-            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:184:15: (~ ( ']' ) )*
+            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:185:15: (~ ( ']' ) )*
             	do 
             	{
-            	    int alt14 = 2;
-            	    int LA14_0 = input.LA(1);
+            	    int alt18 = 2;
+            	    int LA18_0 = input.LA(1);
 
-            	    if ( ((LA14_0 >= '\u0000' && LA14_0 <= '\\') || (LA14_0 >= '^' && LA14_0 <= '\uFFFF')) )
+            	    if ( ((LA18_0 >= '\u0000' && LA18_0 <= '\\') || (LA18_0 >= '^' && LA18_0 <= '\uFFFF')) )
             	    {
-            	        alt14 = 1;
+            	        alt18 = 1;
             	    }
 
 
-            	    switch (alt14) 
+            	    switch (alt18) 
             		{
             			case 1 :
-            			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:184:15: ~ ( ']' )
+            			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:185:15: ~ ( ']' )
             			    {
             			    	if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\\') || (input.LA(1) >= '^' && input.LA(1) <= '\uFFFF') ) 
             			    	{
@@ -1877,12 +1958,12 @@ public partial class simpletikzLexer : Lexer {
             			    break;
 
             			default:
-            			    goto loop14;
+            			    goto loop18;
             	    }
             	} while (true);
 
-            	loop14:
-            		;	// Stops C# compiler whining that label 'loop14' has no statements
+            	loop18:
+            		;	// Stops C# compiler whining that label 'loop18' has no statements
 
             	Match(']'); 
 
@@ -1904,37 +1985,37 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = STRING;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:186:8: ( '{' ( ESC_SEQ | ~ ( '\\\\' | '}' ) )* '}' )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:186:10: '{' ( ESC_SEQ | ~ ( '\\\\' | '}' ) )* '}'
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:187:8: ( '{' ( ESC_SEQ | ~ ( '\\\\' | '}' ) )* '}' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:187:10: '{' ( ESC_SEQ | ~ ( '\\\\' | '}' ) )* '}'
             {
             	Match('{'); 
-            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:186:14: ( ESC_SEQ | ~ ( '\\\\' | '}' ) )*
+            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:187:14: ( ESC_SEQ | ~ ( '\\\\' | '}' ) )*
             	do 
             	{
-            	    int alt15 = 3;
-            	    int LA15_0 = input.LA(1);
+            	    int alt19 = 3;
+            	    int LA19_0 = input.LA(1);
 
-            	    if ( (LA15_0 == '\\') )
+            	    if ( (LA19_0 == '\\') )
             	    {
-            	        alt15 = 1;
+            	        alt19 = 1;
             	    }
-            	    else if ( ((LA15_0 >= '\u0000' && LA15_0 <= '[') || (LA15_0 >= ']' && LA15_0 <= '|') || (LA15_0 >= '~' && LA15_0 <= '\uFFFF')) )
+            	    else if ( ((LA19_0 >= '\u0000' && LA19_0 <= '[') || (LA19_0 >= ']' && LA19_0 <= '|') || (LA19_0 >= '~' && LA19_0 <= '\uFFFF')) )
             	    {
-            	        alt15 = 2;
+            	        alt19 = 2;
             	    }
 
 
-            	    switch (alt15) 
+            	    switch (alt19) 
             		{
             			case 1 :
-            			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:186:16: ESC_SEQ
+            			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:187:16: ESC_SEQ
             			    {
             			    	mESC_SEQ(); 
 
             			    }
             			    break;
             			case 2 :
-            			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:186:26: ~ ( '\\\\' | '}' )
+            			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:187:26: ~ ( '\\\\' | '}' )
             			    {
             			    	if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '[') || (input.LA(1) >= ']' && input.LA(1) <= '|') || (input.LA(1) >= '~' && input.LA(1) <= '\uFFFF') ) 
             			    	{
@@ -1952,12 +2033,12 @@ public partial class simpletikzLexer : Lexer {
             			    break;
 
             			default:
-            			    goto loop15;
+            			    goto loop19;
             	    }
             	} while (true);
 
-            	loop15:
-            		;	// Stops C# compiler whining that label 'loop15' has no statements
+            	loop19:
+            		;	// Stops C# compiler whining that label 'loop19' has no statements
 
             	Match('}'); 
 
@@ -1977,8 +2058,8 @@ public partial class simpletikzLexer : Lexer {
     {
     		try
     		{
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:197:5: ( '\\\\' . )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:197:9: '\\\\' .
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:198:5: ( '\\\\' . )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:198:9: '\\\\' .
             {
             	Match('\\'); 
             	MatchAny(); 
@@ -1999,8 +2080,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = SOMETHING;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:202:2: ( . )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:202:4: .
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:203:2: ( . )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:203:4: .
             {
             	MatchAny(); 
 
@@ -2017,10 +2098,10 @@ public partial class simpletikzLexer : Lexer {
 
     override public void mTokens() // throws RecognitionException 
     {
-        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:8: ( BEGIN | END | BEGINTP | ENDTP | BEGINSCOPE | ENDSCOPE | NODE | DRAW | PATH | FILL | LPAR | RPAR | LBR | RBR | LBRR | RBRR | KOMMA | SCALE | EQU | SEMIC | COLON | STYLESEP | AT | LABEL | EVERYLOOP | ST_INNERSEP | ST_OUTERSEP | ST_FILL | ST_DRAW | ST_SHAPE | ST_MINSIZE | ST_LINEWIDTH | ST_DASHSTYLE | LOOP | IN | OUT | UN_PTS | UN_CM | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | ID | INT | FLOAT | COMMENT | WS | OPTIONS | STRING | SOMETHING )
-        int alt16 = 57;
-        alt16 = dfa16.Predict(input);
-        switch (alt16) 
+        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:8: ( BEGIN | END | BEGINTP | ENDTP | BEGINSCOPE | ENDSCOPE | NODE | DRAW | PATH | FILL | LPAR | RPAR | LBR | RBR | LBRR | RBRR | KOMMA | SCALE | EQU | SEMIC | COLON | STYLESEP | AT | LABEL | EVERYLOOP | ST_INNERSEP | ST_OUTERSEP | ST_FILL | ST_DRAW | ST_SHAPE | ST_MINSIZE | ST_LINEWIDTH | ST_DASHSTYLE | LOOP | IN | OUT | UN_PTS | UN_CM | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | ID | INT | FLOAT | COMMENT | WS | OPTIONS | STRING | SOMETHING )
+        int alt20 = 57;
+        alt20 = dfa20.Predict(input);
+        switch (alt20) 
         {
             case 1 :
                 // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:10: BEGIN
@@ -2289,79 +2370,79 @@ public partial class simpletikzLexer : Lexer {
                 }
                 break;
             case 39 :
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:269: T__62
-                {
-                	mT__62(); 
-
-                }
-                break;
-            case 40 :
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:275: T__63
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:269: T__63
                 {
                 	mT__63(); 
 
                 }
                 break;
-            case 41 :
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:281: T__64
+            case 40 :
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:275: T__64
                 {
                 	mT__64(); 
 
                 }
                 break;
-            case 42 :
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:287: T__65
+            case 41 :
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:281: T__65
                 {
                 	mT__65(); 
 
                 }
                 break;
-            case 43 :
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:293: T__66
+            case 42 :
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:287: T__66
                 {
                 	mT__66(); 
 
                 }
                 break;
-            case 44 :
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:299: T__67
+            case 43 :
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:293: T__67
                 {
                 	mT__67(); 
 
                 }
                 break;
-            case 45 :
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:305: T__68
+            case 44 :
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:299: T__68
                 {
                 	mT__68(); 
 
                 }
                 break;
-            case 46 :
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:311: T__69
+            case 45 :
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:305: T__69
                 {
                 	mT__69(); 
 
                 }
                 break;
-            case 47 :
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:317: T__70
+            case 46 :
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:311: T__70
                 {
                 	mT__70(); 
 
                 }
                 break;
-            case 48 :
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:323: T__71
+            case 47 :
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:317: T__71
                 {
                 	mT__71(); 
 
                 }
                 break;
-            case 49 :
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:329: T__72
+            case 48 :
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:323: T__72
                 {
                 	mT__72(); 
+
+                }
+                break;
+            case 49 :
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:1:329: T__73
+                {
+                	mT__73(); 
 
                 }
                 break;
@@ -2427,88 +2508,89 @@ public partial class simpletikzLexer : Lexer {
     }
 
 
-    protected DFA9 dfa9;
-    protected DFA16 dfa16;
+    protected DFA13 dfa13;
+    protected DFA20 dfa20;
 	private void InitializeCyclicDFAs()
 	{
-	    this.dfa9 = new DFA9(this);
-	    this.dfa16 = new DFA16(this);
-	    this.dfa16.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA16_SpecialStateTransition);
+	    this.dfa13 = new DFA13(this);
+	    this.dfa20 = new DFA20(this);
+	    this.dfa20.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA20_SpecialStateTransition);
 	}
 
-    const string DFA9_eotS =
-        "\x05\uffff";
-    const string DFA9_eofS =
-        "\x05\uffff";
-    const string DFA9_minS =
-        "\x02\x2e\x03\uffff";
-    const string DFA9_maxS =
-        "\x01\x39\x01\x65\x03\uffff";
-    const string DFA9_acceptS =
-        "\x02\uffff\x01\x02\x01\x03\x01\x01";
-    const string DFA9_specialS =
-        "\x05\uffff}>";
-    static readonly string[] DFA9_transitionS = {
-            "\x01\x02\x01\uffff\x0a\x01",
-            "\x01\x04\x01\uffff\x0a\x01\x0b\uffff\x01\x03\x1f\uffff\x01"+
-            "\x03",
+    const string DFA13_eotS =
+        "\x06\uffff";
+    const string DFA13_eofS =
+        "\x06\uffff";
+    const string DFA13_minS =
+        "\x01\x2d\x02\x2e\x03\uffff";
+    const string DFA13_maxS =
+        "\x02\x39\x01\x65\x03\uffff";
+    const string DFA13_acceptS =
+        "\x03\uffff\x01\x02\x01\x03\x01\x01";
+    const string DFA13_specialS =
+        "\x06\uffff}>";
+    static readonly string[] DFA13_transitionS = {
+            "\x01\x01\x01\x03\x01\uffff\x0a\x02",
+            "\x01\x03\x01\uffff\x0a\x02",
+            "\x01\x05\x01\uffff\x0a\x02\x0b\uffff\x01\x04\x1f\uffff\x01"+
+            "\x04",
             "",
             "",
             ""
     };
 
-    static readonly short[] DFA9_eot = DFA.UnpackEncodedString(DFA9_eotS);
-    static readonly short[] DFA9_eof = DFA.UnpackEncodedString(DFA9_eofS);
-    static readonly char[] DFA9_min = DFA.UnpackEncodedStringToUnsignedChars(DFA9_minS);
-    static readonly char[] DFA9_max = DFA.UnpackEncodedStringToUnsignedChars(DFA9_maxS);
-    static readonly short[] DFA9_accept = DFA.UnpackEncodedString(DFA9_acceptS);
-    static readonly short[] DFA9_special = DFA.UnpackEncodedString(DFA9_specialS);
-    static readonly short[][] DFA9_transition = DFA.UnpackEncodedStringArray(DFA9_transitionS);
+    static readonly short[] DFA13_eot = DFA.UnpackEncodedString(DFA13_eotS);
+    static readonly short[] DFA13_eof = DFA.UnpackEncodedString(DFA13_eofS);
+    static readonly char[] DFA13_min = DFA.UnpackEncodedStringToUnsignedChars(DFA13_minS);
+    static readonly char[] DFA13_max = DFA.UnpackEncodedStringToUnsignedChars(DFA13_maxS);
+    static readonly short[] DFA13_accept = DFA.UnpackEncodedString(DFA13_acceptS);
+    static readonly short[] DFA13_special = DFA.UnpackEncodedString(DFA13_specialS);
+    static readonly short[][] DFA13_transition = DFA.UnpackEncodedStringArray(DFA13_transitionS);
 
-    protected class DFA9 : DFA
+    protected class DFA13 : DFA
     {
-        public DFA9(BaseRecognizer recognizer)
+        public DFA13(BaseRecognizer recognizer)
         {
             this.recognizer = recognizer;
-            this.decisionNumber = 9;
-            this.eot = DFA9_eot;
-            this.eof = DFA9_eof;
-            this.min = DFA9_min;
-            this.max = DFA9_max;
-            this.accept = DFA9_accept;
-            this.special = DFA9_special;
-            this.transition = DFA9_transition;
+            this.decisionNumber = 13;
+            this.eot = DFA13_eot;
+            this.eof = DFA13_eof;
+            this.min = DFA13_min;
+            this.max = DFA13_max;
+            this.accept = DFA13_accept;
+            this.special = DFA13_special;
+            this.transition = DFA13_transition;
 
         }
 
         override public string Description
         {
-            get { return "164:1: FLOAT : ( ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '0' .. '9' )+ EXPONENT );"; }
+            get { return "165:1: FLOAT : ( ( '-' )? ( '0' .. '9' )+ '.' ( '0' .. '9' )* ( EXPONENT )? | ( '-' )? '.' ( '0' .. '9' )+ ( EXPONENT )? | ( '-' )? ( '0' .. '9' )+ EXPONENT );"; }
         }
 
     }
 
-    const string DFA16_eotS =
-        "\x01\uffff\x01\x22\x02\uffff\x01\x2b\x01\uffff\x01\x2e\x02\uffff"+
-        "\x01\x34\x03\uffff\x01\x22\x0b\x34\x02\x22\x01\x34\x01\x50\x01\uffff"+
-        "\x01\x51\x02\x22\x11\uffff\x02\x34\x05\uffff\x01\x5a\x05\x34\x01"+
-        "\x60\x01\x62\x05\x34\x01\x68\x01\x69\x01\x6a\x01\x34\x04\uffff\x01"+
-        "\x6c\x03\uffff\x01\x51\x05\uffff\x02\x34\x01\uffff\x05\x34\x01\uffff"+
+    const string DFA20_eotS =
+        "\x01\uffff\x01\x22\x02\uffff\x01\x2c\x01\uffff\x01\x2f\x02\uffff"+
+        "\x01\x34\x03\uffff\x01\x22\x0b\x34\x02\x22\x01\x34\x01\x52\x01\uffff"+
+        "\x01\x53\x02\x22\x11\uffff\x02\x34\x05\uffff\x01\x5a\x05\x34\x01"+
+        "\x60\x01\x62\x05\x34\x01\x68\x01\x69\x01\x6a\x01\x34\x03\uffff\x01"+
+        "\x53\x02\uffff\x01\x6c\x07\uffff\x02\x34\x01\uffff\x05\x34\x01\uffff"+
         "\x01\x34\x01\uffff\x01\x78\x04\x34\x03\uffff\x01\x34\x02\uffff\x01"+
         "\u0080\x04\x34\x01\u0085\x01\x34\x01\u0087\x02\x34\x01\uffff\x01"+
         "\u008a\x01\u008b\x02\x34\x01\u008e\x03\uffff\x01\u0092\x01\u0093"+
         "\x01\u0094\x02\uffff\x01\x34\x01\uffff\x02\x34\x03\uffff\x01\x34"+
         "\x01\uffff\x01\u009a\x08\uffff\x01\x34\x02\uffff\x01\x34\x03\uffff";
-    const string DFA16_eofS =
+    const string DFA20_eofS =
         "\u009f\uffff";
-    const string DFA16_minS =
+    const string DFA20_minS =
         "\x01\x00\x01\x62\x02\uffff\x01\x00\x01\uffff\x01\x00\x02\uffff"+
         "\x01\x63\x03\uffff\x01\x2e\x01\x74\x01\x61\x01\x64\x01\x6e\x01\x75"+
         "\x01\x69\x01\x61\x01\x69\x01\x74\x01\x6d\x01\x6f\x02\x2d\x01\x6f"+
         "\x01\x2b\x01\uffff\x01\x2e\x01\x30\x01\x00\x02\uffff\x01\x65\x01"+
         "\x6e\x0d\uffff\x02\x61\x05\uffff\x01\x30\x01\x62\x01\x6e\x01\x6f"+
         "\x01\x65\x01\x67\x02\x30\x01\x74\x01\x6c\x01\x61\x01\x73\x01\x6e"+
-        "\x03\x30\x01\x64\x04\uffff\x01\x30\x03\uffff\x01\x2e\x03\uffff\x01"+
+        "\x03\x30\x01\x64\x03\uffff\x01\x2e\x02\uffff\x01\x30\x05\uffff\x01"+
         "\x67\x01\x64\x01\x6c\x01\x70\x01\uffff\x02\x65\x01\x70\x01\x72\x01"+
         "\x65\x01\uffff\x01\x65\x01\uffff\x01\x30\x01\x6c\x01\x77\x01\x68"+
         "\x01\x69\x03\uffff\x01\x65\x01\uffff\x01\x69\x01\x7b\x02\x65\x01"+
@@ -2516,39 +2598,39 @@ public partial class simpletikzLexer : Lexer {
         "\x20\x01\x6d\x01\x30\x01\x6e\x01\x73\x01\uffff\x03\x30\x02\uffff"+
         "\x01\x20\x01\uffff\x02\x20\x03\uffff\x01\x75\x01\uffff\x01\x7b\x08"+
         "\uffff\x01\x6d\x01\x73\x01\uffff\x01\x20\x03\uffff";
-    const string DFA16_maxS =
+    const string DFA20_maxS =
         "\x01\uffff\x01\x70\x02\uffff\x01\uffff\x01\uffff\x01\uffff\x02"+
         "\uffff\x01\x68\x03\uffff\x01\x2e\x01\x74\x01\x6f\x01\x78\x01\x6e"+
         "\x01\x75\x01\x69\x01\x72\x01\x6d\x01\x74\x01\x6d\x01\x6f\x01\x7c"+
         "\x01\x2d\x01\x6f\x01\x2b\x01\uffff\x01\x65\x01\x39\x01\uffff\x02"+
         "\uffff\x01\x65\x01\x6e\x0d\uffff\x02\x61\x05\uffff\x01\x7a\x01\x62"+
         "\x01\x6e\x01\x6f\x01\x65\x01\x67\x02\x7a\x01\x74\x01\x6c\x01\x61"+
-        "\x01\x73\x01\x6e\x03\x7a\x01\x64\x04\uffff\x01\x7a\x03\uffff\x01"+
-        "\x65\x03\uffff\x01\x67\x01\x64\x01\x6c\x01\x70\x01\uffff\x02\x65"+
+        "\x01\x73\x01\x6e\x03\x7a\x01\x64\x03\uffff\x01\x65\x02\uffff\x01"+
+        "\x7a\x05\uffff\x01\x67\x01\x64\x01\x6c\x01\x70\x01\uffff\x02\x65"+
         "\x01\x70\x01\x72\x01\x65\x01\uffff\x01\x65\x01\uffff\x01\x7a\x01"+
         "\x6c\x01\x77\x01\x68\x01\x69\x03\uffff\x01\x65\x01\uffff\x01\x69"+
         "\x01\x7b\x02\x65\x01\x6c\x01\x20\x01\x7a\x01\x79\x01\x7a\x02\x72"+
         "\x01\uffff\x02\x7a\x01\x20\x01\x6d\x01\x7a\x01\x6e\x01\x74\x01\uffff"+
         "\x03\x7a\x02\uffff\x01\x20\x01\uffff\x02\x20\x03\uffff\x01\x75\x01"+
         "\uffff\x01\x7b\x08\uffff\x01\x6d\x01\x74\x01\uffff\x01\x20\x03\uffff";
-    const string DFA16_acceptS =
+    const string DFA20_acceptS =
         "\x02\uffff\x01\x0b\x01\x0c\x01\uffff\x01\x0e\x01\uffff\x01\x10"+
         "\x01\x11\x01\uffff\x01\x13\x01\x14\x01\x15\x10\uffff\x01\x32\x03"+
         "\uffff\x01\x36\x01\x39\x02\uffff\x01\x07\x01\x08\x01\x09\x01\x0a"+
-        "\x01\x0b\x01\x0c\x01\x0d\x01\x37\x01\x0e\x01\x0f\x01\x38\x01\x10"+
+        "\x01\x0b\x01\x0c\x01\x37\x01\x0d\x01\x0e\x01\x38\x01\x0f\x01\x10"+
         "\x01\x11\x02\uffff\x01\x32\x01\x13\x01\x14\x01\x15\x01\x16\x11\uffff"+
-        "\x01\x28\x01\x2a\x01\x2c\x01\x2b\x01\uffff\x01\x2f\x01\x2e\x01\x33"+
-        "\x01\uffff\x01\x34\x01\x35\x01\x36\x04\uffff\x01\x17\x05\uffff\x01"+
-        "\x30\x01\uffff\x01\x23\x05\uffff\x01\x31\x01\x25\x01\x26\x01\uffff"+
-        "\x01\x2d\x0b\uffff\x01\x24\x07\uffff\x01\x02\x03\uffff\x01\x20\x01"+
-        "\x22\x01\uffff\x01\x29\x02\uffff\x01\x1c\x01\x1d\x01\x21\x01\uffff"+
-        "\x01\x27\x01\uffff\x01\x04\x01\x06\x01\x12\x01\x1e\x01\x18\x01\x19"+
-        "\x01\x1a\x01\x1b\x02\uffff\x01\x01\x01\uffff\x01\x03\x01\x05\x01"+
-        "\x1f";
-    const string DFA16_specialS =
-        "\x01\x03\x03\uffff\x01\x02\x01\uffff\x01\x01\x19\uffff\x01\x00"+
+        "\x01\x28\x01\x2a\x01\x2c\x01\uffff\x01\x34\x01\x2b\x01\uffff\x01"+
+        "\x2f\x01\x2e\x01\x33\x01\x35\x01\x36\x04\uffff\x01\x17\x05\uffff"+
+        "\x01\x30\x01\uffff\x01\x23\x05\uffff\x01\x31\x01\x25\x01\x26\x01"+
+        "\uffff\x01\x2d\x0b\uffff\x01\x24\x07\uffff\x01\x02\x03\uffff\x01"+
+        "\x20\x01\x22\x01\uffff\x01\x29\x02\uffff\x01\x1c\x01\x1d\x01\x21"+
+        "\x01\uffff\x01\x27\x01\uffff\x01\x04\x01\x06\x01\x12\x01\x1e\x01"+
+        "\x18\x01\x19\x01\x1a\x01\x1b\x02\uffff\x01\x01\x01\uffff\x01\x03"+
+        "\x01\x05\x01\x1f";
+    const string DFA20_specialS =
+        "\x01\x03\x03\uffff\x01\x00\x01\uffff\x01\x01\x19\uffff\x01\x02"+
         "\x7e\uffff}>";
-    static readonly string[] DFA16_transitionS = {
+    static readonly string[] DFA20_transitionS = {
             "\x09\x22\x02\x21\x02\x22\x01\x21\x12\x22\x01\x21\x04\x22\x01"+
             "\x20\x02\x22\x01\x02\x01\x03\x01\x22\x01\x1c\x01\x08\x01\x19"+
             "\x01\x1f\x01\x0d\x0a\x1e\x01\x0c\x01\x0b\x01\x22\x01\x0a\x03"+
@@ -2560,9 +2642,9 @@ public partial class simpletikzLexer : Lexer {
             "\x01\uffff\x01\x27",
             "",
             "",
-            "\x00\x2c",
+            "\x00\x2b",
             "",
-            "\x00\x2f",
+            "\x00\x2e",
             "",
             "",
             "\x01\x32\x04\uffff\x01\x33",
@@ -2581,14 +2663,15 @@ public partial class simpletikzLexer : Lexer {
             "\x01\x47",
             "\x01\x48",
             "\x01\x49",
-            "\x01\x4a\x10\uffff\x01\x4b\x3d\uffff\x01\x4c",
-            "\x01\x4d",
-            "\x01\x4e",
+            "\x01\x4a\x01\x4e\x01\uffff\x0a\x4d\x04\uffff\x01\x4b\x3d\uffff"+
+            "\x01\x4c",
             "\x01\x4f",
+            "\x01\x50",
+            "\x01\x51",
             "",
-            "\x01\x53\x01\uffff\x0a\x52\x0b\uffff\x01\x53\x1f\uffff\x01"+
-            "\x53",
-            "\x0a\x53",
+            "\x01\x4e\x01\uffff\x0a\x4d\x0b\uffff\x01\x4e\x1f\uffff\x01"+
+            "\x4e",
+            "\x0a\x4e",
             "\x00\x54",
             "",
             "",
@@ -2640,14 +2723,14 @@ public partial class simpletikzLexer : Lexer {
             "",
             "",
             "",
+            "\x01\x4e\x01\uffff\x0a\x4d\x0b\uffff\x01\x4e\x1f\uffff\x01"+
+            "\x4e",
+            "",
             "",
             "\x0a\x34\x07\uffff\x1a\x34\x04\uffff\x01\x34\x01\uffff\x1a"+
             "\x34",
             "",
             "",
-            "",
-            "\x01\x53\x01\uffff\x0a\x52\x0b\uffff\x01\x53\x1f\uffff\x01"+
-            "\x53",
             "",
             "",
             "",
@@ -2735,153 +2818,153 @@ public partial class simpletikzLexer : Lexer {
             ""
     };
 
-    static readonly short[] DFA16_eot = DFA.UnpackEncodedString(DFA16_eotS);
-    static readonly short[] DFA16_eof = DFA.UnpackEncodedString(DFA16_eofS);
-    static readonly char[] DFA16_min = DFA.UnpackEncodedStringToUnsignedChars(DFA16_minS);
-    static readonly char[] DFA16_max = DFA.UnpackEncodedStringToUnsignedChars(DFA16_maxS);
-    static readonly short[] DFA16_accept = DFA.UnpackEncodedString(DFA16_acceptS);
-    static readonly short[] DFA16_special = DFA.UnpackEncodedString(DFA16_specialS);
-    static readonly short[][] DFA16_transition = DFA.UnpackEncodedStringArray(DFA16_transitionS);
+    static readonly short[] DFA20_eot = DFA.UnpackEncodedString(DFA20_eotS);
+    static readonly short[] DFA20_eof = DFA.UnpackEncodedString(DFA20_eofS);
+    static readonly char[] DFA20_min = DFA.UnpackEncodedStringToUnsignedChars(DFA20_minS);
+    static readonly char[] DFA20_max = DFA.UnpackEncodedStringToUnsignedChars(DFA20_maxS);
+    static readonly short[] DFA20_accept = DFA.UnpackEncodedString(DFA20_acceptS);
+    static readonly short[] DFA20_special = DFA.UnpackEncodedString(DFA20_specialS);
+    static readonly short[][] DFA20_transition = DFA.UnpackEncodedStringArray(DFA20_transitionS);
 
-    protected class DFA16 : DFA
+    protected class DFA20 : DFA
     {
-        public DFA16(BaseRecognizer recognizer)
+        public DFA20(BaseRecognizer recognizer)
         {
             this.recognizer = recognizer;
-            this.decisionNumber = 16;
-            this.eot = DFA16_eot;
-            this.eof = DFA16_eof;
-            this.min = DFA16_min;
-            this.max = DFA16_max;
-            this.accept = DFA16_accept;
-            this.special = DFA16_special;
-            this.transition = DFA16_transition;
+            this.decisionNumber = 20;
+            this.eot = DFA20_eot;
+            this.eof = DFA20_eof;
+            this.min = DFA20_min;
+            this.max = DFA20_max;
+            this.accept = DFA20_accept;
+            this.special = DFA20_special;
+            this.transition = DFA20_transition;
 
         }
 
         override public string Description
         {
-            get { return "1:1: Tokens : ( BEGIN | END | BEGINTP | ENDTP | BEGINSCOPE | ENDSCOPE | NODE | DRAW | PATH | FILL | LPAR | RPAR | LBR | RBR | LBRR | RBRR | KOMMA | SCALE | EQU | SEMIC | COLON | STYLESEP | AT | LABEL | EVERYLOOP | ST_INNERSEP | ST_OUTERSEP | ST_FILL | ST_DRAW | ST_SHAPE | ST_MINSIZE | ST_LINEWIDTH | ST_DASHSTYLE | LOOP | IN | OUT | UN_PTS | UN_CM | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | ID | INT | FLOAT | COMMENT | WS | OPTIONS | STRING | SOMETHING );"; }
+            get { return "1:1: Tokens : ( BEGIN | END | BEGINTP | ENDTP | BEGINSCOPE | ENDSCOPE | NODE | DRAW | PATH | FILL | LPAR | RPAR | LBR | RBR | LBRR | RBRR | KOMMA | SCALE | EQU | SEMIC | COLON | STYLESEP | AT | LABEL | EVERYLOOP | ST_INNERSEP | ST_OUTERSEP | ST_FILL | ST_DRAW | ST_SHAPE | ST_MINSIZE | ST_LINEWIDTH | ST_DASHSTYLE | LOOP | IN | OUT | UN_PTS | UN_CM | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | ID | INT | FLOAT | COMMENT | WS | OPTIONS | STRING | SOMETHING );"; }
         }
 
     }
 
 
-    protected internal int DFA16_SpecialStateTransition(DFA dfa, int s, IIntStream _input) //throws NoViableAltException
+    protected internal int DFA20_SpecialStateTransition(DFA dfa, int s, IIntStream _input) //throws NoViableAltException
     {
             IIntStream input = _input;
     	int _s = s;
         switch ( s )
         {
                	case 0 : 
-                   	int LA16_32 = input.LA(1);
+                   	int LA20_4 = input.LA(1);
 
                    	s = -1;
-                   	if ( ((LA16_32 >= '\u0000' && LA16_32 <= '\uFFFF')) ) { s = 84; }
+                   	if ( ((LA20_4 >= '\u0000' && LA20_4 <= '\uFFFF')) ) { s = 43; }
+
+                   	else s = 44;
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 1 : 
+                   	int LA20_6 = input.LA(1);
+
+                   	s = -1;
+                   	if ( ((LA20_6 >= '\u0000' && LA20_6 <= '\uFFFF')) ) { s = 46; }
+
+                   	else s = 47;
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 2 : 
+                   	int LA20_32 = input.LA(1);
+
+                   	s = -1;
+                   	if ( ((LA20_32 >= '\u0000' && LA20_32 <= '\uFFFF')) ) { s = 84; }
 
                    	else s = 34;
 
                    	if ( s >= 0 ) return s;
                    	break;
-               	case 1 : 
-                   	int LA16_6 = input.LA(1);
-
-                   	s = -1;
-                   	if ( ((LA16_6 >= '\u0000' && LA16_6 <= '\uFFFF')) ) { s = 47; }
-
-                   	else s = 46;
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 2 : 
-                   	int LA16_4 = input.LA(1);
-
-                   	s = -1;
-                   	if ( ((LA16_4 >= '\u0000' && LA16_4 <= '\uFFFF')) ) { s = 44; }
-
-                   	else s = 43;
-
-                   	if ( s >= 0 ) return s;
-                   	break;
                	case 3 : 
-                   	int LA16_0 = input.LA(1);
+                   	int LA20_0 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA16_0 == '\\') ) { s = 1; }
+                   	if ( (LA20_0 == '\\') ) { s = 1; }
 
-                   	else if ( (LA16_0 == '(') ) { s = 2; }
+                   	else if ( (LA20_0 == '(') ) { s = 2; }
 
-                   	else if ( (LA16_0 == ')') ) { s = 3; }
+                   	else if ( (LA20_0 == ')') ) { s = 3; }
 
-                   	else if ( (LA16_0 == '[') ) { s = 4; }
+                   	else if ( (LA20_0 == '[') ) { s = 4; }
 
-                   	else if ( (LA16_0 == ']') ) { s = 5; }
+                   	else if ( (LA20_0 == ']') ) { s = 5; }
 
-                   	else if ( (LA16_0 == '{') ) { s = 6; }
+                   	else if ( (LA20_0 == '{') ) { s = 6; }
 
-                   	else if ( (LA16_0 == '}') ) { s = 7; }
+                   	else if ( (LA20_0 == '}') ) { s = 7; }
 
-                   	else if ( (LA16_0 == ',') ) { s = 8; }
+                   	else if ( (LA20_0 == ',') ) { s = 8; }
 
-                   	else if ( (LA16_0 == 's') ) { s = 9; }
+                   	else if ( (LA20_0 == 's') ) { s = 9; }
 
-                   	else if ( (LA16_0 == '=') ) { s = 10; }
+                   	else if ( (LA20_0 == '=') ) { s = 10; }
 
-                   	else if ( (LA16_0 == ';') ) { s = 11; }
+                   	else if ( (LA20_0 == ';') ) { s = 11; }
 
-                   	else if ( (LA16_0 == ':') ) { s = 12; }
+                   	else if ( (LA20_0 == ':') ) { s = 12; }
 
-                   	else if ( (LA16_0 == '/') ) { s = 13; }
+                   	else if ( (LA20_0 == '/') ) { s = 13; }
 
-                   	else if ( (LA16_0 == 'a') ) { s = 14; }
+                   	else if ( (LA20_0 == 'a') ) { s = 14; }
 
-                   	else if ( (LA16_0 == 'l') ) { s = 15; }
+                   	else if ( (LA20_0 == 'l') ) { s = 15; }
 
-                   	else if ( (LA16_0 == 'e') ) { s = 16; }
+                   	else if ( (LA20_0 == 'e') ) { s = 16; }
 
-                   	else if ( (LA16_0 == 'i') ) { s = 17; }
+                   	else if ( (LA20_0 == 'i') ) { s = 17; }
 
-                   	else if ( (LA16_0 == 'o') ) { s = 18; }
+                   	else if ( (LA20_0 == 'o') ) { s = 18; }
 
-                   	else if ( (LA16_0 == 'f') ) { s = 19; }
+                   	else if ( (LA20_0 == 'f') ) { s = 19; }
 
-                   	else if ( (LA16_0 == 'd') ) { s = 20; }
+                   	else if ( (LA20_0 == 'd') ) { s = 20; }
 
-                   	else if ( (LA16_0 == 'm') ) { s = 21; }
+                   	else if ( (LA20_0 == 'm') ) { s = 21; }
 
-                   	else if ( (LA16_0 == 'p') ) { s = 22; }
+                   	else if ( (LA20_0 == 'p') ) { s = 22; }
 
-                   	else if ( (LA16_0 == 'c') ) { s = 23; }
+                   	else if ( (LA20_0 == 'c') ) { s = 23; }
 
-                   	else if ( (LA16_0 == 'n') ) { s = 24; }
+                   	else if ( (LA20_0 == 'n') ) { s = 24; }
 
-                   	else if ( (LA16_0 == '-') ) { s = 25; }
+                   	else if ( (LA20_0 == '-') ) { s = 25; }
 
-                   	else if ( (LA16_0 == '|') ) { s = 26; }
+                   	else if ( (LA20_0 == '|') ) { s = 26; }
 
-                   	else if ( (LA16_0 == 't') ) { s = 27; }
+                   	else if ( (LA20_0 == 't') ) { s = 27; }
 
-                   	else if ( (LA16_0 == '+') ) { s = 28; }
+                   	else if ( (LA20_0 == '+') ) { s = 28; }
 
-                   	else if ( ((LA16_0 >= 'A' && LA16_0 <= 'Z') || LA16_0 == '_' || LA16_0 == 'b' || (LA16_0 >= 'g' && LA16_0 <= 'h') || (LA16_0 >= 'j' && LA16_0 <= 'k') || (LA16_0 >= 'q' && LA16_0 <= 'r') || (LA16_0 >= 'u' && LA16_0 <= 'z')) ) { s = 29; }
+                   	else if ( ((LA20_0 >= 'A' && LA20_0 <= 'Z') || LA20_0 == '_' || LA20_0 == 'b' || (LA20_0 >= 'g' && LA20_0 <= 'h') || (LA20_0 >= 'j' && LA20_0 <= 'k') || (LA20_0 >= 'q' && LA20_0 <= 'r') || (LA20_0 >= 'u' && LA20_0 <= 'z')) ) { s = 29; }
 
-                   	else if ( ((LA16_0 >= '0' && LA16_0 <= '9')) ) { s = 30; }
+                   	else if ( ((LA20_0 >= '0' && LA20_0 <= '9')) ) { s = 30; }
 
-                   	else if ( (LA16_0 == '.') ) { s = 31; }
+                   	else if ( (LA20_0 == '.') ) { s = 31; }
 
-                   	else if ( (LA16_0 == '%') ) { s = 32; }
+                   	else if ( (LA20_0 == '%') ) { s = 32; }
 
-                   	else if ( ((LA16_0 >= '\t' && LA16_0 <= '\n') || LA16_0 == '\r' || LA16_0 == ' ') ) { s = 33; }
+                   	else if ( ((LA20_0 >= '\t' && LA20_0 <= '\n') || LA20_0 == '\r' || LA20_0 == ' ') ) { s = 33; }
 
-                   	else if ( ((LA16_0 >= '\u0000' && LA16_0 <= '\b') || (LA16_0 >= '\u000B' && LA16_0 <= '\f') || (LA16_0 >= '\u000E' && LA16_0 <= '\u001F') || (LA16_0 >= '!' && LA16_0 <= '$') || (LA16_0 >= '&' && LA16_0 <= '\'') || LA16_0 == '*' || LA16_0 == '<' || (LA16_0 >= '>' && LA16_0 <= '@') || LA16_0 == '^' || LA16_0 == '`' || (LA16_0 >= '~' && LA16_0 <= '\uFFFF')) ) { s = 34; }
+                   	else if ( ((LA20_0 >= '\u0000' && LA20_0 <= '\b') || (LA20_0 >= '\u000B' && LA20_0 <= '\f') || (LA20_0 >= '\u000E' && LA20_0 <= '\u001F') || (LA20_0 >= '!' && LA20_0 <= '$') || (LA20_0 >= '&' && LA20_0 <= '\'') || LA20_0 == '*' || LA20_0 == '<' || (LA20_0 >= '>' && LA20_0 <= '@') || LA20_0 == '^' || LA20_0 == '`' || (LA20_0 >= '~' && LA20_0 <= '\uFFFF')) ) { s = 34; }
 
                    	if ( s >= 0 ) return s;
                    	break;
         }
-        NoViableAltException nvae16 =
-            new NoViableAltException(dfa.Description, 16, _s, input);
-        dfa.Error(nvae16);
-        throw nvae16;
+        NoViableAltException nvae20 =
+            new NoViableAltException(dfa.Description, 20, _s, input);
+        dfa.Error(nvae20);
+        throw nvae20;
     }
  
     

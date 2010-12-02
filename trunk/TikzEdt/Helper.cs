@@ -120,4 +120,22 @@ namespace TikzEdt
             //return rr;
         }
     }
+
+    public static class Rasterizer
+    {
+
+        public static Point rasterizeEucl(Point p, double GridWidth, Rect BB )
+        {
+            return new Point(Math.Round(p.X / GridWidth) * GridWidth, Math.Round(p.Y / GridWidth) * GridWidth);
+        }
+        // input: p in Eucl. coordinates
+        //public static Point rasterizePolar(Point p, Point center, double rstep, int nsectors)
+        //{
+            //Point pp = Point.eucltopolar(p, center);
+            //pp.X = Math.Round(pp.X / rstep) * rstep;
+            //pp.Y = Math.Round(pp.Y * nsectors / (2 * Math.PI)) * 2 * Math.PI / nsectors;
+            //return Point.polartoeucl(pp, center);
+        //}
+
+    }
 }

@@ -169,11 +169,19 @@ namespace TikzEdt
                 n.x = n.coord.uX.number; //hack
                 n.y = n.coord.uY.number;
             }
-            n.label = t.GetChild(i).Text;
+
+            n.label = t.GetChild(i).Text.Trim();
+            // remove leading and trailing {} TODO: to it in parser
+            n.label = n.label.Substring(1, n.label.Length - 2);
+
 
             return n;
         }
-
+        public void SetName(string tname)
+        {
+            name = tname;
+            RegisterNodeRefs();
+        }
         public override void SetPosition(Point p)
         {
             coord.SetPosition(p);
@@ -207,7 +215,18 @@ namespace TikzEdt
         }
         public override void UpdateText()
         {
-            text = "node "; // TODO: skip this if parent path is a \node
+            text = "node ";
+            // if parent is a node, and this item is the first, do not print node again
+            if (parent is Tikz_Path)
+            {
+                if (parent.starttag.Trim() == @"\node")
+                {
+                    // todo: check for first....
+                    text = "";
+                }
+            }
+
+            
             if (name != "")
                 text = text + "(" + name + ") ";
             if (coord != null)
@@ -341,7 +360,7 @@ namespace TikzEdt
 
         public Tikz_CoordType type = Tikz_CoordType.Cartesian;
         public string deco = "";
-        public Tikz_NumberUnit uX, uY;
+        public Tikz_NumberUnit uX=new Tikz_NumberUnit(), uY=new Tikz_NumberUnit();
         public string nameref = ""; // name of vertex if coordinate is such a reference
         public Tikz_Coord() { }
         public Tikz_Coord(double tx, double ty)
@@ -358,8 +377,11 @@ namespace TikzEdt
                 unit = t.GetChild(1).Text.Trim();
             else unit = "";
         }
-        public double number;
-        public string unit;
+        public Tikz_NumberUnit()
+        {
+        }
+        public double number=0;
+        public string unit="";
         public override string ToString()
         {
             return number.ToString() + unit;
@@ -496,7 +518,25 @@ namespace TikzEdt
     // the root of the parse tree
     public class Tikz_ParseTree : TikzContainerParseItem
     {
-
+        public Tikz_Picture GetTikzPicture()
+        {
+            return GetTikzPicture(this);
+        }
+        Tikz_Picture GetTikzPicture(TikzContainerParseItem tc)
+        {            
+            foreach (TikzParseItem tpi in tc.Children)
+            {
+                if (tpi is Tikz_Picture)
+                    return (tpi as Tikz_Picture);
+                if (tpi is TikzContainerParseItem)
+                {
+                    Tikz_Picture ret = GetTikzPicture(tpi as TikzContainerParseItem);
+                    if (ret != null)
+                        return ret;
+                }
+            }
+            return null;
+        }
     }
     public class Tikz_Draw : TikzContainerParseItem
     {
@@ -513,11 +553,15 @@ namespace TikzEdt
         {
             nodelist[tn.name] = tn;
         }
-        public override void RegisterNodeRefs()
+
+        public string GetUniqueName()
         {
+            string prefix="v";
+            for (int i = 1; i < 1000; i++)
+                if (!nodelist.ContainsKey(prefix + i))
+                    return prefix + i;
+            return "null";
         }
-
-
     }
     public class Tikz_Path : TikzContainerParseItem
     {

@@ -90,6 +90,9 @@
     <Compile Include="PdfOverlay.xaml.cs">
       <DependentUpon>PdfOverlay.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RasterControl.xaml.cs">
+      <DependentUpon>RasterControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="simpletikzLexer.cs" />
     <Compile Include="simpletikzParser.cs" />
     <Compile Include="TikzDisplay.xaml.cs">
@@ -120,6 +123,14 @@
     <Page Include="PdfOverlay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RasterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="TikzDisplay.xaml">
       <SubType>Designer</SubType>
@@ -205,6 +216,27 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Gear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bmpvert.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edge.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\empty.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\hand.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\path.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\radial.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\base_cursor.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

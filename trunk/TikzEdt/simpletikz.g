@@ -88,7 +88,7 @@ tikznodei
 	:	'node'! tikznode
 	;
 tikznodee
-	:	node_start tikznode tikzpathi path_end -> ^(IM_PATH node_start tikznode tikzpathi path_end) //almost hack like this
+	:	node_start tikznode tikzpathi? path_end -> ^(IM_PATH node_start tikznode tikzpathi? path_end) //almost hack like this
 	;
 node_start
 	:	NODE -> ^(IM_STARTTAG NODE)
@@ -159,13 +159,13 @@ tikzscope
 ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*
     ;
 
-INT :	'0'..'9'+
+INT :	'-'? '0'..'9'+
     ;
 
 FLOAT
-    :   ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
-    |   '.' ('0'..'9')+ EXPONENT?
-    |   ('0'..'9')+ EXPONENT
+    :   '-'? ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
+    |   '-'? '.' ('0'..'9')+ EXPONENT?
+    |   '-'? ('0'..'9')+ EXPONENT
     ;
 
 COMMENT
