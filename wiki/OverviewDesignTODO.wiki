@@ -27,6 +27,8 @@
   * When tikzpicture is in displaymath, there is a (vertical) margin... remove somehow.
 
 == TikzParser ==
+*TODO*
+  * Build a test library
 
 === Tikz ParseTree ===
 
