@@ -70,6 +70,8 @@ namespace TikzEdt
             CommandBinding CommentCommandBinding = new CommandBinding(CommentCommand, CommentCommandHandler, AlwaysTrue);
             CommandBinding UnCommentCommandBinding = new CommandBinding(UnCommentCommand, UnCommentCommandHandler, AlwaysTrue);
 
+            pdfOverlay1.rasterizer = rasterControl1;
+
             // in the constructor:
             txtCode.TextArea.TextEntering += textEditor_TextArea_TextEntered;
             txtCode.TextArea.TextEntered += textEditor_TextArea_TextEntered;
@@ -84,6 +86,8 @@ namespace TikzEdt
             sfd.ValidateNames = true;
 
             RecentFileList.MenuClick += (s, e) => { if (TryDisposeFile()) LoadFile(e.Filepath); };
+
+            //cmbGrid.SelectedIndex = 4;
         }
 
         CompletionWindow completionWindow;
@@ -177,13 +181,15 @@ namespace TikzEdt
                     // Refresh overlay
                     pdfOverlay1.Width = pdfOverlay1.Resolution * BB.Width;
                     pdfOverlay1.Height = pdfOverlay1.Resolution * BB.Height;
+                    rasterControl1.BB = BB;         
                     pdfOverlay1.ParseTree = t;
                 }
                 //MessageBox.Show(t.ToStringEx());
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                AddStatusLine("Couldn't parse code.", true);
+                AddStatusLine("Couldn't parse code. " +e.Message, true);
+                pdfOverlay1.ParseTree = null;
             }
 
             // Compile
@@ -454,6 +460,34 @@ namespace TikzEdt
             // set selection
             txtCode.SelectionStart = sels;
             txtCode.SelectionLength = sellength;
+        }
+
+        private void cmbGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbGrid.SelectedIndex >= 0)
+            {
+                //string c = (cmbGrid.SelectedItem as ComboBoxItem).Content;
+                rasterControl1.GridWidth = Double.Parse((cmbGrid.SelectedItem as ComboBoxItem).Content.ToString());
+            }
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            rasterControl1.Visibility = Visibility.Hidden;
+        }
+
+        private void rb1_Checked(object sender, RoutedEventArgs e)
+        {
+            if (pdfOverlay1 == null)
+                return;
+            if (sender == rb1)
+                pdfOverlay1.tool = PdfOverlay.ToolType.move;
+            else if (sender == rb2)
+                pdfOverlay1.tool = PdfOverlay.ToolType.addvert;
+            else if (sender == rb3)
+                    pdfOverlay1.tool = PdfOverlay.ToolType.addedge;
+            else if (sender == rb4)
+                    pdfOverlay1.tool = PdfOverlay.ToolType.addpath;
         }
     }
 }

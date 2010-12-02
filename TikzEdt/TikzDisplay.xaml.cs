@@ -177,6 +177,11 @@ namespace TikzEdt
             RecalcSize();          
         }
 
+        /// <summary>
+        /// This is called when PDFLatex has exited
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void texProcess_Exited(object sender, EventArgs e)
         {
             Dispatcher.Invoke(new Action(
@@ -264,13 +269,20 @@ namespace TikzEdt
                 dummy.Width =  Convert.ToInt32(ActualWidth);
                 dummy.Height =  Convert.ToInt32(ActualHeight);
 
+                if (dummy.Width <= 0 || dummy.Height <= 0) // TODO: this hould nott be necessary
+                    return;
+
                 Bitmap b = new Bitmap(dummy.Width, dummy.Height);
                 Graphics gr = Graphics.FromImage(b);
                 mypdfDoc.ClientBounds = new System.Drawing.Rectangle(0, 0, b.Width, b.Height);
                 mypdfDoc.DrawPageHDC(gr.GetHdc());
                 gr.ReleaseHdc();
-
+                System.Drawing.Color c = b.GetPixel(30, 30);
+                b.MakeTransparent(b.GetPixel(5,5));//Color.White);
+                b.MakeTransparent(System.Drawing.Color.White);
+                b.MakeTransparent(System.Drawing.Color.FromArgb(255,253,253,253));
                 image1.Source = loadBitmap(b);
+
             }
         }
 

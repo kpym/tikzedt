@@ -105,8 +105,30 @@
             <Button Name="cmdAbortCompilation" IsEnabled="{Binding ElementName=tikzDisplay1, Path=Compiling}" Click="AbortCompilationClick">
                 <Image Source="/TikzEdt;component/Images/error.png" Style="{StaticResource toolbarImageStyle}"/>
             </Button>
-            <Separator/>
+            <Separator/>   
             <CheckBox HorizontalAlignment="Center" IsChecked="True" Checked="CheckBox_Checked" Name="chkOverlay" Unchecked="chkOverlay_Unchecked">Overlay</CheckBox>
+            <Separator/>
+            <Label> Grid:  </Label>
+            <ComboBox Name="cmbGrid"  Width="40" ItemsSource="{Binding}" SelectionChanged="cmbGrid_SelectionChanged" Text="1">
+                <ComboBoxItem Content="0" />
+                <ComboBoxItem Content="0.1" />
+                <ComboBoxItem Content="0.2" />
+                <ComboBoxItem Content="0.5" />
+                <ComboBoxItem Content="1" />
+            </ComboBox>
+            <Separator/>
+            <RadioButton HorizontalAlignment="Left" Name="rb1" VerticalAlignment="Top" IsChecked="True" Checked="rb1_Checked">
+                <Image Source="/TikzEdt;component/Images/base_cursor.png" Style="{StaticResource toolbarImageStyle}"/>
+            </RadioButton>
+            <RadioButton HorizontalAlignment="Left" Name="rb2" VerticalAlignment="Top" Checked="rb1_Checked">
+                <Image Source="/TikzEdt;component/Images/bmpvert.bmp" Style="{StaticResource toolbarImageStyle}"/>
+            </RadioButton>
+            <RadioButton HorizontalAlignment="Left" Name="rb3" VerticalAlignment="Top" Checked="rb1_Checked">
+                <Image Source="/TikzEdt;component/Images/edge.bmp" Style="{StaticResource toolbarImageStyle}"/>
+            </RadioButton>
+            <RadioButton HorizontalAlignment="Left" Name="rb4" VerticalAlignment="Top" Checked="rb1_Checked">
+                <Image Source="/TikzEdt;component/Images/path.bmp" Style="{StaticResource toolbarImageStyle}"/>
+            </RadioButton>
         </ToolBar>
           
         <Grid Grid.Row="2">
@@ -131,8 +153,8 @@
                     <avalonedit:TextEditor.ContextMenu>
                         <ContextMenu >
                             <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
-                            <MenuItem Header="Copy" Command="ApplicationCommands.Cut"/>
-                            <MenuItem Header="Copy" Command="ApplicationCommands.Paste"/>
+                            <MenuItem Header="Cut" Command="ApplicationCommands.Cut"/>
+                            <MenuItem Header="Paste" Command="ApplicationCommands.Paste"/>
                             <Separator />
                             <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}"/>
                             <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
@@ -146,13 +168,16 @@
                 <Button Grid.Row="0" Grid.Column="0">Hallo Welt</Button> <my:PdfOverlay  HorizontalAlignment="Stretch" x:Name="pdfOverlay1" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" />
                 -->
                 <Grid Background="Gray">
-                    <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" Width="200" Height="200" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" OnCompileEvent="tikzDisplay1_OnCompileEvent" />
-                    <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" OnModified="pdfOverlay1_OnModified" />
+                    <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center" />
+                    <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" Width="200" Height="200" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" OnCompileEvent="tikzDisplay1_OnCompileEvent" />                  
+                    <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" OnModified="pdfOverlay1_OnModified" />                    
                 </Grid>
             </ScrollViewer>
 
         </Grid>
         <StatusBar Grid.Row="3" Height="23" HorizontalAlignment="Stretch" Name="statusBar1" VerticalAlignment="Top" />
-        <Button Content="Button" Grid.Row="1" Height="22" HorizontalAlignment="Left" Margin="366,4,0,0" Name="button1" VerticalAlignment="Top" Width="84" Click="button1_Click" />
+        <Button Content="Button" Grid.Row="1" Height="22" HorizontalAlignment="Right" Margin="0,5,77,0" Name="button1" VerticalAlignment="Top" Width="84" Click="button1_Click" />
+        <Button Content="Button" Grid.Row="1" Height="21" HorizontalAlignment="Left" Margin="658,6,0,0" Name="button2" VerticalAlignment="Top" Width="59" Click="button2_Click" />
+        
     </Grid>
 </Window>

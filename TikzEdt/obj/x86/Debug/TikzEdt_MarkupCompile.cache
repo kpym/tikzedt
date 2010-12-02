@@ -4,15 +4,15 @@
 winexe
 C#
 .cs
-C:\Users\thomas\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\obj\x86\Debug\
+C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\obj\x86\Debug\
 TikzEdt
 none
 false
 DEBUG;TRACE
-C:\Users\thomas\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\App.xaml
-5-626387182
+C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\App.xaml
+7-1981534059
 
-14-1527157737
-22-139218735
-Images\All_icon.xaml;MainWindow.xaml;OverlayItem.xaml;PdfOverlay.xaml;TikzDisplay.xaml;
+15-1579174762
+221265779228
+Images\All_icon.xaml;MainWindow.xaml;OverlayItem.xaml;PdfOverlay.xaml;RasterControl.xaml;Themes\Generic.xaml;TikzDisplay.xaml;
 

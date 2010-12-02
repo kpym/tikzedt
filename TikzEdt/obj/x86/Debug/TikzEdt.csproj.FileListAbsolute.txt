@@ -67,3 +67,6 @@ C:\Users\thomas\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\obj\x86\De
 C:\Users\thomas\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\obj\x86\Debug\GenerateResource-ResGen.write.1.tlog
 C:\Users\thomas\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\thomas\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\obj\x86\Debug\ResGen.write.1.tlog
+C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\obj\x86\Debug\RasterControl.baml
+C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\obj\x86\Debug\RasterControl.g.cs
+C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\obj\x86\Debug\Themes\Generic.baml

@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g 2010-11-25 10:21:24
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g 2010-12-02 14:06:47
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -12,34 +12,33 @@ import org.antlr.runtime.tree.*;
 
 public class simpletikzParser extends DebugParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "BEGIN", "END", "BEGINTP", "ENDTP", "BEGINSCOPE", "ENDSCOPE", "NODE", "DRAW", "PATH", "FILL", "LPAR", "RPAR", "LBR", "RBR", "LBRR", "RBRR", "KOMMA", "SCALE", "EQU", "SEMIC", "COLON", "STYLESEP", "AT", "LABEL", "EVERYLOOP", "ST_INNERSEP", "ST_OUTERSEP", "ST_FILL", "ST_DRAW", "ST_SHAPE", "ST_MINSIZE", "ST_LINEWIDTH", "ST_DASHSTYLE", "LOOP", "IN", "OUT", "UN_PTS", "UN_CM", "IM_PATH", "IM_NODE", "IM_COORD", "IM_NODENAME", "IM_NUMBERUNIT", "IM_PICTURE", "IM_DOCUMENT", "IM_SCOPE", "IM_STARTTAG", "IM_ENDTAG", "OPTIONS", "STRING", "ID", "FLOAT", "INT", "SOMETHING", "EXPONENT", "COMMENT", "WS", "ESC_SEQ", "'node'", "'--'", "'edge'", "'->'", "'|-'", "'-|'", "'to'", "'+'", "'++'", "'ex'", "'mm'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "BEGIN", "END", "BEGINTP", "ENDTP", "BEGINSCOPE", "ENDSCOPE", "NODE", "DRAW", "PATH", "FILL", "LPAR", "RPAR", "LBR", "RBR", "LBRR", "RBRR", "KOMMA", "SCALE", "EQU", "SEMIC", "COLON", "STYLESEP", "AT", "LABEL", "EVERYLOOP", "ST_INNERSEP", "ST_OUTERSEP", "ST_FILL", "ST_DRAW", "ST_SHAPE", "ST_MINSIZE", "ST_LINEWIDTH", "ST_DASHSTYLE", "LOOP", "IN", "OUT", "UN_PTS", "UN_CM", "IM_PATH", "IM_NODE", "IM_COORD", "IM_NODENAME", "IM_NUMBERUNIT", "IM_PICTURE", "IM_DOCUMENT", "IM_SCOPE", "IM_STARTTAG", "IM_ENDTAG", "IM_OPTIONS", "OPTIONS", "STRING", "ID", "FLOAT", "INT", "SOMETHING", "EXPONENT", "COMMENT", "WS", "ESC_SEQ", "'node'", "'--'", "'edge'", "'->'", "'|-'", "'-|'", "'to'", "'+'", "'++'", "'ex'", "'mm'"
     };
     public static final int T__68=68;
     public static final int T__69=69;
     public static final int T__66=66;
-    public static final int EXPONENT=58;
+    public static final int EXPONENT=59;
     public static final int T__67=67;
     public static final int T__64=64;
     public static final int IM_STARTTAG=50;
     public static final int T__65=65;
-    public static final int T__62=62;
     public static final int T__63=63;
     public static final int IM_PATH=42;
     public static final int RBR=17;
     public static final int ST_DASHSTYLE=36;
     public static final int ST_LINEWIDTH=35;
     public static final int ST_FILL=31;
-    public static final int FLOAT=55;
+    public static final int FLOAT=56;
     public static final int BEGINTP=6;
-    public static final int SOMETHING=57;
-    public static final int ID=54;
+    public static final int SOMETHING=58;
+    public static final int ID=55;
     public static final int EOF=-1;
     public static final int LBR=16;
     public static final int IM_ENDTAG=51;
     public static final int AT=26;
     public static final int IM_DOCUMENT=48;
     public static final int RBRR=19;
-    public static final int ESC_SEQ=61;
+    public static final int ESC_SEQ=62;
     public static final int IN=38;
     public static final int LPAR=14;
     public static final int EVERYLOOP=28;
@@ -49,14 +48,15 @@ public class simpletikzParser extends DebugParser {
     public static final int LOOP=37;
     public static final int BEGIN=4;
     public static final int ST_OUTERSEP=30;
-    public static final int COMMENT=59;
+    public static final int COMMENT=60;
     public static final int ST_INNERSEP=29;
+    public static final int IM_OPTIONS=52;
     public static final int NODE=10;
     public static final int UN_PTS=40;
     public static final int STYLESEP=25;
     public static final int IM_COORD=44;
     public static final int IM_PICTURE=47;
-    public static final int INT=56;
+    public static final int INT=57;
     public static final int BEGINSCOPE=8;
     public static final int LBRR=18;
     public static final int UN_CM=41;
@@ -67,7 +67,7 @@ public class simpletikzParser extends DebugParser {
     public static final int IM_SCOPE=49;
     public static final int IM_NUMBERUNIT=46;
     public static final int SCALE=21;
-    public static final int WS=60;
+    public static final int WS=61;
     public static final int T__71=71;
     public static final int T__72=72;
     public static final int T__70=70;
@@ -81,19 +81,20 @@ public class simpletikzParser extends DebugParser {
     public static final int END=5;
     public static final int SEMIC=23;
     public static final int IM_NODENAME=45;
-    public static final int OPTIONS=52;
-    public static final int STRING=53;
+    public static final int T__73=73;
+    public static final int OPTIONS=53;
+    public static final int STRING=54;
     public static final int DRAW=11;
 
     // delegates
     // delegators
 
     public static final String[] ruleNames = new String[] {
-        "invalidRule", "path_start_tag", "tikzpicture_start", "coordornode", 
-        "tikzscope", "numberunit", "tikzpicture", "tikzpathi", "tikznode", 
-        "number", "tikznodei", "nodename", "coord", "tikzdocument", "tikzpicture_end", 
-        "tikznodee", "tikzpath", "coord_modifier", "edgeop", "tikzbody", 
-        "path_start", "unit", "path_end", "node_start"
+        "invalidRule", "number", "coordornode", "tikzpicture_end", "coord", 
+        "path_start_tag", "tikzscope", "numberunit", "tikzdocument", "unit", 
+        "tikzbody", "tikzpicture", "path_start", "edgeop", "tikzpath", "tikznode", 
+        "tikzpathi", "tikznodee", "tikznodei", "path_end", "nodename", "tikzpicture_start", 
+        "node_start", "coord_modifier"
     };
      
         public int ruleLevel = 0;
@@ -152,7 +153,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "tikzpath"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:71:1: tikzpath : path_start tikzpathi path_end -> ^( IM_PATH path_start tikzpathi path_end ) ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:72:1: tikzpath : path_start tikzpathi path_end -> ^( IM_PATH path_start tikzpathi path_end ) ;
     public final simpletikzParser.tikzpath_return tikzpath() throws RecognitionException {
         simpletikzParser.tikzpath_return retval = new simpletikzParser.tikzpath_return();
         retval.start = input.LT(1);
@@ -172,30 +173,30 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "tikzpath");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(71, 1);
+        dbg.location(72, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:72:2: ( path_start tikzpathi path_end -> ^( IM_PATH path_start tikzpathi path_end ) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:73:2: ( path_start tikzpathi path_end -> ^( IM_PATH path_start tikzpathi path_end ) )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:72:4: path_start tikzpathi path_end
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:73:4: path_start tikzpathi path_end
             {
-            dbg.location(72,4);
-            pushFollow(FOLLOW_path_start_in_tikzpath414);
+            dbg.location(73,4);
+            pushFollow(FOLLOW_path_start_in_tikzpath417);
             path_start1=path_start();
 
             state._fsp--;
 
             stream_path_start.add(path_start1.getTree());
-            dbg.location(72,15);
-            pushFollow(FOLLOW_tikzpathi_in_tikzpath416);
+            dbg.location(73,15);
+            pushFollow(FOLLOW_tikzpathi_in_tikzpath419);
             tikzpathi2=tikzpathi();
 
             state._fsp--;
 
             stream_tikzpathi.add(tikzpathi2.getTree());
-            dbg.location(72,25);
-            pushFollow(FOLLOW_path_end_in_tikzpath418);
+            dbg.location(73,25);
+            pushFollow(FOLLOW_path_end_in_tikzpath421);
             path_end3=path_end();
 
             state._fsp--;
@@ -204,7 +205,7 @@ public class simpletikzParser extends DebugParser {
 
 
             // AST REWRITE
-            // elements: path_end, path_start, tikzpathi
+            // elements: tikzpathi, path_end, path_start
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -214,20 +215,20 @@ public class simpletikzParser extends DebugParser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 72:34: -> ^( IM_PATH path_start tikzpathi path_end )
+            // 73:34: -> ^( IM_PATH path_start tikzpathi path_end )
             {
-                dbg.location(72,37);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:72:37: ^( IM_PATH path_start tikzpathi path_end )
+                dbg.location(73,37);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:73:37: ^( IM_PATH path_start tikzpathi path_end )
                 {
                 Object root_1 = (Object)adaptor.nil();
-                dbg.location(72,39);
+                dbg.location(73,39);
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_PATH, "IM_PATH"), root_1);
 
-                dbg.location(72,47);
+                dbg.location(73,47);
                 adaptor.addChild(root_1, stream_path_start.nextTree());
-                dbg.location(72,58);
+                dbg.location(73,58);
                 adaptor.addChild(root_1, stream_tikzpathi.nextTree());
-                dbg.location(72,68);
+                dbg.location(73,68);
                 adaptor.addChild(root_1, stream_path_end.nextTree());
 
                 adaptor.addChild(root_0, root_1);
@@ -252,7 +253,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(73, 2);
+        dbg.location(74, 2);
 
         }
         finally {
@@ -271,7 +272,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "path_end"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:74:1: path_end : SEMIC -> ^( IM_ENDTAG SEMIC ) ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:75:1: path_end : SEMIC -> ^( IM_ENDTAG SEMIC ) ;
     public final simpletikzParser.path_end_return path_end() throws RecognitionException {
         simpletikzParser.path_end_return retval = new simpletikzParser.path_end_return();
         retval.start = input.LT(1);
@@ -286,16 +287,16 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "path_end");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(74, 1);
+        dbg.location(75, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:75:2: ( SEMIC -> ^( IM_ENDTAG SEMIC ) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:76:2: ( SEMIC -> ^( IM_ENDTAG SEMIC ) )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:75:4: SEMIC
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:76:4: SEMIC
             {
-            dbg.location(75,4);
-            SEMIC4=(Token)match(input,SEMIC,FOLLOW_SEMIC_in_path_end441);  
+            dbg.location(76,4);
+            SEMIC4=(Token)match(input,SEMIC,FOLLOW_SEMIC_in_path_end444);  
             stream_SEMIC.add(SEMIC4);
 
 
@@ -311,16 +312,16 @@ public class simpletikzParser extends DebugParser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 75:10: -> ^( IM_ENDTAG SEMIC )
+            // 76:10: -> ^( IM_ENDTAG SEMIC )
             {
-                dbg.location(75,13);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:75:13: ^( IM_ENDTAG SEMIC )
+                dbg.location(76,13);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:76:13: ^( IM_ENDTAG SEMIC )
                 {
                 Object root_1 = (Object)adaptor.nil();
-                dbg.location(75,15);
+                dbg.location(76,15);
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_ENDTAG, "IM_ENDTAG"), root_1);
 
-                dbg.location(75,25);
+                dbg.location(76,25);
                 adaptor.addChild(root_1, stream_SEMIC.nextNode());
 
                 adaptor.addChild(root_0, root_1);
@@ -345,7 +346,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(76, 2);
+        dbg.location(77, 2);
 
         }
         finally {
@@ -364,7 +365,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "tikzpathi"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:78:1: tikzpathi : ( OPTIONS )? coordornode ( coordornode | ( OPTIONS )? edgeop coordornode )* ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:79:1: tikzpathi : ( OPTIONS )? coordornode ( coordornode | ( OPTIONS )? edgeop coordornode )* ;
     public final simpletikzParser.tikzpathi_return tikzpathi() throws RecognitionException {
         simpletikzParser.tikzpathi_return retval = new simpletikzParser.tikzpathi_return();
         retval.start = input.LT(1);
@@ -388,18 +389,18 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "tikzpathi");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(78, 1);
+        dbg.location(79, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:79:2: ( ( OPTIONS )? coordornode ( coordornode | ( OPTIONS )? edgeop coordornode )* )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:80:2: ( ( OPTIONS )? coordornode ( coordornode | ( OPTIONS )? edgeop coordornode )* )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:79:4: ( OPTIONS )? coordornode ( coordornode | ( OPTIONS )? edgeop coordornode )*
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:80:4: ( OPTIONS )? coordornode ( coordornode | ( OPTIONS )? edgeop coordornode )*
             {
             root_0 = (Object)adaptor.nil();
 
-            dbg.location(79,4);
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:79:4: ( OPTIONS )?
+            dbg.location(80,4);
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:80:4: ( OPTIONS )?
             int alt1=2;
             try { dbg.enterSubRule(1);
             try { dbg.enterDecision(1);
@@ -415,10 +416,10 @@ public class simpletikzParser extends DebugParser {
                 case 1 :
                     dbg.enterAlt(1);
 
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:79:5: OPTIONS
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:80:5: OPTIONS
                     {
-                    dbg.location(79,12);
-                    OPTIONS5=(Token)match(input,OPTIONS,FOLLOW_OPTIONS_in_tikzpathi461); 
+                    dbg.location(80,12);
+                    OPTIONS5=(Token)match(input,OPTIONS,FOLLOW_OPTIONS_in_tikzpathi464); 
 
                     }
                     break;
@@ -426,15 +427,15 @@ public class simpletikzParser extends DebugParser {
             }
             } finally {dbg.exitSubRule(1);}
 
-            dbg.location(79,16);
-            pushFollow(FOLLOW_coordornode_in_tikzpathi466);
+            dbg.location(80,16);
+            pushFollow(FOLLOW_coordornode_in_tikzpathi469);
             coordornode6=coordornode();
 
             state._fsp--;
 
             adaptor.addChild(root_0, coordornode6.getTree());
-            dbg.location(79,28);
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:79:28: ( coordornode | ( OPTIONS )? edgeop coordornode )*
+            dbg.location(80,28);
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:80:28: ( coordornode | ( OPTIONS )? edgeop coordornode )*
             try { dbg.enterSubRule(3);
 
             loop3:
@@ -444,10 +445,10 @@ public class simpletikzParser extends DebugParser {
 
                 int LA3_0 = input.LA(1);
 
-                if ( (LA3_0==LPAR||LA3_0==62||(LA3_0>=69 && LA3_0<=70)) ) {
+                if ( (LA3_0==LPAR||LA3_0==63||(LA3_0>=70 && LA3_0<=71)) ) {
                     alt3=1;
                 }
-                else if ( (LA3_0==OPTIONS||(LA3_0>=63 && LA3_0<=68)) ) {
+                else if ( (LA3_0==OPTIONS||(LA3_0>=64 && LA3_0<=69)) ) {
                     alt3=2;
                 }
 
@@ -458,10 +459,10 @@ public class simpletikzParser extends DebugParser {
             	case 1 :
             	    dbg.enterAlt(1);
 
-            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:79:29: coordornode
+            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:80:29: coordornode
             	    {
-            	    dbg.location(79,29);
-            	    pushFollow(FOLLOW_coordornode_in_tikzpathi469);
+            	    dbg.location(80,29);
+            	    pushFollow(FOLLOW_coordornode_in_tikzpathi472);
             	    coordornode7=coordornode();
 
             	    state._fsp--;
@@ -473,10 +474,10 @@ public class simpletikzParser extends DebugParser {
             	case 2 :
             	    dbg.enterAlt(2);
 
-            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:79:43: ( OPTIONS )? edgeop coordornode
+            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:80:43: ( OPTIONS )? edgeop coordornode
             	    {
-            	    dbg.location(79,43);
-            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:79:43: ( OPTIONS )?
+            	    dbg.location(80,43);
+            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:80:43: ( OPTIONS )?
             	    int alt2=2;
             	    try { dbg.enterSubRule(2);
             	    try { dbg.enterDecision(2);
@@ -492,10 +493,10 @@ public class simpletikzParser extends DebugParser {
             	        case 1 :
             	            dbg.enterAlt(1);
 
-            	            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:79:44: OPTIONS
+            	            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:80:44: OPTIONS
             	            {
-            	            dbg.location(79,51);
-            	            OPTIONS8=(Token)match(input,OPTIONS,FOLLOW_OPTIONS_in_tikzpathi474); 
+            	            dbg.location(80,51);
+            	            OPTIONS8=(Token)match(input,OPTIONS,FOLLOW_OPTIONS_in_tikzpathi477); 
 
             	            }
             	            break;
@@ -503,14 +504,14 @@ public class simpletikzParser extends DebugParser {
             	    }
             	    } finally {dbg.exitSubRule(2);}
 
-            	    dbg.location(79,61);
-            	    pushFollow(FOLLOW_edgeop_in_tikzpathi479);
+            	    dbg.location(80,61);
+            	    pushFollow(FOLLOW_edgeop_in_tikzpathi482);
             	    edgeop9=edgeop();
 
             	    state._fsp--;
 
-            	    dbg.location(79,63);
-            	    pushFollow(FOLLOW_coordornode_in_tikzpathi482);
+            	    dbg.location(80,63);
+            	    pushFollow(FOLLOW_coordornode_in_tikzpathi485);
             	    coordornode10=coordornode();
 
             	    state._fsp--;
@@ -543,7 +544,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(80, 2);
+        dbg.location(81, 2);
 
         }
         finally {
@@ -562,7 +563,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "coordornode"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:82:1: coordornode : ( coord | tikznodei );
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:83:1: coordornode : ( coord | tikznodei );
     public final simpletikzParser.coordornode_return coordornode() throws RecognitionException {
         simpletikzParser.coordornode_return retval = new simpletikzParser.coordornode_return();
         retval.start = input.LT(1);
@@ -578,19 +579,19 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "coordornode");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(82, 1);
+        dbg.location(83, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:83:2: ( coord | tikznodei )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:84:2: ( coord | tikznodei )
             int alt4=2;
             try { dbg.enterDecision(4);
 
             int LA4_0 = input.LA(1);
 
-            if ( (LA4_0==LPAR||(LA4_0>=69 && LA4_0<=70)) ) {
+            if ( (LA4_0==LPAR||(LA4_0>=70 && LA4_0<=71)) ) {
                 alt4=1;
             }
-            else if ( (LA4_0==62) ) {
+            else if ( (LA4_0==63) ) {
                 alt4=2;
             }
             else {
@@ -606,12 +607,12 @@ public class simpletikzParser extends DebugParser {
                 case 1 :
                     dbg.enterAlt(1);
 
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:83:4: coord
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:84:4: coord
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    dbg.location(83,4);
-                    pushFollow(FOLLOW_coord_in_coordornode497);
+                    dbg.location(84,4);
+                    pushFollow(FOLLOW_coord_in_coordornode500);
                     coord11=coord();
 
                     state._fsp--;
@@ -623,12 +624,12 @@ public class simpletikzParser extends DebugParser {
                 case 2 :
                     dbg.enterAlt(2);
 
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:83:12: tikznodei
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:84:12: tikznodei
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    dbg.location(83,12);
-                    pushFollow(FOLLOW_tikznodei_in_coordornode501);
+                    dbg.location(84,12);
+                    pushFollow(FOLLOW_tikznodei_in_coordornode504);
                     tikznodei12=tikznodei();
 
                     state._fsp--;
@@ -653,7 +654,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(84, 2);
+        dbg.location(85, 2);
 
         }
         finally {
@@ -672,7 +673,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "tikznodei"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:86:1: tikznodei : 'node' tikznode ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:87:1: tikznodei : 'node' tikznode ;
     public final simpletikzParser.tikznodei_return tikznodei() throws RecognitionException {
         simpletikzParser.tikznodei_return retval = new simpletikzParser.tikznodei_return();
         retval.start = input.LT(1);
@@ -688,20 +689,20 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "tikznodei");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(86, 1);
+        dbg.location(87, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:87:2: ( 'node' tikznode )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:88:2: ( 'node' tikznode )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:87:4: 'node' tikznode
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:88:4: 'node' tikznode
             {
             root_0 = (Object)adaptor.nil();
 
-            dbg.location(87,10);
-            string_literal13=(Token)match(input,62,FOLLOW_62_in_tikznodei513); 
-            dbg.location(87,12);
-            pushFollow(FOLLOW_tikznode_in_tikznodei516);
+            dbg.location(88,10);
+            string_literal13=(Token)match(input,63,FOLLOW_63_in_tikznodei516); 
+            dbg.location(88,12);
+            pushFollow(FOLLOW_tikznode_in_tikznodei519);
             tikznode14=tikznode();
 
             state._fsp--;
@@ -724,7 +725,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(88, 2);
+        dbg.location(89, 2);
 
         }
         finally {
@@ -743,7 +744,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "tikznodee"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:89:1: tikznodee : node_start tikznode tikzpathi path_end -> ^( IM_PATH node_start tikznode tikzpathi path_end ) ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:90:1: tikznodee : node_start tikznode ( tikzpathi )? path_end -> ^( IM_PATH node_start tikznode ( tikzpathi )? path_end ) ;
     public final simpletikzParser.tikznodee_return tikznodee() throws RecognitionException {
         simpletikzParser.tikznodee_return retval = new simpletikzParser.tikznodee_return();
         retval.start = input.LT(1);
@@ -766,37 +767,63 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "tikznodee");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(89, 1);
+        dbg.location(90, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:90:2: ( node_start tikznode tikzpathi path_end -> ^( IM_PATH node_start tikznode tikzpathi path_end ) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:91:2: ( node_start tikznode ( tikzpathi )? path_end -> ^( IM_PATH node_start tikznode ( tikzpathi )? path_end ) )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:90:4: node_start tikznode tikzpathi path_end
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:91:4: node_start tikznode ( tikzpathi )? path_end
             {
-            dbg.location(90,4);
-            pushFollow(FOLLOW_node_start_in_tikznodee526);
+            dbg.location(91,4);
+            pushFollow(FOLLOW_node_start_in_tikznodee529);
             node_start15=node_start();
 
             state._fsp--;
 
             stream_node_start.add(node_start15.getTree());
-            dbg.location(90,15);
-            pushFollow(FOLLOW_tikznode_in_tikznodee528);
+            dbg.location(91,15);
+            pushFollow(FOLLOW_tikznode_in_tikznodee531);
             tikznode16=tikznode();
 
             state._fsp--;
 
             stream_tikznode.add(tikznode16.getTree());
-            dbg.location(90,24);
-            pushFollow(FOLLOW_tikzpathi_in_tikznodee530);
-            tikzpathi17=tikzpathi();
+            dbg.location(91,24);
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:91:24: ( tikzpathi )?
+            int alt5=2;
+            try { dbg.enterSubRule(5);
+            try { dbg.enterDecision(5);
 
-            state._fsp--;
+            int LA5_0 = input.LA(1);
 
-            stream_tikzpathi.add(tikzpathi17.getTree());
-            dbg.location(90,34);
-            pushFollow(FOLLOW_path_end_in_tikznodee532);
+            if ( (LA5_0==LPAR||LA5_0==OPTIONS||LA5_0==63||(LA5_0>=70 && LA5_0<=71)) ) {
+                alt5=1;
+            }
+            } finally {dbg.exitDecision(5);}
+
+            switch (alt5) {
+                case 1 :
+                    dbg.enterAlt(1);
+
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:91:24: tikzpathi
+                    {
+                    dbg.location(91,24);
+                    pushFollow(FOLLOW_tikzpathi_in_tikznodee533);
+                    tikzpathi17=tikzpathi();
+
+                    state._fsp--;
+
+                    stream_tikzpathi.add(tikzpathi17.getTree());
+
+                    }
+                    break;
+
+            }
+            } finally {dbg.exitSubRule(5);}
+
+            dbg.location(91,35);
+            pushFollow(FOLLOW_path_end_in_tikznodee536);
             path_end18=path_end();
 
             state._fsp--;
@@ -805,7 +832,7 @@ public class simpletikzParser extends DebugParser {
 
 
             // AST REWRITE
-            // elements: tikzpathi, path_end, node_start, tikznode
+            // elements: path_end, tikzpathi, tikznode, node_start
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -815,22 +842,28 @@ public class simpletikzParser extends DebugParser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 90:43: -> ^( IM_PATH node_start tikznode tikzpathi path_end )
+            // 91:44: -> ^( IM_PATH node_start tikznode ( tikzpathi )? path_end )
             {
-                dbg.location(90,46);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:90:46: ^( IM_PATH node_start tikznode tikzpathi path_end )
+                dbg.location(91,47);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:91:47: ^( IM_PATH node_start tikznode ( tikzpathi )? path_end )
                 {
                 Object root_1 = (Object)adaptor.nil();
-                dbg.location(90,48);
+                dbg.location(91,49);
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_PATH, "IM_PATH"), root_1);
 
-                dbg.location(90,56);
+                dbg.location(91,57);
                 adaptor.addChild(root_1, stream_node_start.nextTree());
-                dbg.location(90,67);
+                dbg.location(91,68);
                 adaptor.addChild(root_1, stream_tikznode.nextTree());
-                dbg.location(90,76);
-                adaptor.addChild(root_1, stream_tikzpathi.nextTree());
-                dbg.location(90,86);
+                dbg.location(91,77);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:91:77: ( tikzpathi )?
+                if ( stream_tikzpathi.hasNext() ) {
+                    dbg.location(91,77);
+                    adaptor.addChild(root_1, stream_tikzpathi.nextTree());
+
+                }
+                stream_tikzpathi.reset();
+                dbg.location(91,88);
                 adaptor.addChild(root_1, stream_path_end.nextTree());
 
                 adaptor.addChild(root_0, root_1);
@@ -855,7 +888,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(91, 2);
+        dbg.location(92, 2);
 
         }
         finally {
@@ -874,7 +907,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "node_start"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:92:1: node_start : NODE -> ^( IM_STARTTAG NODE ) ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:93:1: node_start : NODE -> ^( IM_STARTTAG NODE ) ;
     public final simpletikzParser.node_start_return node_start() throws RecognitionException {
         simpletikzParser.node_start_return retval = new simpletikzParser.node_start_return();
         retval.start = input.LT(1);
@@ -889,16 +922,16 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "node_start");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(92, 1);
+        dbg.location(93, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:93:2: ( NODE -> ^( IM_STARTTAG NODE ) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:94:2: ( NODE -> ^( IM_STARTTAG NODE ) )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:93:4: NODE
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:94:4: NODE
             {
-            dbg.location(93,4);
-            NODE19=(Token)match(input,NODE,FOLLOW_NODE_in_node_start557);  
+            dbg.location(94,4);
+            NODE19=(Token)match(input,NODE,FOLLOW_NODE_in_node_start562);  
             stream_NODE.add(NODE19);
 
 
@@ -914,16 +947,16 @@ public class simpletikzParser extends DebugParser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 93:9: -> ^( IM_STARTTAG NODE )
+            // 94:9: -> ^( IM_STARTTAG NODE )
             {
-                dbg.location(93,12);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:93:12: ^( IM_STARTTAG NODE )
+                dbg.location(94,12);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:94:12: ^( IM_STARTTAG NODE )
                 {
                 Object root_1 = (Object)adaptor.nil();
-                dbg.location(93,14);
+                dbg.location(94,14);
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_STARTTAG, "IM_STARTTAG"), root_1);
 
-                dbg.location(93,26);
+                dbg.location(94,26);
                 adaptor.addChild(root_1, stream_NODE.nextNode());
 
                 adaptor.addChild(root_0, root_1);
@@ -948,7 +981,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(94, 2);
+        dbg.location(95, 2);
 
         }
         finally {
@@ -967,7 +1000,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "tikznode"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:95:1: tikznode : ( OPTIONS )? ( nodename )? ( 'at' coord )? STRING -> ^( IM_NODE ( OPTIONS )? ( nodename )? ( coord )? STRING ) ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:96:1: tikznode : ( OPTIONS )? ( nodename )? ( 'at' coord )? STRING -> ^( IM_NODE ( OPTIONS )? ( nodename )? ( coord )? STRING ) ;
     public final simpletikzParser.tikznode_return tikznode() throws RecognitionException {
         simpletikzParser.tikznode_return retval = new simpletikzParser.tikznode_return();
         retval.start = input.LT(1);
@@ -993,53 +1026,23 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "tikznode");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(95, 1);
+        dbg.location(96, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:96:2: ( ( OPTIONS )? ( nodename )? ( 'at' coord )? STRING -> ^( IM_NODE ( OPTIONS )? ( nodename )? ( coord )? STRING ) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:97:2: ( ( OPTIONS )? ( nodename )? ( 'at' coord )? STRING -> ^( IM_NODE ( OPTIONS )? ( nodename )? ( coord )? STRING ) )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:96:4: ( OPTIONS )? ( nodename )? ( 'at' coord )? STRING
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:97:4: ( OPTIONS )? ( nodename )? ( 'at' coord )? STRING
             {
-            dbg.location(96,4);
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:96:4: ( OPTIONS )?
-            int alt5=2;
-            try { dbg.enterSubRule(5);
-            try { dbg.enterDecision(5);
-
-            int LA5_0 = input.LA(1);
-
-            if ( (LA5_0==OPTIONS) ) {
-                alt5=1;
-            }
-            } finally {dbg.exitDecision(5);}
-
-            switch (alt5) {
-                case 1 :
-                    dbg.enterAlt(1);
-
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:96:4: OPTIONS
-                    {
-                    dbg.location(96,4);
-                    OPTIONS20=(Token)match(input,OPTIONS,FOLLOW_OPTIONS_in_tikznode575);  
-                    stream_OPTIONS.add(OPTIONS20);
-
-
-                    }
-                    break;
-
-            }
-            } finally {dbg.exitSubRule(5);}
-
-            dbg.location(96,13);
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:96:13: ( nodename )?
+            dbg.location(97,4);
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:97:4: ( OPTIONS )?
             int alt6=2;
             try { dbg.enterSubRule(6);
             try { dbg.enterDecision(6);
 
             int LA6_0 = input.LA(1);
 
-            if ( (LA6_0==LPAR) ) {
+            if ( (LA6_0==OPTIONS) ) {
                 alt6=1;
             }
             } finally {dbg.exitDecision(6);}
@@ -1048,10 +1051,40 @@ public class simpletikzParser extends DebugParser {
                 case 1 :
                     dbg.enterAlt(1);
 
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:96:13: nodename
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:97:4: OPTIONS
                     {
-                    dbg.location(96,13);
-                    pushFollow(FOLLOW_nodename_in_tikznode578);
+                    dbg.location(97,4);
+                    OPTIONS20=(Token)match(input,OPTIONS,FOLLOW_OPTIONS_in_tikznode580);  
+                    stream_OPTIONS.add(OPTIONS20);
+
+
+                    }
+                    break;
+
+            }
+            } finally {dbg.exitSubRule(6);}
+
+            dbg.location(97,13);
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:97:13: ( nodename )?
+            int alt7=2;
+            try { dbg.enterSubRule(7);
+            try { dbg.enterDecision(7);
+
+            int LA7_0 = input.LA(1);
+
+            if ( (LA7_0==LPAR) ) {
+                alt7=1;
+            }
+            } finally {dbg.exitDecision(7);}
+
+            switch (alt7) {
+                case 1 :
+                    dbg.enterAlt(1);
+
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:97:13: nodename
+                    {
+                    dbg.location(97,13);
+                    pushFollow(FOLLOW_nodename_in_tikznode583);
                     nodename21=nodename();
 
                     state._fsp--;
@@ -1062,33 +1095,33 @@ public class simpletikzParser extends DebugParser {
                     break;
 
             }
-            } finally {dbg.exitSubRule(6);}
+            } finally {dbg.exitSubRule(7);}
 
-            dbg.location(96,23);
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:96:23: ( 'at' coord )?
-            int alt7=2;
-            try { dbg.enterSubRule(7);
-            try { dbg.enterDecision(7);
+            dbg.location(97,23);
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:97:23: ( 'at' coord )?
+            int alt8=2;
+            try { dbg.enterSubRule(8);
+            try { dbg.enterDecision(8);
 
-            int LA7_0 = input.LA(1);
+            int LA8_0 = input.LA(1);
 
-            if ( (LA7_0==AT) ) {
-                alt7=1;
+            if ( (LA8_0==AT) ) {
+                alt8=1;
             }
-            } finally {dbg.exitDecision(7);}
+            } finally {dbg.exitDecision(8);}
 
-            switch (alt7) {
+            switch (alt8) {
                 case 1 :
                     dbg.enterAlt(1);
 
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:96:24: 'at' coord
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:97:24: 'at' coord
                     {
-                    dbg.location(96,24);
-                    string_literal22=(Token)match(input,AT,FOLLOW_AT_in_tikznode582);  
+                    dbg.location(97,24);
+                    string_literal22=(Token)match(input,AT,FOLLOW_AT_in_tikznode587);  
                     stream_AT.add(string_literal22);
 
-                    dbg.location(96,29);
-                    pushFollow(FOLLOW_coord_in_tikznode584);
+                    dbg.location(97,29);
+                    pushFollow(FOLLOW_coord_in_tikznode589);
                     coord23=coord();
 
                     state._fsp--;
@@ -1099,16 +1132,16 @@ public class simpletikzParser extends DebugParser {
                     break;
 
             }
-            } finally {dbg.exitSubRule(7);}
+            } finally {dbg.exitSubRule(8);}
 
-            dbg.location(96,37);
-            STRING24=(Token)match(input,STRING,FOLLOW_STRING_in_tikznode588);  
+            dbg.location(97,37);
+            STRING24=(Token)match(input,STRING,FOLLOW_STRING_in_tikznode593);  
             stream_STRING.add(STRING24);
 
 
 
             // AST REWRITE
-            // elements: OPTIONS, nodename, coord, STRING
+            // elements: nodename, coord, OPTIONS, STRING
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1118,40 +1151,40 @@ public class simpletikzParser extends DebugParser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 96:45: -> ^( IM_NODE ( OPTIONS )? ( nodename )? ( coord )? STRING )
+            // 97:45: -> ^( IM_NODE ( OPTIONS )? ( nodename )? ( coord )? STRING )
             {
-                dbg.location(96,48);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:96:48: ^( IM_NODE ( OPTIONS )? ( nodename )? ( coord )? STRING )
+                dbg.location(97,48);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:97:48: ^( IM_NODE ( OPTIONS )? ( nodename )? ( coord )? STRING )
                 {
                 Object root_1 = (Object)adaptor.nil();
-                dbg.location(96,50);
+                dbg.location(97,50);
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_NODE, "IM_NODE"), root_1);
 
-                dbg.location(96,58);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:96:58: ( OPTIONS )?
+                dbg.location(97,58);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:97:58: ( OPTIONS )?
                 if ( stream_OPTIONS.hasNext() ) {
-                    dbg.location(96,58);
+                    dbg.location(97,58);
                     adaptor.addChild(root_1, stream_OPTIONS.nextNode());
 
                 }
                 stream_OPTIONS.reset();
-                dbg.location(96,67);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:96:67: ( nodename )?
+                dbg.location(97,67);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:97:67: ( nodename )?
                 if ( stream_nodename.hasNext() ) {
-                    dbg.location(96,67);
+                    dbg.location(97,67);
                     adaptor.addChild(root_1, stream_nodename.nextTree());
 
                 }
                 stream_nodename.reset();
-                dbg.location(96,77);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:96:77: ( coord )?
+                dbg.location(97,77);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:97:77: ( coord )?
                 if ( stream_coord.hasNext() ) {
-                    dbg.location(96,77);
+                    dbg.location(97,77);
                     adaptor.addChild(root_1, stream_coord.nextTree());
 
                 }
                 stream_coord.reset();
-                dbg.location(96,84);
+                dbg.location(97,84);
                 adaptor.addChild(root_1, stream_STRING.nextNode());
 
                 adaptor.addChild(root_0, root_1);
@@ -1176,7 +1209,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(97, 2);
+        dbg.location(98, 2);
 
         }
         finally {
@@ -1195,7 +1228,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "edgeop"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:99:1: edgeop : ( '--' | 'edge' | '->' | '|-' | '-|' | 'to' );
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:100:1: edgeop : ( '--' | 'edge' | '->' | '|-' | '-|' | 'to' );
     public final simpletikzParser.edgeop_return edgeop() throws RecognitionException {
         simpletikzParser.edgeop_return retval = new simpletikzParser.edgeop_return();
         retval.start = input.LT(1);
@@ -1209,19 +1242,19 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "edgeop");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(99, 1);
+        dbg.location(100, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:100:2: ( '--' | 'edge' | '->' | '|-' | '-|' | 'to' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:101:2: ( '--' | 'edge' | '->' | '|-' | '-|' | 'to' )
             dbg.enterAlt(1);
 
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:
             {
             root_0 = (Object)adaptor.nil();
 
-            dbg.location(100,2);
+            dbg.location(101,2);
             set25=(Token)input.LT(1);
-            if ( (input.LA(1)>=63 && input.LA(1)<=68) ) {
+            if ( (input.LA(1)>=64 && input.LA(1)<=69) ) {
                 input.consume();
                 adaptor.addChild(root_0, (Object)adaptor.create(set25));
                 state.errorRecovery=false;
@@ -1249,7 +1282,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(101, 2);
+        dbg.location(102, 2);
 
         }
         finally {
@@ -1268,7 +1301,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "nodename"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:103:1: nodename : lc= LPAR id= ID RPAR -> ^( IM_NODENAME[$lc] $id) ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:104:1: nodename : lc= LPAR id= ID RPAR -> ^( IM_NODENAME[$lc] $id) ;
     public final simpletikzParser.nodename_return nodename() throws RecognitionException {
         simpletikzParser.nodename_return retval = new simpletikzParser.nodename_return();
         retval.start = input.LT(1);
@@ -1289,24 +1322,24 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "nodename");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(103, 1);
+        dbg.location(104, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:104:2: (lc= LPAR id= ID RPAR -> ^( IM_NODENAME[$lc] $id) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:105:2: (lc= LPAR id= ID RPAR -> ^( IM_NODENAME[$lc] $id) )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:104:4: lc= LPAR id= ID RPAR
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:105:4: lc= LPAR id= ID RPAR
             {
-            dbg.location(104,6);
-            lc=(Token)match(input,LPAR,FOLLOW_LPAR_in_nodename656);  
+            dbg.location(105,6);
+            lc=(Token)match(input,LPAR,FOLLOW_LPAR_in_nodename661);  
             stream_LPAR.add(lc);
 
-            dbg.location(104,14);
-            id=(Token)match(input,ID,FOLLOW_ID_in_nodename660);  
+            dbg.location(105,14);
+            id=(Token)match(input,ID,FOLLOW_ID_in_nodename665);  
             stream_ID.add(id);
 
-            dbg.location(104,18);
-            RPAR26=(Token)match(input,RPAR,FOLLOW_RPAR_in_nodename662);  
+            dbg.location(105,18);
+            RPAR26=(Token)match(input,RPAR,FOLLOW_RPAR_in_nodename667);  
             stream_RPAR.add(RPAR26);
 
 
@@ -1323,16 +1356,16 @@ public class simpletikzParser extends DebugParser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 104:24: -> ^( IM_NODENAME[$lc] $id)
+            // 105:24: -> ^( IM_NODENAME[$lc] $id)
             {
-                dbg.location(104,27);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:104:27: ^( IM_NODENAME[$lc] $id)
+                dbg.location(105,27);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:105:27: ^( IM_NODENAME[$lc] $id)
                 {
                 Object root_1 = (Object)adaptor.nil();
-                dbg.location(104,29);
+                dbg.location(105,29);
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_NODENAME, lc), root_1);
 
-                dbg.location(104,46);
+                dbg.location(105,46);
                 adaptor.addChild(root_1, stream_id.nextNode());
 
                 adaptor.addChild(root_0, root_1);
@@ -1357,7 +1390,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(105, 2);
+        dbg.location(106, 2);
 
         }
         finally {
@@ -1376,7 +1409,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "coord"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:107:1: coord : ( nodename -> ^( IM_COORD nodename ) | ( ( coord_modifier )? lc= LPAR numberunit KOMMA numberunit RPAR ) -> ^( IM_COORD[$lc] ( coord_modifier )? ( numberunit )+ ) );
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:108:1: coord : ( nodename -> ^( IM_COORD nodename ) | ( ( coord_modifier )? lc= LPAR numberunit KOMMA numberunit RPAR ) -> ^( IM_COORD[$lc] ( coord_modifier )? ( numberunit )+ ) );
     public final simpletikzParser.coord_return coord() throws RecognitionException {
         simpletikzParser.coord_return retval = new simpletikzParser.coord_return();
         retval.start = input.LT(1);
@@ -1407,52 +1440,52 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "coord");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(107, 1);
+        dbg.location(108, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:108:2: ( nodename -> ^( IM_COORD nodename ) | ( ( coord_modifier )? lc= LPAR numberunit KOMMA numberunit RPAR ) -> ^( IM_COORD[$lc] ( coord_modifier )? ( numberunit )+ ) )
-            int alt9=2;
-            try { dbg.enterDecision(9);
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:109:2: ( nodename -> ^( IM_COORD nodename ) | ( ( coord_modifier )? lc= LPAR numberunit KOMMA numberunit RPAR ) -> ^( IM_COORD[$lc] ( coord_modifier )? ( numberunit )+ ) )
+            int alt10=2;
+            try { dbg.enterDecision(10);
 
-            int LA9_0 = input.LA(1);
+            int LA10_0 = input.LA(1);
 
-            if ( (LA9_0==LPAR) ) {
-                int LA9_1 = input.LA(2);
+            if ( (LA10_0==LPAR) ) {
+                int LA10_1 = input.LA(2);
 
-                if ( (LA9_1==ID) ) {
-                    alt9=1;
+                if ( (LA10_1==ID) ) {
+                    alt10=1;
                 }
-                else if ( ((LA9_1>=FLOAT && LA9_1<=INT)) ) {
-                    alt9=2;
+                else if ( ((LA10_1>=FLOAT && LA10_1<=INT)) ) {
+                    alt10=2;
                 }
                 else {
                     NoViableAltException nvae =
-                        new NoViableAltException("", 9, 1, input);
+                        new NoViableAltException("", 10, 1, input);
 
                     dbg.recognitionException(nvae);
                     throw nvae;
                 }
             }
-            else if ( ((LA9_0>=69 && LA9_0<=70)) ) {
-                alt9=2;
+            else if ( ((LA10_0>=70 && LA10_0<=71)) ) {
+                alt10=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 9, 0, input);
+                    new NoViableAltException("", 10, 0, input);
 
                 dbg.recognitionException(nvae);
                 throw nvae;
             }
-            } finally {dbg.exitDecision(9);}
+            } finally {dbg.exitDecision(10);}
 
-            switch (alt9) {
+            switch (alt10) {
                 case 1 :
                     dbg.enterAlt(1);
 
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:108:6: nodename
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:109:6: nodename
                     {
-                    dbg.location(108,6);
-                    pushFollow(FOLLOW_nodename_in_coord687);
+                    dbg.location(109,6);
+                    pushFollow(FOLLOW_nodename_in_coord692);
                     nodename27=nodename();
 
                     state._fsp--;
@@ -1471,16 +1504,16 @@ public class simpletikzParser extends DebugParser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (Object)adaptor.nil();
-                    // 108:23: -> ^( IM_COORD nodename )
+                    // 109:23: -> ^( IM_COORD nodename )
                     {
-                        dbg.location(108,26);
-                        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:108:26: ^( IM_COORD nodename )
+                        dbg.location(109,26);
+                        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:109:26: ^( IM_COORD nodename )
                         {
                         Object root_1 = (Object)adaptor.nil();
-                        dbg.location(108,28);
+                        dbg.location(109,28);
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_COORD, "IM_COORD"), root_1);
 
-                        dbg.location(108,37);
+                        dbg.location(109,37);
                         adaptor.addChild(root_1, stream_nodename.nextTree());
 
                         adaptor.addChild(root_0, root_1);
@@ -1494,35 +1527,35 @@ public class simpletikzParser extends DebugParser {
                 case 2 :
                     dbg.enterAlt(2);
 
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:109:5: ( ( coord_modifier )? lc= LPAR numberunit KOMMA numberunit RPAR )
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:110:5: ( ( coord_modifier )? lc= LPAR numberunit KOMMA numberunit RPAR )
                     {
-                    dbg.location(109,5);
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:109:5: ( ( coord_modifier )? lc= LPAR numberunit KOMMA numberunit RPAR )
+                    dbg.location(110,5);
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:110:5: ( ( coord_modifier )? lc= LPAR numberunit KOMMA numberunit RPAR )
                     dbg.enterAlt(1);
 
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:109:7: ( coord_modifier )? lc= LPAR numberunit KOMMA numberunit RPAR
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:110:7: ( coord_modifier )? lc= LPAR numberunit KOMMA numberunit RPAR
                     {
-                    dbg.location(109,7);
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:109:7: ( coord_modifier )?
-                    int alt8=2;
-                    try { dbg.enterSubRule(8);
-                    try { dbg.enterDecision(8);
+                    dbg.location(110,7);
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:110:7: ( coord_modifier )?
+                    int alt9=2;
+                    try { dbg.enterSubRule(9);
+                    try { dbg.enterDecision(9);
 
-                    int LA8_0 = input.LA(1);
+                    int LA9_0 = input.LA(1);
 
-                    if ( ((LA8_0>=69 && LA8_0<=70)) ) {
-                        alt8=1;
+                    if ( ((LA9_0>=70 && LA9_0<=71)) ) {
+                        alt9=1;
                     }
-                    } finally {dbg.exitDecision(8);}
+                    } finally {dbg.exitDecision(9);}
 
-                    switch (alt8) {
+                    switch (alt9) {
                         case 1 :
                             dbg.enterAlt(1);
 
-                            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:109:7: coord_modifier
+                            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:110:7: coord_modifier
                             {
-                            dbg.location(109,7);
-                            pushFollow(FOLLOW_coord_modifier_in_coord711);
+                            dbg.location(110,7);
+                            pushFollow(FOLLOW_coord_modifier_in_coord716);
                             coord_modifier28=coord_modifier();
 
                             state._fsp--;
@@ -1533,32 +1566,32 @@ public class simpletikzParser extends DebugParser {
                             break;
 
                     }
-                    } finally {dbg.exitSubRule(8);}
+                    } finally {dbg.exitSubRule(9);}
 
-                    dbg.location(109,25);
-                    lc=(Token)match(input,LPAR,FOLLOW_LPAR_in_coord716);  
+                    dbg.location(110,25);
+                    lc=(Token)match(input,LPAR,FOLLOW_LPAR_in_coord721);  
                     stream_LPAR.add(lc);
 
-                    dbg.location(109,31);
-                    pushFollow(FOLLOW_numberunit_in_coord718);
+                    dbg.location(110,31);
+                    pushFollow(FOLLOW_numberunit_in_coord723);
                     numberunit29=numberunit();
 
                     state._fsp--;
 
                     stream_numberunit.add(numberunit29.getTree());
-                    dbg.location(109,42);
-                    KOMMA30=(Token)match(input,KOMMA,FOLLOW_KOMMA_in_coord720);  
+                    dbg.location(110,42);
+                    KOMMA30=(Token)match(input,KOMMA,FOLLOW_KOMMA_in_coord725);  
                     stream_KOMMA.add(KOMMA30);
 
-                    dbg.location(109,48);
-                    pushFollow(FOLLOW_numberunit_in_coord722);
+                    dbg.location(110,48);
+                    pushFollow(FOLLOW_numberunit_in_coord727);
                     numberunit31=numberunit();
 
                     state._fsp--;
 
                     stream_numberunit.add(numberunit31.getTree());
-                    dbg.location(109,59);
-                    RPAR32=(Token)match(input,RPAR,FOLLOW_RPAR_in_coord724);  
+                    dbg.location(110,59);
+                    RPAR32=(Token)match(input,RPAR,FOLLOW_RPAR_in_coord729);  
                     stream_RPAR.add(RPAR32);
 
 
@@ -1577,29 +1610,29 @@ public class simpletikzParser extends DebugParser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (Object)adaptor.nil();
-                    // 109:66: -> ^( IM_COORD[$lc] ( coord_modifier )? ( numberunit )+ )
+                    // 110:66: -> ^( IM_COORD[$lc] ( coord_modifier )? ( numberunit )+ )
                     {
-                        dbg.location(109,69);
-                        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:109:69: ^( IM_COORD[$lc] ( coord_modifier )? ( numberunit )+ )
+                        dbg.location(110,69);
+                        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:110:69: ^( IM_COORD[$lc] ( coord_modifier )? ( numberunit )+ )
                         {
                         Object root_1 = (Object)adaptor.nil();
-                        dbg.location(109,71);
+                        dbg.location(110,71);
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_COORD, lc), root_1);
 
-                        dbg.location(109,85);
-                        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:109:85: ( coord_modifier )?
+                        dbg.location(110,85);
+                        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:110:85: ( coord_modifier )?
                         if ( stream_coord_modifier.hasNext() ) {
-                            dbg.location(109,85);
+                            dbg.location(110,85);
                             adaptor.addChild(root_1, stream_coord_modifier.nextTree());
 
                         }
                         stream_coord_modifier.reset();
-                        dbg.location(109,101);
+                        dbg.location(110,101);
                         if ( !(stream_numberunit.hasNext()) ) {
                             throw new RewriteEarlyExitException();
                         }
                         while ( stream_numberunit.hasNext() ) {
-                            dbg.location(109,101);
+                            dbg.location(110,101);
                             adaptor.addChild(root_1, stream_numberunit.nextTree());
 
                         }
@@ -1629,7 +1662,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(110, 2);
+        dbg.location(111, 2);
 
         }
         finally {
@@ -1648,7 +1681,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "coord_modifier"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:112:1: coord_modifier : ( '+' | '++' );
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:113:1: coord_modifier : ( '+' | '++' );
     public final simpletikzParser.coord_modifier_return coord_modifier() throws RecognitionException {
         simpletikzParser.coord_modifier_return retval = new simpletikzParser.coord_modifier_return();
         retval.start = input.LT(1);
@@ -1662,19 +1695,19 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "coord_modifier");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(112, 1);
+        dbg.location(113, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:113:2: ( '+' | '++' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:114:2: ( '+' | '++' )
             dbg.enterAlt(1);
 
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:
             {
             root_0 = (Object)adaptor.nil();
 
-            dbg.location(113,2);
+            dbg.location(114,2);
             set33=(Token)input.LT(1);
-            if ( (input.LA(1)>=69 && input.LA(1)<=70) ) {
+            if ( (input.LA(1)>=70 && input.LA(1)<=71) ) {
                 input.consume();
                 adaptor.addChild(root_0, (Object)adaptor.create(set33));
                 state.errorRecovery=false;
@@ -1702,7 +1735,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(114, 2);
+        dbg.location(115, 2);
 
         }
         finally {
@@ -1721,7 +1754,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "numberunit"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:116:1: numberunit : number ( unit )? -> ^( IM_NUMBERUNIT number ( unit )? ) ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:117:1: numberunit : number ( unit )? -> ^( IM_NUMBERUNIT number ( unit )? ) ;
     public final simpletikzParser.numberunit_return numberunit() throws RecognitionException {
         simpletikzParser.numberunit_return retval = new simpletikzParser.numberunit_return();
         retval.start = input.LT(1);
@@ -1738,42 +1771,42 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "numberunit");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(116, 1);
+        dbg.location(117, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:117:2: ( number ( unit )? -> ^( IM_NUMBERUNIT number ( unit )? ) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:118:2: ( number ( unit )? -> ^( IM_NUMBERUNIT number ( unit )? ) )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:117:4: number ( unit )?
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:118:4: number ( unit )?
             {
-            dbg.location(117,4);
-            pushFollow(FOLLOW_number_in_numberunit766);
+            dbg.location(118,4);
+            pushFollow(FOLLOW_number_in_numberunit771);
             number34=number();
 
             state._fsp--;
 
             stream_number.add(number34.getTree());
-            dbg.location(117,11);
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:117:11: ( unit )?
-            int alt10=2;
-            try { dbg.enterSubRule(10);
-            try { dbg.enterDecision(10);
+            dbg.location(118,11);
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:118:11: ( unit )?
+            int alt11=2;
+            try { dbg.enterSubRule(11);
+            try { dbg.enterDecision(11);
 
-            int LA10_0 = input.LA(1);
+            int LA11_0 = input.LA(1);
 
-            if ( (LA10_0==IN||(LA10_0>=UN_PTS && LA10_0<=UN_CM)||(LA10_0>=71 && LA10_0<=72)) ) {
-                alt10=1;
+            if ( (LA11_0==IN||(LA11_0>=UN_PTS && LA11_0<=UN_CM)||(LA11_0>=72 && LA11_0<=73)) ) {
+                alt11=1;
             }
-            } finally {dbg.exitDecision(10);}
+            } finally {dbg.exitDecision(11);}
 
-            switch (alt10) {
+            switch (alt11) {
                 case 1 :
                     dbg.enterAlt(1);
 
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:117:11: unit
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:118:11: unit
                     {
-                    dbg.location(117,11);
-                    pushFollow(FOLLOW_unit_in_numberunit768);
+                    dbg.location(118,11);
+                    pushFollow(FOLLOW_unit_in_numberunit773);
                     unit35=unit();
 
                     state._fsp--;
@@ -1784,12 +1817,12 @@ public class simpletikzParser extends DebugParser {
                     break;
 
             }
-            } finally {dbg.exitSubRule(10);}
+            } finally {dbg.exitSubRule(11);}
 
 
 
             // AST REWRITE
-            // elements: number, unit
+            // elements: unit, number
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1799,21 +1832,21 @@ public class simpletikzParser extends DebugParser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 117:17: -> ^( IM_NUMBERUNIT number ( unit )? )
+            // 118:17: -> ^( IM_NUMBERUNIT number ( unit )? )
             {
-                dbg.location(117,20);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:117:20: ^( IM_NUMBERUNIT number ( unit )? )
+                dbg.location(118,20);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:118:20: ^( IM_NUMBERUNIT number ( unit )? )
                 {
                 Object root_1 = (Object)adaptor.nil();
-                dbg.location(117,22);
+                dbg.location(118,22);
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_NUMBERUNIT, "IM_NUMBERUNIT"), root_1);
 
-                dbg.location(117,36);
+                dbg.location(118,36);
                 adaptor.addChild(root_1, stream_number.nextTree());
-                dbg.location(117,43);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:117:43: ( unit )?
+                dbg.location(118,43);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:118:43: ( unit )?
                 if ( stream_unit.hasNext() ) {
-                    dbg.location(117,43);
+                    dbg.location(118,43);
                     adaptor.addChild(root_1, stream_unit.nextTree());
 
                 }
@@ -1841,7 +1874,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(118, 2);
+        dbg.location(119, 2);
 
         }
         finally {
@@ -1860,7 +1893,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "number"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:119:1: number : ( FLOAT | INT ) ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:120:1: number : ( FLOAT | INT ) ;
     public final simpletikzParser.number_return number() throws RecognitionException {
         simpletikzParser.number_return retval = new simpletikzParser.number_return();
         retval.start = input.LT(1);
@@ -1874,17 +1907,17 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "number");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(119, 1);
+        dbg.location(120, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:120:2: ( ( FLOAT | INT ) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:121:2: ( ( FLOAT | INT ) )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:120:4: ( FLOAT | INT )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:121:4: ( FLOAT | INT )
             {
             root_0 = (Object)adaptor.nil();
 
-            dbg.location(120,4);
+            dbg.location(121,4);
             set36=(Token)input.LT(1);
             if ( (input.LA(1)>=FLOAT && input.LA(1)<=INT) ) {
                 input.consume();
@@ -1914,7 +1947,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(121, 2);
+        dbg.location(122, 2);
 
         }
         finally {
@@ -1933,7 +1966,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "unit"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:122:1: unit : ( 'cm' | 'in' | 'ex' | 'mm' | 'pt' );
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:123:1: unit : ( 'cm' | 'in' | 'ex' | 'mm' | 'pt' );
     public final simpletikzParser.unit_return unit() throws RecognitionException {
         simpletikzParser.unit_return retval = new simpletikzParser.unit_return();
         retval.start = input.LT(1);
@@ -1947,19 +1980,19 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "unit");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(122, 1);
+        dbg.location(123, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:123:2: ( 'cm' | 'in' | 'ex' | 'mm' | 'pt' )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:124:2: ( 'cm' | 'in' | 'ex' | 'mm' | 'pt' )
             dbg.enterAlt(1);
 
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:
             {
             root_0 = (Object)adaptor.nil();
 
-            dbg.location(123,2);
+            dbg.location(124,2);
             set37=(Token)input.LT(1);
-            if ( input.LA(1)==IN||(input.LA(1)>=UN_PTS && input.LA(1)<=UN_CM)||(input.LA(1)>=71 && input.LA(1)<=72) ) {
+            if ( input.LA(1)==IN||(input.LA(1)>=UN_PTS && input.LA(1)<=UN_CM)||(input.LA(1)>=72 && input.LA(1)<=73) ) {
                 input.consume();
                 adaptor.addChild(root_0, (Object)adaptor.create(set37));
                 state.errorRecovery=false;
@@ -1987,7 +2020,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(124, 2);
+        dbg.location(125, 2);
 
         }
         finally {
@@ -2006,7 +2039,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "path_start"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:126:1: path_start : path_start_tag -> ^( IM_STARTTAG path_start_tag ) ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:127:1: path_start : path_start_tag -> ^( IM_STARTTAG path_start_tag ) ;
     public final simpletikzParser.path_start_return path_start() throws RecognitionException {
         simpletikzParser.path_start_return retval = new simpletikzParser.path_start_return();
         retval.start = input.LT(1);
@@ -2020,16 +2053,16 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "path_start");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(126, 1);
+        dbg.location(127, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:127:2: ( path_start_tag -> ^( IM_STARTTAG path_start_tag ) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:128:2: ( path_start_tag -> ^( IM_STARTTAG path_start_tag ) )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:127:4: path_start_tag
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:128:4: path_start_tag
             {
-            dbg.location(127,4);
-            pushFollow(FOLLOW_path_start_tag_in_path_start835);
+            dbg.location(128,4);
+            pushFollow(FOLLOW_path_start_tag_in_path_start840);
             path_start_tag38=path_start_tag();
 
             state._fsp--;
@@ -2048,16 +2081,16 @@ public class simpletikzParser extends DebugParser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 127:19: -> ^( IM_STARTTAG path_start_tag )
+            // 128:19: -> ^( IM_STARTTAG path_start_tag )
             {
-                dbg.location(127,22);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:127:22: ^( IM_STARTTAG path_start_tag )
+                dbg.location(128,22);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:128:22: ^( IM_STARTTAG path_start_tag )
                 {
                 Object root_1 = (Object)adaptor.nil();
-                dbg.location(127,24);
+                dbg.location(128,24);
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_STARTTAG, "IM_STARTTAG"), root_1);
 
-                dbg.location(127,36);
+                dbg.location(128,36);
                 adaptor.addChild(root_1, stream_path_start_tag.nextTree());
 
                 adaptor.addChild(root_0, root_1);
@@ -2082,7 +2115,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(128, 2);
+        dbg.location(129, 2);
 
         }
         finally {
@@ -2101,7 +2134,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "path_start_tag"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:129:1: path_start_tag : ( DRAW | FILL | PATH );
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:130:1: path_start_tag : ( DRAW | FILL | PATH );
     public final simpletikzParser.path_start_tag_return path_start_tag() throws RecognitionException {
         simpletikzParser.path_start_tag_return retval = new simpletikzParser.path_start_tag_return();
         retval.start = input.LT(1);
@@ -2115,17 +2148,17 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "path_start_tag");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(129, 1);
+        dbg.location(130, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:130:2: ( DRAW | FILL | PATH )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:131:2: ( DRAW | FILL | PATH )
             dbg.enterAlt(1);
 
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:
             {
             root_0 = (Object)adaptor.nil();
 
-            dbg.location(130,2);
+            dbg.location(131,2);
             set39=(Token)input.LT(1);
             if ( (input.LA(1)>=DRAW && input.LA(1)<=FILL) ) {
                 input.consume();
@@ -2155,7 +2188,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(131, 2);
+        dbg.location(132, 2);
 
         }
         finally {
@@ -2174,7 +2207,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "tikzdocument"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:133:1: tikzdocument : ( SOMETHING )* tikzpicture ( SOMETHING )* -> ^( IM_DOCUMENT tikzpicture ) ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:134:1: tikzdocument : ( SOMETHING )* tikzpicture ( SOMETHING )* -> ^( IM_DOCUMENT tikzpicture ) ;
     public final simpletikzParser.tikzdocument_return tikzdocument() throws RecognitionException {
         simpletikzParser.tikzdocument_return retval = new simpletikzParser.tikzdocument_return();
         retval.start = input.LT(1);
@@ -2193,61 +2226,16 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "tikzdocument");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(133, 1);
+        dbg.location(134, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:134:2: ( ( SOMETHING )* tikzpicture ( SOMETHING )* -> ^( IM_DOCUMENT tikzpicture ) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:135:2: ( ( SOMETHING )* tikzpicture ( SOMETHING )* -> ^( IM_DOCUMENT tikzpicture ) )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:134:4: ( SOMETHING )* tikzpicture ( SOMETHING )*
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:135:4: ( SOMETHING )* tikzpicture ( SOMETHING )*
             {
-            dbg.location(134,4);
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:134:4: ( SOMETHING )*
-            try { dbg.enterSubRule(11);
-
-            loop11:
-            do {
-                int alt11=2;
-                try { dbg.enterDecision(11);
-
-                int LA11_0 = input.LA(1);
-
-                if ( (LA11_0==SOMETHING) ) {
-                    alt11=1;
-                }
-
-
-                } finally {dbg.exitDecision(11);}
-
-                switch (alt11) {
-            	case 1 :
-            	    dbg.enterAlt(1);
-
-            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:134:4: SOMETHING
-            	    {
-            	    dbg.location(134,4);
-            	    SOMETHING40=(Token)match(input,SOMETHING,FOLLOW_SOMETHING_in_tikzdocument872);  
-            	    stream_SOMETHING.add(SOMETHING40);
-
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop11;
-                }
-            } while (true);
-            } finally {dbg.exitSubRule(11);}
-
-            dbg.location(134,15);
-            pushFollow(FOLLOW_tikzpicture_in_tikzdocument875);
-            tikzpicture41=tikzpicture();
-
-            state._fsp--;
-
-            stream_tikzpicture.add(tikzpicture41.getTree());
-            dbg.location(134,28);
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:134:28: ( SOMETHING )*
+            dbg.location(135,4);
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:135:4: ( SOMETHING )*
             try { dbg.enterSubRule(12);
 
             loop12:
@@ -2268,11 +2256,11 @@ public class simpletikzParser extends DebugParser {
             	case 1 :
             	    dbg.enterAlt(1);
 
-            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:134:28: SOMETHING
+            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:135:4: SOMETHING
             	    {
-            	    dbg.location(134,28);
-            	    SOMETHING42=(Token)match(input,SOMETHING,FOLLOW_SOMETHING_in_tikzdocument878);  
-            	    stream_SOMETHING.add(SOMETHING42);
+            	    dbg.location(135,4);
+            	    SOMETHING40=(Token)match(input,SOMETHING,FOLLOW_SOMETHING_in_tikzdocument877);  
+            	    stream_SOMETHING.add(SOMETHING40);
 
 
             	    }
@@ -2283,6 +2271,51 @@ public class simpletikzParser extends DebugParser {
                 }
             } while (true);
             } finally {dbg.exitSubRule(12);}
+
+            dbg.location(135,15);
+            pushFollow(FOLLOW_tikzpicture_in_tikzdocument880);
+            tikzpicture41=tikzpicture();
+
+            state._fsp--;
+
+            stream_tikzpicture.add(tikzpicture41.getTree());
+            dbg.location(135,28);
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:135:28: ( SOMETHING )*
+            try { dbg.enterSubRule(13);
+
+            loop13:
+            do {
+                int alt13=2;
+                try { dbg.enterDecision(13);
+
+                int LA13_0 = input.LA(1);
+
+                if ( (LA13_0==SOMETHING) ) {
+                    alt13=1;
+                }
+
+
+                } finally {dbg.exitDecision(13);}
+
+                switch (alt13) {
+            	case 1 :
+            	    dbg.enterAlt(1);
+
+            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:135:28: SOMETHING
+            	    {
+            	    dbg.location(135,28);
+            	    SOMETHING42=(Token)match(input,SOMETHING,FOLLOW_SOMETHING_in_tikzdocument883);  
+            	    stream_SOMETHING.add(SOMETHING42);
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop13;
+                }
+            } while (true);
+            } finally {dbg.exitSubRule(13);}
 
 
 
@@ -2297,16 +2330,16 @@ public class simpletikzParser extends DebugParser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 134:40: -> ^( IM_DOCUMENT tikzpicture )
+            // 135:40: -> ^( IM_DOCUMENT tikzpicture )
             {
-                dbg.location(134,43);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:134:43: ^( IM_DOCUMENT tikzpicture )
+                dbg.location(135,43);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:135:43: ^( IM_DOCUMENT tikzpicture )
                 {
                 Object root_1 = (Object)adaptor.nil();
-                dbg.location(134,45);
+                dbg.location(135,45);
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_DOCUMENT, "IM_DOCUMENT"), root_1);
 
-                dbg.location(134,57);
+                dbg.location(135,57);
                 adaptor.addChild(root_1, stream_tikzpicture.nextTree());
 
                 adaptor.addChild(root_0, root_1);
@@ -2331,7 +2364,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(135, 2);
+        dbg.location(136, 2);
 
         }
         finally {
@@ -2350,7 +2383,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "tikzpicture"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:137:1: tikzpicture : tikzpicture_start ( OPTIONS )? ( tikzbody )? tikzpicture_end -> ^( IM_PICTURE tikzpicture_start ( tikzbody )? tikzpicture_end ) ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:138:1: tikzpicture : tikzpicture_start ( OPTIONS )? ( tikzbody )? tikzpicture_end -> ^( IM_PICTURE tikzpicture_start ( tikzbody )? tikzpicture_end ) ;
     public final simpletikzParser.tikzpicture_return tikzpicture() throws RecognitionException {
         simpletikzParser.tikzpicture_return retval = new simpletikzParser.tikzpicture_return();
         retval.start = input.LT(1);
@@ -2373,60 +2406,30 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "tikzpicture");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(137, 1);
+        dbg.location(138, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:138:2: ( tikzpicture_start ( OPTIONS )? ( tikzbody )? tikzpicture_end -> ^( IM_PICTURE tikzpicture_start ( tikzbody )? tikzpicture_end ) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:139:2: ( tikzpicture_start ( OPTIONS )? ( tikzbody )? tikzpicture_end -> ^( IM_PICTURE tikzpicture_start ( tikzbody )? tikzpicture_end ) )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:138:5: tikzpicture_start ( OPTIONS )? ( tikzbody )? tikzpicture_end
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:139:5: tikzpicture_start ( OPTIONS )? ( tikzbody )? tikzpicture_end
             {
-            dbg.location(138,5);
-            pushFollow(FOLLOW_tikzpicture_start_in_tikzpicture901);
+            dbg.location(139,5);
+            pushFollow(FOLLOW_tikzpicture_start_in_tikzpicture906);
             tikzpicture_start43=tikzpicture_start();
 
             state._fsp--;
 
             stream_tikzpicture_start.add(tikzpicture_start43.getTree());
-            dbg.location(138,23);
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:138:23: ( OPTIONS )?
-            int alt13=2;
-            try { dbg.enterSubRule(13);
-            try { dbg.enterDecision(13);
-
-            int LA13_0 = input.LA(1);
-
-            if ( (LA13_0==OPTIONS) ) {
-                alt13=1;
-            }
-            } finally {dbg.exitDecision(13);}
-
-            switch (alt13) {
-                case 1 :
-                    dbg.enterAlt(1);
-
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:138:23: OPTIONS
-                    {
-                    dbg.location(138,23);
-                    OPTIONS44=(Token)match(input,OPTIONS,FOLLOW_OPTIONS_in_tikzpicture903);  
-                    stream_OPTIONS.add(OPTIONS44);
-
-
-                    }
-                    break;
-
-            }
-            } finally {dbg.exitSubRule(13);}
-
-            dbg.location(138,32);
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:138:32: ( tikzbody )?
+            dbg.location(139,23);
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:139:23: ( OPTIONS )?
             int alt14=2;
             try { dbg.enterSubRule(14);
             try { dbg.enterDecision(14);
 
             int LA14_0 = input.LA(1);
 
-            if ( (LA14_0==BEGINSCOPE||(LA14_0>=NODE && LA14_0<=FILL)) ) {
+            if ( (LA14_0==OPTIONS) ) {
                 alt14=1;
             }
             } finally {dbg.exitDecision(14);}
@@ -2435,10 +2438,40 @@ public class simpletikzParser extends DebugParser {
                 case 1 :
                     dbg.enterAlt(1);
 
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:138:32: tikzbody
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:139:23: OPTIONS
                     {
-                    dbg.location(138,32);
-                    pushFollow(FOLLOW_tikzbody_in_tikzpicture906);
+                    dbg.location(139,23);
+                    OPTIONS44=(Token)match(input,OPTIONS,FOLLOW_OPTIONS_in_tikzpicture908);  
+                    stream_OPTIONS.add(OPTIONS44);
+
+
+                    }
+                    break;
+
+            }
+            } finally {dbg.exitSubRule(14);}
+
+            dbg.location(139,32);
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:139:32: ( tikzbody )?
+            int alt15=2;
+            try { dbg.enterSubRule(15);
+            try { dbg.enterDecision(15);
+
+            int LA15_0 = input.LA(1);
+
+            if ( (LA15_0==BEGINSCOPE||(LA15_0>=NODE && LA15_0<=FILL)) ) {
+                alt15=1;
+            }
+            } finally {dbg.exitDecision(15);}
+
+            switch (alt15) {
+                case 1 :
+                    dbg.enterAlt(1);
+
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:139:32: tikzbody
+                    {
+                    dbg.location(139,32);
+                    pushFollow(FOLLOW_tikzbody_in_tikzpicture911);
                     tikzbody45=tikzbody();
 
                     state._fsp--;
@@ -2449,10 +2482,10 @@ public class simpletikzParser extends DebugParser {
                     break;
 
             }
-            } finally {dbg.exitSubRule(14);}
+            } finally {dbg.exitSubRule(15);}
 
-            dbg.location(138,42);
-            pushFollow(FOLLOW_tikzpicture_end_in_tikzpicture909);
+            dbg.location(139,42);
+            pushFollow(FOLLOW_tikzpicture_end_in_tikzpicture914);
             tikzpicture_end46=tikzpicture_end();
 
             state._fsp--;
@@ -2461,7 +2494,7 @@ public class simpletikzParser extends DebugParser {
 
 
             // AST REWRITE
-            // elements: tikzbody, tikzpicture_end, tikzpicture_start
+            // elements: tikzpicture_start, tikzbody, tikzpicture_end
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2471,26 +2504,26 @@ public class simpletikzParser extends DebugParser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 138:59: -> ^( IM_PICTURE tikzpicture_start ( tikzbody )? tikzpicture_end )
+            // 139:59: -> ^( IM_PICTURE tikzpicture_start ( tikzbody )? tikzpicture_end )
             {
-                dbg.location(138,62);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:138:62: ^( IM_PICTURE tikzpicture_start ( tikzbody )? tikzpicture_end )
+                dbg.location(139,62);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:139:62: ^( IM_PICTURE tikzpicture_start ( tikzbody )? tikzpicture_end )
                 {
                 Object root_1 = (Object)adaptor.nil();
-                dbg.location(138,64);
+                dbg.location(139,64);
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_PICTURE, "IM_PICTURE"), root_1);
 
-                dbg.location(138,76);
+                dbg.location(139,76);
                 adaptor.addChild(root_1, stream_tikzpicture_start.nextTree());
-                dbg.location(138,94);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:138:94: ( tikzbody )?
+                dbg.location(139,94);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:139:94: ( tikzbody )?
                 if ( stream_tikzbody.hasNext() ) {
-                    dbg.location(138,94);
+                    dbg.location(139,94);
                     adaptor.addChild(root_1, stream_tikzbody.nextTree());
 
                 }
                 stream_tikzbody.reset();
-                dbg.location(138,104);
+                dbg.location(139,104);
                 adaptor.addChild(root_1, stream_tikzpicture_end.nextTree());
 
                 adaptor.addChild(root_0, root_1);
@@ -2515,7 +2548,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(139, 2);
+        dbg.location(140, 2);
 
         }
         finally {
@@ -2534,7 +2567,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "tikzpicture_start"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:140:1: tikzpicture_start : BEGINTP -> ^( IM_STARTTAG BEGINTP ) ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:141:1: tikzpicture_start : BEGINTP -> ^( IM_STARTTAG BEGINTP ) ;
     public final simpletikzParser.tikzpicture_start_return tikzpicture_start() throws RecognitionException {
         simpletikzParser.tikzpicture_start_return retval = new simpletikzParser.tikzpicture_start_return();
         retval.start = input.LT(1);
@@ -2549,16 +2582,16 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "tikzpicture_start");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(140, 1);
+        dbg.location(141, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:141:2: ( BEGINTP -> ^( IM_STARTTAG BEGINTP ) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:142:2: ( BEGINTP -> ^( IM_STARTTAG BEGINTP ) )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:141:4: BEGINTP
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:142:4: BEGINTP
             {
-            dbg.location(141,4);
-            BEGINTP47=(Token)match(input,BEGINTP,FOLLOW_BEGINTP_in_tikzpicture_start934);  
+            dbg.location(142,4);
+            BEGINTP47=(Token)match(input,BEGINTP,FOLLOW_BEGINTP_in_tikzpicture_start939);  
             stream_BEGINTP.add(BEGINTP47);
 
 
@@ -2574,16 +2607,16 @@ public class simpletikzParser extends DebugParser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 141:12: -> ^( IM_STARTTAG BEGINTP )
+            // 142:12: -> ^( IM_STARTTAG BEGINTP )
             {
-                dbg.location(141,15);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:141:15: ^( IM_STARTTAG BEGINTP )
+                dbg.location(142,15);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:142:15: ^( IM_STARTTAG BEGINTP )
                 {
                 Object root_1 = (Object)adaptor.nil();
-                dbg.location(141,17);
+                dbg.location(142,17);
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_STARTTAG, "IM_STARTTAG"), root_1);
 
-                dbg.location(141,29);
+                dbg.location(142,29);
                 adaptor.addChild(root_1, stream_BEGINTP.nextNode());
 
                 adaptor.addChild(root_0, root_1);
@@ -2608,7 +2641,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(142, 2);
+        dbg.location(143, 2);
 
         }
         finally {
@@ -2627,7 +2660,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "tikzpicture_end"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:143:1: tikzpicture_end : ENDTP -> ^( IM_ENDTAG ENDTP ) ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:144:1: tikzpicture_end : ENDTP -> ^( IM_ENDTAG ENDTP ) ;
     public final simpletikzParser.tikzpicture_end_return tikzpicture_end() throws RecognitionException {
         simpletikzParser.tikzpicture_end_return retval = new simpletikzParser.tikzpicture_end_return();
         retval.start = input.LT(1);
@@ -2642,16 +2675,16 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "tikzpicture_end");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(143, 1);
+        dbg.location(144, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:144:2: ( ENDTP -> ^( IM_ENDTAG ENDTP ) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:145:2: ( ENDTP -> ^( IM_ENDTAG ENDTP ) )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:144:4: ENDTP
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:145:4: ENDTP
             {
-            dbg.location(144,4);
-            ENDTP48=(Token)match(input,ENDTP,FOLLOW_ENDTP_in_tikzpicture_end952);  
+            dbg.location(145,4);
+            ENDTP48=(Token)match(input,ENDTP,FOLLOW_ENDTP_in_tikzpicture_end957);  
             stream_ENDTP.add(ENDTP48);
 
 
@@ -2667,16 +2700,16 @@ public class simpletikzParser extends DebugParser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 144:10: -> ^( IM_ENDTAG ENDTP )
+            // 145:10: -> ^( IM_ENDTAG ENDTP )
             {
-                dbg.location(144,13);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:144:13: ^( IM_ENDTAG ENDTP )
+                dbg.location(145,13);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:145:13: ^( IM_ENDTAG ENDTP )
                 {
                 Object root_1 = (Object)adaptor.nil();
-                dbg.location(144,15);
+                dbg.location(145,15);
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_ENDTAG, "IM_ENDTAG"), root_1);
 
-                dbg.location(144,25);
+                dbg.location(145,25);
                 adaptor.addChild(root_1, stream_ENDTP.nextNode());
 
                 adaptor.addChild(root_0, root_1);
@@ -2701,7 +2734,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(145, 2);
+        dbg.location(146, 2);
 
         }
         finally {
@@ -2720,7 +2753,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "tikzbody"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:146:1: tikzbody : ( tikzscope | tikzpath | tikznodee )+ ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:147:1: tikzbody : ( tikzscope | tikzpath | tikznodee )+ ;
     public final simpletikzParser.tikzbody_return tikzbody() throws RecognitionException {
         simpletikzParser.tikzbody_return retval = new simpletikzParser.tikzbody_return();
         retval.start = input.LT(1);
@@ -2738,57 +2771,57 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "tikzbody");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(146, 1);
+        dbg.location(147, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:147:2: ( ( tikzscope | tikzpath | tikznodee )+ )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:148:2: ( ( tikzscope | tikzpath | tikznodee )+ )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:147:4: ( tikzscope | tikzpath | tikznodee )+
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:148:4: ( tikzscope | tikzpath | tikznodee )+
             {
             root_0 = (Object)adaptor.nil();
 
-            dbg.location(147,4);
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:147:4: ( tikzscope | tikzpath | tikznodee )+
-            int cnt15=0;
-            try { dbg.enterSubRule(15);
+            dbg.location(148,4);
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:148:4: ( tikzscope | tikzpath | tikznodee )+
+            int cnt16=0;
+            try { dbg.enterSubRule(16);
 
-            loop15:
+            loop16:
             do {
-                int alt15=4;
-                try { dbg.enterDecision(15);
+                int alt16=4;
+                try { dbg.enterDecision(16);
 
                 switch ( input.LA(1) ) {
                 case BEGINSCOPE:
                     {
-                    alt15=1;
+                    alt16=1;
                     }
                     break;
                 case DRAW:
                 case PATH:
                 case FILL:
                     {
-                    alt15=2;
+                    alt16=2;
                     }
                     break;
                 case NODE:
                     {
-                    alt15=3;
+                    alt16=3;
                     }
                     break;
 
                 }
 
-                } finally {dbg.exitDecision(15);}
+                } finally {dbg.exitDecision(16);}
 
-                switch (alt15) {
+                switch (alt16) {
             	case 1 :
             	    dbg.enterAlt(1);
 
-            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:147:6: tikzscope
+            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:148:6: tikzscope
             	    {
-            	    dbg.location(147,6);
-            	    pushFollow(FOLLOW_tikzscope_in_tikzbody972);
+            	    dbg.location(148,6);
+            	    pushFollow(FOLLOW_tikzscope_in_tikzbody977);
             	    tikzscope49=tikzscope();
 
             	    state._fsp--;
@@ -2800,10 +2833,10 @@ public class simpletikzParser extends DebugParser {
             	case 2 :
             	    dbg.enterAlt(2);
 
-            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:147:18: tikzpath
+            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:148:18: tikzpath
             	    {
-            	    dbg.location(147,18);
-            	    pushFollow(FOLLOW_tikzpath_in_tikzbody976);
+            	    dbg.location(148,18);
+            	    pushFollow(FOLLOW_tikzpath_in_tikzbody981);
             	    tikzpath50=tikzpath();
 
             	    state._fsp--;
@@ -2815,10 +2848,10 @@ public class simpletikzParser extends DebugParser {
             	case 3 :
             	    dbg.enterAlt(3);
 
-            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:147:29: tikznodee
+            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:148:29: tikznodee
             	    {
-            	    dbg.location(147,29);
-            	    pushFollow(FOLLOW_tikznodee_in_tikzbody980);
+            	    dbg.location(148,29);
+            	    pushFollow(FOLLOW_tikznodee_in_tikzbody985);
             	    tikznodee51=tikznodee();
 
             	    state._fsp--;
@@ -2829,16 +2862,16 @@ public class simpletikzParser extends DebugParser {
             	    break;
 
             	default :
-            	    if ( cnt15 >= 1 ) break loop15;
+            	    if ( cnt16 >= 1 ) break loop16;
                         EarlyExitException eee =
-                            new EarlyExitException(15, input);
+                            new EarlyExitException(16, input);
                         dbg.recognitionException(eee);
 
                         throw eee;
                 }
-                cnt15++;
+                cnt16++;
             } while (true);
-            } finally {dbg.exitSubRule(15);}
+            } finally {dbg.exitSubRule(16);}
 
 
             }
@@ -2857,7 +2890,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(148, 2);
+        dbg.location(149, 2);
 
         }
         finally {
@@ -2876,7 +2909,7 @@ public class simpletikzParser extends DebugParser {
     };
 
     // $ANTLR start "tikzscope"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:150:1: tikzscope : BEGINSCOPE ( OPTIONS )? tikzbody ENDSCOPE -> ^( IM_SCOPE ^( IM_STARTTAG BEGINSCOPE ) tikzbody ^( IM_ENDTAG ENDSCOPE ) ) ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:151:1: tikzscope : BEGINSCOPE ( OPTIONS )? tikzbody ENDSCOPE -> ^( IM_SCOPE ^( IM_STARTTAG BEGINSCOPE ) tikzbody ^( IM_ENDTAG ENDSCOPE ) ) ;
     public final simpletikzParser.tikzscope_return tikzscope() throws RecognitionException {
         simpletikzParser.tikzscope_return retval = new simpletikzParser.tikzscope_return();
         retval.start = input.LT(1);
@@ -2899,39 +2932,39 @@ public class simpletikzParser extends DebugParser {
         try { dbg.enterRule(getGrammarFileName(), "tikzscope");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(150, 1);
+        dbg.location(151, 1);
 
         try {
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:151:2: ( BEGINSCOPE ( OPTIONS )? tikzbody ENDSCOPE -> ^( IM_SCOPE ^( IM_STARTTAG BEGINSCOPE ) tikzbody ^( IM_ENDTAG ENDSCOPE ) ) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:152:2: ( BEGINSCOPE ( OPTIONS )? tikzbody ENDSCOPE -> ^( IM_SCOPE ^( IM_STARTTAG BEGINSCOPE ) tikzbody ^( IM_ENDTAG ENDSCOPE ) ) )
             dbg.enterAlt(1);
 
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:151:4: BEGINSCOPE ( OPTIONS )? tikzbody ENDSCOPE
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:152:4: BEGINSCOPE ( OPTIONS )? tikzbody ENDSCOPE
             {
-            dbg.location(151,4);
-            BEGINSCOPE52=(Token)match(input,BEGINSCOPE,FOLLOW_BEGINSCOPE_in_tikzscope993);  
+            dbg.location(152,4);
+            BEGINSCOPE52=(Token)match(input,BEGINSCOPE,FOLLOW_BEGINSCOPE_in_tikzscope998);  
             stream_BEGINSCOPE.add(BEGINSCOPE52);
 
-            dbg.location(151,15);
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:151:15: ( OPTIONS )?
-            int alt16=2;
-            try { dbg.enterSubRule(16);
-            try { dbg.enterDecision(16);
+            dbg.location(152,15);
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:152:15: ( OPTIONS )?
+            int alt17=2;
+            try { dbg.enterSubRule(17);
+            try { dbg.enterDecision(17);
 
-            int LA16_0 = input.LA(1);
+            int LA17_0 = input.LA(1);
 
-            if ( (LA16_0==OPTIONS) ) {
-                alt16=1;
+            if ( (LA17_0==OPTIONS) ) {
+                alt17=1;
             }
-            } finally {dbg.exitDecision(16);}
+            } finally {dbg.exitDecision(17);}
 
-            switch (alt16) {
+            switch (alt17) {
                 case 1 :
                     dbg.enterAlt(1);
 
-                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:151:15: OPTIONS
+                    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:152:15: OPTIONS
                     {
-                    dbg.location(151,15);
-                    OPTIONS53=(Token)match(input,OPTIONS,FOLLOW_OPTIONS_in_tikzscope995);  
+                    dbg.location(152,15);
+                    OPTIONS53=(Token)match(input,OPTIONS,FOLLOW_OPTIONS_in_tikzscope1000);  
                     stream_OPTIONS.add(OPTIONS53);
 
 
@@ -2939,23 +2972,23 @@ public class simpletikzParser extends DebugParser {
                     break;
 
             }
-            } finally {dbg.exitSubRule(16);}
+            } finally {dbg.exitSubRule(17);}
 
-            dbg.location(151,24);
-            pushFollow(FOLLOW_tikzbody_in_tikzscope998);
+            dbg.location(152,24);
+            pushFollow(FOLLOW_tikzbody_in_tikzscope1003);
             tikzbody54=tikzbody();
 
             state._fsp--;
 
             stream_tikzbody.add(tikzbody54.getTree());
-            dbg.location(151,33);
-            ENDSCOPE55=(Token)match(input,ENDSCOPE,FOLLOW_ENDSCOPE_in_tikzscope1000);  
+            dbg.location(152,33);
+            ENDSCOPE55=(Token)match(input,ENDSCOPE,FOLLOW_ENDSCOPE_in_tikzscope1005);  
             stream_ENDSCOPE.add(ENDSCOPE55);
 
 
 
             // AST REWRITE
-            // elements: tikzbody, BEGINSCOPE, ENDSCOPE
+            // elements: ENDSCOPE, BEGINSCOPE, tikzbody
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2965,37 +2998,37 @@ public class simpletikzParser extends DebugParser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 151:43: -> ^( IM_SCOPE ^( IM_STARTTAG BEGINSCOPE ) tikzbody ^( IM_ENDTAG ENDSCOPE ) )
+            // 152:43: -> ^( IM_SCOPE ^( IM_STARTTAG BEGINSCOPE ) tikzbody ^( IM_ENDTAG ENDSCOPE ) )
             {
-                dbg.location(151,46);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:151:46: ^( IM_SCOPE ^( IM_STARTTAG BEGINSCOPE ) tikzbody ^( IM_ENDTAG ENDSCOPE ) )
+                dbg.location(152,46);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:152:46: ^( IM_SCOPE ^( IM_STARTTAG BEGINSCOPE ) tikzbody ^( IM_ENDTAG ENDSCOPE ) )
                 {
                 Object root_1 = (Object)adaptor.nil();
-                dbg.location(151,48);
+                dbg.location(152,48);
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_SCOPE, "IM_SCOPE"), root_1);
 
-                dbg.location(151,57);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:151:57: ^( IM_STARTTAG BEGINSCOPE )
+                dbg.location(152,57);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:152:57: ^( IM_STARTTAG BEGINSCOPE )
                 {
                 Object root_2 = (Object)adaptor.nil();
-                dbg.location(151,59);
+                dbg.location(152,59);
                 root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_STARTTAG, "IM_STARTTAG"), root_2);
 
-                dbg.location(151,71);
+                dbg.location(152,71);
                 adaptor.addChild(root_2, stream_BEGINSCOPE.nextNode());
 
                 adaptor.addChild(root_1, root_2);
                 }
-                dbg.location(151,83);
+                dbg.location(152,83);
                 adaptor.addChild(root_1, stream_tikzbody.nextTree());
-                dbg.location(151,92);
-                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:151:92: ^( IM_ENDTAG ENDSCOPE )
+                dbg.location(152,92);
+                // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:152:92: ^( IM_ENDTAG ENDSCOPE )
                 {
                 Object root_2 = (Object)adaptor.nil();
-                dbg.location(151,94);
+                dbg.location(152,94);
                 root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(IM_ENDTAG, "IM_ENDTAG"), root_2);
 
-                dbg.location(151,104);
+                dbg.location(152,104);
                 adaptor.addChild(root_2, stream_ENDSCOPE.nextNode());
 
                 adaptor.addChild(root_1, root_2);
@@ -3023,7 +3056,7 @@ public class simpletikzParser extends DebugParser {
         }
         finally {
         }
-        dbg.location(152, 2);
+        dbg.location(153, 2);
 
         }
         finally {
@@ -3041,63 +3074,63 @@ public class simpletikzParser extends DebugParser {
 
  
 
-    public static final BitSet FOLLOW_path_start_in_tikzpath414 = new BitSet(new long[]{0x4010000000004000L,0x0000000000000060L});
-    public static final BitSet FOLLOW_tikzpathi_in_tikzpath416 = new BitSet(new long[]{0x0000000000800000L});
-    public static final BitSet FOLLOW_path_end_in_tikzpath418 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SEMIC_in_path_end441 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_OPTIONS_in_tikzpathi461 = new BitSet(new long[]{0x4010000000004000L,0x0000000000000060L});
-    public static final BitSet FOLLOW_coordornode_in_tikzpathi466 = new BitSet(new long[]{0xC010000000004002L,0x000000000000007FL});
-    public static final BitSet FOLLOW_coordornode_in_tikzpathi469 = new BitSet(new long[]{0xC010000000004002L,0x000000000000007FL});
-    public static final BitSet FOLLOW_OPTIONS_in_tikzpathi474 = new BitSet(new long[]{0xC010000000004000L,0x000000000000007FL});
-    public static final BitSet FOLLOW_edgeop_in_tikzpathi479 = new BitSet(new long[]{0x4010000000004000L,0x0000000000000060L});
-    public static final BitSet FOLLOW_coordornode_in_tikzpathi482 = new BitSet(new long[]{0xC010000000004002L,0x000000000000007FL});
-    public static final BitSet FOLLOW_coord_in_coordornode497 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_tikznodei_in_coordornode501 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_62_in_tikznodei513 = new BitSet(new long[]{0x0030000004004000L});
-    public static final BitSet FOLLOW_tikznode_in_tikznodei516 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_node_start_in_tikznodee526 = new BitSet(new long[]{0x0030000004004000L});
-    public static final BitSet FOLLOW_tikznode_in_tikznodee528 = new BitSet(new long[]{0x4010000000004000L,0x0000000000000060L});
-    public static final BitSet FOLLOW_tikzpathi_in_tikznodee530 = new BitSet(new long[]{0x0000000000800000L});
-    public static final BitSet FOLLOW_path_end_in_tikznodee532 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NODE_in_node_start557 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_OPTIONS_in_tikznode575 = new BitSet(new long[]{0x0020000004004000L});
-    public static final BitSet FOLLOW_nodename_in_tikznode578 = new BitSet(new long[]{0x0020000004000000L});
-    public static final BitSet FOLLOW_AT_in_tikznode582 = new BitSet(new long[]{0x0000000000004000L,0x0000000000000060L});
-    public static final BitSet FOLLOW_coord_in_tikznode584 = new BitSet(new long[]{0x0020000000000000L});
-    public static final BitSet FOLLOW_STRING_in_tikznode588 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_path_start_in_tikzpath417 = new BitSet(new long[]{0x8020000000004000L,0x00000000000000C0L});
+    public static final BitSet FOLLOW_tikzpathi_in_tikzpath419 = new BitSet(new long[]{0x0000000000800000L});
+    public static final BitSet FOLLOW_path_end_in_tikzpath421 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_SEMIC_in_path_end444 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_OPTIONS_in_tikzpathi464 = new BitSet(new long[]{0x8020000000004000L,0x00000000000000C0L});
+    public static final BitSet FOLLOW_coordornode_in_tikzpathi469 = new BitSet(new long[]{0x8020000000004002L,0x00000000000000FFL});
+    public static final BitSet FOLLOW_coordornode_in_tikzpathi472 = new BitSet(new long[]{0x8020000000004002L,0x00000000000000FFL});
+    public static final BitSet FOLLOW_OPTIONS_in_tikzpathi477 = new BitSet(new long[]{0x8020000000004000L,0x00000000000000FFL});
+    public static final BitSet FOLLOW_edgeop_in_tikzpathi482 = new BitSet(new long[]{0x8020000000004000L,0x00000000000000C0L});
+    public static final BitSet FOLLOW_coordornode_in_tikzpathi485 = new BitSet(new long[]{0x8020000000004002L,0x00000000000000FFL});
+    public static final BitSet FOLLOW_coord_in_coordornode500 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_tikznodei_in_coordornode504 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_63_in_tikznodei516 = new BitSet(new long[]{0x0060000004004000L});
+    public static final BitSet FOLLOW_tikznode_in_tikznodei519 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_node_start_in_tikznodee529 = new BitSet(new long[]{0x0060000004004000L});
+    public static final BitSet FOLLOW_tikznode_in_tikznodee531 = new BitSet(new long[]{0x8020000000804000L,0x00000000000000C0L});
+    public static final BitSet FOLLOW_tikzpathi_in_tikznodee533 = new BitSet(new long[]{0x0000000000800000L});
+    public static final BitSet FOLLOW_path_end_in_tikznodee536 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NODE_in_node_start562 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_OPTIONS_in_tikznode580 = new BitSet(new long[]{0x0040000004004000L});
+    public static final BitSet FOLLOW_nodename_in_tikznode583 = new BitSet(new long[]{0x0040000004000000L});
+    public static final BitSet FOLLOW_AT_in_tikznode587 = new BitSet(new long[]{0x0000000000004000L,0x00000000000000C0L});
+    public static final BitSet FOLLOW_coord_in_tikznode589 = new BitSet(new long[]{0x0040000000000000L});
+    public static final BitSet FOLLOW_STRING_in_tikznode593 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_edgeop0 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LPAR_in_nodename656 = new BitSet(new long[]{0x0040000000000000L});
-    public static final BitSet FOLLOW_ID_in_nodename660 = new BitSet(new long[]{0x0000000000008000L});
-    public static final BitSet FOLLOW_RPAR_in_nodename662 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_nodename_in_coord687 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_coord_modifier_in_coord711 = new BitSet(new long[]{0x0000000000004000L});
-    public static final BitSet FOLLOW_LPAR_in_coord716 = new BitSet(new long[]{0x0180000000000000L});
-    public static final BitSet FOLLOW_numberunit_in_coord718 = new BitSet(new long[]{0x0000000000100000L});
-    public static final BitSet FOLLOW_KOMMA_in_coord720 = new BitSet(new long[]{0x0180000000000000L});
-    public static final BitSet FOLLOW_numberunit_in_coord722 = new BitSet(new long[]{0x0000000000008000L});
-    public static final BitSet FOLLOW_RPAR_in_coord724 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LPAR_in_nodename661 = new BitSet(new long[]{0x0080000000000000L});
+    public static final BitSet FOLLOW_ID_in_nodename665 = new BitSet(new long[]{0x0000000000008000L});
+    public static final BitSet FOLLOW_RPAR_in_nodename667 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_nodename_in_coord692 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_coord_modifier_in_coord716 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_LPAR_in_coord721 = new BitSet(new long[]{0x0300000000000000L});
+    public static final BitSet FOLLOW_numberunit_in_coord723 = new BitSet(new long[]{0x0000000000100000L});
+    public static final BitSet FOLLOW_KOMMA_in_coord725 = new BitSet(new long[]{0x0300000000000000L});
+    public static final BitSet FOLLOW_numberunit_in_coord727 = new BitSet(new long[]{0x0000000000008000L});
+    public static final BitSet FOLLOW_RPAR_in_coord729 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_coord_modifier0 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_number_in_numberunit766 = new BitSet(new long[]{0x0000034000000002L,0x0000000000000180L});
-    public static final BitSet FOLLOW_unit_in_numberunit768 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_set_in_number791 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_number_in_numberunit771 = new BitSet(new long[]{0x0000034000000002L,0x0000000000000300L});
+    public static final BitSet FOLLOW_unit_in_numberunit773 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_set_in_number796 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_unit0 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_path_start_tag_in_path_start835 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_path_start_tag_in_path_start840 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_path_start_tag0 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SOMETHING_in_tikzdocument872 = new BitSet(new long[]{0x0200000000000040L});
-    public static final BitSet FOLLOW_tikzpicture_in_tikzdocument875 = new BitSet(new long[]{0x0200000000000002L});
-    public static final BitSet FOLLOW_SOMETHING_in_tikzdocument878 = new BitSet(new long[]{0x0200000000000002L});
-    public static final BitSet FOLLOW_tikzpicture_start_in_tikzpicture901 = new BitSet(new long[]{0x0010000000003D80L});
-    public static final BitSet FOLLOW_OPTIONS_in_tikzpicture903 = new BitSet(new long[]{0x0010000000003D80L});
-    public static final BitSet FOLLOW_tikzbody_in_tikzpicture906 = new BitSet(new long[]{0x0010000000003D80L});
-    public static final BitSet FOLLOW_tikzpicture_end_in_tikzpicture909 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_BEGINTP_in_tikzpicture_start934 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ENDTP_in_tikzpicture_end952 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_tikzscope_in_tikzbody972 = new BitSet(new long[]{0x0000000000003D02L});
-    public static final BitSet FOLLOW_tikzpath_in_tikzbody976 = new BitSet(new long[]{0x0000000000003D02L});
-    public static final BitSet FOLLOW_tikznodee_in_tikzbody980 = new BitSet(new long[]{0x0000000000003D02L});
-    public static final BitSet FOLLOW_BEGINSCOPE_in_tikzscope993 = new BitSet(new long[]{0x0010000000003D00L});
-    public static final BitSet FOLLOW_OPTIONS_in_tikzscope995 = new BitSet(new long[]{0x0000000000003D00L});
-    public static final BitSet FOLLOW_tikzbody_in_tikzscope998 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_ENDSCOPE_in_tikzscope1000 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_SOMETHING_in_tikzdocument877 = new BitSet(new long[]{0x0400000000000040L});
+    public static final BitSet FOLLOW_tikzpicture_in_tikzdocument880 = new BitSet(new long[]{0x0400000000000002L});
+    public static final BitSet FOLLOW_SOMETHING_in_tikzdocument883 = new BitSet(new long[]{0x0400000000000002L});
+    public static final BitSet FOLLOW_tikzpicture_start_in_tikzpicture906 = new BitSet(new long[]{0x0020000000003D80L});
+    public static final BitSet FOLLOW_OPTIONS_in_tikzpicture908 = new BitSet(new long[]{0x0020000000003D80L});
+    public static final BitSet FOLLOW_tikzbody_in_tikzpicture911 = new BitSet(new long[]{0x0020000000003D80L});
+    public static final BitSet FOLLOW_tikzpicture_end_in_tikzpicture914 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_BEGINTP_in_tikzpicture_start939 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ENDTP_in_tikzpicture_end957 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_tikzscope_in_tikzbody977 = new BitSet(new long[]{0x0000000000003D02L});
+    public static final BitSet FOLLOW_tikzpath_in_tikzbody981 = new BitSet(new long[]{0x0000000000003D02L});
+    public static final BitSet FOLLOW_tikznodee_in_tikzbody985 = new BitSet(new long[]{0x0000000000003D02L});
+    public static final BitSet FOLLOW_BEGINSCOPE_in_tikzscope998 = new BitSet(new long[]{0x0020000000003D00L});
+    public static final BitSet FOLLOW_OPTIONS_in_tikzscope1000 = new BitSet(new long[]{0x0000000000003D00L});
+    public static final BitSet FOLLOW_tikzbody_in_tikzscope1003 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_ENDSCOPE_in_tikzscope1005 = new BitSet(new long[]{0x0000000000000002L});
 
 }

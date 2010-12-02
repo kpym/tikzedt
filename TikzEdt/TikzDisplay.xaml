@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms">
-    <Grid Background="Green">
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
