@@ -1,5 +1,5 @@
-\begin{tikzpicture}
-\node (v1) at (2,8) {?};
-\node (v2) at (2,6) {?};
-\draw (v1) edge (v2);
+\begin{tikzpicture}[a b=5cm, fill = red, mine /.style={fill=red} ]
+\begin{scope}
+\draw (1,1) -- (2,2) -- +(0,1);
+\end{scope}
 \end{tikzpicture}

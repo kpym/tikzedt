@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=temp_preview 2010.11.25)  2 DEC 2010 14:17
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=temp_preview 2010.11.25)  2 DEC 2010 23:51
 entering extended mode
 **temp_preview.tex
 
@@ -82,16 +82,16 @@ ex\context\base\supp-pdf.mkii
 ("C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\bin\Debug\t
 emp_preview.aux") ) 
 Here is how much of TeX's memory you used:
- 366 strings out of 483731
- 5721 string characters out of 2951204
- 238984 words of memory out of 3000000
- 13755 multiletter control sequences out of 15000+200000
+ 344 strings out of 483731
+ 5365 string characters out of 2951204
+ 237984 words of memory out of 3000000
+ 13733 multiletter control sequences out of 15000+200000
  3640 words of font info for 14 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 31i,6n,35p,151b,452s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 27i,5n,35p,151b,366s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfon
 ts/cm/cmr10.pfb>
-Output written on temp_preview.pdf (1 page, 12197 bytes).
+Output written on temp_preview.pdf (1 page, 11652 bytes).
 PDF statistics:
  13 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

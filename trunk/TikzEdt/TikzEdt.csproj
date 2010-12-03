@@ -95,6 +95,9 @@
     </Compile>
     <Compile Include="simpletikzLexer.cs" />
     <Compile Include="simpletikzParser.cs" />
+    <Compile Include="SnippetManager.xaml.cs">
+      <DependentUpon>SnippetManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TikzDisplay.xaml.cs">
       <DependentUpon>TikzDisplay.xaml</DependentUpon>
     </Compile>
@@ -125,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RasterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SnippetManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -161,6 +168,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="SnippetSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="TikzSyntax.xshd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -237,6 +247,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\base_cursor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Snippets.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

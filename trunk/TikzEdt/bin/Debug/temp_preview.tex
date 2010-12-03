@@ -6,8 +6,8 @@
 not seen
 \vfill
 \begin{tikzpicture}
-\node (v1) at (7,6) {?};
-\node (v2) at (2,7) {?}; 
-\draw (v1) edge (v2);
+\begin{scope}[ xshift=0cm, yshift=0.8cm]
+\draw (7,4) -- (2,2) -- +(0,1);
+\end{scope}
 \draw (0,0) rectangle (10,10); \end{tikzpicture}
 \end{document}

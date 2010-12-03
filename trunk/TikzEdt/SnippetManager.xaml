@@ -1,0 +1,110 @@
+﻿<Window x:Class="TikzEdt.SnippetManager"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SnippetManager" Height="408" Width="609" Closing="Window_Closing">
+    <Window.Resources>
+    </Window.Resources>
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition/>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+    
+            <DataTemplate x:Key="groupingHeaderTemplate">
+                <TextBlock Text="{Binding Path=Name}"
+                       Foreground="Navy" FontWeight="Bold" FontSize="12"/>
+            </DataTemplate>
+            <DataTemplate x:Key="detailsProductListingTemplate">
+                <Grid Margin="5,5,5,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="113"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,8,0">Category:</TextBlock>
+                    <TextBox Name="CategoryDTKey" Grid.Row="0" Grid.Column="1" Text="{Binding XPath=Category}" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,8,0">Name:</TextBlock>
+                    <TextBox Name="NameDTKey" Grid.Row="1" Grid.Column="1" Text="{Binding XPath=Name}" />
+                    
+                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,8,0">Description:</TextBlock>
+                    <TextBox Name="DescriptionDTKey" Grid.Row="2" Grid.Column="1" Text="{Binding XPath=Description}" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,0,8,0">Snippet Code:</TextBlock>
+                    <TextBox Name="SnippetCodeDTKey" Grid.Row="3" Grid.Column="1" Text="{Binding XPath=SnippetCode}" Height="50"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,0,8,0">Sample Code:</TextBlock>
+                    <TextBox Name="SampleCodeDTKey" Grid.Row="4" Grid.Column="1" Text="{Binding XPath=SampleCode}" Height="50"/>
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,0,8,0">Dependencies</TextBlock>
+                    <TextBox Name="DependenciesDTKey" Grid.Row="5" Grid.Column="1" Text="{Binding XPath=Dependencies}"/>
+                  
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+        
+        <Grid.DataContext>
+            <CollectionViewSource >
+                <CollectionViewSource.Source>
+                    <XmlDataProvider Source="Snippets.xml" XPath="SnippetRepo/Snippets/*" x:Name="xmldp" />                    
+                </CollectionViewSource.Source>
+                <CollectionViewSource.GroupDescriptions>
+                    <PropertyGroupDescription PropertyName="Category"/>
+                </CollectionViewSource.GroupDescriptions>
+            </CollectionViewSource>
+        </Grid.DataContext>
+        
+        <StackPanel Grid.Row="0" Grid.Column="0">
+
+            <TextBlock FontSize="18" FontWeight="Bold" Margin="10" HorizontalAlignment="Center">Code Snippets</TextBlock>
+            <StackPanel Height="24" Orientation="Horizontal" Margin="5">
+            <Button>
+                <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png"></Image>
+            </Button>
+            <Button>
+                <Image Source="/TikzEdt;component/Images/delete.png"></Image>
+            </Button>    
+            </StackPanel>
+            <ListBox VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="True" x:Name="orderSelector" ItemsSource="{Binding}">
+                <ListBox.GroupStyle>
+                    <GroupStyle HeaderTemplate="{StaticResource groupingHeaderTemplate}"/>
+                </ListBox.GroupStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock FontSize="12">
+                          <TextBlock.Text>
+                            <Binding XPath="Name"/>
+                          </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <TextBlock DockPanel.Dock="Top" FontWeight="Bold" Text="Details" />
+            
+            <ContentControl Name="Detail" Grid.Row="3" Grid.ColumnSpan="3" 
+            Content="{Binding}"
+            ContentTemplate="{StaticResource detailsProductListingTemplate}" 
+            Margin="9,0,0,0"/>
+        </StackPanel>
+
+    </Grid>
+
+</Window>

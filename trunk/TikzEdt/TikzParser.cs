@@ -121,6 +121,12 @@ namespace TikzEdt
                         tn.text = getTokensString(tokens, childt);
                         item.AddChild(tn);
                         break;
+                    case simpletikzParser.IM_OPTIONS:
+                        Tikz_Options to = Tikz_Options.FromCommonTree(childt);
+                        to.text = getTokensString(tokens, childt);
+                        //item.AddChild(tn);
+                        item.options = to;
+                        break;
                     default:
                         // getting here is an error
                         break;
