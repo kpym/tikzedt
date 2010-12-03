@@ -13,7 +13,7 @@ namespace TikzEdt
    
     public class TikzMatrix
     {
-        double[,] m = new double[2, 3];
+        public double[,] m = new double[2, 3];
 
         public TikzMatrix()
         {
@@ -155,9 +155,10 @@ namespace TikzEdt
             // IM_NODE OPTIONS? nodename? coord? STRING
             Tikz_Node n = new Tikz_Node();
             int i = 0;
-            if (t.GetChild(i).Type == simpletikzParser.OPTIONS)
+            if (t.GetChild(i).Type == simpletikzParser.IM_OPTIONS)
             {
-                n.options = t.GetChild(i++).Text;
+                i++;
+                //n.options = t.GetChild(i++).Text; TODO
             }
             if (t.GetChild(i).Type == simpletikzParser.IM_NODENAME)
             {
@@ -173,7 +174,6 @@ namespace TikzEdt
             n.label = t.GetChild(i).Text.Trim();
             // remove leading and trailing {} TODO: to it in parser
             n.label = n.label.Substring(1, n.label.Length - 2);
-
 
             return n;
         }
@@ -450,12 +450,18 @@ namespace TikzEdt
             }
             return hasone;
         }
-
+        /// <summary>
+        /// Called in repsonse to Registernoderefs by its children
+        /// </summary>
+        /// <param name="tn"></param>
         public virtual void AddNodeRef(Tikz_Node tn)
         {
             if (parent != null)
                 parent.AddNodeRef(tn);
         }
+        /// <summary>
+        /// Causes all nodes among the children to register their names at the tikz_picture (so that they can be found when referenced by name somewhere)
+        /// </summary>
         public override void RegisterNodeRefs()
         {
             foreach (TikzParseItem tpi in Children)
@@ -490,6 +496,8 @@ namespace TikzEdt
         public override string ToString()
         {
             string s = starttag;
+            if (options != null)
+                s = s + options.ToString();
             foreach (TikzParseItem t in Children)
             {
                 s = s + t.ToString();
@@ -498,6 +506,8 @@ namespace TikzEdt
         }
         public override void UpdateText()
         {
+            if (options != null)
+                options.UpdateText();
             foreach (TikzParseItem t in Children)
             {
                 t.UpdateText();
@@ -593,19 +603,185 @@ namespace TikzEdt
 
     }
 
-    public class Tikz_Options : TikzParseItem
+    public enum Tikz_OptionType { keyval, key, style }
+    public class Tikz_Option : TikzParseItem
     {
-        public List<string> options = new List<string>();
+        public Tikz_OptionType type;
 
-        public TikzMatrix GetTransform()
+        public string key, val; // for style, key is the style's name, val is the style definition
+        public Tikz_NumberUnit numval; // only one of val, numval should be not null
+        public static string GetID(ITree t)
         {
-            TikzMatrix ret = new TikzMatrix();
-            return ret;
+            string s = "";
+            for (int i=0;i<t.ChildCount;i++)                
+                s = s + " " + t.GetChild(i).Text;
+            return s;
+        }
+        public static Tikz_Option FromCommonTree(ITree t)
+        {
+            Tikz_Option to = new Tikz_Option();
+            switch (t.Type)
+            {
+                case simpletikzParser.IM_OPTION_KV:
+                    if (t.ChildCount == 1)
+                    {
+                        to.type = Tikz_OptionType.key;
+                        to.key = GetID(t.GetChild(0));
+                        return to;
+                    } else if (t.ChildCount == 2)
+                    {
+                        to.type = Tikz_OptionType.keyval;
+                        to.key = GetID(t.GetChild(0));
+                        if (t.GetChild(1).Type == simpletikzParser.IM_NUMBERUNIT)
+                            to.numval = new Tikz_NumberUnit(t.GetChild(1));
+                        else
+                            to.val = GetID(t.GetChild(1));
+                        return to;
+                    } else return null;                    
+                case simpletikzParser.IM_OPTION_STYLE:
+                    if (t.ChildCount != 2)
+                        return null;
+                    else
+                    {
+                        to.type = Tikz_OptionType.style;
+                        to.key = GetID(t.GetChild(0));
+                        to.val = GetID(t.GetChild(1));
+                        return to;
+                    }
+                    break;
+                default:
+                    return null;
+            }
         }
 
         public override void UpdateText()
         {
-            text = "[" + String.Join(", ", options.ToArray()) + "]";
+            switch (type)
+            {
+                case Tikz_OptionType.key:
+                    text = key;
+                    break;
+                case Tikz_OptionType.keyval:
+                    text = key + "=";
+                    if (numval != null)
+                    {
+                        text = text + numval.ToString();
+                    } else 
+                        text = text + val;
+                    break;
+                case Tikz_OptionType.style:
+                    text = key + "/.style=" + val;
+                    break;
+            }
+        }
+    }
+
+    public class Tikz_Options : TikzParseItem
+    {
+        public List<Tikz_Option> options = new List<Tikz_Option>();
+
+        public static Tikz_Options FromCommonTree(CommonTree t)
+        {
+            // IM_NODE OPTIONS? nodename? coord? STRING
+            Tikz_Options opts = new Tikz_Options();
+            foreach (CommonTree tt in t.Children)
+            {
+                Tikz_Option to = Tikz_Option.FromCommonTree(tt);
+                if (to != null)
+                    opts.options.Add(to);
+            }
+
+            return opts;
+        }
+
+        public TikzMatrix GetTransform()
+        {
+            TikzMatrix ret = new TikzMatrix();
+
+            double scale=1, xshift=0, yshift=0;
+
+            Tikz_Option o = GetOption("xshift", Tikz_OptionType.keyval);
+            if (o != null)
+                if (o.numval != null)
+                    xshift = o.numval.GetInCM();
+            o = GetOption("yshift", Tikz_OptionType.keyval);
+            if (o != null)
+                if (o.numval != null)
+                    yshift = o.numval.GetInCM();
+            o = GetOption("scale", Tikz_OptionType.keyval);
+            if (o != null)
+                if (o.numval != null)
+                    scale = o.numval.GetInCM();
+            ret.m[0, 0] = scale;
+            ret.m[1, 1] = scale;
+            ret.m[0, 2] = xshift;
+            ret.m[1, 2] = yshift;
+            return ret;
+        }
+
+        /// <summary>
+        /// adds the specified amounts to the current xshift and yshift
+        /// </summary>
+        /// <param name="xshift"></param>
+        /// <param name="yshift"></param>
+        public void SetShiftRel(double xshift, double yshift)
+        {
+            if (xshift != 0)
+            {
+                Tikz_Option o = GetOption("xshift", Tikz_OptionType.keyval);
+                if (o == null)
+                {
+                    o = new Tikz_Option();
+                    o.type = Tikz_OptionType.keyval;
+                    o.key = "xshift";
+                    o.numval = new Tikz_NumberUnit();
+                    o.numval.unit = "cm";
+                    o.numval.SetInCM(xshift);
+                    options.Add(o);
+                }
+                else
+                {
+                    o.numval.SetInCM(o.numval.GetInCM() + xshift);
+                }
+            }
+            if (yshift != 0)
+            {
+                Tikz_Option o = GetOption("yshift", Tikz_OptionType.keyval);
+                if (o == null)
+                {
+                    o = new Tikz_Option();
+                    o.type = Tikz_OptionType.keyval;
+                    o.key = "yshift";
+                    o.numval = new Tikz_NumberUnit();
+                    o.numval.unit = "cm";
+                    o.numval.SetInCM(yshift);
+                    options.Add(o);
+                }
+                else
+                {
+                    o.numval.SetInCM(o.numval.GetInCM() + yshift);
+                }
+            }
+        }
+
+        public Tikz_Option GetOption(string optionname, Tikz_OptionType type)
+        {
+            foreach (Tikz_Option s in options)
+                if (s.type == type && s.key.Trim() == optionname)
+                    return s;
+
+            return null;
+        }
+
+        public override void UpdateText()
+        {
+            string[] opts = new string[options.Count];
+            for (int i = 0; i < options.Count; i++)
+            {
+                options[i].UpdateText();
+                opts[i] = options[i].text;
+            }
+            text = "[" + String.Join(", ", opts) + "]";
         }
     }
 }

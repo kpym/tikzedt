@@ -489,5 +489,11 @@ namespace TikzEdt
             else if (sender == rb4)
                     pdfOverlay1.tool = PdfOverlay.ToolType.addpath;
         }
+
+        private void SnippetMenuClick(object sender, RoutedEventArgs e)
+        {
+            SnippetManager s = new SnippetManager();
+            s.ShowDialog();
+        }
     }
 }

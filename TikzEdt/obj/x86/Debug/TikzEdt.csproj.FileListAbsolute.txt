@@ -70,3 +70,5 @@ C:\Users\thomas\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\obj\x86\De
 C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\obj\x86\Debug\RasterControl.baml
 C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\obj\x86\Debug\RasterControl.g.cs
 C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\obj\x86\Debug\Themes\Generic.baml
+C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\obj\x86\Debug\SnippetManager.baml
+C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\obj\x86\Debug\SnippetManager.g.cs

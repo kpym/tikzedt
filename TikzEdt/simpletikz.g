@@ -35,14 +35,14 @@ tokens {
 	EVERYLOOP	= 'every loop';
 	
 	// styles
-	ST_INNERSEP	= 'inner sep';
-	ST_OUTERSEP	= 'outer sep';
-	ST_FILL		= 'fill';
-	ST_DRAW		= 'draw';
-	ST_SHAPE	= 'shape';
-	ST_MINSIZE	= 'minimum size';
-	ST_LINEWIDTH	= 'line width';
-	ST_DASHSTYLE	= 'dash style';
+	//ST_INNERSEP	= 'inner sep';
+	//ST_OUTERSEP	= 'outer sep';
+	//ST_FILL		= 'fill';
+	//ST_DRAW		= 'draw';
+	//ST_SHAPE	= 'shape';
+	//ST_MINSIZE	= 'minimum size';
+	//ST_LINEWIDTH	= 'line width';
+	//ST_DASHSTYLE	= 'dash style';
 	
 	// edge option
 	LOOP		= 'loop';
@@ -66,8 +66,15 @@ IM_SCOPE;
 IM_STARTTAG;
 IM_ENDTAG;
 IM_OPTIONS;
+IM_OPTION_STYLE;
+IM_OPTION_KV; 	// key or key value pair
+IM_ID;
 }
 
+
+tikzdocument
+	:	SOMETHING* tikzpicture  SOMETHING*		-> ^(IM_DOCUMENT tikzpicture)
+	;
 
 tikzpath 
 	:	path_start tikzpathi path_end	-> ^(IM_PATH path_start tikzpathi path_end )
@@ -77,7 +84,7 @@ path_end
 	;
 
 tikzpathi
-	:	(OPTIONS!)? coordornode (coordornode | (OPTIONS!)? edgeop! coordornode )* 
+	:	 coordornode (coordornode | tikz_options? edgeop! coordornode )* 
 	;
 
 coordornode
@@ -94,7 +101,7 @@ node_start
 	:	NODE -> ^(IM_STARTTAG NODE)
 	;
 tikznode
-	:	OPTIONS? nodename? ('at' coord)? STRING		-> ^(IM_NODE OPTIONS? nodename? coord? STRING)			
+	:	nodename? ('at' coord)? STRING		-> ^(IM_NODE nodename? coord? STRING)			
 	;
 	
 edgeop	
@@ -131,12 +138,8 @@ path_start_tag
 	:	DRAW | FILL | PATH
 	;
 
-tikzdocument
-	:	SOMETHING* tikzpicture  SOMETHING*		-> ^(IM_DOCUMENT tikzpicture)
-	;
-
 tikzpicture 
-	:	 tikzpicture_start OPTIONS? tikzbody? tikzpicture_end		-> ^(IM_PICTURE  tikzpicture_start tikzbody? tikzpicture_end)
+	:	 tikzpicture_start tikz_options? tikzbody? tikzpicture_end		-> ^(IM_PICTURE tikzpicture_start tikz_options? tikzbody? tikzpicture_end)
 	;
 tikzpicture_start
 	:	BEGINTP -> ^(IM_STARTTAG BEGINTP)
@@ -149,7 +152,33 @@ tikzbody
 	;
 
 tikzscope
-	:	BEGINSCOPE OPTIONS? tikzbody ENDSCOPE		-> ^(IM_SCOPE ^(IM_STARTTAG BEGINSCOPE) tikzbody ^(IM_ENDTAG ENDSCOPE))
+	:	tikzscope_start tikz_options? tikzbody tikzscope_end		-> ^(IM_SCOPE tikzscope_start tikz_options? tikzbody tikzscope_end)
+	;
+tikzscope_start
+	:	BEGINSCOPE -> ^(IM_STARTTAG BEGINSCOPE)
+	;
+tikzscope_end
+	:	ENDSCOPE -> ^(IM_ENDTAG ENDSCOPE)
+	;
+
+tikz_options
+	: 	LBR (option (',' option)*)? RBR		-> ^(IM_OPTIONS option*)
+	;
+	
+option
+	:	option_style 		-> ^(IM_OPTION_STYLE option_style)
+		| option_kv		-> ^(IM_OPTION_KV option_kv)
+	;
+option_kv
+	:	idd ('='! (idd | numberunit))?
+	;
+option_style
+	:	idd '/.style'! '='! STRING // '{' option '}'
+	;
+
+// id composed of more than one word
+idd
+	:	ID (ID)*	-> ^(IM_ID ID*)
 	;
 
 //tikzbody2
@@ -182,7 +211,7 @@ WS  :   ( ' '
 fragment
 EXPONENT : ('e'|'E') ('+'|'-')? ('0'..'9')+ ;
 
-OPTIONS :	'[' ~(']')* ']';
+//OPTIONS :	'[' ~(']')* ']';
 
 STRING	:	'{' ( ESC_SEQ | ~('\\' | '}') )* '}';   /// not correct like this
 
