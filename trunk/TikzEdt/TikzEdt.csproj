@@ -98,6 +98,11 @@
     <Compile Include="SnippetManager.xaml.cs">
       <DependentUpon>SnippetManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SnippetsDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="TikzDisplay.xaml.cs">
       <DependentUpon>TikzDisplay.xaml</DependentUpon>
     </Compile>
@@ -170,6 +175,17 @@
     <AppDesigner Include="Properties\" />
     <None Include="SnippetSchema.xsd">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="SnippetsDataSet.xsc">
+      <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="SnippetsDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SnippetsDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="SnippetsDataSet.xss">
+      <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
     </None>
     <None Include="TikzSyntax.xshd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -251,6 +267,7 @@
   <ItemGroup>
     <Resource Include="Snippets.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

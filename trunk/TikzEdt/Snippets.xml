@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<SnippetRepo xmlns="">
+<SnippetRepo xmlns="SnippetSchema.xsd">
   <Snippets>
     <Snippet>
       <ID>0</ID>
