@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.IO;
+using System.Diagnostics;
+using System.Media;
+using System.Windows.Threading;
+//using System.Drawing;
 
 namespace TikzEdt
 {
@@ -111,12 +115,12 @@ namespace TikzEdt
             else
             {
                 r = Rect.Union(r, tr);
-            }            
+            }
         }
         public Rect GetRect(double margin)
         {
             return Rect.Inflate(r, margin, margin);
-                //.new Rect(r.X - margin, r.Y - margin, r.Width + 2 * margin, r.Height + 2 * margin);
+            //.new Rect(r.X - margin, r.Y - margin, r.Width + 2 * margin, r.Height + 2 * margin);
             //return rr;
         }
     }
@@ -124,18 +128,211 @@ namespace TikzEdt
     public static class Rasterizer
     {
 
-        public static Point rasterizeEucl(Point p, double GridWidth, Rect BB )
+        public static Point rasterizeEucl(Point p, double GridWidth, Rect BB)
         {
             return new Point(Math.Round(p.X / GridWidth) * GridWidth, Math.Round(p.Y / GridWidth) * GridWidth);
         }
         // input: p in Eucl. coordinates
         //public static Point rasterizePolar(Point p, Point center, double rstep, int nsectors)
         //{
-            //Point pp = Point.eucltopolar(p, center);
-            //pp.X = Math.Round(pp.X / rstep) * rstep;
-            //pp.Y = Math.Round(pp.Y * nsectors / (2 * Math.PI)) * 2 * Math.PI / nsectors;
-            //return Point.polartoeucl(pp, center);
+        //Point pp = Point.eucltopolar(p, center);
+        //pp.X = Math.Round(pp.X / rstep) * rstep;
+        //pp.Y = Math.Round(pp.Y * nsectors / (2 * Math.PI)) * 2 * Math.PI / nsectors;
+        //return Point.polartoeucl(pp, center);
         //}
 
     }
+
+    public class TikzToBMPFactory
+    {
+        public double timeout = 10; //seconds, not impl.
+        public double Resolution = 50;
+        public struct Job
+        {
+            public string code, path;
+            public Rect BB;
+            public Job(string tcode, string tpath, Rect tBB)
+            {
+                code = tcode; path = tpath; BB = tBB;
+            }
+        }
+        public Queue<Job> todo_tex = new Queue<Job>();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code">Tikz Code to compile</param>
+        /// <param name="path">Path, without ending, e.g. img\myfile </param>
+        /// <param name="BB">The bounding box</param>
+        public void AddJob(string code, string path, Rect BB)
+        {
+            todo_tex.Enqueue(new Job(code, path, BB));
+            if (!isRunning)
+                doCompile();
+        }
+
+        protected Process texProcess = new Process();
+        protected bool isRunning = false;
+        PDFLibNet.PDFWrapper mypdfDoc = null;
+        System.Windows.Forms.Control dummy = new System.Windows.Forms.Control();
+
+        /// <summary>
+        /// If the compilation gets stuck (actually it shouldn't), 
+        /// one can call this method to kill the pdflatex-process.
+        /// </summary>
+        public void AbortCompilation()
+        {
+            if (!texProcess.HasExited)
+                texProcess.Kill();
+        }
+
+        /// <summary>
+        /// The main routine, starts the compilation of the Tikz-Picture.
+        /// If necessary it initiates compilation of the precompiled headers.
+        /// </summary>
+        protected void doCompile()
+        {
+            if (isRunning || todo_tex.Count == 0)
+            {
+                return;
+            }
+            isRunning = true;
+            Job job = todo_tex.Peek();
+
+            if (!File.Exists(Consts.cTempFile + ".fmt"))
+            {
+                Helper.GeneratePrecompiledHeaders();
+                return;
+            }
+
+            // save into temporary textfile
+            // add bounding box
+            bool lsucceeded;
+            string codetowrite = writeBBtoTikz(job.code, job.BB, out lsucceeded);
+
+            StreamWriter s = new StreamWriter(job.path + ".tex");
+            s.WriteLine(@"%&" + Consts.cTempFile);
+
+            if (lsucceeded)
+            {
+                s.WriteLine(@"\pdfpageattr{/MediaBox [0 0 " + Convert.ToInt32(job.BB.Width * Consts.ptspertikzunit) + " "
+                                                            + Convert.ToInt32(job.BB.Height * Consts.ptspertikzunit) + "]}");
+                s.WriteLine(@"\begin{document}");
+                s.WriteLine(@"\thispagestyle{empty}");
+                s.WriteLine(@"\mathindent0cm \parindent0cm");
+                s.WriteLine(@"not seen");
+                s.WriteLine(@"\vfill");
+            }
+            else
+            {
+                s.WriteLine(@"\begin{document}");
+                s.WriteLine(@"\thispagestyle{empty}");
+                s.WriteLine(@"\mathindent0cm \parindent0cm");
+            }
+
+            s.WriteLine(codetowrite);
+            s.WriteLine(@"\end{document}");
+            s.Close();
+
+            // call pdflatex         
+            texProcess.StartInfo.Arguments = "-quiet -halt-on-error " + job.path + ".tex";
+            texProcess.Start();
+        }
+        /// <summary>
+        /// Adds a rectangle to the Tikzcode in the size specified by BB. 
+        /// The rectangle is added as the last command before the \end{tikzpicture} 
+        /// </summary>
+        /// <param name="code">The Tikz Code. Must contain an "\end{tikzpicture}" </param>
+        /// <param name="BB">The bounding box (= size of rectangle to be written) </param>
+        /// <param name="succeeded">Returns success, i.e., whether the string "\end{tikzpicture}" has been found</param>
+        /// <returns>The Tikzcode, with the "\draw rectangle ...." inserted </returns>
+        string writeBBtoTikz(string code, Rect BB, out bool succeeded)
+        {
+            // hack
+            string cend = @"\end{tikzpicture}";
+            string[] tok = code.Split(new string[] { cend }, StringSplitOptions.None);
+            succeeded = (tok.Length == 2 && BB.Width * BB.Height > 0);
+            if (succeeded)
+                return tok[0] + @"\draw (" + BB.X + "," + BB.Y + ") rectangle (" + (BB.X + BB.Width).ToString() + "," + (BB.Y + BB.Height).ToString() + "); " + cend + tok[1];
+            else
+                return code;
+        }
+
+        public TikzToBMPFactory()
+        {
+
+            texProcess.EnableRaisingEvents = true;
+            //texProcess.StartInfo.Arguments = "-quiet -halt-on-error " + Consts.cTempFile + ".tex";
+            texProcess.StartInfo.FileName = "pdflatex";
+            texProcess.StartInfo.CreateNoWindow = true;
+            texProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            // texProcess.SynchronizingObject = (System.ComponentModel.ISynchronizeInvoke) this;
+            texProcess.Exited += new EventHandler(texProcess_Exited);
+
+        }
+
+        /// <summary>
+        /// Reload the PDF file. This is called only when the pdf file changes on disk.
+        /// It is not called, for example, when the pdf just needs to be redrawn, e.g., due to 
+        /// a changed display size.
+        /// </summary>
+        void RefreshPDF()
+        {
+
+        }
+
+        /// <summary>
+        /// This is called when PDFLatex has exited
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void texProcess_Exited(object sender, EventArgs e)
+        {
+            // HACK: make thread-safe
+            //Dispatcher.Invoke(new Action(
+            //delegate()
+            //{
+                Job job = todo_tex.Dequeue();
+
+                if (texProcess.ExitCode == 0)
+                {
+                    if (mypdfDoc != null)
+                        mypdfDoc.Dispose();
+                    mypdfDoc = new PDFLibNet.PDFWrapper();
+                    mypdfDoc.UseMuPDF = true;
+                    mypdfDoc.LoadPDF(job.path + ".pdf");
+
+                    double magicnumber = 0.45;
+                    dummy.Width = Convert.ToInt32(job.BB.Width * Resolution / magicnumber);
+                    dummy.Height = Convert.ToInt32(job.BB.Height * Resolution / magicnumber);
+
+                    mypdfDoc.FitToWidth(dummy.Handle);
+                    mypdfDoc.RenderPage(dummy.Handle);
+                    dummy.Width = Convert.ToInt32(job.BB.Width * Resolution);
+                    dummy.Height = Convert.ToInt32(job.BB.Height * Resolution);
+
+                    if (!(dummy.Width <= 0 || dummy.Height <= 0)) // TODO: this hould nott be necessary
+                    {
+
+                        System.Drawing.Bitmap b = new System.Drawing.Bitmap(dummy.Width, dummy.Height);
+                        System.Drawing.Graphics gr = System.Drawing.Graphics.FromImage(b);
+                        mypdfDoc.ClientBounds = new System.Drawing.Rectangle(0, 0, b.Width, b.Height);
+                        mypdfDoc.DrawPageHDC(gr.GetHdc());
+                        gr.ReleaseHdc();
+                        b.Save(job.path + ".bmp");
+
+                    }
+                }
+                else ;
+
+
+                isRunning = false;
+                if (todo_tex.Count > 0)
+                    doCompile();
+            //}
+           // ));
+        }
+
+    }
+
+
 }

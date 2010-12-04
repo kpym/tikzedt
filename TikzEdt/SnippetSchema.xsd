@@ -6,7 +6,10 @@
     xmlns:mstns="http://tempuri.org/SnippetSchema.xsd"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
-    <xs:element name="Snippet">
+  <xs:element name="SnippetRepo">
+    <xs:complexType>
+      <xs:sequence>
+    <xs:element name="Snippet" maxOccurs="unbounded" minOccurs="0">
       <xs:complexType>
         <xs:sequence>
           <xs:element name="ID" type="xs:ID"/>
@@ -19,5 +22,7 @@
         </xs:sequence>
       </xs:complexType>
     </xs:element>
- 
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

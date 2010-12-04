@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:custom="clr-namespace:TikzEdt"
         xmlns:common="clr-namespace:Common;assembly=RecentFileListLib"
-        Title="MainWindow" Height="425" Width="751" xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:my="clr-namespace:TikzEdt" Loaded="Window_Loaded">
+        Title="MainWindow" Height="624" Width="986" xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:my="clr-namespace:TikzEdt" Loaded="Window_Loaded">
 
     <Window.Resources>
         <!-- El Cheapo hack to make images within disabled toolbar buttons appear 'grayed out'.  This doesn't
@@ -139,12 +139,22 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"></ColumnDefinition>
+                <ColumnDefinition Width="150"></ColumnDefinition>
+                <ColumnDefinition Width="3"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="3"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            
-            <Grid Grid.Column="0" Background="Black">
+            <ToolBarTray Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+                <ToolBar>
+                    <Button Content="One" />
+                    <Button Content="Two" />
+                </ToolBar>
+            </ToolBarTray>
+
+            <GridSplitter Background="Gray" Grid.Column="2" Grid.Row="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Grid Grid.Column="3" Background="Black">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="3"/>
@@ -165,8 +175,8 @@
                     </avalonedit:TextEditor.ContextMenu>
                 </avalonedit:TextEditor>
             </Grid>
-            <GridSplitter Background="Gray" Grid.Column="1" Grid.Row="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="2">
+            <GridSplitter Background="Gray" Grid.Column="4" Grid.Row="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="5">
                 <!-- 
                 <Button Grid.Row="0" Grid.Column="0">Hallo Welt</Button> <my:PdfOverlay  HorizontalAlignment="Stretch" x:Name="pdfOverlay1" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" />
                 -->

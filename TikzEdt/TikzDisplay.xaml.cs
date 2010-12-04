@@ -140,7 +140,7 @@ namespace TikzEdt
             // hack
             string cend = @"\end{tikzpicture}";
             string[] tok = code.Split(new string[] { cend }, StringSplitOptions.None);
-            succeeded = (tok.Length == 2 && nextBB.Width * nextBB.Height > 0);
+            succeeded = (tok.Length == 2 && nextBB.Width * nextBB.Height > 0); //TODO: check
             if (succeeded)
                 return tok[0] + @"\draw (" + BB.X + "," + BB.Y + ") rectangle (" + (BB.X + BB.Width).ToString() + "," + (BB.Y + BB.Height).ToString() + "); " + cend + tok[1];
             else
