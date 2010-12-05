@@ -198,7 +198,7 @@ namespace TikzEdt
             isRunning = true;
             Job job = todo_tex.Peek();
 
-            if (!File.Exists(Consts.cTempFile + ".fmt"))
+            if (!File.Exists(Consts.cTempFile + ".fmt")) // TODO.... not in right folder
             {
                 Helper.GeneratePrecompiledHeaders();
                 return;
@@ -234,7 +234,7 @@ namespace TikzEdt
             s.Close();
 
             // call pdflatex         
-            texProcess.StartInfo.Arguments = "-quiet -halt-on-error " + job.path + ".tex";
+            texProcess.StartInfo.Arguments = "-quiet -halt-on-error " + "\"" +job.path +"\"" + ".tex";
             texProcess.Start();
         }
         /// <summary>
@@ -299,7 +299,8 @@ namespace TikzEdt
                         mypdfDoc.Dispose();
                     mypdfDoc = new PDFLibNet.PDFWrapper();
                     mypdfDoc.UseMuPDF = true;
-                    mypdfDoc.LoadPDF(job.path + ".pdf");
+                    if (!mypdfDoc.LoadPDF(job.path + ".pdf"))
+                        MessageBox.Show("Couldn't load pdf");
 
                     double magicnumber = 0.45;
                     dummy.Width = Convert.ToInt32(job.BB.Width * Resolution / magicnumber);

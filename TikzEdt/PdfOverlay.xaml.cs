@@ -35,7 +35,6 @@ namespace TikzEdt
         public Tikz_ParseTree ParseTree
         {
             get { return _parsetree; }
-            set { curSel = null; curDragged = null; _parsetree = value; RedrawObjects(); }
         }
 
         private double lResolution = Consts.ptspertikzunit;
@@ -45,9 +44,16 @@ namespace TikzEdt
             set
             {
                 if (value > 0)
+                {
                     lResolution = value;
+                    Width = BB.Width * Resolution;
+                    Height = BB.Width * Resolution;
+                    RedrawObjects();
+                }
             }
         }
+
+        public Rect BB = new Rect(0,0,10,10);
 
         public enum ToolType { move, addvert, addedge, addpath }
         ToolType _tool=ToolType.move;
@@ -64,6 +70,28 @@ namespace TikzEdt
         public PdfOverlay()
         {
             InitializeComponent();
+        }
+
+        public void SetParseTree(Tikz_ParseTree t, Rect tBB)
+        {
+            BB = tBB;
+            _parsetree = t;
+            curSel = null; curDragged = null;
+            Resolution = Resolution; // to recalc size
+            RedrawObjects();
+        }
+
+        public Point ScreenToTikz(Point p, bool invY=false)
+        {
+            if (invY)
+                return new Point(p.X / Resolution + BB.X, (Height-p.Y)/Resolution + BB.Y );
+            else return new Point(p.X / Resolution + BB.X, p.Y / Resolution + BB.Y);
+        }
+        public Point TikzToScreen(Point p, bool invY = false)
+        {
+            if (invY)
+                return new Point((p.X- BB.X)*Resolution, Height - (p.Y- BB.Y)*Resolution );
+            else return new Point((p.X - BB.X) * Resolution, (p.Y - BB.Y) * Resolution);
         }
 
         public void RedrawObjects()
@@ -121,6 +149,7 @@ namespace TikzEdt
             if (tpi is Tikz_Scope)
             {
                 OverlayScope os = new OverlayScope();
+                os.pol = this;
                 os.tikzitem = tpi as Tikz_Scope;
                 foreach (TikzParseItem t in (tpi as TikzContainerParseItem).Children)
                     DrawObject(t, os.children);
@@ -143,6 +172,7 @@ namespace TikzEdt
                     )
                 {
                     OverlayNode el = new OverlayNode();
+                    el.pol = this;
                     el.tikzitem = tpi as Tikz_XYItem;
                     //Ellipse el = new Ellipse();                                   
                     el.Stroke = Brushes.Red;
@@ -206,7 +236,8 @@ namespace TikzEdt
             // adjust position of dragged item (in parsetree) // hack
             if (tool == ToolType.move && curDragged != null)
             {
-                Point pp = new Point((Canvas.GetLeft(curDragged)+5) / Resolution, (Canvas.GetBottom(curDragged)+5) / Resolution);
+                Point pp = new Point(Canvas.GetLeft(curDragged)+curDragged.Width/2, Canvas.GetBottom(curDragged)+curDragged.Height/2);
+                pp = ScreenToTikz(pp);
                 if (curDragged is OverlayNode)
                 {
                     (curDragged as OverlayNode).tikzitem.SetAbsPos(pp);
@@ -237,7 +268,8 @@ namespace TikzEdt
                 }
                 curDragged = null;
 
-                OnModified.Invoke();
+                if (OnModified != null)
+                    OnModified.Invoke();
             }
         }
 
@@ -286,7 +318,8 @@ namespace TikzEdt
                     //tpict.UpdateText();
 
                     RedrawObjects();
-                    OnModified.Invoke();
+                    if (OnModified != null)
+                        OnModified.Invoke();
                 }
             }
             else if (tool == ToolType.addedge)
@@ -350,7 +383,8 @@ namespace TikzEdt
                     //tpict.UpdateText();
 
                     //RedrawObjects();
-                    OnModified.Invoke();
+                    if (OnModified != null)
+                        OnModified.Invoke();
                 }
 
             }
@@ -368,6 +402,7 @@ namespace TikzEdt
             r.Height = Height;
             return r;
         }
+        public PdfOverlay pol;
         public abstract void AdjustPosition(double Resolution);
     }
 
@@ -443,7 +478,7 @@ namespace TikzEdt
 
     public class OverlayNode : OverLayShape
     {
-        public Tikz_XYItem tikzitem;
+        public Tikz_XYItem tikzitem;        
 
         /// <summary>
         /// Sets the item's position according to its tikzitem's value
@@ -454,8 +489,9 @@ namespace TikzEdt
             Height = 10;
 
             Point p = tikzitem.GetAbsPos();
-            Canvas.SetLeft(this, Resolution * p.X - Width / 2);
-            Canvas.SetBottom(this, Resolution * p.Y - Height / 2);  // not quite ok like this?
+            Point pp = pol.TikzToScreen(p);
+            Canvas.SetLeft(this, pp.X - Width / 2);
+            Canvas.SetBottom(this, pp.Y - Height / 2);  // not quite ok like this?
         }
 
         protected override Geometry DefiningGeometry

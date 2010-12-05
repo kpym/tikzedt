@@ -47,9 +47,14 @@ namespace TikzEdt
         public double Resolution
         {
             get { return lResolution; }
-            set { 
-                if (value >0)
-                    lResolution = value; 
+            set {
+                if (value > 0)
+                {
+                    lResolution = value;
+                    Width = currentBB.Width * Resolution;
+                    Height = currentBB.Width * Resolution;
+                    RedrawBMP();
+                }
             }
         }
 

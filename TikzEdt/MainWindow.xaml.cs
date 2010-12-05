@@ -6,6 +6,7 @@ using System.Xml;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -179,17 +180,17 @@ namespace TikzEdt
                         //BB = newBB;
                     }
                     // Refresh overlay
-                    pdfOverlay1.Width = pdfOverlay1.Resolution * BB.Width;
-                    pdfOverlay1.Height = pdfOverlay1.Resolution * BB.Height;
+                    //pdfOverlay1.Width = pdfOverlay1.Resolution * BB.Width;
+                    //pdfOverlay1.Height = pdfOverlay1.Resolution * BB.Height;
                     rasterControl1.BB = BB;         
-                    pdfOverlay1.ParseTree = t;
+                    pdfOverlay1.SetParseTree(t, BB);
                 }
                 //MessageBox.Show(t.ToStringEx());
             }
             catch (Exception e)
             {
                 AddStatusLine("Couldn't parse code. " +e.Message, true);
-                pdfOverlay1.ParseTree = null;
+                pdfOverlay1.SetParseTree(null, new Rect(0,0,10,10));
             }
 
             // Compile
@@ -494,6 +495,102 @@ namespace TikzEdt
         {
             SnippetManager s = new SnippetManager();
             s.ShowDialog();
+            // reload snippets
+            snippetlist1.Reload();
+        }
+
+        GridLength oldwidth;
+        private void cmdSnippets_Checked(object sender, RoutedEventArgs e)
+        {
+            if (LeftSplitterCol != null && cmdSnippets != null && cmdFiles != null && snippetlist1 != null)
+            {
+                if (sender == cmdFiles)
+                {
+                    cmdSnippets.IsChecked = false;
+                    //snippetlist1.Visibility = System.Windows.Visibility.Hidden;
+                }
+                else if (sender == cmdSnippets)
+                {
+                    cmdFiles.IsChecked = false;
+                    snippetlist1.Visibility = System.Windows.Visibility.Visible;
+                }
+
+                GridLengthConverter g = new GridLengthConverter();
+                if (LeftSplitterCol.Width == (GridLength)g.ConvertFrom(0))
+                {
+                    LeftToolsCol.Width = oldwidth;
+                    LeftSplitterCol.Width = (GridLength)g.ConvertFrom(3);
+                }
+            }
+        }
+
+        private void cmdSnippets_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (sender == cmdFiles)
+            {
+                //cmdSnippets.IsChecked = false;
+                //snippetlist1.Visibility = System.Windows.Visibility.Hidden;
+            }
+            else if (sender == cmdSnippets)
+            {
+                //cmdFiles.IsChecked = false;
+                snippetlist1.Visibility = System.Windows.Visibility.Hidden;
+            }
+            if (cmdFiles.IsChecked == false && cmdSnippets.IsChecked == false)
+            {
+                GridLengthConverter g = new GridLengthConverter();
+                oldwidth = LeftToolsCol.Width;
+                LeftToolsCol.Width = (GridLength)g.ConvertFrom(0);
+                LeftSplitterCol.Width = (GridLength)g.ConvertFrom(0);                
+            }
+        }
+
+        private void snippetlist1_OnInsert(string code, string dependencies)
+        {
+            //txtCode.BeginChange();
+            string s = txtCode.Text, a=s.Substring(0,txtCode.CaretOffset), b=s.Substring(txtCode.CaretOffset);
+            txtCode.Text = a + code + b;            
+            //txtCode.EndChange();
+        }
+
+        private void cmbZoom_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void cmdZoomInClick(object sender, RoutedEventArgs e)
+        {
+            if (cmbZoom.SelectedIndex < cmbZoom.Items.Count - 1)            
+                cmbZoom.SelectedIndex++;
+        }
+
+        private void cmdZoomOutClick(object sender, RoutedEventArgs e)
+        {
+            if (cmbZoom.SelectedIndex > 0)
+                cmbZoom.SelectedIndex--;
+        }
+
+        private void cmbZoom_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+
+        }
+        private void cmbZoomTextChanged(object sender, RoutedEventArgs e)
+        {
+            string s = cmbZoom.Text;
+            s = s.Trim();
+            if (s.EndsWith("%"))
+                s = s.Remove(s.Length - 1);
+            double d;
+            if (Double.TryParse(s, out d))
+            {
+                if (d > 2 && d < 6000)
+                {
+                    double res = d / 100 * Consts.ptspertikzunit;
+                    tikzDisplay1.Resolution = res;
+                    rasterControl1.Resolution = res;
+                    pdfOverlay1.Resolution = res;
+                }
+            }
         }
     }
 }

@@ -28,7 +28,13 @@ namespace TikzEdt
         public double Resolution
         {
             get { return _Resolution; }
-            set { _Resolution = value; DrawRaster(); }
+            set
+            {
+                _Resolution = value; 
+                Width = Resolution * BB.Width;
+                Height = Resolution * BB.Height;
+                DrawRaster();
+            }
         }
 
         double _GridWidth = 1;

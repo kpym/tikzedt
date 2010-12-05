@@ -120,6 +120,27 @@
                 <ComboBoxItem Content="1" />
             </ComboBox>
             <Separator/>
+            <Button Click="cmdZoomOutClick">
+                <Image Source="/TikzEdt;component/Images/2391_ZoomOut.png" />
+            </Button>
+            <ComboBox Name="cmbZoom"  Width="60" ItemsSource="{Binding}" SelectionChanged="cmbZoom_SelectionChanged" Text="100%" PreviewTextInput="cmbZoom_PreviewTextInput" IsEditable="True">
+                <ComboBox.Style>
+                    <Style>
+                        <EventSetter Event="TextBox.TextChanged" Handler="cmbZoomTextChanged" />
+                        
+                    </Style>
+                </ComboBox.Style>
+
+                <ComboBoxItem Content="10%" />
+                <ComboBoxItem Content="50%" />
+                <ComboBoxItem Content="75%" />
+                <ComboBoxItem Content="100%" />
+                <ComboBoxItem Content="200%" />
+            </ComboBox>
+            <Button Click="cmdZoomInClick">
+                <Image Source="/TikzEdt;component/Images/2392_ZoomIn_48x48.png" />
+            </Button>
+            <Separator/>
             <RadioButton HorizontalAlignment="Left" Name="rb1" VerticalAlignment="Top" IsChecked="True" Checked="rb1_Checked">
                 <Image Source="/TikzEdt;component/Images/base_cursor.png" Style="{StaticResource toolbarImageStyle}"/>
             </RadioButton>
@@ -139,21 +160,29 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10"></ColumnDefinition>
-                <ColumnDefinition Width="150"></ColumnDefinition>
-                <ColumnDefinition Width="3"></ColumnDefinition>
+                <ColumnDefinition Width="20" Name="LeftMenuCol"></ColumnDefinition>
+                <ColumnDefinition Width="150" Name="LeftToolsCol"></ColumnDefinition>
+                <ColumnDefinition Width="3" Name="LeftSplitterCol"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="3"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <ToolBarTray Grid.Row="0" Grid.Column="0" Orientation="Vertical">
-                <ToolBar>
-                    <Button Content="One" />
-                    <Button Content="Two" />
-                </ToolBar>
-            </ToolBarTray>
-
+            <StackPanel Grid.Column="0" Background="Gray">
+                <ToggleButton  Width="60" Name="cmdFiles" Checked="cmdSnippets_Checked" Unchecked="cmdSnippets_Unchecked" Focusable="False">
+                    <ToggleButton.LayoutTransform>
+                        <RotateTransform Angle="-90"/>
+                    </ToggleButton.LayoutTransform>
+                    Files
+                </ToggleButton>
+                <ToggleButton Width="60" Name="cmdSnippets" Checked="cmdSnippets_Checked" Unchecked="cmdSnippets_Unchecked" Focusable="False" IsChecked="True">
+                    <ToggleButton.LayoutTransform>
+                        <RotateTransform Angle="-90"/>
+                    </ToggleButton.LayoutTransform>
+                    Snippets
+                </ToggleButton>
+            </StackPanel>
             <GridSplitter Background="Gray" Grid.Column="2" Grid.Row="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <my:SnippetList x:Name="snippetlist1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="0" OnInsert="snippetlist1_OnInsert" />
             <Grid Grid.Column="3" Background="Black">
                 <Grid.RowDefinitions>
                     <RowDefinition/>

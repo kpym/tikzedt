@@ -482,6 +482,12 @@ namespace TikzEdt {
                 this.columnID.AutoIncrement = true;
                 this.columnID.AllowDBNull = false;
                 this.columnID.Unique = true;
+                this.columnName.AllowDBNull = false;
+                this.columnCategory.AllowDBNull = false;
+                this.columnDescription.AllowDBNull = false;
+                this.columnSnippetCode.AllowDBNull = false;
+                this.columnSampleCode.AllowDBNull = false;
+                this.columnDependencies.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -637,12 +643,7 @@ namespace TikzEdt {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Name {
                 get {
-                    try {
-                        return ((string)(this[this.tableSnippetsTable.NameColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Name\' in table \'SnippetsTable\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableSnippetsTable.NameColumn]));
                 }
                 set {
                     this[this.tableSnippetsTable.NameColumn] = value;
@@ -653,12 +654,7 @@ namespace TikzEdt {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Category {
                 get {
-                    try {
-                        return ((string)(this[this.tableSnippetsTable.CategoryColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Category\' in table \'SnippetsTable\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableSnippetsTable.CategoryColumn]));
                 }
                 set {
                     this[this.tableSnippetsTable.CategoryColumn] = value;
@@ -669,12 +665,7 @@ namespace TikzEdt {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Description {
                 get {
-                    try {
-                        return ((string)(this[this.tableSnippetsTable.DescriptionColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Description\' in table \'SnippetsTable\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableSnippetsTable.DescriptionColumn]));
                 }
                 set {
                     this[this.tableSnippetsTable.DescriptionColumn] = value;
@@ -685,12 +676,7 @@ namespace TikzEdt {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string SnippetCode {
                 get {
-                    try {
-                        return ((string)(this[this.tableSnippetsTable.SnippetCodeColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'SnippetCode\' in table \'SnippetsTable\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableSnippetsTable.SnippetCodeColumn]));
                 }
                 set {
                     this[this.tableSnippetsTable.SnippetCodeColumn] = value;
@@ -701,12 +687,7 @@ namespace TikzEdt {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string SampleCode {
                 get {
-                    try {
-                        return ((string)(this[this.tableSnippetsTable.SampleCodeColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'SampleCode\' in table \'SnippetsTable\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableSnippetsTable.SampleCodeColumn]));
                 }
                 set {
                     this[this.tableSnippetsTable.SampleCodeColumn] = value;
@@ -717,88 +698,11 @@ namespace TikzEdt {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Dependencies {
                 get {
-                    try {
-                        return ((string)(this[this.tableSnippetsTable.DependenciesColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Dependencies\' in table \'SnippetsTable\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableSnippetsTable.DependenciesColumn]));
                 }
                 set {
                     this[this.tableSnippetsTable.DependenciesColumn] = value;
                 }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsNameNull() {
-                return this.IsNull(this.tableSnippetsTable.NameColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetNameNull() {
-                this[this.tableSnippetsTable.NameColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsCategoryNull() {
-                return this.IsNull(this.tableSnippetsTable.CategoryColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetCategoryNull() {
-                this[this.tableSnippetsTable.CategoryColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDescriptionNull() {
-                return this.IsNull(this.tableSnippetsTable.DescriptionColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDescriptionNull() {
-                this[this.tableSnippetsTable.DescriptionColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsSnippetCodeNull() {
-                return this.IsNull(this.tableSnippetsTable.SnippetCodeColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetSnippetCodeNull() {
-                this[this.tableSnippetsTable.SnippetCodeColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsSampleCodeNull() {
-                return this.IsNull(this.tableSnippetsTable.SampleCodeColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetSampleCodeNull() {
-                this[this.tableSnippetsTable.SampleCodeColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDependenciesNull() {
-                return this.IsNull(this.tableSnippetsTable.DependenciesColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDependenciesNull() {
-                this[this.tableSnippetsTable.DependenciesColumn] = global::System.Convert.DBNull;
             }
         }
         
