@@ -34,7 +34,9 @@
 
 == PdfOverlay ==
 
-=== Snippetmanager??? ===
+=== Snippetmanager ===
+*TODO*
+  * Keep a lock on file while snippetmanager open!
 
 === Misc ===
 *TODO*
