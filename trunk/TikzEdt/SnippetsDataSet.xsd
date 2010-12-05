@@ -16,12 +16,12 @@
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID" msdata:AutoIncrement="true" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" />
-              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
-              <xs:element name="Category" msprop:Generator_ColumnVarNameInTable="columnCategory" msprop:Generator_ColumnPropNameInRow="Category" msprop:Generator_ColumnPropNameInTable="CategoryColumn" msprop:Generator_UserColumnName="Category" type="xs:string" minOccurs="0" />
-              <xs:element name="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" msprop:Generator_UserColumnName="Description" type="xs:string" minOccurs="0" />
-              <xs:element name="SnippetCode" msprop:Generator_ColumnVarNameInTable="columnSnippetCode" msprop:Generator_ColumnPropNameInRow="SnippetCode" msprop:Generator_ColumnPropNameInTable="SnippetCodeColumn" msprop:Generator_UserColumnName="SnippetCode" type="xs:string" minOccurs="0" />
-              <xs:element name="SampleCode" msprop:Generator_ColumnVarNameInTable="columnSampleCode" msprop:Generator_ColumnPropNameInRow="SampleCode" msprop:Generator_ColumnPropNameInTable="SampleCodeColumn" msprop:Generator_UserColumnName="SampleCode" type="xs:string" minOccurs="0" />
-              <xs:element name="Dependencies" msprop:Generator_ColumnVarNameInTable="columnDependencies" msprop:Generator_ColumnPropNameInRow="Dependencies" msprop:Generator_ColumnPropNameInTable="DependenciesColumn" msprop:Generator_UserColumnName="Dependencies" type="xs:string" minOccurs="0" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" />
+              <xs:element name="Category" msprop:Generator_ColumnVarNameInTable="columnCategory" msprop:Generator_ColumnPropNameInRow="Category" msprop:Generator_ColumnPropNameInTable="CategoryColumn" msprop:Generator_UserColumnName="Category" type="xs:string" />
+              <xs:element name="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" msprop:Generator_UserColumnName="Description" type="xs:string" />
+              <xs:element name="SnippetCode" msprop:Generator_ColumnVarNameInTable="columnSnippetCode" msprop:Generator_ColumnPropNameInRow="SnippetCode" msprop:Generator_ColumnPropNameInTable="SnippetCodeColumn" msprop:Generator_UserColumnName="SnippetCode" type="xs:string" />
+              <xs:element name="SampleCode" msprop:Generator_ColumnVarNameInTable="columnSampleCode" msprop:Generator_ColumnPropNameInRow="SampleCode" msprop:Generator_ColumnPropNameInTable="SampleCodeColumn" msprop:Generator_UserColumnName="SampleCode" type="xs:string" />
+              <xs:element name="Dependencies" msprop:Generator_ColumnVarNameInTable="columnDependencies" msprop:Generator_ColumnPropNameInRow="Dependencies" msprop:Generator_ColumnPropNameInTable="DependenciesColumn" msprop:Generator_UserColumnName="Dependencies" type="xs:string" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

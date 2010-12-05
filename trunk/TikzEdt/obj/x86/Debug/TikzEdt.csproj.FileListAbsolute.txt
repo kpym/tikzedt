@@ -72,3 +72,5 @@ C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\obj\x86\Debug\
 C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\obj\x86\Debug\Themes\Generic.baml
 C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\obj\x86\Debug\SnippetManager.baml
 C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\obj\x86\Debug\SnippetManager.g.cs
+C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\obj\x86\Debug\SnippetList.g.cs
+C:\Users\tw\documents\visual studio 2010\Projects\TikzEdt\TikzEdt\obj\x86\Debug\SnippetList.baml

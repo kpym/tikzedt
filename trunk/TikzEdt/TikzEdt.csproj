@@ -95,6 +95,9 @@
     </Compile>
     <Compile Include="simpletikzLexer.cs" />
     <Compile Include="simpletikzParser.cs" />
+    <Compile Include="SnippetList.xaml.cs">
+      <DependentUpon>SnippetList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SnippetManager.xaml.cs">
       <DependentUpon>SnippetManager.xaml</DependentUpon>
     </Compile>
@@ -133,6 +136,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RasterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SnippetList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

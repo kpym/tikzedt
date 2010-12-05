@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:TikzEdt"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
-        Title="SnippetManager" Height="492" Width="630" Closing="Window_Closing" xmlns:my="clr-namespace:TikzEdt" Loaded="Window_Loaded">
+        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        Title="SnippetManager" Height="552" Width="658" Closing="Window_Closing" xmlns:my="clr-namespace:TikzEdt" Loaded="Window_Loaded">
     <Window.Resources>
         <my:SnippetsDataSet x:Key="snippetsDataSet" />
         <CollectionViewSource x:Key="snippetsTableViewSource" Source="{Binding Path=SnippetsTable, Source={StaticResource snippetsDataSet}}">
@@ -32,7 +33,7 @@
                         <Expander IsExpanded="True">
                            
                                 <Expander.Header>
-                                    <Border Background="LightGray" HorizontalAlignment="Stretch">
+                                    <Border HorizontalAlignment="Stretch">
                                         <TextBlock Text="{Binding Name}"/>
                                     </Border>
                                 </Expander.Header>
@@ -71,44 +72,7 @@
         <Grid.Resources>
     
             <DataTemplate x:Key="detailsProductListingTemplate">
-                <Grid Margin="5,5,5,10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="113"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,8,0">Category:</TextBlock>
-                    <TextBox Name="CategoryDTKey" Grid.Row="0" Grid.Column="1" Text="{Binding Path=Category}" />
-
-                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,8,0">Name:</TextBlock>
-                    <TextBox Name="NameDTKey" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Name}" />
-                    
-                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,8,0">Description:</TextBlock>
-                    <TextBox Name="DescriptionDTKey" AcceptsReturn="True" Grid.Row="2" Grid.Column="1" Text="{Binding Path=Description}" />
-
-                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,0,8,0">Snippet Code:</TextBlock>
-                    <TextBox Name="SnippetCodeDTKey" AcceptsReturn="True" Grid.Row="3" Grid.Column="1" Text="{Binding Path=SnippetCode}" Height="50"/>
-
-                    <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,0,8,0">Sample Code:</TextBlock>
-                    <TextBox Name="SampleCodeDTKey" AcceptsReturn="True" Grid.Row="4" Grid.Column="1" Text="{Binding Path=SampleCode}" Height="50"/>
-
-                    <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,0,8,0">Dependencies</TextBlock>
-                    <TextBox Name="DependenciesDTKey" AcceptsReturn="True" Grid.Row="5" Grid.Column="1" Text="{Binding Path=Dependencies}"/>
-
-                    <TextBlock Grid.Row="6" Grid.Column="0" Margin="0,0,8,0">Preview Image</TextBlock>
-                    <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Path=ID, StringFormat=img\\{0}.bmp}"/>
-                    <Image Grid.Row="6" Grid.Column="1" Height="200" Width="200" Source="{Binding Path=ID, Converter={StaticResource ImgConverter}}"/>
-                    <!-- "{Binding Path=Name, Converter={StaticResource ImgConverter}}"-->
-                </Grid>
             </DataTemplate>
         </Grid.Resources>
         
@@ -130,15 +94,18 @@
         
         <DockPanel Grid.Row="0" Grid.Column="0" LastChildFill="True">
             <TextBlock FontSize="18" FontWeight="Bold" Margin="10" HorizontalAlignment="Center" DockPanel.Dock="Top">Code Snippets</TextBlock>
-            <ToolBar Height="32" DockPanel.Dock="Top">
+            <ToolBar Height="32" DockPanel.Dock="Top" ToolBarTray.IsLocked="True" Name ="tlbNewDelete">
             <Button Click="cmdAddClick">
                 <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png" ImageFailed="Image_ImageFailed"></Image>
             </Button>
             <Button Click="cmdDeleteClick">
                 <Image Source="/TikzEdt;component/Images/delete.png"></Image>
             </Button>
+                <Button Click="cmdRefreshClick">
+                    <Image Source="/TikzEdt;component/Images/112_RefreshArrow_Blue_48x48_72.png" ImageFailed="Image_ImageFailed"></Image>
+                </Button>
             </ToolBar>
-            <ListBox VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="True" x:Name="lstSnippets" ItemsSource="{Binding}" DisplayMemberPath="Name" SelectedValuePath="ID">
+            <ListBox VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="True" x:Name="lstSnippets" ItemsSource="{Binding}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectionChanged="lstSnippets_SelectionChanged">
                 <ListBox.GroupStyle>
                     <GroupStyle ContainerStyle="{StaticResource ContainerStyle}" HeaderTemplate="{StaticResource groupingHeaderTemplate}"/>
                 </ListBox.GroupStyle>
@@ -155,20 +122,58 @@
             </ListBox>
         </DockPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="1">
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin=" 10">
             <TextBlock DockPanel.Dock="Top" FontWeight="Bold" Text="Details" />
             
             <ContentControl Name="Detail" Grid.Row="3" Grid.ColumnSpan="3" 
-            Content="{Binding}"
-            ContentTemplate="{StaticResource detailsProductListingTemplate}" 
-            Margin="9,0,0,0"/>
-            <ToolBar Height="32" VerticalAlignment="Bottom">
-                <Label>Create Image:</Label>
-                <Button Click="Button_Click">1x1</Button>
-                <Button Click="Button_Click">1x2</Button>
-                <Button Click="Button_Click">4x4</Button>
-            </ToolBar>
-            <Button Content="Button" Height="38" Name="button1" Width="97" Click="button1_Click_1" />
+            Margin="9,0,0,0">
+                <Grid Margin="5,5,5,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="113"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,8,0">Category:</TextBlock>
+                    <TextBox Name="CategoryDTKey" Grid.Row="0" Grid.Column="1" Text="{Binding Path=Category}" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,8,0">Name:</TextBlock>
+                    <TextBox Name="NameDTKey" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Name}" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,8,0">Description:</TextBlock>
+                    <TextBox Name="DescriptionDTKey" AcceptsReturn="True" Grid.Row="2" Grid.Column="1" Height="80" Text="{Binding Path=Description}" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,0,8,0">Snippet Code:</TextBlock>
+                    <!-- <local:TextEditorWithBinding x:Name="SnippetCodeDTKey" Grid.Row="3" Grid.Column="1" BindableText="{Binding Path=SnippetCode}" Height="150"/>-->
+                    <avalonedit:TextEditor Name="txtSnippetCode" Grid.Row="3" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged" />
+                    
+                    <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,0,8,0">Sample Code:</TextBlock>
+                    <avalonedit:TextEditor Name="txtSampleCode" Grid.Row="4" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged"/>
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,0,8,0">Dependencies</TextBlock>
+                    <TextBox Name="DependenciesDTKey" AcceptsReturn="True" Grid.Row="5" Grid.Column="1" Text="{Binding Path=Dependencies}"/>
+
+                    <TextBlock Grid.Row="6" Grid.Column="0" Margin="0,0,8,0">Preview Image</TextBlock>
+                    <!-- <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Path=ID, StringFormat=img\\{0}.bmp}"/> -->
+                    <DockPanel Grid.Row="6" Grid.Column="1">             
+                        <Image Margin="10" Height="100" Width="100" Source="{Binding Path=ID, Converter={StaticResource ImgConverter}}" HorizontalAlignment="Center"/>
+                        <StackPanel Width="80" DockPanel.Dock="Right">
+                            <Button Click="Button_Click">Compile 1x1</Button>
+                            <Button Click="Button_Click">Compile 2x2</Button>
+                            <Button Click="Button_Click">Compile 4x4</Button>
+                        </StackPanel>
+                    </DockPanel>
+                    <!-- "{Binding Path=Name, Converter={StaticResource ImgConverter}}"-->
+                </Grid>
+            </ContentControl>
         </StackPanel>
 
     </Grid>
