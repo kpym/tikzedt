@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g 2010-12-02 20:51:03
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g 2010-12-05 09:55:15
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -18,10 +18,10 @@ public class simpletikzLexer extends Lexer {
     public static final int IM_PATH=34;
     public static final int IM_ID=47;
     public static final int BEGINTP=6;
-    public static final int FLOAT=50;
-    public static final int SOMETHING=52;
+    public static final int FLOAT=51;
+    public static final int SOMETHING=48;
     public static final int T__61=61;
-    public static final int ID=49;
+    public static final int ID=50;
     public static final int EOF=-1;
     public static final int T__60=60;
     public static final int LBR=16;
@@ -52,7 +52,7 @@ public class simpletikzLexer extends Lexer {
     public static final int IM_PICTURE=39;
     public static final int LBRR=18;
     public static final int BEGINSCOPE=8;
-    public static final int INT=51;
+    public static final int INT=52;
     public static final int UN_CM=33;
     public static final int IM_NODE=35;
     public static final int COLON=24;
@@ -70,7 +70,7 @@ public class simpletikzLexer extends Lexer {
     public static final int END=5;
     public static final int IM_NODENAME=37;
     public static final int DRAW=11;
-    public static final int STRING=48;
+    public static final int STRING=49;
 
     // delegates
     // delegators

@@ -47,13 +47,24 @@ namespace TikzEdt
                 {
                     lResolution = value;
                     Width = BB.Width * Resolution;
-                    Height = BB.Width * Resolution;
-                    RedrawObjects();
+                    Height = BB.Height * Resolution;
+                    AdjustPositions();
                 }
             }
         }
 
-        public Rect BB = new Rect(0,0,10,10);
+        private Rect _BB = new Rect(0,0,10,10);
+        public Rect BB
+        {
+            get { return _BB; }
+            set 
+            { 
+                _BB = value;
+                Resolution = Resolution; // to redraw       
+            }
+        }
+
+        List<OverLayShape> TopLevelItems;
 
         public enum ToolType { move, addvert, addedge, addpath }
         ToolType _tool=ToolType.move;
@@ -81,6 +92,13 @@ namespace TikzEdt
             RedrawObjects();
         }
 
+        public void AdjustPositions()
+        {
+            if (TopLevelItems != null)
+                foreach (OverLayShape o in TopLevelItems)
+                    o.AdjustPosition(Resolution);                                      
+        }
+
         public Point ScreenToTikz(Point p, bool invY=false)
         {
             if (invY)
@@ -104,8 +122,8 @@ namespace TikzEdt
 
             // set render transform
             //canvas1.RenderTransform
-
-            DrawObject(ParseTree, null);
+            TopLevelItems = new List<OverLayShape>();
+            DrawObject(ParseTree, TopLevelItems);
 
           /*  foreach (TikzParseItem t in ParseTree.Children)
                 if (t is Tikz_Picture)
@@ -157,7 +175,7 @@ namespace TikzEdt
                 os.Stroke = new SolidColorBrush(Color.FromArgb(100, 0, 255, 0));
                 os.StrokeThickness = 10;
                 //os.Fill = new SolidColorBrush(Color.FromArgb(100, 0, 255, 0));
-                os.AdjustPosition();
+                os.AdjustPosition(Resolution);
                 canvas1.Children.Add(os);
             }
             else if (tpi is TikzContainerParseItem)
@@ -414,13 +432,13 @@ namespace TikzEdt
         /// <summary>
         /// Sets the item's position according to its tikzitem's value
         /// </summary>
-        public override void AdjustPosition(double Resolution) { AdjustPosition(); }
-        public void AdjustPosition() // resolution is ignored here
+        public override void AdjustPosition(double Resolution)
         {
             Rect r=new Rect(0,0,0,0);
             bool hasone = false;
             foreach (OverLayShape o in children)
             {
+                o.AdjustPosition(Resolution);
                 Rect rr = o.getBB();
                 if (hasone)
                     r.Union(rr);

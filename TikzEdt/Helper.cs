@@ -7,6 +7,8 @@ using System.IO;
 using System.Diagnostics;
 using System.Media;
 using System.Windows.Threading;
+using System.Windows.Data;
+
 //using System.Drawing;
 
 namespace TikzEdt
@@ -298,7 +300,7 @@ namespace TikzEdt
                     if (mypdfDoc != null)
                         mypdfDoc.Dispose();
                     mypdfDoc = new PDFLibNet.PDFWrapper();
-                    mypdfDoc.UseMuPDF = true;
+                    mypdfDoc.UseMuPDF = false; // true;
                     if (!mypdfDoc.LoadPDF(job.path + ".pdf"))
                         MessageBox.Show("Couldn't load pdf");
 
@@ -323,7 +325,7 @@ namespace TikzEdt
 
                     }
                 }
-                else ;
+                
 
 
                 isRunning = false;
@@ -335,5 +337,27 @@ namespace TikzEdt
 
     }
 
+    [ValueConversion(typeof(bool), typeof(bool))]
+    public class InverseBooleanConverter : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            if (targetType != typeof(bool))
+                throw new InvalidOperationException("The target must be a boolean");
+
+            return !(bool)value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            throw new NotSupportedException();
+        }
+
+        #endregion
+    }
 
 }
