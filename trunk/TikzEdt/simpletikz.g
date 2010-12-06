@@ -25,14 +25,14 @@ tokens {
 	LBRR		= '{';
 	RBRR		= '}';
 	KOMMA		= ',';
-	SCALE		= 'scale';
+	//SCALE		= 'scale';
 	EQU		= '=';
 	SEMIC		= ';';
 	COLON		= ':';
-	STYLESEP	= '/.style';
-	AT		= 'at';
-	LABEL		= 'label';
-	EVERYLOOP	= 'every loop';
+	//STYLESEP	= '/.style';
+	//AT		= 'at';
+	//LABEL		= 'label';
+	//EVERYLOOP	= 'every loop';
 	
 	// styles
 	//ST_INNERSEP	= 'inner sep';
@@ -45,13 +45,13 @@ tokens {
 	//ST_DASHSTYLE	= 'dash style';
 	
 	// edge option
-	LOOP		= 'loop';
-	IN		= 'in';
-	OUT		= 'out';
+	//LOOP		= 'loop';
+	//IN		= 'in';
+	//OUT		= 'out';
 	
 	// units
-	UN_PTS		= 'pt';
-	UN_CM		= 'cm';
+	//UN_PTS		= 'pt';
+	//UN_CM		= 'cm';
 //	UN_IN		= 'in';
 
 // imaginary

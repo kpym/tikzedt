@@ -1,5 +1,5 @@
-\begin{tikzpicture}[a b=5cm, fill = red, mine /.style={fill=red} ]
-\begin{scope}
-\draw (1,1) -- (2,2) -- +(0,1);
+\begin{tikzpicture}
+\begin{scope}[scale=2, xshift=1cm]
+  \draw (1,1)--(3,3);
 \end{scope}
 \end{tikzpicture}

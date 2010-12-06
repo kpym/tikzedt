@@ -61,6 +61,21 @@ namespace TikzEdt
             }
         }
 
+
+        private Rect _currentBB = new Rect(0, 0, 10, 10);
+        Rect currentBB
+        {
+            get { return _currentBB; }
+            set
+            {
+                _currentBB = value;
+                txtBBX.Text = currentBB.X.ToString();
+                txtBBY.Text = currentBB.Y.ToString();
+                txtBBW.Text = currentBB.Width.ToString();
+                txtBBH.Text = currentBB.Height.ToString();
+            }
+        }
+
         OpenFileDialog ofd = new OpenFileDialog();
         SaveFileDialog sfd = new SaveFileDialog();
 
@@ -158,44 +173,68 @@ namespace TikzEdt
             }
         }
 
-        private void txtCode_DocumentChanged(object sender, EventArgs e)
-        {
-           
-        }
 
-        private void Recompile()
+        void DetermineBB(Tikz_ParseTree t)
         {
-            // Compute a bounding box (hack)
-            Rect BB = new Rect(0, 0, 10, 10);
-            // Parse
-            try
+            Rect newBB = new Rect(0, 0, 10, 10);
+            if (chkAutoBB.IsChecked == false)
             {
-                if (!ProgrammaticTextChange)
-                {
-                    Tikz_ParseTree t = TikzParser.Parse(txtCode.Text);
-                    Rect newBB;
+                // Parse
+                double d;
+                if (Double.TryParse(txtBBX.Text, out d))
+                    if (d>-100 && d<100)
+                        newBB.X=d;
+                if (Double.TryParse(txtBBY.Text, out d))
+                    if (d>-100 && d<100)
+                        newBB.Y=d;
+                if (Double.TryParse(txtBBW.Text, out d))
+                    if (d>0 && d<100)
+                        newBB.Width=d;
+                if (Double.TryParse(txtBBH.Text, out d))
+                    if (d>0 && d<100)
+                        newBB.Height=d;
+                currentBB = newBB;
+            }
+            else
+            {
+                if (t != null)
+                {                                 
                     if (t.GetBB(out newBB))
                     {
                         newBB.Inflate(3, 3);
-                        //BB = newBB;
+                        currentBB = newBB;
                     }
-                    // Refresh overlay
-                    //pdfOverlay1.Width = pdfOverlay1.Resolution * BB.Width;
-                    //pdfOverlay1.Height = pdfOverlay1.Resolution * BB.Height;
-                    rasterControl1.BB = BB;         
-                    pdfOverlay1.SetParseTree(t, BB);
                 }
-                //MessageBox.Show(t.ToStringEx());
             }
-            catch (Exception e)
+        }
+        private void Recompile()
+        {
+            // Parse            
+            if (ProgrammaticTextChange)
             {
-                AddStatusLine("Couldn't parse code. " +e.Message, true);
-                pdfOverlay1.SetParseTree(null, new Rect(0,0,10,10));
+                DetermineBB(pdfOverlay1.ParseTree);
+                pdfOverlay1.BB = currentBB;
+            }
+            else
+            {
+                try
+                {
+                    Tikz_ParseTree t = TikzParser.Parse(txtCode.Text);
+                    DetermineBB(t);
+                    // Refresh overlay                    
+                    pdfOverlay1.SetParseTree(t, currentBB);
+                }
+                catch (Exception e)
+                {
+                    AddStatusLine("Couldn't parse code. " + e.Message, true);
+                    pdfOverlay1.SetParseTree(null, currentBB);
+                }
             }
 
-            // Compile
-            tikzDisplay1.Compile(txtCode.Text, BB);            
-
+            // Always Compile tex
+            tikzDisplay1.Compile(txtCode.Text, currentBB);
+            rasterControl1.BB = currentBB;
+            
         }
 
         private void txtCode_TextChanged(object sender, EventArgs e)

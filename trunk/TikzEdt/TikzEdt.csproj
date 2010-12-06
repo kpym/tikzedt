@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TikzEdt</RootNamespace>
     <AssemblyName>TikzEdt</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -49,8 +49,9 @@
     <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\..\avalonedit\bin\Debug\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
-    <Reference Include="PDFLibNet">
-      <HintPath>..\..\pdflibnet\PDFLibNet.dll</HintPath>
+    <Reference Include="PDFLibNet, Version=1.0.6.6, Culture=neutral, PublicKeyToken=26d87f7d66fb2aee, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\cube-soft-PDFLibNet-a097e5a\bin\x86\Release\PDFLibNet.dll</HintPath>
     </Reference>
     <Reference Include="RecentFileListLib">
       <HintPath>..\..\MRUList\RecentFileListLib.dll</HintPath>
@@ -174,7 +175,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

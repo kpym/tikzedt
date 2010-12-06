@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using System.Drawing;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
+using PDFLibNet;
 
 namespace TikzEdt
 {
@@ -63,7 +65,7 @@ namespace TikzEdt
         Rect nextBB, compilingBB, currentBB;
         protected bool isRunning = false;
         PDFLibNet.PDFWrapper mypdfDoc = null;
-        System.Windows.Forms.Control dummy = new System.Windows.Forms.Control();
+        //System.Windows.Forms.Control dummy = new System.Windows.Forms.Control();
 
         /// <summary>
         /// If the compilation gets stuck (actually it shouldn't), 
@@ -176,7 +178,7 @@ namespace TikzEdt
             if (mypdfDoc != null)
                 mypdfDoc.Dispose();
             mypdfDoc = new PDFLibNet.PDFWrapper();
-            mypdfDoc.UseMuPDF = true;
+            mypdfDoc.UseMuPDF = false; // true;
             mypdfDoc.LoadPDF(Consts.cTempFile + ".pdf");
 
             RecalcSize();          
@@ -211,9 +213,8 @@ namespace TikzEdt
         }
 
 
-      //  [DllImport("gdi32")]
-      //  static extern int DeleteObject(IntPtr o);
-
+        [DllImport("gdi32")]
+        static extern int DeleteObject(IntPtr o);
         /// <summary>
         /// This method converts a System.Drawing.Bitmap to a WPF Bitmap.
         /// (This is necessary since the WPF Image control only accepts WPF bitmaps)
@@ -232,7 +233,7 @@ namespace TikzEdt
             }
             finally
             {
-                //DeleteObject(ip);
+                DeleteObject(ip);
             }
 
             return bs;
@@ -265,29 +266,40 @@ namespace TikzEdt
         {
             if (mypdfDoc != null)
             {
-                double magicnumber = 0.45;
-                dummy.Width = Convert.ToInt32(ActualWidth / magicnumber);
-                dummy.Height = Convert.ToInt32(ActualHeight / magicnumber);
+                //double magicnumber = 0.45;                
+                //dummy.Width = Convert.ToInt32(ActualWidth / magicnumber);
+                //dummy.Height = Convert.ToInt32(ActualHeight / magicnumber);
+                //double magicnumber = 350;                
+                //dummy.Width = Convert.ToInt32(ActualWidth + magicnumber);
+                //dummy.Height = Convert.ToInt32(ActualHeight + magicnumber);
 
-                mypdfDoc.FitToWidth(dummy.Handle);
-                mypdfDoc.RenderPage(dummy.Handle);
-                dummy.Width =  Convert.ToInt32(ActualWidth);
-                dummy.Height =  Convert.ToInt32(ActualHeight);
-
-                if (dummy.Width <= 0 || dummy.Height <= 0) // TODO: this hould nott be necessary
+                if (currentBB.Width <= 0 || currentBB.Height <= 0) // TODO: this should not be necessary
                     return;
+                Bitmap tmp = mypdfDoc.Pages[1].GetBitmap(72*Resolution / Consts.ptspertikzunit);
+                System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, tmp.Height - Convert.ToInt32(currentBB.Height * Resolution), Convert.ToInt32(currentBB.Width * Resolution), Convert.ToInt32(currentBB.Height * Resolution));
+                Bitmap b = tmp.Clone(rect, tmp.PixelFormat);
+                tmp.Dispose();
+                //cropped.Save("ttemp.bmp");
 
-                Bitmap b = new Bitmap(dummy.Width, dummy.Height);
-                Graphics gr = Graphics.FromImage(b);
-                mypdfDoc.ClientBounds = new System.Drawing.Rectangle(0, 0, b.Width, b.Height);
-                mypdfDoc.DrawPageHDC(gr.GetHdc());
-                gr.ReleaseHdc();
-                System.Drawing.Color c = b.GetPixel(30, 30);
-                b.MakeTransparent(b.GetPixel(5,5));//Color.White);
+                
+                //mypdfDoc.FitToWidth(dummy.Handle);
+                //mypdfDoc.RenderPage(dummy.Handle);
+                //dummy.Width =  Convert.ToInt32(ActualWidth);
+                //dummy.Height =  Convert.ToInt32(ActualHeight);
+
+                //Bitmap b = new Bitmap(dummy.Width, dummy.Height);
+                //Graphics gr = Graphics.FromImage(b);
+                //mypdfDoc.ClientBounds = new System.Drawing.Rectangle(0, 0, b.Width, b.Height);
+                //mypdfDoc.DrawPageHDC(gr.GetHdc());
+                //gr.ReleaseHdc();
+                //System.Drawing.Color c = b.GetPixel(30, 30);
+                //b.MakeTransparent(b.GetPixel(5,5));//Color.White);
                 b.MakeTransparent(System.Drawing.Color.White);
                 b.MakeTransparent(System.Drawing.Color.FromArgb(255,253,253,253));
+                b.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
                 image1.Source = loadBitmap(b);
-
+                b.Dispose();
+                //GC.Collect();
             }
         }
 

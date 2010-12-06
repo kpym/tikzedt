@@ -17,6 +17,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <my:InverseBooleanConverter x:Key="BoolInverter" />
     </Window.Resources>
 
 
@@ -153,6 +154,19 @@
             <RadioButton HorizontalAlignment="Left" Name="rb4" VerticalAlignment="Top" Checked="rb1_Checked">
                 <Image Source="/TikzEdt;component/Images/path.bmp" Style="{StaticResource toolbarImageStyle}"/>
             </RadioButton>
+            <Separator/>
+            <Label>Bounding Box: </Label>
+            <DockPanel VerticalAlignment="Center">
+            <CheckBox Name="chkAutoBB" >Auto</CheckBox>
+            </DockPanel>
+            <Label>X</Label>
+            <TextBox Name="txtBBX" Width="20" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
+            <Label>Y</Label>
+            <TextBox Name="txtBBY" Width="20" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
+            <Label>W</Label>
+            <TextBox Name="txtBBW" Width="20" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
+            <Label>H</Label>
+            <TextBox Name="txtBBH" Width="20" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
         </ToolBar>
           
         <Grid Grid.Row="2">
@@ -191,7 +205,7 @@
                 </Grid.RowDefinitions>
                 <GridSplitter Background="Gray" Grid.Row="1" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />              
                 <RichTextBox Grid.Row="2" HorizontalAlignment="Stretch"  Name="txtStatus" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
-                <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" DocumentChanged="txtCode_DocumentChanged" TextChanged="txtCode_TextChanged" ShowLineNumbers="True">
+                <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" ShowLineNumbers="True">
                     <avalonedit:TextEditor.ContextMenu>
                         <ContextMenu >
                             <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
@@ -211,15 +225,12 @@
                 -->
                 <Grid Background="Gray">
                     <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center" />
-                    <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" Width="200" Height="200" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" OnCompileEvent="tikzDisplay1_OnCompileEvent" />                  
+                    <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" Width="200" Height="200" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" OnCompileEvent="tikzDisplay1_OnCompileEvent" />                   
                     <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" OnModified="pdfOverlay1_OnModified" />                    
                 </Grid>
             </ScrollViewer>
 
         </Grid>
         <StatusBar Grid.Row="3" Height="23" HorizontalAlignment="Stretch" Name="statusBar1" VerticalAlignment="Top" />
-        <Button Content="Button" Grid.Row="1" Height="22" HorizontalAlignment="Right" Margin="0,5,77,0" Name="button1" VerticalAlignment="Top" Width="84" Click="button1_Click" />
-        <Button Content="Button" Grid.Row="1" Height="21" HorizontalAlignment="Left" Margin="658,6,0,0" Name="button2" VerticalAlignment="Top" Width="59" Click="button2_Click" />
-        
     </Grid>
 </Window>

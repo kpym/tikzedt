@@ -66,8 +66,8 @@ namespace TikzEdt
             mi.m[0, 1] = -m[0, 1] / d;
             mi.m[1, 1] = m[0, 0] / d;
 
-            mi.m[0, 2] = - mi.m[0,0] * mi.m[0,2] - mi.m[0,1]*mi.m[1,2];
-            mi.m[1, 2] = - mi.m[1,0] * mi.m[0, 2] - mi.m[1, 1] * mi.m[1, 2];
+            mi.m[0, 2] = - mi.m[0,0] * m[0,2] - mi.m[0,1]*m[1,2];
+            mi.m[1, 2] = - mi.m[1,0] * m[0, 2] - mi.m[1, 1] * m[1, 2];
 
             return mi;
         }
@@ -290,7 +290,9 @@ namespace TikzEdt
                 }
                 else
                 {
-                    relp = relto.parent.GetCurrentTransform().Inverse().Transform(new Point(p.X, p.Y), true);
+                    TikzMatrix MM = relto.parent.GetCurrentTransform();
+                    MM=MM.Inverse();
+                    relp = MM.Transform(new Point(p.X, p.Y));
                 }
                 uX.SetInCM(relp.X);
                 uY.SetInCM(relp.Y);
@@ -331,7 +333,13 @@ namespace TikzEdt
             Point p = new Point(uX.GetInCM(), uY.GetInCM());
             if (relto.parent == null)
                 return p;
-            else return relto.parent.GetCurrentTransform().Transform(p);
+            else
+            {
+                TikzMatrix M = relto.parent.GetCurrentTransform();
+                Point pret = M.Transform(p);
+                return pret;
+            }
+                
         }
         public override void UpdateText()
         {
