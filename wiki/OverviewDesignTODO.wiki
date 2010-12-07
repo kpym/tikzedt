@@ -37,6 +37,7 @@
 === Snippetmanager ===
 *TODO*
   * Keep a lock on file while snippetmanager open!
+  * Image does not reload after being changed
 
 === Misc ===
 *TODO*
