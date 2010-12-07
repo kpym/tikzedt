@@ -22,5 +22,77 @@ namespace TikzEdt.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("pdflatex")]
+        public string Path_pdflatex {
+            get {
+                return ((string)(this["Path_pdflatex"]));
+            }
+            set {
+                this["Path_pdflatex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Path_externalviewer {
+            get {
+                return ((string)(this["Path_externalviewer"]));
+            }
+            set {
+                this["Path_externalviewer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        public double Window_Width {
+            get {
+                return ((double)(this["Window_Width"]));
+            }
+            set {
+                this["Window_Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("600")]
+        public double Window_Height {
+            get {
+                return ((double)(this["Window_Height"]));
+            }
+            set {
+                this["Window_Height"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Editor_WordWrap {
+            get {
+                return ((bool)(this["Editor_WordWrap"]));
+            }
+            set {
+                this["Editor_WordWrap"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Editor_ShowLineNumbers {
+            get {
+                return ((bool)(this["Editor_ShowLineNumbers"]));
+            }
+            set {
+                this["Editor_ShowLineNumbers"] = value;
+            }
+        }
     }
 }

@@ -84,7 +84,7 @@ namespace TikzEdt
             InitializeComponent();
 
             CommandBinding CommentCommandBinding = new CommandBinding(CommentCommand, CommentCommandHandler, AlwaysTrue);
-            CommandBinding UnCommentCommandBinding = new CommandBinding(UnCommentCommand, UnCommentCommandHandler, AlwaysTrue);
+            CommandBinding UnCommentCommandBinding = new CommandBinding(UnCommentCommand, UnCommentCommandHandler, AlwaysTrue);            
 
             pdfOverlay1.rasterizer = rasterControl1;
 
@@ -162,6 +162,8 @@ namespace TikzEdt
         {
             AddStatusLine("Welcome");
             AddStatusLine("Test");
+
+            //cmbGrid.SelectedIndex = 4;
 
             if (!File.Exists(Consts.cSyntaxFile))
             {
@@ -504,7 +506,7 @@ namespace TikzEdt
 
         private void cmbGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cmbGrid.SelectedIndex >= 0)
+            if (cmbGrid.SelectedIndex >= 0 && rasterControl1 != null)
             {
                 //string c = (cmbGrid.SelectedItem as ComboBoxItem).Content;
                 rasterControl1.GridWidth = Double.Parse((cmbGrid.SelectedItem as ComboBoxItem).Content.ToString());
@@ -587,9 +589,10 @@ namespace TikzEdt
         private void snippetlist1_OnInsert(string code, string dependencies)
         {
             //txtCode.BeginChange();
-            string s = txtCode.Text, a=s.Substring(0,txtCode.CaretOffset), b=s.Substring(txtCode.CaretOffset);
-            txtCode.Text = a + code + b;            
+            //string s = txtCode.Text, a=s.Substring(0,txtCode.CaretOffset), b=s.Substring(txtCode.CaretOffset);
+            //txtCode.Text = a + code + b;            
             //txtCode.EndChange();
+            txtCode.Document.Insert(txtCode.CaretOffset, code);
         }
 
         private void cmbZoom_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -630,6 +633,34 @@ namespace TikzEdt
                     pdfOverlay1.Resolution = res;
                 }
             }
+        }
+
+        private void SettingsMenuClick(object sender, RoutedEventArgs e)
+        {
+            SettingsDialog sd = new SettingsDialog();
+            sd.ShowDialog();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            TikzEdt.Properties.Settings.Default.Save();
+        }
+
+        private void TestClick(object sender, RoutedEventArgs e)
+        {
+            PDFLibNet.PDFWrapper p = new PDFLibNet.PDFWrapper();
+            p.LoadPDF("testtight.pdf");
+
+            System.Drawing.Bitmap b = p.Pages[1].GetBitmap(72);
+            b.Save("testtight.bmp");
+            b.Dispose();
+
+            int i = 5;
         }
     }
 }

@@ -3,7 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:custom="clr-namespace:TikzEdt"
         xmlns:common="clr-namespace:Common;assembly=RecentFileListLib"
-        Title="MainWindow" Height="624" Width="986" xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:my="clr-namespace:TikzEdt" Loaded="Window_Loaded">
+        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" 
+        xmlns:my="clr-namespace:TikzEdt"
+        xmlns:p="clr-namespace:TikzEdt.Properties"
+        Title="MainWindow" 
+        Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
+        Width="{Binding Source={x:Static p:Settings.Default}, Path=Window_Width, Mode=TwoWay}"  
+        Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing">
 
     <Window.Resources>
         <!-- El Cheapo hack to make images within disabled toolbar buttons appear 'grayed out'.  This doesn't
@@ -24,13 +30,13 @@
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Open"
                     Executed="OpenCommandHandler"
-                    CanExecute="AlwaysTrue"
+                    CanExecute="AlwaysTrue"                       
                     />
         <CommandBinding Command="ApplicationCommands.Save"
                     Executed="SaveCommandHandler"
                     CanExecute="AlwaysTrue"
                     />
-        <CommandBinding Command="ApplicationCommands.Save"
+        <CommandBinding Command="ApplicationCommands.SaveAs"
                     Executed="SaveAsCommandHandler"
                     CanExecute="AlwaysTrue"
                     />
@@ -66,6 +72,9 @@
                 <MenuItem Header="Quit"  />
             </MenuItem>
             <MenuItem Header="_Edit" >
+                <MenuItem Header="Undo" Command="ApplicationCommands.Undo"/>
+                <MenuItem Header="Redo" Command="ApplicationCommands.Redo"/>
+                <Separator/>
                 <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
                 <MenuItem Header="Paste" Command="ApplicationCommands.Paste"/>
                 <MenuItem Header="Cut"  Command="ApplicationCommands.Cut"/>
@@ -79,83 +88,94 @@
                 <MenuItem Header="Abort" Click="AbortCompilationClick" IsEnabled="{Binding ElementName=tikzDisplay1, Path=Compiling}"/>
             </MenuItem>
             <MenuItem Header="_Settings">
-                <MenuItem Header="Snippet Manager..." Click="SnippetMenuClick"/>                
+                <MenuItem Header="Snippet Manager..." Click="SnippetMenuClick"/>
+                <MenuItem Header="Settings..." Click="SettingsMenuClick"/>
+                <MenuItem Header="Test..." Click="TestClick"/>
             </MenuItem>
         </Menu>
-        <ToolBar Height="32" Grid.Row="1">
-            <Button Command="ApplicationCommands.New">
-                <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png" />
-            </Button>
-            <Button Command="ApplicationCommands.Open">
-                <Image Source="/TikzEdt;component/Images/openfolderHS.png" />
-            </Button>
-            <Button Command="ApplicationCommands.Save">
-                <Image Source="/TikzEdt;component/Images/saveHS.png" />
-            </Button>
-            <Separator/>
-            <Button Command="ApplicationCommands.Paste">
-                <Image Source="/TikzEdt;component/Images/paste.png" />
-            </Button>
-            <Button Command="ApplicationCommands.Copy">
-                <Image Source="/TikzEdt;component/Images/copy.png" />
-            </Button>
-            <Button Command="ApplicationCommands.Cut">
-                <Image Source="/TikzEdt;component/Images/cut.png" />
-            </Button>
-            <Separator/>
-            <Button Click="CompileClick">
-                <Image Source="/TikzEdt;component/Images/Gear.png" />
-            </Button>
-            <Button Name="cmdAbortCompilation" IsEnabled="{Binding ElementName=tikzDisplay1, Path=Compiling}" Click="AbortCompilationClick">
-                <Image Source="/TikzEdt;component/Images/error.png" Style="{StaticResource toolbarImageStyle}"/>
-            </Button>
-            <Separator/>   
-            <CheckBox HorizontalAlignment="Center" IsChecked="True" Checked="CheckBox_Checked" Name="chkOverlay" Unchecked="chkOverlay_Unchecked">Overlay</CheckBox>
-            <Separator/>
-            <Label> Grid:  </Label>
-            <ComboBox Name="cmbGrid"  Width="40" ItemsSource="{Binding}" SelectionChanged="cmbGrid_SelectionChanged" Text="1">
-                <ComboBoxItem Content="0" />
-                <ComboBoxItem Content="0.1" />
-                <ComboBoxItem Content="0.2" />
-                <ComboBoxItem Content="0.5" />
-                <ComboBoxItem Content="1" />
-            </ComboBox>
-            <Separator/>
-            <Button Click="cmdZoomOutClick">
-                <Image Source="/TikzEdt;component/Images/2391_ZoomOut.png" />
-            </Button>
-            <ComboBox Name="cmbZoom"  Width="60" ItemsSource="{Binding}" SelectionChanged="cmbZoom_SelectionChanged" Text="100%" PreviewTextInput="cmbZoom_PreviewTextInput" IsEditable="True">
-                <ComboBox.Style>
-                    <Style>
-                        <EventSetter Event="TextBox.TextChanged" Handler="cmbZoomTextChanged" />
-                        
-                    </Style>
-                </ComboBox.Style>
+        <ToolBarTray Grid.Row="1">
+            <ToolBar Height="32">
+                <Button Command="ApplicationCommands.New">
+                    <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png" />
+                </Button>
+                <Button Command="ApplicationCommands.Open">
+                    <Image Source="/TikzEdt;component/Images/openfolderHS.png" />
+                </Button>
+                <Button Command="ApplicationCommands.Save">
+                    <Image Source="/TikzEdt;component/Images/saveHS.png" />
+                </Button>
+                <Separator/>
+                <Button Command="ApplicationCommands.Paste">
+                    <Image Source="/TikzEdt;component/Images/paste.png" />
+                </Button>
+                <Button Command="ApplicationCommands.Copy">
+                    <Image Source="/TikzEdt;component/Images/copy.png" />
+                </Button>
+                <Button Command="ApplicationCommands.Cut">
+                    <Image Source="/TikzEdt;component/Images/cut.png" />
+                </Button>
+                <Separator/>
+                <Button Click="CompileClick">
+                    <Image Source="/TikzEdt;component/Images/PlayHS.png" />
+                    <Button.ToolTip>
+                        Compile the file
+                    </Button.ToolTip>
+                </Button>
+                <Button Name="cmdAbortCompilation" IsEnabled="{Binding ElementName=tikzDisplay1, Path=Compiling}" Click="AbortCompilationClick">
+                    <Image Source="/TikzEdt;component/Images/error.png" Style="{StaticResource toolbarImageStyle}"/>
+                    <Button.ToolTip>Abort compilation in case something goes wrong</Button.ToolTip>
+                </Button>
+                <Separator/>
+                <CheckBox HorizontalAlignment="Center" IsChecked="True" Checked="CheckBox_Checked" Name="chkOverlay" Unchecked="chkOverlay_Unchecked">
+                    Overlay
+                    <CheckBox.ToolTip>Switch the overlay displaying on top of the preview on/off</CheckBox.ToolTip>
+                </CheckBox>
+                <Separator/>
+                <Label>Grid:</Label>
+                <ComboBox Name="cmbGrid"  Width="40" ItemsSource="{Binding}" SelectionChanged="cmbGrid_SelectionChanged" SelectedIndex="4">
+                    <ComboBoxItem Content="0" />
+                    <ComboBoxItem Content="0.1" />
+                    <ComboBoxItem Content="0.2" />
+                    <ComboBoxItem Content="0.5" />
+                    <ComboBoxItem Content="1"/>
+                </ComboBox>
+                <Separator/>
+                <Button Click="cmdZoomOutClick">
+                    <Image Source="/TikzEdt;component/Images/2391_ZoomOut.png" />
+                </Button>
+                <ComboBox Name="cmbZoom"  Width="60" ItemsSource="{Binding}" SelectionChanged="cmbZoom_SelectionChanged" Text="100%" SelectedIndex="3" PreviewTextInput="cmbZoom_PreviewTextInput" IsEditable="True">
+                    <ComboBox.Style>
+                        <Style>
+                            <EventSetter Event="TextBox.TextChanged" Handler="cmbZoomTextChanged" />
 
-                <ComboBoxItem Content="10%" />
-                <ComboBoxItem Content="50%" />
-                <ComboBoxItem Content="75%" />
-                <ComboBoxItem Content="100%" />
-                <ComboBoxItem Content="200%" />
-            </ComboBox>
-            <Button Click="cmdZoomInClick">
-                <Image Source="/TikzEdt;component/Images/2392_ZoomIn_48x48.png" />
-            </Button>
-            <Separator/>
-            <RadioButton HorizontalAlignment="Left" Name="rb1" VerticalAlignment="Top" IsChecked="True" Checked="rb1_Checked">
-                <Image Source="/TikzEdt;component/Images/base_cursor.png" Style="{StaticResource toolbarImageStyle}"/>
-            </RadioButton>
-            <RadioButton HorizontalAlignment="Left" Name="rb2" VerticalAlignment="Top" Checked="rb1_Checked">
-                <Image Source="/TikzEdt;component/Images/bmpvert.bmp" Style="{StaticResource toolbarImageStyle}"/>
-            </RadioButton>
-            <RadioButton HorizontalAlignment="Left" Name="rb3" VerticalAlignment="Top" Checked="rb1_Checked">
-                <Image Source="/TikzEdt;component/Images/edge.bmp" Style="{StaticResource toolbarImageStyle}"/>
-            </RadioButton>
-            <RadioButton HorizontalAlignment="Left" Name="rb4" VerticalAlignment="Top" Checked="rb1_Checked">
-                <Image Source="/TikzEdt;component/Images/path.bmp" Style="{StaticResource toolbarImageStyle}"/>
-            </RadioButton>
-            <Separator/>
-            <Label>Bounding Box: </Label>
+                        </Style>
+                    </ComboBox.Style>
+
+                    <ComboBoxItem Content="10%" />
+                    <ComboBoxItem Content="50%" />
+                    <ComboBoxItem Content="75%" />
+                    <ComboBoxItem Content="100%" />
+                    <ComboBoxItem Content="200%" />
+                </ComboBox>
+                <Button Click="cmdZoomInClick">
+                    <Image Source="/TikzEdt;component/Images/2392_ZoomIn_48x48.png" />
+                </Button>
+                <Separator/>
+                <RadioButton HorizontalAlignment="Left" Name="rb1" VerticalAlignment="Top" IsChecked="True" Checked="rb1_Checked">
+                    <Image Source="/TikzEdt;component/Images/base_cursor.png" Style="{StaticResource toolbarImageStyle}"/>
+                </RadioButton>
+                <RadioButton HorizontalAlignment="Left" Name="rb2" VerticalAlignment="Top" Checked="rb1_Checked">
+                    <Image Source="/TikzEdt;component/Images/bmpvert.bmp" Style="{StaticResource toolbarImageStyle}"/>
+                </RadioButton>
+                <RadioButton HorizontalAlignment="Left" Name="rb3" VerticalAlignment="Top" Checked="rb1_Checked">
+                    <Image Source="/TikzEdt;component/Images/edge.bmp" Style="{StaticResource toolbarImageStyle}"/>
+                </RadioButton>
+                <RadioButton HorizontalAlignment="Left" Name="rb4" VerticalAlignment="Top" Checked="rb1_Checked">
+                    <Image Source="/TikzEdt;component/Images/path.bmp" Style="{StaticResource toolbarImageStyle}"/>
+                </RadioButton>
+            </ToolBar>
+            <ToolBar>
+                <Label>Bounding Box: </Label>
             <DockPanel VerticalAlignment="Center">
             <CheckBox Name="chkAutoBB" >Auto</CheckBox>
             </DockPanel>
@@ -168,7 +188,7 @@
             <Label>H</Label>
             <TextBox Name="txtBBH" Width="20" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
         </ToolBar>
-          
+        </ToolBarTray>
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
@@ -205,7 +225,9 @@
                 </Grid.RowDefinitions>
                 <GridSplitter Background="Gray" Grid.Row="1" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />              
                 <RichTextBox Grid.Row="2" HorizontalAlignment="Stretch"  Name="txtStatus" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
-                <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" ShowLineNumbers="True">
+                <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" 
+                                       ShowLineNumbers="{Binding Source={x:Static p:Settings.Default}, Path=Editor_ShowLineNumbers}"
+                                       WordWrap="{Binding Source={x:Static p:Settings.Default}, Path=Editor_WordWrap}">
                     <avalonedit:TextEditor.ContextMenu>
                         <ContextMenu >
                             <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
@@ -223,7 +245,7 @@
                 <!-- 
                 <Button Grid.Row="0" Grid.Column="0">Hallo Welt</Button> <my:PdfOverlay  HorizontalAlignment="Stretch" x:Name="pdfOverlay1" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" />
                 -->
-                <Grid Background="Gray">
+                <Grid Background="#303030">
                     <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center" />
                     <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" Width="200" Height="200" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" OnCompileEvent="tikzDisplay1_OnCompileEvent" />                   
                     <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" OnModified="pdfOverlay1_OnModified" />                    
