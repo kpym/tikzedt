@@ -92,6 +92,11 @@ namespace TikzEdt
             {
                 overflowGrid.Visibility = Visibility.Collapsed;
             }
+            overflowGrid = tlbNewDelete.Template.FindName("OverflowGrid", tlbCompile) as FrameworkElement;
+            if (overflowGrid != null)
+            {
+                overflowGrid.Visibility = Visibility.Collapsed;
+            }
 
             if (!File.Exists(Consts.cSyntaxFile))
             {
@@ -124,11 +129,19 @@ namespace TikzEdt
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (lstSnippets.SelectedIndex >= 0)
+            if (lstSnippets.SelectedItem != null)
             {
-                SnippetsDataSet.SnippetsTableRow r = ((DataRowView)lstSnippets.SelectedItem).Row as SnippetsDataSet.SnippetsTableRow;
-                if (!r.IsNull(snippetsTable.SampleCodeColumn))
-                    fact.AddJob(r.SampleCode, Directory.GetCurrentDirectory() + "\\img\\" + r.ID, new Rect(0, 0, 4, 4));
+                if (sender is Control)
+                {
+                    string s = (sender as Control).Tag.ToString();
+                    double size;
+                    if (Double.TryParse(s, out size))
+                    {
+                        SnippetsDataSet.SnippetsTableRow r = ((DataRowView)lstSnippets.SelectedItem).Row as SnippetsDataSet.SnippetsTableRow;
+                        if (!r.IsNull(snippetsTable.SampleCodeColumn))
+                            fact.AddJob(r.SampleCode, Directory.GetCurrentDirectory() + "\\img\\" + r.ID, new Rect(0, 0, size, size));
+                    }
+                }
             }
         }
 

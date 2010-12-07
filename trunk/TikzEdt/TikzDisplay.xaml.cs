@@ -64,7 +64,9 @@ namespace TikzEdt
         protected String nextToCompile = "";
         Rect nextBB, compilingBB, currentBB;
         protected bool isRunning = false;
-        PDFLibNet.PDFWrapper mypdfDoc = null;
+        //PDFLibNet.PDFWrapper mypdfDoc = null;
+        PdfToBmp mypdfDoc = new PdfToBmp();
+
         //System.Windows.Forms.Control dummy = new System.Windows.Forms.Control();
 
         /// <summary>
@@ -107,19 +109,21 @@ namespace TikzEdt
 
             if (lsucceeded)
             {
-                s.WriteLine(@"\pdfpageattr{/MediaBox [0 0 " + Convert.ToInt32(nextBB.Width * Consts.ptspertikzunit) + " "
-                                                            + Convert.ToInt32(nextBB.Height * Consts.ptspertikzunit) + "]}");
+                //s.WriteLine(@"\pdfpageattr{/MediaBox [0 0 " + Convert.ToInt32(nextBB.Width * Consts.ptspertikzunit) + " "
+                //                                            + Convert.ToInt32(nextBB.Height * Consts.ptspertikzunit) + "]}");
                 s.WriteLine(@"\begin{document}");
-                s.WriteLine(@"\thispagestyle{empty}");
-                s.WriteLine(@"\mathindent0cm \parindent0cm");
-                s.WriteLine(@"not seen");
-                s.WriteLine(@"\vfill");
+                s.WriteLine(@"\PreviewEnvironment{tikzpicture}");
+                
+                //s.WriteLine(@"\thispagestyle{empty}");
+                //s.WriteLine(@"\mathindent0cm \parindent0cm");
+                //s.WriteLine(@"not seen");
+                //s.WriteLine(@"\vfill");
             }
             else
             {
                 s.WriteLine(@"\begin{document}");
-                s.WriteLine(@"\thispagestyle{empty}");
-                s.WriteLine(@"\mathindent0cm \parindent0cm");
+                //s.WriteLine(@"\thispagestyle{empty}");
+                //s.WriteLine(@"\mathindent0cm \parindent0cm");
             }
 
             s.WriteLine(codetowrite);
@@ -175,12 +179,7 @@ namespace TikzEdt
         /// </summary>
         void RefreshPDF()
         {
-            if (mypdfDoc != null)
-                mypdfDoc.Dispose();
-            mypdfDoc = new PDFLibNet.PDFWrapper();
-            mypdfDoc.UseMuPDF = false; // true;
-            mypdfDoc.LoadPDF(Consts.cTempFile + ".pdf");
-
+            mypdfDoc.LoadPdf(Consts.cTempFile + ".pdf");
             RecalcSize();          
         }
 
@@ -213,32 +212,6 @@ namespace TikzEdt
         }
 
 
-        [DllImport("gdi32")]
-        static extern int DeleteObject(IntPtr o);
-        /// <summary>
-        /// This method converts a System.Drawing.Bitmap to a WPF Bitmap.
-        /// (This is necessary since the WPF Image control only accepts WPF bitmaps)
-        /// </summary>
-        /// <param name="source">The System.Drawing.Bitmap</param>
-        /// <returns>The same Bitmap, in Wpf format</returns>
-        public static BitmapSource loadBitmap(System.Drawing.Bitmap source)
-        {
-            IntPtr ip = source.GetHbitmap();
-            BitmapSource bs;
-            try
-            {
-                bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(ip,
-                   IntPtr.Zero, Int32Rect.Empty,
-                   System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-            }
-            finally
-            {
-                DeleteObject(ip);
-            }
-
-            return bs;
-        }
-
         /// <summary>
         /// Size is given by resolution * bounding box, if present.
         /// </summary>
@@ -266,47 +239,120 @@ namespace TikzEdt
         {
             if (mypdfDoc != null)
             {
-                //double magicnumber = 0.45;                
-                //dummy.Width = Convert.ToInt32(ActualWidth / magicnumber);
-                //dummy.Height = Convert.ToInt32(ActualHeight / magicnumber);
-                //double magicnumber = 350;                
-                //dummy.Width = Convert.ToInt32(ActualWidth + magicnumber);
-                //dummy.Height = Convert.ToInt32(ActualHeight + magicnumber);
-
-                if (currentBB.Width <= 0 || currentBB.Height <= 0) // TODO: this should not be necessary
-                    return;
-                Bitmap tmp = mypdfDoc.Pages[1].GetBitmap(72*Resolution / Consts.ptspertikzunit);
-                System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, tmp.Height - Convert.ToInt32(currentBB.Height * Resolution), Convert.ToInt32(currentBB.Width * Resolution), Convert.ToInt32(currentBB.Height * Resolution));
-                Bitmap b = tmp.Clone(rect, tmp.PixelFormat);
-                tmp.Dispose();
-                //cropped.Save("ttemp.bmp");
-
-                
-                //mypdfDoc.FitToWidth(dummy.Handle);
-                //mypdfDoc.RenderPage(dummy.Handle);
-                //dummy.Width =  Convert.ToInt32(ActualWidth);
-                //dummy.Height =  Convert.ToInt32(ActualHeight);
-
-                //Bitmap b = new Bitmap(dummy.Width, dummy.Height);
-                //Graphics gr = Graphics.FromImage(b);
-                //mypdfDoc.ClientBounds = new System.Drawing.Rectangle(0, 0, b.Width, b.Height);
-                //mypdfDoc.DrawPageHDC(gr.GetHdc());
-                //gr.ReleaseHdc();
-                //System.Drawing.Color c = b.GetPixel(30, 30);
-                //b.MakeTransparent(b.GetPixel(5,5));//Color.White);
-                b.MakeTransparent(System.Drawing.Color.White);
-                b.MakeTransparent(System.Drawing.Color.FromArgb(255,253,253,253));
-                b.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
-                image1.Source = loadBitmap(b);
-                b.Dispose();
-                //GC.Collect();
+                image1.Source = mypdfDoc.GetBitmap(Resolution); // mypdfDoc.GetBitmap(currentBB, Resolution);                
             }
         }
 
         private void image1_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            RedrawBMP();
+            //RedrawBMP();
         }
 
+    }
+
+
+
+    public class PdfToBmp
+    {
+        PDFWrapper mypdfDoc;
+
+        public bool LoadPdf(string cfile)
+        {
+            if (mypdfDoc != null)
+                mypdfDoc.Dispose();
+            mypdfDoc = new PDFLibNet.PDFWrapper();
+            mypdfDoc.UseMuPDF = true;
+            if (!File.Exists(cfile))
+                return false;
+            return mypdfDoc.LoadPDF(cfile);
+        }
+
+        public BitmapSource GetBitmap(Rect r, double Resolution)
+        {
+            if (mypdfDoc != null)
+            {
+                if (r.Width <= 0 || r.Height <= 0) // TODO: this should not be necessary
+                    return null;
+                Bitmap tmp = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);
+                tmp.Save("temptem.bmp");
+                System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, tmp.Height - Convert.ToInt32(r.Height * Resolution), Convert.ToInt32(r.Width * Resolution), Convert.ToInt32(r.Height * Resolution));
+                Bitmap b = tmp.Clone(rect, tmp.PixelFormat);
+                b.Save("temptemp.bmp");
+                
+                b.MakeTransparent(System.Drawing.Color.White);
+                b.MakeTransparent(System.Drawing.Color.FromArgb(255, 253, 253, 253));
+                b.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
+                BitmapSource ret = loadBitmap(b);
+                //b.Save("temptemp.bmp");
+                b.Dispose();
+                tmp.Dispose();
+                return ret;
+                //GC.Collect();
+            }
+            else return null;
+        }
+        public BitmapSource GetBitmap(double Resolution)
+        {
+            if (mypdfDoc != null)
+            {
+ 
+                Bitmap b = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);
+                b.MakeTransparent(System.Drawing.Color.White);
+                b.MakeTransparent(System.Drawing.Color.FromArgb(255, 253, 253, 253));
+                b.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
+                BitmapSource ret = loadBitmap(b);
+                b.Dispose();
+                return ret;
+                //GC.Collect();
+            }
+            else return null;
+        }
+
+        public void SaveBmp(string cFile, double Resolution)
+        {
+            if (mypdfDoc != null)
+            {
+
+                Bitmap b = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);
+                b.MakeTransparent(System.Drawing.Color.White);
+                b.MakeTransparent(System.Drawing.Color.FromArgb(255, 253, 253, 253));
+                b.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
+                b.Save(cFile);
+                b.Dispose();
+                //GC.Collect();
+            }            
+        }
+
+        [DllImport("gdi32")]
+        static extern int DeleteObject(IntPtr o);
+        /// <summary>
+        /// This method converts a System.Drawing.Bitmap to a WPF Bitmap.
+        /// (This is necessary since the WPF Image control only accepts WPF bitmaps)
+        /// </summary>
+        /// <param name="source">The System.Drawing.Bitmap</param>
+        /// <returns>The same Bitmap, in Wpf format</returns>
+        public static BitmapSource loadBitmap(System.Drawing.Bitmap source)
+        {
+            IntPtr ip = source.GetHbitmap();
+            BitmapSource bs;
+            try
+            {
+                bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(ip,
+                   IntPtr.Zero, Int32Rect.Empty,
+                   System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+            }
+            finally
+            {
+                DeleteObject(ip);
+            }
+
+            return bs;
+        }
+
+        ~PdfToBmp()
+        {
+            //if (mypdfDoc != null)
+              //  mypdfDoc.Dispose();
+        }
     }
 }

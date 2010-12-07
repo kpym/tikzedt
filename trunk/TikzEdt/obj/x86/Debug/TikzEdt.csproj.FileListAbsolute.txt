@@ -73,3 +73,5 @@ C:\Users\tw\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\obj\x86\Debug\
 C:\Users\tw\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\tw\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\obj\x86\Debug\TikzEdt.exe
 C:\Users\tw\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\obj\x86\Debug\TikzEdt.pdb
+C:\Users\tw\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\obj\x86\Debug\SettingsDialog.baml
+C:\Users\tw\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\obj\x86\Debug\SettingsDialog.g.cs

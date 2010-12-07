@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using System.IO;
-using System.Diagnostics;
-using System.Media;
-using System.Windows.Threading;
+using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+//using System.Drawing;
+using System.Diagnostics;
+using System.IO;
+using System.Windows.Threading;
+using System.Runtime.InteropServices;
 
 //using System.Drawing;
 
@@ -48,9 +57,10 @@ namespace TikzEdt
         public const string cTempImgFile = "temp_previewtexts"; // for equation rendering
         public const string defaultCurFile = "<new graph>";
         public const string PreviewHeader =
-        @"\documentclass[fleqn]{article}
+        @"\documentclass[tight]{article}
 \usepackage{tikz,amsmath, amssymb,bm,color}
 \usepackage[margin=0cm,nohead]{geometry}
+\usepackage[active,tightpage]{preview}
 ";
 
         public const string ImgHeader =
@@ -147,7 +157,7 @@ namespace TikzEdt
 
     public class TikzToBMPFactory
     {
-        public double timeout = 10; //seconds, not impl.
+        public double timeout = 5000; // in milliseconds
         public double Resolution = 50;
         public struct Job
         {
@@ -174,8 +184,10 @@ namespace TikzEdt
 
         protected Process texProcess = new Process();
         protected bool isRunning = false;
-        PDFLibNet.PDFWrapper mypdfDoc = null;
-        System.Windows.Forms.Control dummy = new System.Windows.Forms.Control();
+        //PDFLibNet.PDFWrapper mypdfDoc = null;
+        //System.Windows.Forms.Control dummy = new System.Windows.Forms.Control();
+        DispatcherTimer timer = new DispatcherTimer();
+        PdfToBmp mypdfDoc = new PdfToBmp();
 
         /// <summary>
         /// If the compilation gets stuck (actually it shouldn't), 
@@ -209,35 +221,31 @@ namespace TikzEdt
             // save into temporary textfile
             // add bounding box
             bool lsucceeded;
-            string codetowrite = writeBBtoTikz(job.code, job.BB, out lsucceeded);
+            string codetowrite = job.code;
+            if (job.BB.Width > 0 && job.BB.Height > 0)
+                codetowrite = writeBBtoTikz(job.code, job.BB, out lsucceeded);
 
             StreamWriter s = new StreamWriter(job.path + ".tex");
             s.WriteLine(@"%&" + Consts.cTempFile);
-
-            if (lsucceeded)
-            {
-                s.WriteLine(@"\pdfpageattr{/MediaBox [0 0 " + Convert.ToInt32(job.BB.Width * Consts.ptspertikzunit) + " "
-                                                            + Convert.ToInt32(job.BB.Height * Consts.ptspertikzunit) + "]}");
-                s.WriteLine(@"\begin{document}");
-                s.WriteLine(@"\thispagestyle{empty}");
-                s.WriteLine(@"\mathindent0cm \parindent0cm");
-                s.WriteLine(@"not seen");
-                s.WriteLine(@"\vfill");
-            }
-            else
-            {
-                s.WriteLine(@"\begin{document}");
-                s.WriteLine(@"\thispagestyle{empty}");
-                s.WriteLine(@"\mathindent0cm \parindent0cm");
-            }
-
+            s.WriteLine(@"\begin{document}");
+            s.WriteLine(@"\PreviewEnvironment{tikzpicture}");
             s.WriteLine(codetowrite);
             s.WriteLine(@"\end{document}");
             s.Close();
 
             // call pdflatex         
-            texProcess.StartInfo.Arguments = "-quiet -halt-on-error " + "\"" +job.path +"\"" + ".tex";
+            texProcess.StartInfo.Arguments = "-quiet -halt-on-error " + "\"" + job.path + ".tex" + "\"";
+            texProcess.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(job.path);
+
+            // Set reset timer in case something goes wrong
+            timer.Interval = TimeSpan.FromMilliseconds(timeout);           
+            timer.Start();
             texProcess.Start();
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            AbortCompilation();
         }
         /// <summary>
         /// Adds a rectangle to the Tikzcode in the size specified by BB. 
@@ -269,6 +277,7 @@ namespace TikzEdt
             texProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             // texProcess.SynchronizingObject = (System.ComponentModel.ISynchronizeInvoke) this;
             texProcess.Exited += new EventHandler(texProcess_Exited);
+            timer.Tick += new EventHandler(timer_Tick);
 
         }
 
@@ -293,41 +302,28 @@ namespace TikzEdt
             //Dispatcher.Invoke(new Action(
             //delegate()
             //{
+            timer.Stop();
                 Job job = todo_tex.Dequeue();
 
                 if (texProcess.ExitCode == 0)
                 {
-                    if (mypdfDoc != null)
-                        mypdfDoc.Dispose();
-                    mypdfDoc = new PDFLibNet.PDFWrapper();
-                    mypdfDoc.UseMuPDF = false; // true;
-                    if (!mypdfDoc.LoadPDF(job.path + ".pdf"))
-                        MessageBox.Show("Couldn't load pdf");
 
-                    double magicnumber = 0.45;
-                    dummy.Width = Convert.ToInt32(job.BB.Width * Resolution / magicnumber);
-                    dummy.Height = Convert.ToInt32(job.BB.Height * Resolution / magicnumber);
-
-                    mypdfDoc.FitToWidth(dummy.Handle);
-                    mypdfDoc.RenderPage(dummy.Handle);
-                    dummy.Width = Convert.ToInt32(job.BB.Width * Resolution);
-                    dummy.Height = Convert.ToInt32(job.BB.Height * Resolution);
-
-                    if (!(dummy.Width <= 0 || dummy.Height <= 0)) // TODO: this hould nott be necessary
+                    if (!mypdfDoc.LoadPdf(job.path + ".pdf"))
                     {
-
-                        System.Drawing.Bitmap b = new System.Drawing.Bitmap(dummy.Width, dummy.Height);
-                        System.Drawing.Graphics gr = System.Drawing.Graphics.FromImage(b);
-                        mypdfDoc.ClientBounds = new System.Drawing.Rectangle(0, 0, b.Width, b.Height);
-                        mypdfDoc.DrawPageHDC(gr.GetHdc());
-                        gr.ReleaseHdc();
-                        b.Save(job.path + ".bmp");
-
+                        MessageBox.Show("Couldn't load pdf");
+                    }
+                    else
+                    {
+                        Dispatcher.CurrentDispatcher.Invoke(new Action(
+                            delegate()
+                            {
+                                mypdfDoc.SaveBmp(job.path + ".bmp", Resolution);
+                            }
+                            ));
                     }
                 }
+                else MessageBox.Show("Compilation of the Codesnippet-Thumbnail " + job.path +" failed.\r\nPlease re-check the code.");
                 
-
-
                 isRunning = false;
                 if (todo_tex.Count > 0)
                     doCompile();

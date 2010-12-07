@@ -94,6 +94,9 @@
     <Compile Include="RasterControl.xaml.cs">
       <DependentUpon>RasterControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SettingsDialog.xaml.cs">
+      <DependentUpon>SettingsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="simpletikzLexer.cs" />
     <Compile Include="simpletikzParser.cs" />
     <Compile Include="SnippetList.xaml.cs">
@@ -137,6 +140,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RasterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -279,6 +286,45 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pencil_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\base_cog_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pencil_321.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\XML_Schema.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\settings_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1409_Monitor_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1435_ClipBoard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1475_Text Balloon_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1547_ballpointpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AutoList.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Autoplay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\batfile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Start.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
