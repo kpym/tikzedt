@@ -91,6 +91,7 @@
                 <MenuItem Header="Snippet Manager..." Click="SnippetMenuClick"/>
                 <MenuItem Header="Settings..." Click="SettingsMenuClick"/>
                 <MenuItem Header="Test..." Click="TestClick"/>
+                <MenuItem Header="Test...Updatetexts" Click="TestUpdClick"/>
             </MenuItem>
         </Menu>
         <ToolBarTray Grid.Row="1">
@@ -248,7 +249,8 @@
                 <Grid Background="#303030">
                     <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center" />
                     <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" Width="200" Height="200" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" OnCompileEvent="tikzDisplay1_OnCompileEvent" />                   
-                    <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" OnModified="pdfOverlay1_OnModified" />                    
+                    <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" 
+                                    OnModified="pdfOverlay1_OnModified" BeginModify="pdfOverlay1_BeginModify" EndModify="pdfOverlay1_EndModify" />                    
                 </Grid>
             </ScrollViewer>
 

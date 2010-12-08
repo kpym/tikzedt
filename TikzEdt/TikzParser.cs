@@ -117,15 +117,25 @@ namespace TikzEdt
                         item.AddChild(tc);
                         break;
                     case simpletikzParser.IM_NODE:
-                        Tikz_Node tn = Tikz_Node.FromCommonTree(childt);
+                        Tikz_Node tn = Tikz_Node.FromCommonTree(childt, tokens);
                         tn.text = getTokensString(tokens, childt);
                         item.AddChild(tn);
                         break;
+                    case simpletikzParser.IM_OPTION_KV:
+                    case simpletikzParser.IM_OPTION_STYLE:
+                        Tikz_Option topt = Tikz_Option.FromCommonTree(childt);
+                        topt.text = getTokensString(tokens, childt);
+                        item.AddChild(topt);
+                        break;
                     case simpletikzParser.IM_OPTIONS:
-                        Tikz_Options to = Tikz_Options.FromCommonTree(childt);
-                        to.text = getTokensString(tokens, childt);
+                        //Tikz_Options to = Tikz_Options.FromCommonTree(childt);                        
+                        Tikz_Options to = new Tikz_Options();
+                        FillItem(to, childt, tokens);
+                        item.AddChild(to);
+                        //to.text = getTokensString(tokens, childt);
                         //item.AddChild(tn);
-                        item.options = to;
+                        if (item.options == null)
+                            item.options = to;
                         break;
                     default:
                         // getting here is an error
@@ -142,7 +152,7 @@ namespace TikzEdt
             return true;
         }
 
-        public static string getTokensString(CommonTokenStream tokens, CommonTree t)
+        public static string getTokensString(CommonTokenStream tokens, ITree t)
         {
             return getTokensString(tokens, t.TokenStartIndex, t.TokenStopIndex);
         }
