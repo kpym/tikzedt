@@ -224,7 +224,7 @@ namespace TikzEdt
                // else
                   //  return new BitmapImage(); // TODO: load unavailable image
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return null;// new BitmapImage();
             }

@@ -21,12 +21,15 @@ namespace TikzEdt
     public partial class PdfOverlay : UserControl
     {
 
-        public delegate void ModifiedEventHandler();
+        public delegate void ModifiedEventHandler(TikzParseItem sender, string oldtext);
         /// <summary>
         /// This event is called whenever the picture gets modified.
         /// For example, in the handler one should update the code listing
         /// </summary>
         public event ModifiedEventHandler OnModified;
+        public delegate void NoArgsEventHandler(object sender);
+        public event NoArgsEventHandler BeginModify;
+        public event NoArgsEventHandler EndModify;
 
         Tikz_ParseTree _parsetree;
         /// <summary>
@@ -35,6 +38,20 @@ namespace TikzEdt
         public Tikz_ParseTree ParseTree
         {
             get { return _parsetree; }
+            private set 
+            {
+                if (_parsetree != null)
+                    _parsetree.TextChanged -= new Tikz_ParseTree.TextChangedHandler(_parsetree_TextChanged);
+                _parsetree = value;
+                if (_parsetree != null)
+                    _parsetree.TextChanged += new Tikz_ParseTree.TextChangedHandler(_parsetree_TextChanged);
+            }
+        }
+
+        void _parsetree_TextChanged(TikzParseItem sender, string oldtext)
+        {
+            if (OnModified != null)
+                OnModified(sender, oldtext);
         }
 
         private double lResolution = Consts.ptspertikzunit;
@@ -70,7 +87,7 @@ namespace TikzEdt
         ToolType _tool=ToolType.move;
         public ToolType tool
         {
-            get { return _tool; }
+        get { return _tool; }
             set { _tool = value; }
         }
 
@@ -86,7 +103,7 @@ namespace TikzEdt
         public void SetParseTree(Tikz_ParseTree t, Rect tBB)
         {
             BB = tBB;
-            _parsetree = t;
+            ParseTree = t;
             curSel = null; curDragged = null;
             Resolution = Resolution; // to recalc size
             RedrawObjects();
@@ -254,6 +271,8 @@ namespace TikzEdt
             // adjust position of dragged item (in parsetree) // hack
             if (tool == ToolType.move && curDragged != null)
             {
+                if (BeginModify != null)
+                    BeginModify(this);
                 Point pp = new Point(Canvas.GetLeft(curDragged)+curDragged.Width/2, Canvas.GetBottom(curDragged)+curDragged.Height/2);
                 pp = ScreenToTikz(pp);
                 if (curDragged is OverlayNode)
@@ -275,7 +294,7 @@ namespace TikzEdt
                         if (ts.options == null)
                             ts.options = new Tikz_Options();
                         ts.options.SetShiftRel(xs, ys);
-                        ts.UpdateText();
+                        //ts.UpdateText();
                     }
                 }
                 // update all other item's positions
@@ -286,8 +305,10 @@ namespace TikzEdt
                 }
                 curDragged = null;
 
-                if (OnModified != null)
-                    OnModified.Invoke();
+                //if (OnModified != null)
+                //    OnModified.Invoke();
+                if (EndModify != null)
+                    EndModify(this);
             }
         }
 
@@ -308,6 +329,9 @@ namespace TikzEdt
         {
             if (tool == ToolType.addvert)
             {
+                if (BeginModify != null)
+                    BeginModify(this);
+
                 Point p = new Point(e.GetPosition(canvas1).X, Height - e.GetPosition(canvas1).Y );                
                 p = rasterizer.RasterizePixel(p);
 
@@ -336,9 +360,9 @@ namespace TikzEdt
                     //tpict.UpdateText();
 
                     RedrawObjects();
-                    if (OnModified != null)
-                        OnModified.Invoke();
                 }
+                if (EndModify != null)
+                    EndModify(this);
             }
             else if (tool == ToolType.addedge)
             {
@@ -356,6 +380,9 @@ namespace TikzEdt
                     curSel=n;
                     return;
                 }
+
+                if (BeginModify != null)
+                    BeginModify(this);
 
                 // add an edge curSel to n 
                 // find tikzpicture
@@ -401,10 +428,11 @@ namespace TikzEdt
                     //tpict.UpdateText();
 
                     //RedrawObjects();
-                    if (OnModified != null)
-                        OnModified.Invoke();
+                    //if (OnModified != null)
+                    //    OnModified.Invoke();
                 }
-
+                if (EndModify != null)
+                    EndModify(this);
             }
         }
     }

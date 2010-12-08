@@ -427,12 +427,15 @@ namespace TikzEdt
 		}
 
         bool ProgrammaticTextChange = false;
-        private void pdfOverlay1_OnModified()
+        private void pdfOverlay1_OnModified(TikzParseItem sender, string oldtext)
         {
             // update code
-            ProgrammaticTextChange = true; 
-            txtCode.Text = pdfOverlay1.ParseTree.ToString();
-            ProgrammaticTextChange = false; 
+            //ProgrammaticTextChange = true; 
+
+            //txtCode.Text = pdfOverlay1.ParseTree.ToString();
+            txtCode.Document.Replace(sender.StartPosition(), oldtext.Length, sender.ToString());
+
+            //ProgrammaticTextChange = false; 
             //MessageBox.Show(pdfOverlay1.ParseTree.ToString());
         }
 
@@ -593,6 +596,7 @@ namespace TikzEdt
             //txtCode.Text = a + code + b;            
             //txtCode.EndChange();
             txtCode.Document.Insert(txtCode.CaretOffset, code);
+            
         }
 
         private void cmbZoom_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -660,7 +664,24 @@ namespace TikzEdt
             b.Save("testtight.bmp");
             b.Dispose();
 
-            int i = 5;
+            //int i = 5;
+        }
+
+        private void pdfOverlay1_BeginModify(object sender)
+        {
+            ProgrammaticTextChange = true;
+            txtCode.Document.BeginUpdate();            
+        }
+
+        private void pdfOverlay1_EndModify(object sender)
+        {
+            txtCode.Document.EndUpdate();
+            ProgrammaticTextChange = false;
+        }
+
+        private void TestUpdClick(object sender, RoutedEventArgs e)
+        {
+            pdfOverlay1.ParseTree.UpdateText();            
         }
     }
 }

@@ -2,13 +2,20 @@
         xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
     <Color name="Comment" foreground="Green" />
     <Color name="String" foreground="Gray" />
+    <Color name="MathString" foreground="Red" />
     
     <!-- This is the main ruleset. -->
     <RuleSet>
         <Span color="Comment" begin="%" />
         <Span color="Comment" multiline="true" 
            begin="/\*" end="\*/" />
-        
+        <Span color="MathString" multiline="true"
+           begin="/\*" end="\*/">
+          <RuleSet>
+            <!-- nested span for escape sequences -->
+            <Span begin="\\" end="." />
+          </RuleSet>
+        </Span> 
         <Span color="String">
             <Begin>"</Begin>
             <End>"</End>
@@ -17,20 +24,38 @@
                 <Span begin="\\" end="." />
             </RuleSet>
         </Span>
-        
+
+      <!-- commands -->
         <Keywords fontWeight="bold" foreground="Blue">
             <Word>\begin</Word>
             <Word>\end</Word>
             <Word>\node</Word>
-            <Word>node</Word>
             <Word>\draw</Word>
-            <Word>circle</Word>            
+            <Word>\matrix</Word>
             <!-- ... -->
         </Keywords>
 
+      <!-- path commands -->
+      <Keywords foreground="Blue">
+        <Word>node</Word>
+        <Word>circle</Word>
+        <Word>grid</Word>
+        <Word>rectangle</Word>
+        <Word>--</Word>
+        <Word>-></Word>
+        <Word>-|</Word>
+        <Word>|-</Word>
+        <Word>to</Word>
+
+        <!-- ... -->
+      </Keywords>   
+      
+      <!-- environment names -->
       <Keywords foreground="Red">
         <Word>tikzpicture</Word>
         <Word>equation</Word>
+        <Word>scope</Word>
+        
         <!-- ... -->
       </Keywords>
         

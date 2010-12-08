@@ -76,7 +76,17 @@ namespace TikzEdt
     public class TikzParseItem
     {
         public TikzContainerParseItem parent;
-        public string text = "";
+        private string _text = "";
+        public string text
+        {
+            get { return _text; }
+            set
+            {
+                string old = text;
+                _text = value;
+                RaiseTextChanged(this, old);
+            }
+        }
         public TikzParseItem(string txt)
         {
             text = txt;
@@ -87,6 +97,29 @@ namespace TikzEdt
         public override string ToString()
         {
             return text;
+        }
+
+        /// <summary>
+        /// Gets the position, in the document, of the current node.
+        /// (Position= index of the first character in the string produced by tikzdocument.ToString(), that belongs to this node)
+        /// </summary>
+        /// <returns></returns>
+        public virtual int StartPosition()
+        {
+            if (parent != null)
+                return parent.GetLengthBefore(this);
+            else
+                return 0;
+        }
+        public virtual int GetLengthBefore(TikzParseItem tpi)
+        {
+            return ToString().Length;
+        }
+
+        public virtual void RaiseTextChanged(TikzParseItem sender, string oldtext)
+        {
+            if (parent != null)
+                parent.RaiseTextChanged(sender, oldtext);
         }
         /// <summary>
         /// 
@@ -150,7 +183,7 @@ namespace TikzEdt
     }
     public class Tikz_Node : Tikz_XYItem
     {
-        public static Tikz_Node FromCommonTree(CommonTree t)
+        public static Tikz_Node FromCommonTree(CommonTree t, CommonTokenStream tokens)
         {
             // IM_NODE OPTIONS? nodename? coord? STRING
             Tikz_Node n = new Tikz_Node();
@@ -171,8 +204,9 @@ namespace TikzEdt
                 n.y = n.coord.uY.number;
             }
 
-            n.label = t.GetChild(i).Text.Trim();
-            // remove leading and trailing {} TODO: to it in parser
+            // the text of the node
+            n.label = TikzParser.getTokensString(tokens, t.GetChild(i));  //t.GetChild(i).Text.Trim();
+            // remove leading and trailing {} TODO: do it in parser
             n.label = n.label.Substring(1, n.label.Length - 2);
 
             return n;
@@ -215,26 +249,27 @@ namespace TikzEdt
         }
         public override void UpdateText()
         {
-            text = "node ";
+            string newtext = "node ";
             // if parent is a node, and this item is the first, do not print node again
             if (parent is Tikz_Path)
             {
                 if (parent.starttag.Trim() == @"\node")
                 {
                     // todo: check for first....
-                    text = "";
+                    newtext = "";
                 }
             }
 
             
             if (name != "")
-                text = text + "(" + name + ") ";
+                newtext = newtext + "(" + name + ") ";
             if (coord != null)
             {
                 coord.UpdateText();
-                text = text + "at " + coord.ToString() + " ";
+                newtext = newtext + "at " + coord.ToString() + " ";
             }
-            text = text + "{" + label + "}";
+            newtext = newtext + "{" + label + "}";
+            text = newtext;
         }
     }
     public enum Tikz_CoordType { Cartesian, Polar, Named }
@@ -343,20 +378,21 @@ namespace TikzEdt
         }
         public override void UpdateText()
         {
-            text = deco + "(";
+            string newtext = deco + "(";
             switch (type)
             {
                 case Tikz_CoordType.Named:
-                    text = text + nameref;
+                    newtext = newtext + nameref;
                     break;
                 case Tikz_CoordType.Polar:
-                    text = text + uX.ToString() + ";" + uY.ToString();
+                    newtext = newtext + uX.ToString() + ";" + uY.ToString();
                     break;
                 case Tikz_CoordType.Cartesian:
-                    text = text + uX.ToString() + "," + uY.ToString();
+                    newtext = newtext + uX.ToString() + "," + uY.ToString();
                     break;
             }
-            text = text + ")";
+            newtext = newtext + ")";
+            text = newtext;
         }
 
         public override void SetPosition(Point p)
@@ -480,6 +516,8 @@ namespace TikzEdt
         {
             tpi.parent = this;
             Children.Add(tpi);
+            // raise event
+            RaiseTextChanged(tpi, "");
         }
 
         public virtual Tikz_Node GetNodeByName(string tname)
@@ -504,14 +542,34 @@ namespace TikzEdt
         public override string ToString()
         {
             string s = starttag;
-            if (options != null)
-                s = s + options.ToString();
+            //if (options != null)
+            //    s = s + options.ToString();
             foreach (TikzParseItem t in Children)
             {
                 s = s + t.ToString();
             }
             return s + endtag;
         }
+
+        public override int GetLengthBefore(TikzParseItem tpi)
+        {
+            int pos = 0;
+            if (parent != null)
+                pos = parent.GetLengthBefore(this);
+            pos += starttag.Length;
+            //if (options != null)
+            //    pos += options.ToString().Length;
+            
+            foreach (TikzParseItem t in Children)
+            {
+                if (t == tpi)
+                    break;
+                else 
+                    pos += t.ToString().Length;
+            }
+            return pos;
+        }
+
         public override void UpdateText()
         {
             if (options != null)
@@ -536,6 +594,17 @@ namespace TikzEdt
     // the root of the parse tree
     public class Tikz_ParseTree : TikzContainerParseItem
     {
+        
+        public delegate void TextChangedHandler(TikzParseItem sender, string oldtext);
+        public event TextChangedHandler TextChanged;
+
+        public override void RaiseTextChanged(TikzParseItem sender, string oldtext)
+        {
+            if (TextChanged != null)
+                TextChanged(sender, oldtext);
+            //base.RaiseTextChanged(sender, oldtext);
+        }
+
         public Tikz_Picture GetTikzPicture()
         {
             return GetTikzPicture(this);
@@ -623,7 +692,7 @@ namespace TikzEdt
             string s = "";
             for (int i=0;i<t.ChildCount;i++)                
                 s = s + " " + t.GetChild(i).Text;
-            return s;
+            return s.Remove(0,1); // remove leading space
         }
         public static Tikz_Option FromCommonTree(ITree t)
         {
@@ -656,7 +725,7 @@ namespace TikzEdt
                         to.val = GetID(t.GetChild(1));
                         return to;
                     }
-                    break;
+                    
                 default:
                     return null;
             }
@@ -664,43 +733,45 @@ namespace TikzEdt
 
         public override void UpdateText()
         {
+            string newtext="";
             switch (type)
             {
                 case Tikz_OptionType.key:
-                    text = key;
+                    newtext = key;
                     break;
                 case Tikz_OptionType.keyval:
-                    text = key + "=";
+                    newtext = key + "=";
                     if (numval != null)
                     {
-                        text = text + numval.ToString();
-                    } else 
-                        text = text + val;
+                        newtext = newtext + numval.ToString();
+                    } else
+                        newtext = newtext + val;
                     break;
                 case Tikz_OptionType.style:
-                    text = key + "/.style=" + val;
+                    newtext = key + "/.style=" + val;
                     break;
             }
+            text = newtext;
         }
     }
 
-    public class Tikz_Options : TikzParseItem
+    public class Tikz_Options : TikzContainerParseItem
     {
-        public List<Tikz_Option> options = new List<Tikz_Option>();
+        //public List<Tikz_Option> options = new List<Tikz_Option>();
 
-        public static Tikz_Options FromCommonTree(CommonTree t)
-        {
+       // public static Tikz_Options FromCommonTree(CommonTree t)
+       // {
             // IM_NODE OPTIONS? nodename? coord? STRING
-            Tikz_Options opts = new Tikz_Options();
-            foreach (CommonTree tt in t.Children)
-            {
-                Tikz_Option to = Tikz_Option.FromCommonTree(tt);
-                if (to != null)
-                    opts.options.Add(to);
-            }
+       //     Tikz_Options opts = new Tikz_Options();
+       //     foreach (CommonTree tt in t.Children)
+       //     {
+       //         Tikz_Option to = Tikz_Option.FromCommonTree(tt);
+       //         if (to != null)
+       //             opts.options.Add(to);
+       //     }
 
-            return opts;
-        }
+       //     return opts;
+       // }
 
         public TikzMatrix GetTransform()
         {
@@ -745,11 +816,12 @@ namespace TikzEdt
                     o.numval = new Tikz_NumberUnit();
                     o.numval.unit = "cm";
                     o.numval.SetInCM(xshift);
-                    options.Add(o);
+                    AddOption(o);
                 }
                 else
                 {
                     o.numval.SetInCM(o.numval.GetInCM() + xshift);
+                    o.UpdateText();
                 }
             }
             if (yshift != 0)
@@ -763,33 +835,64 @@ namespace TikzEdt
                     o.numval = new Tikz_NumberUnit();
                     o.numval.unit = "cm";
                     o.numval.SetInCM(yshift);
-                    options.Add(o);
+                    AddOption(o);
                 }
                 else
                 {
                     o.numval.SetInCM(o.numval.GetInCM() + yshift);
+                    o.UpdateText();
                 }
             }
         }
 
         public Tikz_Option GetOption(string optionname, Tikz_OptionType type)
         {
-            foreach (Tikz_Option s in options)
-                if (s.type == type && s.key.Trim() == optionname)
-                    return s;
+            foreach (TikzParseItem tpi in Children)
+            {
+                if (tpi is Tikz_Option)
+                {
+                    Tikz_Option s = tpi as Tikz_Option;
+                    if (s.type == type && s.key.Trim() == optionname)
+                        return s;
+                }
+            }
+           // foreach (Tikz_Option s in options)
+           //     if (s.type == type && s.key.Trim() == optionname)
+           //         return s;
 
             return null;
         }
 
-        public override void UpdateText()
+        public int OptionsCount()
         {
-            string[] opts = new string[options.Count];
-            for (int i = 0; i < options.Count; i++)
-            {
-                options[i].UpdateText();
-                opts[i] = options[i].text;
-            }
-            text = "[" + String.Join(", ", opts) + "]";
+            int ret = 0;
+            foreach (TikzParseItem tpi in Children)            
+                if (tpi is Tikz_Option)
+                    ret++;
+             
+            return ret;
         }
+
+        public void AddOption(Tikz_Option o)
+        {
+            if (OptionsCount() > 0)
+            {
+                Tikz_Something komma = new Tikz_Something(", ");                
+                AddChild(komma);
+            }
+            o.UpdateText();
+            AddChild(o);
+        }
+
+        //public override void UpdateText()
+        //{
+        //    string[] opts = new string[options.Count];
+        //    for (int i = 0; i < options.Count; i++)
+        //    {
+        //        options[i].UpdateText();
+        //        opts[i] = options[i].text;
+        //    }
+        //    text = "[" + String.Join(", ", opts) + "]";
+        //}
     }
 }

@@ -293,7 +293,7 @@ namespace TikzEdt
         }
         public BitmapSource GetBitmap(double Resolution)
         {
-            if (mypdfDoc != null)
+            if (mypdfDoc != null && mypdfDoc.PageCount >0)
             {
  
                 Bitmap b = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);

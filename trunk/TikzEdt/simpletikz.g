@@ -14,6 +14,7 @@ tokens {
 	ENDTP 		= '\\end{tikzpicture}';
 	BEGINSCOPE	= '\\begin{scope}';
 	ENDSCOPE 	= '\\end{scope}';
+	USETIKZLIB	= '\\usetikzlibrary';
 	NODE		= '\\node';
 	DRAW		= '\\draw';
 	PATH		= '\\path';
@@ -69,11 +70,14 @@ IM_OPTIONS;
 IM_OPTION_STYLE;
 IM_OPTION_KV; 	// key or key value pair
 IM_ID;
+IM_TIKZSET;
+IM_USETIKZLIB;
+IM_STRING;
 }
 
 
 tikzdocument
-	:	SOMETHING* tikzpicture  SOMETHING*		-> ^(IM_DOCUMENT tikzpicture)
+	:	(tikz_something | usetikzlib)* tikzpicture  tikz_something*		-> ^(IM_DOCUMENT usetikzlib* tikzpicture)
 	;
 
 tikzpath 
@@ -101,11 +105,11 @@ node_start
 	:	NODE -> ^(IM_STARTTAG NODE)
 	;
 tikznode
-	:	nodename? ('at' coord)? STRING		-> ^(IM_NODE nodename? coord? STRING)			
+	:	nodename? ('at' coord)? tikzstring		-> ^(IM_NODE nodename? coord? tikzstring)			
 	;
 	
 edgeop	
-	:	'--' | 'edge' | '->' | '|-' | '-|' | 'to'
+	:	'--' | 'edge' | '->' | '|-' | '-|' | 'to' | 'grid' | 'rectangle'
 	;	
 
 nodename
@@ -148,7 +152,11 @@ tikzpicture_end
 	:	ENDTP -> ^(IM_ENDTAG ENDTP)
 	;
 tikzbody
-	:	( tikzscope | tikzpath | tikznodee)+
+	:	( tikzscope | tikzpath | tikznodee | tikz_something)+
+	;
+
+tikz_something
+	:	( ID | '\\' ID)+  -> 
 	;
 
 tikzscope
@@ -162,23 +170,54 @@ tikzscope_end
 	;
 
 tikz_options
-	: 	LBR (option (',' option)*)? RBR		-> ^(IM_OPTIONS option*)
+	: 	squarebr_start (option (',' option)*)? squarebr_end		-> ^(IM_OPTIONS squarebr_start option* squarebr_end)
+	;
+squarebr_start
+	:	LBR -> ^(IM_STARTTAG LBR)
+	;
+squarebr_end
+	:	RBR -> ^(IM_ENDTAG RBR)
+	;	
+	
+tikz_set
+	:	 tikz_set_start (option (',' option)*)? roundbr_end -> ^(IM_TIKZSET tikz_set_start option* roundbr_end)
+	;
+tikz_set_start
+	:	'\\tikzset' '{'		-> ^(IM_STARTTAG ) // todo: check if suffices
+	;
+	
+usetikzlib
+	:	usetikzlib_start idd (',' idd)* roundbr_end -> ^(IM_USETIKZLIB usetikzlib_start idd* roundbr_end)
+	;
+usetikzlib_start
+	:	USETIKZLIB '{' -> ^(IM_STARTTAG USETIKZLIB) // todo: check if necessary ...
+	;
+semicolon_end
+	:	';'	-> ^(IM_ENDTAG ';')
+	;
+roundbr_end
+	:	'}'	-> ^(IM_ENDTAG '}')
 	;
 	
 option
 	:	option_style 		-> ^(IM_OPTION_STYLE option_style)
 		| option_kv		-> ^(IM_OPTION_KV option_kv)
 	;
+	
 option_kv
 	:	idd ('='! (idd | numberunit))?
 	;
 option_style
-	:	idd '/.style'! '='! STRING // '{' option '}'
+	:	idd '/.style'! '='! '{'! (option (',' option)*)?  '}'! // '{' option '}'
 	;
 
 // id composed of more than one word
 idd
 	:	ID (ID)*	-> ^(IM_ID ID*)
+	;
+
+tikzstring
+	:	'{'  (tikzstring | MATHSTRING | ID)* '}' -> ^(IM_STRING '{' '}' ) //todo
 	;
 
 //tikzbody2
@@ -213,8 +252,9 @@ EXPONENT : ('e'|'E') ('+'|'-')? ('0'..'9')+ ;
 
 //OPTIONS :	'[' ~(']')* ']';
 
-STRING	:	'{' ( ESC_SEQ | ~('\\' | '}') )* '}';   /// not correct like this
-
+//STRING	:	'{' ( ESC_SEQ | ~('\\' | '}') )* '}';   /// not correct like this
+MATHSTRING 
+	:	'$' ( ESC_SEQ | ~('\\' | '$') )* '$';
 //STRING
 //    :  '"' ( ESC_SEQ | ~('\\'|'"') )* '"'
 //    ;
