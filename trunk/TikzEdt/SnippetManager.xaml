@@ -4,7 +4,7 @@
         xmlns:local="clr-namespace:TikzEdt"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
-        Title="SnippetManager" Height="595" Width="698" Closing="Window_Closing" xmlns:my="clr-namespace:TikzEdt" Loaded="Window_Loaded">
+        Title="SnippetManager" Height="595" Width="698" Closing="Window_Closing" xmlns:my="clr-namespace:TikzEdt" Loaded="Window_Loaded" Closed="Window_Closed">
     <Window.Resources>
         <my:SnippetsDataSet x:Key="snippetsDataSet" />
         <CollectionViewSource x:Key="snippetsTableViewSource" Source="{Binding Path=SnippetsTable, Source={StaticResource snippetsDataSet}}">
@@ -89,13 +89,16 @@
             <TextBlock FontSize="18" FontWeight="Bold" Margin="10" HorizontalAlignment="Center" DockPanel.Dock="Top">Code Snippets</TextBlock>
             <ToolBar Height="32" DockPanel.Dock="Top" ToolBarTray.IsLocked="True" Name ="tlbNewDelete">
             <Button Click="cmdAddClick">
-                <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png" ImageFailed="Image_ImageFailed"></Image>
+                <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png"></Image>
             </Button>
             <Button Click="cmdDeleteClick">
                 <Image Source="/TikzEdt;component/Images/delete.png"></Image>
             </Button>
                 <Button Click="cmdRefreshClick">
-                    <Image Source="/TikzEdt;component/Images/112_RefreshArrow_Blue_48x48_72.png" ImageFailed="Image_ImageFailed"></Image>
+                    <Image Source="/TikzEdt;component/Images/112_RefreshArrow_Blue_48x48_72.png"></Image>
+                </Button>
+                <Button Click="cmdSaveClick">
+                    <Image Source="/TikzEdt;component/Images/saveHS.png"></Image>
                 </Button>
             </ToolBar>
             <ListBox VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="True" x:Name="lstSnippets" ItemsSource="{Binding}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectionChanged="lstSnippets_SelectionChanged">
@@ -162,11 +165,8 @@
                         <Image Margin="10" Height="100" Width="100" Source="{Binding Path=ID, Converter={StaticResource ImgConverter}}" HorizontalAlignment="Center"/>
                         <ToolBarTray  Width="78" Orientation="Vertical" DockPanel.Dock="Right" Background="White">
                             <ToolBar ToolBarTray.IsLocked="True" Name="tlbCompile">
-                                <Button Click="Button_Click" Tag="0">Compile </Button>
-                                <Button Click="Button_Click" Tag="1">Compile 1x1</Button>
-                                <Button Click="Button_Click" Tag="2">Compile 2x2</Button>
-                                <Button Click="Button_Click" Tag="4">Compile 4x4</Button>
-                            </ToolBar>
+                                <Button Click="cmdCompile_Click" Tag="0">Compile </Button>
+                                </ToolBar>
                        </ToolBarTray>
                     </DockPanel>
                     <TextBlock Grid.Column="0" Grid.Row="6" VerticalAlignment="Bottom" Text="{Binding Path=ID}"/>

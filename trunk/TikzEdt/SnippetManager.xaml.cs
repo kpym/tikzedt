@@ -28,29 +28,37 @@ namespace TikzEdt
     public partial class SnippetManager : Window
     {
         public TikzToBMPFactory fact = new TikzToBMPFactory();
+        public bool isSuccessfullyLoaded = false;
+        System.Threading.Mutex myMutex;
 
         public SnippetManager()
         {
             InitializeComponent();
-            string appPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
+
+            // try to get mutex
+            myMutex = new System.Threading.Mutex(false, "SnippetManagerMutex");
+            if (!myMutex.WaitOne(50))
+            {
+                MessageBox.Show("Cannot get a unique lock. \r\nPlease close other instances of the Snippetsmanager.\r\n(In order to avoid data corruption, only one Snippetmanager may be open at a time.)",
+                    "Cannot get lock", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Close();
+                return;
+            }
+            else
+                isSuccessfullyLoaded = true;
+
+            //string appPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
             //xmldp.Source = new Uri(appPath + @"\Snippets.xml");
         }
 
-
-
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            
-            //string source = xmldp.Source.LocalPath;
-            //xmldp.Document.Save(source);
-
-        }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //string source = xmldp.Source.LocalPath;
             //xmldp.Document.Save(source);
-            snippetsDataSet.WriteXml("TheSnippets.xml");
+            if (isSuccessfullyLoaded)
+                snippetsDataSet.WriteXml(Consts.cSnippetsFile);
+            
         }
 
         private void cmdDeleteClick(object sender, RoutedEventArgs e)
@@ -113,36 +121,18 @@ namespace TikzEdt
             snippetsDataSet = ((TikzEdt.SnippetsDataSet)(this.FindResource("snippetsDataSet")));
             snippetsTable = snippetsDataSet.Tables["SnippetsTable"] as SnippetsDataSet.SnippetsTableDataTable;
             snippetsTableViewSource = (CollectionViewSource)this.FindResource("snippetsTableViewSource");
-            if (File.Exists("TheSnippets.xml"))
-                snippetsDataSet.ReadXml("TheSnippets.xml");         // TODO: Program stops here...very strange ... due to images???
-        }
-
-        private void button1_Click_1(object sender, RoutedEventArgs e)
-        {
-            snippetsDataSet.WriteXml("TheSnippets.xml");
-        }
-
-        private void Image_ImageFailed(object sender, ExceptionRoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (lstSnippets.SelectedItem != null)
+            if (File.Exists(Consts.cSnippetsFile))
             {
-                if (sender is Control)
-                {
-                    string s = (sender as Control).Tag.ToString();
-                    double size;
-                    if (Double.TryParse(s, out size))
-                    {
-                        SnippetsDataSet.SnippetsTableRow r = ((DataRowView)lstSnippets.SelectedItem).Row as SnippetsDataSet.SnippetsTableRow;
-                        if (!r.IsNull(snippetsTable.SampleCodeColumn))
-                            fact.AddJob(r.SampleCode, Directory.GetCurrentDirectory() + "\\img\\" + r.ID, new Rect(0, 0, size, size));
-                    }
-                }
+                snippetsDataSet.ReadXml(Consts.cSnippetsFile);         // TODO: Program stops here...very strange ... due to images???
+                snippetsTableViewSource.View.Refresh();
             }
+        }
+
+        private void cmdCompile_Click(object sender, RoutedEventArgs e)
+        {
+            SnippetsDataSet.SnippetsTableRow r = ((DataRowView)lstSnippets.SelectedItem).Row as SnippetsDataSet.SnippetsTableRow;
+            if (!r.IsNull(snippetsTable.SampleCodeColumn))
+                fact.AddJob(r.SampleCode, Helper.GetAppDir() + "\\img\\" + r.ID, new Rect(0, 0, 0, 0));
         }
 
 
@@ -193,9 +183,23 @@ namespace TikzEdt
         private void cmdRefreshClick(object sender, RoutedEventArgs e)
         {
             //lstSnippets.Items.Refresh();            
-            snippetsDataSet.WriteXml("TheSnippets.xml");
-            snippetsDataSet.Clear();
-            snippetsDataSet.ReadXml("TheSnippets.xml");
+            //snippetsDataSet.WriteXml(Consts.cSnippetsFile);
+            //snippetsDataSet.Clear();
+            //snippetsDataSet.ReadXml(Consts.cSnippetsFile);
+            snippetsTableViewSource.View.Refresh();
+        }
+
+        private void cmdSaveClick(object sender, RoutedEventArgs e)
+        {
+            if (isSuccessfullyLoaded)
+                snippetsDataSet.WriteXml(Consts.cSnippetsFile);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            // release mutex
+            if (myMutex != null && isSuccessfullyLoaded)
+                myMutex.ReleaseMutex();
         }
     }
 

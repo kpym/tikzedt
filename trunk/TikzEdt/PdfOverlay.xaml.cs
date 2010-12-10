@@ -31,6 +31,21 @@ namespace TikzEdt
         public event NoArgsEventHandler BeginModify;
         public event NoArgsEventHandler EndModify;
 
+        public static readonly DependencyProperty NodeStyleProperty = DependencyProperty.Register(
+        "NodeStyle", typeof(string), typeof(PdfOverlay), new PropertyMetadata(""));
+        public string NodeStyle
+        {
+            get { return (string)GetValue(NodeStyleProperty); }
+            set { }
+        }
+        public static readonly DependencyProperty EdgeStyleProperty = DependencyProperty.Register(
+        "EdgeStyle", typeof(string), typeof(PdfOverlay), new PropertyMetadata(""));
+        public string EdgeStyle
+        {
+            get { return (string)GetValue(EdgeStyleProperty); }
+            set { }
+        }
+
         Tikz_ParseTree _parsetree;
         /// <summary>
         /// The Parse tree currently being displayed is stored in this property.
@@ -342,7 +357,8 @@ namespace TikzEdt
                     Tikz_Node tn = new Tikz_Node();
                     tn.label = "?";
                     tn.coord = new Tikz_Coord();
-                    
+                    if (NodeStyle != "")
+                        tn.options = "[" + NodeStyle + "]";
 
                     Tikz_Path tp = new Tikz_Path();
                     tp.starttag = @"\node ";
@@ -397,6 +413,19 @@ namespace TikzEdt
                     Tikz_Path tp = new Tikz_Path();
                     tp.starttag = @"\draw ";
                     tp.endtag = ";";
+                    if (EdgeStyle != "")
+                    {
+                        Tikz_Options topt = new Tikz_Options();
+                        topt.starttag = "[";
+                        topt.endtag = "]";
+                        Tikz_Option to = new Tikz_Option();
+                        to.type = Tikz_OptionType.key;
+                        to.key = EdgeStyle;
+
+                        topt.AddOption(to);
+                        tp.AddChild(topt);
+                        tp.options = topt;
+                    }
 
                     Tikz_Coord tc1 = new Tikz_Coord();
                     tc1.type = Tikz_CoordType.Named;

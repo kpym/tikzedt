@@ -73,7 +73,7 @@ namespace TikzEdt
             //t.Children.Add(new Tikz_Node(8, 8));
             if (success)
             {
-                root.RegisterNodeRefs(); // make a list with all node names for later reference
+                root.RegisterNodeAndStyleRefs(); // make a list with all node names for later reference
                 return root;
             }
             else
@@ -83,6 +83,8 @@ namespace TikzEdt
         static bool FillItem(TikzContainerParseItem item, CommonTree t, CommonTokenStream tokens)
         {
             int curToken = t.TokenStartIndex;
+            if (item is Tikz_ParseTree)
+                curToken = 0;   // for root, start at the beginning
 
             foreach (CommonTree childt in t.Children)
             {
@@ -137,6 +139,17 @@ namespace TikzEdt
                         if (item.options == null)
                             item.options = to;
                         break;
+                    case simpletikzParser.IM_TIKZSET:
+                        Tikz_Options to2 = new Tikz_Options();
+                        FillItem(to2, childt, tokens);
+                        item.AddChild(to2);
+                        break;
+                    case simpletikzParser.IM_STYLE:
+                        Tikz_Option topt2 = Tikz_Option.FromCommonTree(childt);
+                        //FillItem(to2, childt, tokens);
+                        topt2.text = getTokensString(tokens, childt);
+                        item.AddChild(topt2);
+                        break;
                     default:
                         // getting here is an error
                         break;
@@ -147,7 +160,8 @@ namespace TikzEdt
 
             }
 
-            addSomething(item, tokens, curToken, t.TokenStopIndex);
+            if (t.TokenStartIndex >= 0)   // rule out empty code 
+                addSomething(item, tokens, curToken, t.TokenStopIndex);
 
             return true;
         }
