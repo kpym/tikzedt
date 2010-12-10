@@ -1,20 +1,27 @@
 grammar simpletikz;
 
+
 options 
 {
 	output=AST;
 	language = 'CSharp2';
+	//backtrack=true;
 }
 
 
 tokens {
-	BEGIN	 	= '\\begin';
-	END 		= '\\end';
-	BEGINTP	 	= '\\begin{tikzpicture}';
-	ENDTP 		= '\\end{tikzpicture}';
-	BEGINSCOPE	= '\\begin{scope}';
-	ENDSCOPE 	= '\\end{scope}';
+	BEGIN	 	= '\\begin';	//todooooo
+	END 		= '\\end';    //todooooo
+	//BEGINTP	 	= '\\begin{tikzpicture}';
+	//ENDTP 		= '\\end{tikzpicture}';
+	//BEGINSCOPE	= '\\begin{scope}';
+	//ENDSCOPE 	= '\\end{scope}';
+	//TIKZPICTURE	= 'tikzpicture';	
+	//SCOPE		= 'scope';
+	
 	USETIKZLIB	= '\\usetikzlibrary';
+	TIKZSTYLE	= '\\tikzstyle';
+	TIKZSET		= '\\tikzset';
 	NODE		= '\\node';
 	DRAW		= '\\draw';
 	PATH		= '\\path';
@@ -23,13 +30,14 @@ tokens {
 	RPAR		= ')';
 	LBR		= '[';
 	RBR		= ']';
-	LBRR		= '{';
-	RBRR		= '}';
+	//LBRR		= '{';
+	//RBRR		= '}';
 	KOMMA		= ',';
 	//SCALE		= 'scale';
 	EQU		= '=';
 	SEMIC		= ';';
 	COLON		= ':';
+	//BACKSLASH	= '\\'; // blame antlr
 	//STYLESEP	= '/.style';
 	//AT		= 'at';
 	//LABEL		= 'label';
@@ -73,11 +81,30 @@ IM_ID;
 IM_TIKZSET;
 IM_USETIKZLIB;
 IM_STRING;
+IM_STYLE;
 }
 
 
 tikzdocument
-	:	(tikz_something | usetikzlib)* tikzpicture  tikz_something*		-> ^(IM_DOCUMENT usetikzlib* tikzpicture)
+	:	 (dontcare_preamble | tikz_styleorset | otherbegin)*  tikzpicture  .*		-> ^(IM_DOCUMENT tikz_styleorset* tikzpicture)
+	;
+
+//documentclass
+//	:	'\\documentclass' ('[' (~ ']')* ']')? '{' (~'}')*  '}'
+//	;
+tikz_styleorset
+	:	tikz_style | tikz_set
+	;
+
+dontcare_preamble
+	:	(~(BEGIN | TIKZSTYLE | TIKZSET))+
+	;
+otherbegin
+	:	BEGIN '{' idd '}'
+	;
+
+tikz_style
+	:	TIKZSTYLE '{' idd '}' '=' tikz_options -> ^(IM_STYLE idd tikz_options)
 	;
 
 tikzpath 
@@ -146,31 +173,36 @@ tikzpicture
 	:	 tikzpicture_start tikz_options? tikzbody? tikzpicture_end		-> ^(IM_PICTURE tikzpicture_start tikz_options? tikzbody? tikzpicture_end)
 	;
 tikzpicture_start
-	:	BEGINTP -> ^(IM_STARTTAG BEGINTP)
+	:	BEGIN '{' 'tikzpicture' '}' -> ^(IM_STARTTAG BEGIN)
 	;
 tikzpicture_end
-	:	ENDTP -> ^(IM_ENDTAG ENDTP)
+	:	END '{' 'tikzpicture' '}' -> ^(IM_ENDTAG END)
 	;
 tikzbody
-	:	( tikzscope | tikzpath | tikznodee | tikz_something)+
+	:	( tikzscope | tikzpath | tikznodee | dontcare_body | tikz_set | tikz_style | otherbegin |otherend )+
 	;
-
-tikz_something
-	:	( ID | '\\' ID)+  -> 
+dontcare_body
+	:	(~ (BEGIN | END | NODE | DRAW | PATH | FILL | TIKZSTYLE | TIKZSET ))+ 
 	;
+otherend
+	:	END '{' idd '}'
+	;
+//tikz_something
+//	:	( ID | '\\' ID)+  -> 
+//	;
 
 tikzscope
 	:	tikzscope_start tikz_options? tikzbody tikzscope_end		-> ^(IM_SCOPE tikzscope_start tikz_options? tikzbody tikzscope_end)
 	;
 tikzscope_start
-	:	BEGINSCOPE -> ^(IM_STARTTAG BEGINSCOPE)
+	:	BEGIN '{' 'scope' '}' -> ^(IM_STARTTAG BEGIN)
 	;
 tikzscope_end
-	:	ENDSCOPE -> ^(IM_ENDTAG ENDSCOPE)
+	:	END '{' 'scope' '}' -> ^(IM_ENDTAG END)
 	;
 
 tikz_options
-	: 	squarebr_start (option (',' option)*)? squarebr_end		-> ^(IM_OPTIONS squarebr_start option* squarebr_end)
+	: 	squarebr_start (option (',' option)* ','?)? squarebr_end		-> ^(IM_OPTIONS squarebr_start option* squarebr_end)
 	;
 squarebr_start
 	:	LBR -> ^(IM_STARTTAG LBR)
@@ -183,7 +215,7 @@ tikz_set
 	:	 tikz_set_start (option (',' option)*)? roundbr_end -> ^(IM_TIKZSET tikz_set_start option* roundbr_end)
 	;
 tikz_set_start
-	:	'\\tikzset' '{'		-> ^(IM_STARTTAG ) // todo: check if suffices
+	:	TIKZSET '{'		-> ^(IM_STARTTAG ) // todo: check if suffices
 	;
 	
 usetikzlib
@@ -200,15 +232,18 @@ roundbr_end
 	;
 	
 option
-	:	option_style 		-> ^(IM_OPTION_STYLE option_style)
-		| option_kv		-> ^(IM_OPTION_KV option_kv)
+	:	option_style 		
+		| option_kv		
 	;
 	
 option_kv
-	:	idd ('='! (idd | numberunit))?
+	:	idd ('=' iddornumberunit)? -> ^(IM_OPTION_KV idd iddornumberunit?)
+	;
+iddornumberunit
+	:	idd | numberunit
 	;
 option_style
-	:	idd '/.style'! '='! '{'! (option (',' option)*)?  '}'! // '{' option '}'
+	:	idd '/.style' '=' '{' (option_kv (',' option_kv)*)?  ','? '}'  -> ^(IM_OPTION_STYLE idd option_kv*)  // '{' option '}' todo: optional ,
 	;
 
 // id composed of more than one word
@@ -262,11 +297,15 @@ MATHSTRING
 //CHAR:  '\'' ( ESC_SEQ | ~('\''|'\\') ) '\''
 //    ;
 
-fragment
+
+fragment // this is a hack
 ESC_SEQ
     :   '\\' .   // ( |'\"'|'\''|'\\')
     ;
 
+COMMAND
+	: '\\' ID
+	;
 
-SOMETHING 
-	:	. ;
+//SOMETHING 
+//	:	. ;

@@ -32,6 +32,8 @@
             <Word>\node</Word>
             <Word>\draw</Word>
             <Word>\matrix</Word>
+            <Word>\tikzset</Word>
+            <Word>\tikzstyle</Word>
             <!-- ... -->
         </Keywords>
 
@@ -48,7 +50,14 @@
         <Word>to</Word>
 
         <!-- ... -->
-      </Keywords>   
+      </Keywords>
+      <!-- allowed latex commands -->
+      <Keywords foreground="Blue" fontStyle="italic">
+        <Word>\documentclass</Word>
+        <Word>\usepackage</Word>
+        <Word>\usetikzlibrary</Word>
+        <!-- ... -->
+      </Keywords>
       
       <!-- environment names -->
       <Keywords foreground="Red">

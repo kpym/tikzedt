@@ -20,5 +20,33 @@
     <Setting Name="Editor_ShowLineNumbers" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="BB_Margin" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="Tex_Preamble" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\documentclass[tight]{article}
+\usepackage{tikz,amsmath, amssymb,bm,color}
+\usepackage[margin=0cm,nohead]{geometry}
+\usepackage[active,tightpage]{preview}
+
+\begin{document}
+\PreviewEnvironment{tikzpicture}
+</Value>
+    </Setting>
+    <Setting Name="Tex_Postamble" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\end{document}</Value>
+    </Setting>
+    <Setting Name="TLB_ShowTools" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="TLB_ShowFiles" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="TLB_ShowBB" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="TLB_ShowZoom" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

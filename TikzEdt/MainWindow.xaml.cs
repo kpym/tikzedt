@@ -175,6 +175,20 @@ namespace TikzEdt
             }
         }
 
+        /// <summary>
+        /// Checks whether the current code can be compiled,
+        /// or whether we need to append pre-/postambles
+        /// </summary>
+        /// <returns></returns>
+        bool IsStandalone()
+        {
+            return txtCode.Text.Contains("\\documentclass");    // hack
+            //foreach (ICSharpCode.AvalonEdit.Document.DocumentLine l in txtCode.Document.Lines)
+           // {
+                
+           // }
+            //return false;
+        }
 
         void DetermineBB(Tikz_ParseTree t)
         {
@@ -203,11 +217,29 @@ namespace TikzEdt
                 {                                 
                     if (t.GetBB(out newBB))
                     {
-                        newBB.Inflate(3, 3);
+                        newBB.Inflate(Properties.Settings.Default.BB_Margin, Properties.Settings.Default.BB_Margin);
                         currentBB = newBB;
                     }
                 }
             }
+        }
+        private void UpdateStyleLists(Tikz_ParseTree t)
+        {
+            string oldsel = cmbNodeStyles.Text;
+            cmbNodeStyles.Items.Clear();
+            foreach (string s in t.styles.Keys)
+            {
+                cmbNodeStyles.Items.Add(s);
+            }
+            cmbNodeStyles.Text = oldsel;
+
+            oldsel = cmbEdgeStyles.Text;
+            cmbEdgeStyles.Items.Clear();
+            foreach (string s in t.styles.Keys)
+            {
+                cmbEdgeStyles.Items.Add(s);
+            }
+            cmbEdgeStyles.Text = oldsel;
         }
         private void Recompile()
         {
@@ -219,22 +251,23 @@ namespace TikzEdt
             }
             else
             {
-                try
-                {
+                //try
+                //{
                     Tikz_ParseTree t = TikzParser.Parse(txtCode.Text);
                     DetermineBB(t);
+                    UpdateStyleLists(t);
                     // Refresh overlay                    
                     pdfOverlay1.SetParseTree(t, currentBB);
-                }
-                catch (Exception e)
-                {
-                    AddStatusLine("Couldn't parse code. " + e.Message, true);
-                    pdfOverlay1.SetParseTree(null, currentBB);
-                }
+                //}
+                //catch (Exception e)
+                //{
+                    //AddStatusLine("Couldn't parse code. " + e.Message, true);
+                   // pdfOverlay1.SetParseTree(null, currentBB);
+                //}
             }
 
             // Always Compile tex
-            tikzDisplay1.Compile(txtCode.Text, currentBB);
+            tikzDisplay1.Compile(txtCode.Text, currentBB, IsStandalone());
             rasterControl1.BB = currentBB;
             
         }
@@ -538,9 +571,12 @@ namespace TikzEdt
         private void SnippetMenuClick(object sender, RoutedEventArgs e)
         {
             SnippetManager s = new SnippetManager();
-            s.ShowDialog();
-            // reload snippets
-            snippetlist1.Reload();
+            if (s.isSuccessfullyLoaded) // could stop loading due to not getting a lock
+            {
+                s.ShowDialog();
+                // reload snippets
+                snippetlist1.Reload();                
+            }
         }
 
         GridLength oldwidth;
@@ -682,6 +718,11 @@ namespace TikzEdt
         private void TestUpdClick(object sender, RoutedEventArgs e)
         {
             pdfOverlay1.ParseTree.UpdateText();            
+        }
+
+        private void GenerateHeadersClick(object sender, RoutedEventArgs e)
+        {
+            Helper.GeneratePrecompiledHeaders();
         }
     }
 }

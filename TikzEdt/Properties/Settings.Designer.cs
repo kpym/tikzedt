@@ -94,5 +94,91 @@ namespace TikzEdt.Properties {
                 this["Editor_ShowLineNumbers"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public double BB_Margin {
+            get {
+                return ((double)(this["BB_Margin"]));
+            }
+            set {
+                this["BB_Margin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\documentclass[tight]{article}\r\n\\usepackage{tikz,amsmath, amssymb,bm,color}\r\n\\use" +
+            "package[margin=0cm,nohead]{geometry}\r\n\\usepackage[active,tightpage]{preview}\r\n\r\n" +
+            "\\begin{document}\r\n\\PreviewEnvironment{tikzpicture}\r\n")]
+        public string Tex_Preamble {
+            get {
+                return ((string)(this["Tex_Preamble"]));
+            }
+            set {
+                this["Tex_Preamble"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\end{document}")]
+        public string Tex_Postamble {
+            get {
+                return ((string)(this["Tex_Postamble"]));
+            }
+            set {
+                this["Tex_Postamble"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TLB_ShowTools {
+            get {
+                return ((bool)(this["TLB_ShowTools"]));
+            }
+            set {
+                this["TLB_ShowTools"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TLB_ShowFiles {
+            get {
+                return ((bool)(this["TLB_ShowFiles"]));
+            }
+            set {
+                this["TLB_ShowFiles"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TLB_ShowBB {
+            get {
+                return ((bool)(this["TLB_ShowBB"]));
+            }
+            set {
+                this["TLB_ShowBB"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TLB_ShowZoom {
+            get {
+                return ((bool)(this["TLB_ShowZoom"]));
+            }
+            set {
+                this["TLB_ShowZoom"] = value;
+            }
+        }
     }
 }

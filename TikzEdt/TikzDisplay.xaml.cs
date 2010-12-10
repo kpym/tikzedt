@@ -38,9 +38,11 @@ namespace TikzEdt
             set { }
         }
 
-        public void Compile(string code, Rect BB)
+        public void Compile(string code, Rect BB, bool IsStandAlone)
         {
-            nextToCompile = code;
+            if (IsStandAlone)
+                nextToCompile = code;
+            else nextToCompile = @"%&" + Consts.cTempFile + "\r\n" + code + "\r\n" + Properties.Settings.Default.Tex_Postamble;  
             nextBB = BB;
             doCompile();
         }
@@ -105,14 +107,14 @@ namespace TikzEdt
             string codetowrite = writeBBtoTikz(nextToCompile, nextBB, out lsucceeded);
 
             StreamWriter s = new StreamWriter(Consts.cTempFile + ".tex");
-            s.WriteLine(@"%&" + Consts.cTempFile);
+            //s.WriteLine(@"%&" + Consts.cTempFile);
 
             if (lsucceeded)
             {
                 //s.WriteLine(@"\pdfpageattr{/MediaBox [0 0 " + Convert.ToInt32(nextBB.Width * Consts.ptspertikzunit) + " "
                 //                                            + Convert.ToInt32(nextBB.Height * Consts.ptspertikzunit) + "]}");
-                s.WriteLine(@"\begin{document}");
-                s.WriteLine(@"\PreviewEnvironment{tikzpicture}");
+                //s.WriteLine(@"\begin{document}");
+                //s.WriteLine(@"\PreviewEnvironment{tikzpicture}");
                 
                 //s.WriteLine(@"\thispagestyle{empty}");
                 //s.WriteLine(@"\mathindent0cm \parindent0cm");
@@ -121,13 +123,13 @@ namespace TikzEdt
             }
             else
             {
-                s.WriteLine(@"\begin{document}");
+                //s.WriteLine(@"\begin{document}");
                 //s.WriteLine(@"\thispagestyle{empty}");
                 //s.WriteLine(@"\mathindent0cm \parindent0cm");
             }
 
             s.WriteLine(codetowrite);
-            s.WriteLine(@"\end{document}");
+            //s.WriteLine(Properties.Settings.Default.Tex_Postamble);
             s.Close();
             nextToCompile = "";
             if (lsucceeded)

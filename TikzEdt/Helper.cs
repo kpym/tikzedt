@@ -39,6 +39,7 @@ namespace TikzEdt
 
         public const string cSettingsFile = "T2Gsettings.xml";
         public const string cSyntaxFile = "TikzSyntax.xshd";
+        public const string cSnippetsFile = "TheSnippets.xml";
         public const string cMRUFile = "T2GMRU.xml";
         public const int MaxMRU = 10;
         public const string cStyleRepoFile = "StyleRepo.dat";
@@ -76,26 +77,32 @@ namespace TikzEdt
 
     static class Helper
     {
+        public static string GetAppDir() // w/o trailing backslash 
+        {
+            string appPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
+            string ret = (new Uri(appPath)).LocalPath;
+            return ret;
+        }
 
         public static void GeneratePrecompiledHeaders()
         {
-            StreamWriter s = new StreamWriter(Consts.cTempImgFile + "pre.tex");
-            s.WriteLine(Consts.ImgHeader);
+            //StreamWriter s = new StreamWriter(Consts.cTempImgFile + "pre.tex");
+            //s.WriteLine(Consts.ImgHeader);
+            //s.Close();
+
+            //System.Diagnostics.Process p = new System.Diagnostics.Process();
+            //System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("latex");
+            //psi.Arguments = Consts.precompilation_args_img;
+            //psi.CreateNoWindow = true;
+            //p.StartInfo = psi;
+            //p.Start();
+
+            StreamWriter s = new StreamWriter(Consts.cTempFile + "pre.tex");
+            s.WriteLine(Properties.Settings.Default.Tex_Preamble);
             s.Close();
 
             System.Diagnostics.Process p = new System.Diagnostics.Process();
-            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("latex");
-            psi.Arguments = Consts.precompilation_args_img;
-            psi.CreateNoWindow = true;
-            p.StartInfo = psi;
-            p.Start();
-
-            s = new StreamWriter(Consts.cTempFile + "pre.tex");
-            s.WriteLine(Consts.PreviewHeader);
-            s.Close();
-
-            p = new System.Diagnostics.Process();
-            psi = new System.Diagnostics.ProcessStartInfo("pdflatex");
+            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("pdflatex");
             psi.Arguments = Consts.precompilation_args;
             psi.CreateNoWindow = true;
             p.StartInfo = psi;

@@ -1,0 +1,325 @@
+<?xml version="1.0" standalone="yes"?>
+<SnippetsDataSet xmlns="http://tempuri.org/SnippetsDataSet.xsd">
+  <SnippetsTable>
+    <ID>0</ID>
+    <Name>simple</Name>
+    <Category>Test Cases</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>1</ID>
+    <Name>New Snippet</Name>
+    <Category>Styles</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>draw</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>2</ID>
+    <Name>New Snippet</Name>
+    <Category>Styles</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>draw</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>3</ID>
+    <Name>scopetest</Name>
+    <Category>Test Cases</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>\begin{tikzpicture}
+\begin{scope}[xshift=1cm]
+  \draw (1,1)--(3,3);
+\end{scope}
+\end{tikzpicture}</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+\begin{scope}[xshift=1cm]
+  \draw (1,1)--(3,3);
+\end{scope}
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>4</ID>
+    <Name>Zigzag</Name>
+    <Category>Path decorations</Category>
+    <Description>A zigzag path</Description>
+    <SnippetCode>decorate,decoration=zigzag</SnippetCode>
+    <SampleCode>\usetikzlibrary{decorations.pathmorphing}
+\begin{tikzpicture}
+  \draw[decorate,decoration=zigzag] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>decorations.pathmorphing</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>5</ID>
+    <Name>Double Scope test</Name>
+    <Category>Test Cases</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>\begin{tikzpicture}
+\begin{scope}[xshift=1cm]
+\begin{scope}[xshift=1cm, scale=1.5]
+  \draw (1,1)--(3,3);
+\end{scope}
+\end{scope}
+\end{tikzpicture}</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+\begin{scope}[xshift=1cm]
+\begin{scope}[xshift=1cm, scale=1.5]
+  \draw (1,1)--(3,3);
+\end{scope}
+\end{scope}
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>6</ID>
+    <Name>Relative coordinates test</Name>
+    <Category>Test Cases</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>\begin{tikzpicture}
+  \draw (1,1)-- ++(3,3) --+(2,0) -- +(0,2);
+\end{tikzpicture}</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw (1,1)-- ++(3,3) --+(2,0) -- +(0,2);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>7</ID>
+    <Name>BB test</Name>
+    <Category>Test Cases</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>\begin{tikzpicture}
+  \draw (0,0)--(5,5);
+\end{tikzpicture}</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw (0,0)--(5,5);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>nothing</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>8</ID>
+    <Name>Some text </Name>
+    <Category>Test Cases</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+  \node at (2,5) {\huge $\frac{\int_0^\pi x^2dx }{\sqrt{37 (x^2+y^2)}  }$};
+\end{tikzpicture}</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+  \node at (2,5) {\huge $\frac{\int_0^\pi x^2dx }{\sqrt{37 (x^2+y^2)}  }$};
+\end{tikzpicture}</SampleCode>
+    <Dependencies>c</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>9</ID>
+    <Name>New Snippet</Name>
+    <Category>Test Cases2</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>draw</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>10</ID>
+    <Name>New Snippet</Name>
+    <Category>Test Cases2</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>draw</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>11</ID>
+    <Name>New Snippet</Name>
+    <Category>Test Cases2</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>draw</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>12</ID>
+    <Name>New Snippet</Name>
+    <Category>Test Cases2</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>draw</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>13</ID>
+    <Name>Standalone doc</Name>
+    <Category>Test Cases</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>\documentclass{article}
+\usepackage{tikz}
+\usepackage[active, tightpage]{preview}
+\begin{document}
+\PreviewEnvironment{tikzpicture}
+\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}
+\end{document}</SnippetCode>
+    <SampleCode>\documentclass{article}
+\usepackage{tikz}
+\usepackage[active, tightpage]{preview}
+\begin{document}
+\PreviewEnvironment{tikzpicture}
+\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}
+\end{document}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>14</ID>
+    <Name>New Snippet</Name>
+    <Category>Styles</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>draw</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>15</ID>
+    <Name>Errorcase</Name>
+    <Category>Test Cases</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>\begin{}
+\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SnippetCode>
+    <SampleCode>\begin{}
+\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>a</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>16</ID>
+    <Name>With styles</Name>
+    <Category>Test Cases</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>\tikzstyle{redsox}=[draw=red, fill]
+\tikzset{ jello/.style={fill=yellow} }
+\begin{tikzpicture}
+[bluewhale/.style={fill=blue}]
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SnippetCode>
+    <SampleCode>\tikzstyle{redsox}=[draw=red, fill]
+\tikzset{ jello/.style={fill=yellow} }
+\begin{tikzpicture}
+[bluewhale/.style={fill=blue}]
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>b</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>17</ID>
+    <Name>Footprints</Name>
+    <Category>Path decorations</Category>
+    <Description>Prints a trace of footprints.</Description>
+    <SnippetCode>decorate, decoration=footprints</SnippetCode>
+    <SampleCode>\usetikzlibrary{decorations.footprints}
+\begin{tikzpicture}
+  \fill[decorate, decoration=footprints] (1,1)--(3,3);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>decorations.footprints</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>18</ID>
+    <Name>Saw</Name>
+    <Category>Path decorations</Category>
+    <Description>Saw decoration</Description>
+    <SnippetCode>decorate,decoration=saw</SnippetCode>
+    <SampleCode>\usetikzlibrary{decorations.pathmorphing}
+\begin{tikzpicture}
+  \draw[decorate, decoration=saw] (0,0)--(1,0);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>decorations.pathmorphing</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>19</ID>
+    <Name>Textpath</Name>
+    <Category>Path decorations</Category>
+    <Description>The text flows along the path.
+I copied it from http://www.texample.net/tikz/examples/pgf-version-2/</Description>
+    <SnippetCode>decorate,decoration={text along path,
+        text={Lorem ipsum bla bla bla bla bla bla bla bla bla bla bla bla}}</SnippetCode>
+    <SampleCode>\usetikzlibrary{decorations.text}
+\begin{tikzpicture}
+    \path [decorate,decoration={text along path,
+        text={Lorem ipsum bla bla bla bla bla bla bla bla bla bla bla bla}}]
+        (0,0) sin (1,1) cos (2,0) sin (3,-1) cos (4,0) sin (7,-1);
+\end{tikzpicture}
+</SampleCode>
+    <Dependencies>decorations.text</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>20</ID>
+    <Name>Brace</Name>
+    <Category>Path decorations</Category>
+    <Description />
+    <SnippetCode>decorate, decoration={brace, amplitude=5pt}</SnippetCode>
+    <SampleCode>\usetikzlibrary{decorations.pathreplacing}
+\begin{tikzpicture}
+  \draw[decorate, decoration={brace, amplitude=5pt}] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>decorations.pathreplacing</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>21</ID>
+    <Name>Coil</Name>
+    <Category>Path decorations</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>decorate,decoration={coil,segment length=4pt}</SnippetCode>
+    <SampleCode>\usetikzlibrary{decorations.pathmorphing}
+\begin{tikzpicture}
+\draw[decorate,decoration={coil,segment length=4pt}] (0,1) -- (1,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>decorations.pathmorphing</Dependencies>
+  </SnippetsTable>
+</SnippetsDataSet>

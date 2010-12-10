@@ -10,7 +10,10 @@ using Antlr.Runtime.Tree;
 
 namespace TikzEdt
 {
-   
+
+    /// <summary>
+    /// This class represents a 3x2 Matrix used for Tikz coordinate transformations
+    /// </summary>
     public class TikzMatrix
     {
         public double[,] m = new double[2, 3];
@@ -73,10 +76,29 @@ namespace TikzEdt
         }
     }
 
+
+    /// <summary>
+    /// This class is the base class of all nodes in the Parsetree.
+    /// Every node in the parsetree stores the block of text in the code it represents.
+    /// This text, ehich can be obtained through <code>ToString()</code>, may differ from the internal state of the node. 
+    /// To synchronize this text with the internal state, call <code>UpdateText()</code>.
+    /// For example, in the code, there might occur the phrase
+    ///   <code>node  (hello    world    )    at (1,2){}</code>
+    /// The parser will write this string into the text property of the node. 
+    /// After <code>UpdateText()</code>, the text will be
+    ///   <code>node (hello world) at (1,2) {}</code>
+    /// </summary>
     public class TikzParseItem
     {
+        /// <summary>
+        /// The parent node in the parse tree, or null if the current node is the root
+        /// </summary>
         public TikzContainerParseItem parent;
+        
         private string _text = "";
+        /// <summary>
+        /// This property holds the displayed Text of the node in the parse tree
+        /// </summary>
         public string text
         {
             get { return _text; }
@@ -111,11 +133,15 @@ namespace TikzEdt
             else
                 return 0;
         }
-        public virtual int GetLengthBefore(TikzParseItem tpi)
-        {
-            return ToString().Length;
-        }
-
+        //public virtual int GetLengthBefore(TikzParseItem tpi)
+        //{
+        //    return ToString().Length; //
+        //}
+        /// <summary>
+        /// This method triggers a TextChanged event in the root of the parse tree.
+        /// </summary>
+        /// <param name="sender">The node whose text was changed.</param>
+        /// <param name="oldtext">the text of the node before the change.</param>
         public virtual void RaiseTextChanged(TikzParseItem sender, string oldtext)
         {
             if (parent != null)
@@ -130,10 +156,19 @@ namespace TikzEdt
             r = new Rect(0, 0, 0, 0);
             return false;
         }
-        public virtual void RegisterNodeRefs()
+
+        /// <summary>
+        /// Call this to make the ParseItem register itself at the picture or document root node
+        /// </summary>
+        public virtual void RegisterNodeAndStyleRefs()
         {
-            if (this is Tikz_Node && parent != null)
-                parent.AddNodeRef(this as Tikz_Node);
+            if (parent != null)
+            {
+                if (this is Tikz_Node)
+                    parent.AddNodeRef(this as Tikz_Node);
+                else if (this is Tikz_Option && (this as Tikz_Option).type == Tikz_OptionType.style)
+                    parent.AddStyleRef(this as Tikz_Option);
+            }
         }
 
         /// <summary>
@@ -142,7 +177,7 @@ namespace TikzEdt
         public virtual void UpdateText() { }
 
         /// <summary>
-        /// For testing
+        /// For testing only, don't use.
         /// </summary>
         public virtual string ToStringEx()
         {
@@ -152,7 +187,8 @@ namespace TikzEdt
     }
     /// <summary>
     /// This item represents parts of the code that the parser does not understand
-    /// or not care about, e. g., whitespace.
+    /// or not care about, e. g., whitespace, or commands that have no internal 
+    /// representation in the parse tree.
     /// </summary>
     public class Tikz_Something : TikzParseItem
     {
@@ -165,13 +201,21 @@ namespace TikzEdt
         }
     }
     /// <summary>
-    /// Parse Item having an x and y coordinate
+    /// Parse Item having an x and y coordinate.
     /// </summary>
     public abstract class Tikz_XYItem : TikzParseItem
     {
-        public double x, y;
-        public abstract void SetPosition(Point p);
+        //public double x, y;
+        //public abstract void SetPosition(Point p);
+        /// <summary>
+        /// Returns the absolute position of this node within the Tikzpicture (in cm).
+        /// </summary>
+        /// <returns></returns>
         public abstract Point GetAbsPos();
+        /// <summary>
+        /// Sets the absolute position of this node within the Tikzpicture (in cm).
+        /// </summary>
+        /// <param name="p"></param>
         public abstract void SetAbsPos(Point p);
 
         public override bool GetBB(out Rect r)
@@ -183,6 +227,13 @@ namespace TikzEdt
     }
     public class Tikz_Node : Tikz_XYItem
     {
+        /// <summary>
+        /// The parse calls this static method to construct a Tikz_Node from 
+        /// a node in the abstract syntax tree produced by antlr
+        /// </summary>
+        /// <param name="t">The node in the abstract syntax tree. Must be of type IM_NODE</param>
+        /// <param name="tokens">A reference to the Antlr tokenstream. This is used to extract e.g. the node label.</param>
+        /// <returns></returns>
         public static Tikz_Node FromCommonTree(CommonTree t, CommonTokenStream tokens)
         {
             // IM_NODE OPTIONS? nodename? coord? STRING
@@ -191,7 +242,7 @@ namespace TikzEdt
             if (t.GetChild(i).Type == simpletikzParser.IM_OPTIONS)
             {
                 i++;
-                //n.options = t.GetChild(i++).Text; TODO
+                n.options = TikzParser.getTokensString(tokens, t.GetChild(i++));
             }
             if (t.GetChild(i).Type == simpletikzParser.IM_NODENAME)
             {
@@ -200,8 +251,8 @@ namespace TikzEdt
             if (t.GetChild(i).Type == simpletikzParser.IM_COORD)
             {
                 n.coord = Tikz_Coord.FromCommonTree(t.GetChild(i++));
-                n.x = n.coord.uX.number; //hack
-                n.y = n.coord.uY.number;
+                //n.x = n.coord.uX.number; //hack
+                //n.y = n.coord.uY.number;
             }
 
             // the text of the node
@@ -214,12 +265,13 @@ namespace TikzEdt
         public void SetName(string tname)
         {
             name = tname;
-            RegisterNodeRefs();
+            RegisterNodeAndStyleRefs();
         }
-        public override void SetPosition(Point p)
-        {
-            coord.SetPosition(p);
-        }
+        //public override void SetPosition(Point p)
+       // {
+        //    coord.SetPosition(p);
+        //}
+
         public override Point GetAbsPos()
         {
             if (coord == null)
@@ -243,10 +295,10 @@ namespace TikzEdt
         public string options = "";
         public string label = "";
         public Tikz_Node() { }
-        public Tikz_Node(double tx, double ty)
-        {
-            x = tx; y = ty;
-        }
+        //public Tikz_Node(double tx, double ty)
+        //{
+        //    x = tx; y = ty;
+        //}
         public override void UpdateText()
         {
             string newtext = "node ";
@@ -260,6 +312,8 @@ namespace TikzEdt
                 }
             }
 
+            if (options != "")
+                newtext = newtext + options + " ";
             
             if (name != "")
                 newtext = newtext + "(" + name + ") ";
@@ -276,6 +330,12 @@ namespace TikzEdt
     //public enum Tikz_CoordDeco { none, p, pp }
     public class Tikz_Coord : Tikz_XYItem
     {
+        /// <summary>
+        /// The Parser calls this method to create a Tikz_Coord from a node of the 
+        /// abstract syntax tree produced by antlr.
+        /// </summary>
+        /// <param name="t">The node of the AST.</param>
+        /// <returns></returns>
         public static Tikz_Coord FromCommonTree(ITree t)
         {
             Tikz_Coord tc = new Tikz_Coord();
@@ -296,8 +356,8 @@ namespace TikzEdt
                 tc.uX = new Tikz_NumberUnit(t.GetChild(i));
                 tc.uY = new Tikz_NumberUnit(t.GetChild(i + 1));
 
-                tc.x = tc.uX.number; // hack
-                tc.y = tc.uY.number;
+                //tc.x = tc.uX.number; // hack
+                //tc.y = tc.uY.number;
 
                 return tc;
             }
@@ -308,6 +368,14 @@ namespace TikzEdt
         {
             SetAbsPos(p, this);
         }
+        /// <summary>
+        /// Adjusts the current coordinates (seen as coordinates of relto)
+        /// such that relto sits at p in absolute coordinates.
+        /// The extra parameter is needed since this method is called by Tikz_Node, which
+        /// contains a Tikz_Coord object. (In that case relto will be the Tikz_Node)
+        /// </summary>
+        /// <param name="p">The new absolute coordinates, in cm</param>
+        /// <param name="relto">Object with respect to which the coordinate transformation is determined</param>
         public void SetAbsPos(Point p, TikzParseItem relto)
         {
             if (type == Tikz_CoordType.Named)
@@ -338,6 +406,11 @@ namespace TikzEdt
         {
             return GetAbsPos(this);
         }
+        /// <summary>
+        /// Gets the absolute position. For the significance of relto, see SetAbsPos()
+        /// </summary>
+        /// <param name="relto"></param>
+        /// <returns>The position in the coordinates of the ancestral Tikz_Picture, or (0,0) in case of failure.</returns>
         public Point GetAbsPos(TikzParseItem relto)
         {
             if (type == Tikz_CoordType.Named)
@@ -395,23 +468,35 @@ namespace TikzEdt
             text = newtext;
         }
 
-        public override void SetPosition(Point p)
-        {
-            uX.number = p.X;
-            uY.number = p.Y;
-            x = p.X; y = p.Y; //hack
-        }
+        //public override void SetPosition(Point p)
+        //{
+        //    uX.number = p.X;
+        //    uY.number = p.Y;
+        //    x = p.X; y = p.Y; //hack
+        //}
 
+        /// <summary>
+        /// Coordinates can be either polar, cartesian, or a reference to some node
+        /// </summary>
         public Tikz_CoordType type = Tikz_CoordType.Cartesian;
+        /// <summary>
+        /// This is '+' for relative coordinates w/o update of the current point in a path
+        /// or '++' for relative coordinates w/ update of the current point in a path
+        /// (or '' for absolute coordinates)
+        /// </summary>
         public string deco = "";
         public Tikz_NumberUnit uX=new Tikz_NumberUnit(), uY=new Tikz_NumberUnit();
         public string nameref = ""; // name of vertex if coordinate is such a reference
         public Tikz_Coord() { }
-        public Tikz_Coord(double tx, double ty)
-        {
-            x = tx; y = ty;
-        }
+        //public Tikz_Coord(double tx, double ty)
+        //{
+            //x = tx; y = ty;
+        //}
     }
+
+    /// <summary>
+    /// This class represents (guess what) a number and a unit.
+    /// </summary>
     public class Tikz_NumberUnit
     {
         public Tikz_NumberUnit(ITree t)
@@ -468,10 +553,22 @@ namespace TikzEdt
             }
         }
     }
+
+    /// <summary>
+    /// This is the base class for all parse tree nodes which may have children.
+    /// The important properties are starttag and endtag.
+    /// The textblock in the code that such a node represents has the form 
+    /// starttag + child1.ToString() + ... + childn.ToString() + endtag = ToString()
+    /// </summary>
     public class TikzContainerParseItem : TikzParseItem
     {
         public string starttag = "", endtag = "";
         public List<TikzParseItem> Children = new List<TikzParseItem>();
+
+        /// <summary>
+        /// A reference to the options of this element, or null if there are none.
+        /// Note that the options additionally appear as a child object of type Tikz_Options
+        /// </summary>
         public Tikz_Options options;
 
         public override bool GetBB(out Rect r)
@@ -495,7 +592,7 @@ namespace TikzEdt
             return hasone;
         }
         /// <summary>
-        /// Called in repsonse to Registernoderefs by its children
+        /// Called in repsonse to RegisterNodeAndStyleRefs by its children
         /// </summary>
         /// <param name="tn"></param>
         public virtual void AddNodeRef(Tikz_Node tn)
@@ -504,14 +601,28 @@ namespace TikzEdt
                 parent.AddNodeRef(tn);
         }
         /// <summary>
-        /// Causes all nodes among the children to register their names at the tikz_picture (so that they can be found when referenced by name somewhere)
+        /// Called in repsonse to Registernoderefs by its children
         /// </summary>
-        public override void RegisterNodeRefs()
+        /// <param name="tn"></param>
+        public virtual void AddStyleRef(Tikz_Option to)
         {
-            foreach (TikzParseItem tpi in Children)
-                tpi.RegisterNodeRefs();
+            if (parent != null)
+                parent.AddStyleRef(to);
         }
 
+        /// <summary>
+        /// Causes all nodes among the children to register their names at the tikz_picture (so that they can be found when referenced by name somewhere)
+        /// </summary>
+        public override void RegisterNodeAndStyleRefs()
+        {
+            foreach (TikzParseItem tpi in Children)
+                tpi.RegisterNodeAndStyleRefs();
+        }
+
+        /// <summary>
+        /// This should be called instead of adding nodes to Children directly
+        /// </summary>
+        /// <param name="tpi"></param>
         public void AddChild(TikzParseItem tpi)
         {
             tpi.parent = this;
@@ -520,6 +631,14 @@ namespace TikzEdt
             RaiseTextChanged(tpi, "");
         }
 
+        /// <summary>
+        /// This method is used by the children of this parse-node to query for a certain tik-node by name.
+        /// This is used concretely by a Tikz_Coord, with a reference to some node as coordinate,
+        /// in order to determine its absolute position.
+        /// The query is answered by the Tikz_Picture object, which overrides this method
+        /// </summary>
+        /// <param name="tname">The name of the Tikz-node.</param>
+        /// <returns>A reference to the Tikz_Node object representing that Tikz-node, or null if none was found.</returns>
         public virtual Tikz_Node GetNodeByName(string tname)
         {
             if (parent != null)
@@ -551,7 +670,7 @@ namespace TikzEdt
             return s + endtag;
         }
 
-        public override int GetLengthBefore(TikzParseItem tpi)
+        public int GetLengthBefore(TikzParseItem tpi)
         {
             int pos = 0;
             if (parent != null)
@@ -591,11 +710,24 @@ namespace TikzEdt
             return (GetType().ToString() + ":   " + s + endtag + "\r\n");
         }
     }
-    // the root of the parse tree
+
+    /// <summary>
+    /// This class represents the root of the parse tree.
+    /// This class raises events when the text of some child obeject changes.
+    /// Furthermore, it maintains a list of Tikz-styles.
+    /// </summary>
     public class Tikz_ParseTree : TikzContainerParseItem
     {
-        
+        public Dictionary<string, Tikz_Option> styles = new Dictionary<string,Tikz_Option>();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender">The node whose text has changed.</param>
+        /// <param name="oldtext">The old text of the node.</param>
         public delegate void TextChangedHandler(TikzParseItem sender, string oldtext);
+        /// <summary>
+        /// This event is called whenever the text of any node in this parsetree changes.
+        /// </summary>
         public event TextChangedHandler TextChanged;
 
         public override void RaiseTextChanged(TikzParseItem sender, string oldtext)
@@ -605,6 +737,22 @@ namespace TikzEdt
             //base.RaiseTextChanged(sender, oldtext);
         }
 
+        /// <summary>
+        /// This is called by child-nodes in the parse-tree, in response to a call of RegisterNodeAndStyleRefs().
+        /// </summary>
+        /// <param name="to">The Tikz_Option representing a style that wants to register itself in the list.</param>
+        public override void  AddStyleRef(Tikz_Option to)
+        {
+ 	         if (!styles.ContainsKey(to.key))
+                 styles[to.key]= to;
+        }
+
+        /// <summary>
+        /// Returns a reference to the first Tikz_Picture object in this tree.
+        /// (There should be only one, ... but who knows.)
+        /// </summary>
+        /// <param name="tc"></param>
+        /// <returns></returns>
         public Tikz_Picture GetTikzPicture()
         {
             return GetTikzPicture(this);
@@ -625,10 +773,17 @@ namespace TikzEdt
             return null;
         }
     }
-    public class Tikz_Draw : TikzContainerParseItem
-    {
 
-    }
+    //public class Tikz_Draw : TikzContainerParseItem
+    //{
+
+    //}
+
+    /// <summary>
+    /// This class represents the Tikz-Picture.
+    /// It maintains a list of node names, with references to the apprpriate Tikz_Node objects.
+    /// This list is queried by Tikz_Coordinate objects with coordinates relative to those nodes.
+    /// </summary>
     public class Tikz_Picture : TikzContainerParseItem
     {
         public Dictionary<string, Tikz_Node> nodelist = new Dictionary<string, Tikz_Node>();
@@ -650,6 +805,10 @@ namespace TikzEdt
             return "null";
         }
     }
+
+    /// <summary>
+    /// This class represents a Tikz path command.
+    /// </summary>
     public class Tikz_Path : TikzContainerParseItem
     {
         public Point GetAbsOffset(TikzParseItem tpi)
@@ -689,6 +848,8 @@ namespace TikzEdt
         public Tikz_NumberUnit numval; // only one of val, numval should be not null
         public static string GetID(ITree t)
         {
+            if (t.ChildCount <= 0)
+                return "";
             string s = "";
             for (int i=0;i<t.ChildCount;i++)                
                 s = s + " " + t.GetChild(i).Text;
@@ -716,18 +877,22 @@ namespace TikzEdt
                         return to;
                     } else return null;                    
                 case simpletikzParser.IM_OPTION_STYLE:
-                    if (t.ChildCount != 2)
+                    if (t.ChildCount < 1)
                         return null;
                     else
                     {
                         to.type = Tikz_OptionType.style;
                         to.key = GetID(t.GetChild(0));
-                        to.val = GetID(t.GetChild(1));
+                        to.val = "";// GetID(t.GetChild(1)); // hack
                         return to;
                     }
-                    
+                case simpletikzParser.IM_STYLE:
+                    to.type = Tikz_OptionType.style;
+                    to.key = GetID(t.GetChild(0));
+                    to.val = t.GetChild(1).Text;  // hack,... but irrelevant 
+                    return to;
                 default:
-                    return null;
+                    return null; // error
             }
         }
 
@@ -741,10 +906,9 @@ namespace TikzEdt
                     break;
                 case Tikz_OptionType.keyval:
                     newtext = key + "=";
-                    if (numval != null)
-                    {
+                    if (numval != null)                    
                         newtext = newtext + numval.ToString();
-                    } else
+                    else
                         newtext = newtext + val;
                     break;
                 case Tikz_OptionType.style:
