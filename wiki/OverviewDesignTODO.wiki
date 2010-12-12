@@ -45,4 +45,4 @@
 
 === Misc ===
 *TODO*
-  * Create a settings dialog with common settings
+  * Deployment
