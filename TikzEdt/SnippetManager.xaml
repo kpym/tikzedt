@@ -4,7 +4,7 @@
         xmlns:local="clr-namespace:TikzEdt"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
-        Title="SnippetManager" Height="595" Width="698" Closing="Window_Closing" xmlns:my="clr-namespace:TikzEdt" Loaded="Window_Loaded" Closed="Window_Closed">
+        Title="SnippetManager" Height="595" Width="698" Closing="Window_Closing" xmlns:my="clr-namespace:TikzEdt" Loaded="Window_Loaded" Closed="Window_Closed" Icon="/TikzEdt;component/Images/tikzedt48.ico">
     <Window.Resources>
         <my:SnippetsDataSet x:Key="snippetsDataSet" />
         <CollectionViewSource x:Key="snippetsTableViewSource" Source="{Binding Path=SnippetsTable, Source={StaticResource snippetsDataSet}}">
@@ -151,10 +151,10 @@
 
                     <TextBlock Margin="3" Grid.Row="3" Grid.Column="0">Snippet Code:</TextBlock>
                     <!-- <local:TextEditorWithBinding x:Name="SnippetCodeDTKey" Grid.Row="3" Grid.Column="1" BindableText="{Binding Path=SnippetCode}" Height="150"/>-->
-                    <avalonedit:TextEditor Margin="3" Name="txtSnippetCode" Grid.Row="3" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged" />
+                    <avalonedit:TextEditor Margin="3" Name="txtSnippetCode" Grid.Row="3" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged" BorderThickness="1" />
                     
                     <TextBlock Grid.Row="4" Grid.Column="0" Margin="3">Sample Code:</TextBlock>
-                    <avalonedit:TextEditor Name="txtSampleCode" Grid.Row="4" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged"/>
+                    <avalonedit:TextEditor Name="txtSampleCode" Grid.Row="4" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged" BorderThickness="1" />
 
                     <TextBlock Grid.Row="5" Grid.Column="0" Margin="3">Dependencies</TextBlock>
                     <TextBox Margin="3" Name="DependenciesDTKey" AcceptsReturn="True" Grid.Row="5" Grid.Column="1" Text="{Binding Path=Dependencies}"/>

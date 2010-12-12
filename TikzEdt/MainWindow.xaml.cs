@@ -62,7 +62,7 @@ namespace TikzEdt
         }
 
 
-        private Rect _currentBB = new Rect(0, 0, 10, 10);
+        private Rect _currentBB = Properties.Settings.Default.BB_Std;
         Rect currentBB
         {
             get { return _currentBB; }
@@ -78,7 +78,7 @@ namespace TikzEdt
 
         OpenFileDialog ofd = new OpenFileDialog();
         SaveFileDialog sfd = new SaveFileDialog();
-
+        public static bool isLoaded = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -153,9 +153,20 @@ namespace TikzEdt
             txtStatus.ScrollToEnd();
         }
 
-        private void tikzDisplay1_OnCompileEvent(string Message, TikzDisplay.CompileEventType type)
+        private void tikzDisplay1_OnCompileEvent(string Message, string TexOutput, TikzDisplay.CompileEventType type)
         {
             AddStatusLine(Message, type == TikzDisplay.CompileEventType.Error);
+            
+            // add tex output
+            if (TexOutput != "")
+            {
+                Paragraph p = new Paragraph();
+                p.Margin = new Thickness(0);
+                p.Inlines.Add(new Run(TexOutput));
+                txtTexout.Document.Blocks.Add(p);
+                EditingCommands.MoveToDocumentEnd.Execute(null, txtTexout);
+                txtTexout.ScrollToEnd();
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -173,6 +184,8 @@ namespace TikzEdt
                 txtCode.SyntaxHighlighting = HighlightingLoader.Load(r,null);  //HighlightingManager.Instance..GetDefinition("C#");
                 r.Close();
             }
+
+            isLoaded = true;
         }
 
         /// <summary>
@@ -192,7 +205,7 @@ namespace TikzEdt
 
         void DetermineBB(Tikz_ParseTree t)
         {
-            Rect newBB = new Rect(0, 0, 10, 10);
+            Rect newBB = Properties.Settings.Default.BB_Std;
             if (chkAutoBB.IsChecked == false)
             {
                 // Parse
@@ -244,32 +257,37 @@ namespace TikzEdt
         private void Recompile()
         {
             // Parse            
-            if (ProgrammaticTextChange)
+            if (chkFancyMode.IsChecked == true)
             {
-                DetermineBB(pdfOverlay1.ParseTree);
-                pdfOverlay1.BB = currentBB;
-            }
-            else
-            {
-                //try
-                //{
+                if (ProgrammaticTextChange)
+                {
+                    DetermineBB(pdfOverlay1.ParseTree);
+                    pdfOverlay1.BB = currentBB;
+                }
+                else
+                {
+                    //try
+                    //{
                     Tikz_ParseTree t = TikzParser.Parse(txtCode.Text);
                     DetermineBB(t);
                     UpdateStyleLists(t);
                     // Refresh overlay                    
                     pdfOverlay1.SetParseTree(t, currentBB);
-                //}
-                //catch (Exception e)
-                //{
+                    //}
+                    //catch (Exception e)
+                    //{
                     //AddStatusLine("Couldn't parse code. " + e.Message, true);
-                   // pdfOverlay1.SetParseTree(null, currentBB);
-                //}
+                    // pdfOverlay1.SetParseTree(null, currentBB);
+                    //}
+                }
+                // Always Compile tex
+                tikzDisplay1.Compile(txtCode.Text, currentBB, IsStandalone());
+                rasterControl1.BB = currentBB;
             }
-
-            // Always Compile tex
-            tikzDisplay1.Compile(txtCode.Text, currentBB, IsStandalone());
-            rasterControl1.BB = currentBB;
-            
+            else
+            {
+                tikzDisplay1.Compile(txtCode.Text, new Rect(0,0,0,0), IsStandalone());
+            }            
         }
 
         private void txtCode_TextChanged(object sender, EventArgs e)
@@ -723,6 +741,34 @@ namespace TikzEdt
         private void GenerateHeadersClick(object sender, RoutedEventArgs e)
         {
             Helper.GeneratePrecompiledHeaders();
+        }
+
+        private void chkAutoBB_Checked(object sender, RoutedEventArgs e)
+        {
+            Recompile();
+        }
+
+        private void chkFancyMode_Checked(object sender, RoutedEventArgs e)
+        {
+            if (isLoaded)
+                Recompile();
+        }
+
+        private void Enscope_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtCode.SelectionLength > 0)
+                txtCode.Document.Replace(txtCode.SelectionLength, txtCode.SelectionLength,
+                    "\\begin{scope}[]\r\n" + txtCode.SelectedText + "\r\n\\end{scope}");
+            else
+                txtCode.Document.Insert(txtCode.CaretOffset, "\\begin{scope}[]\r\n\r\n\\end{scope}");
+        }
+
+        private void pdfOverlay1_TryCreateNew(object sender, out bool allow)
+        {
+            if (txtCode.Text == "")
+                allow = true;
+            else
+                allow = false;
         }
     }
 }

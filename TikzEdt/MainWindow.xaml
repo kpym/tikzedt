@@ -6,10 +6,10 @@
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" 
         xmlns:my="clr-namespace:TikzEdt"
         xmlns:p="clr-namespace:TikzEdt.Properties"
-        Title="MainWindow" 
+        Title="TikzEdt" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
         Width="{Binding Source={x:Static p:Settings.Default}, Path=Window_Width, Mode=TwoWay}"  
-        Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing">
+        Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico">
 
     <Window.Resources>
         <!-- El Cheapo hack to make images within disabled toolbar buttons appear 'grayed out'.  This doesn't
@@ -25,6 +25,7 @@
         </Style>
         <my:InverseBooleanConverter x:Key="BoolInverter" />
         <BooleanToVisibilityConverter x:Key="boolToVis" />
+        <my:InverseNullableBooleanConverter x:Key="NBoolInverter" />
     </Window.Resources>
 
 
@@ -85,7 +86,10 @@
             </MenuItem>
             <MenuItem Header="_View">
                 <MenuItem Header="Show Pdf in external viewer"/>
-                <Separator/>                
+                <Separator/>
+                <MenuItem Header="Fancy Mode" IsCheckable="True" IsChecked="{Binding ElementName=chkFancyMode, Path=IsChecked}"/>
+                <MenuItem Header="Standard Mode" IsCheckable="True" IsChecked="{Binding ElementName=chkStandardMode, Path=IsChecked}"/>
+                <Separator/>
                 <MenuItem Header="Show Files Toolbar" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Mode=TwoWay}" IsCheckable="True" />
                 <MenuItem Header="Show Tools Toolbar" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Mode=TwoWay}" IsCheckable="True"/>
                 <MenuItem Header="Show Bounding Box Toolbar" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowBB, Mode=TwoWay}" IsCheckable="True"/>
@@ -136,7 +140,7 @@
                     <Button.ToolTip>Abort compilation in case something goes wrong</Button.ToolTip>
                 </Button>
                 <Separator/>
-                <CheckBox HorizontalAlignment="Center" IsChecked="True" Checked="CheckBox_Checked" Name="chkOverlay" Unchecked="chkOverlay_Unchecked">
+                <CheckBox HorizontalAlignment="Center" IsChecked="True" Checked="CheckBox_Checked" IsEnabled="{Binding ElementName=chkFancyMode, Path=IsChecked}" Name="chkOverlay" Unchecked="chkOverlay_Unchecked">
                     Overlay
                     <CheckBox.ToolTip>Switch the overlay displaying on top of the preview on/off</CheckBox.ToolTip>
                 </CheckBox>
@@ -165,7 +169,14 @@
                     <ComboBoxItem Content="50%" />
                     <ComboBoxItem Content="75%" />
                     <ComboBoxItem Content="100%" />
+                    <ComboBoxItem Content="150%" />
                     <ComboBoxItem Content="200%" />
+                    <ComboBoxItem Content="300%" />
+                    <ComboBoxItem Content="500%" />
+                    <ComboBoxItem Content="700%" />
+                    <ComboBoxItem Content="1000%" />
+                    <ComboBoxItem Content="1500%" />
+                    <ComboBoxItem Content="2000%" />
                 </ComboBox>
                 <Button Click="cmdZoomInClick">
                     <Image Source="/TikzEdt;component/Images/2392_ZoomIn_48x48.png" />
@@ -176,7 +187,7 @@
                     <Image Source="/TikzEdt;component/Images/base_cursor.png" Style="{StaticResource toolbarImageStyle}"/>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rb2" VerticalAlignment="Top" Checked="rb1_Checked">
-                    <Image Source="/TikzEdt;component/Images/bmpvert.bmp" Style="{StaticResource toolbarImageStyle}"/>
+                    <Image Source="/TikzEdt;component/Images/bmpvert.bmp" Style="{StaticResource toolbarImageStyle}" />
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rb3" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/edge.bmp" Style="{StaticResource toolbarImageStyle}"/>
@@ -192,7 +203,7 @@
             <ToolBar Height="32" Name="tlbBB" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowBB, Converter={StaticResource boolToVis}}">
                 <Label>Bounding Box: </Label>
                 <!-- <DockPanel VerticalAlignment="Center">-->
-                <CheckBox Name="chkAutoBB" >Auto</CheckBox>            
+                <CheckBox Name="chkAutoBB" Checked="chkAutoBB_Checked" Unchecked="chkAutoBB_Checked">Auto</CheckBox>            
             <Label>X</Label>
             <TextBox Name="txtBBX" Width="20" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
             <Label>Y</Label>
@@ -202,6 +213,41 @@
             <Label>H</Label>
             <TextBox Name="txtBBH" Width="20" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
         </ToolBar>
+            <ToolBar  Band="1" Height="32" Name="tlbMode">
+                <CheckBox IsChecked="True" Name="chkFancyMode" Checked="chkFancyMode_Checked" Unchecked="chkFancyMode_Checked">
+                    <DockPanel>
+                    <Image Source="/TikzEdt;component/Images/base_star_32.png"></Image>
+                        <TextBlock>Fancy Mode</TextBlock>
+                    </DockPanel>
+                    <CheckBox.ToolTip> 
+                        <StackPanel>
+                            <TextBlock Text="Fancy Mode" FontWeight="Bold"></TextBlock>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                In this mode, the parser and the overlay are turned on.
+                                There is also some command smuggled into the source code to determine
+                                the transformation from Tikz to Screen coordinates.
+                            </TextBlock>
+                        </StackPanel>
+                    </CheckBox.ToolTip>
+                </CheckBox>
+                <CheckBox Name="chkStandardMode" IsChecked="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource NBoolInverter}}">
+                    <DockPanel>
+                        <!-- <Image Source="/TikzEdt;component/Images/base_star_32.png"></Image>-->
+                        <TextBlock>Standard Mode</TextBlock>
+                    </DockPanel>
+                    <CheckBox.ToolTip>
+                         <StackPanel>
+                            <TextBlock Text="Standard Mode" FontWeight="Bold"></TextBlock>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                In this mode, the parser and the overlay are turned off.
+                                The document is rendered as it is. Hence TikzEdt becomes 
+                                a pure text editor with Preview. Use this mode if you have
+                                problems with fancy mode (speed/stability).
+                            </TextBlock>
+                        </StackPanel>
+                    </CheckBox.ToolTip>
+                </CheckBox>
+            </ToolBar>
         </ToolBarTray>
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
@@ -237,8 +283,30 @@
                     <RowDefinition Height="3"/>
                     <RowDefinition Height="80"/>
                 </Grid.RowDefinitions>
-                <GridSplitter Background="Gray" Grid.Row="1" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />              
-                <RichTextBox Grid.Row="2" HorizontalAlignment="Stretch"  Name="txtStatus" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
+                <GridSplitter Background="Gray" Grid.Row="1" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <DockPanel LastChildFill="true" Grid.Row="2">
+                    <StackPanel DockPanel.Dock="Left" Background="Gray">
+                        <ToggleButton Name="chkStatus" Checked="cmdSnippets_Checked" Unchecked="cmdSnippets_Unchecked" Focusable="False" IsChecked="True">
+                            <ToggleButton.LayoutTransform>
+                                <RotateTransform Angle="-90"/>
+                            </ToggleButton.LayoutTransform>
+                            <TextBlock Text="Status" />
+                        </ToggleButton>
+                        <ToggleButton Name="chkFullTex" Checked="cmdSnippets_Checked" Unchecked="cmdSnippets_Unchecked" Focusable="False" 
+                                      IsChecked="{Binding ElementName=chkStatus, Path=IsChecked, Converter={StaticResource NBoolInverter}}">
+                            <ToggleButton.LayoutTransform>
+                                <RotateTransform Angle="-90"/>
+                            </ToggleButton.LayoutTransform>
+                            <TextBlock Text="Tex"/>
+                        </ToggleButton>
+                    </StackPanel>
+                    <Grid>
+                        <RichTextBox  HorizontalAlignment="Stretch"  Name="txtStatus" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
+                                      Visibility="{Binding ElementName=chkStatus, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
+                        <RichTextBox  HorizontalAlignment="Stretch"  Name="txtTexout" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
+                                      Visibility="{Binding ElementName=chkFullTex, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
+                    </Grid>
+                </DockPanel>
                 <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" 
                                        ShowLineNumbers="{Binding Source={x:Static p:Settings.Default}, Path=Editor_ShowLineNumbers}"
                                        WordWrap="{Binding Source={x:Static p:Settings.Default}, Path=Editor_WordWrap}">
@@ -250,6 +318,7 @@
                             <Separator />
                             <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}"/>
                             <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
+                            <MenuItem Header="En-Scope" Click="Enscope_Click"/>
                         </ContextMenu>                            
                     </avalonedit:TextEditor.ContextMenu>
                 </avalonedit:TextEditor>
@@ -260,11 +329,14 @@
                 <Button Grid.Row="0" Grid.Column="0">Hallo Welt</Button> <my:PdfOverlay  HorizontalAlignment="Stretch" x:Name="pdfOverlay1" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" />
                 -->
                 <Grid Background="#303030">
-                    <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center" />
-                    <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" Width="200" Height="200" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" OnCompileEvent="tikzDisplay1_OnCompileEvent" />                   
+                    <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center"
+                                       Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
+                    <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" Width="200" Height="200" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" 
+                                    OnCompileEvent="tikzDisplay1_OnCompileEvent" />                   
                     <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" 
                                     OnModified="pdfOverlay1_OnModified" BeginModify="pdfOverlay1_BeginModify" EndModify="pdfOverlay1_EndModify" 
-                                    NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text,Mode=OneWay}" EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}"/>   
+                                    NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text,Mode=OneWay}" EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}"
+                                    Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}" TryCreateNew="pdfOverlay1_TryCreateNew" />   
                 </Grid>
             </ScrollViewer>
 

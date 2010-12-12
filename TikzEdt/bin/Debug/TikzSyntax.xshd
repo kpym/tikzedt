@@ -31,6 +31,8 @@
             <Word>\end</Word>
             <Word>\node</Word>
             <Word>\draw</Word>
+            <Word>\fill</Word>
+            <Word>\path</Word>
             <Word>\matrix</Word>
             <Word>\tikzset</Word>
             <Word>\tikzstyle</Word>
@@ -38,11 +40,13 @@
         </Keywords>
 
       <!-- path commands -->
-      <Keywords foreground="Blue">
+      <Keywords foreground="Brown">
         <Word>node</Word>
         <Word>circle</Word>
         <Word>grid</Word>
         <Word>rectangle</Word>
+        <Word>edge</Word>
+        <Word>at</Word>
         <Word>--</Word>
         <Word>-></Word>
         <Word>-|</Word>

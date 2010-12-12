@@ -48,5 +48,8 @@
     <Setting Name="TLB_ShowZoom" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="BB_Std" Type="System.Windows.Rect" Scope="User">
+      <Value Profile="(Default)">-3,-3,6,6</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

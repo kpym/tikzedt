@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:p="clr-namespace:TikzEdt.Properties"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
-        Title="Settings" Height="346" Width="438" Loaded="Window_Loaded" Closing="Window_Closing">
+        Title="Settings" Height="346" Width="438" Loaded="Window_Loaded" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -97,10 +97,10 @@
                     <!-- <TextBlock Text="Compiler"></TextBlock>   -->
                     <TextBlock Margin="3" Text="Code preappended:" ></TextBlock>
                     <TextBlock Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!"></TextBlock>
-                    <avalonedit:TextEditor Margin="3" Name="txtPreamble"  Height="100" BorderBrush="Black" />
+                    <avalonedit:TextEditor Margin="3" Name="txtPreamble"  Height="100" BorderThickness="1" />
                     <TextBlock Margin="3" Text="Code appended:" ></TextBlock>
                     <TextBlock Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!" ></TextBlock>
-                    <avalonedit:TextEditor Margin="3" Name="txtPostamble"  Height="100" BorderBrush="Black" />
+                    <avalonedit:TextEditor Margin="3" Name="txtPostamble"  Height="100" BorderThickness="1" />
                 </StackPanel>
             </TabPanel>
             <TabPanel>
@@ -116,9 +116,21 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="Parser and Overlay"></TextBlock>
-                    <TextBlock Margin="3" Text="Added Margin for Auto Bounding Box" Grid.Column="0" Grid.Row="1"></TextBlock>
-                    <TextBox Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Margin, Mode=TwoWay}"/>                    
+                    <TextBlock Grid.Row="0" Text="Parser and Overlay"></TextBlock>
+                    <TextBlock Margin="3" Text="Margin for Auto B. Box" Grid.Column="0" Grid.Row="1"></TextBlock>
+                    <TextBox Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Margin, Mode=TwoWay}"/>
+                    <TextBlock Margin="3" Text="Default Bounding Box" Grid.Column="0" Grid.Row="2"></TextBlock>
+                    <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">                        
+                        <TextBlock Margin="3" Text="X"/>
+                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std.X, Mode=TwoWay}"/>
+                        <TextBlock Margin="3" Text="Y"/>
+                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std.Y, Mode=TwoWay}"/>
+                        <TextBlock Margin="3" Text="W"/>
+                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std.Width, Mode=TwoWay}"/>
+                        <TextBlock Margin="3" Text="H"/>
+                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std.Height, Mode=TwoWay}"/>
+                    </StackPanel>
+                    
                 </Grid>
             </TabPanel>
         </TabControl>

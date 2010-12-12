@@ -180,5 +180,17 @@ namespace TikzEdt.Properties {
                 this["TLB_ShowZoom"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-3,-3,6,6")]
+        public global::System.Windows.Rect BB_Std {
+            get {
+                return ((global::System.Windows.Rect)(this["BB_Std"]));
+            }
+            set {
+                this["BB_Std"] = value;
+            }
+        }
     }
 }

@@ -30,6 +30,8 @@ namespace TikzEdt
         public delegate void NoArgsEventHandler(object sender);
         public event NoArgsEventHandler BeginModify;
         public event NoArgsEventHandler EndModify;
+        public delegate void CallbackEventHandler(object sender, out bool allow);
+        public event CallbackEventHandler TryCreateNew;
 
         public static readonly DependencyProperty NodeStyleProperty = DependencyProperty.Register(
         "NodeStyle", typeof(string), typeof(PdfOverlay), new PropertyMetadata(""));
@@ -58,6 +60,7 @@ namespace TikzEdt
                 if (_parsetree != null)
                     _parsetree.TextChanged -= new Tikz_ParseTree.TextChangedHandler(_parsetree_TextChanged);
                 _parsetree = value;
+                curAddTo = null;
                 if (_parsetree != null)
                     _parsetree.TextChanged += new Tikz_ParseTree.TextChangedHandler(_parsetree_TextChanged);
             }
@@ -102,8 +105,23 @@ namespace TikzEdt
         ToolType _tool=ToolType.move;
         public ToolType tool
         {
-        get { return _tool; }
-            set { _tool = value; }
+            get { return _tool; }
+            set { 
+                _tool = value;
+                switch (tool)
+                {
+                    case ToolType.move:                    
+                        Cursor = Cursors.Arrow;
+                        break;
+                    case ToolType.addvert:
+                    case ToolType.addpath:
+                        Cursor = Cursors.Cross;
+                        break;
+                    case ToolType.addedge:
+                        Cursor = Cursors.UpArrow;
+                        break;
+                }
+            }
         }
 
         public RasterControl rasterizer;
@@ -340,15 +358,46 @@ namespace TikzEdt
                     _curSel.Stroke = Brushes.Gold;
             }
         }
+        TikzContainerParseItem curAddTo;
         private void canvas1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (ParseTree == null)
+            {
+                if (TryCreateNew != null && ( tool == ToolType.addpath || tool == ToolType.addvert) )
+                {
+                    bool lret;
+                    TryCreateNew(this, out lret);
+                    if (lret)
+                    {
+                        // create a new parsetree
+                        Tikz_ParseTree t = new Tikz_ParseTree();
+                        Tikz_Picture tp = new Tikz_Picture();
+                        tp.starttag = "\\begin{tikzpicture}";
+                        tp.AddChild(new Tikz_Something("\r\n"));
+                        tp.endtag = "\\end{tikzpicture}";                        
+
+                        if (BeginModify != null)
+                            BeginModify(this);
+
+                        ParseTree = t;
+                        t.AddChild(tp);
+                        tp.UpdateText();
+
+                        if (EndModify != null)
+                            EndModify(this);
+
+                    }
+                    else return;
+                } else  return;
+            }
             if (tool == ToolType.addvert)
+            #region addvert
             {
                 if (BeginModify != null)
                     BeginModify(this);
 
-                Point p = new Point(e.GetPosition(canvas1).X, Height - e.GetPosition(canvas1).Y );                
-                p = rasterizer.RasterizePixel(p);
+                Point p = new Point(e.GetPosition(canvas1).X, Height - e.GetPosition(canvas1).Y);
+                p = rasterizer.RasterizePixelToTikz(p);
 
                 // find next tikzpicture and add
                 Tikz_Picture tpict = ParseTree.GetTikzPicture();
@@ -363,13 +412,13 @@ namespace TikzEdt
                     Tikz_Path tp = new Tikz_Path();
                     tp.starttag = @"\node ";
                     tp.endtag = ";";
-                    
+
                     tp.AddChild(tn);
                     tpict.AddChild(tp);
                     tpict.AddChild(new Tikz_Something("\r\n"));
 
                     // do it here since the coordinate calculation needs the parents' coord. transform
-                    tn.SetAbsPos(new Point(p.X / Resolution, p.Y / Resolution)); //hack
+                    tn.SetAbsPos(new Point(p.X, p.Y )); //hack
 
                     //tn.UpdateText();
                     tp.UpdateText();
@@ -380,7 +429,9 @@ namespace TikzEdt
                 if (EndModify != null)
                     EndModify(this);
             }
+            #endregion
             else if (tool == ToolType.addedge)
+            #region addedge
             {
 
                 IInputElement o = canvas1.InputHitTest(e.GetPosition(canvas1));
@@ -393,7 +444,7 @@ namespace TikzEdt
 
                 if (curSel == null)
                 {
-                    curSel=n;
+                    curSel = n;
                     return;
                 }
 
@@ -460,9 +511,76 @@ namespace TikzEdt
                     //if (OnModified != null)
                     //    OnModified.Invoke();
                 }
+            }
+            #endregion
+            else if (tool == ToolType.addpath)
+            #region addpath
+            {
+                if (BeginModify != null)
+                    BeginModify(this);
+
+                Point p = new Point(e.GetPosition(canvas1).X, Height - e.GetPosition(canvas1).Y);
+                p = rasterizer.RasterizePixelToTikz(p);
+
+                // find next tikzpicture and add
+                Tikz_Picture tpict = ParseTree.GetTikzPicture();
+                if (tpict != null)
+                {
+
+                    // if no path object is open, create a new one
+                    if (curAddTo == null)
+                    {
+                        Tikz_Path tp = new Tikz_Path();
+                        tp.starttag = @"\draw ";
+                        tp.endtag = ";";
+
+                        if (EdgeStyle != "")
+                        {
+                            Tikz_Options topt = new Tikz_Options();
+                            topt.starttag = "[";
+                            topt.endtag = "]";
+                            Tikz_Option to = new Tikz_Option();
+                            to.type = Tikz_OptionType.key;
+                            to.key = EdgeStyle;
+
+                            topt.AddOption(to);
+                            tp.AddChild(topt);
+                            tp.options = topt;
+                        }
+
+                        tpict.AddChild(tp);
+                        tpict.AddChild(new Tikz_Something("\r\n"));
+                        curAddTo = tp;
+                    }
+                    else
+                    {
+                        // add an edge
+                        curAddTo.AddChild(new Tikz_Something(" -- "));
+                    }
+
+                    // create new coordinate
+                    Tikz_Coord tc = new Tikz_Coord();
+                    curAddTo.AddChild(tc);
+
+                    // do it here since the coordinate calculation needs the parents' coord. transform
+                    tc.SetAbsPos(new Point(p.X, p.Y)); //hack
+
+                    //tn.UpdateText();
+                    curAddTo.UpdateText();
+                    //tpict.UpdateText();
+
+                    RedrawObjects();
+                }
                 if (EndModify != null)
                     EndModify(this);
             }
+            #endregion
+        }
+
+        private void UserControl_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            tool = ToolType.move;
+            curAddTo = null;
         }
     }
 

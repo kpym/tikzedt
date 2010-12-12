@@ -102,9 +102,20 @@ namespace TikzEdt
         /// <param name="p">The point, in screen coordinates</param>
         public Point RasterizePixel(Point p)
         {
-            Point pp = new Point(p.X/Resolution - BB.X, p.Y/Resolution - BB.Y);
+            Point pp = new Point(p.X/Resolution + BB.X, p.Y/Resolution + BB.Y);
             pp = Rasterize(pp);
-            return new Point((pp.X + BB.X) * Resolution, (pp.Y + BB.Y) * Resolution);
+            return new Point((pp.X - BB.X) * Resolution, (pp.Y - BB.Y) * Resolution);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p">The point, in screen coordinates</param>
+        /// <returns>The rasterized point, in Tikz coordinates</returns>
+        public Point RasterizePixelToTikz(Point p)
+        {
+            Point pp = new Point(p.X / Resolution + BB.X, p.Y / Resolution + BB.Y);
+            pp = Rasterize(pp);
+            return pp;
         }
     }
 }
