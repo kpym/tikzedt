@@ -8,11 +8,8 @@
   * Manage other components
   * look good 
 
-*Done so far:*
-  * very basic UI working
-
 *TODO:*
-  * draw an icon
+
 
 === Code editor (avalonedit) ===
 *TODO:*
@@ -23,26 +20,27 @@
 *TODO*
   * pdflatex hangs sometimes
   * Better handling of first generation of precompiled headers. (No restart)
-  * Better error messages
-  * When tikzpicture is in displaymath, there is a (vertical) margin... remove somehow.
   * Memory leak in PdfLibNet ???
 
 == TikzParser ==
 *TODO*
   * Build a test library
-  * set std BB to (user-definable) (sth centered at 0)
+  * run more tests
 
 === Tikz ParseTree ===
 
 == PdfOverlay ==
+
 *TODO*
-  * What happens when adding items to inactive overlay?
+  * Support radial coordinates
+  * Support multiple selection
+  * context-menu jump to source etc
 
 === Snippetmanager ===
 *TODO*
-  * Keep a lock on file while snippetmanager open!
   * Image does not reload after being changed
 
 === Misc ===
 *TODO*
   * Deployment
+  * Improve documentation
