@@ -1,6 +1,4 @@
-\tikzstyle{redsox}=[draw=red, fill]
-\tikzset{ jello/.style={fill=yellow} }
+\usetikzlibrary{decorations.footprints}
 \begin{tikzpicture}
-[bluewhale/.style={fill=blue}]
-  \draw (1,1)--(3,3);
+  \fill[decorate, decoration=footprints] (1,1)--(3,3);
 \end{tikzpicture}

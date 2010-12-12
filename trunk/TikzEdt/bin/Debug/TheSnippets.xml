@@ -322,4 +322,159 @@ Will be displayed as tooltip</Description>
 \end{tikzpicture}</SampleCode>
     <Dependencies>decorations.pathmorphing</Dependencies>
   </SnippetsTable>
+  <SnippetsTable>
+    <ID>22</ID>
+    <Name>Plain</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>-&gt;</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+% only for bounding box
+ \draw[white] (1,.9) rectangle (2,1.1);
+  \draw (1,1) -&gt; (2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>23</ID>
+    <Name>latex</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>latex</SnippetCode>
+    <SampleCode>\usetikzlibrary{arrows}
+\begin{tikzpicture}
+% only for bounding box
+ \draw[white] (1,.9) rectangle (2,1.1);
+  \draw[-latex] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>arrows</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>24</ID>
+    <Name>circles</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>o-*</SnippetCode>
+    <SampleCode>\usetikzlibrary{arrows}
+\begin{tikzpicture}
+% only for bounding box
+ \draw[white] (1,.9) rectangle (2,1.1);
+  \draw[o-*] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>arrows</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>25</ID>
+    <Name>open triangle 45</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>open triangle 45</SnippetCode>
+    <SampleCode>\usetikzlibrary{arrows}
+\begin{tikzpicture}
+% only for bounding box
+ \draw[white] (1,.9) rectangle (2,1.1);
+  \draw[-open triangle 45] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>arrows</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>26</ID>
+    <Name>triangle 90</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>triangle 90</SnippetCode>
+    <SampleCode>\usetikzlibrary{arrows}
+\begin{tikzpicture}
+% only for bounding box
+ \draw[white] (1,.9) rectangle (2,1.1);
+  \draw[-triangle 90] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>arrows</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>27</ID>
+    <Name>triangle 60</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>triangle 60</SnippetCode>
+    <SampleCode>\usetikzlibrary{arrows}
+\begin{tikzpicture}
+% only for bounding box
+ \draw[white] (1,.9) rectangle (2,1.1);
+  \draw[-triangle 60] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>arrows</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>28</ID>
+    <Name>diamond</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>diamond-open diamond</SnippetCode>
+    <SampleCode>\usetikzlibrary{arrows}
+\begin{tikzpicture}
+% only for bounding box
+ \draw[white] (1,.9) rectangle (2,1.1);
+  \draw[diamond-open diamond] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>arrows</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>29</ID>
+    <Name>squares</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>square-open square</SnippetCode>
+    <SampleCode>\usetikzlibrary{arrows}
+\begin{tikzpicture}
+% only for bounding box
+ \draw[white] (1,.9) rectangle (2,1.1);
+  \draw[square-open square] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>arrows</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>30</ID>
+    <Name>stealth</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>stealth</SnippetCode>
+    <SampleCode>\usetikzlibrary{arrows}
+\begin{tikzpicture}
+% only for bounding box
+ \draw[white] (1,.9) rectangle (2,1.1);
+  \draw[-stealth] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>arrows</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>31</ID>
+    <Name>Commutative diagram</Name>
+    <Category>Templates</Category>
+    <Description>A basic commutative diagram
+More information -&gt; http://www.felixl.de/commu.pdf</Description>
+    <SnippetCode>\usetikzlibrary{matrix,arrows}
+\begin{tikzpicture}[description/.style={fill=white,inner sep=2pt}]
+\matrix (m) [matrix of math nodes, row sep=3em,
+column sep=2.5em, text height=1.5ex, text depth=0.25ex]
+{ A &amp; &amp; B \\
+&amp; C &amp; \\ };
+\path[-&gt;,font=\scriptsize]
+(m-1-1) edge node[auto] {$ \varphi $} (m-1-3)
+edge node[description] {$ \Psi $} (m-2-2)
+(m-1-3) edge node[auto] {$ \Phi $} (m-2-2);
+\end{tikzpicture}</SnippetCode>
+    <SampleCode>\usetikzlibrary{matrix,arrows}
+\begin{tikzpicture}[description/.style={fill=white,inner sep=2pt}]
+\matrix (m) [matrix of math nodes, row sep=3em,
+column sep=2.5em, text height=1.5ex, text depth=0.25ex]
+{ A &amp; &amp; B \\
+&amp; C &amp; \\ };
+\path[-&gt;,font=\scriptsize]
+(m-1-1) edge node[auto] {$ \varphi $} (m-1-3)
+edge node[description] {$ \Psi $} (m-2-2)
+(m-1-3) edge node[auto] {$ \Phi $} (m-2-2);
+\end{tikzpicture}</SampleCode>
+    <Dependencies>matrix, arrows</Dependencies>
+  </SnippetsTable>
 </SnippetsDataSet>

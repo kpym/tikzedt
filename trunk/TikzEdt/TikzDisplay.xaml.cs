@@ -27,7 +27,7 @@ namespace TikzEdt
     public partial class TikzDisplay : UserControl
     {
         public enum CompileEventType {Start, Error, Success, Status};
-        public delegate void CompileEventHandler(string Message, CompileEventType type);
+        public delegate void CompileEventHandler(string Message, string TexOutput, CompileEventType type);
         public event CompileEventHandler OnCompileEvent;
 
         readonly public static DependencyProperty CompilingProperty = DependencyProperty.Register(
@@ -47,17 +47,15 @@ namespace TikzEdt
             doCompile();
         }
 
-        private double lResolution = Consts.ptspertikzunit;
+        private double _Resolution = Consts.ptspertikzunit;
         public double Resolution
         {
-            get { return lResolution; }
+            get { return _Resolution; }
             set {
                 if (value > 0)
                 {
-                    lResolution = value;
-                    Width = currentBB.Width * Resolution;
-                    Height = currentBB.Width * Resolution;
-                    RedrawBMP();
+                    _Resolution = value;
+                    RecalcSize();
                 }
             }
         }
@@ -96,40 +94,23 @@ namespace TikzEdt
 
             if (!File.Exists(Consts.cTempFile + ".fmt"))
             {
-                OnCompileEvent("Generating precompiled headers.... please restart in some moments", CompileEventType.Status); 
+                OnCompileEvent("Generating precompiled headers.... please restart in some moments", "", CompileEventType.Status); 
                 Helper.GeneratePrecompiledHeaders();
                 return;
             }
 
             // save into temporary textfile
-            // add bounding box
-            bool lsucceeded;
-            string codetowrite = writeBBtoTikz(nextToCompile, nextBB, out lsucceeded);
+            // add bounding box, if bounding box provided has size other than 0
+            bool lsucceeded= true;
+            string codetowrite;
+            if (nextBB.Width * nextBB.Height == 0)
+                codetowrite = nextToCompile;
+            else
+                codetowrite = writeBBtoTikz(nextToCompile, nextBB, out lsucceeded);
 
             StreamWriter s = new StreamWriter(Consts.cTempFile + ".tex");
-            //s.WriteLine(@"%&" + Consts.cTempFile);
-
-            if (lsucceeded)
-            {
-                //s.WriteLine(@"\pdfpageattr{/MediaBox [0 0 " + Convert.ToInt32(nextBB.Width * Consts.ptspertikzunit) + " "
-                //                                            + Convert.ToInt32(nextBB.Height * Consts.ptspertikzunit) + "]}");
-                //s.WriteLine(@"\begin{document}");
-                //s.WriteLine(@"\PreviewEnvironment{tikzpicture}");
-                
-                //s.WriteLine(@"\thispagestyle{empty}");
-                //s.WriteLine(@"\mathindent0cm \parindent0cm");
-                //s.WriteLine(@"not seen");
-                //s.WriteLine(@"\vfill");
-            }
-            else
-            {
-                //s.WriteLine(@"\begin{document}");
-                //s.WriteLine(@"\thispagestyle{empty}");
-                //s.WriteLine(@"\mathindent0cm \parindent0cm");
-            }
-
+ 
             s.WriteLine(codetowrite);
-            //s.WriteLine(Properties.Settings.Default.Tex_Postamble);
             s.Close();
             nextToCompile = "";
             if (lsucceeded)
@@ -137,7 +118,7 @@ namespace TikzEdt
             else compilingBB = new Rect(0, 0, 0, 0);
 
             // call pdflatex         
-            OnCompileEvent("Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, CompileEventType.Start);
+            OnCompileEvent("Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, "", CompileEventType.Start);
             texProcess.Start();
         }
         /// <summary>
@@ -165,10 +146,13 @@ namespace TikzEdt
             InitializeComponent();
 
             texProcess.EnableRaisingEvents = true;
-            texProcess.StartInfo.Arguments = "-quiet -halt-on-error " + Consts.cTempFile + ".tex";
+            texProcess.StartInfo.Arguments = "-halt-on-error " + Consts.cTempFile + ".tex";
             texProcess.StartInfo.FileName = "pdflatex";
             texProcess.StartInfo.CreateNoWindow = true;
             texProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            texProcess.StartInfo.UseShellExecute = false;
+            texProcess.StartInfo.RedirectStandardError = true;
+            texProcess.StartInfo.RedirectStandardOutput = true;
             // texProcess.SynchronizingObject = (System.ComponentModel.ISynchronizeInvoke) this;
             texProcess.Exited += new EventHandler(texProcess_Exited);
 
@@ -199,11 +183,14 @@ namespace TikzEdt
                 {
                     currentBB = compilingBB;
                     RefreshPDF();
-
-                    OnCompileEvent("Compilation done", CompileEventType.Success);                                       
+                    string texout = texProcess.StandardOutput.ReadToEnd();
+                    OnCompileEvent("Compilation done", texout, CompileEventType.Success);
                 }
-                else OnCompileEvent("Compilation failed wih exit code " + texProcess.ExitCode, CompileEventType.Error);
-
+                else
+                {
+                    string err = texProcess.StandardOutput.ReadToEnd();
+                    OnCompileEvent("Compilation failed wih exit code " + texProcess.ExitCode, err, CompileEventType.Error);
+                }
                 
                 isRunning = false;
                 SetValue(CompilingProperty, false);
@@ -226,7 +213,8 @@ namespace TikzEdt
             }
             else
             {
-                
+                Width = double.NaN; // auto height/width
+                Height = double.NaN;
             }
 
             RedrawBMP();
@@ -241,7 +229,7 @@ namespace TikzEdt
         {
             if (mypdfDoc != null)
             {
-                image1.Source = mypdfDoc.GetBitmap(Resolution); // mypdfDoc.GetBitmap(currentBB, Resolution);                
+                image1.Source = mypdfDoc.GetBitmap(Resolution, currentBB.Width*currentBB.Height >0); // mypdfDoc.GetBitmap(currentBB, Resolution);                
             }
         }
 
@@ -293,15 +281,18 @@ namespace TikzEdt
             }
             else return null;
         }
-        public BitmapSource GetBitmap(double Resolution)
+        public BitmapSource GetBitmap(double Resolution, bool Transparent = true)
         {
             if (mypdfDoc != null && mypdfDoc.PageCount >0)
             {
  
                 Bitmap b = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);
-                b.MakeTransparent(System.Drawing.Color.White);
-                b.MakeTransparent(System.Drawing.Color.FromArgb(255, 253, 253, 253));
-                b.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
+                if (Transparent)
+                {
+                    b.MakeTransparent(System.Drawing.Color.White);
+                    b.MakeTransparent(System.Drawing.Color.FromArgb(255, 253, 253, 253));
+                    b.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
+                }
                 BitmapSource ret = loadBitmap(b);
                 b.Dispose();
                 return ret;
