@@ -9,7 +9,7 @@
   * look good 
 
 *TODO:*
-
+  * better icons (correct size/transparency)
 
 === Code editor (avalonedit) ===
 *TODO:*
