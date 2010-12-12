@@ -30,10 +30,13 @@
 == TikzParser ==
 *TODO*
   * Build a test library
+  * set std BB to (user-definable) (sth centered at 0)
 
 === Tikz ParseTree ===
 
 == PdfOverlay ==
+*TODO*
+  * What happens when adding items to inactive overlay?
 
 === Snippetmanager ===
 *TODO*
