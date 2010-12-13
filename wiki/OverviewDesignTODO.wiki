@@ -10,6 +10,7 @@
 
 *TODO:*
   * better icons (correct size/transparency)
+  * Warning before closing unsaved file
 
 === Code editor (avalonedit) ===
 *TODO:*
