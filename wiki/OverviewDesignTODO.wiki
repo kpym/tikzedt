@@ -9,7 +9,7 @@
   * look good 
 
 *TODO:*
-  * better icons (correct size/transparency)
+  * Recent file list-> local ... right reg key?
 
 === Code editor (avalonedit) ===
 *TODO:*
