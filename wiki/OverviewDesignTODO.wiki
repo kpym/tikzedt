@@ -10,11 +10,9 @@
 
 *TODO:*
   * better icons (correct size/transparency)
-  * Warning before closing unsaved file
 
 === Code editor (avalonedit) ===
 *TODO:*
-  * full syntax highlighting (complete definition xml file)
   * code completion?
 
 == TikzDisplay ==
@@ -26,7 +24,6 @@
 
 == Rasterizer ==
 *TODO*
-  * Scales + origin for cartesian raster
 
 == TikzParser ==
 *TODO*
@@ -38,13 +35,10 @@
 == PdfOverlay ==
 
 *TODO*
-  * Support radial coordinates
-  * Support multiple selection
-  * context-menu jump to source etc
+  * Support multiple selection??
 
 === Snippetmanager ===
 *TODO*
-  * Image does not reload after being changed
 
 === Misc ===
 *TODO*
