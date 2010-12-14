@@ -49,7 +49,7 @@ namespace TikzEdt
                     RecentFileList.InsertFile(_CurFile);
             }
         }
-        // indicates whether changes (that need to be saved) are made to the graph
+        // indicates whether changes (that need to be saved) are made to the current file
         private bool _ChangesMade = false;
         bool ChangesMade
         {
@@ -171,8 +171,8 @@ namespace TikzEdt
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            AddStatusLine("Welcome");
-            AddStatusLine("Test");
+            AddStatusLine("Welcome to TikzEdt");
+            AddStatusLine("Help/feedback/feature requests/error reports are welcome");
 
             //cmbGrid.SelectedIndex = 4;
 
@@ -188,6 +188,9 @@ namespace TikzEdt
             isLoaded = true;
             //txtRadialOffset.Text = txtRadialOffset.Text;
             //txtRadialSteps.Text = txtRadialSteps.Text;
+
+            // Open a new file 
+            ApplicationCommands.New.Execute(null, this);
         }
 
         /// <summary>
@@ -562,12 +565,23 @@ namespace TikzEdt
 
         private void cmbGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cmbGrid.SelectedIndex >= 0 && rasterControl1 != null)
+            //if (cmbGrid.SelectedIndex >= 0 && rasterControl1 != null)
+            //{
+                //string c = (cmbGrid.SelectedItem as ComboBoxItem).Content;
+            //    rasterControl1.GridWidth = Double.Parse((cmbGrid.SelectedItem as ComboBoxItem).Content.ToString());
+            //}
+        }
+        private void cmbGridTextChanged(object sender, TextChangedEventArgs e)
+        {
+            double d;
+            if (rasterControl1 != null && Double.TryParse(cmbGrid.Text, out d))
             {
                 //string c = (cmbGrid.SelectedItem as ComboBoxItem).Content;
-                rasterControl1.GridWidth = Double.Parse((cmbGrid.SelectedItem as ComboBoxItem).Content.ToString());
+                if (d>=0 && d<100)
+                    rasterControl1.GridWidth = d;
             }
         }
+        
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
@@ -578,14 +592,14 @@ namespace TikzEdt
         {
             if (pdfOverlay1 == null)
                 return;
-            if (sender == rb1)
+            if (sender == rbToolMove)
                 pdfOverlay1.tool = PdfOverlay.ToolType.move;
-            else if (sender == rb2)
+            else if (sender == rbToolAddVert)
                 pdfOverlay1.tool = PdfOverlay.ToolType.addvert;
-            else if (sender == rb3)
-                    pdfOverlay1.tool = PdfOverlay.ToolType.addedge;
-            else if (sender == rb4)
-                    pdfOverlay1.tool = PdfOverlay.ToolType.addpath;
+            else if (sender == rbToolAddEdge)
+                pdfOverlay1.tool = PdfOverlay.ToolType.addedge;
+            else if (sender == rbToolAddPath)
+                pdfOverlay1.tool = PdfOverlay.ToolType.addpath;
         }
 
         private void SnippetMenuClick(object sender, RoutedEventArgs e)
@@ -709,6 +723,9 @@ namespace TikzEdt
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             TikzEdt.Properties.Settings.Default.Save();
+
+            if (!TryDisposeFile())
+                e.Cancel = true;            
         }
 
         private void TestClick(object sender, RoutedEventArgs e)
@@ -802,6 +819,30 @@ namespace TikzEdt
             txtCode.SelectionLength = tpi.ToString().Length;
             txtCode.ScrollToLine(txtCode.Document.GetLineByOffset(spos).LineNumber);
             txtCode.Focus();
+        }
+
+        private void pdfOverlay1_ToolChanged(object sender)
+        {
+            rbToolMove.IsChecked = (pdfOverlay1.tool == PdfOverlay.ToolType.move);
+            rbToolAddVert.IsChecked = (pdfOverlay1.tool == PdfOverlay.ToolType.addvert);
+            rbToolAddEdge.IsChecked = (pdfOverlay1.tool == PdfOverlay.ToolType.addedge);
+            rbToolAddPath.IsChecked = (pdfOverlay1.tool == PdfOverlay.ToolType.addpath);
+        }
+
+        private void cmbZoom_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // add a "%"
+            double d;
+            if (Double.TryParse(cmbZoom.Text, out d))
+            {
+                cmbZoom.Text = d.ToString() + " %";
+            }
+        }
+
+        private void AboutClick(object sender, RoutedEventArgs e)
+        {
+            TikzEdtAbout ta = new TikzEdtAbout();
+            ta.ShowDialog();
         }
     }
 }

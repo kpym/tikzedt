@@ -37,7 +37,7 @@ namespace TikzEdt
             }
         }
 
-        double _GridWidth = 1;
+        double _GridWidth = Properties.Settings.Default.Raster_GridWidth;
         public double GridWidth
         {
             get { return _GridWidth; }
@@ -100,40 +100,46 @@ namespace TikzEdt
             set { _IsCartesian = value; DrawRaster(); }
         }
 
+        double scGW
+        {
+            get { return GridWidth * RasterScale; }
+        }
+
         public void DrawRaster()
         {
             canvas1.Children.Clear();
 
             if (GridWidth <= 0)
-                return;
+                return;            
             if (IsCartesian)
             {
-                for (double x = Math.Ceiling(BB.X / GridWidth) * GridWidth; x < BB.X + BB.Width; x += GridWidth)
+                for (double x = Math.Ceiling((BB.X - RasterOrigin.X) / scGW) * scGW; x < BB.X - RasterOrigin.X + BB.Width; x += scGW)
                 {
                     Line myLine = new Line();
                     myLine.Stroke = System.Windows.Media.Brushes.WhiteSmoke;
-                    myLine.X1 = (x - BB.X) * Resolution;
+                    myLine.X1 = (x - BB.X + RasterOrigin.X) * Resolution;
                     myLine.X2 = myLine.X1;
                     myLine.Y1 = 0;
                     myLine.Y2 = Height;
                     canvas1.Children.Add(myLine);
                 }
 
-                for (double y = Math.Ceiling(BB.Y / GridWidth) * GridWidth; y < BB.Y + BB.Height; y += GridWidth)
+                for (double y = Math.Ceiling((BB.Y - RasterOrigin.Y) / scGW) * scGW; y < BB.Y - RasterOrigin.Y + BB.Height; y += scGW)
                 {
                     Line myLine = new Line();
                     myLine.Stroke = System.Windows.Media.Brushes.WhiteSmoke;
                     myLine.X1 = 0;
                     myLine.X2 = Width;
-                    myLine.Y1 = (y - BB.Y) * Resolution;
+                    myLine.Y1 = (y - BB.Y + RasterOrigin.Y) * Resolution;
                     myLine.Y2 = myLine.Y1;
                     canvas1.Children.Add(myLine);
                 }
             }
             else
             {
+                
                 Point pixelorig = new Point((RasterOrigin.X-BB.X)*Resolution, (RasterOrigin.Y -BB.Y)*Resolution);
-                double R = 2 * (BB.Width + BB.Height);
+                double R = 2 * (BB.Width + BB.Height)/RasterScale;
                 for (double r = 0; r < R; r += GridWidth)
                 {
                     Ellipse el = new Ellipse();
@@ -168,11 +174,13 @@ namespace TikzEdt
         /// <returns>The rasterized point, in Tikz coordinates. In particular, in polar coordinates.</returns>
         public Point Rasterize(Point p)
         {
+            if (scGW == 0)
+                return p;
             if (IsCartesian)
             {
                 return new Point(
-                    Math.Round(p.X / GridWidth) * GridWidth,
-                    Math.Round(p.Y / GridWidth) * GridWidth
+                    Math.Round((p.X - RasterOrigin.X) / scGW) * scGW + RasterOrigin.X,
+                    Math.Round((p.Y - RasterOrigin.Y) / scGW) * scGW + RasterOrigin.Y
                     );
             }
             else

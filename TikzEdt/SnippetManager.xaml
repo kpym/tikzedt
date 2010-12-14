@@ -30,7 +30,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate>
-                        <Expander IsExpanded="True">                          
+                        <Expander IsExpanded="False">
                                 <Expander.Header>
                                     <Border HorizontalAlignment="Stretch">
                                         <TextBlock Text="{Binding Name}"/>
