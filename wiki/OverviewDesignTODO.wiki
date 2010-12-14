@@ -22,6 +22,7 @@
   * pdflatex hangs sometimes
   * Better handling of first generation of precompiled headers. (No restart)
   * Memory leak in PdfLibNet ???
+  * redirect CTRLzy
 
 == Rasterizer ==
 *TODO*
