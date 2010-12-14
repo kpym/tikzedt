@@ -14,6 +14,7 @@
 === Code editor (avalonedit) ===
 *TODO:*
   * code completion?
+  * find/replace
 
 == TikzDisplay ==
 *TODO*
