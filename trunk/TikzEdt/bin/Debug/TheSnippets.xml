@@ -565,4 +565,22 @@ Will be displayed as tooltip</Description>
 \end{tikzpicture}</SampleCode>
     <Dependencies />
   </SnippetsTable>
+  <SnippetsTable>
+    <ID>37</ID>
+    <Name>Scope with scale</Name>
+    <Category>Test Cases</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>\begin{tikzpicture}
+\begin{scope}[xshift=1.3cm, yshift=-.5cm,scale=1.7]
+  \draw (1,1)--(3,3);
+\end{scope}
+\end{tikzpicture}</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+\begin{scope}[xshift=1.3cm, yshift=-.5cm,scale=1.7]
+  \draw (1,1)--(3,3);
+\end{scope}
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
 </SnippetsDataSet>

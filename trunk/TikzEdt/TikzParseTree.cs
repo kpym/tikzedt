@@ -557,7 +557,15 @@ namespace TikzEdt
         public Tikz_NumberUnit()
         {
         }
-        public double number=0;
+        private double _number=0;
+        public double number
+        {
+            get { return _number; }
+            set
+            {
+                _number = Math.Round(value, (int)Properties.Settings.Default.RoundToDecimals);
+            }
+        }
         public string unit="";
         public override string ToString()
         {

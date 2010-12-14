@@ -30,6 +30,7 @@ namespace TikzEdt
         public delegate void NoArgsEventHandler(object sender);
         public event NoArgsEventHandler BeginModify;
         public event NoArgsEventHandler EndModify;
+        public event NoArgsEventHandler ToolChanged;
         public delegate void CallbackEventHandler(object sender, out bool allow);
         public event CallbackEventHandler TryCreateNew;
         public event NoArgsEventHandler JumpToSource;
@@ -107,7 +108,8 @@ namespace TikzEdt
         public ToolType tool
         {
             get { return _tool; }
-            set { 
+            set {
+                ToolType old = _tool;
                 _tool = value;
                 switch (tool)
                 {
@@ -122,6 +124,8 @@ namespace TikzEdt
                         Cursor = Cursors.UpArrow;
                         break;
                 }
+                if (old != _tool && ToolChanged != null)
+                    ToolChanged(this);
             }
         }
 
@@ -279,10 +283,14 @@ namespace TikzEdt
                 if (_CurEditing != null)
                 {
                     // remove adorner
-                    Adorner[] toRemoveArray = AdornerLayer.GetAdornerLayer(CurEditing).GetAdorners(CurEditing);
-                    if (toRemoveArray != null)
+                    AdornerLayer al = AdornerLayer.GetAdornerLayer(CurEditing);
+                    if (al != null)
                     {
-                        AdornerLayer.GetAdornerLayer(CurEditing).Remove(toRemoveArray[0]);
+                        Adorner[] toRemoveArray = al.GetAdorners(CurEditing);
+                        if (toRemoveArray != null)
+                        {
+                            AdornerLayer.GetAdornerLayer(CurEditing).Remove(toRemoveArray[0]);
+                        }
                     }
                 }
                 _CurEditing = value;
@@ -339,9 +347,108 @@ namespace TikzEdt
                     _curSel.Stroke = Brushes.Gold;
             }
         }
+
+        void SetCorrectRaster(OverLayShape o, bool IsParent=false)
+        {
+            if (ParseTree == null)
+                return;
+            if (o == null)
+            {
+                Tikz_Picture tp = ParseTree.GetTikzPicture();
+                if (tp != null)
+                {
+                    TikzMatrix M = tp.GetCurrentTransform();
+                    rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
+                    rasterizer.RasterScale = M.m[1, 1];
+                    rasterizer.IsCartesian = true;
+                }
+            }
+            if (o is OverlayScope)
+            {
+                Tikz_Scope ts = (o as OverlayScope).tikzitem;
+                TikzMatrix M;
+                if (IsParent)
+                    M = ts.GetCurrentTransform();
+                else
+                    M = ts.parent.GetCurrentTransform();
+                rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
+                rasterizer.RasterScale = M.m[1, 1];
+                rasterizer.IsCartesian = true;
+            }
+            else if (o is OverlayNode)
+            {
+                Tikz_XYItem t = (o as OverlayNode).tikzitem;
+                rasterizer.RasterOrigin = t.GetAbsPos(true);
+                TikzMatrix m = t.parent.GetCurrentTransform();
+                rasterizer.RasterScale = m.m[1, 1];
+                rasterizer.IsCartesian = !(t.IsPolar());
+            }
+            else
+                rasterizer.IsCartesian = true;  // should not get here
+        }
+
+        bool EnsureCurAddToExists(out bool created)
+        {
+            created = false;            
+            // find tikzpicture
+            Tikz_Picture tpict = ParseTree.GetTikzPicture();
+            if (tpict == null)
+                return false;
+
+            if (curAddTo == null || !(curAddTo is Tikz_Path))
+            {
+                Tikz_Path tp = new Tikz_Path();
+                tp.starttag = @"\draw";
+                tp.endtag = ";";
+                if (EdgeStyle != "")
+                {
+                    Tikz_Options topt = new Tikz_Options();
+                    topt.starttag = "[";
+                    topt.endtag = "]";
+                    Tikz_Option to = new Tikz_Option();
+                    to.type = Tikz_OptionType.key;
+                    to.key = EdgeStyle;
+
+                    topt.AddOption(to);
+                    tp.AddChild(topt);
+                    tp.options = topt;
+                }
+                if (CurEditing != null)
+                {
+                    CurEditing.tikzitem.AddChild(tp);
+                    CurEditing.tikzitem.AddChild(new Tikz_Something("\r\n"));
+                }
+                else
+                {
+                    tpict.AddChild(tp);
+                    tpict.AddChild(new Tikz_Something("\r\n"));
+                }
+                curAddTo = tp;
+                created = true;
+            }
+
+            return true;
+        }
+
+        void AddToDisplayTree(TikzParseItem tpi)
+        {
+            List<OverLayShape> l = new List<OverLayShape>();
+            DrawObject(tpi, l);
+            if (CurEditing == null)
+            {
+                TopLevelItems.AddRange(l);
+            }
+            else
+            {
+                CurEditing.children.AddRange(l);
+            }
+            AdjustPositions();
+        }
+
         TikzContainerParseItem curAddTo;
         private void canvas1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            // Try to create a new ParseTree
             if (ParseTree == null)
             {
                 if (TryCreateNew != null && ( tool == ToolType.addpath || tool == ToolType.addvert) )
@@ -373,12 +480,14 @@ namespace TikzEdt
             }
 
             if (tool == ToolType.move)
+            #region move
             {
                 IInputElement o = canvas1.InputHitTest(e.GetPosition(canvas1));
 
                 if (e.ClickCount == 2 && (o is OverlayScope)) // Select for editing
                 {
                     CurEditing = o as OverlayScope;
+                    SetCorrectRaster(CurEditing);
                 }
                 else if (o is OverLayShape)
                 {
@@ -389,31 +498,17 @@ namespace TikzEdt
                     //MessageBox.Show(o.ToString());
 
                     // adjust raster origin/scale/polar/cartesian
-                    if (o is OverlayScope)
-                    {
-                        Tikz_Scope ts = (o as OverlayScope).tikzitem;
-                        TikzMatrix M = ts.parent.GetCurrentTransform();
-                        rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
-                        rasterizer.RasterScale = M.m[1, 1];
-                        rasterizer.IsCartesian = true;
-                    } 
-                    else if (o is OverlayNode)
-                    {
-                        Tikz_XYItem t = (o as OverlayNode).tikzitem;
-                        rasterizer.RasterOrigin = t.GetAbsPos(true);
-                        TikzMatrix m = t.parent.GetCurrentTransform();
-                        rasterizer.RasterScale = m.m[1, 1];
-                        rasterizer.IsCartesian = !(t.IsPolar());
-                    }
-                    else
-                        rasterizer.IsCartesian = true;  // should not get here
+                    SetCorrectRaster(curDragged);
                 }
             }
+            #endregion
             else if (tool == ToolType.addvert)
             #region addvert
             {
                 if (BeginModify != null)
                     BeginModify(this);
+
+                SetCorrectRaster(CurEditing, true);
 
                 Point p = new Point(e.GetPosition(canvas1).X, Height - e.GetPosition(canvas1).Y);
                 p = rasterizer.RasterizePixelToTikz(p);
@@ -433,9 +528,16 @@ namespace TikzEdt
                     tp.endtag = ";";
 
                     tp.AddChild(tn);
-                    tpict.AddChild(tp);
-                    tpict.AddChild(new Tikz_Something("\r\n"));
-
+                    if (CurEditing != null)
+                    {
+                        CurEditing.tikzitem.AddChild(tp);
+                        CurEditing.tikzitem.AddChild(new Tikz_Something("\r\n"));
+                    }
+                    else
+                    {
+                        tpict.AddChild(tp);
+                        tpict.AddChild(new Tikz_Something("\r\n"));
+                    }
                     // do it here since the coordinate calculation needs the parents' coord. transform
                     tn.SetAbsPos(new Point(p.X, p.Y )); //hack
 
@@ -443,7 +545,8 @@ namespace TikzEdt
                     tp.UpdateText();
                     //tpict.UpdateText();
 
-                    RedrawObjects();
+                    //RedrawObjects();
+                    AddToDisplayTree(tp);
                 }
                 if (EndModify != null)
                     EndModify(this);
@@ -470,45 +573,29 @@ namespace TikzEdt
                 if (BeginModify != null)
                     BeginModify(this);
 
-                // add an edge curSel to n 
-                // find tikzpicture
-                Tikz_Picture tpict = ParseTree.GetTikzPicture();
-                if (tpict != null)
+                // make sure both nodes involved are nodes
+                if (!(curSel.tikzitem is Tikz_Node) || !(n.tikzitem is Tikz_Node))
+                    return; // hack
+
+                // add an edge curSel to n
+                bool lcreated;
+                if (EnsureCurAddToExists(out lcreated))
                 {
-                    // make sure both nodes involved are nodes
-                    if (!(curSel.tikzitem is Tikz_Node) || !(n.tikzitem is Tikz_Node))
-                        return; // hack
                     Tikz_Node t1 = curSel.tikzitem as Tikz_Node, t2 = n.tikzitem as Tikz_Node;
-
-                    Tikz_Path tp = new Tikz_Path();
-                    tp.starttag = @"\draw ";
-                    tp.endtag = ";";
-                    if (EdgeStyle != "")
-                    {
-                        Tikz_Options topt = new Tikz_Options();
-                        topt.starttag = "[";
-                        topt.endtag = "]";
-                        Tikz_Option to = new Tikz_Option();
-                        to.type = Tikz_OptionType.key;
-                        to.key = EdgeStyle;
-
-                        topt.AddOption(to);
-                        tp.AddChild(topt);
-                        tp.options = topt;
-                    }
 
                     Tikz_Coord tc1 = new Tikz_Coord();
                     tc1.type = Tikz_CoordType.Named;
                     Tikz_Coord tc2 = new Tikz_Coord();
                     tc2.type = Tikz_CoordType.Named;
 
-                    tp.AddChild(tc1);
-                    tp.AddChild(new Tikz_Something(" edge "));
-                    tp.AddChild(tc2);
-                    tpict.AddChild(tp);
-                    tpict.AddChild(new Tikz_Something("\r\n"));
+                    curAddTo.AddChild(new Tikz_Something(" "));
+                    curAddTo.AddChild(tc1);
+                    curAddTo.AddChild(new Tikz_Something(" edge "));
+                    curAddTo.AddChild(tc2);
+                    //tpict.AddChild(tp);                    
 
                     // make sure both nodes have names
+                    Tikz_Picture tpict = ParseTree.GetTikzPicture();
                     if (t1.name == "")
                     {
                         t1.SetName(tpict.GetUniqueName());
@@ -523,7 +610,7 @@ namespace TikzEdt
                     tc1.nameref = t1.name;
                     tc2.nameref = t2.name;
                     //tc1.UpdateText();
-                    tp.UpdateText();
+                    curAddTo.UpdateText();
                     //tpict.UpdateText();
 
                     //RedrawObjects();
@@ -537,41 +624,18 @@ namespace TikzEdt
             {
                 if (BeginModify != null)
                     BeginModify(this);
+                
+                SetCorrectRaster(CurEditing);
 
                 Point p = new Point(e.GetPosition(canvas1).X, Height - e.GetPosition(canvas1).Y);
                 p = rasterizer.RasterizePixelToTikz(p);
 
                 // find next tikzpicture and add
-                Tikz_Picture tpict = ParseTree.GetTikzPicture();
-                if (tpict != null)
+                bool lcreated;
+                if (EnsureCurAddToExists(out lcreated))
                 {
 
-                    // if no path object is open, create a new one
-                    if (curAddTo == null)
-                    {
-                        Tikz_Path tp = new Tikz_Path();
-                        tp.starttag = @"\draw ";
-                        tp.endtag = ";";
-
-                        if (EdgeStyle != "")
-                        {
-                            Tikz_Options topt = new Tikz_Options();
-                            topt.starttag = "[";
-                            topt.endtag = "]";
-                            Tikz_Option to = new Tikz_Option();
-                            to.type = Tikz_OptionType.key;
-                            to.key = EdgeStyle;
-
-                            topt.AddOption(to);
-                            tp.AddChild(topt);
-                            tp.options = topt;
-                        }
-
-                        tpict.AddChild(tp);
-                        tpict.AddChild(new Tikz_Something("\r\n"));
-                        curAddTo = tp;
-                    }
-                    else
+                    if (!lcreated)
                     {
                         // add an edge
                         curAddTo.AddChild(new Tikz_Something(" -- "));
@@ -588,7 +652,8 @@ namespace TikzEdt
                     curAddTo.UpdateText();
                     //tpict.UpdateText();
 
-                    RedrawObjects();
+                    //RedrawObjects();
+                    AddToDisplayTree(tc);
                 }
                 if (EndModify != null)
                     EndModify(this);

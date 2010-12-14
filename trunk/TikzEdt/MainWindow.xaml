@@ -106,37 +106,41 @@
                 <MenuItem Header="Test..." Click="TestClick"/>
                 <MenuItem Header="Test...Updatetexts" Click="TestUpdClick"/>
             </MenuItem>
+            <MenuItem Header="?">
+                <MenuItem Header="Help..."/>
+                <MenuItem Header="About..." Click="AboutClick"/>
+            </MenuItem>
         </Menu>
         <ToolBarTray Grid.Row="1">
-            <ToolBar Height="32" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Converter={StaticResource boolToVis}}">
+            <ToolBar Height="Auto" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Converter={StaticResource boolToVis}}">
                 <Button Command="ApplicationCommands.New">
-                    <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png" />
+                    <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png" Stretch="Fill" Height="24" Width="24"/>
                 </Button>
                 <Button Command="ApplicationCommands.Open">
-                    <Image Source="/TikzEdt;component/Images/openfolderHS.png" />
+                    <Image Source="/TikzEdt;component/Images/OpenPL.bmp"  Stretch="Fill" Height="24" Width="24"/>
                 </Button>
                 <Button Command="ApplicationCommands.Save">
-                    <Image Source="/TikzEdt;component/Images/saveHS.png" />
+                    <Image Source="/TikzEdt;component/Images/SaveHL.bmp"  Stretch="Fill" Height="24" Width="24" />
                 </Button>
                 <Separator/>
                 <Button Command="ApplicationCommands.Paste">
-                    <Image Source="/TikzEdt;component/Images/paste.png" />
+                    <Image Source="/TikzEdt;component/Images/paste.png"  Stretch="Fill" Height="24" Width="24"/>
                 </Button>
                 <Button Command="ApplicationCommands.Copy">
-                    <Image Source="/TikzEdt;component/Images/copy.png" />
+                    <Image Source="/TikzEdt;component/Images/copy.png"  Stretch="Fill" Height="24" Width="24"/>
                 </Button>
                 <Button Command="ApplicationCommands.Cut">
-                    <Image Source="/TikzEdt;component/Images/cut.png" />
+                    <Image Source="/TikzEdt;component/Images/cut.png"  Stretch="Fill" Height="24" Width="24"/>
                 </Button>
                 <Separator/>
                 <Button Click="CompileClick">
-                    <Image Source="/TikzEdt;component/Images/PlayHS.png" />
+                    <Image Source="/TikzEdt;component/Images/PlayHS.png"  Stretch="Fill" Height="24" Width="24"/>
                     <Button.ToolTip>
                         Compile the file
                     </Button.ToolTip>
                 </Button>
-                <Button Name="cmdAbortCompilation" IsEnabled="{Binding ElementName=tikzDisplay1, Path=Compiling}" Click="AbortCompilationClick">
-                    <Image Source="/TikzEdt;component/Images/error.png" Style="{StaticResource toolbarImageStyle}"/>
+                <Button Name="cmdAbortCompilation" IsEnabled="{Binding ElementName=tikzDisplay1, Path=Compiling}" Click="AbortCompilationClick" >
+                    <Image Source="/TikzEdt;component/Images/error.png" Style="{StaticResource toolbarImageStyle}" Stretch="Fill" Height="24" Width="24"/>
                     <Button.ToolTip>Abort compilation in case something goes wrong</Button.ToolTip>
                 </Button>
                 <Separator/>
@@ -146,13 +150,12 @@
                 </CheckBox>
                 <Separator/>
                 <Button Click="cmdZoomOutClick">
-                    <Image Source="/TikzEdt;component/Images/2391_ZoomOut.png" />
+                    <Image Source="/TikzEdt;component/Images/2391_ZoomOut.png"  Stretch="Fill" Height="24" Width="24"/>
                 </Button>
-                <ComboBox Name="cmbZoom"  Width="60" ItemsSource="{Binding}" SelectionChanged="cmbZoom_SelectionChanged" Text="100%" SelectedIndex="3" PreviewTextInput="cmbZoom_PreviewTextInput" IsEditable="True">
+                <ComboBox Name="cmbZoom"  Width="60" ItemsSource="{Binding}" SelectionChanged="cmbZoom_SelectionChanged" Text="100%" SelectedIndex="3" PreviewTextInput="cmbZoom_PreviewTextInput" IsEditable="True" LostFocus="cmbZoom_LostFocus">
                     <ComboBox.Style>
                         <Style>
                             <EventSetter Event="TextBox.TextChanged" Handler="cmbZoomTextChanged" />
-
                         </Style>
                     </ComboBox.Style>
 
@@ -170,13 +173,19 @@
                     <ComboBoxItem Content="2000%" />
                 </ComboBox>
                 <Button Click="cmdZoomInClick">
-                    <Image Source="/TikzEdt;component/Images/2392_ZoomIn_48x48.png" />
+                    <Image Source="/TikzEdt;component/Images/2392_ZoomIn_48x48.png"  Stretch="Fill" Height="24" Width="24"/>
                 </Button>
                 </ToolBar>
             <ToolBar>
                 <Separator/>
                 <Label>Grid:</Label>
-                <ComboBox Name="cmbGrid"  Width="40" ItemsSource="{Binding}" SelectionChanged="cmbGrid_SelectionChanged" SelectedIndex="4">
+                <ComboBox Name="cmbGrid"  Width="40" ItemsSource="{Binding}" SelectedIndex="4" IsEditable="True"
+                          Text="{Binding Source={x:Static p:Settings.Default}, Path=Raster_GridWidth, Mode=TwoWay}">
+                    <ComboBox.Style>
+                        <Style>
+                            <EventSetter Event="TextBox.TextChanged" Handler="cmbGridTextChanged" />
+                        </Style>
+                    </ComboBox.Style>
                     <ComboBoxItem Content="0" />
                     <ComboBoxItem Content="0.1" />
                     <ComboBoxItem Content="0.2" />
@@ -190,16 +199,16 @@
             </ToolBar>
             
             <ToolBar Name="tlbTools"  Height="32" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}" Band="1">
-                <RadioButton HorizontalAlignment="Left" Name="rb1" VerticalAlignment="Top" IsChecked="True" Checked="rb1_Checked">
+                <RadioButton HorizontalAlignment="Left" Name="rbToolMove" VerticalAlignment="Top" IsChecked="True" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/base_cursor.png" Style="{StaticResource toolbarImageStyle}"/>
                 </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rb2" VerticalAlignment="Top" Checked="rb1_Checked">
+                <RadioButton HorizontalAlignment="Left" Name="rbToolAddVert" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/bmpvert.bmp" Style="{StaticResource toolbarImageStyle}" />
                 </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rb3" VerticalAlignment="Top" Checked="rb1_Checked">
+                <RadioButton HorizontalAlignment="Left" Name="rbToolAddEdge" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/edge.bmp" Style="{StaticResource toolbarImageStyle}"/>
                 </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rb4" VerticalAlignment="Top" Checked="rb1_Checked">
+                <RadioButton HorizontalAlignment="Left" Name="rbToolAddPath" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/path.bmp" Style="{StaticResource toolbarImageStyle}"/>
                 </RadioButton>
                 <Label>Node style:</Label>
@@ -343,7 +352,7 @@
                     <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" 
                                     OnModified="pdfOverlay1_OnModified" BeginModify="pdfOverlay1_BeginModify" EndModify="pdfOverlay1_EndModify" 
                                     NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text,Mode=OneWay}" EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}"
-                                    Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}" TryCreateNew="pdfOverlay1_TryCreateNew" JumpToSource="pdfOverlay1_JumpToSource" />   
+                                    Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}" TryCreateNew="pdfOverlay1_TryCreateNew" JumpToSource="pdfOverlay1_JumpToSource" ToolChanged="pdfOverlay1_ToolChanged" />   
                 </Grid>
             </ScrollViewer>
 
