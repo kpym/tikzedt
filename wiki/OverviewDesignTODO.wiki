@@ -23,6 +23,10 @@
   * Better handling of first generation of precompiled headers. (No restart)
   * Memory leak in PdfLibNet ???
 
+== Rasterizer ==
+*TODO*
+  * Scales + origin for cartesian raster
+
 == TikzParser ==
 *TODO*
   * Build a test library
