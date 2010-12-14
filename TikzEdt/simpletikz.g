@@ -197,7 +197,10 @@ nodename
 
 coord	
 	:	  nodename 								-> ^(IM_COORD nodename)
-		| ( coord_modifier? lc=LPAR numberunit KOMMA numberunit RPAR)		-> ^(IM_COORD[$lc] coord_modifier? numberunit+ )
+		| ( coord_modifier? lc=LPAR numberunit coord_sep numberunit RPAR)		-> ^(IM_COORD[$lc] coord_modifier? numberunit+ coord_sep)
+	;
+coord_sep
+	:	( ',' | ':' )	
 	;
 
 tikznode
@@ -295,7 +298,7 @@ path_start_tag
 	:	DRAW | FILL | PATH
 	;
 
-ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'.')*
+ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'.'|'!')*
     ;
 
 INT :	'-'? '0'..'9'+

@@ -32,6 +32,7 @@ namespace TikzEdt
         public event NoArgsEventHandler EndModify;
         public delegate void CallbackEventHandler(object sender, out bool allow);
         public event CallbackEventHandler TryCreateNew;
+        public event NoArgsEventHandler JumpToSource;
 
         public static readonly DependencyProperty NodeStyleProperty = DependencyProperty.Register(
         "NodeStyle", typeof(string), typeof(PdfOverlay), new PropertyMetadata(""));
@@ -247,6 +248,14 @@ namespace TikzEdt
                     el.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
                     el.AdjustPosition(Resolution);
 
+                    // add tooltip
+                    if (tpi is Tikz_Node && (tpi as Tikz_Node).name != "")
+                    {
+                        ToolTip tip = new ToolTip();
+                        tip.Content = new TextBlock(new Run((tpi as Tikz_Node).name));
+                        el.ToolTip = tip;                        
+                    }
+
                     canvas1.Children.Add(el);
                     bag.Add(el);
 
@@ -261,17 +270,30 @@ namespace TikzEdt
         Point DragOriginC; // Mouse position on Canvas when started dragging
         Point DragOriginO; // bottom left of dragged object
 
+        OverlayScope _CurEditing;
+        OverlayScope CurEditing
+        {
+            get { return _CurEditing; }
+            set
+            {
+                if (_CurEditing != null)
+                {
+                    // remove adorner
+                    Adorner[] toRemoveArray = AdornerLayer.GetAdornerLayer(CurEditing).GetAdorners(CurEditing);
+                    if (toRemoveArray != null)
+                    {
+                        AdornerLayer.GetAdornerLayer(CurEditing).Remove(toRemoveArray[0]);
+                    }
+                }
+                _CurEditing = value;
+                if (_CurEditing != null)
+                    AdornerLayer.GetAdornerLayer(CurEditing).Add(new ScopeAdorner(CurEditing));
+            }
+        }
+
         private void canvas1_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            IInputElement o = canvas1.InputHitTest(e.GetPosition(canvas1));
-            if (o is OverLayShape)
-            {
-                curDragged = (OverLayShape) o;
-                DragOrigin = e.GetPosition(o);
-                DragOriginC = e.GetPosition(canvas1);
-                DragOriginO = new Point(Canvas.GetLeft(curDragged), Canvas.GetBottom(curDragged));
-                //MessageBox.Show(o.ToString());
-            }
+        
 
         }
 
@@ -301,48 +323,7 @@ namespace TikzEdt
 
         private void canvas1_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            // adjust position of dragged item (in parsetree) // hack
-            if (tool == ToolType.move && curDragged != null)
-            {
-                if (BeginModify != null)
-                    BeginModify(this);
-                Point pp = new Point(Canvas.GetLeft(curDragged)+curDragged.Width/2, Canvas.GetBottom(curDragged)+curDragged.Height/2);
-                pp = ScreenToTikz(pp);
-                if (curDragged is OverlayNode)
-                {
-                    (curDragged as OverlayNode).tikzitem.SetAbsPos(pp);
-                    (curDragged as OverlayNode).tikzitem.UpdateText();
-
-                }
-                else if (curDragged is OverlayScope)
-                {                    
-                    Point pdiff = new Point(e.GetPosition(canvas1).X - DragOriginC.X, e.GetPosition(canvas1).Y - DragOriginC.Y);
-                    pdiff = rasterizer.RasterizePixel(pdiff);
-
-                    double xs= pdiff.X/Resolution, ys=-pdiff.Y/Resolution;
-
-                    if (xs != 0 || ys != 0)
-                    {
-                        Tikz_Scope ts = (curDragged as OverlayScope).tikzitem;
-                        if (ts.options == null)
-                            ts.options = new Tikz_Options();
-                        ts.options.SetShiftRel(xs, ys);
-                        //ts.UpdateText();
-                    }
-                }
-                // update all other item's positions
-                foreach (IInputElement o in canvas1.Children)
-                {
-                    if (o is OverLayShape)
-                        (o as OverLayShape).AdjustPosition(Resolution);                    
-                }
-                curDragged = null;
-
-                //if (OnModified != null)
-                //    OnModified.Invoke();
-                if (EndModify != null)
-                    EndModify(this);
-            }
+ 
         }
 
         OverlayNode _curSel;
@@ -390,7 +371,45 @@ namespace TikzEdt
                     else return;
                 } else  return;
             }
-            if (tool == ToolType.addvert)
+
+            if (tool == ToolType.move)
+            {
+                IInputElement o = canvas1.InputHitTest(e.GetPosition(canvas1));
+
+                if (e.ClickCount == 2 && (o is OverlayScope)) // Select for editing
+                {
+                    CurEditing = o as OverlayScope;
+                }
+                else if (o is OverLayShape)
+                {
+                    curDragged = (OverLayShape)o;
+                    DragOrigin = e.GetPosition(o);
+                    DragOriginC = e.GetPosition(canvas1);
+                    DragOriginO = new Point(Canvas.GetLeft(curDragged), Canvas.GetBottom(curDragged));
+                    //MessageBox.Show(o.ToString());
+
+                    // adjust raster origin/scale/polar/cartesian
+                    if (o is OverlayScope)
+                    {
+                        Tikz_Scope ts = (o as OverlayScope).tikzitem;
+                        TikzMatrix M = ts.parent.GetCurrentTransform();
+                        rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
+                        rasterizer.RasterScale = M.m[1, 1];
+                        rasterizer.IsCartesian = true;
+                    } 
+                    else if (o is OverlayNode)
+                    {
+                        Tikz_XYItem t = (o as OverlayNode).tikzitem;
+                        rasterizer.RasterOrigin = t.GetAbsPos(true);
+                        TikzMatrix m = t.parent.GetCurrentTransform();
+                        rasterizer.RasterScale = m.m[1, 1];
+                        rasterizer.IsCartesian = !(t.IsPolar());
+                    }
+                    else
+                        rasterizer.IsCartesian = true;  // should not get here
+                }
+            }
+            else if (tool == ToolType.addvert)
             #region addvert
             {
                 if (BeginModify != null)
@@ -579,8 +598,132 @@ namespace TikzEdt
 
         private void UserControl_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            tool = ToolType.move;
-            curAddTo = null;
+
+        }
+
+        private void canvas1_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            // adjust position of dragged item (in parsetree) // hack
+            if (tool == ToolType.move && curDragged != null)
+            {
+                if (BeginModify != null)
+                    BeginModify(this);
+                Point pp = new Point(Canvas.GetLeft(curDragged) + curDragged.Width / 2, Canvas.GetBottom(curDragged) + curDragged.Height / 2);
+                pp = ScreenToTikz(pp);
+                if (curDragged is OverlayNode)
+                {
+                    (curDragged as OverlayNode).tikzitem.SetAbsPos(pp);
+                    (curDragged as OverlayNode).tikzitem.UpdateText();
+
+                }
+                else if (curDragged is OverlayScope)
+                {
+                    Point pdiff = new Point(e.GetPosition(canvas1).X - DragOriginC.X, e.GetPosition(canvas1).Y - DragOriginC.Y);
+                    pdiff = rasterizer.RasterizePixel(pdiff);
+
+                    double xs = pdiff.X / Resolution, ys = -pdiff.Y / Resolution;
+
+                    if (xs != 0 || ys != 0)
+                    {
+                        Tikz_Scope ts = (curDragged as OverlayScope).tikzitem;
+                        if (ts.options == null)
+                            ts.options = new Tikz_Options();
+                        ts.options.SetShiftRel(xs, ys);
+                        //ts.UpdateText();
+                    }
+                }
+                // update all other item's positions
+                foreach (IInputElement o in canvas1.Children)
+                {
+                    if (o is OverLayShape)
+                        (o as OverLayShape).AdjustPosition(Resolution);
+                }
+                curDragged = null;
+
+                //if (OnModified != null)
+                //    OnModified.Invoke();
+                if (EndModify != null)
+                    EndModify(this);
+            }
+        }
+
+        private void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+
+        }
+
+
+        private void contextmenuClick(object sender, RoutedEventArgs e)
+        {
+            if (sender == mnuMove)
+                tool = ToolType.move;
+            else if (sender == mnuAddNode)
+                tool = ToolType.addvert;
+            else if (sender == mnuAddEdge)
+                tool = ToolType.addedge;
+            else if (sender == mnuAddPath)
+                tool = ToolType.addpath;
+            else if (sender == mnuJumpSource)
+            {
+                if (JumpToSource != null && mnuJumpSource.Tag != null)
+                {                
+                    if (mnuJumpSource.Tag is OverlayScope)
+                        JumpToSource((mnuJumpSource.Tag as OverlayScope).tikzitem);
+                    else if (mnuJumpSource.Tag is OverlayNode)
+                        JumpToSource((mnuJumpSource.Tag as OverlayScope).tikzitem);
+                }
+            }
+            else if (sender == mnuEdit)
+            {
+                CurEditing = mnuJumpSource.Tag as OverlayScope;
+            }
+        }
+
+        bool PreventContextMenuOpening = false;
+        private void canvas1_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            if (PreventContextMenuOpening)
+            {
+                e.Handled = true;
+                PreventContextMenuOpening = false;
+                return;
+            }
+
+            mnuMove.IsChecked = (tool == ToolType.move);
+            mnuAddNode.IsChecked = (tool == ToolType.addvert);
+            mnuAddEdge.IsChecked = (tool == ToolType.addedge);
+            mnuAddPath.IsChecked = (tool == ToolType.addpath);
+
+            
+            IInputElement o = canvas1.InputHitTest(Mouse.GetPosition(canvas1));
+
+            if (o is OverLayShape)
+            {
+                mnuJumpSource.Tag = o;
+            }
+            else mnuJumpSource.Tag = null;
+            mnuJumpSource.IsEnabled = (mnuJumpSource.Tag != null);
+            mnuEdit.IsEnabled = (o is OverlayScope);
+        }
+
+        private void canvas1_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (tool == ToolType.move)
+            {
+                //canvas1.ContextMenu.IsEnabled = true;
+                if (CurEditing != null)
+                {
+                    CurEditing = null;
+                    PreventContextMenuOpening = true;
+                }
+
+            }
+            else
+            {
+                tool = ToolType.move;
+                curAddTo = null;
+                PreventContextMenuOpening = true;
+            }
         }
     }
 
@@ -730,6 +873,40 @@ namespace TikzEdt
 
     }
 
-    
+    // Adorners must subclass the abstract base class Adorner.
+    public class ScopeAdorner : Adorner
+    {
+        // Be sure to call the base class constructor.
+        public ScopeAdorner(UIElement adornedElement)
+            : base(adornedElement)
+        {
+        }
+
+        // A common way to implement an adorner's rendering behavior is to override the OnRender
+        // method, which is called by the layout system as part of a rendering pass.
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            Rect adornedElementRect = new Rect(this.AdornedElement.DesiredSize);
+
+            // Some arbitrary drawing implements.
+            //Brush renderBrush = Helper.GetHatchBrush();//new SolidColorBrush(Colors.Green);
+            //Brush
+            //renderBrush.Opacity = 0.2;
+            Pen renderPen = new Pen(new SolidColorBrush(Colors.Navy), 1.5);
+            renderPen.Brush = Helper.GetHatchBrush();
+            double renderRadius = 5.0;
+            renderPen.Thickness = renderRadius;
+            //renderPen.DashStyle = new DashStyle(
+
+            // Draw a circle at each corner.
+            //drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopLeft, renderRadius, renderRadius);
+            //drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopRight, renderRadius, renderRadius);
+            //drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomLeft, renderRadius, renderRadius);
+            //drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomRight, renderRadius, renderRadius);
+            drawingContext.DrawRectangle(null, renderPen, new Rect(adornedElementRect.X-renderRadius, adornedElementRect.Y-renderRadius, 
+                            adornedElementRect.Width+2*renderRadius, adornedElementRect.Height+2*renderRadius));
+        }
+    }
+
 
 }

@@ -62,7 +62,7 @@ namespace TikzEdt
         }
 
 
-        private Rect _currentBB = Properties.Settings.Default.BB_Std;
+        private Rect _currentBB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);
         Rect currentBB
         {
             get { return _currentBB; }
@@ -186,6 +186,8 @@ namespace TikzEdt
             }
 
             isLoaded = true;
+            //txtRadialOffset.Text = txtRadialOffset.Text;
+            //txtRadialSteps.Text = txtRadialSteps.Text;
         }
 
         /// <summary>
@@ -205,7 +207,7 @@ namespace TikzEdt
 
         void DetermineBB(Tikz_ParseTree t)
         {
-            Rect newBB = Properties.Settings.Default.BB_Std;
+            Rect newBB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);
             if (chkAutoBB.IsChecked == false)
             {
                 // Parse
@@ -769,6 +771,37 @@ namespace TikzEdt
                 allow = true;
             else
                 allow = false;
+        }
+
+        private void txtRadialOffset_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (rasterControl1 == null)
+                return;
+            int i;
+            if (Int32.TryParse(txtRadialOffset.Text, out i))
+                rasterControl1.RadialOffsetInt = i;
+
+        }
+
+        private void txtRadialSteps_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (rasterControl1 == null)
+                return;
+            int i;
+            if (Int32.TryParse(txtRadialSteps.Text, out i))
+                if (i>0 && i< 1000)
+                    rasterControl1.RadialSteps = (uint)i;
+        }
+
+        private void pdfOverlay1_JumpToSource(object sender)
+        {
+            TikzParseItem tpi = sender as TikzParseItem;
+            int spos = tpi.StartPosition();
+            txtCode.CaretOffset = spos;
+            txtCode.SelectionStart = spos;
+            txtCode.SelectionLength = tpi.ToString().Length;
+            txtCode.ScrollToLine(txtCode.Document.GetLineByOffset(spos).LineNumber);
+            txtCode.Focus();
         }
     }
 }

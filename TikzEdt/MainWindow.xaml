@@ -145,15 +145,6 @@
                     <CheckBox.ToolTip>Switch the overlay displaying on top of the preview on/off</CheckBox.ToolTip>
                 </CheckBox>
                 <Separator/>
-                <Label>Grid:</Label>
-                <ComboBox Name="cmbGrid"  Width="40" ItemsSource="{Binding}" SelectionChanged="cmbGrid_SelectionChanged" SelectedIndex="4">
-                    <ComboBoxItem Content="0" />
-                    <ComboBoxItem Content="0.1" />
-                    <ComboBoxItem Content="0.2" />
-                    <ComboBoxItem Content="0.5" />
-                    <ComboBoxItem Content="1"/>
-                </ComboBox>
-                <Separator/>
                 <Button Click="cmdZoomOutClick">
                     <Image Source="/TikzEdt;component/Images/2391_ZoomOut.png" />
                 </Button>
@@ -182,6 +173,22 @@
                     <Image Source="/TikzEdt;component/Images/2392_ZoomIn_48x48.png" />
                 </Button>
                 </ToolBar>
+            <ToolBar>
+                <Separator/>
+                <Label>Grid:</Label>
+                <ComboBox Name="cmbGrid"  Width="40" ItemsSource="{Binding}" SelectionChanged="cmbGrid_SelectionChanged" SelectedIndex="4">
+                    <ComboBoxItem Content="0" />
+                    <ComboBoxItem Content="0.1" />
+                    <ComboBoxItem Content="0.2" />
+                    <ComboBoxItem Content="0.5" />
+                    <ComboBoxItem Content="1"/>
+                </ComboBox>
+                <Label ToolTip="The number of coordinate lines of constant angular parameter shown in polar coordinate mode">RS:</Label>
+                <TextBox Width ="30" Name="txtRadialSteps" Text="{Binding Source={x:Static p:Settings.Default}, Path=Raster_RadSteps, Mode=TwoWay}" TextChanged="txtRadialSteps_TextChanged" />
+                <Label ToolTip="The offset (in degrees) of the first coordinate line of constant angular parameter shown in polar coordinate mode">RO:</Label>
+                <TextBox Width ="30" Name="txtRadialOffset" Text="{Binding Source={x:Static p:Settings.Default}, Path=Raster_RadialOffset, Mode=TwoWay}" TextChanged="txtRadialOffset_TextChanged" />
+            </ToolBar>
+            
             <ToolBar Name="tlbTools"  Height="32" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}" Band="1">
                 <RadioButton HorizontalAlignment="Left" Name="rb1" VerticalAlignment="Top" IsChecked="True" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/base_cursor.png" Style="{StaticResource toolbarImageStyle}"/>
@@ -330,13 +337,13 @@
                 -->
                 <Grid Background="#303030">
                     <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center"
-                                       Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
+                                       Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"  />
                     <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" Width="200" Height="200" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" 
                                     OnCompileEvent="tikzDisplay1_OnCompileEvent" />                   
                     <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" 
                                     OnModified="pdfOverlay1_OnModified" BeginModify="pdfOverlay1_BeginModify" EndModify="pdfOverlay1_EndModify" 
                                     NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text,Mode=OneWay}" EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}"
-                                    Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}" TryCreateNew="pdfOverlay1_TryCreateNew" />   
+                                    Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}" TryCreateNew="pdfOverlay1_TryCreateNew" JumpToSource="pdfOverlay1_JumpToSource" />   
                 </Grid>
             </ScrollViewer>
 

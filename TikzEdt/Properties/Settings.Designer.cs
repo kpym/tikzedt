@@ -183,13 +183,97 @@ namespace TikzEdt.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-3,-3,6,6")]
-        public global::System.Windows.Rect BB_Std {
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public uint RoundToDecimals {
             get {
-                return ((global::System.Windows.Rect)(this["BB_Std"]));
+                return ((uint)(this["RoundToDecimals"]));
             }
             set {
-                this["BB_Std"] = value;
+                this["RoundToDecimals"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("18")]
+        public uint Raster_RadSteps {
+            get {
+                return ((uint)(this["Raster_RadSteps"]));
+            }
+            set {
+                this["Raster_RadSteps"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double Raster_GridWidth {
+            get {
+                return ((double)(this["Raster_GridWidth"]));
+            }
+            set {
+                this["Raster_GridWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Raster_RadialOffset {
+            get {
+                return ((int)(this["Raster_RadialOffset"]));
+            }
+            set {
+                this["Raster_RadialOffset"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-5")]
+        public double BB_Std_X {
+            get {
+                return ((double)(this["BB_Std_X"]));
+            }
+            set {
+                this["BB_Std_X"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-5")]
+        public double BB_Std_Y {
+            get {
+                return ((double)(this["BB_Std_Y"]));
+            }
+            set {
+                this["BB_Std_Y"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public double BB_Std_W {
+            get {
+                return ((double)(this["BB_Std_W"]));
+            }
+            set {
+                this["BB_Std_W"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public double BB_Std_H {
+            get {
+                return ((double)(this["BB_Std_H"]));
+            }
+            set {
+                this["BB_Std_H"] = value;
             }
         }
     }

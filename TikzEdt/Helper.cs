@@ -109,6 +109,25 @@ namespace TikzEdt
             p.Start();
         }
 
+        public static Brush GetHatchBrush()
+        {
+            VisualBrush vb = new VisualBrush();
+
+            vb.TileMode = TileMode.Tile;
+
+            vb.Viewport = new Rect(0, 0, 5, 5);
+            vb.ViewportUnits = BrushMappingMode.Absolute;
+
+            vb.Viewbox = new Rect(0, 0, 6, 6);
+            vb.ViewboxUnits = BrushMappingMode.Absolute;
+
+            Line l = new Line();
+            l.X1 = 0; l.X2 = 6; l.Y1 = 6; l.Y2 = 0;
+            l.Stroke = Brushes.Black;
+            vb.Visual = l;
+
+            return vb;
+        }
     }
 
     public class BBGatherer
@@ -164,6 +183,9 @@ namespace TikzEdt
 
     public class TikzToBMPFactory
     {
+        public delegate void NoArgsEventHandler();
+        public event NoArgsEventHandler BitmapGenerated;    // called after succesful bitmap generation
+
         public double timeout = 5000; // in milliseconds
         public double Resolution = 50;
         public struct Job
@@ -325,6 +347,8 @@ namespace TikzEdt
                             delegate()
                             {
                                 mypdfDoc.SaveBmp(job.path + ".bmp", Resolution);
+                                if (BitmapGenerated != null)
+                                    BitmapGenerated();
                             }
                             ));
                     }
