@@ -211,7 +211,7 @@ namespace TikzEdt
         /// Returns the absolute position of this node within the Tikzpicture (in cm).
         /// </summary>
         /// <returns></returns>
-        public abstract Point GetAbsPos();
+        public abstract Point GetAbsPos(bool OnlyOffset = false);
         /// <summary>
         /// Sets the absolute position of this node within the Tikzpicture (in cm).
         /// </summary>
@@ -224,6 +224,8 @@ namespace TikzEdt
             r = new Rect(p,p);
             return true;
         }
+        public abstract bool IsPolar();
+        
     }
     public class Tikz_Node : Tikz_XYItem
     {
@@ -272,16 +274,24 @@ namespace TikzEdt
         //    coord.SetPosition(p);
         //}
 
-        public override Point GetAbsPos()
+        public override bool IsPolar()
         {
-            if (coord == null)
+            if (coord != null)
+                return coord.IsPolar();
+            else return false;
+        }
+
+
+        public override Point GetAbsPos(bool OnlyOffset = false) 
+        {
+            if (coord == null)// later possibly: todo: return correct value if OnlyOffset 
             {
                 return (parent as Tikz_Path).GetAbsOffset(this);
                 //return new Point(0, 0);
             }
             else
             {
-                return coord.GetAbsPos(this);
+                return coord.GetAbsPos(this, OnlyOffset);
             }
         }
         public override void SetAbsPos(Point p)
@@ -348,14 +358,19 @@ namespace TikzEdt
             else if (t.ChildCount >= 2)
             {
                 int i = 0;
-                if (t.ChildCount == 3)
+                if (t.ChildCount == 4)
                 {
                     tc.deco = t.GetChild(0).Text;
                     i = 1;
                 }
+
                 tc.uX = new Tikz_NumberUnit(t.GetChild(i));
                 tc.uY = new Tikz_NumberUnit(t.GetChild(i + 1));
-
+                if (t.GetChild(i + 2).Text == ":")
+                {
+                    tc.type = Tikz_CoordType.Polar;                    
+                }
+                
                 //tc.x = tc.uX.number; // hack
                 //tc.y = tc.uY.number;
 
@@ -368,13 +383,19 @@ namespace TikzEdt
         {
             SetAbsPos(p, this);
         }
+
+        public override bool IsPolar()
+        {
+            return (type == Tikz_CoordType.Polar);
+        }
+
         /// <summary>
         /// Adjusts the current coordinates (seen as coordinates of relto)
         /// such that relto sits at p in absolute coordinates.
         /// The extra parameter is needed since this method is called by Tikz_Node, which
         /// contains a Tikz_Coord object. (In that case relto will be the Tikz_Node)
         /// </summary>
-        /// <param name="p">The new absolute coordinates, in cm</param>
+        /// <param name="p">The new absolute (cartesian) coordinates, in cm</param>
         /// <param name="relto">Object with respect to which the coordinate transformation is determined</param>
         public void SetAbsPos(Point p, TikzParseItem relto)
         {
@@ -397,21 +418,27 @@ namespace TikzEdt
                     MM=MM.Inverse();
                     relp = MM.Transform(new Point(p.X, p.Y));
                 }
+
+                if (type == Tikz_CoordType.Polar)
+                {
+                    relp = RasterControl.CartToPolTC(relp);
+
+                }
                 uX.SetInCM(relp.X);
                 uY.SetInCM(relp.Y);
             }
         }
 
-        public override Point GetAbsPos()
+        public override Point GetAbsPos(bool OnlyOffset = false)
         {
-            return GetAbsPos(this);
+            return GetAbsPos(this, OnlyOffset);
         }
         /// <summary>
         /// Gets the absolute position. For the significance of relto, see SetAbsPos()
         /// </summary>
         /// <param name="relto"></param>
         /// <returns>The position in the coordinates of the ancestral Tikz_Picture, or (0,0) in case of failure.</returns>
-        public Point GetAbsPos(TikzParseItem relto)
+        public Point GetAbsPos(TikzParseItem relto, bool OnlyOffset=false)
         {
             if (type == Tikz_CoordType.Named)
             {
@@ -431,20 +458,41 @@ namespace TikzEdt
                     offset = (relto.parent as Tikz_Path).GetAbsOffset(relto);
 
                 Point relpos = new Point(uX.GetInCM(), uY.GetInCM());
+                if (type == Tikz_CoordType.Polar)
+                    relpos = RasterControl.PolToCartTC(relpos);
+
                 if (relto.parent != null)
                     relpos = relto.parent.GetCurrentTransform().Transform(relpos, true);
 
-                return new Point(offset.X + relpos.X, offset.Y + relpos.Y);
+                if (OnlyOffset)
+                    return offset;
+                else
+                    return new Point(offset.X + relpos.X, offset.Y + relpos.Y);
             }
 
             // std coordinate
             Point p = new Point(uX.GetInCM(), uY.GetInCM());
+            if (type == Tikz_CoordType.Polar)
+                p = RasterControl.PolToCartTC(p);
             if (relto.parent == null)
-                return p;
+            {
+                if (OnlyOffset)
+                    return new Point(0, 0);
+                else
+                    return p;
+            }
             else
             {
                 TikzMatrix M = relto.parent.GetCurrentTransform();
-                Point pret = M.Transform(p);
+                Point pret;
+                if (OnlyOffset)
+                {
+                    pret = M.Transform(new Point(0, 0));
+                }
+                else
+                {
+                    pret = M.Transform(p);                    
+                }
                 return pret;
             }
                 
@@ -458,7 +506,7 @@ namespace TikzEdt
                     newtext = newtext + nameref;
                     break;
                 case Tikz_CoordType.Polar:
-                    newtext = newtext + uX.ToString() + ";" + uY.ToString();
+                    newtext = newtext + uX.ToString() + ":" + uY.ToString();
                     break;
                 case Tikz_CoordType.Cartesian:
                     newtext = newtext + uX.ToString() + "," + uY.ToString();

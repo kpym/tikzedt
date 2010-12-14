@@ -47,8 +47,25 @@ namespace TikzEdt
             else
                 isSuccessfullyLoaded = true;
 
+            fact.BitmapGenerated += new TikzToBMPFactory.NoArgsEventHandler(fact_BitmapGenerated);
+
             //string appPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
             //xmldp.Source = new Uri(appPath + @"\Snippets.xml");
+        }
+
+        void fact_BitmapGenerated()
+        {
+            Dispatcher.Invoke(new Action(
+                            delegate()
+                            {
+                                // refresh currently selected item
+                                if (lstSnippets.SelectedItem != null)
+                                {
+                                    SnippetsDataSet.SnippetsTableRow curr = ((DataRowView)(lstSnippets.SelectedItem)).Row as SnippetsDataSet.SnippetsTableRow;
+                                    curr.ID = curr.ID;
+                                }
+                            }
+                            ));
         }
 
 
@@ -65,7 +82,8 @@ namespace TikzEdt
         {
             if (lstSnippets.SelectedIndex >= 0)
             {
-                ((DataRowView)(lstSnippets.SelectedItem)).Delete();
+                if (MessageBox.Show("Do you really want to delete this entry?", "Really????", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
+                    ((DataRowView)(lstSnippets.SelectedItem)).Delete();
                 //snippetsDataSet.Tables["SnippetsTable"].Rows.Remove(lstSnippets.SelectedIndex);
             }
         }
@@ -221,6 +239,7 @@ namespace TikzEdt
                     bi.UriSource = new Uri(appPath+"\\unavailable.png");
                 else return null;
                 bi.CacheOption = BitmapCacheOption.OnLoad;
+                bi.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
                 bi.EndInit();
                 return bi;
                
@@ -241,68 +260,4 @@ namespace TikzEdt
         }
     }
 
-    class TextEditorWithBinding : TextEditor
-    {
-        public static readonly DependencyProperty BindableTextProperty =
-                DependencyProperty.Register(
-                "BindableText", typeof(string), typeof(TextEditorWithBinding),
-                new PropertyMetadata("", textChangedCallBack, LastNameCoerceCallback));//new PropertyChangedCallback(textChangedCallBack)));
-
-        //[Bindable(true)]
-        public string BindableText
-        {
-            get 
-            { 
-                //return Text; 
-                return (string)GetValue(BindableTextProperty);
-            }
-            set 
-            { 
-                SetValue(BindableTextProperty, value);
-            }
-        }
-
-        public TextEditorWithBinding() : base()
-        {
-            TextChanged += new EventHandler(TextEditorWithBinding_DocumentChanged);
-            Loaded += new RoutedEventHandler(TextEditorWithBinding_Loaded);
-        }
-
-        void TextEditorWithBinding_Loaded(object sender, RoutedEventArgs e)
-        {
-            stisloaded = true;
-        }
-        static bool stisloaded = false;
-        static object LastNameCoerceCallback(DependencyObject obj, object o)
-        {
-            string s = o as string;
-            TextEditorWithBinding txt = (TextEditorWithBinding)obj;
-            if (stisloaded)
-            {
-                txt.isProgrammatic = true;
-                if (s != null)
-                    txt.Text = s;
-                else txt.Clear();
-                txt.isProgrammatic = false;
-            }
-            return s;
-        }
-
-        static void textChangedCallBack(DependencyObject property, DependencyPropertyChangedEventArgs args) 
-        {
-            TextEditorWithBinding txt = (TextEditorWithBinding)property;
-            if (args.NewValue == null)
-                txt.Text = "";
-            else
-                txt.Text = (string)args.NewValue; 
-        }
-
-        bool isProgrammatic = false;
-        void TextEditorWithBinding_DocumentChanged(object sender, EventArgs e)
-        {
-            if (!isProgrammatic) 
-               SetValue(BindableTextProperty, Text);
-        }
-
-    }
 }

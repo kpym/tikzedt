@@ -122,13 +122,13 @@
                     <TextBlock Margin="3" Text="Default Bounding Box" Grid.Column="0" Grid.Row="2"></TextBlock>
                     <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">                        
                         <TextBlock Margin="3" Text="X"/>
-                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std.X, Mode=TwoWay}"/>
+                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std_X, Mode=TwoWay}"/>
                         <TextBlock Margin="3" Text="Y"/>
-                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std.Y, Mode=TwoWay}"/>
+                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std_Y, Mode=TwoWay}"/>
                         <TextBlock Margin="3" Text="W"/>
-                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std.Width, Mode=TwoWay}"/>
+                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std_W, Mode=TwoWay}"/>
                         <TextBlock Margin="3" Text="H"/>
-                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std.Height, Mode=TwoWay}"/>
+                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std_H, Mode=TwoWay}"/>
                     </StackPanel>
                     
                 </Grid>
