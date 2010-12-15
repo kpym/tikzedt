@@ -10,7 +10,7 @@
 
 *TODO:*
   * Recent file list-> local ... right reg key?
-
+  
 === Code editor (avalonedit) ===
 *TODO:*
   * code completion?
@@ -45,3 +45,4 @@
 *TODO*
   * Deployment
   * Improve documentation
+  * Monitor open files for changes by other process
