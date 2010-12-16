@@ -9,7 +9,7 @@
   * look good 
 
 *TODO:*
-  * Recent file list-> local ... right reg key?
+  * file open... show only short filename+navigate to correct dir
   
 === Code editor (avalonedit) ===
 *TODO:*
