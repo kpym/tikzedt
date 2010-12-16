@@ -13,15 +13,16 @@
   
 === Code editor (avalonedit) ===
 *TODO:*
-  * code completion?
+  * complete code completion
   * find/replace
+  * mark sth at source in overlay
+  * rewrite comment/uncomment
 
 == TikzDisplay ==
 *TODO*
   * pdflatex hangs sometimes
   * Better handling of first generation of precompiled headers. (No restart)
   * Memory leak in PdfLibNet ???
-  * redirect CTRLzy
 
 == Rasterizer ==
 *TODO*
@@ -32,6 +33,7 @@
   * run more tests
 
 === Tikz ParseTree ===
+  * line number bug (test overlay2)
 
 == PdfOverlay ==
 
