@@ -13,7 +13,7 @@
   
 === Code editor (avalonedit) ===
 *TODO:*
-  * complete code completion
+  * complete code completion, ... add description tooltips
   * find/replace
   * mark sth at source in overlay
   * rewrite comment/uncomment
