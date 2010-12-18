@@ -15,9 +15,13 @@ namespace TikzEdt
     /// </summary>
     static class TikzParser
     {
+        static public string TIKZEDT_CMD_COMMENT = "";
+
         public static Tikz_ParseTree Parse(string code)
         {
-            
+            //TIKZEDT_CMD_COMMENT are read from file. clean the here before they are re-read.
+            TIKZEDT_CMD_COMMENT = "";
+
             simpletikzLexer lex = new simpletikzLexer(new ANTLRStringStream(code));
             CommonTokenStream tokens = new CommonTokenStream(lex);
 
@@ -85,6 +89,9 @@ namespace TikzEdt
             int curToken = t.TokenStartIndex;
             if (item is Tikz_ParseTree)
                 curToken = 0;   // for root, start at the beginning
+
+            if (t.Children == null)
+                return false;
 
             foreach (CommonTree childt in t.Children)
             {

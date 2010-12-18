@@ -64,7 +64,17 @@ namespace TikzEdt
             }
         }
 
-
+        private bool _useBB;
+        bool useBB
+        {
+            get { return _useBB;}
+            set
+            {
+                _useBB = value;
+                if (value == true)
+                { }
+            }
+        }
         private Rect _currentBB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);
         Rect currentBB
         {
@@ -279,6 +289,7 @@ namespace TikzEdt
         }
         private void UpdateStyleLists(Tikz_ParseTree t)
         {
+            if (t == null) return;
             string oldsel = cmbNodeStyles.Text;
             cmbNodeStyles.Items.Clear();
             foreach (string s in t.styles.Keys)
@@ -310,7 +321,47 @@ namespace TikzEdt
                     //try
                     //{
                     Tikz_ParseTree t = TikzParser.Parse(txtCode.Text);
-                    DetermineBB(t);
+                    //Regex
+                    //TikzParser.TIKZEDT_CMD_COMMENT
+                    RegexOptions ro = new RegexOptions();
+                    ro = ro | RegexOptions.IgnoreCase;
+                    ro = ro | RegexOptions.Multiline;
+                    //string BB_RegexString = @".*BOUNDINGBOX[ \t\s]*=[ \t\s]*(?<left>[+-]?[0-9]+[.[0-9]+]?)+[ \t\s]+(?<bottom>[0-9])+[ \t\s]+(?<right>[0-9])+[ \t\s]+(?<top>[0-9])+[ \t\s]+.*";
+                    //string BB_RegexString = @".*BOUNDINGBOX[ \t\s]*=[ \t\s]*((?<left>[+-]?[0-9]+(\.[0-9]+)?)[ \t\s]*){4}.*";
+                    string BB_RegexString = @".*BOUNDINGBOX[ \t\s]*=[ \t\s]*(?<left>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+(?<bottom>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+(?<right>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+(?<top>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+.*";
+                    Regex BB_Regex = new Regex(BB_RegexString, ro);
+                    Match m = BB_Regex.Match(TikzParser.TIKZEDT_CMD_COMMENT);
+                    {
+
+                        if (m.Success == true)
+                        {
+                            double x = Convert.ToDouble(m.Groups[5].Value);
+                            double y = Convert.ToDouble(m.Groups[6].Value);
+                            double width = Convert.ToDouble(m.Groups[7].Value) - x;
+                            double height = Convert.ToDouble(m.Groups[8].Value) - y;
+                            try
+                            {
+                                Rect newBB = new Rect(x, y, width, height);
+                                chkAutoBB.IsChecked = true;
+                                chkAutoBB.IsEnabled = false;
+                                txtBB.ToolTip = "Managed by source code";
+
+                                currentBB = newBB;
+                            }
+                            catch (Exception) { /*width or height negative. ignore. */}
+
+
+                        }
+                        else
+                        {
+
+                            chkAutoBB.IsEnabled = true;
+                            txtBB.ToolTip = "";
+                            DetermineBB(t);
+                        }
+                    }
+
+                    
                     UpdateStyleLists(t);
                     // Refresh overlay                    
                     pdfOverlay1.SetParseTree(t, currentBB);
