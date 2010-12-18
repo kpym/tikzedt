@@ -84,7 +84,6 @@ IM_STRING;
 IM_STYLE;
 }
 
-
 tikzdocument
 	:	 (dontcare_preamble | tikz_styleorset | otherbegin)*  tikzpicture  		-> ^(IM_DOCUMENT tikz_styleorset* tikzpicture)
 	;
@@ -117,6 +116,13 @@ option_kv
 	:	idd ('=' iddornumberunitorstring )? -> ^(IM_OPTION_KV idd iddornumberunitorstring?)  
 	;
 	
+nodetype
+	:	LBR no_rlbracket* (nodetype no_rlbracket*)* RBR -> ^(IM_STRING LBR RBR ) //todo
+	;
+
+no_rlbracket
+	:	~(LBR | RBR)
+	;
 tikzstring
 	:	LBRR no_rlbrace* (tikzstring no_rlbrace*)* RBRR -> ^(IM_STRING LBRR RBRR ) //todo
 	;
@@ -131,19 +137,30 @@ option_style
 	:	idd '/.style' '=' LBRR (option_kv (',' option_kv)*)?  ','? RBRR  -> ^(IM_OPTION_STYLE idd option_kv*)  // '{' option '}' todo: optional ,
 	;
 
-// id composed of more than one word
-idd
-	:	ID (ID)*	-> ^(IM_ID ID*)
-	;
 
+	
+// id composed of more than one word
+//edgeop contains all those word. => use edgeop here, too
+//also possible with number, e.g. level 2
+idd
+	:	edgeop (edgeop)*	-> ^(IM_ID edgeop*)
+	|	edgeop INT		-> ^(IM_ID edgeop INT)
+	;
+	
+		
+
+	
 numberunit
 	:	number unit? -> ^(IM_NUMBERUNIT number unit?) /// check
 	;
+	
+//float exponent interfers with units starting with 'e'
 number
-	:	(FLOAT | INT)
-	;
+	:	(FLOAT_WO_EXP | INT)
+	;	
+	
 unit
-	:	'cm' | 'in' | 'ex' | 'mm' | 'pt'
+	:	 'cm' | 'in' | 'ex' | 'mm' | 'pt' | 'em'
 	;
 			
 tikz_set
@@ -175,26 +192,47 @@ tikzpath
 	:	path_start tikz_options? tikzpathi semicolon_end	-> ^(IM_PATH path_start tikz_options? tikzpathi semicolon_end )
 	;
 	
-tikzpathi
-	:	 coordornode (coordornode | tikz_options? edgeop! coordornode )* 
-	;
 	
+//tikzpathi, e.g. (6,2) node[ext] {ddd} -- (6,0) node[ext] {ddd} -> (5,5) circle (3);
+tikzpathi
+	: coordornode_new (edgeop! coordornode_new)*
+	;
+//this construct does not work. why?
+//	 coordornode (coordornode | tikz_options? edgeop! coordornode )* 
+		
 tikzscope
 	:	tikzscope_start tikz_options? tikzbody? tikzscope_end		-> ^(IM_SCOPE tikzscope_start tikz_options? tikzbody tikzscope_end)
 	;
 
+//for "circle" we need size instead of a coordinate
 coordornode
-	:	coord | tikznodei
+	:	coord | size | tikznodei
 	;
 	
-tikznodei
-	:	'node'! tikznode
+	
+//coordinates can look like this: (6,2) node[ext] {ddd}
+//coordinates are connect e.g. by --, ->, rectangle, circle
+//after "circle" the next coordinate is usually just a size.
+coordornode_new
+	:	coord (ID (nodetype)? (tikzstring)?)?
+	|	size
+	;
+	
+tikznodei 
+	:	'\\node'! tikznode
 	;
 	
 nodename
 	:	LPAR id=ID RPAR		-> ^(IM_NODENAME $id)
 	;
 
+size	
+	:	  ( coord_modifier? lc=LPAR numberunit RPAR)		
+	;
+//Is this needed?
+//-> ^(IM_COORD[$lc] coord_modifier? numberunit)
+	
+	
 coord	
 	:	  nodename 								-> ^(IM_COORD nodename)
 		| ( coord_modifier? lc=LPAR numberunit coord_sep numberunit RPAR)		-> ^(IM_COORD[$lc] coord_modifier? numberunit+ coord_sep)
@@ -204,13 +242,14 @@ coord_sep
 	;
 
 tikznode
-	:	nodename? ('at' coord)? tikzstring		-> ^(IM_NODE nodename? coord? tikzstring)			
+	:	nodename? ('at' coord)? nodetype? tikzstring		-> ^(IM_NODE nodename? coord? tikzstring)			
 	;
-	
-edgeop	
-	:	'--' | 'edge' | '->' | '|-' | '-|' | 'to' | 'grid' | 'rectangle'
-	;	
 
+//these operators depend on used packets. => all all strings.	
+edgeop	
+	:	'--' | '->' | '|-' | '-|' | ID
+	;	
+//	:	'--' | 'edge' | '->' | '|-' | '-|' | 'to' | 'grid' | 'rectangle'
 
 coord_modifier
 	:	'+' | '++'
@@ -304,11 +343,20 @@ ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'.'|'!')*
 INT :	'-'? '0'..'9'+
     ;
 
-FLOAT
-    :   '-'? ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
-    |   '-'? '.' ('0'..'9')+ EXPONENT?
-    |   '-'? ('0'..'9')+ EXPONENT
+//float's exponent interfers with units starting with 'e'.
+//FLOAT
+//    :   '-'? ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
+//    |   '-'? '.' ('0'..'9')+ EXPONENT?
+//    |   '-'? ('0'..'9')+ EXPONENT
+//    |   '-'? '.' ('0'..'9')+
+//    ;
+
+FLOAT_WO_EXP    
+    :   '-'? ('0'..'9')+ '.' ('0'..'9')* 
+    |   '-'? '.' ('0'..'9')+
     ;
+    
+
 
 COMMENT
     :   '%' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
@@ -321,8 +369,8 @@ WS  :   ( ' '
         ) {$channel=HIDDEN;}
     ;
 
-fragment
-EXPONENT : ('e'|'E') ('+'|'-')? ('0'..'9')+ ;
+fragment EXPONENT : ('e'|'E') ('+'|'-')? ('0'..'9')+ ;
+
 
 //OPTIONS :	'[' ~(']')* ']';
 

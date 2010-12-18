@@ -1,0 +1,28 @@
+\documentclass[tight]{article}
+\usepackage{tikz,amsmath, amssymb,bm,color}
+\usepackage[margin=0cm,nohead]{geometry}
+\usepackage[active,tightpage]{preview}
+
+\begin{document}
+\PreviewEnvironment{tikzpicture}
+
+
+% some comment
+\begin{tikzpicture}[ext/.style={draw, circle, fill}]
+
+\node (v84) at (5,11.5) [ext] {};
+\node (v91) at (3,3) [ext] {v91};
+
+
+%\draw  (10,0)--(5,5) circle (3);
+%\draw (0,0) -- (5,5) circle (3);
+\draw[ext] (v84) to (v91);
+\draw (6,8) node[ext] {} -> (8,8);
+
+\draw (6,2) node {ddd} -- (6,0) node[ext] {ddd} -> (5,5) circle (3) -- (6,2) {fd};
+
+\end{tikzpicture}
+
+
+
+\end{document}
