@@ -19,6 +19,7 @@ using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using Microsoft.Win32;
+using System.Text.RegularExpressions;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 
@@ -30,8 +31,10 @@ namespace TikzEdt
     public partial class MainWindow : Window
     {
         public static RoutedCommand CompileCommand = new RoutedCommand();
+        public static RoutedCommand FindNextCommand = new RoutedCommand();
         public static RoutedCommand CommentCommand = new RoutedCommand();
         public static RoutedCommand UnCommentCommand = new RoutedCommand();
+        public static RoutedCommand ShowCodeCompletionsCommand = new RoutedCommand();
 
         // the current file
         private string _CurFile= Consts.defaultCurFile;
@@ -78,7 +81,11 @@ namespace TikzEdt
 
         OpenFileDialog ofd = new OpenFileDialog();
         SaveFileDialog sfd = new SaveFileDialog();
+        FindReplaceDialog FindDialog = new FindReplaceDialog();
+        CodeCompleter codeCompleter = new CodeCompleter();
+
         public static bool isLoaded = false;
+        public static bool isClosing = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -87,12 +94,16 @@ namespace TikzEdt
             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
 
             CommandBinding CommentCommandBinding = new CommandBinding(CommentCommand, CommentCommandHandler, AlwaysTrue);
-            CommandBinding UnCommentCommandBinding = new CommandBinding(UnCommentCommand, UnCommentCommandHandler, AlwaysTrue);            
+            CommandBinding UnCommentCommandBinding = new CommandBinding(UnCommentCommand, UnCommentCommandHandler, AlwaysTrue);
+            CommandBinding FindNextCommandBinding = new CommandBinding(FindNextCommand, FindNextCommandHandler, AlwaysTrue);
+            CommandBinding ShowCodeCompletionsCommandBinding = new CommandBinding(ShowCodeCompletionsCommand, ShowCodeCompletionsCommandHandler, AlwaysTrue);
+            //CommandBinding CompileCommandBinding = new CommandBinding(CompileCommand, CompileCommandHandler, AlwaysTrue);     
 
             pdfOverlay1.rasterizer = rasterControl1;
+            FindDialog.txtCode = txtCode;
 
             // in the constructor:
-            txtCode.TextArea.TextEntering += textEditor_TextArea_TextEntered;
+            txtCode.TextArea.TextEntering += textEditor_TextArea_TextEntering;
             txtCode.TextArea.TextEntered += textEditor_TextArea_TextEntered;
 
             ofd.CheckFileExists = true;
@@ -113,24 +124,36 @@ namespace TikzEdt
 
         void textEditor_TextArea_TextEntered(object sender, TextCompositionEventArgs e)
         {
-            if (e.Text == "[")
+            if (codeCompleter.CompletionTriggers.Contains(e.Text))
             {
-                // Open code completion after the user has pressed dot:
-                completionWindow = new CompletionWindow(txtCode.TextArea);
-                IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
-                data.Add(new MyCompletionData("draw"));
-                data.Add(new MyCompletionData("fill"));
-                data.Add(new MyCompletionData("minimum size"));
-                completionWindow.Show();
-                completionWindow.Closed += delegate
-                {
-                    completionWindow = null;
-                };
+                ShowCodeCompletionsCommand.Execute(null, this);
             }
         }
 
+        static Regex _beginRegex = new Regex(@"^\\begin\{(?<tag>\s*\w*\s*)\}(?<content>.*)$", RegexOptions.Compiled);
         void textEditor_TextArea_TextEntering(object sender, TextCompositionEventArgs e)
         {
+            if (e.Text == "\n")
+            {
+                if (Properties.Settings.Default.Editor_CompleteBegins)
+                {
+                    ICSharpCode.AvalonEdit.Document.DocumentLine l = txtCode.Document.GetLineByOffset(txtCode.CaretOffset);
+                    //if (l.LineNumber > 0) //todo 1?
+                    {
+                        string s = txtCode.Document.GetText(l.Offset, l.Length).Trim();                        
+                        Match m = _beginRegex.Match(s);
+                        if (m.Success && m.Groups["tag"] != null && m.Groups["content"] != null)
+                        {
+                            string tag = m.Groups["tag"].Value, content = m.Groups["content"].Value;
+                            int cp = txtCode.CaretOffset;
+                            txtCode.Document.Insert(l.Offset + l.Length, "\r\n\\end{" + tag + "}");
+                            txtCode.CaretOffset = cp;
+                        }
+                    }
+
+                }
+            }
+
             if (e.Text.Length > 0 && completionWindow != null)
             {
                 if (!char.IsLetterOrDigit(e.Text[0]))
@@ -156,26 +179,34 @@ namespace TikzEdt
             txtStatus.ScrollToEnd();
         }
 
-        private void tikzDisplay1_OnCompileEvent(string Message, string TexOutput, TikzDisplay.CompileEventType type)
+        private void tikzDisplay1_OnCompileEvent(string Message, TikzDisplay.CompileEventType type)
         {
-            AddStatusLine(Message, type == TikzDisplay.CompileEventType.Error);
-            
-            // add tex output
-            if (TexOutput != "")
-            {
-                Paragraph p = new Paragraph();
-                p.Margin = new Thickness(0);
-                p.Inlines.Add(new Run(TexOutput));
-                txtTexout.Document.Blocks.Add(p);
-                EditingCommands.MoveToDocumentEnd.Execute(null, txtTexout);
-                txtTexout.ScrollToEnd();
-            }
+            AddStatusLine(Message, type == TikzDisplay.CompileEventType.Error);            
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             AddStatusLine("Welcome to TikzEdt");
             AddStatusLine("Help/feedback/feature requests/error reports are welcome");
+
+            FrameworkElement overflowGrid = tlbMode.Template.FindName("OverflowGrid", tlbMode) as FrameworkElement;
+            if (overflowGrid != null)
+                overflowGrid.Visibility = Visibility.Collapsed;
+            overflowGrid = tlbTools.Template.FindName("OverflowGrid", tlbTools) as FrameworkElement;
+            if (overflowGrid != null)
+                overflowGrid.Visibility = Visibility.Collapsed;
+            overflowGrid = tlbZoom.Template.FindName("OverflowGrid", tlbZoom) as FrameworkElement;
+            if (overflowGrid != null)
+                overflowGrid.Visibility = Visibility.Collapsed;
+            overflowGrid = tlbBB.Template.FindName("OverflowGrid", tlbBB) as FrameworkElement;
+            if (overflowGrid != null)
+                overflowGrid.Visibility = Visibility.Collapsed;
+            overflowGrid = tlbMain.Template.FindName("OverflowGrid", tlbMain) as FrameworkElement;
+            if (overflowGrid != null)
+                overflowGrid.Visibility = Visibility.Collapsed;
+            overflowGrid = tlbGrid.Template.FindName("OverflowGrid", tlbGrid) as FrameworkElement;
+            if (overflowGrid != null)
+                overflowGrid.Visibility = Visibility.Collapsed;
 
             //cmbGrid.SelectedIndex = 4;
 
@@ -187,6 +218,8 @@ namespace TikzEdt
                 txtCode.SyntaxHighlighting = HighlightingLoader.Load(r,null);  //HighlightingManager.Instance..GetDefinition("C#");
                 r.Close();
             }
+
+            codeCompleter.LoadCompletions(Consts.cCompletionsFile);
 
             isLoaded = true;
             //txtRadialOffset.Text = txtRadialOffset.Text;
@@ -728,7 +761,14 @@ namespace TikzEdt
             TikzEdt.Properties.Settings.Default.Save();
 
             if (!TryDisposeFile())
-                e.Cancel = true;            
+                e.Cancel = true;
+            else
+            {
+                // Set closing flag
+                isClosing = true;
+                FindDialog.txtCode = null;
+                FindDialog.Close();
+            }
         }
 
         private void TestClick(object sender, RoutedEventArgs e)
@@ -767,7 +807,8 @@ namespace TikzEdt
 
         private void chkAutoBB_Checked(object sender, RoutedEventArgs e)
         {
-            Recompile();
+            if (isLoaded)
+                Recompile();
         }
 
         private void chkFancyMode_Checked(object sender, RoutedEventArgs e)
@@ -779,7 +820,7 @@ namespace TikzEdt
         private void Enscope_Click(object sender, RoutedEventArgs e)
         {
             if (txtCode.SelectionLength > 0)
-                txtCode.Document.Replace(txtCode.SelectionLength, txtCode.SelectionLength,
+                txtCode.Document.Replace(txtCode.SelectionStart, txtCode.SelectionLength,
                     "\\begin{scope}[]\r\n" + txtCode.SelectedText + "\r\n\\end{scope}");
             else
                 txtCode.Document.Insert(txtCode.CaretOffset, "\\begin{scope}[]\r\n\r\n\\end{scope}");
@@ -847,5 +888,88 @@ namespace TikzEdt
             TikzEdtAbout ta = new TikzEdtAbout();
             ta.ShowDialog();
         }
+
+        private void FindCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            FindDialog.tabMain.SelectedIndex = 0;
+            FindDialog.Show();
+        }
+
+        private void ReplaceCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            FindDialog.tabMain.SelectedIndex = 1;
+            FindDialog.Show();
+        }
+
+        private void HelpCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void ZoomoutCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void ZoominCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void FindNextCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            FindDialog.FindNext();
+        }
+
+
+        private void ShowCodeCompletionsCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            // Open code completion after the user has pressed dot:
+            completionWindow = new CompletionWindow(txtCode.TextArea);
+            IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+            codeCompleter.GetCompletions(txtCode.Document, txtCode.CaretOffset, data);
+            completionWindow.Show();
+            completionWindow.Closed += delegate
+            {
+                completionWindow = null;
+            }; 
+        }
+
+        private void UndoCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (txtCode.CanUndo && e.Source != txtCode.TextArea)
+                ApplicationCommands.Undo.Execute(e.Parameter, txtCode.TextArea);            
+        }
+
+        private void RedoCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (txtCode.CanRedo && e.Source != txtCode.TextArea)
+                ApplicationCommands.Redo.Execute(e.Parameter, txtCode.TextArea);
+        }
+
+        private void UndoCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = txtCode.CanUndo;
+        }
+
+        private void RedoCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = txtCode.CanRedo;
+        }
+
+        private void tikzDisplay1_OnTexOutput(string Message)
+        {
+            // add tex output
+            if (Message != "")
+            {
+                Paragraph p = new Paragraph();
+                p.Margin = new Thickness(0);
+                p.Inlines.Add(new Run(Message));
+                txtTexout.Document.Blocks.Add(p);
+                EditingCommands.MoveToDocumentEnd.Execute(null, txtTexout);
+                txtTexout.ScrollToEnd();
+            }
+        }
+
     }
 }

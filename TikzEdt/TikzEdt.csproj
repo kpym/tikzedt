@@ -103,6 +103,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CodeCompleter.cs" />
+    <Compile Include="Data\CompletionDS.cs">
+      <DependentUpon>CompletionDS.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Data\CompletionDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CompletionDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="FindReplaceDialog.xaml.cs">
+      <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="MyCompletionData.cs" />
     <Compile Include="OverlayItem.xaml.cs">
@@ -138,6 +151,10 @@
     </Compile>
     <Compile Include="TikzParser.cs" />
     <Compile Include="TikzParseTree.cs" />
+    <Page Include="FindReplaceDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Images\All_icon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -211,6 +228,17 @@
     </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Data\CompletionDS.xsc">
+      <DependentUpon>CompletionDS.xsd</DependentUpon>
+    </None>
+    <None Include="Data\CompletionDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CompletionDS.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Data\CompletionDS.xss">
+      <DependentUpon>CompletionDS.xsd</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -398,6 +426,35 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\logotight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PasteHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ZoomOutHS.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ZoomInHS.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ZoomInHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bmpvert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\path.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ZoomOutHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CodeCompletions.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

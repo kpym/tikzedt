@@ -55,17 +55,17 @@
                 </Style>
             </TabControl.ItemContainerStyle>
 
-            <TabPanel> 
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                      Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=TabPanel, AncestorLevel=1}, Path=ActualWidth}">
+            <TabItem> 
+                <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="120"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <TextBlock Margin="3" Text="Path to PdfLatex" Grid.Column="0" Grid.Row="0"></TextBlock>
                     <TextBox Margin="3" Grid.Column="1" Grid.Row="0" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_pdflatex, Mode=TwoWay}"/>
@@ -74,49 +74,62 @@
                     <TextBlock Margin="3" Grid.Column="0" Grid.Row="2" Text="Something"></TextBlock>
                     <TextBox Margin="3" Grid.Column="1" Grid.Row="2" Text="{Binding Source={x:Static p:Settings.Default}, Path=Height, Mode=TwoWay}"  />
                 </Grid>
-            </TabPanel>
-            <TabPanel>
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                      Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=TabPanel, AncestorLevel=1}, Path=ActualWidth}">
+            </TabItem>
+            <TabItem>
+                <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="120"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <CheckBox Margin="3" Grid.Row="0" Grid.Column="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=Editor_ShowLineNumbers}">Show Line Numbers</CheckBox>
                     <CheckBox Margin="3" Grid.Row="1" Grid.Column="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=Editor_WordWrap}">Word Wrap</CheckBox>
-                    <TextBlock Margin="3" Grid.Row="3" Grid.ColumnSpan="2" TextWrapping="Wrap">If you don't like the colors used for syntax highlighting, please edit the file "TikzSyntax.xshd" in a text or xml editor and reload TikzEdt.</TextBlock>
+                    <CheckBox Grid.Row="2" Margin="3"  Grid.Column="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=Editor_CodeCompletion}"
+                              >Code Completion</CheckBox>
+                    <CheckBox Grid.Row="3" Margin="3"  Grid.Column="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=Editor_CompleteBegins}"
+                              >\begin{} Completion</CheckBox>
+                    <TextBlock Margin="3" Grid.Row="4" Grid.ColumnSpan="2" TextWrapping="Wrap">If you don't like the colors used for syntax highlighting, please edit the file "TikzSyntax.xshd" in a text or xml editor and reload TikzEdt.</TextBlock>
                 </Grid>
-            </TabPanel>
-            <TabPanel>
-                <StackPanel>
+            </TabItem>
+            <TabItem>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
                     <!-- <TextBlock Text="Compiler"></TextBlock>   -->
-                    <TextBlock Margin="3" Text="Code preappended:" ></TextBlock>
-                    <TextBlock Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!"></TextBlock>
-                    <avalonedit:TextEditor Margin="3" Name="txtPreamble"  Height="100" BorderThickness="1" />
-                    <TextBlock Margin="3" Text="Code appended:" ></TextBlock>
-                    <TextBlock Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!" ></TextBlock>
-                    <avalonedit:TextEditor Margin="3" Name="txtPostamble"  Height="100" BorderThickness="1" />
-                </StackPanel>
-            </TabPanel>
-            <TabPanel>
+                    <TextBlock Margin="3" Text="Code preappended:" Grid.Row="0" ></TextBlock>
+                    <TextBlock  Grid.Row="1"  Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!"></TextBlock>
+                    <avalonedit:TextEditor  Grid.Row="2"  Margin="3" Name="txtPreamble"  VerticalAlignment="Stretch" BorderThickness="1" />
+                    <TextBlock  Grid.Row="3"  Margin="3" Text="Code appended:" ></TextBlock>
+                    <TextBlock  Grid.Row="4"  Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!" ></TextBlock>
+                    <avalonedit:TextEditor Grid.Row="5" Margin="3" Name="txtPostamble" VerticalAlignment="Stretch" BorderThickness="1" />
+                </Grid>
+            </TabItem>
+            <TabItem>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="150"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Parser and Overlay"></TextBlock>
+                    <!-- <TextBlock Grid.Row="0" Text="Parser and Overlay"></TextBlock> -->
                     <TextBlock Margin="3" Text="Margin for Auto B. Box" Grid.Column="0" Grid.Row="1"></TextBlock>
                     <TextBox Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Margin, Mode=TwoWay}"/>
                     <TextBlock Margin="3" Text="Default Bounding Box" Grid.Column="0" Grid.Row="2"></TextBlock>
@@ -130,9 +143,9 @@
                         <TextBlock Margin="3" Text="H"/>
                         <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std_H, Mode=TwoWay}"/>
                     </StackPanel>
-                    
+
                 </Grid>
-            </TabPanel>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

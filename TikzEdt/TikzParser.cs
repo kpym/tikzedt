@@ -114,7 +114,7 @@ namespace TikzEdt
                         item.AddChild(tscope);
                         break;
                     case simpletikzParser.IM_COORD:
-                        Tikz_Coord tc = Tikz_Coord.FromCommonTree(childt);
+                        Tikz_Coord tc = Tikz_Coord.FromCommonTree(childt, tokens);
                         tc.text = getTokensString(tokens, childt);
                         item.AddChild(tc);
                         break;
