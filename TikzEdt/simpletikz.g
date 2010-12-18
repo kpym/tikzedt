@@ -86,11 +86,11 @@ IM_STYLE;
 }
 
 tikzdocument
-	:	 (tikz_cmd_comment | dontcare_preamble | tikz_styleorset | otherbegin)*  tikzpicture?  		-> ^(IM_DOCUMENT tikz_styleorset* tikzpicture?)
+	:	 ( tikz_styleorsetorcmd | dontcare_preamble | otherbegin)*  tikzpicture?  		-> ^(IM_DOCUMENT tikz_styleorsetorcmd* tikzpicture?)
 	;
 
-tikz_styleorset
-	:	tikz_style | tikz_set
+tikz_styleorsetorcmd
+	:	tikz_style | tikz_set | tikz_cmd_comment
 	;
 
 dontcare_preamble
@@ -100,10 +100,10 @@ otherbegin
 	:	BEGIN LBRR idd RBRR
 	;
  
-//reqrite rule does not work. why??
+//reqrite rule does not work. why??{TikzEdt.TikzParser.TIKZEDT_CMD_COMMENT += TIKZEDT_CMD_COMMENT13.Text; }
 tikz_cmd_comment
-	:	TIKZEDT_CMD_COMMENT  {TikzEdt.TikzParser.TIKZEDT_CMD_COMMENT += TIKZEDT_CMD_COMMENT13.Text; }	-> ^(IM_TIKZEDT_CMD TIKZEDT_CMD_COMMENT)
-	|	TIKZSET '~' INT -> ^(IM_TIKZEDT_CMD TIKZSET INT)
+	:	TIKZEDT_CMD_COMMENT  -> ^(IM_TIKZEDT_CMD TIKZEDT_CMD_COMMENT)
+	//|	TIKZSET '~' INT -> ^(IM_TIKZEDT_CMD TIKZSET INT)
 	;
 //	|	TIKZSTYLE LBR idd RBR '?' tikz_options		-> ^(IM_TIKZEDT_CMD idd tikz_options)
 //	:	TIKZEDT_CMD_COMMENT  -> ^(IM_TIKZEDT_CMD TIKZEDT_CMD_COMMENT)

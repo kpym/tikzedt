@@ -1,4 +1,6 @@
-\usetikzlibrary{decorations.footprints}
+efessef
+% !TIKZEDT hallo
+sdfsdfsdf
 \begin{tikzpicture}
-  \fill[decorate, decoration=footprints] (1,1)--(3,3);
+
 \end{tikzpicture}
