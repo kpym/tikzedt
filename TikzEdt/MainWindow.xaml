@@ -23,6 +23,9 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <!-- Note: If VS2010 tells you something like:
+        "type my:InverseBooleanConverter was not found. verify that you are not missing an assembly"
+        delete your obj directory within this project, then click the build button (F6) -->
         <my:InverseBooleanConverter x:Key="BoolInverter" />
         <BooleanToVisibilityConverter x:Key="boolToVis" />
         <my:InverseNullableBooleanConverter x:Key="NBoolInverter" />
