@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="CompletionDS" targetNamespace="http://tempuri.org/CompletionDS.xsd" xmlns:mstns="http://tempuri.org/CompletionDS.xsd" xmlns="http://tempuri.org/CompletionDS.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="CompletionDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="CompletionDS" msprop:Generator_UserDSName="CompletionDS">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Environments" msprop:Generator_TableClassName="EnvironmentsDataTable" msprop:Generator_TableVarName="tableEnvironments" msprop:Generator_TablePropName="Environments" msprop:Generator_RowDeletingName="EnvironmentsRowDeleting" msprop:Generator_UserTableName="Environments" msprop:Generator_RowChangingName="EnvironmentsRowChanging" msprop:Generator_RowEvHandlerName="EnvironmentsRowChangeEventHandler" msprop:Generator_RowDeletedName="EnvironmentsRowDeleted" msprop:Generator_RowEvArgName="EnvironmentsRowChangeEvent" msprop:Generator_RowChangedName="EnvironmentsRowChanged" msprop:Generator_RowClassName="EnvironmentsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="StartTag" msprop:Generator_ColumnVarNameInTable="columnStartTag" msprop:Generator_ColumnPropNameInRow="StartTag" msprop:Generator_ColumnPropNameInTable="StartTagColumn" msprop:Generator_UserColumnName="StartTag" type="xs:string" minOccurs="0" />
+              <xs:element name="EndTag" msprop:Generator_ColumnVarNameInTable="columnEndTag" msprop:Generator_ColumnPropNameInRow="EndTag" msprop:Generator_ColumnPropNameInTable="EndTagColumn" msprop:Generator_UserColumnName="EndTag" type="xs:string" minOccurs="0" />
+              <xs:element name="ID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" minOccurs="0" />
+              <xs:element name="Snippets" msprop:Generator_TableClassName="SnippetsDataTable" msprop:Generator_TableVarName="tableSnippets" msprop:Generator_TablePropName="Snippets" msprop:Generator_RowDeletingName="SnippetsRowDeleting" msprop:Generator_UserTableName="Snippets" msprop:Generator_RowChangingName="SnippetsRowChanging" msprop:Generator_RowEvHandlerName="SnippetsRowChangeEventHandler" msprop:Generator_RowDeletedName="SnippetsRowDeleted" msprop:Generator_RowEvArgName="SnippetsRowChangeEvent" msprop:Generator_RowChangedName="SnippetsRowChanged" msprop:Generator_RowClassName="SnippetsRow" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:appinfo>
+                    <msdata:Relationship name="Environments_Snippets" msdata:parent="Environments" msdata:child="Snippets" msdata:parentkey="ID" msdata:childkey="environment" msprop:Generator_UserChildTable="Snippets" msprop:Generator_ChildPropName="GetSnippetsRows" msprop:Generator_ParentPropName="EnvironmentsRow" msprop:Generator_UserRelationName="Environments_Snippets" msprop:Generator_RelationVarName="relationEnvironments_Snippets" msprop:Generator_UserParentTable="Environments" />
+                  </xs:appinfo>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Text" msprop:Generator_ColumnVarNameInTable="columnText" msprop:Generator_ColumnPropNameInRow="Text" msprop:Generator_ColumnPropNameInTable="TextColumn" msprop:Generator_UserColumnName="Text" type="xs:string" minOccurs="0" />
+                    <xs:element name="environment" msprop:Generator_ColumnVarNameInTable="columnenvironment" msprop:Generator_ColumnPropNameInRow="environment" msprop:Generator_ColumnPropNameInTable="environmentColumn" msprop:Generator_UserColumnName="environment" type="xs:int" minOccurs="0" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Triggers" msprop:Generator_TableClassName="TriggersDataTable" msprop:Generator_TableVarName="tableTriggers" msprop:Generator_TablePropName="Triggers" msprop:Generator_RowDeletingName="TriggersRowDeleting" msprop:Generator_UserTableName="Triggers" msprop:Generator_RowChangingName="TriggersRowChanging" msprop:Generator_RowEvHandlerName="TriggersRowChangeEventHandler" msprop:Generator_RowDeletedName="TriggersRowDeleted" msprop:Generator_RowEvArgName="TriggersRowChangeEvent" msprop:Generator_RowChangedName="TriggersRowChanged" msprop:Generator_RowClassName="TriggersRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Trigger" msprop:Generator_ColumnVarNameInTable="columnTrigger" msprop:Generator_ColumnPropNameInRow="Trigger" msprop:Generator_ColumnPropNameInTable="TriggerColumn" msprop:Generator_UserColumnName="Trigger" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:length value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="EnvironmentsKey1">
+      <xs:selector xpath=".//mstns:Environments" />
+      <xs:field xpath="mstns:ID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
