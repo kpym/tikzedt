@@ -33,6 +33,14 @@
 
 
     <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Undo"
+                    Executed="UndoCommandHandler"
+                    CanExecute="UndoCanExecute"                       
+                    />
+        <CommandBinding Command="ApplicationCommands.Redo"
+                    Executed="RedoCommandHandler"
+                    CanExecute="RedoCanExecute"                       
+                    />
         <CommandBinding Command="ApplicationCommands.Open"
                     Executed="OpenCommandHandler"
                     CanExecute="AlwaysTrue"                       
@@ -49,6 +57,34 @@
                     Executed="NewCommandHandler"
                     CanExecute="AlwaysTrue"
                     />
+        <CommandBinding Command="ApplicationCommands.Find"
+                    Executed="FindCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    />
+        <CommandBinding Command="ApplicationCommands.Replace"
+                    Executed="ReplaceCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    />
+        <CommandBinding Command="ApplicationCommands.Help"
+                    Executed="HelpCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    />
+         <CommandBinding Command="NavigationCommands.DecreaseZoom"
+                    Executed="ZoomoutCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    />
+        <CommandBinding Command="NavigationCommands.IncreaseZoom"
+                    Executed="ZoominCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    />
+        <CommandBinding Command="{x:Static custom:MainWindow.ShowCodeCompletionsCommand}" 
+                    Executed="ShowCodeCompletionsCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    />
+        <CommandBinding Command="{x:Static custom:MainWindow.FindNextCommand}" 
+                    Executed="FindNextCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    />
         <CommandBinding Command="{x:Static custom:MainWindow.CommentCommand}" 
                     Executed="CommentCommandHandler" 
                     CanExecute="AlwaysTrue" />
@@ -59,6 +95,8 @@
     <Window.InputBindings>
         <KeyBinding Command="{x:Static custom:MainWindow.CommentCommand}" Key="D" Modifiers="Ctrl"/>
         <KeyBinding Command="{x:Static custom:MainWindow.UnCommentCommand}" Key="D" Modifiers="Ctrl+Shift"/>
+        <KeyBinding Command="{x:Static custom:MainWindow.FindNextCommand}" Key="F3"/>
+        <KeyBinding Command="{x:Static custom:MainWindow.ShowCodeCompletionsCommand}" Key="SPACE"  Modifiers="Ctrl"/>
     </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -82,7 +120,11 @@
                 <Separator/>
                 <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
                 <MenuItem Header="Paste" Command="ApplicationCommands.Paste"/>
-                <MenuItem Header="Cut"  Command="ApplicationCommands.Cut"/>
+                <MenuItem Header="Cut" Command="ApplicationCommands.Cut"/>
+                <Separator/>
+                <MenuItem Header="Find..."  Command="ApplicationCommands.Find"/>
+                <MenuItem Header="Replace..."  Command="ApplicationCommands.Replace"/>
+                <MenuItem Header="Find Next"  Command="{x:Static custom:MainWindow.FindNextCommand}"/>
                 <Separator/>
                 <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}"/>
                 <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
@@ -92,10 +134,13 @@
                 <Separator/>
                 <MenuItem Header="Fancy Mode" IsCheckable="True" IsChecked="{Binding ElementName=chkFancyMode, Path=IsChecked}"/>
                 <MenuItem Header="Standard Mode" IsCheckable="True" IsChecked="{Binding ElementName=chkStandardMode, Path=IsChecked}"/>
-                <Separator/>
-                <MenuItem Header="Show Files Toolbar" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Mode=TwoWay}" IsCheckable="True" />
-                <MenuItem Header="Show Tools Toolbar" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Mode=TwoWay}" IsCheckable="True"/>
-                <MenuItem Header="Show Bounding Box Toolbar" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowBB, Mode=TwoWay}" IsCheckable="True"/>
+                <MenuItem Header="Toolbars">
+                <MenuItem Header="Main" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Mode=TwoWay}" IsCheckable="True" />
+                <MenuItem Header="Zoom" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowZoom, Mode=TwoWay}" IsCheckable="True" />
+                <MenuItem Header="Tools" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Mode=TwoWay}" IsCheckable="True"/>
+                <MenuItem Header="Bounding Box" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowBB, Mode=TwoWay}" IsCheckable="True"/>
+                <MenuItem Header="Mode" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowMode, Mode=TwoWay}" IsCheckable="True"/>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="_Compilation">
                 <MenuItem Header="Compile" Click="CompileClick"/>
@@ -115,35 +160,35 @@
             </MenuItem>
         </Menu>
         <ToolBarTray Grid.Row="1">
-            <ToolBar Height="Auto" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Converter={StaticResource boolToVis}}">
+            <ToolBar Height="28" Name="tlbMain" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Converter={StaticResource boolToVis}}">
                 <Button Command="ApplicationCommands.New">
-                    <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png" Stretch="Fill" Height="24" Width="24"/>
+                    <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png" Stretch="Fill" Height="16" Width="16"/>
                 </Button>
                 <Button Command="ApplicationCommands.Open">
-                    <Image Source="/TikzEdt;component/Images/OpenPL.bmp"  Stretch="Fill" Height="24" Width="24"/>
+                    <Image Source="/TikzEdt;component/Images/openfolderHS.png"  Stretch="Fill" Height="16" Width="16"/>
                 </Button>
                 <Button Command="ApplicationCommands.Save">
-                    <Image Source="/TikzEdt;component/Images/SaveHL.bmp"  Stretch="Fill" Height="24" Width="24" />
+                    <Image Source="/TikzEdt;component/Images/saveHS.png"  Stretch="Fill" Height="16" Width="16" />
                 </Button>
                 <Separator/>
                 <Button Command="ApplicationCommands.Paste">
-                    <Image Source="/TikzEdt;component/Images/paste.png"  Stretch="Fill" Height="24" Width="24"/>
+                    <Image Source="/TikzEdt;component/Images/PasteHS.png"  Stretch="Fill" Height="16" Width="16"/>
                 </Button>
                 <Button Command="ApplicationCommands.Copy">
-                    <Image Source="/TikzEdt;component/Images/copy.png"  Stretch="Fill" Height="24" Width="24"/>
+                    <Image Source="/TikzEdt;component/Images/copy.png"  Stretch="Fill" Height="16" Width="16"/>
                 </Button>
                 <Button Command="ApplicationCommands.Cut">
-                    <Image Source="/TikzEdt;component/Images/cut.png"  Stretch="Fill" Height="24" Width="24"/>
+                    <Image Source="/TikzEdt;component/Images/cut.png"  Stretch="Fill" Height="16" Width="16"/>
                 </Button>
                 <Separator/>
                 <Button Click="CompileClick">
-                    <Image Source="/TikzEdt;component/Images/PlayHS.png"  Stretch="Fill" Height="24" Width="24"/>
+                    <Image Source="/TikzEdt;component/Images/PlayHS.png"  Stretch="Fill" Height="16" Width="16"/>
                     <Button.ToolTip>
                         Compile the file
                     </Button.ToolTip>
                 </Button>
                 <Button Name="cmdAbortCompilation" IsEnabled="{Binding ElementName=tikzDisplay1, Path=Compiling}" Click="AbortCompilationClick" >
-                    <Image Source="/TikzEdt;component/Images/error.png" Style="{StaticResource toolbarImageStyle}" Stretch="Fill" Height="24" Width="24"/>
+                    <Image Source="/TikzEdt;component/Images/error.png" Style="{StaticResource toolbarImageStyle}" Stretch="Fill" Height="16" Width="16"/>
                     <Button.ToolTip>Abort compilation in case something goes wrong</Button.ToolTip>
                 </Button>
                 <Separator/>
@@ -151,9 +196,11 @@
                     Overlay
                     <CheckBox.ToolTip>Switch the overlay displaying on top of the preview on/off</CheckBox.ToolTip>
                 </CheckBox>
-                <Separator/>
-                <Button Click="cmdZoomOutClick">
-                    <Image Source="/TikzEdt;component/Images/2391_ZoomOut.png"  Stretch="Fill" Height="24" Width="24"/>
+            </ToolBar>
+            <ToolBar Name="tlbZoom"
+                     Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowZoom, Converter={StaticResource boolToVis}}">
+            <Button Click="cmdZoomOutClick">
+                    <Image Source="/TikzEdt;component/Images/ZoomOutHS.png"  Stretch="Fill" Height="16" Width="16"/>
                 </Button>
                 <ComboBox Name="cmbZoom"  Width="60" ItemsSource="{Binding}" SelectionChanged="cmbZoom_SelectionChanged" Text="100%" SelectedIndex="3" PreviewTextInput="cmbZoom_PreviewTextInput" IsEditable="True" LostFocus="cmbZoom_LostFocus">
                     <ComboBox.Style>
@@ -176,12 +223,11 @@
                     <ComboBoxItem Content="2000%" />
                 </ComboBox>
                 <Button Click="cmdZoomInClick">
-                    <Image Source="/TikzEdt;component/Images/2392_ZoomIn_48x48.png"  Stretch="Fill" Height="24" Width="24"/>
+                    <Image Source="/TikzEdt;component/Images/ZoomInHS.png"  Stretch="Fill" Height="16" Width="16"/>
                 </Button>
-                </ToolBar>
-            <ToolBar>
-                <Separator/>
-                <Label>Grid:</Label>
+               </ToolBar>
+            <ToolBar Height="28" Name="tlbGrid">
+                <TextBlock VerticalAlignment="Center" Margin="0 0 3 0">Grid:</TextBlock>
                 <ComboBox Name="cmbGrid"  Width="40" ItemsSource="{Binding}" SelectedIndex="4" IsEditable="True"
                           Text="{Binding Source={x:Static p:Settings.Default}, Path=Raster_GridWidth, Mode=TwoWay}">
                     <ComboBox.Style>
@@ -195,50 +241,51 @@
                     <ComboBoxItem Content="0.5" />
                     <ComboBoxItem Content="1"/>
                 </ComboBox>
-                <Label ToolTip="The number of coordinate lines of constant angular parameter shown in polar coordinate mode">RS:</Label>
+                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center" ToolTip="The number of coordinate lines of constant angular parameter shown in polar coordinate mode">RS:</TextBlock>
                 <TextBox Width ="30" Name="txtRadialSteps" Text="{Binding Source={x:Static p:Settings.Default}, Path=Raster_RadSteps, Mode=TwoWay}" TextChanged="txtRadialSteps_TextChanged" />
-                <Label ToolTip="The offset (in degrees) of the first coordinate line of constant angular parameter shown in polar coordinate mode">RO:</Label>
+                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center" ToolTip="The offset (in degrees) of the first coordinate line of constant angular parameter shown in polar coordinate mode">RO:</TextBlock>
                 <TextBox Width ="30" Name="txtRadialOffset" Text="{Binding Source={x:Static p:Settings.Default}, Path=Raster_RadialOffset, Mode=TwoWay}" TextChanged="txtRadialOffset_TextChanged" />
             </ToolBar>
             
-            <ToolBar Name="tlbTools"  Height="32" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}" Band="1">
+            <ToolBar Name="tlbTools"  Height="28" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}" Band="1">
                 <RadioButton HorizontalAlignment="Left" Name="rbToolMove" VerticalAlignment="Top" IsChecked="True" Checked="rb1_Checked">
-                    <Image Source="/TikzEdt;component/Images/base_cursor.png" Style="{StaticResource toolbarImageStyle}"/>
+                    <Image Source="/TikzEdt;component/Images/base_cursor.png" Style="{StaticResource toolbarImageStyle}" Stretch="Fill" Height="16" Width="16"/>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolAddVert" VerticalAlignment="Top" Checked="rb1_Checked">
-                    <Image Source="/TikzEdt;component/Images/bmpvert.bmp" Style="{StaticResource toolbarImageStyle}" />
+                    <Image Source="/TikzEdt;component/Images/bmpvert.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolAddEdge" VerticalAlignment="Top" Checked="rb1_Checked">
-                    <Image Source="/TikzEdt;component/Images/edge.bmp" Style="{StaticResource toolbarImageStyle}"/>
+                    <Image Source="/TikzEdt;component/Images/edge.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolAddPath" VerticalAlignment="Top" Checked="rb1_Checked">
-                    <Image Source="/TikzEdt;component/Images/path.bmp" Style="{StaticResource toolbarImageStyle}"/>
+                    <Image Source="/TikzEdt;component/Images/path.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                 </RadioButton>
-                <Label>Node style:</Label>
+                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Node style:</TextBlock>
                 <ComboBox Name="cmbNodeStyles" Width="80" IsEditable="True"></ComboBox>
-                <Label>Edge style:</Label>
+                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Edge style:</TextBlock>
                 <ComboBox Name="cmbEdgeStyles" Width="80" IsEditable="True"></ComboBox>
             </ToolBar>
-            <ToolBar Height="32" Name="tlbBB" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowBB, Converter={StaticResource boolToVis}}">
-                <Label>Bounding Box: </Label>
+            <ToolBar Height="28" Name="tlbBB" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowBB, Converter={StaticResource boolToVis}}">
+                <TextBlock Margin="0 0 3 0" VerticalAlignment="Center">Bounding Box:</TextBlock>
                 <!-- <DockPanel VerticalAlignment="Center">-->
-                <CheckBox Name="chkAutoBB" Checked="chkAutoBB_Checked" Unchecked="chkAutoBB_Checked">Auto</CheckBox>            
-            <Label>X</Label>
-            <TextBox Name="txtBBX" Width="20" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
-            <Label>Y</Label>
-            <TextBox Name="txtBBY" Width="20" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
-            <Label>W</Label>
-            <TextBox Name="txtBBW" Width="20" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
-            <Label>H</Label>
-            <TextBox Name="txtBBH" Width="20" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
+                <CheckBox Name="chkAutoBB" Checked="chkAutoBB_Checked" Unchecked="chkAutoBB_Checked" IsChecked="True">Auto</CheckBox>
+                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">X</TextBlock>
+            <TextBox Name="txtBBX" Width="25" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
+                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Y</TextBlock>
+            <TextBox Name="txtBBY" Width="25" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
+                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">W</TextBlock>
+            <TextBox Name="txtBBW" Width="25" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
+                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">H</TextBlock>
+            <TextBox Name="txtBBH" Width="25" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
         </ToolBar>
-            <ToolBar  Band="1" Height="32" Name="tlbMode">
-                <CheckBox IsChecked="True" Name="chkFancyMode" Checked="chkFancyMode_Checked" Unchecked="chkFancyMode_Checked">
+            <ToolBar  Band="1" Height="28" Name="tlbMode"
+                      Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowMode, Converter={StaticResource boolToVis}}">
+                <ToggleButton IsChecked="True" Name="chkFancyMode" Checked="chkFancyMode_Checked" Unchecked="chkFancyMode_Checked">
                     <DockPanel>
-                    <Image Source="/TikzEdt;component/Images/base_star_32.png"></Image>
+                    <Image Source="/TikzEdt;component/Images/base_star_32.png" Height="16" Width="16" Stretch="Fill"></Image>
                         <TextBlock>Fancy Mode</TextBlock>
                     </DockPanel>
-                    <CheckBox.ToolTip> 
+                    <ToggleButton.ToolTip> 
                         <StackPanel>
                             <TextBlock Text="Fancy Mode" FontWeight="Bold"></TextBlock>
                             <TextBlock Width="200" TextWrapping="Wrap">
@@ -247,14 +294,14 @@
                                 the transformation from Tikz to Screen coordinates.
                             </TextBlock>
                         </StackPanel>
-                    </CheckBox.ToolTip>
-                </CheckBox>
-                <CheckBox Name="chkStandardMode" IsChecked="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource NBoolInverter}}">
+                        </ToggleButton.ToolTip>
+                    </ToggleButton>
+                <ToggleButton Name="chkStandardMode" IsChecked="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource NBoolInverter}}">
                     <DockPanel>
                         <!-- <Image Source="/TikzEdt;component/Images/base_star_32.png"></Image>-->
                         <TextBlock>Standard Mode</TextBlock>
                     </DockPanel>
-                    <CheckBox.ToolTip>
+                    <ToggleButton.ToolTip>
                          <StackPanel>
                             <TextBlock Text="Standard Mode" FontWeight="Bold"></TextBlock>
                             <TextBlock Width="200" TextWrapping="Wrap">
@@ -264,8 +311,8 @@
                                 problems with fancy mode (speed/stability).
                             </TextBlock>
                         </StackPanel>
-                    </CheckBox.ToolTip>
-                </CheckBox>
+                    </ToggleButton.ToolTip>
+                </ToggleButton>
             </ToolBar>
         </ToolBarTray>
         <Grid Grid.Row="2">
@@ -351,7 +398,7 @@
                     <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center"
                                        Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"  />
                     <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" Width="200" Height="200" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" 
-                                    OnCompileEvent="tikzDisplay1_OnCompileEvent" />                   
+                                    OnCompileEvent="tikzDisplay1_OnCompileEvent" OnTexOutput="tikzDisplay1_OnTexOutput" />                   
                     <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" 
                                     OnModified="pdfOverlay1_OnModified" BeginModify="pdfOverlay1_BeginModify" EndModify="pdfOverlay1_EndModify" 
                                     NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text,Mode=OneWay}" EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}"

@@ -243,16 +243,16 @@ namespace TikzEdt
             int i = 0;
             if (t.GetChild(i).Type == simpletikzParser.IM_OPTIONS)
             {
-                i++;
+                //i++;
                 n.options = TikzParser.getTokensString(tokens, t.GetChild(i++));
             }
             if (t.GetChild(i).Type == simpletikzParser.IM_NODENAME)
             {
-                n.name = t.GetChild(i++).GetChild(0).Text;
+                n.name = TikzParser.getTokensString(tokens, t.GetChild(i++).GetChild(0)); //t.GetChild(i++).GetChild(0).Text;
             }
             if (t.GetChild(i).Type == simpletikzParser.IM_COORD)
             {
-                n.coord = Tikz_Coord.FromCommonTree(t.GetChild(i++));
+                n.coord = Tikz_Coord.FromCommonTree(t.GetChild(i++), tokens);
                 //n.x = n.coord.uX.number; //hack
                 //n.y = n.coord.uY.number;
             }
@@ -346,13 +346,13 @@ namespace TikzEdt
         /// </summary>
         /// <param name="t">The node of the AST.</param>
         /// <returns></returns>
-        public static Tikz_Coord FromCommonTree(ITree t)
+        public static Tikz_Coord FromCommonTree(ITree t, CommonTokenStream tokens)
         {
             Tikz_Coord tc = new Tikz_Coord();
             if (t.ChildCount == 1 && t.GetChild(0).Type == simpletikzParser.IM_NODENAME) // named node 
             {
                 tc.type = Tikz_CoordType.Named;
-                tc.nameref = t.GetChild(0).GetChild(0).Text;
+                tc.nameref = TikzParser.getTokensString(tokens, t.GetChild(0).GetChild(0)); //t.GetChild(0).GetChild(0).Text;
                 return tc;
             }
             else if (t.ChildCount >= 2)
@@ -845,7 +845,10 @@ namespace TikzEdt
         public Dictionary<string, Tikz_Node> nodelist = new Dictionary<string, Tikz_Node>();
         public override Tikz_Node GetNodeByName(string tname)
         {
-            return nodelist[tname];
+            if (nodelist.ContainsKey(tname))
+                return nodelist[tname];
+            else
+                return null;
         }
         public override void AddNodeRef(Tikz_Node tn)
         {

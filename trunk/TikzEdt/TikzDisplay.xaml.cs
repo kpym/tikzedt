@@ -27,8 +27,10 @@ namespace TikzEdt
     public partial class TikzDisplay : UserControl
     {
         public enum CompileEventType {Start, Error, Success, Status};
-        public delegate void CompileEventHandler(string Message, string TexOutput, CompileEventType type);
+        public delegate void CompileEventHandler(string Message, CompileEventType type);
         public event CompileEventHandler OnCompileEvent;
+        public delegate void TexOutputHandler(string Message);
+        public event TexOutputHandler OnTexOutput;
 
         readonly public static DependencyProperty CompilingProperty = DependencyProperty.Register(
                 "Compiling", typeof(bool), typeof(TikzDisplay));
@@ -94,7 +96,7 @@ namespace TikzEdt
 
             if (!File.Exists(Consts.cTempFile + ".fmt"))
             {
-                OnCompileEvent("Generating precompiled headers.... please restart in some moments", "", CompileEventType.Status); 
+                OnCompileEvent("Generating precompiled headers.... please restart in some moments", CompileEventType.Status); 
                 Helper.GeneratePrecompiledHeaders();
                 return;
             }
@@ -118,8 +120,9 @@ namespace TikzEdt
             else compilingBB = new Rect(0, 0, 0, 0);
 
             // call pdflatex         
-            OnCompileEvent("Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, "", CompileEventType.Start);
+            OnCompileEvent("Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, CompileEventType.Start);
             texProcess.Start();
+            texProcess.BeginOutputReadLine();
         }
         /// <summary>
         /// Adds a rectangle to the Tikzcode in the size specified by BB. 
@@ -151,11 +154,22 @@ namespace TikzEdt
             texProcess.StartInfo.CreateNoWindow = true;
             texProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             texProcess.StartInfo.UseShellExecute = false;
-            texProcess.StartInfo.RedirectStandardError = true;
+            //texProcess.StartInfo.RedirectStandardError = true;
             texProcess.StartInfo.RedirectStandardOutput = true;
             // texProcess.SynchronizingObject = (System.ComponentModel.ISynchronizeInvoke) this;
             texProcess.Exited += new EventHandler(texProcess_Exited);
+            texProcess.OutputDataReceived += new DataReceivedEventHandler(texProcess_OutputDataReceived);
 
+        }
+
+        void texProcess_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            Dispatcher.Invoke(new Action(
+                delegate()
+                {
+                    if (OnTexOutput != null)
+                        OnTexOutput(e.Data);
+                }));
         }
 
         /// <summary>
@@ -183,19 +197,20 @@ namespace TikzEdt
                 {
                     currentBB = compilingBB;
                     RefreshPDF();
-                    string texout = texProcess.StandardOutput.ReadToEnd();
-                    OnCompileEvent("Compilation done", texout, CompileEventType.Success);
+                    //string texout = texProcess.StandardOutput.ReadToEnd();
+                    OnCompileEvent("Compilation done", CompileEventType.Success);
                 }
                 else
                 {
-                    string err = texProcess.StandardOutput.ReadToEnd();
-                    OnCompileEvent("Compilation failed wih exit code " + texProcess.ExitCode, err, CompileEventType.Error);
+                    //string err = texProcess.StandardOutput.ReadToEnd();
+                    OnCompileEvent("Compilation failed wih exit code " + texProcess.ExitCode, CompileEventType.Error);
                 }
                 
                 isRunning = false;
                 SetValue(CompilingProperty, false);
               ///  if (nextToCompile != "")
                //     doCompile();
+                texProcess.CancelOutputRead();
             }
             ));
         }

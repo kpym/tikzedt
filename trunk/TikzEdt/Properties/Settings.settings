@@ -72,5 +72,14 @@
     <Setting Name="BB_Std_H" Type="System.Double" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
+    <Setting Name="TLB_ShowMode" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Editor_CodeCompletion" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Editor_CompleteBegins" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -735,7 +735,7 @@ namespace TikzEdt
                     if (mnuJumpSource.Tag is OverlayScope)
                         JumpToSource((mnuJumpSource.Tag as OverlayScope).tikzitem);
                     else if (mnuJumpSource.Tag is OverlayNode)
-                        JumpToSource((mnuJumpSource.Tag as OverlayScope).tikzitem);
+                        JumpToSource((mnuJumpSource.Tag as OverlayNode).tikzitem);
                 }
             }
             else if (sender == mnuEdit)

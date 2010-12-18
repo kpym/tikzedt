@@ -276,5 +276,41 @@ namespace TikzEdt.Properties {
                 this["BB_Std_H"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TLB_ShowMode {
+            get {
+                return ((bool)(this["TLB_ShowMode"]));
+            }
+            set {
+                this["TLB_ShowMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Editor_CodeCompletion {
+            get {
+                return ((bool)(this["Editor_CodeCompletion"]));
+            }
+            set {
+                this["Editor_CodeCompletion"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Editor_CompleteBegins {
+            get {
+                return ((bool)(this["Editor_CompleteBegins"]));
+            }
+            set {
+                this["Editor_CompleteBegins"] = value;
+            }
+        }
     }
 }

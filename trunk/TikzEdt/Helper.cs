@@ -37,6 +37,7 @@ namespace TikzEdt
             new float[]{0.1F}, new float[]{.1F,.1F}, new float[]{.2F,.1F}
         };
 
+        public const string cCompletionsFile = "CodeCompletions.xml";
         public const string cSettingsFile = "T2Gsettings.xml";
         public const string cSyntaxFile = "TikzSyntax.xshd";
         public const string cSnippetsFile = "TheSnippets.xml";

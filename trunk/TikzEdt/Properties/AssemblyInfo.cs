@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("TikzEdt")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("Open Source")]
 [assembly: AssemblyProduct("TikzEdt")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2010")]
+[assembly: AssemblyCopyright("Copyright © 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
