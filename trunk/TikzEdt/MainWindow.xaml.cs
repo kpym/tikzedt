@@ -83,6 +83,9 @@ namespace TikzEdt
         {
             InitializeComponent();
 
+            //make sure that double to string is converted with decimal point (not comma!)       
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
+
             CommandBinding CommentCommandBinding = new CommandBinding(CommentCommand, CommentCommandHandler, AlwaysTrue);
             CommandBinding UnCommentCommandBinding = new CommandBinding(UnCommentCommand, UnCommentCommandHandler, AlwaysTrue);            
 
@@ -339,21 +342,21 @@ namespace TikzEdt
             }
 
             StreamReader stream = new StreamReader(cFile);
-            try
-            {
+            //try            {
                 txtCode.Text = stream.ReadToEnd();
                 CurFile = cFile;
                 ChangesMade = false;
-            }
-            catch (Exception)
+            /*}
+            catch (Exception Ex)
             {
+                string d = Ex.Message;
                 MessageBox.Show("Error: Could not load " + cFile + ". Is it in the correct format?",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
                 stream.Close();
-            }
+            }*/
         }
         private bool TryDisposeFile()
         {
