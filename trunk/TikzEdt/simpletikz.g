@@ -75,6 +75,7 @@ IM_SCOPE;
 IM_STARTTAG;
 IM_ENDTAG;
 IM_OPTIONS;
+IM_TIKZEDT_CMD;
 IM_OPTION_STYLE;
 IM_OPTION_KV; 	// key or key value pair
 IM_ID;
@@ -85,7 +86,7 @@ IM_STYLE;
 }
 
 tikzdocument
-	:	 (dontcare_preamble | tikz_styleorset | otherbegin)*  tikzpicture  		-> ^(IM_DOCUMENT tikz_styleorset* tikzpicture)
+	:	 (tikz_cmd_comment | dontcare_preamble | tikz_styleorset | otherbegin)*  tikzpicture?  		-> ^(IM_DOCUMENT tikz_styleorset* tikzpicture?)
 	;
 
 tikz_styleorset
@@ -93,11 +94,20 @@ tikz_styleorset
 	;
 
 dontcare_preamble
-	:	~(BEGIN | TIKZSTYLE | TIKZSET)
+	:	~(BEGIN | TIKZSTYLE | TIKZSET | TIKZEDT_CMD_COMMENT)
 	;
 otherbegin
 	:	BEGIN LBRR idd RBRR
 	;
+ 
+//reqrite rule does not work. why??
+tikz_cmd_comment
+	:	TIKZEDT_CMD_COMMENT  {TikzEdt.TikzParser.TIKZEDT_CMD_COMMENT += TIKZEDT_CMD_COMMENT13.Text; }	-> ^(IM_TIKZEDT_CMD TIKZEDT_CMD_COMMENT)
+	|	TIKZSET '~' INT -> ^(IM_TIKZEDT_CMD TIKZSET INT)
+	;
+//	|	TIKZSTYLE LBR idd RBR '?' tikz_options		-> ^(IM_TIKZEDT_CMD idd tikz_options)
+//	:	TIKZEDT_CMD_COMMENT  -> ^(IM_TIKZEDT_CMD TIKZEDT_CMD_COMMENT)
+
 
 tikz_style
 	:	TIKZSTYLE LBRR idd RBRR '=' tikz_options -> ^(IM_STYLE idd tikz_options)
@@ -175,7 +185,7 @@ tikzpicture
 
 tikzbody
 	:	( tikzscope | tikzpath | tikznodee | dontcare_body_nobr | tikz_set | tikz_style | otherbegin |otherend )  // necessary to prevent conflict with options
-		( tikzscope | tikzpath | tikznodee | dontcare_body | tikz_set | tikz_style | otherbegin |otherend )*
+		( tikzscope | tikzpath | tikznodee | dontcare_body      | tikz_set | tikz_style | otherbegin |otherend )*
 	;
 	
 dontcare_body_nobr
@@ -357,6 +367,11 @@ FLOAT_WO_EXP
     ;
     
 
+TIKZEDT_CMD_COMMENT
+    :   '%' WS '!TIKZEDT'   ~('\n'|'\r')* '\r'? '\n'
+    ;
+//~('\n'|'\r')* '\r'? '\n'  
+//-> ^(IM_TIKZEDT_CMD 'TIKZEDT')   
 
 COMMENT
     :   '%' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}

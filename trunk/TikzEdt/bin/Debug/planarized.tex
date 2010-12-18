@@ -1,5 +1,6 @@
 % !TEX TS-program = pdflatex
 % !TEX encoding = ISOLatin2
+% !TIKZEDT BOUNDINGBOX = -0.2 -0.2 12  15.4
 
 \documentclass[10pt,a4paper,parskip]{scrbook}
 %\usepackage{mathabx}% for circles in tables
@@ -10,7 +11,7 @@
 
 
 
-%\pagestyle{empty}
+\pagestyle{empty}
 
 \usepackage[active,tightpage]{preview}
 
@@ -64,14 +65,19 @@
 
 
 \draw (0,0) -- (5,5) circle (3);
-\draw (6,8) node[ext] {} -> (8,8);
+\draw (6,8) node[start] {} -> (8,8);
 
 
 
 \node (v84) at (10.5,12.5) [dead end] {};
 \node (v59) at (5,11.5) [building] {};
-\node (v102) at (9,7) [building] {};
-\node (v90) at (2.5,13.5) [street] {};
+\node (v102) at (9,7) [building] {} ;
+
+\node (v90) at (2,14) [start]  {ss};
+
+
+
+
 \node (v91) at (10.5,5.5) [junction] {};
 \node (v79) at (4,5.5) [junction] {};
 \node (v97) at (5.5,7) [building] {};
@@ -102,8 +108,8 @@
 
 
 %add border
-%\foreach \border in {0.2}
-%  \useasboundingbox (current bounding box.south west)+(-\border,-\border) rectangle (current %bounding box.north east)+(\border,\border);
+\foreach \border in {0.2}
+  \useasboundingbox (current bounding box.south west)+(-\border,-\border) rectangle (current bounding box.north east)+(\border,\border);
 
 
 \end{tikzpicture}

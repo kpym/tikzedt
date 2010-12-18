@@ -549,7 +549,15 @@ namespace TikzEdt
     {
         public Tikz_NumberUnit(ITree t)
         {
-            number = Double.Parse(t.GetChild(0).Text);
+            try
+            {
+                number = Double.Parse(t.GetChild(0).Text);
+            }
+            catch (FormatException)
+            {
+                unit = "";
+            }
+            
             if (t.ChildCount > 1)
                 unit = t.GetChild(1).Text.Trim();
             else unit = "";

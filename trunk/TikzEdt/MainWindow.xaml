@@ -266,7 +266,7 @@
                 <ComboBox Name="cmbEdgeStyles" Width="80" IsEditable="True"></ComboBox>
             </ToolBar>
             <ToolBar Height="28" Name="tlbBB" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowBB, Converter={StaticResource boolToVis}}">
-                <TextBlock Margin="0 0 3 0" VerticalAlignment="Center">Bounding Box:</TextBlock>
+                <TextBlock Name="txtBB" Margin="0 0 3 0" VerticalAlignment="Center">Bounding Box:</TextBlock>
                 <!-- <DockPanel VerticalAlignment="Center">-->
                 <CheckBox Name="chkAutoBB" Checked="chkAutoBB_Checked" Unchecked="chkAutoBB_Checked" IsChecked="True">Auto</CheckBox>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">X</TextBlock>
