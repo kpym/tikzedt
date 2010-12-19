@@ -67,6 +67,7 @@ tokens {
 IM_PATH;
 IM_NODE;
 IM_COORD;
+IM_SIZE;
 IM_NODENAME;
 IM_NUMBERUNIT;
 IM_PICTURE;
@@ -224,8 +225,8 @@ coordornode
 //coordinates are connect e.g. by --, ->, rectangle, circle
 //after "circle" the next coordinate is usually just a size.
 coordornode_new
-	:	coord (ID (nodetype)? (tikzstring)?)?
-	|	size
+	:	coord (ID (nodetype)? (tikzstring)?)?		-> ^(coord)
+	|	size						
 	;
 	
 tikznodei 
@@ -237,11 +238,9 @@ nodename
 	;
 
 size	
-	:	  ( coord_modifier? lc=LPAR numberunit RPAR)		
+	:	  ( coord_modifier? lc=LPAR numberunit RPAR)	-> ^(IM_SIZE[$lc] coord_modifier? numberunit)	
 	;
-//Is this needed?
-//-> ^(IM_COORD[$lc] coord_modifier? numberunit)
-	
+
 	
 coord	
 	:	  nodename 								-> ^(IM_COORD nodename)

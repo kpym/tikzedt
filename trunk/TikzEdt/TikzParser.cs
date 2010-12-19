@@ -125,11 +125,12 @@ namespace TikzEdt
                         tc.text = getTokensString(tokens, childt);
                         item.AddChild(tc);
                         break;
+                    
                     case simpletikzParser.IM_NODE:
                         Tikz_Node tn = Tikz_Node.FromCommonTree(childt, tokens);
                         tn.text = getTokensString(tokens, childt);
                         item.AddChild(tn);
-                        break;
+                        break;                    
                     case simpletikzParser.IM_OPTION_KV:
                     case simpletikzParser.IM_OPTION_STYLE:
                         Tikz_Option topt = Tikz_Option.FromCommonTree(childt);
@@ -156,9 +157,22 @@ namespace TikzEdt
                         //FillItem(to2, childt, tokens);
                         topt2.text = getTokensString(tokens, childt);
                         item.AddChild(topt2);
+                        break;                    
+                    case simpletikzParser.IM_SIZE:
+                        Tikz_Size tsize = Tikz_Size.FromCommonTree(childt, tokens);
+                        tsize.text = getTokensString(tokens, childt);
+                        item.AddChild(tsize);
+                        //Tikz_Size tsize = new Tikz_Size();
+                        //item.AddChild(tsize);
+                        break;                 
+                    case simpletikzParser.ID:
+                    case simpletikzParser.IM_STRING:
+                    case simpletikzParser.COMMAND:
+                    case simpletikzParser.T__57:
                         break;
                     default:
                         // getting here is an error
+                        //throw new Exception("childt.Type not handled!" + childt.Type.ToString());
                         break;
 
                 }

@@ -104,11 +104,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CodeCompleter.cs" />
-    <Compile Include="Data\CompletionDS.cs">
+    <Compile Include="CompletionDS.cs">
       <DependentUpon>CompletionDS.xsd</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Data\CompletionDS.Designer.cs">
+    <Compile Include="CompletionDS.designer.cs">
+      <DependentUpon>CompletionDS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CompletionDS1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CompletionDS.xsd</DependentUpon>
@@ -229,15 +232,15 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Data\CompletionDS.xsc">
+    <None Include="CompletionDS.xsc">
       <DependentUpon>CompletionDS.xsd</DependentUpon>
     </None>
-    <None Include="Data\CompletionDS.xsd">
-      <SubType>Designer</SubType>
+    <None Include="CompletionDS.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>CompletionDS.Designer.cs</LastGenOutput>
+      <LastGenOutput>CompletionDS1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </None>
-    <None Include="Data\CompletionDS.xss">
+    <None Include="CompletionDS.xss">
       <DependentUpon>CompletionDS.xsd</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
