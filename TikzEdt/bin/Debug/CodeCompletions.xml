@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<CompletionDS xmlns="http://tempuri.org/CompletionDS.xsd">
+  <Environments>
+    <StartTag>\[</StartTag>
+    <EndTag>\]</EndTag>
+    <ID>1</ID>
+    <Snippets>
+      <Text>minimum size</Text>
+      <environment>1</environment>
+    </Snippets>
+    <Snippets>
+      <Text>draw</Text>
+      <environment>1</environment>
+    </Snippets>
+    <Snippets>
+      <Text>fill</Text>
+      <environment>1</environment>
+    </Snippets>
+    <Snippets>
+      <Text>circle</Text>
+      <environment>1</environment>
+    </Snippets>
+    <Snippets>
+      <Text>outer sep</Text>
+      <environment>1</environment>
+    </Snippets>
+    <Snippets>
+      <Text>inner sep</Text>
+      <environment>1</environment>
+    </Snippets>
+  </Environments>
+  
+  <Environments>
+    <StartTag>\\begin\s*\{</StartTag>
+    <EndTag>\}</EndTag>
+    <ID>0</ID>
+    <Snippets>
+      <Text>tikzpicture</Text>
+      <environment>0</environment>
+    </Snippets>
+    <Snippets>
+      <Text>scope</Text>
+      <environment>0</environment>
+    </Snippets>
+    <Snippets>
+      <Text>matrix</Text>
+      <environment>0</environment>
+    </Snippets>    
+  </Environments>
+
+  <Environments>
+    <StartTag>(fill|draw)\s*=</StartTag>
+    <EndTag>(,|\])</EndTag>
+    <ID>2</ID>
+    <Snippets>
+      <Text>red</Text>
+      <environment>2</environment>
+    </Snippets>
+    <Snippets>
+      <Text>green</Text>
+      <environment>2</environment>
+    </Snippets>
+    <Snippets>
+      <Text>blue</Text>
+      <environment>2</environment>
+    </Snippets>
+    <Snippets>
+      <Text>yellow</Text>
+      <environment>2</environment>
+    </Snippets>
+    <Snippets>
+      <Text>white</Text>
+      <environment>2</environment>
+    </Snippets>
+    <Snippets>
+      <Text>gray</Text>
+      <environment>2</environment>
+    </Snippets>
+  </Environments>
+  
+ 
+  <Triggers>
+    <Trigger>.</Trigger>
+  </Triggers>
+  <Triggers>
+    <Trigger>{</Trigger>
+  </Triggers>
+  <Triggers>
+    <Trigger>[</Trigger>
+  </Triggers>
+</CompletionDS>

@@ -104,23 +104,21 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CodeCompleter.cs" />
-    <Compile Include="CompletionDS.cs">
+    <Compile Include="Data\CompletionDS.cs">
       <DependentUpon>CompletionDS.xsd</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CompletionDS.designer.cs">
+    <Compile Include="Data\CompletionDS.Designer.cs">
       <DependentUpon>CompletionDS.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CompletionDS1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CompletionDS.xsd</DependentUpon>
     </Compile>
     <Compile Include="FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="MyCompletionData.cs" />
+    <Compile Include="output\simpletikzLexer.cs" />
+    <Compile Include="output\simpletikzParser.cs" />
     <Compile Include="OverlayItem.xaml.cs">
       <DependentUpon>OverlayItem.xaml</DependentUpon>
     </Compile>
@@ -133,8 +131,6 @@
     <Compile Include="SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="simpletikzLexer.cs" />
-    <Compile Include="simpletikzParser.cs" />
     <Compile Include="SnippetList.xaml.cs">
       <DependentUpon>SnippetList.xaml</DependentUpon>
     </Compile>
@@ -146,6 +142,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="SourceManager.cs" />
     <Compile Include="TikzDisplay.xaml.cs">
       <DependentUpon>TikzDisplay.xaml</DependentUpon>
     </Compile>
@@ -232,15 +229,11 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="CompletionDS.xsc">
+    <None Include="Data\CompletionDS.xsc">
       <DependentUpon>CompletionDS.xsd</DependentUpon>
     </None>
-    <None Include="CompletionDS.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>CompletionDS1.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="CompletionDS.xss">
+    <None Include="Data\CompletionDS.xsd" />
+    <None Include="Data\CompletionDS.xss">
       <DependentUpon>CompletionDS.xsd</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">

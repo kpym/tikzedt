@@ -321,6 +321,8 @@ namespace TikzEdt
                     //try
                     //{
                     Tikz_ParseTree t = TikzParser.Parse(txtCode.Text);
+                    if (t == null) return;
+                    ////SourceManager.Parse(txtCode.Text);
                     //Regex
                     //TikzParser.TIKZEDT_CMD_COMMENT
                     RegexOptions ro = new RegexOptions();
@@ -384,9 +386,16 @@ namespace TikzEdt
 
         private void txtCode_TextChanged(object sender, EventArgs e)
         {
-            ChangesMade = true;
 
-            Recompile();
+            if (isLoaded)
+            {
+                //doc.Text = "asdf";
+                //txtCode.Document = doc;
+                //SourceManager.Instance.SourceCode.Text = txtCode.Document.Text;
+                
+                ChangesMade = true;
+                Recompile();
+            }
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
