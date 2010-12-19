@@ -390,6 +390,8 @@
                         </ContextMenu>                            
                     </avalonedit:TextEditor.ContextMenu>
                 </avalonedit:TextEditor>
+                <TextBox Name="theTextBox" Text="{Binding Source={x:Static my:VersionManager.Instance}, Path=TXT}" Margin="116,45,-116,219" />
+                <avalonedit:TextEditor Name="txtCode2" Document="{Binding Source={x:Static my:SourceManager.Instance}, Path=SourceCode}" Margin="116,245,-116,46" />
             </Grid>
             <GridSplitter Background="Gray" Grid.Column="4" Grid.Row="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="5">

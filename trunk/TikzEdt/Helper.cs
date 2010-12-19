@@ -416,4 +416,27 @@ namespace TikzEdt
         #endregion
     }
 
+    [ValueConversion(typeof(ICSharpCode.AvalonEdit.Document.TextDocument), typeof(ICSharpCode.AvalonEdit.Document.TextDocument))]
+    public class AvalonEditDocConverter : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            if (targetType != typeof(ICSharpCode.AvalonEdit.Document.TextDocument))
+                throw new InvalidOperationException("The target must be a boolean");
+
+            return (ICSharpCode.AvalonEdit.Document.TextDocument)value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            throw new NotSupportedException();
+        }
+
+        #endregion
+    }
+
 }

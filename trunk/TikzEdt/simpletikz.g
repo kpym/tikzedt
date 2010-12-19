@@ -84,6 +84,7 @@ IM_TIKZSET;
 IM_USETIKZLIB;
 IM_STRING;
 IM_STYLE;
+IM_DONTCARE;
 }
 
 tikzdocument
@@ -186,14 +187,14 @@ tikzpicture
 
 tikzbody
 	:	( tikzscope | tikzpath | tikznodee | dontcare_body_nobr | tikz_set | tikz_style | otherbegin |otherend )  // necessary to prevent conflict with options
-		( tikzscope | tikzpath | tikznodee | dontcare_body      | tikz_set | tikz_style | otherbegin |otherend )*
+		( tikzscope | tikzpath | tikznodee | dontcare_body      | tikz_set | tikz_style | otherbegin |otherend )* 
 	;
 	
 dontcare_body_nobr
-	:	(~ (BEGIN | END | NODE | DRAW | PATH | FILL | TIKZSTYLE | TIKZSET | LBR))	// necessary to prevent conflict with options
+	:	(~ (BEGIN | END | NODE | DRAW | PATH | FILL | TIKZSTYLE | TIKZSET | LBR))  // necessary to prevent conflict with options
 	;	
 dontcare_body
-	:	(~ (BEGIN | END | NODE | DRAW | PATH | FILL | TIKZSTYLE | TIKZSET ))
+	:	(~ (BEGIN | END | NODE | DRAW | PATH | FILL | TIKZSTYLE | TIKZSET )) -> ^(IM_PICTURE)
 	;
 otherend
 	:	END '{' idd '}'
