@@ -72,8 +72,10 @@ namespace TikzEdt
             {
                 if ( ee.MatchEnv(s) )
                 {
-                    foreach (string snipp in ee.snippets)
-                        data.Add(new MyCompletionData(snipp));
+                    foreach (MyCompletionData snipp in ee.snippets)
+                    {
+                        data.Add(snipp);
+                    }
                 }
             }
     
@@ -87,7 +89,7 @@ namespace TikzEdt
         {
             string starttag, endtag;
             Regex restart, reend;
-            public List<string> snippets = new List<string>();
+            public List<MyCompletionData> snippets = new List<MyCompletionData>();
             public CodeEnvironment(Data.CompletionDS.EnvironmentsRow r)
             {
                 starttag = r.StartTag;
@@ -98,7 +100,12 @@ namespace TikzEdt
                 restart = new Regex(starttag, o);
 
                 foreach (Data.CompletionDS.SnippetsRow sr in r.GetSnippetsRows())
-                    snippets.Add(sr.Text);
+                {
+                    string descr = "";
+                    if (!sr.IsDescriptionNull())
+                        descr = sr.Description;                    
+                    snippets.Add(new MyCompletionData(sr.Text, descr));
+                }
             }
 
             public bool MatchEnv(string pre)

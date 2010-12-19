@@ -91,7 +91,7 @@ namespace TikzEdt
 
         OpenFileDialog ofd = new OpenFileDialog();
         SaveFileDialog sfd = new SaveFileDialog();
-        FindReplaceDialog FindDialog = new FindReplaceDialog();
+        FindReplaceDialog FindDialog;
         CodeCompleter codeCompleter = new CodeCompleter();
 
         public static bool isLoaded = false;
@@ -110,7 +110,7 @@ namespace TikzEdt
             //CommandBinding CompileCommandBinding = new CommandBinding(CompileCommand, CompileCommandHandler, AlwaysTrue);     
 
             pdfOverlay1.rasterizer = rasterControl1;
-            FindDialog.txtCode = txtCode;
+            EnsureFindDialogExists();
 
             // in the constructor:
             txtCode.TextArea.TextEntering += textEditor_TextArea_TextEntering;
@@ -460,6 +460,8 @@ namespace TikzEdt
         }
         private void OpenCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
+            ofd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
+            ofd.FileName = System.IO.Path.GetFileName(CurFile);
             if (ofd.ShowDialog() == true)
             {
                 if (TryDisposeFile())
@@ -469,8 +471,11 @@ namespace TikzEdt
 
         bool SaveCurFile(bool saveas = false)
         {
-            if (CurFile != Consts.defaultCurFile)
-                sfd.FileName = CurFile;
+            //if (CurFile != Consts.defaultCurFile)
+            //{
+            sfd.FileName = System.IO.Path.GetFileName(CurFile);
+            sfd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
+            //}
             if (CurFile == Consts.defaultCurFile || saveas)
             {
                 if (sfd.ShowDialog() != true)
@@ -584,7 +589,14 @@ namespace TikzEdt
 
         private void CommentCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            string[] lines = txtCode.Text.Split(new char[] { '\n' }), newstr = new string[lines.Length];
+            txtCode.BeginChange();
+            int startline = txtCode.Document.GetLocation(txtCode.SelectionStart).Line,
+                endline = txtCode.Document.GetLocation(txtCode.SelectionStart+txtCode.SelectionLength).Line;
+            for (int i = startline; i <= endline; i++)
+                txtCode.Document.Insert(txtCode.Document.Lines[i-1].Offset, "% ");
+            txtCode.EndChange();
+
+            /*string[] lines = txtCode.Text.Split(new char[] { '\n' }), newstr = new string[lines.Length];
             int curpos = 0, sels = txtCode.SelectionStart, sellength = txtCode.SelectionLength;
             for (int i = 0; i < lines.Length; i++)
             {
@@ -605,7 +617,7 @@ namespace TikzEdt
             // set selection
             txtCode.SelectionStart = sels;
             txtCode.SelectionLength = sellength;
-
+            */
             // Comment all currently selected lines //todo: nothing selected?          
             //string s =  txtCode.SelectedText.Replace("\n", "\n% ");
             //if (txtCode.SelectionStart == 0 || txtCode.Text[SelectionStart-1]=='\n')
@@ -615,7 +627,20 @@ namespace TikzEdt
 
         private void UnCommentCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            string[] lines = txtCode.Text.Split(new char[] { '\n' }), newstr = new string[lines.Length];
+            txtCode.BeginChange();
+            int startline = txtCode.Document.GetLocation(txtCode.SelectionStart).Line,
+                endline = txtCode.Document.GetLocation(txtCode.SelectionStart + txtCode.SelectionLength).Line;
+            for (int i = startline; i <= endline; i++)
+            {
+                string s = txtCode.Document.GetText(txtCode.Document.Lines[i - 1].Offset, txtCode.Document.Lines[i - 1].Length);
+                if (s.StartsWith("% "))
+                    txtCode.Document.Remove(txtCode.Document.Lines[i - 1].Offset, 2);
+                else if (s.StartsWith("%"))
+                    txtCode.Document.Remove(txtCode.Document.Lines[i - 1].Offset, 1);
+            }
+            txtCode.EndChange();
+
+            /*string[] lines = txtCode.Text.Split(new char[] { '\n' }), newstr = new string[lines.Length];
             int curpos = 0, sels = txtCode.SelectionStart, sellength = txtCode.SelectionLength;
             for (int i = 0; i < lines.Length; i++)
             {
@@ -647,7 +672,7 @@ namespace TikzEdt
             txtCode.Text = String.Join("\n", newstr);
             // set selection
             txtCode.SelectionStart = sels;
-            txtCode.SelectionLength = sellength;
+            txtCode.SelectionLength = sellength; */
         }
 
         private void cmbGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -817,8 +842,9 @@ namespace TikzEdt
             {
                 // Set closing flag
                 isClosing = true;
-                FindDialog.txtCode = null;
-                FindDialog.Close();
+                //FindDialog.txtCode = null;
+                if (FindDialog != null)
+                    FindDialog.Close();
             }
         }
 
@@ -942,14 +968,21 @@ namespace TikzEdt
 
         private void FindCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
+            EnsureFindDialogExists();
             FindDialog.tabMain.SelectedIndex = 0;
             FindDialog.Show();
+            FindDialog.Activate();
+            //FindDialog.txtCode.Focus();
         }
 
         private void ReplaceCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
+            EnsureFindDialogExists();
             FindDialog.tabMain.SelectedIndex = 1;
             FindDialog.Show();
+            //FindDialog.Focus();
+            FindDialog.Activate();
+            //FindDialog..Focus();
         }
 
         private void HelpCommandHandler(object sender, ExecutedRoutedEventArgs e)
@@ -967,8 +1000,24 @@ namespace TikzEdt
 
         }
 
+        void EnsureFindDialogExists()
+        {
+            if (FindDialog == null)
+            {
+                FindDialog = new FindReplaceDialog();
+                FindDialog.txtCode = txtCode;
+                FindDialog.Closed += new EventHandler(FindDialog_Closed); ;
+            }
+        }
+
+        void FindDialog_Closed(object sender, EventArgs e)
+        {
+            FindDialog = null;
+        }
+
         private void FindNextCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
+            EnsureFindDialogExists();
             FindDialog.FindNext();
         }
 
@@ -1020,6 +1069,11 @@ namespace TikzEdt
                 EditingCommands.MoveToDocumentEnd.Execute(null, txtTexout);
                 txtTexout.ScrollToEnd();
             }
+        }
+
+        private void MarkAtOffsetClick(object sender, RoutedEventArgs e)
+        {
+            pdfOverlay1.MarkObjectAt(txtCode.CaretOffset);
         }
 
     }

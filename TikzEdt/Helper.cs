@@ -57,7 +57,7 @@ namespace TikzEdt
         //string cLatexPath = "pdflatex"; //@"C:\Program Files\MiKTeX 2.8\miktex\bin\pdfplatex.exe";
         public const string cTempFile = "temp_preview";         // for preview
         public const string cTempImgFile = "temp_previewtexts"; // for equation rendering
-        public const string defaultCurFile = "<new graph>";
+        public const string defaultCurFile = "New Tikzfile";
         public const string PreviewHeader =
         @"\documentclass[tight]{article}
 \usepackage{tikz,amsmath, amssymb,bm,color}

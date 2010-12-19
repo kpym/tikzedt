@@ -8,7 +8,7 @@
         xmlns:p="clr-namespace:TikzEdt.Properties"
         Title="TikzEdt" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
-        Width="{Binding Source={x:Static p:Settings.Default}, Path=Window_Width, Mode=TwoWay}"  
+        Width="{Binding Source={x:Static p:Settings.Default}, Path=Window_Width, Mode=TwoWay}" 
         Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico">
 
     <Window.Resources>
@@ -158,7 +158,7 @@
                 <MenuItem Header="Help..."/>
                 <MenuItem Header="About..." Click="AboutClick"/>
             </MenuItem>
-        </Menu>
+        </Menu>        
         <ToolBarTray Grid.Row="1">
             <ToolBar Height="28" Name="tlbMain" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Converter={StaticResource boolToVis}}">
                 <Button Command="ApplicationCommands.New">
@@ -385,6 +385,8 @@
                             <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}"/>
                             <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
                             <MenuItem Header="En-Scope" Click="Enscope_Click"/>
+                            <Separator/>
+                            <MenuItem Header="Mark current item in Overlay (if possible)" Click="MarkAtOffsetClick" />
                         </ContextMenu>                            
                     </avalonedit:TextEditor.ContextMenu>
                 </avalonedit:TextEditor>

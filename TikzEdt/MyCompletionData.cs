@@ -11,9 +11,10 @@ namespace TikzEdt
 {
     public class MyCompletionData : ICompletionData
     {
-        public MyCompletionData(string text)
+        public MyCompletionData(string text, string description)
         {
             this.Text = text;
+            this.DescriptionText = description;
         }
 
         public System.Windows.Media.ImageSource Image
@@ -22,6 +23,7 @@ namespace TikzEdt
         }
 
         public string Text { get; private set; }
+        public string DescriptionText { get; private set; }
 
         // Use this property if you want to show a fancy UIElement in the list.
         public object Content
@@ -36,7 +38,7 @@ namespace TikzEdt
 
         public object Description
         {
-            get { return "Description for " + this.Text; }
+            get { if (DescriptionText == "") return null; else return DescriptionText; }
         }
 
         public void Complete(TextArea textArea, ISegment completionSegment,
