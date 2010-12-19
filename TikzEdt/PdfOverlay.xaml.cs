@@ -149,13 +149,15 @@ namespace TikzEdt
             OverLayShape ols = ObjectFromOffset(offset, TopLevelItems);
             if (ols != null)
             {
-                MarkerCenter = new Point(Canvas.GetLeft(ols) + ols.ActualWidth / 2, Canvas.GetBottom(ols) + ols.ActualWidth / 2);
-                MarkerEllipse.Width = Math.Max(ols.ActualWidth, ols.ActualHeight);
+                MarkerCenter = new Point(Canvas.GetLeft(ols) + ols.Width / 2, Canvas.GetBottom(ols) + ols.Height / 2);
+                MarkerEllipse.Width = Math.Max(ols.Width, ols.Height);
                 //MarkerEllipse.Width = Math.Max(ols.ActualWidth, ols.ActualHeight);
                 //da.KeyFrames.Add(new DoubleKeyFrame());
                 Canvas.SetBottom(MarkerEllipse, MarkerCenter.Y - MarkerEllipse.ActualHeight / 2);
                 Canvas.SetLeft(MarkerEllipse, MarkerCenter.X - MarkerEllipse.ActualWidth / 2);
-                
+
+                if (!canvas1.Children.Contains(MarkerEllipse))
+                    canvas1.Children.Add(MarkerEllipse);
                 Storyboard anim = (Storyboard) FindResource( "MarkerAnimation" ); 
                 anim.Begin( this );
                 MarkerEllipse.Visibility = System.Windows.Visibility.Visible;

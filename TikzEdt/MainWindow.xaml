@@ -386,7 +386,7 @@
                             <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
                             <MenuItem Header="En-Scope" Click="Enscope_Click"/>
                             <Separator/>
-                            <MenuItem Header="Mark current item in Overlay (if possible)" Click="MarkAtOffsetClick" />
+                            <MenuItem Header="Mark item in Overlay (if possible)" Click="MarkAtOffsetClick" />
                         </ContextMenu>                            
                     </avalonedit:TextEditor.ContextMenu>
                 </avalonedit:TextEditor>
