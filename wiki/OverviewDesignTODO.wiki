@@ -14,7 +14,7 @@
 === Code editor (avalonedit) ===
 *TODO:*
   * complete code completion, ... add description tooltips
-  * find/replace
+  * find/replace: somehow focus txtFind on Load
   * mark sth at source in overlay
   * rewrite comment/uncomment
 
