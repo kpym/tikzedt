@@ -336,6 +336,27 @@ namespace TikzEdt
             text = newtext;
         }
     }
+    public class Tikz_Size : TikzParseItem
+    {
+        public static Tikz_Size FromCommonTree(ITree t, CommonTokenStream tokens)
+        {
+            Tikz_Size to = new Tikz_Size();
+            switch (t.Type)
+            {
+                case simpletikzParser.IM_SIZE:
+                    if (t.ChildCount == 1)
+                    {
+                        to.text = "(" + t.GetChild(0).GetChild(0) + ")";
+                        return to;
+                    }
+                    break;
+                default:
+                    throw new Exception("bad.");
+
+            }
+            return to;
+        }
+    }
     public enum Tikz_CoordType { Cartesian, Polar, Named }
     //public enum Tikz_CoordDeco { none, p, pp }
     public class Tikz_Coord : Tikz_XYItem
