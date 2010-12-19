@@ -642,6 +642,8 @@ namespace TikzEdt.Data {
             
             private global::System.Data.DataColumn columnenvironment;
             
+            private global::System.Data.DataColumn columnDescription;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public SnippetsDataTable() {
@@ -693,6 +695,14 @@ namespace TikzEdt.Data {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DescriptionColumn {
+                get {
+                    return this.columnDescription;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -728,11 +738,12 @@ namespace TikzEdt.Data {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public SnippetsRow AddSnippetsRow(string Text, EnvironmentsRow parentEnvironmentsRowByEnvironments_Snippets) {
+            public SnippetsRow AddSnippetsRow(string Text, EnvironmentsRow parentEnvironmentsRowByEnvironments_Snippets, string Description) {
                 SnippetsRow rowSnippetsRow = ((SnippetsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Text,
-                        null};
+                        null,
+                        Description};
                 if ((parentEnvironmentsRowByEnvironments_Snippets != null)) {
                     columnValuesArray[1] = parentEnvironmentsRowByEnvironments_Snippets[2];
                 }
@@ -760,6 +771,7 @@ namespace TikzEdt.Data {
             internal void InitVars() {
                 this.columnText = base.Columns["Text"];
                 this.columnenvironment = base.Columns["environment"];
+                this.columnDescription = base.Columns["Description"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -769,6 +781,9 @@ namespace TikzEdt.Data {
                 base.Columns.Add(this.columnText);
                 this.columnenvironment = new global::System.Data.DataColumn("environment", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnenvironment);
+                this.columnDescription = new global::System.Data.DataColumn("Description", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDescription);
+                this.columnText.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1270,12 +1285,7 @@ namespace TikzEdt.Data {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Text {
                 get {
-                    try {
-                        return ((string)(this[this.tableSnippets.TextColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Text\' in table \'Snippets\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableSnippets.TextColumn]));
                 }
                 set {
                     this[this.tableSnippets.TextColumn] = value;
@@ -1300,6 +1310,22 @@ namespace TikzEdt.Data {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Description {
+                get {
+                    try {
+                        return ((string)(this[this.tableSnippets.DescriptionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Description\' in table \'Snippets\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSnippets.DescriptionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public EnvironmentsRow EnvironmentsRow {
                 get {
                     return ((EnvironmentsRow)(this.GetParentRow(this.Table.ParentRelations["Environments_Snippets"])));
@@ -1307,18 +1333,6 @@ namespace TikzEdt.Data {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["Environments_Snippets"]);
                 }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsTextNull() {
-                return this.IsNull(this.tableSnippets.TextColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetTextNull() {
-                this[this.tableSnippets.TextColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1331,6 +1345,18 @@ namespace TikzEdt.Data {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetenvironmentNull() {
                 this[this.tableSnippets.environmentColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsDescriptionNull() {
+                return this.IsNull(this.tableSnippets.DescriptionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetDescriptionNull() {
+                this[this.tableSnippets.DescriptionColumn] = global::System.Convert.DBNull;
             }
         }
         

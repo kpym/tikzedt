@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -136,6 +137,48 @@ namespace TikzEdt
         public PdfOverlay()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// Tries to display a ring around the object at text position
+        /// offset.
+        /// </summary>
+        /// <param name="offset"></param>
+        public void MarkObjectAt(int offset)
+        {
+            OverLayShape ols = ObjectFromOffset(offset, TopLevelItems);
+            if (ols != null)
+            {
+                MarkerCenter = new Point(Canvas.GetLeft(ols) + ols.ActualWidth / 2, Canvas.GetBottom(ols) + ols.ActualWidth / 2);
+                MarkerEllipse.Width = Math.Max(ols.ActualWidth, ols.ActualHeight);
+                //MarkerEllipse.Width = Math.Max(ols.ActualWidth, ols.ActualHeight);
+                //da.KeyFrames.Add(new DoubleKeyFrame());
+                Canvas.SetBottom(MarkerEllipse, MarkerCenter.Y - MarkerEllipse.ActualHeight / 2);
+                Canvas.SetLeft(MarkerEllipse, MarkerCenter.X - MarkerEllipse.ActualWidth / 2);
+                
+                Storyboard anim = (Storyboard) FindResource( "MarkerAnimation" ); 
+                anim.Begin( this );
+                MarkerEllipse.Visibility = System.Windows.Visibility.Visible;
+            }
+        }
+
+        public OverLayShape ObjectFromOffset(int offset, List<OverLayShape> bag)
+        {
+            foreach (OverLayShape ols in bag)
+            {
+                if (ols.item.StartPosition() <= offset && ols.item.StartPosition() + ols.item.ToString().Length > offset)
+                {
+                    // check if there is a child that fits better
+                    if (ols is OverlayScope)
+                    {
+                        OverLayShape olsinner = ObjectFromOffset(offset, (ols as OverlayScope).children);
+                        if (olsinner != null)
+                            return olsinner;
+                    }
+                    return ols;
+                }
+            }
+            return null;
         }
 
         public void SetParseTree(Tikz_ParseTree t, Rect tBB)
@@ -790,6 +833,21 @@ namespace TikzEdt
                 PreventContextMenuOpening = true;
             }
         }
+
+        Point MarkerCenter = new Point(100, 100);
+        private void DoubleAnimationUsingKeyFrames_Changed(object sender, EventArgs e)
+        {
+            if (MarkerEllipse != null)
+            {
+                Canvas.SetBottom(MarkerEllipse, MarkerCenter.Y - MarkerEllipse.ActualHeight / 2);
+                Canvas.SetLeft(MarkerEllipse, MarkerCenter.X - MarkerEllipse.ActualWidth / 2);
+            }
+        }
+
+        private void Storyboard_Completed(object sender, EventArgs e)
+        {
+            MarkerEllipse.Visibility = Visibility.Hidden;
+        }
     }
 
     public abstract class OverLayShape : Shape {
@@ -805,12 +863,14 @@ namespace TikzEdt
         }
         public PdfOverlay pol;
         public abstract void AdjustPosition(double Resolution);
+        public abstract TikzParseItem item { get; }
     }
 
     public class OverlayScope : OverLayShape
     {
         public List<OverLayShape> children = new List<OverLayShape>();
         public Tikz_Scope tikzitem;
+        public override TikzParseItem item { get { return tikzitem; } } 
 
         /// <summary>
         /// Sets the item's position according to its tikzitem's value
@@ -879,7 +939,8 @@ namespace TikzEdt
 
     public class OverlayNode : OverLayShape
     {
-        public Tikz_XYItem tikzitem;        
+        public Tikz_XYItem tikzitem;
+        public override TikzParseItem item { get { return tikzitem; } } 
 
         /// <summary>
         /// Sets the item's position according to its tikzitem's value

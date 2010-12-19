@@ -23,10 +23,12 @@
     <Snippets>
       <Text>outer sep</Text>
       <environment>1</environment>
+      <Description>The spacing around the element.</Description>
     </Snippets>
     <Snippets>
       <Text>inner sep</Text>
       <environment>1</environment>
+      <Description>The spacing around the text of the element.</Description>
     </Snippets>
   </Environments>
   
@@ -37,6 +39,7 @@
     <Snippets>
       <Text>tikzpicture</Text>
       <environment>0</environment>
+      <Description>A Tikz picture environment. The document should contain exactly one.</Description>
     </Snippets>
     <Snippets>
       <Text>scope</Text>

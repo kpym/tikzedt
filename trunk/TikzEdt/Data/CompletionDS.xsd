@@ -26,8 +26,9 @@
                 </xs:annotation>
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element name="Text" msprop:Generator_ColumnVarNameInTable="columnText" msprop:Generator_ColumnPropNameInRow="Text" msprop:Generator_ColumnPropNameInTable="TextColumn" msprop:Generator_UserColumnName="Text" type="xs:string" minOccurs="0" />
+                    <xs:element name="Text" msprop:Generator_ColumnVarNameInTable="columnText" msprop:Generator_ColumnPropNameInRow="Text" msprop:Generator_ColumnPropNameInTable="TextColumn" msprop:Generator_UserColumnName="Text" type="xs:string" />
                     <xs:element name="environment" msprop:Generator_ColumnVarNameInTable="columnenvironment" msprop:Generator_ColumnPropNameInRow="environment" msprop:Generator_ColumnPropNameInTable="environmentColumn" msprop:Generator_UserColumnName="environment" type="xs:int" minOccurs="0" />
+                    <xs:element name="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" msprop:Generator_UserColumnName="Description" type="xs:string" minOccurs="0" />
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>
