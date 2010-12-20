@@ -72,12 +72,35 @@ namespace TikzEdt
             CommonTokenStream tokens = new CommonTokenStream(lex);
             simpletikzParser parser = new simpletikzParser(tokens);
 
+            
+            
 
         }
     }
 
 
-    
-    
-    
+    /// <summary>
+    /// Is actually just a string plus integer property Position.
+    /// </summary>
+    class SourceToken
+    {
+        private string s;
+        public uint Position;
+
+        public SourceToken() { }
+        public SourceToken(string String) { s = String; }
+        public SourceToken(string String, uint Position) { this.s = String; this.Position = Position; }
+
+        //this allows: SourceToken X = "string";
+        public static implicit operator SourceToken(string x)
+        {
+            SourceToken t = new SourceToken(x);
+            return t;
+        }
+
+        public override string ToString()
+        {
+            return s;
+        }
+    }
 }

@@ -77,8 +77,15 @@ namespace TikzEdt
         /// </summary>
         public void AbortCompilation()
         {
-            if (!texProcess.HasExited)
-                texProcess.Kill();
+            try
+            {
+                if (!texProcess.HasExited)
+                    texProcess.Kill();
+            }
+            catch (InvalidOperationException)
+            { 
+                //process has already terminated. that is okay.
+            }
         }
 
         /// <summary>
