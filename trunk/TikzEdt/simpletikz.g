@@ -76,7 +76,6 @@ IM_SCOPE;
 IM_STARTTAG;
 IM_ENDTAG;
 IM_OPTIONS;
-IM_TIKZEDT_CMD;
 IM_OPTION_STYLE;
 IM_OPTION_KV; 	// key or key value pair
 IM_ID;
@@ -84,15 +83,19 @@ IM_TIKZSET;
 IM_USETIKZLIB;
 IM_STRING;
 IM_STYLE;
-IM_DONTCARE;
+IM_TIKZEDT_CMD;
 }
 
 tikzdocument
-	:	 ( tikz_styleorsetorcmd | dontcare_preamble | otherbegin)*  tikzpicture?  		-> ^(IM_DOCUMENT tikz_styleorsetorcmd* tikzpicture?)
+	:	tikz_cmd_comment* (dontcare_preamble | tikz_styleorset | otherbegin)*  tikzpicture  		-> ^(IM_DOCUMENT tikz_styleorset* tikzpicture)
+	;
+	
+tikz_cmd_comment
+	:	TIKZEDT_CMD_COMMENT  	 -> ^(IM_TIKZEDT_CMD TIKZEDT_CMD_COMMENT)
 	;
 
-tikz_styleorsetorcmd
-	:	tikz_style | tikz_set | tikz_cmd_comment
+tikz_styleorset
+	:	tikz_style | tikz_set
 	;
 
 dontcare_preamble
@@ -101,15 +104,6 @@ dontcare_preamble
 otherbegin
 	:	BEGIN LBRR idd RBRR
 	;
- 
-//reqrite rule does not work. why??{TikzEdt.TikzParser.TIKZEDT_CMD_COMMENT += TIKZEDT_CMD_COMMENT13.Text; }
-tikz_cmd_comment
-	:	TIKZEDT_CMD_COMMENT  -> ^(IM_TIKZEDT_CMD TIKZEDT_CMD_COMMENT)
-	//|	TIKZSET '~' INT -> ^(IM_TIKZEDT_CMD TIKZSET INT)
-	;
-//	|	TIKZSTYLE LBR idd RBR '?' tikz_options		-> ^(IM_TIKZEDT_CMD idd tikz_options)
-//	:	TIKZEDT_CMD_COMMENT  -> ^(IM_TIKZEDT_CMD TIKZEDT_CMD_COMMENT)
-
 
 tikz_style
 	:	TIKZSTYLE LBRR idd RBRR '=' tikz_options -> ^(IM_STYLE idd tikz_options)
@@ -187,14 +181,14 @@ tikzpicture
 
 tikzbody
 	:	( tikzscope | tikzpath | tikznodee | dontcare_body_nobr | tikz_set | tikz_style | otherbegin |otherend )  // necessary to prevent conflict with options
-		( tikzscope | tikzpath | tikznodee | dontcare_body      | tikz_set | tikz_style | otherbegin |otherend )* 
+		( tikzscope | tikzpath | tikznodee | dontcare_body | tikz_set | tikz_style | otherbegin |otherend )*
 	;
 	
 dontcare_body_nobr
-	:	(~ (BEGIN | END | NODE | DRAW | PATH | FILL | TIKZSTYLE | TIKZSET | LBR))  // necessary to prevent conflict with options
+	:	(~ (BEGIN | END | NODE | DRAW | PATH | FILL | TIKZSTYLE | TIKZSET | LBR))	// necessary to prevent conflict with options
 	;	
 dontcare_body
-	:	(~ (BEGIN | END | NODE | DRAW | PATH | FILL | TIKZSTYLE | TIKZSET )) -> ^(IM_PICTURE)
+	:	(~ (BEGIN | END | NODE | DRAW | PATH | FILL | TIKZSTYLE | TIKZSET ))   
 	;
 otherend
 	:	END '{' idd '}'
@@ -227,7 +221,7 @@ coordornode
 //after "circle" the next coordinate is usually just a size.
 coordornode_new
 	:	coord (ID (nodetype)? (tikzstring)?)?		-> ^(coord)
-	|	size						
+	|	size
 	;
 	
 tikznodei 
@@ -239,9 +233,11 @@ nodename
 	;
 
 size	
-	:	  ( coord_modifier? lc=LPAR numberunit RPAR)	-> ^(IM_SIZE[$lc] coord_modifier? numberunit)	
+	:	  ( coord_modifier? lc=LPAR numberunit RPAR)		-> ^(IM_SIZE[$lc] coord_modifier? numberunit)
 	;
-
+//Is this needed?
+//-> ^(IM_COORD[$lc] coord_modifier? numberunit)
+	
 	
 coord	
 	:	  nodename 								-> ^(IM_COORD nodename)
@@ -366,12 +362,9 @@ FLOAT_WO_EXP
     |   '-'? '.' ('0'..'9')+
     ;
     
-
 TIKZEDT_CMD_COMMENT
     :   '%' WS '!TIKZEDT'   ~('\n'|'\r')* '\r'? '\n'
     ;
-//~('\n'|'\r')* '\r'? '\n'  
-//-> ^(IM_TIKZEDT_CMD 'TIKZEDT')   
 
 COMMENT
     :   '%' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
