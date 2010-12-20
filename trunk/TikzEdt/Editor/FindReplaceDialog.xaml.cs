@@ -14,7 +14,7 @@ using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
 using System.Text.RegularExpressions;
 
-namespace TikzEdt
+namespace TikzEdt.Editor
 {
 
     /// <summary>

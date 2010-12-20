@@ -22,6 +22,7 @@ using Microsoft.Win32;
 using System.Text.RegularExpressions;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
+using TikzEdt.Parser;
 
 namespace TikzEdt
 {
@@ -91,8 +92,8 @@ namespace TikzEdt
 
         OpenFileDialog ofd = new OpenFileDialog();
         SaveFileDialog sfd = new SaveFileDialog();
-        FindReplaceDialog FindDialog;
-        CodeCompleter codeCompleter = new CodeCompleter();
+        Editor.FindReplaceDialog FindDialog;
+        Editor.CodeCompleter codeCompleter = new Editor.CodeCompleter();
 
         public static bool isLoaded = false;
         public static bool isClosing = false;
@@ -725,7 +726,7 @@ namespace TikzEdt
 
         private void SnippetMenuClick(object sender, RoutedEventArgs e)
         {
-            SnippetManager s = new SnippetManager();
+            Snippets.SnippetManager s = new Snippets.SnippetManager();
             if (s.isSuccessfullyLoaded) // could stop loading due to not getting a lock
             {
                 s.ShowDialog();
@@ -1013,7 +1014,7 @@ namespace TikzEdt
         {
             if (FindDialog == null)
             {
-                FindDialog = new FindReplaceDialog();
+                FindDialog = new Editor.FindReplaceDialog();
                 FindDialog.txtCode = txtCode;
                 FindDialog.Closed += new EventHandler(FindDialog_Closed); ;
             }

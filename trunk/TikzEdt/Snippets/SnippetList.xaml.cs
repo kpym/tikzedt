@@ -15,7 +15,7 @@ using System.IO;
 using System.Data;
 
 
-namespace TikzEdt
+namespace TikzEdt.Snippets
 {
     /// <summary>
     /// Interaction logic for SnippetList.xaml
@@ -36,7 +36,7 @@ namespace TikzEdt
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
 
-            snippetsDataSet = ((TikzEdt.SnippetsDataSet)(this.FindResource("snippetsDataSet")));
+            snippetsDataSet = ((SnippetsDataSet)(this.FindResource("snippetsDataSet")));
             snippetsTable = snippetsDataSet.Tables["SnippetsTable"] as SnippetsDataSet.SnippetsTableDataTable;
             snippetsTableViewSource = (CollectionViewSource)this.FindResource("snippetsTableViewSource");
 

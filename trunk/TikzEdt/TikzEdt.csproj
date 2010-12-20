@@ -103,7 +103,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CodeCompleter.cs" />
+    <Compile Include="Editor\CodeCompleter.cs" />
     <Compile Include="Data\CompletionDS.cs">
       <DependentUpon>CompletionDS.xsd</DependentUpon>
       <SubType>Component</SubType>
@@ -111,7 +111,7 @@
     <Compile Include="Data\CompletionDS.Designer.cs">
       <DependentUpon>CompletionDS.cs</DependentUpon>
     </Compile>
-    <Compile Include="FindReplaceDialog.xaml.cs">
+    <Compile Include="Editor\FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -131,13 +131,13 @@
     <Compile Include="SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SnippetList.xaml.cs">
+    <Compile Include="Snippets\SnippetList.xaml.cs">
       <DependentUpon>SnippetList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SnippetManager.xaml.cs">
+    <Compile Include="Snippets\SnippetManager.xaml.cs">
       <DependentUpon>SnippetManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SnippetsDataSet.Designer.cs">
+    <Compile Include="Snippets\SnippetsDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
@@ -149,9 +149,9 @@
     <Compile Include="TikzEdtAbout.xaml.cs">
       <DependentUpon>TikzEdtAbout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TikzParser.cs" />
-    <Compile Include="TikzParseTree.cs" />
-    <Page Include="FindReplaceDialog.xaml">
+    <Compile Include="Parser\TikzParser.cs" />
+    <Compile Include="Parser\TikzParseTree.cs" />
+    <Page Include="Editor\FindReplaceDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -187,11 +187,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SnippetList.xaml">
+    <Page Include="Snippets\SnippetList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SnippetManager.xaml">
+    <Page Include="Snippets\SnippetManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -229,6 +229,10 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Editor\CodeCompletions.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Data\CompletionDS.xsc">
       <DependentUpon>CompletionDS.xsd</DependentUpon>
     </None>
@@ -241,21 +245,21 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="SnippetSchema.xsd">
+    <None Include="Snippets\SnippetSchema.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="SnippetsDataSet.xsc">
+    <None Include="Snippets\SnippetsDataSet.xsc">
       <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
     </None>
-    <None Include="SnippetsDataSet.xsd">
+    <None Include="Snippets\SnippetsDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>SnippetsDataSet.Designer.cs</LastGenOutput>
     </None>
-    <None Include="SnippetsDataSet.xss">
+    <None Include="Snippets\SnippetsDataSet.xss">
       <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
     </None>
-    <None Include="TikzSyntax.xshd">
+    <None Include="Editor\TikzSyntax.xshd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
@@ -331,12 +335,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\base_cursor.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Snippets.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\pencil_32.png" />
@@ -447,12 +445,7 @@
   <ItemGroup>
     <Resource Include="Images\ZoomOutHS.png" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="CodeCompletions.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

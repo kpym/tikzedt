@@ -1,12 +1,13 @@
-﻿<Window x:Class="TikzEdt.SnippetManager"
+﻿<Window x:Class="TikzEdt.Snippets.SnippetManager"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:TikzEdt"
+        xmlns:mySnippets="clr-namespace:TikzEdt.Snippets"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         Title="SnippetManager" Height="595" Width="698" Closing="Window_Closing" xmlns:my="clr-namespace:TikzEdt" Loaded="Window_Loaded" Closed="Window_Closed" Icon="/TikzEdt;component/Images/tikzedt48.ico">
     <Window.Resources>
-        <my:SnippetsDataSet x:Key="snippetsDataSet" />
+        <mySnippets:SnippetsDataSet x:Key="snippetsDataSet" />
         <CollectionViewSource x:Key="snippetsTableViewSource" Source="{Binding Path=SnippetsTable, Source={StaticResource snippetsDataSet}}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Category" Direction="Ascending"/>
@@ -50,7 +51,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <local:ImageConverter x:Key="ImgConverter" />
+        <mySnippets:ImageConverter x:Key="ImgConverter" />
     </Window.Resources>
     <Grid DataContext="{StaticResource snippetsTableViewSource}">
         <Grid.ColumnDefinitions>

@@ -37,9 +37,9 @@ namespace TikzEdt
             new float[]{0.1F}, new float[]{.1F,.1F}, new float[]{.2F,.1F}
         };
 
-        public const string cCompletionsFile = "CodeCompletions.xml";
+        public const string cCompletionsFile = "Editor\\CodeCompletions.xml";
         public const string cSettingsFile = "T2Gsettings.xml";
-        public const string cSyntaxFile = "TikzSyntax.xshd";
+        public const string cSyntaxFile = "Editro\\TikzSyntax.xshd";
         public const string cSnippetsFile = "TheSnippets.xml";
         public const string cMRUFile = "T2GMRU.xml";
         public const int MaxMRU = 10;
