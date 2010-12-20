@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ICSharpCode.AvalonEdit;
+using Antlr.Runtime;
+using Antlr.Runtime.Tree;
 
 namespace TikzEdt
 {
@@ -16,18 +18,34 @@ namespace TikzEdt
      */
     public class SourceManager : DependencyObject
     {
-
+        /// <summary>
+        /// Stores Avalon Document. Only access via SourceCode.
+        /// </summary>
         private static readonly DependencyProperty SourceCodeProperty =
             DependencyProperty.Register("_sourceCode", typeof(ICSharpCode.AvalonEdit.Document.TextDocument),
             typeof(SourceManager), new UIPropertyMetadata(new ICSharpCode.AvalonEdit.Document.TextDocument()));
 
+        /// <summary>
+        /// Returns Source as TextDocument from Avalon.
+        /// Needed for binding with AvalonEdit.
+        /// </summary>
         public ICSharpCode.AvalonEdit.Document.TextDocument SourceCode
         {
             get { return (ICSharpCode.AvalonEdit.Document.TextDocument)GetValue(SourceCodeProperty); }
-            set { SetValue(SourceCodeProperty, value); }
+            set { throw new Exception("Setting this property would compromise binding properties."); }
         }
-
+        /// <summary>
+        /// Shortcut to read source code.
+        /// </summary>
+        public static string Code
+        {            
+            get { return Instance.SourceCode.Text; }
+        }
+        /// <summary>
+        /// static instance property is needed for binding with avalonedit.
+        /// </summary>
         public static SourceManager Instance { get; private set; }
+
 
         static SourceManager()
         {
@@ -37,42 +55,29 @@ namespace TikzEdt
              
         }
 
+        /// <summary>
+        /// EventHandler which is called whenever AvalonEdit changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         static public void SourceCode_TextChanged(object sender, EventArgs e)
         { 
             int asd = 3;
         }
-    }
 
 
-    public class VersionManager : DependencyObject
-    {
-
-        public static readonly DependencyProperty SourceCodeProperty =
-            DependencyProperty.Register("version", typeof(string),
-            typeof(SourceManager), new UIPropertyMetadata("text"));
-
-        public string SourceCode
+        private void Parse()
         {
-            get
-            {
-                return (string)GetValue(SourceCodeProperty);
-            }
-            set
-            {
-                SetValue(SourceCodeProperty, value);
-            }
-        }
-
-        public static VersionManager Instance { get; private set; }
-
-        static VersionManager()
-        {
-            Instance = new VersionManager();
-            
+            simpletikzLexer lex = new simpletikzLexer(new ANTLRStringStream(Code));
+            CommonTokenStream tokens = new CommonTokenStream(lex);
+            simpletikzParser parser = new simpletikzParser(tokens);
 
 
         }
     }
+
+
+    
     
     
 }
