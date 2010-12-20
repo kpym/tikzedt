@@ -9,14 +9,12 @@
   * look good 
 
 *TODO:*
-  * file open... show only short filename+navigate to correct dir
   
 === Code editor (avalonedit) ===
 *TODO:*
-  * complete code completion, ... add description tooltips
+  * complete code completion
   * find/replace: somehow focus txtFind on Load
   * mark sth at source in overlay
-  * rewrite comment/uncomment
 
 == TikzDisplay ==
 *TODO*
