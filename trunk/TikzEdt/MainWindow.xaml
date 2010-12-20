@@ -407,9 +407,9 @@
                                     OnModified="pdfOverlay1_OnModified" BeginModify="pdfOverlay1_BeginModify" EndModify="pdfOverlay1_EndModify" 
                                     NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text,Mode=OneWay}" EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}"
                                     Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}" TryCreateNew="pdfOverlay1_TryCreateNew" JumpToSource="pdfOverlay1_JumpToSource" ToolChanged="pdfOverlay1_ToolChanged" />
-                    <my:RasterControl Height="200" HorizontalAlignment="Center" Margin="10,10,91,249" x:Name="rasterControl2" VerticalAlignment="Center" Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}" Width="200" />
-                    <my:TikzDisplay Height="200" HorizontalAlignment="Center" Margin="10,10,91,249" x:Name="tikzDisplay2" VerticalAlignment="Center" Width="200" />
-                    <my:PdfOverlay EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}" Height="200" HorizontalAlignment="Center" Margin="10,10,91,249" x:Name="pdfOverlay2" NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text, Mode=OneWay}" VerticalAlignment="Center" Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}" Width="200" />
+                    <my:RasterControl Height="200" HorizontalAlignment="Left" Margin="10,10,91,249" x:Name="rasterControl2" VerticalAlignment="Top" Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}" Width="200" />
+                    <my:TikzDisplay Height="200" HorizontalAlignment="Left" Margin="10,10,91,249" x:Name="tikzDisplay2" VerticalAlignment="Top"  Width="200" />
+                    <my:PdfOverlay EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}" Height="200" HorizontalAlignment="Left" Margin="10,10,91,0" x:Name="pdfOverlay2" NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text, Mode=OneWay}" VerticalAlignment="Top" Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}" Width="200" />
                 </Grid>
             </ScrollViewer>
 
