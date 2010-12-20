@@ -22,6 +22,9 @@ using System.Runtime.InteropServices;
 
 namespace TikzEdt
 {
+    /// <summary>
+    /// Please put all global constants that are not in the Properties.Settings into this static class.
+    /// </summary>
     static class Consts
     {
         public const float cmperin = 2.54F;
@@ -76,6 +79,9 @@ namespace TikzEdt
 
     }
 
+    /// <summary>
+    /// This purely static class is host to functions of global interest (or those which have no home).
+    /// </summary>
     static class Helper
     {
         public static string GetAppDir() // w/o trailing backslash 
@@ -131,7 +137,7 @@ namespace TikzEdt
         }
     }
 
-    public class BBGatherer
+    /*public class BBGatherer
     {
         public Rect r;
         public void Add(Point p)
@@ -162,8 +168,8 @@ namespace TikzEdt
             //.new Rect(r.X - margin, r.Y - margin, r.Width + 2 * margin, r.Height + 2 * margin);
             //return rr;
         }
-    }
-
+    }*/
+    /*
     public static class Rasterizer
     {
 
@@ -180,8 +186,11 @@ namespace TikzEdt
         //return Point.polartoeucl(pp, center);
         //}
 
-    }
+    }*/
 
+    /// <summary>
+    /// This class receives strings with Tikz-Code (see AddJob) and compiles them to BMP images.
+    /// </summary>
     public class TikzToBMPFactory
     {
         public delegate void NoArgsEventHandler();
@@ -189,7 +198,7 @@ namespace TikzEdt
 
         public double timeout = 5000; // in milliseconds
         public double Resolution = 50;
-        public struct Job
+        protected struct Job
         {
             public string code, path;
             public Rect BB;
@@ -198,9 +207,9 @@ namespace TikzEdt
                 code = tcode; path = tpath; BB = tBB;
             }
         }
-        public Queue<Job> todo_tex = new Queue<Job>();
+        protected Queue<Job> todo_tex = new Queue<Job>();
         /// <summary>
-        /// 
+        /// Adds some tikz code to the internal TODO list, to be compiled as soon as possible.
         /// </summary>
         /// <param name="code">Tikz Code to compile</param>
         /// <param name="path">Path, without ending, e.g. img\myfile </param>
@@ -311,15 +320,6 @@ namespace TikzEdt
 
         }
 
-        /// <summary>
-        /// Reload the PDF file. This is called only when the pdf file changes on disk.
-        /// It is not called, for example, when the pdf just needs to be redrawn, e.g., due to 
-        /// a changed display size.
-        /// </summary>
-        void RefreshPDF()
-        {
-
-        }
 
         /// <summary>
         /// This is called when PDFLatex has exited
@@ -359,8 +359,6 @@ namespace TikzEdt
                 isRunning = false;
                 if (todo_tex.Count > 0)
                     doCompile();
-            //}
-           // ));
         }
 
     }
