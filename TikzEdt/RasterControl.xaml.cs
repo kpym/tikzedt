@@ -15,7 +15,9 @@ using System.Windows.Shapes;
 namespace TikzEdt
 {
     /// <summary>
-    /// Interaction logic for RasterControl.xaml
+    /// The class Rastercontrol has two responsibilities:
+    /// 1. Visually draw a raster, Cartesian or polar, on the Screen
+    /// 2. Rasterize (quantize) coordinates
     /// </summary>
     public partial class RasterControl : UserControl
     {
@@ -100,11 +102,15 @@ namespace TikzEdt
             set { _IsCartesian = value; DrawRaster(); }
         }
 
+        // the scaled GridWidth
         double scGW
         {
             get { return GridWidth * RasterScale; }
         }
 
+        /// <summary>
+        /// This is the main routine, it does what one might guess.
+        /// </summary>
         public void DrawRaster()
         {
             canvas1.Children.Clear();
