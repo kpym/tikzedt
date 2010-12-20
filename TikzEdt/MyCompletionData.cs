@@ -7,7 +7,7 @@ using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Editing;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 
-namespace TikzEdt
+namespace TikzEdt.Editor
 {
     public class MyCompletionData : ICompletionData
     {

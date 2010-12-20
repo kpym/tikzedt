@@ -8,7 +8,7 @@ using System.Windows;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 
-namespace TikzEdt
+namespace TikzEdt.Parser
 {
     /// <summary>
     /// 

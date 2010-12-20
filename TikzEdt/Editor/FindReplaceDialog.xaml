@@ -1,11 +1,12 @@
-﻿<Window x:Class="TikzEdt.FindReplaceDialog"
+﻿<Window x:Class="TikzEdt.Editor.FindReplaceDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:my="clr-namespace:TikzEdt"
+        xmlns:myEditor="clr-namespace:TikzEdt.Editor"
         Title="Find And Replace" Height="Auto" Width="300" ResizeMode="NoResize" SizeToContent="Height" Closing="Window_Closing" Loaded="Window_Loaded"
         >
     <Window.Resources>
-        <my:FindReplacePersist x:Key="findrepd"/>
+        <myEditor:FindReplacePersist x:Key="findrepd"/>
         <DataTemplate x:Key="FindPageTemplate">
             <StackPanel>
                 <TextBlock Margin="3">Text to Find:</TextBlock>

@@ -5,6 +5,7 @@
         xmlns:common="clr-namespace:Common;assembly=RecentFileListLib"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" 
         xmlns:my="clr-namespace:TikzEdt"
+        xmlns:mySnippets="clr-namespace:TikzEdt.Snippets"
         xmlns:p="clr-namespace:TikzEdt.Properties"
         Title="TikzEdt" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
@@ -342,7 +343,7 @@
                 </ToggleButton>
             </StackPanel>
             <GridSplitter Background="Gray" Grid.Column="2" Grid.Row="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <my:SnippetList x:Name="snippetlist1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="0" OnInsert="snippetlist1_OnInsert" />
+            <mySnippets:SnippetList x:Name="snippetlist1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="0" OnInsert="snippetlist1_OnInsert" />
             <Grid Grid.Column="3" Background="Black">
                 <Grid.RowDefinitions>
                     <RowDefinition/>

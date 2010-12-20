@@ -20,7 +20,7 @@ using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 
-namespace TikzEdt
+namespace TikzEdt.Snippets
 {
     /// <summary>
     /// Interaction logic for SnippetManager.xaml
@@ -107,7 +107,7 @@ namespace TikzEdt
             snippetsTable.Rows.Add(r);         
         }
 
-        TikzEdt.SnippetsDataSet snippetsDataSet;
+        SnippetsDataSet snippetsDataSet;
         CollectionViewSource snippetsTableViewSource;
         SnippetsDataSet.SnippetsTableDataTable snippetsTable;
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -136,7 +136,7 @@ namespace TikzEdt
                 r.Close();
             }
 
-            snippetsDataSet = ((TikzEdt.SnippetsDataSet)(this.FindResource("snippetsDataSet")));
+            snippetsDataSet = ((SnippetsDataSet)(this.FindResource("snippetsDataSet")));
             snippetsTable = snippetsDataSet.Tables["SnippetsTable"] as SnippetsDataSet.SnippetsTableDataTable;
             snippetsTableViewSource = (CollectionViewSource)this.FindResource("snippetsTableViewSource");
             if (File.Exists(Consts.cSnippetsFile))
