@@ -23,7 +23,10 @@ using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 namespace TikzEdt.Snippets
 {
     /// <summary>
-    /// Interaction logic for SnippetManager.xaml
+    /// This class is (as one might guess) the graphical editor
+    /// for the Snippet library. Some things to remember:
+    ///   - It uses a separate Snippets Dataset, not the one from the main window, for encapsulation reasons.
+    ///   - 
     /// </summary>
     public partial class SnippetManager : Window
     {
@@ -31,11 +34,16 @@ namespace TikzEdt.Snippets
         public bool isSuccessfullyLoaded = false;
         System.Threading.Mutex myMutex;
 
+        SnippetsDataSet snippetsDataSet;
+        CollectionViewSource snippetsTableViewSource;
+        SnippetsDataSet.SnippetsTableDataTable snippetsTable;
+
         public SnippetManager()
         {
             InitializeComponent();
 
-            // try to get mutex
+            // Try to get mutex. This is because we want to prevent several instances of the Snippetmanager 
+            // to be open simultaneously, because the user might loose data by applying changes in both.
             myMutex = new System.Threading.Mutex(false, "SnippetManagerMutex");
             if (!myMutex.WaitOne(50))
             {
@@ -53,6 +61,9 @@ namespace TikzEdt.Snippets
             //xmldp.Source = new Uri(appPath + @"\Snippets.xml");
         }
 
+        /// <summary>
+        /// This method is called (in a different thread) when the Bitmap Factory has succesfully compiled a Thumbnail
+        /// </summary>
         void fact_BitmapGenerated()
         {
             Dispatcher.Invoke(new Action(
@@ -107,9 +118,7 @@ namespace TikzEdt.Snippets
             snippetsTable.Rows.Add(r);         
         }
 
-        SnippetsDataSet snippetsDataSet;
-        CollectionViewSource snippetsTableViewSource;
-        SnippetsDataSet.SnippetsTableDataTable snippetsTable;
+  
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -153,7 +162,12 @@ namespace TikzEdt.Snippets
                 fact.AddJob(r.SampleCode, Helper.GetAppDir() + "\\img\\" + r.ID, new Rect(0, 0, 0, 0));
         }
 
-
+        /// <summary>
+        /// Most controls are data bound, however, this is not (directly) possible for the AvalonEditors.
+        /// (Text is not a dependency property). Hence we need this eventhandler here to update them manually.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lstSnippets_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             lProgrammatic = true;
@@ -185,6 +199,9 @@ namespace TikzEdt.Snippets
             lProgrammatic = false;
         }
 
+        /// <summary>
+        /// Needed since one cannot databind Avavlon Editor.Text (see above)
+        /// </summary>
         bool lProgrammatic = false;
         private void txtSnippetCode_TextChanged(object sender, EventArgs e)
         {
@@ -200,10 +217,6 @@ namespace TikzEdt.Snippets
 
         private void cmdRefreshClick(object sender, RoutedEventArgs e)
         {
-            //lstSnippets.Items.Refresh();            
-            //snippetsDataSet.WriteXml(Consts.cSnippetsFile);
-            //snippetsDataSet.Clear();
-            //snippetsDataSet.ReadXml(Consts.cSnippetsFile);
             snippetsTableViewSource.View.Refresh();
         }
 
@@ -218,6 +231,25 @@ namespace TikzEdt.Snippets
             // release mutex
             if (myMutex != null && isSuccessfullyLoaded)
                 myMutex.ReleaseMutex();
+        }
+
+        private void cmdGenerateAllImagesClick(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult mbres = MessageBox.Show("Do you really want to regenerate all images?\r\nNote that this will take some time.\r\nChoosing 'No' will only generate inexistent images, choosing 'Cancel' will do nothing.",
+                "Regenerate images", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation);
+
+            if (mbres != MessageBoxResult.Cancel)
+            {
+                foreach (SnippetsDataSet.SnippetsTableRow r in snippetsTable.Rows)
+                {
+                    if (!r.IsNull(snippetsTable.SampleCodeColumn))
+                    {
+                        string cFile =  Helper.GetAppDir() + "\\img\\" + r.ID;
+                        if (mbres == MessageBoxResult.Yes || !File.Exists(cFile+".bmp"))
+                            fact.AddJob(r.SampleCode, cFile, new Rect(0, 0, 0, 0));
+                    }
+                }
+            }
         }
     }
 

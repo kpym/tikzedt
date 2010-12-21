@@ -131,7 +131,7 @@
                 <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
             </MenuItem>
             <MenuItem Header="_View">
-                <MenuItem Header="Show Pdf in external viewer"/>
+                <MenuItem Header="Show Pdf in external viewer" Click="ShowInExternalViewerClick"/>
                 <Separator/>
                 <MenuItem Header="Fancy Mode" IsCheckable="True" IsChecked="{Binding ElementName=chkFancyMode, Path=IsChecked}"/>
                 <MenuItem Header="Standard Mode" IsCheckable="True" IsChecked="{Binding ElementName=chkStandardMode, Path=IsChecked}"/>

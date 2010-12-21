@@ -105,6 +105,10 @@
                     <Image Source="/TikzEdt;component/Images/saveHS.png"></Image>
                     <Button.ToolTip>Save to disk</Button.ToolTip>
                 </Button>
+                <Button Click="cmdGenerateAllImagesClick">
+                    <Image Source="/TikzEdt;component/Images/Gear.png"></Image>
+                    <Button.ToolTip>(Re-)generate all thumbnails</Button.ToolTip>
+                </Button>
             </ToolBar>
             <ListBox VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="True" x:Name="lstSnippets" ItemsSource="{Binding}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectionChanged="lstSnippets_SelectionChanged">
                 <ListBox.GroupStyle>

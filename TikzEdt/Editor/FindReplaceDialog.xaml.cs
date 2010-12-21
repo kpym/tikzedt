@@ -181,9 +181,20 @@ namespace TikzEdt.Editor
             return null;
         }
 
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+                Close();
+        }
+
 
     }
 
+    /// <summary>
+    /// This class ensures that the settings and text to be found is preserved when the find/replace dialog is closed
+    /// (Yes, you could declare all those properties as static properties of the window, but for some unknown reason wpf
+    /// refuses to let the form class live in the resources... hence databinding is impossible)
+    /// </summary>
     public class FindReplacePersist
     {
 
