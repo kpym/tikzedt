@@ -13,7 +13,6 @@
 === Code editor (avalonedit) ===
 *TODO:*
   * complete code completion
-  * find/replace: somehow focus txtFind on Load
   * mark sth at source in overlay
 
 == TikzDisplay ==
@@ -21,6 +20,7 @@
   * pdflatex hangs sometimes
   * Better handling of first generation of precompiled headers. (No restart)
   * Memory leak in PdfLibNet ???
+  * Use unique temp file names. (Otherwise: possible conflict among multiple instances of TikzEdt)
 
 == Rasterizer ==
 *TODO*
