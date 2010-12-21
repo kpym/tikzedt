@@ -982,6 +982,7 @@ namespace TikzEdt
             FindDialog.tabMain.SelectedIndex = 0;
             FindDialog.Show();
             FindDialog.Activate();
+            FindDialog.txtFind.Focus();
             //FindDialog.txtCode.Focus();
         }
 
@@ -992,6 +993,7 @@ namespace TikzEdt
             FindDialog.Show();
             //FindDialog.Focus();
             FindDialog.Activate();
+            FindDialog.txtFind2.Focus();
             //FindDialog..Focus();
         }
 
@@ -1084,6 +1086,23 @@ namespace TikzEdt
         private void MarkAtOffsetClick(object sender, RoutedEventArgs e)
         {
             pdfOverlay1.MarkObjectAt(txtCode.CaretOffset);
+        }
+
+        private void ShowInExternalViewerClick(object sender, RoutedEventArgs e)
+        {
+            string PdfPath = CurFile;
+            if (PdfPath.EndsWith(".tex", StringComparison.InvariantCultureIgnoreCase))
+                PdfPath = PdfPath.Remove(PdfPath.Length - 4);
+            PdfPath = PdfPath + ".pdf";
+
+            if (Properties.Settings.Default.Path_externalviewer.Trim() == "")
+            {
+                System.Diagnostics.Process.Start(PdfPath);
+            }
+            else
+            {
+                System.Diagnostics.Process.Start(Properties.Settings.Default.Path_externalviewer, PdfPath);
+            }
         }
 
     }

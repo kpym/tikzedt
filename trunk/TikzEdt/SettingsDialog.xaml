@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:p="clr-namespace:TikzEdt.Properties"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
-        Title="Settings" Height="346" Width="438" Loaded="Window_Loaded" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico">
+        Title="Settings" Height="346" Width="438" Loaded="Window_Loaded" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico" KeyDown="Window_KeyDown">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -71,8 +71,6 @@
                     <TextBox Margin="3" Grid.Column="1" Grid.Row="0" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_pdflatex, Mode=TwoWay}"/>
                     <TextBlock Margin="3" Grid.Column="0" Grid.Row="1" Text="Path to Pdf Viewer" Grid.ColumnSpan="2"></TextBlock>
                     <TextBox Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_externalviewer, Mode=TwoWay}"/>
-                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="2" Text="Something"></TextBlock>
-                    <TextBox Margin="3" Grid.Column="1" Grid.Row="2" Text="{Binding Source={x:Static p:Settings.Default}, Path=Height, Mode=TwoWay}"  />
                 </Grid>
             </TabItem>
             <TabItem>

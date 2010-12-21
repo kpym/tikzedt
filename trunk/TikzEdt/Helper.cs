@@ -27,28 +27,28 @@ namespace TikzEdt
     /// </summary>
     static class Consts
     {
-        public const float cmperin = 2.54F;
-        public const float ptspertikzunit = 72.0F / cmperin;
-        public const float TikzDefaultLinewidth = 0;
+        public const double cmperin = 2.54;
+        public const double ptspertikzunit = 72.0 / cmperin;
+        public const double TikzDefaultLinewidth = 0;
         public const string TikzDefaultFont = "Times";
-        public const float TikzDefaultFontSize = 8F;
+        public const double TikzDefaultFontSize = 8;
         public const int TikzImgResolution = 300; // resolution in dpi with which images are compiled
 
-        public static string[] TikzArrowTipCodes = new string[] { "", ">", "<" };
+        //public static string[] TikzArrowTipCodes = new string[] { "", ">", "<" };
         //public static DashStyle[] TikzToSystemDashStyle = new DashStyle[] { DashStyle.Solid, DashStyle.Dot, DashStyle.Dash };
-        public static float[][] TikzToSystemDashPattern = new float[][] {
-            new float[]{0.1F}, new float[]{.1F,.1F}, new float[]{.2F,.1F}
-        };
+        //public static float[][] TikzToSystemDashPattern = new float[][] {
+        //    new float[]{0.1F}, new float[]{.1F,.1F}, new float[]{.2F,.1F}
+        //};
 
         public const string cCompletionsFile = "Editor\\CodeCompletions.xml";
         public const string cSettingsFile = "T2Gsettings.xml";
-        public const string cSyntaxFile = "Editro\\TikzSyntax.xshd";
+        public const string cSyntaxFile = "Editor\\TikzSyntax.xshd";
         public const string cSnippetsFile = "TheSnippets.xml";
-        public const string cMRUFile = "T2GMRU.xml";
-        public const int MaxMRU = 10;
-        public const string cStyleRepoFile = "StyleRepo.dat";
+        public const string cMRUFile = "T2GMRU.xml";    // not used
+        public const int MaxMRU = 10;// not used
+       // public const string cStyleRepoFile = "StyleRepo.dat";
 
-        public const string CoordinateVertexStyleName = "helper";
+        //public const string CoordinateVertexStyleName = "helper";
 
         public const string DoubleFormat = "#.####";
 

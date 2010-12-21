@@ -61,5 +61,11 @@ namespace TikzEdt
                 Properties.Settings.Default.Tex_Postamble = txtPostamble.Text;
             }
         }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+                Close();
+        }
     }
 }
