@@ -27,6 +27,9 @@
 
 == TikzParser ==
 *TODO*
+  * support full \path syntax
+  * support xscale, yscale
+  * support multiple options blocks in single path
   * Build a test library
   * run more tests
 
