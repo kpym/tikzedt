@@ -410,6 +410,8 @@
             </ScrollViewer>
 
         </Grid>
-        <StatusBar Grid.Row="3" Height="23" HorizontalAlignment="Stretch" Name="statusBar1" VerticalAlignment="Top" />
+        <StatusBar Grid.Row="3" Height="23" HorizontalAlignment="Stretch" Name="statusBar1" VerticalAlignment="Top">
+            <StatusBarItem Name="CoordinateStatusBarItem" Content="(0,0)" HorizontalAlignment="Right" />
+        </StatusBar>
     </Grid>
 </Window>

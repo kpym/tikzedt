@@ -178,6 +178,11 @@ namespace TikzEdt
             // We still want to insert the character that was typed.
         }
 
+        public void AddStatusBarCoordinate(string text)
+        {
+            CoordinateStatusBarItem.Content = text;
+        }
+
         void AddStatusLine(string text, bool lError = false)
         {
             Paragraph p = new Paragraph();

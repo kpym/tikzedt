@@ -353,18 +353,19 @@ namespace TikzEdt
 
         private void canvas1_MouseMove(object sender, MouseEventArgs e)
         {
+            Point p;
             if (tool == ToolType.move && e.LeftButton == MouseButtonState.Pressed && curDragged != null)
             {
                 if (curDragged is OverlayScope)
                 {
-                    Point p = new Point(e.GetPosition(canvas1).X - DragOriginC.X, e.GetPosition(canvas1).Y - DragOriginC.Y);
+                    p = new Point(e.GetPosition(canvas1).X - DragOriginC.X, e.GetPosition(canvas1).Y - DragOriginC.Y);
                     p = rasterizer.RasterizePixel(p);
                     Canvas.SetLeft(curDragged, DragOriginO.X + p.X);
                     Canvas.SetBottom(curDragged, DragOriginO.Y - p.Y); //hack
                 }
                 else
                 {
-                    Point p = new Point(e.GetPosition(canvas1).X - DragOrigin.X + 5, Height - (e.GetPosition(canvas1).Y - DragOrigin.Y) - 5);
+                    p = new Point(e.GetPosition(canvas1).X - DragOrigin.X + 5, Height - (e.GetPosition(canvas1).Y - DragOrigin.Y) - 5);
                     p = rasterizer.RasterizePixel(p);
                     Canvas.SetLeft(curDragged, p.X - curDragged.Width / 2);
                     //Canvas.SetTop(curDragged, e.GetPosition(canvas1).Y - DragOrigin.Y);
@@ -373,6 +374,17 @@ namespace TikzEdt
                     Canvas.SetBottom(curDragged, p.Y - curDragged.Height / 2); //hack
                 }
             }
+            else { 
+                 p = new Point(e.GetPosition(canvas1).X - DragOrigin.X + 5, Height - (e.GetPosition(canvas1).Y - DragOrigin.Y) - 5);
+                 p = rasterizer.RasterizePixel(p);                 
+            }
+            p.X /= Consts.ptspertikzunit;
+            p.Y /= Consts.ptspertikzunit;
+            p.X += _BB.X;
+            p.Y += _BB.Y;
+            String s = "(" + String.Format("{0:f1}", p.X) + "; "+ String.Format("{0:f1}", p.Y) + ")";
+            ((MainWindow)Application.Current.Windows[0]).AddStatusBarCoordinate(s);
+            
         }
 
         private void canvas1_MouseUp(object sender, MouseButtonEventArgs e)
