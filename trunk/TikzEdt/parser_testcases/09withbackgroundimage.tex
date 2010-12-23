@@ -63,7 +63,7 @@
 
 \begin{tikzpicture}
 
-\node[opacity=0.2] (background_image) at (466.241875pt,331.2375pt) { \includegraphics{overlay.png} };
+\node[opacity=0.2] (background_image) at (466.241875pt,331.2375pt) { \includegraphics{withbackgroundimage.png} };
 
 % left bottom right top
   \useasboundingbox  (-0.2,-0.2) rectangle (32.6, 23.2);
@@ -256,8 +256,8 @@
 
 
 %add border
-\foreach \border in {0.2}
-  \useasboundingbox (current bounding box.south west)+(-\border,-\border) rectangle (current bounding box.north east)+(\border,\border);
+%\foreach \border in {0.2}
+%  \useasboundingbox (current bounding box.south west)+(-\border,-\border) rectangle (current bounding box.north east)+(\border,\border);
 
 
 \end{tikzpicture}
