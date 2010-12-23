@@ -113,8 +113,12 @@ namespace TikzEdt
             psi.Arguments = Consts.precompilation_args;
             psi.CreateNoWindow = true;
             p.StartInfo = psi;
+            //p.Exited +=new EventHandler(Helper.precompilation_Exited);
+            //needs non-static callback function.
+            //however, since this function is static it cannot reach anything non-static.
             p.Start();
         }
+         
 
         public static Brush GetHatchBrush()
         {
