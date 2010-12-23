@@ -83,10 +83,12 @@ namespace TikzEdt
                     texProcess.Kill();
             }
             catch (InvalidOperationException)
-            { 
+            {
+                isRunning = false;
                 //process has already terminated. that is okay.
             }
         }
+        
 
         /// <summary>
         /// The main routine, starts the compilation of the Tikz-Picture.
@@ -105,6 +107,8 @@ namespace TikzEdt
             {
                 OnCompileEvent("Generating precompiled headers.... please restart in some moments", CompileEventType.Status); 
                 Helper.GeneratePrecompiledHeaders();
+                //GeneratePrecompiledHeaders() has no callback function. thus:                
+                isRunning = false;
                 return;
             }
 
