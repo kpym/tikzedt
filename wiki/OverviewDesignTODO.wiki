@@ -32,6 +32,7 @@
   * support multiple options blocks in single path
   * Build a test library
   * run more tests
+  * Change recovery so as to stop on error
 
 === Tikz ParseTree ===
   * line number bug (test overlay2)
