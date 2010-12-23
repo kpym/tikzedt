@@ -9,5 +9,6 @@ The different parts of the program should know as little as somehow possible fro
     # Glue logic for syntax highlighting.
   * A component SnippetList: This comprises the snippet list and the SnippetManager.
   * A component for displaying pdf files. (Essentially TikzDisplay).
+  * A component for rendering latex files into pdf (should include precompiled header generation, queues, etc...; contains essentially part of TikzDisplay and the BmpFactory). 
 
 = What the various components need to know about each other =
