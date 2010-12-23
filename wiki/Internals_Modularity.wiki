@@ -2,7 +2,7 @@
 
 = Modularity =
 Most design decisions have been made so as to increase the modularity of the code as much as possible.
-The different parts of the program should know as little as somehow possible from each other. The reasons are that (i) this is good style of course (ii) work can be more easily shared amiong several people and (iii) my plan is to package parts of the program into the following standalone libraries, that could potentially be reused elsewhere:
+The different parts of the program should know as little as somehow possible from each other. The reasons are that (i) this is good style of course (ii) work can be more easily shared among several people and (iii) my plan is to package parts of the program into the following standalone libraries, that could potentially be reused elsewhere:
   * A component AvalonEditEx: It enhances the Avalon Texteditor by 
     # A find/replace dialog
     # Code completion
