@@ -1,0 +1,8 @@
+#summary Describes the antlr generated parser and specifies the structure of the AST produced.
+
+= The SimpletikzParser =
+The heart of the Parser is the Antlr generated class SimpleTikzparser, who parses an input document and returns an Abstract Syntax Tree (AST) describing it.
+
+The AST must have the following structure:
+(Note: all node types have token names like `IM_SOMETHING`..)
+The single root node is always `IM_DOCUMENT`
