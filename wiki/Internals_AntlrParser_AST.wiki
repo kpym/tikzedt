@@ -93,3 +93,11 @@ IM_DOCUMENT
     IM_ENDTAG
 }}}
  
+== Why use so many trees? ==
+The Tikz code is translated in TikzEdt into 4 kinds of trees:
+  # The simpletikzparser produces a parse tree, than from that an AST.
+  # The TikzParser translates this AST into a Tikz_ParseTree
+  # The PdfOverlay internally represents the elements it displays in a tree build from OverlayShapes. ("Display Tree")
+  
+One can ask whether it is not possible to have only one tree and store everything in there. However, this would destroy more or less all modularity of TikzEdt.
+The current solution ensures that the TikzParser is shielded completely from the low level parsing done by Antlr, and from the "view layer" introduced by PdfOverlay.
