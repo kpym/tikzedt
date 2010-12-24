@@ -146,11 +146,11 @@ namespace TikzEdt
         string writeBBtoTikz(string code, Rect BB, out bool succeeded)
         {
             // hack
-            string cend = @"\end{tikzpicture}";
+            string cend = @"\end{tikzpicture}"; // hack
             string[] tok = code.Split(new string[] { cend }, StringSplitOptions.None);
             succeeded = (tok.Length == 2 && nextBB.Width * nextBB.Height > 0); //TODO: check
             if (succeeded)
-                return tok[0] + @"\draw (" + BB.X + "," + BB.Y + ") rectangle (" + (BB.X + BB.Width).ToString() + "," + (BB.Y + BB.Height).ToString() + "); " + cend + tok[1];
+                return tok[0] + @"\draw (" + BB.X + "," + BB.Y + ") rectangle (" + (BB.X + BB.Width).ToString() + "," + (BB.Y + BB.Height).ToString() + ");\r\n " + cend + tok[1];
             else
                 return code;
         }

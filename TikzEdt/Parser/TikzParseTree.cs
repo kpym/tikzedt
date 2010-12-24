@@ -238,9 +238,30 @@ namespace TikzEdt.Parser
         /// <returns></returns>
         public static Tikz_Node FromCommonTree(CommonTree t, CommonTokenStream tokens)
         {
-            // IM_NODE OPTIONS? nodename? coord? STRING
+            // IM_NODE (OPTIONS | nodename | coord)* STRING
             Tikz_Node n = new Tikz_Node();
-            int i = 0;
+            n.options = "";
+            foreach (CommonTree childt in t.Children)
+            {
+                switch (childt.Type)
+                {
+                    case simpletikzParser.IM_OPTIONS:
+                        n.options = n.options + TikzParser.getTokensString(tokens, childt);
+                        break;
+                    case simpletikzParser.IM_COORD:
+                        n.coord = Tikz_Coord.FromCommonTree(childt, tokens);
+                        break;
+                    case simpletikzParser.IM_NODENAME:
+                        n.name = TikzParser.getTokensString(tokens, childt.GetChild(0));
+                        break;
+                    case simpletikzParser.IM_STRING:
+                        n.label = TikzParser.getTokensString(tokens, childt);
+                        // remove leading and trailing {} TODO: do it in parser
+                        n.label = n.label.Substring(1, n.label.Length - 2);
+                        break;
+                }
+            }
+/*            int i = 0;
             if (t.GetChild(i).Type == simpletikzParser.IM_OPTIONS)
             {
                 //i++;
@@ -261,7 +282,7 @@ namespace TikzEdt.Parser
             n.label = TikzParser.getTokensString(tokens, t.GetChild(i));  //t.GetChild(i).Text.Trim();
             // remove leading and trailing {} TODO: do it in parser
             n.label = n.label.Substring(1, n.label.Length - 2);
-
+            */
             return n;
         }
         public void SetName(string tname)
