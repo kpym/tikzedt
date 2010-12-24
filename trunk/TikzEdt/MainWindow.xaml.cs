@@ -204,7 +204,7 @@ namespace TikzEdt
         {
             AddStatusLine("Welcome to TikzEdt");
             AddStatusLine("Help/feedback/feature requests/error reports are welcome");
-
+            /*
             FrameworkElement overflowGrid = tlbMode.Template.FindName("OverflowGrid", tlbMode) as FrameworkElement;
             if (overflowGrid != null)
                 overflowGrid.Visibility = Visibility.Collapsed;
@@ -223,7 +223,7 @@ namespace TikzEdt
             overflowGrid = tlbGrid.Template.FindName("OverflowGrid", tlbGrid) as FrameworkElement;
             if (overflowGrid != null)
                 overflowGrid.Visibility = Visibility.Collapsed;
-
+            */
             //cmbGrid.SelectedIndex = 4;
 
             if (!File.Exists(Consts.cSyntaxFile))
@@ -865,12 +865,14 @@ namespace TikzEdt
 
         private void TestClick(object sender, RoutedEventArgs e)
         {
-            PDFLibNet.PDFWrapper p = new PDFLibNet.PDFWrapper();
-            p.LoadPDF("testtight.pdf");
+            Clipboard.SetText(pdfOverlay1.ParseTree.ToString());
+            return;
+            //PDFLibNet.PDFWrapper p = new PDFLibNet.PDFWrapper();
+            //p.LoadPDF("testtight.pdf");
 
-            System.Drawing.Bitmap b = p.Pages[1].GetBitmap(72);
-            b.Save("testtight.bmp");
-            b.Dispose();
+            //System.Drawing.Bitmap b = p.Pages[1].GetBitmap(72);
+            //b.Save("testtight.bmp");
+            //b.Dispose();
 
             //int i = 5;
         }

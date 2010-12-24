@@ -268,6 +268,9 @@ namespace TikzEdt
             if (job.BB.Width > 0 && job.BB.Height > 0)
                 codetowrite = writeBBtoTikz(job.code, job.BB, out lsucceeded);
 
+            if (!Directory.Exists(System.IO.Path.GetDirectoryName(job.path)))
+                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(job.path));
+
             StreamWriter s = new StreamWriter(job.path + ".tex");
             s.WriteLine(@"%&" + Consts.cTempFile);
             s.WriteLine(@"\begin{document}");

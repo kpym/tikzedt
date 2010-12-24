@@ -1,10 +1,10 @@
-grammar simpletikz;
+grammar simpletikz_work;
 
 
 options 
 {
 	output=AST;
-	language = 'CSharp2';
+	//language = 'CSharp2';
 	//backtrack=true;
 }
 
@@ -26,6 +26,7 @@ tokens {
 	DRAW		= '\\draw';
 	PATH		= '\\path';
 	FILL		= '\\fill';
+	CLIP		= '\\clip';
 	LPAR		= '(';
 	RPAR		= ')';
 	LBR		= '[';
@@ -87,7 +88,7 @@ IM_TIKZEDT_CMD;
 }
 
 tikzdocument
-	:	tikz_cmd_comment* (dontcare_preamble | tikz_styleorset | otherbegin)*  tikzpicture  		-> ^(IM_DOCUMENT tikz_styleorset* tikzpicture)
+	:	tikz_cmd_comment* (dontcare_preamble | tikz_styleorset | otherbegin)*  tikzpicture	-> ^(IM_DOCUMENT tikz_styleorset* tikzpicture)
 	;
 	
 tikz_cmd_comment
@@ -122,13 +123,7 @@ option_kv
 	:	idd ('=' iddornumberunitorstring )? -> ^(IM_OPTION_KV idd iddornumberunitorstring?)  
 	;
 	
-nodetype
-	:	LBR no_rlbracket* (nodetype no_rlbracket*)* RBR -> ^(IM_STRING LBR RBR ) //todo
-	;
-
-no_rlbracket
-	:	~(LBR | RBR)
-	;
+	
 tikzstring
 	:	LBRR no_rlbrace* (tikzstring no_rlbrace*)* RBRR -> ^(IM_STRING LBRR RBRR ) //todo
 	;
@@ -154,7 +149,6 @@ idd
 	;
 	
 		
-
 	
 numberunit
 	:	number unit? -> ^(IM_NUMBERUNIT number unit?) /// check
@@ -180,8 +174,8 @@ tikzpicture
 	;
 
 tikzbody
-	:	( tikzscope | tikzpath | tikznodee | dontcare_body_nobr | tikz_set | tikz_style | otherbegin |otherend )  // necessary to prevent conflict with options
-		( tikzscope | tikzpath | tikznodee | dontcare_body | tikz_set | tikz_style | otherbegin |otherend )*
+	:	( tikzscope | tikzpath | tikznode_ext | dontcare_body_nobr | tikz_set | tikz_style | otherbegin |otherend )  // necessary to prevent conflict with options
+		( tikzscope | tikzpath | tikznode_ext | dontcare_body | tikz_set | tikz_style | otherbegin |otherend )*
 	;
 	
 dontcare_body_nobr
@@ -194,33 +188,14 @@ otherend
 	:	END '{' idd '}'
 	;
 	
-tikzpath 
-	:	path_start tikzpath_element* semicolon_end	-> ^(IM_PATH path_start tikzpath_element* semicolon_end )
-	;
-
-tikzpath_element
-	:
-		tikz_options 
-		| coord
-		| tikznode
-		| circle
-		| arc
-		| LBRR tikzpath_element* RBRR
-		| edgeop 
-	;
 	
 // circle and ellipse seem to be the same command
-circle
-	:	('circle' | 'ellipse') size?		// note: options not allowed in between
-	;
-arc
-	:	'arc' (LPAR numberunit ':' numberunit ':' numberunit RPAR)?
-	;
+
 	
 //tikzpathi, e.g. (6,2) node[ext] {ddd} -- (6,0) node[ext] {ddd} -> (5,5) circle (3);
-tikzpathi
-	: coordornode_new (edgeop! coordornode_new)*
-	;
+//tikzpathi
+//	: coordornode_new (edgeop! coordornode_new)*
+//	;
 //this construct does not work. why?
 //	 coordornode (coordornode | tikz_options? edgeop! coordornode )* 
 		
@@ -229,28 +204,77 @@ tikzscope
 	;
 
 //for "circle" we need size instead of a coordinate
-coordornode
-	:	coord | size | tikznode
-	;
+//coordornode
+//	:	coord | size | tikznode
+//	;
 	
 	
 //coordinates can look like this: (6,2) node[ext] {ddd}
 //coordinates are connect e.g. by --, ->, rectangle, circle
 //after "circle" the next coordinate is usually just a size.
-coordornode_new
-	:	coord (ID (nodetype)? (tikzstring)?)?		-> ^(coord)
-	|	size
-	;
+//coordornode_new
+//	:	coord (ID (nodetype)? (tikzstring)?)?		-> ^(coord)
+//	|	size
+//	;
 	
-tikznode_ext 
-	:	'\\node'! tikznode
-	;
+
+
+
+
+//tikznodee
+//	:	node_start tikznode tikzpathi? semicolon_end -> ^(IM_PATH node_start tikznode tikzpathi? semicolon_end) //almost hack like this
+//	;
 	
-nodename
-	:	LPAR id=ID RPAR		-> ^(IM_NODENAME $id)
+// ****** The path commands ********
+tikzpath 
+	:	path_start tikzpath_element* semicolon_end	-> ^(IM_PATH path_start tikzpath_element* semicolon_end )
 	;
 
-size	// coord_modifier?
+tikzpath_element
+	:
+		  tikz_options 
+		| coord
+		| tikznode_int
+		| circle
+		| arc
+		| LBRR tikzpath_element* RBRR
+		| edgeop 
+	;
+tikznode_ext
+	:	node_start tikznode_core tikzpath_element* semicolon_end	-> ^(IM_PATH node_start tikznode_core tikzpath_element* semicolon_end)
+	;
+tikznode_int
+	:	'node'! tikznode_core
+	;
+tikznode_core
+	:	tikznode_decorator* tikzstring		-> ^(IM_NODE tikznode_decorator* tikzstring)
+	;
+//tikznode
+//	:	nodename? ('at' coord)? tikz_options* 			
+//	;
+tikznode_decorator
+	:	  nodename 
+		| 'at'! coord
+		| tikz_options_dontcare
+	;
+tikz_options_dontcare
+	:	LBR no_rlbracket* (tikz_options_dontcare no_rlbracket*)* RBR -> ^(IM_OPTIONS ) //todo
+	;
+no_rlbracket
+	:	~(LBR | RBR)
+	;
+nodename
+	:	LPAR idd RPAR		-> ^(IM_NODENAME idd)
+	;
+	
+circle
+	:	('circle' | 'ellipse') size?	->	// note: options not allowed in between
+	;
+arc
+	:	'arc' (LPAR numberunit ':' numberunit ':' numberunit RPAR)? ->
+	;
+	
+	size
 	:	  LPAR numberunit ('and' numberunit)? RPAR		-> ^(IM_SIZE numberunit)
 	;
 //Is this needed?
@@ -259,14 +283,10 @@ size	// coord_modifier?
 	
 coord	
 	:	  nodename 								-> ^(IM_COORD nodename)
-		| ( coord_modifier? lc=LPAR numberunit coord_sep numberunit RPAR)		-> ^(IM_COORD[$lc] coord_modifier? numberunit+ coord_sep)
+		| ( coord_modifier? LPAR numberunit coord_sep numberunit RPAR)		-> ^(IM_COORD coord_modifier? numberunit+ coord_sep)
 	;
 coord_sep
 	:	( ',' | ':' )	
-	;
-
-tikznode
-	:	nodename? ('at' coord)? nodetype? tikzstring		-> ^(IM_NODE nodename? coord? tikzstring)			
 	;
 
 //these operators depend on used packets. => all all strings.	
@@ -278,15 +298,7 @@ edgeop
 coord_modifier
 	:	'+' | '++'
 	;
-
-tikznodee
-	:	node_start tikznode tikzpathi? semicolon_end -> ^(IM_PATH node_start tikznode tikzpathi? semicolon_end) //almost hack like this
-	;
 	
-node_start
-	:	NODE -> ^(IM_STARTTAG NODE)
-	;
-
 /*
 
 
@@ -356,9 +368,11 @@ tikzscope_end
 path_start 
 	:	path_start_tag -> ^(IM_STARTTAG path_start_tag)
 	;
-
+node_start
+	:	NODE -> ^(IM_STARTTAG NODE)
+	;
 path_start_tag
-	:	DRAW | FILL | PATH
+	:	DRAW | FILL | PATH | CLIP
 	;
 
 ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'.'|'!')*
