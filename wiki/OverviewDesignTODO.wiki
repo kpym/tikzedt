@@ -30,6 +30,7 @@
   * support full \path syntax
   * support xscale, yscale
   * support multiple options blocks in single path
+  * support path { } subsets
   * Build a test library
   * run more tests
   * Change recovery so as to stop on error
@@ -44,6 +45,7 @@
 
 === Snippetmanager ===
 *TODO*
+  * First compilation-> check that precompiled headers exist
 
 === Misc ===
 *TODO*
