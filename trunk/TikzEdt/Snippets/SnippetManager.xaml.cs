@@ -30,7 +30,7 @@ namespace TikzEdt.Snippets
     /// </summary>
     public partial class SnippetManager : Window
     {
-        public TikzToBMPFactory fact = new TikzToBMPFactory();
+        public TikzToBMPFactory fact;
         public bool isSuccessfullyLoaded = false;
         System.Threading.Mutex myMutex;
 
@@ -55,6 +55,7 @@ namespace TikzEdt.Snippets
             else
                 isSuccessfullyLoaded = true;
 
+            fact = TikzToBMPFactory.Instance;
             fact.BitmapGenerated += new TikzToBMPFactory.NoArgsEventHandler(fact_BitmapGenerated);
 
             //string appPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
@@ -121,7 +122,7 @@ namespace TikzEdt.Snippets
   
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            
             FrameworkElement overflowGrid = tlbNewDelete.Template.FindName("OverflowGrid", tlbNewDelete) as FrameworkElement;
             if (overflowGrid != null)
             {
@@ -159,7 +160,7 @@ namespace TikzEdt.Snippets
         {
             SnippetsDataSet.SnippetsTableRow r = ((DataRowView)lstSnippets.SelectedItem).Row as SnippetsDataSet.SnippetsTableRow;
             if (!r.IsNull(snippetsTable.SampleCodeColumn))
-                fact.AddJob(r.SampleCode, Helper.GetAppDir() + "\\img\\" + r.ID, new Rect(0, 0, 0, 0));
+                fact.AddJob(r.SampleCode, Helper.GetAppDir() + "\\img\\" + r.ID, new Rect(0, 0, 0, 0), r.Name);
         }
 
         /// <summary>
@@ -228,6 +229,7 @@ namespace TikzEdt.Snippets
 
         private void Window_Closed(object sender, EventArgs e)
         {
+            fact.BitmapGenerated -= new TikzToBMPFactory.NoArgsEventHandler(fact_BitmapGenerated);
             // release mutex
             if (myMutex != null && isSuccessfullyLoaded)
                 myMutex.ReleaseMutex();

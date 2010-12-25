@@ -29,7 +29,6 @@
 \usepackage[margin=0cm,nohead]{geometry}
 \usepackage[active,tightpage]{preview}
 
-\begin{document}
 \PreviewEnvironment{tikzpicture}
 </Value>
     </Setting>
@@ -79,6 +78,9 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="Editor_CompleteBegins" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Snippets_ShowThumbs" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>

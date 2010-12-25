@@ -133,7 +133,7 @@ namespace TikzEdt.Parser
                         break;                    
                     case simpletikzParser.IM_OPTION_KV:
                     case simpletikzParser.IM_OPTION_STYLE:
-                        Tikz_Option topt = Tikz_Option.FromCommonTree(childt);
+                        Tikz_Option topt = Tikz_Option.FromCommonTree(childt, tokens);
                         topt.text = getTokensString(tokens, childt);
                         item.AddChild(topt);
                         break;
@@ -153,7 +153,7 @@ namespace TikzEdt.Parser
                         item.AddChild(to2);
                         break;
                     case simpletikzParser.IM_STYLE:
-                        Tikz_Option topt2 = Tikz_Option.FromCommonTree(childt);
+                        Tikz_Option topt2 = Tikz_Option.FromCommonTree(childt, tokens);
                         //FillItem(to2, childt, tokens);
                         topt2.text = getTokensString(tokens, childt);
                         item.AddChild(topt2);

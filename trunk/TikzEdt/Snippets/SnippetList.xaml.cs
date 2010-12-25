@@ -25,6 +25,14 @@ namespace TikzEdt.Snippets
         public delegate void InsertEventHandler(string code, string dependencies);
         public event InsertEventHandler OnInsert;
 
+        readonly public static DependencyProperty ShowThumbnailsProperty = DependencyProperty.Register(
+         "ShowThumbnails", typeof(bool), typeof(SnippetList), new PropertyMetadata(false));
+        public bool ShowThumbnails
+        {
+            get { return (bool)GetValue(ShowThumbnailsProperty); }
+            set { SetValue(ShowThumbnailsProperty, value); }
+        }
+
         public SnippetList()
         {
             InitializeComponent();
@@ -40,7 +48,24 @@ namespace TikzEdt.Snippets
             snippetsTable = snippetsDataSet.Tables["SnippetsTable"] as SnippetsDataSet.SnippetsTableDataTable;
             snippetsTableViewSource = (CollectionViewSource)this.FindResource("snippetsTableViewSource");
 
-            Reload();      
+            Reload();
+
+            // Do Thumbnails exist? -> Recompile
+            if (!Directory.Exists(Helper.GetAppDir() + "\\" + Consts.cSnippetThumbsDir))
+            {
+                if (MessageBox.Show("The Snippet Thumbnails do not seem to exist. Do you want them to be created now?\r\nIt may take some time, but it will happen in the background. You can also recompile them later from the Snippet Manager.", "Compile Thumbnails", MessageBoxButton.YesNoCancel, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    // Compile
+                    foreach (SnippetsDataSet.SnippetsTableRow r in snippetsTable.Rows)
+                    {
+                        if (!r.IsNull(snippetsTable.SampleCodeColumn))
+                        {
+                            string cFile = Helper.GetAppDir() + "\\img\\" + r.ID;
+                            TikzToBMPFactory.Instance.AddJob(r.SampleCode, cFile, new Rect(0, 0, 0, 0), r.Name);
+                        }
+                    }
+                }
+            }
         }
 
         public void Reload()

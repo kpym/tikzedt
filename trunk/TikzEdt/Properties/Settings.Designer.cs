@@ -111,7 +111,7 @@ namespace TikzEdt.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("\\documentclass[tight]{article}\r\n\\usepackage{tikz,amsmath, amssymb,bm,color}\r\n\\use" +
             "package[margin=0cm,nohead]{geometry}\r\n\\usepackage[active,tightpage]{preview}\r\n\r\n" +
-            "\\begin{document}\r\n\\PreviewEnvironment{tikzpicture}\r\n")]
+            "\\PreviewEnvironment{tikzpicture}\r\n")]
         public string Tex_Preamble {
             get {
                 return ((string)(this["Tex_Preamble"]));
@@ -310,6 +310,18 @@ namespace TikzEdt.Properties {
             }
             set {
                 this["Editor_CompleteBegins"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Snippets_ShowThumbs {
+            get {
+                return ((bool)(this["Snippets_ShowThumbs"]));
+            }
+            set {
+                this["Snippets_ShowThumbs"] = value;
             }
         }
     }

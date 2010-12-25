@@ -26,6 +26,7 @@ tokens {
 	PATH		= '\\path';
 	FILL		= '\\fill';
 	CLIP		= '\\clip';
+	STYLETAG	= '/.style';
 	LPAR		= '(';
 	RPAR		= ')';
 	LBR		= '[';
@@ -102,7 +103,7 @@ dontcare_preamble
 	:	~(BEGIN | TIKZSTYLE | TIKZSET | TIKZEDT_CMD_COMMENT)
 	;
 otherbegin
-	:	BEGIN LBRR idd RBRR
+	:	BEGIN LBRR idd2 RBRR	// todo: sufficient to have ID???
 	;
 
 tikz_style
@@ -130,10 +131,10 @@ no_rlbrace
 	:	~(LBRR | RBRR)
 	;
 iddornumberunitorstring
-	:	idd | numberunit | tikzstring
+	:	idd | tikzstring
 	;
 option_style
-	:	idd '/.style' '=' LBRR (option_kv (',' option_kv)*)?  ','? RBRR  -> ^(IM_OPTION_STYLE idd option_kv*)  // '{' option '}' todo: optional ,
+	:	idd STYLETAG '=' LBRR (option_kv (',' option_kv)*)?  ','? RBRR  -> ^(IM_OPTION_STYLE idd option_kv*)  // '{' option '}' todo: optional ,
 	;
 
 
@@ -141,11 +142,18 @@ option_style
 // id composed of more than one word
 //edgeop contains all those word. => use edgeop here, too
 //also possible with number, e.g. level 2
+//idd
+//	:	edgeop (edgeop)*	-> ^(IM_ID edgeop*)
+//	|	edgeop INT		-> ^(IM_ID edgeop INT)
+//	;
 idd
-	:	edgeop (edgeop)*	-> ^(IM_ID edgeop*)
-	|	edgeop INT		-> ^(IM_ID edgeop INT)
+	:	idd_heavenknowswhythisisnecessary  -> ^(IM_ID )
 	;
-	
+idd_heavenknowswhythisisnecessary
+ 	:	 ~( LPAR | RPAR | LBR |	RBR | LBRR | RBRR | KOMMA | EQU	| SEMIC	| COLON | STYLETAG)+ ;
+idd2
+	:	ID+ -> ^(IM_ID )
+	;
 		
 	
 numberunit
@@ -172,8 +180,8 @@ tikzpicture
 	;
 
 tikzbody
-	:	( tikzscope | tikzpath | tikznode_ext | dontcare_body_nobr! | tikz_set | tikz_style | otherbegin! |otherend! )  // necessary to prevent conflict with options
-		( tikzscope | tikzpath | tikznode_ext | dontcare_body! | tikz_set | tikz_style | otherbegin! |otherend! )*
+	:	( tikzscope | tikzpath | tikznode_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body_nobr! )  // necessary to prevent conflict with options
+		( tikzscope | tikzpath | tikznode_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body! )*
 	;
 	
 dontcare_body_nobr
@@ -183,7 +191,7 @@ dontcare_body
 	:	(~ (BEGIN | END | NODE | DRAW | PATH | FILL | CLIP | TIKZSTYLE | TIKZSET ))   
 	;
 otherend
-	:	END '{' idd '}'
+	:	END '{' idd2 '}'
 	;
 	
 	
@@ -264,16 +272,19 @@ no_rlbracket
 nodename
 	:	LPAR idd RPAR		-> ^(IM_NODENAME idd)
 	;
-	
+
+// note that tikz is ambiguous. for example "3 and 4" is a valid node name, and furthermore the size is optional
+// hence \draw (1,1) ellipse (1 and 3) -- (0,0); could mean to things....
+// that is the reason we need the syntactic predicate to shut off the warning
 circle
-	:	('circle' | 'ellipse') size?	->	// note: options not allowed in between
+	:	('circle' | 'ellipse') ((size)=> size)?	->	// note: options not allowed in between
 	;
 arc
 	:	'arc' (LPAR numberunit ':' numberunit ':' numberunit RPAR)? ->
 	;
 	
-	size
-	:	  LPAR numberunit ('and' numberunit)? RPAR		-> ^(IM_SIZE numberunit)
+size
+	:	  LPAR numberunit ('and' numberunit)? RPAR		-> ^(IM_SIZE numberunit*)	// for future use
 	;
 //Is this needed?
 //-> ^(IM_COORD[$lc] coord_modifier? numberunit)
