@@ -13,7 +13,6 @@
 === Code editor (avalonedit) ===
 *TODO:*
   * complete code completion
-  * mark sth at source in overlay
 
 == TikzDisplay ==
 *TODO*
@@ -21,6 +20,8 @@
   * Better handling of first generation of precompiled headers. (No restart)
   * Memory leak in PdfLibNet ???
   * Use unique temp file names. (Otherwise: possible conflict among multiple instances of TikzEdt)
+  * Compilation is probably not working correctly for files in different folders.
+    In particular: Generate the real output pdf (not just preview)
 
 == Rasterizer ==
 *TODO*
@@ -36,16 +37,21 @@
   * Change recovery so as to stop on error
 
 === Tikz ParseTree ===
-  * line number bug (test overlay2)
+  * commands in coordinates not handled correctly
+  * check again whether missing nodenames are treated right
+  * Use Length property
 
 == PdfOverlay ==
 
 *TODO*
   * Support multiple selection??
+  * Scale in tikpicture opts not recognized...error in Parser?
 
 === Snippetmanager ===
 *TODO*
-  * First compilation-> check that precompiled headers exist
+  * Change snippet baseclass to list
+  * (BMPFactory... check for standalone)
+  * (Merge compilers ???)
 
 === Misc ===
 *TODO*
