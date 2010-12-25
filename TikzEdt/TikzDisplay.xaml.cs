@@ -44,7 +44,7 @@ namespace TikzEdt
         {
             if (IsStandAlone)
                 nextToCompile = code;
-            else nextToCompile = @"%&" + Consts.cTempFile + "\r\n" + code + "\r\n" + Properties.Settings.Default.Tex_Postamble;  
+            else nextToCompile = @"%&" + Consts.cTempFile + "\r\n\\begin{document}\r\n" + code + "\r\n" + Properties.Settings.Default.Tex_Postamble;  
             nextBB = BB;
             doCompile();
         }

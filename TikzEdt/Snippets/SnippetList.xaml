@@ -9,6 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="boolToVis" />
         <mySnippets:SnippetsDataSet x:Key="snippetsDataSet" />
         <CollectionViewSource x:Key="snippetsTableViewSource" Source="{Binding Path=SnippetsTable, Source={StaticResource snippetsDataSet}}" >
             <CollectionViewSource.GroupDescriptions>
@@ -95,7 +96,9 @@
                             </StackPanel>
                             </DockPanel.ToolTip>
                         
-                        <Image DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10" Height="Auto" Width="40" Source="{Binding Path=ID, Converter={StaticResource ImgConverter}}" HorizontalAlignment="Center"/>
+                        <Image DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10" Height="Auto" Width="40" 
+                               Source="{Binding Path=ID, Converter={StaticResource ImgConverter}}" HorizontalAlignment="Center" 
+                               Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=mySnippets:SnippetList, AncestorLevel=1}, Path=ShowThumbnails, Converter={StaticResource boolToVis}}" />
                         <TextBlock VerticalAlignment="Center" FontSize="12" TextWrapping="Wrap">                          
                           <TextBlock.Text>
                             <Binding Path="Name"/>                            

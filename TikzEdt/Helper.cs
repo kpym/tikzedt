@@ -44,6 +44,7 @@ namespace TikzEdt
         public const string cSettingsFile = "T2Gsettings.xml";
         public const string cSyntaxFile = "Editor\\TikzSyntax.xshd";
         public const string cSnippetsFile = "TheSnippets.xml";
+        public const string cSnippetThumbsDir = "img";
         public const string cMRUFile = "T2GMRU.xml";    // not used
         public const int MaxMRU = 10;// not used
        // public const string cStyleRepoFile = "StyleRepo.dat";
@@ -84,6 +85,19 @@ namespace TikzEdt
     /// </summary>
     static class Helper
     {
+        /// <summary>
+        /// This function takes a string and removes all trailing and leading and all multiple whitespace.
+        /// E.g. "  brown    fox  " -> "brown fox"
+        /// </summary>
+        /// <param name="inputString">the string</param>
+        /// <returns>the same string, with the whitespace removed</returns>
+        public static string RemoveMultipleWhitespace(string inputString)
+        {
+            string[] parts = inputString.Trim().Split(new char[] { ' ', '\n', '\t', '\r', '\f', '\v' }, 
+                StringSplitOptions.RemoveEmptyEntries);
+            return String.Join(" ", parts);
+        }
+
         public static string GetAppDir() // w/o trailing backslash 
         {
             string appPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
@@ -95,7 +109,7 @@ namespace TikzEdt
         {
             //StreamWriter s = new StreamWriter(Consts.cTempImgFile + "pre.tex");
             //s.WriteLine(Consts.ImgHeader);
-            //s.Close();
+            //s.Close();bool ImgHeader=false
 
             //System.Diagnostics.Process p = new System.Diagnostics.Process();
             //System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("latex");
@@ -103,7 +117,7 @@ namespace TikzEdt
             //psi.CreateNoWindow = true;
             //p.StartInfo = psi;
             //p.Start();
-
+            
             StreamWriter s = new StreamWriter(Consts.cTempFile + "pre.tex");
             s.WriteLine(Properties.Settings.Default.Tex_Preamble);
             s.Close();
@@ -118,7 +132,6 @@ namespace TikzEdt
             //however, since this function is static it cannot reach anything non-static.
             p.Start();
         }
-         
 
         public static Brush GetHatchBrush()
         {
@@ -197,18 +210,21 @@ namespace TikzEdt
     /// </summary>
     public class TikzToBMPFactory
     {
+        public static TikzToBMPFactory Instance = new TikzToBMPFactory();
+
         public delegate void NoArgsEventHandler();
-        public event NoArgsEventHandler BitmapGenerated;    // called after succesful bitmap generation
+        public event NoArgsEventHandler BitmapGenerated;            // called after _successful_ bitmap generation
+        public event NoArgsEventHandler JobNumberChanged;           // called whenever the number of jobs in the queue changed
 
         public double timeout = 5000; // in milliseconds
         public double Resolution = 50;
         protected struct Job
         {
-            public string code, path;
+            public string code, path, name;
             public Rect BB;
-            public Job(string tcode, string tpath, Rect tBB)
+            public Job(string tcode, string tpath, Rect tBB, string tname)
             {
-                code = tcode; path = tpath; BB = tBB;
+                code = tcode; path = tpath; BB = tBB; name = tname;
             }
         }
         protected Queue<Job> todo_tex = new Queue<Job>();
@@ -218,11 +234,18 @@ namespace TikzEdt
         /// <param name="code">Tikz Code to compile</param>
         /// <param name="path">Path, without ending, e.g. img\myfile </param>
         /// <param name="BB">The bounding box</param>
-        public void AddJob(string code, string path, Rect BB)
+        public void AddJob(string code, string path, Rect BB, string name = "")
         {
-            todo_tex.Enqueue(new Job(code, path, BB));
+            todo_tex.Enqueue(new Job(code, path, BB, name));
+            if (JobNumberChanged != null)
+                JobNumberChanged();
             if (!isRunning)
                 doCompile();
+        }
+
+        public int JobsInQueue
+        {
+            get { return todo_tex.Count; }
         }
 
         protected Process texProcess = new Process();
@@ -255,7 +278,7 @@ namespace TikzEdt
             isRunning = true;
             Job job = todo_tex.Peek();
 
-            if (!File.Exists(Consts.cTempFile + ".fmt")) // TODO.... not in right folder
+            if (!File.Exists(Consts.cTempFile + ".fmt"))
             {
                 Helper.GeneratePrecompiledHeaders();
                 return;
@@ -272,11 +295,10 @@ namespace TikzEdt
                 Directory.CreateDirectory(System.IO.Path.GetDirectoryName(job.path));
 
             StreamWriter s = new StreamWriter(job.path + ".tex");
-            s.WriteLine(@"%&" + Consts.cTempFile);
-            s.WriteLine(@"\begin{document}");
-            s.WriteLine(@"\PreviewEnvironment{tikzpicture}");
+            s.WriteLine(@"%& ..\" + Consts.cTempFile);
+            s.WriteLine("\\begin{document}");
             s.WriteLine(codetowrite);
-            s.WriteLine(@"\end{document}");
+            s.WriteLine(Properties.Settings.Default.Tex_Postamble);
             s.Close();
 
             // call pdflatex         
@@ -341,6 +363,8 @@ namespace TikzEdt
             //{
             timer.Stop();
                 Job job = todo_tex.Dequeue();
+                if (JobNumberChanged != null)
+                    JobNumberChanged();
 
                 if (texProcess.ExitCode == 0)
                 {
@@ -361,7 +385,7 @@ namespace TikzEdt
                             ));
                     }
                 }
-                else MessageBox.Show("Compilation of the Codesnippet-Thumbnail " + job.path +" failed.\r\nPlease re-check the code.");
+                else MessageBox.Show("Compilation of the Codesnippet-Thumbnail " + job.path +" (" + job.name + ") failed.\r\nPlease re-check the code.");
                 
                 isRunning = false;
                 if (todo_tex.Count > 0)

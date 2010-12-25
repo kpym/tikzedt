@@ -96,6 +96,7 @@ namespace TikzEdt.Parser
         public TikzContainerParseItem parent;
         
         private string _text = "";
+        public virtual int Length { get { return _text.Length; } }
         /// <summary>
         /// This property holds the displayed Text of the node in the parse tree
         /// </summary>
@@ -253,6 +254,7 @@ namespace TikzEdt.Parser
                         break;
                     case simpletikzParser.IM_NODENAME:
                         n.name = TikzParser.getTokensString(tokens, childt.GetChild(0));
+                        n.name = Helper.RemoveMultipleWhitespace(n.name);
                         break;
                     case simpletikzParser.IM_STRING:
                         n.label = TikzParser.getTokensString(tokens, childt);
@@ -677,6 +679,17 @@ namespace TikzEdt.Parser
         /// </summary>
         public Tikz_Options options;
 
+        public override int Length 
+        {
+            get
+            {
+                int ret = 0;
+                foreach (TikzParseItem tpi in Children)
+                    ret += tpi.Length;
+                return ret;
+            }
+        }
+
         public override bool GetBB(out Rect r)
         {
             bool hasone = false;
@@ -955,7 +968,7 @@ namespace TikzEdt.Parser
 
         public string key, val; // for style, key is the style's name, val is the style definition
         public Tikz_NumberUnit numval; // only one of val, numval should be not null
-        public static string GetID(ITree t)
+       /* public static string GetID(ITree t)
         {
             if (t.ChildCount <= 0)
                 return "";
@@ -963,8 +976,8 @@ namespace TikzEdt.Parser
             for (int i=0;i<t.ChildCount;i++)                
                 s = s + " " + t.GetChild(i).Text;
             return s.Remove(0,1); // remove leading space
-        }
-        public static Tikz_Option FromCommonTree(ITree t)
+        } */
+        public static Tikz_Option FromCommonTree(ITree t, CommonTokenStream tokens)
         {
             Tikz_Option to = new Tikz_Option();
             switch (t.Type)
@@ -973,16 +986,16 @@ namespace TikzEdt.Parser
                     if (t.ChildCount == 1)
                     {
                         to.type = Tikz_OptionType.key;
-                        to.key = GetID(t.GetChild(0));
+                        to.key = TikzParser.getTokensString(tokens, t.GetChild(0));
                         return to;
                     } else if (t.ChildCount == 2)
                     {
                         to.type = Tikz_OptionType.keyval;
-                        to.key = GetID(t.GetChild(0));
+                        to.key = TikzParser.getTokensString(tokens, t.GetChild(0));
                         if (t.GetChild(1).Type == simpletikzParser.IM_NUMBERUNIT)
                             to.numval = new Tikz_NumberUnit(t.GetChild(1));
                         else
-                            to.val = GetID(t.GetChild(1));
+                            to.val = TikzParser.getTokensString(tokens, t.GetChild(1));
                         return to;
                     } else return null;                    
                 case simpletikzParser.IM_OPTION_STYLE:
@@ -991,13 +1004,13 @@ namespace TikzEdt.Parser
                     else
                     {
                         to.type = Tikz_OptionType.style;
-                        to.key = GetID(t.GetChild(0));
+                        to.key = TikzParser.getTokensString(tokens, t.GetChild(0));
                         to.val = "";// GetID(t.GetChild(1)); // hack
                         return to;
                     }
                 case simpletikzParser.IM_STYLE:
                     to.type = Tikz_OptionType.style;
-                    to.key = GetID(t.GetChild(0));
+                    to.key = TikzParser.getTokensString(tokens, t.GetChild(0));
                     to.val = t.GetChild(1).Text;  // hack,... but irrelevant 
                     return to;
                 default:

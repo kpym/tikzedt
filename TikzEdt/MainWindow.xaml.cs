@@ -33,6 +33,7 @@ namespace TikzEdt
     {
         public static RoutedCommand CompileCommand = new RoutedCommand();
         public static RoutedCommand FindNextCommand = new RoutedCommand();
+        public static RoutedCommand FindPreviousCommand = new RoutedCommand();
         public static RoutedCommand CommentCommand = new RoutedCommand();
         public static RoutedCommand UnCommentCommand = new RoutedCommand();
         public static RoutedCommand ShowCodeCompletionsCommand = new RoutedCommand();
@@ -107,11 +108,14 @@ namespace TikzEdt
             CommandBinding CommentCommandBinding = new CommandBinding(CommentCommand, CommentCommandHandler, AlwaysTrue);
             CommandBinding UnCommentCommandBinding = new CommandBinding(UnCommentCommand, UnCommentCommandHandler, AlwaysTrue);
             CommandBinding FindNextCommandBinding = new CommandBinding(FindNextCommand, FindNextCommandHandler, AlwaysTrue);
+            CommandBinding FindPreviousCommandBinding = new CommandBinding(FindPreviousCommand, FindPreviousCommandHandler, AlwaysTrue);
             CommandBinding ShowCodeCompletionsCommandBinding = new CommandBinding(ShowCodeCompletionsCommand, ShowCodeCompletionsCommandHandler, AlwaysTrue);
-            //CommandBinding CompileCommandBinding = new CommandBinding(CompileCommand, CompileCommandHandler, AlwaysTrue);     
+            CommandBinding CompileCommandBinding = new CommandBinding(CompileCommand, CompileCommandHandler, AlwaysTrue);     
 
             pdfOverlay1.rasterizer = rasterControl1;
             EnsureFindDialogExists();
+
+            TikzToBMPFactory.Instance.JobNumberChanged += new TikzToBMPFactory.NoArgsEventHandler(Instance_JobNumberChanged);
 
             // in the constructor:
             txtCode.TextArea.TextEntering += textEditor_TextArea_TextEntering;
@@ -129,6 +133,27 @@ namespace TikzEdt
             RecentFileList.MenuClick += (s, e) => { if (TryDisposeFile()) LoadFile(e.Filepath); };
 
             //cmbGrid.SelectedIndex = 4;
+        }
+
+        void Instance_JobNumberChanged()
+        {
+            Dispatcher.Invoke(new Action(
+                delegate()
+                {
+                    if (TikzToBMPFactory.Instance.JobsInQueue == 0)
+                    {
+                        progressCompile.IsIndeterminate = false;
+                        progressCompile.Visibility = Visibility.Collapsed;
+                        textCompileInfo.Text = "Thumbnail compilation complete.";
+                    }
+                    else
+                    {
+                        progressCompile.IsIndeterminate = true;
+                        textCompileInfo.Text = "Compiling thumbnails... (" + TikzToBMPFactory.Instance.JobsInQueue + " to go)";
+                        progressCompile.Visibility = Visibility.Visible;
+                    }
+                }
+                ));
         }
 
         CompletionWindow completionWindow;
@@ -243,6 +268,7 @@ namespace TikzEdt
 
             // Open a new file 
             ApplicationCommands.New.Execute(null, this);
+
         }
 
         /// <summary>
@@ -537,10 +563,10 @@ namespace TikzEdt
             Recompile();
         }
 
-        private void CompileClick(object sender, RoutedEventArgs e)
-        {
-            Recompile();
-        }
+       // private void CompileClick(object sender, RoutedEventArgs e)
+      //  {
+       //     Recompile();
+       // }
 
         private void AbortCompilationClick(object sender, RoutedEventArgs e)
         {
@@ -1040,6 +1066,12 @@ namespace TikzEdt
             FindDialog.FindNext();
         }
 
+        private void FindPreviousCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            EnsureFindDialogExists();
+            FindDialog.FindPrevious();
+        }
+
 
         private void ShowCodeCompletionsCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
@@ -1111,6 +1143,7 @@ namespace TikzEdt
                 System.Diagnostics.Process.Start(Properties.Settings.Default.Path_externalviewer, PdfPath);
             }
         }
+
 
     }
 }

@@ -63,9 +63,17 @@ namespace TikzEdt.Editor
             return r;
         }
 
-        public void FindNext()
+        public void FindNext(bool InvertLeftRight=false)
         {
-            Regex r = GetRegEx();
+            Regex r;
+            if (InvertLeftRight)
+            {
+                FindReplacePersist.SearchUp = !FindReplacePersist.SearchUp;
+                r = GetRegEx();
+                FindReplacePersist.SearchUp = !FindReplacePersist.SearchUp;
+            }
+            else
+                r = GetRegEx();
 
             Match m = r.Match(txtCode.Text, txtCode.CaretOffset);
             if (m.Success)
@@ -89,6 +97,11 @@ namespace TikzEdt.Editor
                     MessageBox.Show("No occurence found.", "Search");
                 }
             }
+        }
+
+        public void FindPrevious()
+        {
+            FindNext(true);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
