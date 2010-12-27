@@ -100,9 +100,23 @@ namespace TikzEdt
 
         public static string GetAppDir() // w/o trailing backslash 
         {
-            string appPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
-            string ret = (new Uri(appPath)).LocalPath;
-            return ret;
+            string appPath = "";
+            try
+            {
+                appPath = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                //since CodeBase returns a URI formatted string, character '#' has special meaning
+                //(separating base URI from parameters)
+                //however, we have a directory here. '#' is a valid, normal character here.
+                appPath = appPath.Replace("#", "%23");
+                appPath = System.IO.Path.GetDirectoryName(appPath);
+                Uri uriAddress2 = (new Uri(appPath));
+                appPath = uriAddress2.LocalPath;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.ToString());
+            }
+            return appPath;
         }
 
         public static void GeneratePrecompiledHeaders()
