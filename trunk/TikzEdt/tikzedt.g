@@ -29,6 +29,7 @@ options
 tokens {
 	TIKZEDT		= '!TIKZEDT';
 	INPUT		= '\\input';  // [...] {...}
+
 	USEPACKAGE	= '\\usepackage'; // {...}
 	USETIKZLIB	= '\\usetikzlibrary'; // {...}
 	DOCUMENTCLASS	= '\\documentclass'; // [...] {...}
@@ -42,10 +43,9 @@ tokens {
 	
 	
 	
-
 	STYLESEP	= '/.style';
 	
-IM_COMMENT;	
+IM_COMMENT;
 }
 
 tikzdocument
@@ -56,15 +56,10 @@ tikzdocument
 //in LaTeX a double newline breaks everything. (single linebreak within command is allowed!)
 
 doublenewline
-	:	(NEWLINE){2}  
+	:	NEWLINE NEWLINE
 	;
 	
-NEWLINE
-	:	'\r'? '\n' 
-	;
 
-
-	
 unknown_cmd
 	:	~(INPUT | NEWLINE)+ NEWLINE?
 	;
@@ -73,57 +68,47 @@ known_cmd
 	:	INPUT SOMETHING_IN_BRACKETS? SOMETHING_IN_CURLY_BRACKETS
 	;
 	
-SOMETHING_IN_BRACKETS
-	:	'[' ~('['|']')* ']'
-	;
-	
-SOMETHING_IN_CURLY_BRACKETS
-	:	'{' ~('{'|'}')* '}'
-	;
-	
 	
 TIKZEDT_CMD_COMMENT
     :   '%' WS TIKZEDT   ~('\n'|'\r')* '\r'? '\n'
     ;
- 
-comment
-	: COMMENT ->^(IM_COMMENT)
+
+ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*
+    ;
+
+INT :	'0'..'9'+
+    ;
+
+FLOAT
+    :   ('0'..'9')+ '.' ('0'..'9')*
+    |   '.' ('0'..'9')+
+    ;
+    
+SOMETHING_IN_BRACKETS
+	:	'[' ~('['|']'|NEWLINE NEWLINE)* ']' {$channel=HIDDEN;}
+	;
+	
+SOMETHING_IN_CURLY_BRACKETS
+	:	'{' ~('{'|'}')* '}' {$channel=HIDDEN;}
 	;
 
 COMMENT
-    :   '%' ~('\n'|'\r')* '\r'? '\n' 
+    :   '%' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
     ;
-//{$channel=HIDDEN;}    
-    
-    
-ws 	:	 WS;
-    
+
+NEWLINE :	('\r'
+	|	'\n'
+	) 
+    ;
+
 WS  :   ( ' '
         | '\t'
         | NEWLINE
-        ) //{$channel=HIDDEN;}
+        ) {$channel=HIDDEN;}
     ;
     
+BRL	: '[';
 
 
-WORD  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'.'|'!')*
-    ;
-
-INT :	'-'? '0'..'9'+
-    ;
-
-//float's exponent interfers with units starting with 'e'.
-//FLOAT
-//    :   '-'? ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
-//    |   '-'? '.' ('0'..'9')+ EXPONENT?
-//    |   '-'? ('0'..'9')+ EXPONENT
-//    |   '-'? '.' ('0'..'9')+
-//    ;
-
-FLOAT_WO_EXP    
-    :   '-'? ('0'..'9')+ '.' ('0'..'9')* 
-    |   '-'? '.' ('0'..'9')+
-    ;
-
-SOMETHING 
-	:	. ;
+fragment
+HEX_DIGIT : ('0'..'9'|'a'..'f'|'A'..'F') ;

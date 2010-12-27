@@ -48,13 +48,25 @@ could also match <broken_cmd> from the second alternative
 	
 statement
 	:
-	begin_end_block	
-	/*begin_cmd
-	|end_cmd*/
-	| latex_cmd
+	statements_allowed_in_parenthesis
+	| other_statements
+	;
+	
+	
+statements_allowed_in_parenthesis
+	: include_cmd
+	| usepackage_cmd
+	| usetikzlibrary_cmd
+	| documentclass_cmd
+	| tikzstyle_cmd
+	| other_latex_cmd
+	| broken_cmd_or_text -> ^(broken_cmd_or_text)
+	;
+	
+other_statements
+	: blocks
 	| doublenewline
 	| newline 
-	| broken_cmd 
 	;
 /*
 begin_end_block
@@ -66,6 +78,15 @@ begin_end_block
 	;
 */	
 
+tikzpicture_block
+	:	'\\begin{tikzpicture}' 
+		(
+			options { greedy=false; } :  statement
+		)*
+		'\\end{tikzpicture}' 
+	
+	;
+	
 begin_end_block
 	:	'\\begin{' ID '}' 
 		(
@@ -73,6 +94,19 @@ begin_end_block
 		)*
 		'\\end{' ID '}' 
 	
+	;
+	
+/*bracket_block
+	:	'{' 
+		(
+			options { greedy=false; } :  statements_allowed_in_parenthesis
+		)*
+		'}' 
+	
+	;*/
+	
+blocks	:	tikzpicture_block
+	|	begin_end_block
 	;
 
 
@@ -84,7 +118,21 @@ end_cmd
 	:	'\\end' (SOMETHING_IN_BRACKETS | SOMETHING_IN_CURLY_BRACKETS | '=' | NEWLINE )*  ;
 */
 	
-latex_cmd
+include_cmd
+	:	'\\include' (SOMETHING_IN_BRACKETS | SOMETHING_IN_CURLY_BRACKETS | '=' | NEWLINE )*  ;
+
+usepackage_cmd
+	:	'\\usepackage' (SOMETHING_IN_BRACKETS | SOMETHING_IN_CURLY_BRACKETS | '=' | NEWLINE )*  ;
+
+usetikzlibrary_cmd
+	:	'\\usetikzlibrary' (SOMETHING_IN_BRACKETS | SOMETHING_IN_CURLY_BRACKETS | '=' | NEWLINE )*  ;
+
+documentclass_cmd
+	:	'\\documentclass' (SOMETHING_IN_BRACKETS | SOMETHING_IN_CURLY_BRACKETS | '=' | NEWLINE )*  ;
+tikzstyle_cmd
+	:	'\\tikzstyle' (SOMETHING_IN_BRACKETS | SOMETHING_IN_CURLY_BRACKETS | '=' | NEWLINE )*  ;
+
+other_latex_cmd
 	:	cmd_name (SOMETHING_IN_BRACKETS | SOMETHING_IN_CURLY_BRACKETS | '=' | NEWLINE )*  ;
 
 
@@ -102,8 +150,8 @@ doublenewline
 	
 	
 	
-broken_cmd 
-	:	~(  NEWLINE )+ NEWLINE
+broken_cmd_or_text 
+	:	~(  NEWLINE )+ (NEWLINE|EOF)
          ;
 
 
@@ -112,9 +160,19 @@ TIKZEDT_CMD_COMMENT
     :   '%' WS+ TIKZEDT   ~('\n'|'\r')* '\r'? '\n'
     ;
     
+    
+     
 SOMETHING_IN_BRACKETS
-	:	'[' ~('['|']')* ']'
+	:	'[' ~('['|']')* ']' 
 	;
+	
+/*	:	'['
+		(
+			options { greedy=false; } : ( something_curly | SOMETHING_IN_CURLY_BRACKETS | '=' | NEWLINE | statement)
+		)*
+		']'
+	;*/
+		
 /*
 nodetype
 	:	'[' ~('[' | ']')* (nodetype ~('[' | ']')*)* ']'
@@ -157,5 +215,4 @@ WS  :   ( ' '
 
 fragment
 HEX_DIGIT : ('0'..'9'|'a'..'f'|'A'..'F') ;
-
 

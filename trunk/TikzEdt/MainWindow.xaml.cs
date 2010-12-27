@@ -467,11 +467,11 @@ namespace TikzEdt
             }
 
             StreamReader stream = new StreamReader(cFile);
-            //try            {
+            try            {
                 txtCode.Text = stream.ReadToEnd();
                 CurFile = cFile;
                 ChangesMade = false;
-            /*}
+            }
             catch (Exception Ex)
             {
                 string d = Ex.Message;
@@ -481,7 +481,7 @@ namespace TikzEdt
             finally
             {
                 stream.Close();
-            }*/
+            }
         }
         private bool TryDisposeFile()
         {
