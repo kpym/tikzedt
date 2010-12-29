@@ -208,7 +208,7 @@ namespace TikzEdt
             CoordinateStatusBarItem.Content = text;
         }
 
-        void AddStatusLine(string text, bool lError = false)
+        public void AddStatusLine(string text, bool lError = false)
         {
             Paragraph p = new Paragraph();
             if (lError)
@@ -1108,18 +1108,87 @@ namespace TikzEdt
             e.CanExecute = txtCode.CanRedo;
         }
 
+        //line de-breaking buffer for pdflatex output
+        private string OnTexOutputBufferString = "";
+        private const int MAX_LINE_LENGTH = 79;
         private void tikzDisplay1_OnTexOutput(string Message)
         {
+            //do not know why this happens.
+            if (Message == null)
+                return;
+            
+            if (OnTexOutputBufferString != "")
+            {
+                Message = OnTexOutputBufferString + Message;                
+                OnTexOutputBufferString = "";
+            }
+
             // add tex output
             if (Message != "")
             {
+                //Add more lines if line length is a multiple of 79 and
+                //it does not end with ...
+                if (!Message.EndsWith("...") && Message.Length % MAX_LINE_LENGTH == 0)
+                {
+                    OnTexOutputBufferString = Message;
+                    //Message will be processed upon next call of this function.
+                    return;
+                }                
+
+                //add whole line as paragraph to txtTexout
                 Paragraph p = new Paragraph();
                 p.Margin = new Thickness(0);
                 p.Inlines.Add(new Run(Message));
                 txtTexout.Document.Blocks.Add(p);
                 EditingCommands.MoveToDocumentEnd.Execute(null, txtTexout);
                 txtTexout.ScrollToEnd();
+
+                //add warning and errors to 
+                parseError(Message);
             }
+        }
+
+        private void parseError(string line)
+        {
+            //return;
+            //from Texclipse LatexRunner.java
+            Regex LATEXERROR = new Regex("^! LaTeX Error: (.*)$");
+            Regex LATEXCERROR = new Regex("^(.+?\\.\\w{3}):(\\d+): (.+)$");
+            Regex TEXERROR = new Regex("^!\\s+(.*)$");
+            Regex FULLBOX = new Regex("^(?:Over|Under)full \\\\[hv]box .* at lines? (\\d+)-?-?(\\d+)?");
+            Regex WARNING = new Regex("^.+[Ww]arning.*: (.*)$");
+            Regex ATLINE = new Regex("^l\\.(\\d+)(.*)$");
+            Regex ATLINE2 = new Regex(".* line (\\d+).*");
+            Regex NOBIBFILE = new Regex("^No file .+\\.bbl\\.$");
+            Regex NOTOCFILE = new Regex("^No file .+\\.toc\\.$");
+
+            //not sure what this is good for
+            line = line.Replace(" {2,}", " ").Trim();
+
+
+
+            //TODO: continue...
+
+            Match m = TEXERROR.Match(line);
+            if (m.Success)
+            { 
+                for(int i =0;i<m.Groups.Count;i++)
+                {
+                    addProblemMarker(m.Groups[i].Value, i, Severity.ERROR);
+                }
+                
+            }
+        }
+
+        enum Severity { NOTICE, ERROR, WARNING };
+
+        void addProblemMarker(String error, int linenr, Severity severity)
+        {
+            textBox1.Text += "l." + linenr + ":" + severity.ToString() + ": " + error + Environment.NewLine;
+        }
+        public void clearProblemMarkers()
+        {
+            textBox1.Clear();
         }
 
         private void MarkAtOffsetClick(object sender, RoutedEventArgs e)

@@ -132,8 +132,29 @@ namespace TikzEdt
 
             // call pdflatex         
             OnCompileEvent("Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, CompileEventType.Start);
+            
+            //clear error windows
+            ((MainWindow)Application.Current.Windows[0]).txtTexout.Document.Blocks.Clear();
+            ((MainWindow)Application.Current.Windows[0]).clearProblemMarkers();
+            
+
+            try
+            {
+                if (texProcess.HasExited == true)
+                {
+                    texProcess.CancelOutputRead();
+                    texProcess.CancelErrorRead();
+                }
+            }
+            catch (InvalidOperationException Ex)
+            {
+                //on first call when texProcess was not started, HasExited raises exception.
+            }
+
             texProcess.Start();
             texProcess.BeginOutputReadLine();
+            texProcess.BeginErrorReadLine();
+            
         }
         /// <summary>
         /// Adds a rectangle to the Tikzcode in the size specified by BB. 
@@ -165,22 +186,40 @@ namespace TikzEdt
             texProcess.StartInfo.CreateNoWindow = true;
             texProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             texProcess.StartInfo.UseShellExecute = false;
-            //texProcess.StartInfo.RedirectStandardError = true;
             texProcess.StartInfo.RedirectStandardOutput = true;
+            texProcess.StartInfo.RedirectStandardError = true;
+            
             // texProcess.SynchronizingObject = (System.ComponentModel.ISynchronizeInvoke) this;
             texProcess.Exited += new EventHandler(texProcess_Exited);
             texProcess.OutputDataReceived += new DataReceivedEventHandler(texProcess_OutputDataReceived);
-
+            texProcess.ErrorDataReceived += new DataReceivedEventHandler(texProcess_ErrorDataReceived);
         }
 
+        void texProcess_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            string s = "ErrorDataReceived: " + e.Data;
+            Dispatcher.Invoke(
+                new Action(
+                    delegate()
+                    {
+                        if (OnTexOutput != null)
+                            OnTexOutput(s);
+                    }
+                )
+            );
+        }
+        
         void texProcess_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            Dispatcher.Invoke(new Action(
-                delegate()
-                {
-                    if (OnTexOutput != null)
-                        OnTexOutput(e.Data);
-                }));
+            Dispatcher.Invoke(
+                new Action(
+                    delegate()
+                    {
+                        if (OnTexOutput != null)
+                            OnTexOutput(e.Data);
+                    }
+                )
+            );
         }
 
         /// <summary>
@@ -204,6 +243,18 @@ namespace TikzEdt
             Dispatcher.Invoke(new Action(
             delegate()
             {
+                //call OnTexOutput once more to make sure line de-breaking buffer is processed.
+                Dispatcher.Invoke(
+                    new Action(
+                        delegate()
+                        {
+                            if (OnTexOutput != null)
+                                OnTexOutput("");
+                        }
+                    )
+                );
+
+
                 if (texProcess.ExitCode == 0)
                 {
                     currentBB = compilingBB;
@@ -221,7 +272,12 @@ namespace TikzEdt
                 SetValue(CompilingProperty, false);
               ///  if (nextToCompile != "")
                //     doCompile();
-                texProcess.CancelOutputRead();
+
+
+                //this is bad. lines that are still "on its way" will be discarded.
+                //cf. example on http://msdn.microsoft.com/de-de/library/system.diagnostics.process.beginoutputreadline(VS.80).aspx
+                //there is no CancelOutputRead() call.
+                ///texProcess.CancelOutputRead();
             }
             ));
         }
