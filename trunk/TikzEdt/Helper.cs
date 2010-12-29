@@ -327,6 +327,7 @@ namespace TikzEdt
 
         void timer_Tick(object sender, EventArgs e)
         {
+            ((MainWindow)Application.Current.Windows[0]).AddStatusLine("Timeout. Compilation aborted", true);
             AbortCompilation();
         }
         /// <summary>
