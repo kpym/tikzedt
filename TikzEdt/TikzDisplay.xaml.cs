@@ -270,8 +270,10 @@ namespace TikzEdt
                 
                 isRunning = false;
                 SetValue(CompilingProperty, false);
-              ///  if (nextToCompile != "")
-               //     doCompile();
+                
+                // compile pending requests
+                //if (nextToCompile != "")
+                //    doCompile();
 
 
                 //this is bad. lines that are still "on its way" will be discarded.

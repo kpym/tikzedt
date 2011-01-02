@@ -253,6 +253,11 @@ namespace TikzEdt.Snippets
                 }
             }
         }
+
+        private void Image_ImageFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+
+        }
     }
 
     public sealed class ImageConverter : IValueConverter

@@ -749,9 +749,10 @@ namespace TikzEdt
                     if (xs != 0 || ys != 0)
                     {
                         Tikz_Scope ts = (curDragged as OverlayScope).tikzitem;
-                        if (ts.options == null)
-                            ts.options = new Tikz_Options();
-                        ts.options.SetShiftRel(xs, ys);
+                        //if (ts.options == null)
+                        //    ts.options = new Tikz_Options();
+                        Tikz_Options.SetShiftRel(ts, xs, ys);
+                        //ts.options.SetShiftRel(xs, ys);
                         //ts.UpdateText();
                     }
                 }

@@ -87,16 +87,46 @@ IM_STYLE;
 IM_TIKZEDT_CMD;
 }
 
+@parser::members {
+
+  //@Override
+  protected override Object RecoverFromMismatchedToken(IIntStream input, int ttype, BitSet follow) {
+    throw new MismatchedTokenException(ttype, input);
+  }
+
+  //@Override
+  public override Object RecoverFromMismatchedSet(IIntStream input, RecognitionException e, BitSet follow) {
+    throw e;
+  }
+
+}
+
+@rulecatch {
+    catch (RecognitionException e) {
+        throw e;
+    }
+}
+
+@lexer::members {
+    //@Override
+    public override void ReportError(RecognitionException e) {
+        throw new Exception(e.Message);
+    }
+
+}    
+/* comment out above for java*/
+
+
 tikzdocument
-	:	tikz_cmd_comment* (dontcare_preamble | tikz_styleorset | otherbegin)*  tikzpicture .*	-> ^(IM_DOCUMENT tikz_styleorset* tikzpicture)
+	:	(dontcare_preamble | tikz_styleorsetorcmd | otherbegin)*  tikzpicture .*	-> ^(IM_DOCUMENT tikz_styleorsetorcmd* tikzpicture)
 	;
 	
 tikz_cmd_comment
 	:	TIKZEDT_CMD_COMMENT  	 -> ^(IM_TIKZEDT_CMD TIKZEDT_CMD_COMMENT)
 	;
 
-tikz_styleorset
-	:	tikz_style | tikz_set
+tikz_styleorsetorcmd
+	:	tikz_style | tikz_set | tikz_cmd_comment
 	;
 
 dontcare_preamble
@@ -243,7 +273,7 @@ tikzpath_element
 		| tikznode_int
 		| circle!
 		| arc!
-		| LBRR tikzpath_element* RBRR
+		| roundbr_start tikzpath_element* roundbr_end -> ^(IM_PATH roundbr_start tikzpath_element* roundbr_end)
 		| edgeop!
 	;
 tikznode_ext
@@ -355,6 +385,9 @@ squarebr_end
 	;	
 semicolon_end
 	:	';'	-> ^(IM_ENDTAG ';')
+	;
+roundbr_start
+	:	'{'	-> ^(IM_STARTTAG '{')
 	;
 roundbr_end
 	:	'}'	-> ^(IM_ENDTAG '}')
