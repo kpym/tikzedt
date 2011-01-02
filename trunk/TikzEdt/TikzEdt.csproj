@@ -141,6 +141,7 @@
       <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="SourceManager.cs" />
+    <Compile Include="TexCompiler.cs" />
     <Compile Include="TikzDisplay.xaml.cs">
       <DependentUpon>TikzDisplay.xaml</DependentUpon>
     </Compile>

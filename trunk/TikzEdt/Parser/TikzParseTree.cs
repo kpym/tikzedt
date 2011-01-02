@@ -201,6 +201,16 @@ namespace TikzEdt.Parser
         {
         }
     }
+    public class Tikz_EdtCommand : TikzParseItem
+    {
+        public Tikz_EdtCommand(string txt)
+        {
+            text = txt;
+        }
+        public Tikz_EdtCommand()
+        {
+        }
+    }
     /// <summary>
     /// Parse Item having an x and y coordinate.
     /// </summary>
@@ -742,10 +752,13 @@ namespace TikzEdt.Parser
         /// This should be called instead of adding nodes to Children directly
         /// </summary>
         /// <param name="tpi"></param>
-        public void AddChild(TikzParseItem tpi)
+        public void AddChild(TikzParseItem tpi, bool InsertAsFirst=false)
         {
             tpi.parent = this;
-            Children.Add(tpi);
+            if (InsertAsFirst)
+                Children.Insert(0, tpi);
+            else
+                Children.Add(tpi);
             // raise event
             RaiseTextChanged(tpi, "");
         }
@@ -768,10 +781,11 @@ namespace TikzEdt.Parser
         public TikzMatrix GetCurrentTransform()
         {
             TikzMatrix M;
-            if (options != null)
-                M = options.GetTransform();
-            else
-                M = new TikzMatrix();
+            M = Tikz_Options.GetTransform(this);
+            //if (options != null)
+            //    M = options.GetTransform();
+            //else
+            //    M = new TikzMatrix();
             if (parent != null)
                 M = parent.GetCurrentTransform() * M;
             return M;
@@ -1058,6 +1072,30 @@ namespace TikzEdt.Parser
 
        //     return opts;
        // }
+        public static TikzMatrix GetTransform(TikzContainerParseItem tcpi)
+        {
+            TikzMatrix ret = new TikzMatrix();
+
+            double scale = 1, xshift = 0, yshift = 0;
+
+            Tikz_Option o = GetOption(tcpi, "xshift", Tikz_OptionType.keyval);
+            if (o != null)
+                if (o.numval != null)
+                    xshift = o.numval.GetInCM();
+            o = GetOption(tcpi, "yshift", Tikz_OptionType.keyval);
+            if (o != null)
+                if (o.numval != null)
+                    yshift = o.numval.GetInCM();
+            o = GetOption(tcpi, "scale", Tikz_OptionType.keyval);
+            if (o != null)
+                if (o.numval != null)
+                    scale = o.numval.GetInCM();
+            ret.m[0, 0] = scale;
+            ret.m[1, 1] = scale;
+            ret.m[0, 2] = xshift;
+            ret.m[1, 2] = yshift;
+            return ret;
+        }
 
         public TikzMatrix GetTransform()
         {
@@ -1131,6 +1169,63 @@ namespace TikzEdt.Parser
             }
         }
 
+        public static void SetShiftRel(TikzContainerParseItem tcpi, double xshift, double yshift)
+        {
+            if (xshift != 0)
+            {
+                Tikz_Option o = GetOption(tcpi, "xshift", Tikz_OptionType.keyval);
+                if (o == null)
+                {
+                    o = new Tikz_Option();
+                    o.type = Tikz_OptionType.keyval;
+                    o.key = "xshift";
+                    o.numval = new Tikz_NumberUnit();
+                    o.numval.unit = "cm";
+                    o.numval.SetInCM(xshift);
+                    AddOption(tcpi, o);
+                }
+                else
+                {
+                    o.numval.SetInCM(o.numval.GetInCM() + xshift);
+                    o.UpdateText();
+                }
+            }
+            if (yshift != 0)
+            {
+                Tikz_Option o = GetOption(tcpi, "yshift", Tikz_OptionType.keyval);
+                if (o == null)
+                {
+                    o = new Tikz_Option();
+                    o.type = Tikz_OptionType.keyval;
+                    o.key = "yshift";
+                    o.numval = new Tikz_NumberUnit();
+                    o.numval.unit = "cm";
+                    o.numval.SetInCM(yshift);
+                    AddOption(tcpi, o);
+                }
+                else
+                {
+                    o.numval.SetInCM(o.numval.GetInCM() + yshift);
+                    o.UpdateText();
+                }
+            }
+        }
+
+        public static Tikz_Option GetOption(TikzContainerParseItem tcpi, string optionname, Tikz_OptionType type)
+        {
+            Tikz_Option to = null;
+            foreach (TikzParseItem tpi in tcpi.Children)
+            {
+                if (tpi is Tikz_Options)
+                {
+                    Tikz_Option o = (tpi as Tikz_Options).GetOption(optionname, type);
+                    if (o != null)
+                        to = o;
+                }
+            }
+            return to;
+        }
+
         public Tikz_Option GetOption(string optionname, Tikz_OptionType type)
         {
             foreach (TikzParseItem tpi in Children)
@@ -1170,6 +1265,17 @@ namespace TikzEdt.Parser
             AddChild(o);
         }
 
+        public static void AddOption(TikzContainerParseItem tcpi, Tikz_Option o)
+        {
+            if (tcpi.options == null)
+            {
+                Tikz_Options topts = new Tikz_Options();
+                tcpi.AddChild(topts, true);
+                tcpi.options = topts;
+            }
+
+            tcpi.options.AddOption(o);
+        }
         //public override void UpdateText()
         //{
         //    string[] opts = new string[options.Count];

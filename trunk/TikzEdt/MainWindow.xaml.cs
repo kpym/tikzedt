@@ -38,6 +38,8 @@ namespace TikzEdt
         public static RoutedCommand UnCommentCommand = new RoutedCommand();
         public static RoutedCommand ShowCodeCompletionsCommand = new RoutedCommand();
 
+        System.ComponentModel.BackgroundWorker AsyncParser = new System.ComponentModel.BackgroundWorker();
+
         // the current file
         private string _CurFile= Consts.defaultCurFile;
         string CurFile
@@ -91,6 +93,21 @@ namespace TikzEdt
             }
         }
 
+        bool _ParseNeeded = false;
+        bool ParseNeeded
+        {
+            get { return _ParseNeeded; }
+            set
+            {
+                _ParseNeeded = value;
+                if (_ParseNeeded && !AsyncParser.IsBusy)
+                {
+                    _ParseNeeded = false;
+                    AsyncParser.RunWorkerAsync(txtCode.Text);
+                }
+            }
+        }
+
         OpenFileDialog ofd = new OpenFileDialog();
         SaveFileDialog sfd = new SaveFileDialog();
         Editor.FindReplaceDialog FindDialog;
@@ -115,7 +132,10 @@ namespace TikzEdt
             pdfOverlay1.rasterizer = rasterControl1;
             EnsureFindDialogExists();
 
-            TikzToBMPFactory.Instance.JobNumberChanged += new TikzToBMPFactory.NoArgsEventHandler(Instance_JobNumberChanged);
+            TikzToBMPFactory.Instance.JobNumberChanged += new TikzToBMPFactory.NoArgsEventHandler(TikzToBmpFactory_JobNumberChanged);
+
+            AsyncParser.DoWork += new System.ComponentModel.DoWorkEventHandler(AsyncParser_DoWork);
+            AsyncParser.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(AsyncParser_RunWorkerCompleted);
 
             // in the constructor:
             txtCode.TextArea.TextEntering += textEditor_TextArea_TextEntering;
@@ -135,7 +155,55 @@ namespace TikzEdt
             //cmbGrid.SelectedIndex = 4;
         }
 
-        void Instance_JobNumberChanged()
+
+        void AsyncParser_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                // error
+                AddStatusLine("Couldn't parse code.", true);
+                pdfOverlay1.SetParseTree(null, currentBB);
+            }
+            else if (e.Error != null)
+            {
+                AddStatusLine("Couldn't parse code. " + e.Error.Message, true);
+                pdfOverlay1.SetParseTree(null, currentBB);
+            }
+            else 
+            {
+                // parsing succesfull
+                Tikz_ParseTree tp = e.Result as Tikz_ParseTree;
+                if (DetermineBB(tp))
+                {
+                    // if BB changed->recompile .tex
+                    tikzDisplay1.Compile(txtCode.Text, currentBB, TexCompiler.IsStandalone(txtCode.Text));
+                    rasterControl1.BB = currentBB;
+                }
+                pdfOverlay1.SetParseTree(tp, currentBB);
+                UpdateStyleLists(tp);
+            }
+
+            // Restart parser if necessary
+            ParseNeeded = ParseNeeded;
+        }
+
+        // Unfortunately, due to a debugger "bug", the exception has to be caught and transferred into a cancelled event
+        // the try/catch should be removed for release
+        void AsyncParser_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            try
+            {
+                Tikz_ParseTree tp = TikzParser.Parse(e.Argument as string);
+                e.Result = tp;
+            }
+            catch (Exception err)
+            {
+                e.Cancel = true;
+                e.Result = err;
+            }
+        }
+
+        void TikzToBmpFactory_JobNumberChanged()
         {
             Dispatcher.Invoke(new Action(
                 delegate()
@@ -271,24 +339,22 @@ namespace TikzEdt
 
         }
 
+        
         /// <summary>
-        /// Checks whether the current code can be compiled,
-        /// or whether we need to append pre-/postambles
+        /// Determines the current Bounding Box.
+        /// Priorities are as follows:
+        ///     1. If Auto unchecked, take manually specified BB
+        ///     2. Otherwise, if TikzEdt Command BOUNDINGBOX present in t, then takes this BB.
+        ///     3. Otherwise, determine BB automatically.
+        ///     4. If this is impossible, leave the BB unchanged.
         /// </summary>
-        /// <returns></returns>
-        bool IsStandalone()
-        {
-            return txtCode.Text.Contains("\\documentclass");    // hack
-            //foreach (ICSharpCode.AvalonEdit.Document.DocumentLine l in txtCode.Document.Lines)
-           // {
-                
-           // }
-            //return false;
-        }
-
-        void DetermineBB(Tikz_ParseTree t)
+        /// <param name="t">The Parsetree used to determine the BB.</param>
+        /// <returns>True if BB changed, false if same.</returns>
+        bool DetermineBB(Tikz_ParseTree t)
         {
             Rect newBB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);
+            //Rect newBB2;
+            bool lret = false;
             if (chkAutoBB.IsChecked == false)
             {
                 // Parse
@@ -305,20 +371,36 @@ namespace TikzEdt
                 if (Double.TryParse(txtBBH.Text, out d))
                     if (d>0 && d<100)
                         newBB.Height=d;
+                lret = (currentBB != newBB);
                 currentBB = newBB;
             }
             else
             {
                 if (t != null)
-                {                                 
-                    if (t.GetBB(out newBB))
+                {
+                    if (ParseForBBCommand(t, out newBB))
+                    {
+                        // BOUNDINGBOX command in code found
+                        //txtBB.ToolTip = "";
+                        //chkAutoBB.IsEnabled = false;
+                        //txtBB.ToolTip = "BB determined in source code by BOUNDINGBOX command";
+                        lret = (currentBB != newBB);
+                        currentBB = newBB;
+                    }
+                    else if (t.GetBB(out newBB))
                     {
                         newBB.Inflate(Properties.Settings.Default.BB_Margin, Properties.Settings.Default.BB_Margin);
+                        lret = (currentBB != newBB);
                         currentBB = newBB;
                     }
                 }
             }
+            return lret;
         }
+        /// <summary>
+        /// Fills the currently displayed lists of styles from the parsetree provided
+        /// </summary>
+        /// <param name="t">The parse tree to extract the styles from</param>
         private void UpdateStyleLists(Tikz_ParseTree t)
         {
             if (t == null) return;
@@ -338,6 +420,86 @@ namespace TikzEdt
             }
             cmbEdgeStyles.Text = oldsel;
         }
+
+        /// <summary>
+        /// Tries to find a BOUNDINGBOX command in the parsetree specified.
+        /// </summary>
+        /// <param name="t">The parsetree in which to search for BOUNDINGBOX commands.</param>
+        /// <param name="BB">Contains the BB found after return.</param>
+        /// <returns>Returns true if a valid BOUNDINGBOX command is found, false otherwise.</returns>
+        bool ParseForBBCommand(Tikz_ParseTree t, out Rect BB)
+        {
+            // run through all commands in parsetree (only top level)
+            BB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);
+            RegexOptions ro = new RegexOptions();
+            ro = ro | RegexOptions.IgnoreCase;
+            ro = ro | RegexOptions.Multiline;
+            //string BB_RegexString = @".*BOUNDINGBOX[ \t\s]*=[ \t\s]*(?<left>[+-]?[0-9]+[.[0-9]+]?)+[ \t\s]+(?<bottom>[0-9])+[ \t\s]+(?<right>[0-9])+[ \t\s]+(?<top>[0-9])+[ \t\s]+.*";
+            //string BB_RegexString = @".*BOUNDINGBOX[ \t\s]*=[ \t\s]*((?<left>[+-]?[0-9]+(\.[0-9]+)?)[ \t\s]*){4}.*";
+            string BB_RegexString = @".*BOUNDINGBOX[ \t\s]*=[ \t\s]*(?<left>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+(?<bottom>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+(?<right>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+(?<top>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+.*";
+            Regex BB_Regex = new Regex(BB_RegexString, ro);
+
+            foreach (TikzParseItem tpi in t.Children)
+            {
+                if (tpi is Tikz_EdtCommand)
+                {
+                    Match m = BB_Regex.Match(tpi.text);
+
+                    if (m.Success == true)
+                    {
+                        try
+                        {
+                            double x = Convert.ToDouble(m.Groups[5].Value);
+                            double y = Convert.ToDouble(m.Groups[6].Value);
+                            double width = Convert.ToDouble(m.Groups[7].Value) - x;
+                            double height = Convert.ToDouble(m.Groups[8].Value) - y;
+
+                            Rect newBB = new Rect(x, y, width, height);
+                            //chkAutoBB.IsChecked = true;
+                            //chkAutoBB.IsEnabled = false;
+                            //txtBB.ToolTip = "Managed by source code";
+
+                            if (width > 0 && height > 0)
+                            {
+                                BB = newBB;
+                                return true;
+                            }
+                        }
+                        catch (Exception) { /*width or height negative. ignore. */}
+
+
+                    }
+                }
+            }
+//                    else
+//                    {
+
+//                        chkAutoBB.IsEnabled = true;
+//                        txtBB.ToolTip = "";
+//                        DetermineBB(t);
+//                    }
+//                }
+
+            return false;
+            //try
+            //{
+            //    Tikz_ParseTree t = TikzParser.Parse(txtCode.Text);
+            //    if (t == null) return;
+                ////SourceManager.Parse(txtCode.Text);
+                //Regex
+                //TikzParser.TIKZEDT_CMD_COMMENT
+
+                //UpdateStyleLists(t);
+                // Refresh overlay                    
+                //pdfOverlay1.SetParseTree(t, currentBB);
+            //}
+            //catch (Exception e)
+            //{
+            //    AddStatusLine("Couldn't parse code. " + e.Message, true);
+            //    pdfOverlay1.SetParseTree(null, currentBB);
+            //}
+        }
+
         private void Recompile()
         {
             // Parse            
@@ -350,69 +512,16 @@ namespace TikzEdt
                 }
                 else
                 {
-                    try
-                    {
-                        Tikz_ParseTree t = TikzParser.Parse(txtCode.Text);
-                        if (t == null) return;
-                        ////SourceManager.Parse(txtCode.Text);
-                        //Regex
-                        //TikzParser.TIKZEDT_CMD_COMMENT
-                        RegexOptions ro = new RegexOptions();
-                        ro = ro | RegexOptions.IgnoreCase;
-                        ro = ro | RegexOptions.Multiline;
-                        //string BB_RegexString = @".*BOUNDINGBOX[ \t\s]*=[ \t\s]*(?<left>[+-]?[0-9]+[.[0-9]+]?)+[ \t\s]+(?<bottom>[0-9])+[ \t\s]+(?<right>[0-9])+[ \t\s]+(?<top>[0-9])+[ \t\s]+.*";
-                        //string BB_RegexString = @".*BOUNDINGBOX[ \t\s]*=[ \t\s]*((?<left>[+-]?[0-9]+(\.[0-9]+)?)[ \t\s]*){4}.*";
-                        string BB_RegexString = @".*BOUNDINGBOX[ \t\s]*=[ \t\s]*(?<left>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+(?<bottom>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+(?<right>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+(?<top>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+.*";
-                        Regex BB_Regex = new Regex(BB_RegexString, ro);
-                        Match m = BB_Regex.Match(TikzParser.TIKZEDT_CMD_COMMENT);
-                        {
-
-                            if (m.Success == true)
-                            {
-                                double x = Convert.ToDouble(m.Groups[5].Value);
-                                double y = Convert.ToDouble(m.Groups[6].Value);
-                                double width = Convert.ToDouble(m.Groups[7].Value) - x;
-                                double height = Convert.ToDouble(m.Groups[8].Value) - y;
-                                try
-                                {
-                                    Rect newBB = new Rect(x, y, width, height);
-                                    chkAutoBB.IsChecked = true;
-                                    chkAutoBB.IsEnabled = false;
-                                    txtBB.ToolTip = "Managed by source code";
-
-                                    currentBB = newBB;
-                                }
-                                catch (Exception) { /*width or height negative. ignore. */}
-
-
-                            }
-                            else
-                            {
-
-                                chkAutoBB.IsEnabled = true;
-                                txtBB.ToolTip = "";
-                                DetermineBB(t);
-                            }
-                        }
-
-
-                        UpdateStyleLists(t);
-                        // Refresh overlay                    
-                        pdfOverlay1.SetParseTree(t, currentBB);
-                    }
-                    catch (Exception e)
-                    {
-                        AddStatusLine("Couldn't parse code. " + e.Message, true);
-                        pdfOverlay1.SetParseTree(null, currentBB);
-                    }
+                    // start asynchronous parsing
+                    ParseNeeded = true;
                 }
                 // Always Compile tex
-                tikzDisplay1.Compile(txtCode.Text, currentBB, IsStandalone());
+                tikzDisplay1.Compile(txtCode.Text, currentBB, TexCompiler.IsStandalone(txtCode.Text));
                 rasterControl1.BB = currentBB;
             }
             else
             {
-                tikzDisplay1.Compile(txtCode.Text, new Rect(0,0,0,0), IsStandalone());
+                tikzDisplay1.Compile(txtCode.Text, new Rect(0, 0, 0, 0), TexCompiler.IsStandalone(txtCode.Text));
             }            
         }
 
@@ -1211,6 +1320,35 @@ namespace TikzEdt
             {
                 System.Diagnostics.Process.Start(Properties.Settings.Default.Path_externalviewer, PdfPath);
             }
+        }
+
+        private void chkStatus_Checked(object sender, RoutedEventArgs e)
+        {
+            /*if (chkSnippets != null && cmdFiles != null && snippetlist1 != null)
+            {
+                if (sender == cmdFiles)
+                {
+                    cmdSnippets.IsChecked = false;
+                    //snippetlist1.Visibility = System.Windows.Visibility.Hidden;
+                }
+                else if (sender == cmdSnippets)
+                {
+                    cmdFiles.IsChecked = false;
+                    snippetlist1.Visibility = System.Windows.Visibility.Visible;
+                }
+
+                GridLengthConverter g = new GridLengthConverter();
+                if (LeftSplitterCol.Width == (GridLength)g.ConvertFrom(0))
+                {
+                    LeftToolsCol.Width = oldwidth;
+                    LeftSplitterCol.Width = (GridLength)g.ConvertFrom(3);
+                }
+            }*/
+        }
+
+        private void chkStatus_Unchecked(object sender, RoutedEventArgs e)
+        {
+
         }
 
 

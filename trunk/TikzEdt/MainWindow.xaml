@@ -31,8 +31,6 @@
         <BooleanToVisibilityConverter x:Key="boolToVis" />
         <my:InverseNullableBooleanConverter x:Key="NBoolInverter" />
     </Window.Resources>
-
-
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Undo"
                     Executed="UndoCommandHandler"
@@ -109,7 +107,7 @@
         <KeyBinding Command="{x:Static custom:MainWindow.CompileCommand}" Key="F5"/>
     </Window.InputBindings>
     <Grid>
-        <Grid.RowDefinitions>
+            <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -168,7 +166,7 @@
                 <MenuItem Header="Help..."/>
                 <MenuItem Header="About..." Click="AboutClick"/>
             </MenuItem>
-        </Menu>        
+        </Menu>
         <ToolBarTray Grid.Row="1">
             <ToolBar Height="28" Name="tlbMain" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Converter={StaticResource boolToVis}}">
                 <Button Command="ApplicationCommands.New">
@@ -364,32 +362,33 @@
                 <GridSplitter Background="Gray" Grid.Row="1" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                 <DockPanel LastChildFill="true" Grid.Row="2">
                     <StackPanel DockPanel.Dock="Left" Background="Gray">
-                        <ToggleButton Name="chkStatus" Checked="cmdSnippets_Checked" Unchecked="cmdSnippets_Unchecked" Focusable="False" IsChecked="True">
-                            <ToggleButton.LayoutTransform>
+                        <RadioButton Name="chkStatus" Checked="chkStatus_Checked" Unchecked="chkStatus_Unchecked" Focusable="False" 
+                                      IsChecked="True" Style="{StaticResource {x:Type ToggleButton}}">
+                            <RadioButton.LayoutTransform>
                                 <RotateTransform Angle="-90"/>
-                            </ToggleButton.LayoutTransform>
-                            <TextBlock Text="Status" />
-                        </ToggleButton>
-                        <ToggleButton Name="chkFullTex" Checked="cmdSnippets_Checked" Unchecked="cmdSnippets_Unchecked" Focusable="False" 
-                                      IsChecked="{Binding ElementName=chkStatus, Path=IsChecked, Converter={StaticResource NBoolInverter}}">
-                            <ToggleButton.LayoutTransform>
+                            </RadioButton.LayoutTransform>
+                            <TextBlock Text="Stat" />
+                        </RadioButton>
+                        <RadioButton Name="chkFullTex" Focusable="False" Style="{StaticResource {x:Type ToggleButton}}">
+                            <RadioButton.LayoutTransform>
                                 <RotateTransform Angle="-90"/>
-                            </ToggleButton.LayoutTransform>
+                            </RadioButton.LayoutTransform>
                             <TextBlock Text="Tex"/>
-                        </ToggleButton>
-                       <!-- <ToggleButton Name="chkErrorTex" Checked="cmdSnippets_Checked" Unchecked="cmdSnippets_Unchecked" Focusable="False" 
-                                      IsChecked="{Binding ElementName=chkStatus, Path=IsChecked, Converter={StaticResource NBoolInverter}}">
-                            <ToggleButton.LayoutTransform>
+                        </RadioButton>
+                        <RadioButton Name="chkErrorTex" Focusable="False" Style="{StaticResource {x:Type ToggleButton}}">
+                            <RadioButton.LayoutTransform>
                                 <RotateTransform Angle="-90"/>
-                            </ToggleButton.LayoutTransform>
-                            <TextBlock Text="Error"/>
-                        </ToggleButton> -->
+                            </RadioButton.LayoutTransform>
+                            <TextBlock Text="Err"/>
+                        </RadioButton>
                     </StackPanel>
                     <Grid>
                         <RichTextBox  HorizontalAlignment="Stretch"  Name="txtStatus" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
                                       Visibility="{Binding ElementName=chkStatus, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
                         <RichTextBox  HorizontalAlignment="Stretch"  Name="txtTexout" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
                                       Visibility="{Binding ElementName=chkFullTex, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
+                        <TextBox Name="textBox1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
+                                      Visibility="{Binding ElementName=chkErrorTex, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
                     </Grid>
                 </DockPanel>
                 <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" 
@@ -427,7 +426,6 @@
                                     JumpToSource="pdfOverlay1_JumpToSource" ToolChanged="pdfOverlay1_ToolChanged" />
                 </Grid>
             </ScrollViewer>
-            <TextBox Name="textBox1" Grid.Column="1" Margin="0,276,0,0" />
         </Grid>
         <StatusBar Grid.Row="3" Height="23" HorizontalAlignment="Stretch" Name="statusBar1" VerticalAlignment="Top">
             <StatusBarItem>

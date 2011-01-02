@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Windows;
+//using System.ComponentModel;
 
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
@@ -15,12 +16,12 @@ namespace TikzEdt.Parser
     /// </summary>
     static class TikzParser
     {
-        static public string TIKZEDT_CMD_COMMENT = "";
+        //static public string TIKZEDT_CMD_COMMENT = "";
 
         public static Tikz_ParseTree Parse(string code)
         {
             //TIKZEDT_CMD_COMMENT are read from file. clean the here before they are re-read.
-            TIKZEDT_CMD_COMMENT = "";
+            //TIKZEDT_CMD_COMMENT = "";
 
             simpletikzLexer lex = new simpletikzLexer(new ANTLRStringStream(code));
             CommonTokenStream tokens = new CommonTokenStream(lex);
@@ -165,15 +166,19 @@ namespace TikzEdt.Parser
                         //Tikz_Size tsize = new Tikz_Size();
                         //item.AddChild(tsize);
                         break;                 
-                    case simpletikzParser.ID:
-                    case simpletikzParser.IM_STRING:
-                    case simpletikzParser.COMMAND:
-                    case simpletikzParser.T__57:
+                    //case simpletikzParser.ID:
+                    //case simpletikzParser.IM_STRING:
+                    //case simpletikzParser.COMMAND:
+                    //case simpletikzParser.T__57:
+                    //    break;
+                    case simpletikzParser.IM_TIKZEDT_CMD:
+                        Tikz_EdtCommand cmd = new Tikz_EdtCommand(getTokensString(tokens, childt));
+                        item.AddChild(cmd);
                         break;
                     default:
                         // getting here is an error
-                        //throw new Exception("childt.Type not handled!" + childt.Type.ToString());
-                        break;
+                        throw new Exception("childt.Type not handled! " + childt.Type.ToString());
+                        //break;
 
                 }
 

@@ -90,7 +90,7 @@
             <TextBlock FontSize="18" FontWeight="Bold" Margin="10" HorizontalAlignment="Center" DockPanel.Dock="Top">Code Snippets</TextBlock>
             <ToolBar Height="32" DockPanel.Dock="Top" ToolBarTray.IsLocked="True" Name ="tlbNewDelete">
             <Button Click="cmdAddClick">
-                <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png"></Image>
+                <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png" ImageFailed="Image_ImageFailed"></Image>
                     <Button.ToolTip>New Snippet</Button.ToolTip>
                 </Button>
             <Button Click="cmdDeleteClick">
