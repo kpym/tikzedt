@@ -15,5 +15,7 @@
         </WindowsFormsHost>
         -->
         <Image Grid.Row="0" HorizontalAlignment="Stretch" Name="image1" Stretch="None" VerticalAlignment="Stretch" SizeChanged="image1_SizeChanged" />
+        <TextBox Text="&lt;unavailable&gt;" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"
+                 FontWeight="Bold" Foreground="Silver" Name="lblUnavailable"/>
     </Grid>
 </UserControl>

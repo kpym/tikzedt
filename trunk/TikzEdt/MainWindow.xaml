@@ -288,12 +288,14 @@
         </ToolBar>
             <ToolBar  Band="1" Height="28" Name="tlbMode"
                       Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowMode, Converter={StaticResource boolToVis}}">
-                <ToggleButton IsChecked="True" Name="chkFancyMode" Checked="chkFancyMode_Checked" Unchecked="chkFancyMode_Checked">
+                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Mode:</TextBlock>
+                <RadioButton IsChecked="True" Name="chkFancyMode" Checked="chkFancyMode_Checked"
+                             Style="{StaticResource {x:Type ToggleButton}}" Focusable="False">
                     <DockPanel>
                     <Image Source="/TikzEdt;component/Images/base_star_32.png" Height="16" Width="16" Stretch="Fill"></Image>
-                        <TextBlock>Fancy Mode</TextBlock>
+                        <TextBlock>Fancy</TextBlock>
                     </DockPanel>
-                    <ToggleButton.ToolTip> 
+                    <RadioButton.ToolTip> 
                         <StackPanel>
                             <TextBlock Text="Fancy Mode" FontWeight="Bold"></TextBlock>
                             <TextBlock Width="200" TextWrapping="Wrap">
@@ -302,14 +304,14 @@
                                 the transformation from Tikz to Screen coordinates.
                             </TextBlock>
                         </StackPanel>
-                        </ToggleButton.ToolTip>
-                    </ToggleButton>
-                <ToggleButton Name="chkStandardMode" IsChecked="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource NBoolInverter}}">
+                        </RadioButton.ToolTip>
+                    </RadioButton>
+                <RadioButton Name="chkStandardMode" Style="{StaticResource {x:Type ToggleButton}}" Focusable="False" Checked="chkFancyMode_Checked">
                     <DockPanel>
                         <!-- <Image Source="/TikzEdt;component/Images/base_star_32.png"></Image>-->
-                        <TextBlock>Standard Mode</TextBlock>
+                        <TextBlock>Standard</TextBlock>
                     </DockPanel>
-                    <ToggleButton.ToolTip>
+                    <RadioButton.ToolTip>
                          <StackPanel>
                             <TextBlock Text="Standard Mode" FontWeight="Bold"></TextBlock>
                             <TextBlock Width="200" TextWrapping="Wrap">
@@ -317,10 +319,32 @@
                                 The document is rendered as it is. Hence TikzEdt becomes 
                                 a pure text editor with Preview. Use this mode if you have
                                 problems with fancy mode (speed/stability).
+                                Note that the Picture displayed on the right is a temporary 
+                                pdf file stored in the tex-file's directory. If you want to
+                                produce the final pdf, choose Production Mode.
                             </TextBlock>
                         </StackPanel>
-                    </ToggleButton.ToolTip>
-                </ToggleButton>
+                    </RadioButton.ToolTip>
+                </RadioButton>
+                <RadioButton Name="chkProductionMode" Style="{StaticResource {x:Type ToggleButton}}"  Focusable="False" Checked="chkFancyMode_Checked">
+                    <DockPanel>
+                        <!-- <Image Source="/TikzEdt;component/Images/base_star_32.png"></Image>-->
+                        <TextBlock>Production</TextBlock>
+                    </DockPanel>
+                    <RadioButton.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="Production Mode" FontWeight="Bold"></TextBlock>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                This mode is the same as Standard Mode, except that 
+                                (i) the picture displayed on the right is the final 
+                                pdf output (file yourtexfile.pdf)
+                                (ii) there is no auto-compilation, you have to hit compile 
+                                to save and compile the source. (This is to avoid automatic
+                                saving of changes to the source file.) 
+                            </TextBlock>
+                        </StackPanel>
+                    </RadioButton.ToolTip>
+                </RadioButton>
             </ToolBar>
         </ToolBarTray>
         <Grid Grid.Row="2">
@@ -389,6 +413,17 @@
                                       Visibility="{Binding ElementName=chkFullTex, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
                         <TextBox Name="textBox1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
                                       Visibility="{Binding ElementName=chkErrorTex, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
+                        <ListView Name="lstErrors" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                      Visibility="{Binding ElementName=chkErrorTex, Path=IsChecked, Converter={StaticResource boolToVis}}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Line}" Header="line" Width="25" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Message}" Header="Message" Width="250"/>
+                                </GridView>
+                            </ListView.View>
+
+                        </ListView>
+
                     </Grid>
                 </DockPanel>
                 <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" 
@@ -418,7 +453,7 @@
                     <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center"
                                        Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"  />
                     <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" Width="200" Height="200" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" 
-                                    OnCompileEvent="tikzDisplay1_OnCompileEvent" OnTexOutput="tikzDisplay1_OnTexOutput" />                   
+                                    OnCompileEvent="tikzDisplay1_OnCompileEvent" />                   
                     <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" 
                                     OnModified="pdfOverlay1_OnModified" BeginModify="pdfOverlay1_BeginModify" EndModify="pdfOverlay1_EndModify" 
                                     NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text,Mode=OneWay}" EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}"

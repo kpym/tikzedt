@@ -17,27 +17,60 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Threading;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace TikzEdt
 {
-    public class TexCompiler
+    public class TexCompiler : DispatcherObject
     {
-        public delegate void NoArgsEventHandler();
+        public delegate void NoArgsEventHandler(object sender);
         public event NoArgsEventHandler BitmapGenerated;            // called after _successful_ bitmap generation
         public event NoArgsEventHandler JobNumberChanged;           // called whenever the number of jobs in the queue changed
+        public delegate void JobEventHandler(object sender, Job job);
+        public event JobEventHandler JobFailed;
+        public event JobEventHandler JobSucceeded;
 
-        public double timeout = 5000; // in milliseconds
+        public enum CompileEventType { Start, Error, Success, Status };
+        public delegate void CompileEventHandler(object sender, string Message, CompileEventType type);
+        public event CompileEventHandler OnCompileEvent;
+        public delegate void TexOutputHandler(object sender, string Message);
+        public event TexOutputHandler OnTexOutput;
+
+        public double timeout = 10000; // in milliseconds
         public double Resolution = 50;
-        protected struct Job
+        public class Job
         {
-            public string code, path, name;
-            public Rect BB;
-            public Job(string tcode, string tpath, Rect tBB, string tname)
+            public string   code="",   // The tex code 
+                            path="",   // The tex-filename, if empty string "", the default tempfile is used
+                            name="";   // (optional) A description, to be displayed on error
+            public Rect BB =new Rect(0,0,0,0);         // The BoundingBox. If it has size >0, a rectangle is inserted into the tex code
+            public bool CreateBMP=false;  // if true, create bmp file, if false, create pdf only
+            public bool WriteCode=true;  // true if code should be written to path, false if file already exists and just needs to be compiled
+            public bool GeneratePrecompiledHeaders = false; // if set to true, all other arguments are ignored
+            public Job(string tcode, string tpath, Rect tBB, string tname, bool tCreateBMP)
             {
-                code = tcode; path = tpath; BB = tBB; name = tname;
+                code = tcode; path = tpath; BB = tBB; name = tname; CreateBMP = tCreateBMP;
+            }
+            public Job()
+            {
             }
         }
         protected Queue<Job> todo_tex = new Queue<Job>();
+
+        public class TexError
+        {
+            // TODO
+            int _Line;
+            public int Line { get {return _Line; } set { _Line = value; }}
+            string _Message;
+            public string Message { get {return _Message; } set { _Message = value; }}
+            Severity _type;
+            public Severity type { get { return _type; } set { _type = value; } }
+        }
+        public enum Severity { NOTICE, ERROR, WARNING };
+        public delegate void TexErrorHandler(object sender, TexError Error);
+        public event TexErrorHandler OnTexError;
+
 
         /// <summary>
         /// Adds some tikz code to the internal TODO list, to be compiled as soon as possible.
@@ -45,14 +78,60 @@ namespace TikzEdt
         /// <param name="code">Tikz Code to compile</param>
         /// <param name="path">Path, without ending, e.g. img\myfile </param>
         /// <param name="BB">The bounding box</param>
-        public void AddJob(string code, string path, Rect BB, string name = "")
+        public void AddJob(string code, string path, Rect BB, string name, bool CreateBMP)
         {
-            todo_tex.Enqueue(new Job(code, path, BB, name));
+            Job job = new Job();
+            job.code = code;
+            job.path = path;
+            job.BB = BB;
+            job.name = name;
+            job.CreateBMP = CreateBMP;
+            AddJob(job);
+        }
+        public void AddJob(Job job)
+        {
+            // if job.path is empty, fill with a temp file name
+            if (job.path == "")
+                job.path = Helper.GetAppDir() + "\\" + Consts.cTempFile + Process.GetCurrentProcess().Id + ".tex";
+
+            todo_tex.Enqueue(job);
             if (JobNumberChanged != null)
-                JobNumberChanged();
+                JobNumberChanged(this);
             if (!isRunning)
                 doCompile();
         }
+        /// <summary>
+        /// Same as AddJob, but deletes all other pending jobs first.
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="path"></param>
+        /// <param name="BB"></param>
+        /// <param name="name"></param>
+        public void AddJobExclusive(string code, string path, Rect BB)
+        {
+            todo_tex.Clear();
+
+            Job job = new Job();
+            job.code = code;
+            job.path = path;
+            job.BB = BB;
+            job.CreateBMP = false;
+            job.WriteCode = true;
+
+            AddJob(job);
+        }
+        public void AddJobExclusive(string path)
+        {
+            todo_tex.Clear();
+            
+            Job job = new Job();
+            job.path = path;
+            job.CreateBMP = false;
+            job.WriteCode = false;
+
+            AddJob(job);
+        }
+
 
         public int JobsInQueue
         {
@@ -74,9 +153,9 @@ namespace TikzEdt
         {
             if (!texProcess.HasExited)
                 texProcess.Kill();
+            
         }
 
-        
         /// <summary>
         /// The main routine, starts the compilation of the Tikz-Picture.
         /// If necessary it initiates compilation of the precompiled headers.
@@ -90,44 +169,72 @@ namespace TikzEdt
             isRunning = true;
             Job job = todo_tex.Peek();
 
-            if (!File.Exists(Consts.cTempFile + ".fmt"))
+            if (!File.Exists(Helper.GetPrecompiledHeaderPath() + ".fmt"))
             {
-                Helper.GeneratePrecompiledHeaders();
+                if (OnCompileEvent != null)
+                    OnCompileEvent(this, "Generating precompiled headers.... please restart in some moments", CompileEventType.Status); 
+                Helper.GeneratePrecompiledHeaders();  // todo: add as compile job
                 return;
             }
 
             // save into temporary textfile
-            // add bounding box
-            bool lsucceeded;
-            string codetowrite = job.code;
-            if (job.BB.Width > 0 && job.BB.Height > 0)
-                codetowrite = writeBBtoTikz(job.code, job.BB, out lsucceeded);
-
-            if (!Directory.Exists(System.IO.Path.GetDirectoryName(job.path)))
-                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(job.path));
-
-            StreamWriter s = new StreamWriter(job.path + ".tex");
-            if (IsStandalone(job.code))
+            if (job.WriteCode)
             {
-                s.WriteLine(codetowrite);
+                // add bounding box
+                bool lsucceeded;
+                string codetowrite = job.code;
+                if (job.BB.Width > 0 && job.BB.Height > 0)
+                    codetowrite = writeBBtoTikz(job.code, job.BB, out lsucceeded);
+
+                if (!Directory.Exists(System.IO.Path.GetDirectoryName(job.path)))
+                    Directory.CreateDirectory(System.IO.Path.GetDirectoryName(job.path));
+
+                StreamWriter s = new StreamWriter(job.path);
+                if (IsStandalone(job.code))
+                {
+                    s.WriteLine(codetowrite);
+                }
+                else
+                {
+                    s.WriteLine("%& \"" + Helper.GetPrecompiledHeaderPath() + "\"");
+                    s.WriteLine("\\begin{document}");
+                    s.WriteLine(codetowrite);
+                    s.WriteLine(Properties.Settings.Default.Tex_Postamble);
+                }
+                s.Close();
             }
-            else
-            {
-                s.WriteLine(@"%& ..\" + Consts.cTempFile);
-                s.WriteLine("\\begin{document}");
-                s.WriteLine(codetowrite);
-                s.WriteLine(Properties.Settings.Default.Tex_Postamble);
-            }
-            s.Close();
 
             // call pdflatex         
-            texProcess.StartInfo.Arguments = "-quiet -halt-on-error " + "\"" + job.path + ".tex" + "\"";
+            texProcess.StartInfo.Arguments = "-halt-on-error " + "\"" + job.path + "\""; 
             texProcess.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(job.path);
 
             // Set reset timer in case something goes wrong
-            timer.Interval = TimeSpan.FromMilliseconds(timeout);
-            timer.Start();
+            if (timeout > 0)
+            {
+                timer.Interval = TimeSpan.FromMilliseconds(timeout);
+                timer.Start();
+            }
+
+            try
+            {
+                if (texProcess.HasExited == true)
+                {
+                    texProcess.CancelOutputRead();
+                    texProcess.CancelErrorRead();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                //on first call when texProcess was not started, HasExited raises exception.
+            }
+
+            if (OnCompileEvent != null)
+                OnCompileEvent(this, "Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, CompileEventType.Start);
+  
             texProcess.Start();
+            texProcess.BeginOutputReadLine();
+            //texProcess.BeginErrorReadLine(); // this is not needed afaik....
+            
         }
 
         void timer_Tick(object sender, EventArgs e)
@@ -162,11 +269,15 @@ namespace TikzEdt
             //texProcess.StartInfo.Arguments = "-quiet -halt-on-error " + Consts.cTempFile + ".tex";
             texProcess.StartInfo.FileName = "pdflatex";
             texProcess.StartInfo.CreateNoWindow = true;
+            texProcess.StartInfo.UseShellExecute = false;
             texProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            texProcess.StartInfo.RedirectStandardOutput = true;
             // texProcess.SynchronizingObject = (System.ComponentModel.ISynchronizeInvoke) this;
             texProcess.Exited += new EventHandler(texProcess_Exited);
+            texProcess.OutputDataReceived += new DataReceivedEventHandler(texProcess_OutputDataReceived);
             timer.Tick += new EventHandler(timer_Tick);
-
+            
+            //texProcess.ErrorDataReceived += new DataReceivedEventHandler(texProcess_ErrorDataReceived);
         }
 
 
@@ -182,34 +293,52 @@ namespace TikzEdt
             //delegate()
             //{
             timer.Stop();
+
+            Dispatcher.BeginInvoke(new Action(delegate()
+            {            
             Job job = todo_tex.Dequeue();
             if (JobNumberChanged != null)
-                JobNumberChanged();
+                 JobNumberChanged(this);
 
             if (texProcess.ExitCode == 0)
             {
+                if (OnCompileEvent != null)
+                    OnCompileEvent(this, "Compilation done", CompileEventType.Success);
+                if (JobSucceeded != null)
+                    JobSucceeded(this, job);
 
-                if (!mypdfDoc.LoadPdf(job.path + ".pdf"))
+                if (job.CreateBMP)
                 {
-                    MessageBox.Show("Couldn't load pdf");
-                }
-                else
-                {
-                    Dispatcher.CurrentDispatcher.Invoke(new Action(
-                        delegate()
-                        {
-                            mypdfDoc.SaveBmp(job.path + ".bmp", Resolution);
-                            if (BitmapGenerated != null)
-                                BitmapGenerated();
-                        }
-                        ));
+                    string pathnoext = Helper.RemoveFileExtension(job.path);
+
+                    if (!mypdfDoc.LoadPdf(pathnoext + ".pdf"))
+                    {
+                        MessageBox.Show("Couldn't load pdf " + pathnoext + ".pdf");
+                    }
+                    else
+                    {
+                        mypdfDoc.SaveBmp(pathnoext + ".bmp", Resolution);
+                        if (BitmapGenerated != null)
+                            BitmapGenerated(this);
+                    }
                 }
             }
-            else MessageBox.Show("Compilation of the Codesnippet-Thumbnail " + job.path + " (" + job.name + ") failed.\r\nPlease re-check the code.");
+            else
+            {
+                if (OnCompileEvent != null)
+                    OnCompileEvent(this, "Compilation failed wih exit code " + texProcess.ExitCode, CompileEventType.Error);
+                if (JobFailed != null)
+                {
+                    JobFailed(this, job);
+                }        
+            }
 
             isRunning = false;
+ 
             if (todo_tex.Count > 0)
                 doCompile();
+
+            }));
         }
 
         /// <summary>
@@ -223,6 +352,101 @@ namespace TikzEdt
                     || code.Trim().StartsWith("%&") );    // precompiled header
         }
 
+        /*void texProcess_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            string s = "ErrorDataReceived: " + e.Data;
+            Dispatcher.Invoke(
+                new Action(
+                    delegate()
+                    {
+                        if (OnTexOutput != null)
+                            OnTexOutput(s);
+                    }
+                )
+            );
+        }*/
+
+        //line de-breaking buffer for pdflatex output
+        private string OnTexOutputBufferString = "";
+        private const int MAX_LINE_LENGTH = 79;
+        void texProcess_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            
+            Dispatcher.Invoke(
+                new Action(
+                    delegate()
+                    {
+                        string Message = e.Data;
+                        if (Message==null)
+                            return;
+
+                        if (OnTexOutputBufferString != "")
+                        {
+                            Message = OnTexOutputBufferString + Message;
+                            OnTexOutputBufferString = "";
+                        }
+
+                        // add tex output
+                        if (Message != "")
+                        {
+                            //Add more lines if line length is a multiple of 79 and
+                            //it does not end with ...
+                            if (!Message.EndsWith("...") && Message.Length % MAX_LINE_LENGTH == 0)
+                            {
+                                OnTexOutputBufferString = Message;
+                                //Message will be processed upon next call of this function.
+                                return;
+                            }
+                        }
+
+
+                        if (OnTexOutput != null)
+                            OnTexOutput(this, Message);
+
+                        //add warning and errors to
+                        parseError(Message);
+                    }
+                )
+            );
+        }
+
+        private void parseError(string line)
+        {
+            //return;
+            //from Texclipse LatexRunner.java
+            Regex LATEXERROR = new Regex("^! LaTeX Error: (.*)$");
+            Regex LATEXCERROR = new Regex("^(.+?\\.\\w{3}):(\\d+): (.+)$");
+            Regex TEXERROR = new Regex("^!\\s+(.*)$");
+            Regex FULLBOX = new Regex("^(?:Over|Under)full \\\\[hv]box .* at lines? (\\d+)-?-?(\\d+)?");
+            Regex WARNING = new Regex("^.+[Ww]arning.*: (.*)$");
+            Regex ATLINE = new Regex("^l\\.(\\d+)(.*)$");
+            Regex ATLINE2 = new Regex(".* line (\\d+).*");
+            Regex NOBIBFILE = new Regex("^No file .+\\.bbl\\.$");
+            Regex NOTOCFILE = new Regex("^No file .+\\.toc\\.$");
+
+            //not sure what this is good for
+            line = line.Replace(" {2,}", " ").Trim();
+
+
+
+            //TODO: continue...
+
+            Match m = TEXERROR.Match(line);
+            if (m.Success)
+            {
+                for (int i = 0; i < m.Groups.Count; i++)
+                {
+                    TexError err = new TexError();
+                    err.Line = 0;   // TODO
+                    err.Message = m.Groups[i].Value;
+                    err.type = Severity.ERROR;
+                    if (OnTexError != null)
+                        OnTexError(this, err);
+                }
+
+            }
+        }
+
     }
 
 
@@ -233,9 +457,25 @@ namespace TikzEdt
     {
         public static TikzToBMPFactory Instance = new TikzToBMPFactory();
 
+        static TikzToBMPFactory()
+        {
+            Instance.JobFailed += new JobEventHandler(OnJobFailed);
+        }
 
+        public static void OnJobFailed(object sender, Job job)
+        {
+            MessageBox.Show("Compilation of the Codesnippet-Thumbnail " + job.path + " (" + job.name + ") failed.\r\nPlease re-check the code.");
+        }
 
     }
 
+    /// <summary>
+    /// This class hosts the single instance of the Compiler used for compiling all the tex files 
+    /// (...but not the snippet thumbnails)
+    /// </summary>
+    public class TheCompiler : TexCompiler
+    {
+        public static TexCompiler Instance = new TexCompiler();
 
+    }
 }
