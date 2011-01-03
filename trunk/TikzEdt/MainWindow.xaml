@@ -132,7 +132,7 @@
                 <Separator/>
                 <MenuItem Header="Find..."  Command="ApplicationCommands.Find"/>
                 <MenuItem Header="Replace..."  Command="ApplicationCommands.Replace"/>
-                <MenuItem Header="Find Next"  Command="{x:Static custom:MainWindow.FindNextCommand}"/>
+                <MenuItem Header="Find Next"  Command="{x:Static custom:MainWindow.FindNextCommand}" InputGestureText="F3"/>
                 <Separator/>
                 <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}"/>
                 <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
@@ -151,7 +151,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Compilation">
-                <MenuItem Header="Compile" Command="{x:Static custom:MainWindow.CompileCommand}"/>
+                <MenuItem Header="Compile" Command="{x:Static custom:MainWindow.CompileCommand}" InputGestureText="F5"/>
                 <MenuItem Header="Abort" Click="AbortCompilationClick" IsEnabled="{Binding ElementName=tikzDisplay1, Path=Compiling}"/>
                 <Separator/>
                 <MenuItem Header="(Re-)Generate precompiled headers" Click="GenerateHeadersClick"/>
@@ -192,7 +192,7 @@
                 <Button Command="{x:Static custom:MainWindow.CompileCommand}">
                     <Image Source="/TikzEdt;component/Images/PlayHS.png"  Stretch="Fill" Height="16" Width="16"/>
                     <Button.ToolTip>
-                        Compile the file
+                        Compile the file (F5)
                     </Button.ToolTip>
                 </Button>
                 <Button Name="cmdAbortCompilation" IsEnabled="{Binding ElementName=tikzDisplay1, Path=Compiling}" Click="AbortCompilationClick" >

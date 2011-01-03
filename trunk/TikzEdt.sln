@@ -3,20 +3,40 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TikzEdt", "TikzEdt\TikzEdt.csproj", "{8DC4C41D-2095-4213-A46B-121EB550A2ED}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TESetup", "TESetup\TESetup.vdproj", "{4A2106BD-1D59-406C-8108-3F4C1860EF92}"
+Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "TESetupIS", "TESetupIS\TESetupIS.isproj", "{D96641B3-489D-4E99-B45F-F5FDF8EAE74D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8DC4C41D-2095-4213-A46B-121EB550A2ED} = {8DC4C41D-2095-4213-A46B-121EB550A2ED}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|x86 = CD_ROM|x86
 		Debug|x86 = Debug|x86
+		DVD-5|x86 = DVD-5|x86
 		Release|x86 = Release|x86
+		SingleImage|x86 = SingleImage|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8DC4C41D-2095-4213-A46B-121EB550A2ED}.CD_ROM|x86.ActiveCfg = Release|x86
+		{8DC4C41D-2095-4213-A46B-121EB550A2ED}.CD_ROM|x86.Build.0 = Release|x86
 		{8DC4C41D-2095-4213-A46B-121EB550A2ED}.Debug|x86.ActiveCfg = Debug|x86
 		{8DC4C41D-2095-4213-A46B-121EB550A2ED}.Debug|x86.Build.0 = Debug|x86
+		{8DC4C41D-2095-4213-A46B-121EB550A2ED}.DVD-5|x86.ActiveCfg = Debug|x86
+		{8DC4C41D-2095-4213-A46B-121EB550A2ED}.DVD-5|x86.Build.0 = Debug|x86
 		{8DC4C41D-2095-4213-A46B-121EB550A2ED}.Release|x86.ActiveCfg = Release|x86
 		{8DC4C41D-2095-4213-A46B-121EB550A2ED}.Release|x86.Build.0 = Release|x86
-		{4A2106BD-1D59-406C-8108-3F4C1860EF92}.Debug|x86.ActiveCfg = Debug
-		{4A2106BD-1D59-406C-8108-3F4C1860EF92}.Release|x86.ActiveCfg = Release
+		{8DC4C41D-2095-4213-A46B-121EB550A2ED}.SingleImage|x86.ActiveCfg = Release|x86
+		{8DC4C41D-2095-4213-A46B-121EB550A2ED}.SingleImage|x86.Build.0 = Release|x86
+		{D96641B3-489D-4E99-B45F-F5FDF8EAE74D}.CD_ROM|x86.ActiveCfg = CD_ROM
+		{D96641B3-489D-4E99-B45F-F5FDF8EAE74D}.CD_ROM|x86.Build.0 = CD_ROM
+		{D96641B3-489D-4E99-B45F-F5FDF8EAE74D}.Debug|x86.ActiveCfg = DVD-5
+		{D96641B3-489D-4E99-B45F-F5FDF8EAE74D}.Debug|x86.Build.0 = DVD-5
+		{D96641B3-489D-4E99-B45F-F5FDF8EAE74D}.DVD-5|x86.ActiveCfg = DVD-5
+		{D96641B3-489D-4E99-B45F-F5FDF8EAE74D}.DVD-5|x86.Build.0 = DVD-5
+		{D96641B3-489D-4E99-B45F-F5FDF8EAE74D}.Release|x86.ActiveCfg = SingleImage
+		{D96641B3-489D-4E99-B45F-F5FDF8EAE74D}.Release|x86.Build.0 = SingleImage
+		{D96641B3-489D-4E99-B45F-F5FDF8EAE74D}.SingleImage|x86.ActiveCfg = SingleImage
+		{D96641B3-489D-4E99-B45F-F5FDF8EAE74D}.SingleImage|x86.Build.0 = SingleImage
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

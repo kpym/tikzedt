@@ -542,7 +542,7 @@ namespace TikzEdt
         private void Recompile()
         {
             // Parse and compile, depending on current mode
-            string path = CurFile + ".preview";
+            string path = CurFile + ".preview.tex";
             if (CurFileNeverSaved)
                 path = "";      // use a temp file in the application directory
 
