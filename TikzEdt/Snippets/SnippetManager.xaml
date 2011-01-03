@@ -160,10 +160,12 @@
 
                     <TextBlock Margin="3" Grid.Row="3" Grid.Column="0">Snippet Code:</TextBlock>
                     <!-- <local:TextEditorWithBinding x:Name="SnippetCodeDTKey" Grid.Row="3" Grid.Column="1" BindableText="{Binding Path=SnippetCode}" Height="150"/>-->
-                    <avalonedit:TextEditor Margin="3" Name="txtSnippetCode" Grid.Row="3" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged" BorderThickness="1" />
+                    <avalonedit:TextEditor Margin="3" Name="txtSnippetCode" Grid.Row="3" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged" 
+                                           BorderBrush="Black" BorderThickness="1"/>
                     
                     <TextBlock Grid.Row="4" Grid.Column="0" Margin="3">Sample Code:</TextBlock>
-                    <avalonedit:TextEditor Name="txtSampleCode" Grid.Row="4" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged" BorderThickness="1" />
+                    <avalonedit:TextEditor Name="txtSampleCode" Grid.Row="4" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged"
+                                           BorderBrush="Black" BorderThickness="1" />
 
                     <TextBlock Grid.Row="5" Grid.Column="0" Margin="3">Dependencies</TextBlock>
                     <TextBox Margin="3" Name="DependenciesDTKey" AcceptsReturn="True" Grid.Row="5" Grid.Column="1" Text="{Binding Path=Dependencies}"/>

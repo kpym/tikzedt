@@ -34,6 +34,7 @@ namespace TikzEdt
         public const double TikzDefaultFontSize = 8;
         public const int TikzImgResolution = 300; // resolution in dpi with which images are compiled
 
+
         //public static string[] TikzArrowTipCodes = new string[] { "", ">", "<" };
         //public static DashStyle[] TikzToSystemDashStyle = new DashStyle[] { DashStyle.Solid, DashStyle.Dot, DashStyle.Dash };
         //public static float[][] TikzToSystemDashPattern = new float[][] {
@@ -119,6 +120,11 @@ namespace TikzEdt
             return appPath;
         }
 
+        public static string GetPrecompiledHeaderPath()
+        {
+            return GetAppDir() + "\\" + Consts.cTempFile;
+        }
+
         public static void GeneratePrecompiledHeaders()
         {
             //StreamWriter s = new StreamWriter(Consts.cTempImgFile + "pre.tex");
@@ -145,6 +151,12 @@ namespace TikzEdt
             //needs non-static callback function.
             //however, since this function is static it cannot reach anything non-static.
             p.Start();
+        }
+
+        public static string RemoveFileExtension(string file)
+        {
+            string ext = System.IO.Path.GetExtension(file);
+            return file.Remove(file.Length - ext.Length, ext.Length);
         }
 
         public static Brush GetHatchBrush()

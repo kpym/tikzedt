@@ -65,19 +65,19 @@ namespace TikzEdt.Snippets
         /// <summary>
         /// This method is called (in a different thread) when the Bitmap Factory has succesfully compiled a Thumbnail
         /// </summary>
-        void fact_BitmapGenerated()
+        void fact_BitmapGenerated(object sender)
         {
-            Dispatcher.Invoke(new Action(
-                            delegate()
-                            {
+            //Dispatcher.Invoke(new Action(
+            //                delegate()
+            //                {
                                 // refresh currently selected item
                                 if (lstSnippets.SelectedItem != null)
                                 {
                                     SnippetsDataSet.SnippetsTableRow curr = ((DataRowView)(lstSnippets.SelectedItem)).Row as SnippetsDataSet.SnippetsTableRow;
                                     curr.ID = curr.ID;
                                 }
-                            }
-                            ));
+            //                }
+            //                ));
         }
 
 
@@ -160,7 +160,7 @@ namespace TikzEdt.Snippets
         {
             SnippetsDataSet.SnippetsTableRow r = ((DataRowView)lstSnippets.SelectedItem).Row as SnippetsDataSet.SnippetsTableRow;
             if (!r.IsNull(snippetsTable.SampleCodeColumn))
-                fact.AddJob(r.SampleCode, Helper.GetAppDir() + "\\img\\" + r.ID, new Rect(0, 0, 0, 0), r.Name);
+                fact.AddJob(r.SampleCode, Helper.GetAppDir() + "\\img\\" + r.ID + ".tex", new Rect(0, 0, 0, 0), r.Name, true);
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace TikzEdt.Snippets
                     {
                         string cFile =  Helper.GetAppDir() + "\\img\\" + r.ID;
                         if (mbres == MessageBoxResult.Yes || !File.Exists(cFile+".bmp"))
-                            fact.AddJob(r.SampleCode, cFile, new Rect(0, 0, 0, 0));
+                            fact.AddJob(r.SampleCode, cFile + ".tex", new Rect(0, 0, 0, 0), r.Name, true);
                     }
                 }
             }

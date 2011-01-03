@@ -56,6 +56,10 @@ namespace TikzEdt
                     RecentFileList.InsertFile(_CurFile);
             }
         }
+        /// <summary>
+        /// indicates whether current file has never been saved (=created with new file and not yet saved)
+        /// </summary>
+        bool CurFileNeverSaved = false;
         // indicates whether changes (that need to be saved) are made to the current file
         private bool _ChangesMade = false;
         bool ChangesMade
@@ -115,6 +119,7 @@ namespace TikzEdt
 
         public static bool isLoaded = false;
         public static bool isClosing = false;
+        public List<TexCompiler.TexError> TexErrors = new List<TexCompiler.TexError>();
         public MainWindow()
         {
             InitializeComponent();
@@ -137,6 +142,19 @@ namespace TikzEdt
             AsyncParser.DoWork += new System.ComponentModel.DoWorkEventHandler(AsyncParser_DoWork);
             AsyncParser.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(AsyncParser_RunWorkerCompleted);
 
+            // Register events with the global compiler
+            TheCompiler.Instance.OnCompileEvent += new TexCompiler.CompileEventHandler(TexCompiler_OnCompileEvent);
+            TheCompiler.Instance.OnTexError += new TexCompiler.TexErrorHandler(addProblemMarker);
+            TheCompiler.Instance.OnTexOutput += new TexCompiler.TexOutputHandler(TexCompiler_OnTexOutput);
+            tikzDisplay1.TexCompilerToListen = TheCompiler.Instance;
+
+            // test
+            //TexCompiler.TexError err = new TexCompiler.TexError();
+            //err.Message = "Hallo";
+            //err.Line = 33;
+            //TexErrors.Add(err);
+            lstErrors.ItemsSource = TexErrors;
+
             // in the constructor:
             txtCode.TextArea.TextEntering += textEditor_TextArea_TextEntering;
             txtCode.TextArea.TextEntered += textEditor_TextArea_TextEntered;
@@ -153,6 +171,16 @@ namespace TikzEdt
             RecentFileList.MenuClick += (s, e) => { if (TryDisposeFile()) LoadFile(e.Filepath); };
 
             //cmbGrid.SelectedIndex = 4;
+        }
+
+        void TexCompiler_OnCompileEvent(object sender, string Message, TexCompiler.CompileEventType type)
+        {
+            AddStatusLine(Message, type == TexCompiler.CompileEventType.Error);
+            if (type == TexCompiler.CompileEventType.Start)
+            {
+                txtTexout.Document.Blocks.Clear();
+                clearProblemMarkers();
+            }
         }
 
 
@@ -203,11 +231,11 @@ namespace TikzEdt
             }
         }
 
-        void TikzToBmpFactory_JobNumberChanged()
+        void TikzToBmpFactory_JobNumberChanged(object sender)
         {
-            Dispatcher.Invoke(new Action(
-                delegate()
-                {
+            //Dispatcher.Invoke(new Action(
+            //    delegate()
+            //    {
                     if (TikzToBMPFactory.Instance.JobsInQueue == 0)
                     {
                         progressCompile.IsIndeterminate = false;
@@ -220,8 +248,8 @@ namespace TikzEdt
                         textCompileInfo.Text = "Compiling thumbnails... (" + TikzToBMPFactory.Instance.JobsInQueue + " to go)";
                         progressCompile.Visibility = Visibility.Visible;
                     }
-                }
-                ));
+             //   }
+             //   ));
         }
 
         CompletionWindow completionWindow;
@@ -500,9 +528,24 @@ namespace TikzEdt
             //}
         }
 
+        /// <summary>
+        /// If the tex code is changed, this method Reompiles it.
+        /// The action taken depends upon the currently active mode:
+        /// Fancy Mode: 
+        ///     Starts asynchronous parse and compile operations.
+        ///     The compilation is done on a temporary file in the current document's folder.
+        /// Standard Mode:
+        ///     Compilation only, done on a temporary file in the current document's folder.
+        /// Production Mode:
+        ///     Compilation only, done on the current document directly (not on temp file).
+        /// </summary>
         private void Recompile()
         {
-            // Parse            
+            // Parse and compile, depending on current mode
+            string path = CurFile + ".preview";
+            if (CurFileNeverSaved)
+                path = "";      // use a temp file in the application directory
+
             if (chkFancyMode.IsChecked == true)
             {
                 if (ProgrammaticTextChange)
@@ -515,14 +558,26 @@ namespace TikzEdt
                     // start asynchronous parsing
                     ParseNeeded = true;
                 }
+
                 // Always Compile tex
-                tikzDisplay1.Compile(txtCode.Text, currentBB, TexCompiler.IsStandalone(txtCode.Text));
+                //tikzDisplay1.Compile(txtCode.Text, currentBB, TexCompiler.IsStandalone(txtCode.Text));
                 rasterControl1.BB = currentBB;
+
+                TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, currentBB);
+            }
+            else if (chkStandardMode.IsChecked == true)
+            {
+                //tikzDisplay1.Compile(txtCode.Text, new Rect(0, 0, 0, 0), TexCompiler.IsStandalone(txtCode.Text));
+
+                TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, new Rect(0, 0, 0, 0));
             }
             else
             {
-                tikzDisplay1.Compile(txtCode.Text, new Rect(0, 0, 0, 0), TexCompiler.IsStandalone(txtCode.Text));
-            }            
+                if (SaveCurFile())
+                    TheCompiler.Instance.AddJobExclusive(CurFile);
+                else
+                    tikzDisplay1.SetUnavailable();
+            }
         }
 
         private void txtCode_TextChanged(object sender, EventArgs e)
@@ -535,7 +590,10 @@ namespace TikzEdt
                 //SourceManager.Instance.SourceCode.Text = txtCode.Document.Text;
                 
                 ChangesMade = true;
-                Recompile();
+
+                // no auto-compilation in Production Mode (no Auto saving)
+                if (chkProductionMode.IsChecked == false)
+                    Recompile();
             }
         }
 
@@ -626,7 +684,7 @@ namespace TikzEdt
             sfd.FileName = System.IO.Path.GetFileName(CurFile);
             sfd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
             //}
-            if (CurFile == Consts.defaultCurFile || saveas)
+            if (CurFileNeverSaved || saveas)
             {
                 if (sfd.ShowDialog() != true)
                     return false;
@@ -638,6 +696,7 @@ namespace TikzEdt
             wr.Write(txtCode.Text);
             wr.Close();
             ChangesMade = false;
+            CurFileNeverSaved = false;
             AddStatusLine("File saved to " + CurFile + ".");
 
             return true;
@@ -664,6 +723,7 @@ namespace TikzEdt
                 return;
 
             CurFile = Consts.defaultCurFile;
+            CurFileNeverSaved = true;
             txtCode.Text = "";
         }
 
@@ -1217,7 +1277,26 @@ namespace TikzEdt
             e.CanExecute = txtCode.CanRedo;
         }
 
+        private void TexCompiler_OnTexOutput(object sender, string Message)
+        {
+            //add whole line as paragraph to txtTexout
+            Paragraph p = new Paragraph();
+            p.Margin = new Thickness(0);
+            p.Inlines.Add(new Run(Message));
+            txtTexout.Document.Blocks.Add(p);
+            EditingCommands.MoveToDocumentEnd.Execute(null, txtTexout);
+            txtTexout.ScrollToEnd();
+        }
+
         //line de-breaking buffer for pdflatex output
+        /* 
+         * 
+         * ************ Note: this has been moved to TexCompiler class *******************
+         * 
+         * 
+         * 
+         * 
+         * 
         private string OnTexOutputBufferString = "";
         private const int MAX_LINE_LENGTH = 79;
         private void tikzDisplay1_OnTexOutput(string Message)
@@ -1289,15 +1368,22 @@ namespace TikzEdt
             }
         }
 
-        enum Severity { NOTICE, ERROR, WARNING };
-
-        void addProblemMarker(String error, int linenr, Severity severity)
+        enum Severity { NOTICE, ERROR, WARNING }; */
+        
+        // this is called upon latex error,... the error is extracted from the latex output in the TexCompiler class
+        void addProblemMarker(object sender, TexCompiler.TexError err) //String error, int linenr, TexCompiler.Severity severity)
         {
-            textBox1.Text += "l." + linenr + ":" + severity.ToString() + ": " + error + Environment.NewLine;
-        }
+            //TexCompiler.TexError err = new TexCompiler.TexError();
+            //err.Line = linenr;
+            //err.Message = error;
+            TexErrors.Add(err);
+
+            //textBox1.Text += "l." + linenr + ":" + severity.ToString() + ": " + error + Environment.NewLine;
+        } 
         public void clearProblemMarkers()
         {
-            textBox1.Clear();
+            TexErrors.Clear();
+            //textBox1.Clear();
         }
 
         private void MarkAtOffsetClick(object sender, RoutedEventArgs e)

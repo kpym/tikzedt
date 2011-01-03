@@ -69,6 +69,32 @@ namespace TikzEdt
         //PDFLibNet.PDFWrapper mypdfDoc = null;
         PdfToBmp mypdfDoc = new PdfToBmp();
 
+        
+        TexCompiler _TexCompilerToListen;
+        public TexCompiler TexCompilerToListen
+        {
+            get { return _TexCompilerToListen; }
+            set 
+            {
+                if (_TexCompilerToListen != null)
+                    _TexCompilerToListen.JobSucceeded -= new TexCompiler.JobEventHandler(TexCompilerToListen_JobSucceeded);
+                _TexCompilerToListen = value;
+                if (_TexCompilerToListen != null)
+                    _TexCompilerToListen.JobSucceeded += new TexCompiler.JobEventHandler(TexCompilerToListen_JobSucceeded);
+            }
+        }
+
+        void TexCompilerToListen_JobSucceeded(object sender, TexCompiler.Job job)
+        {
+            // reload the pdf upon successful compilation
+            if (!job.GeneratePrecompiledHeaders)
+            {
+                string pdfpath = Helper.RemoveFileExtension(job.path) + ".pdf";
+                currentBB = job.BB;
+                RefreshPDF(pdfpath);
+            }
+        }
+        
         //System.Windows.Forms.Control dummy = new System.Windows.Forms.Control();
 
         /// <summary>
@@ -146,7 +172,7 @@ namespace TikzEdt
                     texProcess.CancelErrorRead();
                 }
             }
-            catch (InvalidOperationException Ex)
+            catch (InvalidOperationException)
             {
                 //on first call when texProcess was not started, HasExited raises exception.
             }
@@ -227,10 +253,25 @@ namespace TikzEdt
         /// It is not called, for example, when the pdf just needs to be redrawn, e.g., due to 
         /// a changed display size.
         /// </summary>
-        void RefreshPDF()
+        void RefreshPDF(string cFile)
         {
-            mypdfDoc.LoadPdf(Consts.cTempFile + ".pdf");
-            RecalcSize();          
+            //mypdfDoc.LoadPdf(Consts.cTempFile + ".pdf");
+            if (cFile == "")
+            {
+                lblUnavailable.Visibility = Visibility.Visible;
+                image1.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                lblUnavailable.Visibility = Visibility.Collapsed;
+                mypdfDoc.LoadPdf(cFile);
+                image1.Visibility = Visibility.Visible;
+                RecalcSize();
+            }
+        }
+        public void SetUnavailable()
+        {
+            RefreshPDF("");
         }
 
         /// <summary>
@@ -258,7 +299,7 @@ namespace TikzEdt
                 if (texProcess.ExitCode == 0)
                 {
                     currentBB = compilingBB;
-                    RefreshPDF();
+                    RefreshPDF(Consts.cTempFile + ".pdf");
                     //string texout = texProcess.StandardOutput.ReadToEnd();
                     OnCompileEvent("Compilation done", CompileEventType.Success);
                 }

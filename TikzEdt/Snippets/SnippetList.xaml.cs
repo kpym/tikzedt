@@ -61,7 +61,7 @@ namespace TikzEdt.Snippets
                         if (!r.IsNull(snippetsTable.SampleCodeColumn))
                         {
                             string cFile = Helper.GetAppDir() + "\\img\\" + r.ID;
-                            TikzToBMPFactory.Instance.AddJob(r.SampleCode, cFile, new Rect(0, 0, 0, 0), r.Name);
+                            TikzToBMPFactory.Instance.AddJob(r.SampleCode, cFile + ".tex", new Rect(0, 0, 0, 0), r.Name, true);
                         }
                     }
                 }
