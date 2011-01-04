@@ -584,4 +584,34 @@ Will be displayed as tooltip</Description>
 \end{tikzpicture}</SampleCode>
     <Dependencies />
   </SnippetsTable>
+  <SnippetsTable>
+    <ID>38</ID>
+    <Name>Some coord transforms</Name>
+    <Category>Test Cases</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>\begin{tikzpicture}[scale=.5]
+\begin{scope}[xshift=1.3cm, yshift=-.5cm,scale=1.7]
+  \draw[xshift=1cm] (0,3)--(5,8)[xshift=1cm] (1,1)--(5,4);
+\end{scope}
+\end{tikzpicture}</SnippetCode>
+    <SampleCode>\begin{tikzpicture}[scale=.5]
+\begin{scope}[xshift=1.3cm, yshift=-.5cm,scale=1.7]
+  \draw[xshift=1cm] (0,3)--(5,8)[xshift=1cm] (1,1)--(5,4);
+\end{scope}
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>39</ID>
+    <Name>New Snippet2</Name>
+    <Category>Test Cases</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>draw</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
 </SnippetsDataSet>

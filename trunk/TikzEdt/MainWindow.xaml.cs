@@ -647,6 +647,7 @@ namespace TikzEdt
                 txtCode.Text = stream.ReadToEnd();
                 CurFile = cFile;
                 ChangesMade = false;
+                CurFileNeverSaved = false;
             }
             catch (Exception Ex)
             {

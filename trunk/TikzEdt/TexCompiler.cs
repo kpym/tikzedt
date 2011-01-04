@@ -250,8 +250,10 @@ namespace TikzEdt
             string cend = @"\end{tikzpicture}";
             string[] tok = code.Split(new string[] { cend }, StringSplitOptions.None);
             succeeded = (tok.Length == 2 && BB.Width * BB.Height > 0);
+            // for release, draw the rectangle in invisible color (white), or draw two points
+            // for testing, it is better to be able to see the rectangle to see bounding box misalignments
             if (succeeded)
-                return tok[0] + @"\tikzset{scale=1, xscale=1, yscale=1, xshift=0, yshift=0} " +
+                return tok[0] + @"\pgftransformreset " +
                     @"\draw (" + BB.X + "," + BB.Y + ") rectangle (" + (BB.X + BB.Width).ToString() + "," + (BB.Y + BB.Height).ToString() + "); " + cend + tok[1];
             else
                 return code;
