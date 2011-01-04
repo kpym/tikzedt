@@ -464,11 +464,11 @@ namespace TikzEdt.Parser
                 {
                     Point offset = (relto.parent as Tikz_Path).GetAbsOffset(relto);
                     relp = new Point(p.X - offset.X, p.Y - offset.Y);
-                    relp = relto.parent.GetCurrentTransform().Inverse().Transform(relp, false);
+                    relp = relto.parent.GetCurrentTransformAt(relto).Inverse().Transform(relp, false);
                 }
                 else
                 {
-                    TikzMatrix MM = relto.parent.GetCurrentTransform();
+                    TikzMatrix MM = relto.parent.GetCurrentTransformAt(relto);
                     MM=MM.Inverse();
                     relp = MM.Transform(new Point(p.X, p.Y));
                 }
@@ -516,7 +516,7 @@ namespace TikzEdt.Parser
                     relpos = RasterControl.PolToCartTC(relpos);
 
                 if (relto.parent != null)
-                    relpos = relto.parent.GetCurrentTransform().Transform(relpos, true);
+                    relpos = relto.parent.GetCurrentTransformAt(relto).Transform(relpos, true);
 
                 if (OnlyOffset)
                     return offset;
@@ -537,7 +537,7 @@ namespace TikzEdt.Parser
             }
             else
             {
-                TikzMatrix M = relto.parent.GetCurrentTransform();
+                TikzMatrix M = relto.parent.GetCurrentTransformAt(relto);
                 Point pret;
                 if (OnlyOffset)
                 {
@@ -778,16 +778,38 @@ namespace TikzEdt.Parser
             else return null;
         }
 
-        public TikzMatrix GetCurrentTransform()
+       public TikzMatrix GetCurrentTransform()
         {
             TikzMatrix M;
-            M = Tikz_Options.GetTransform(this);
-            //if (options != null)
-            //    M = options.GetTransform();
-            //else
-            //    M = new TikzMatrix();
+            //M = Tikz_Options.GetTransform(this);
+            if (options != null)
+                M = options.GetTransform();
+            else
+                M = new TikzMatrix();
             if (parent != null)
                 M = parent.GetCurrentTransform() * M;
+            return M;
+        } /* */
+
+        public TikzMatrix GetCurrentTransformAt(TikzParseItem childtpi)
+        {
+            TikzMatrix M;
+            if (parent != null)
+                M = parent.GetCurrentTransformAt(this);
+            else
+                M = new TikzMatrix(); // identity matrix
+
+            foreach (TikzParseItem tpi in Children)
+            {
+                if (tpi == childtpi)
+                {
+                    break;
+                }
+                else if (tpi is Tikz_Options)
+                {
+                    M = M * (tpi as Tikz_Options).GetTransform();
+                }
+            }
             return M;
         }
 
@@ -965,7 +987,7 @@ namespace TikzEdt.Parser
                 }
             }
             if (previous == null)
-                return GetCurrentTransform().Transform(new Point(0,0));
+                return GetCurrentTransformAt(tpi).Transform(new Point(0,0));
             else 
                 return previous.GetAbsPos();
         }
@@ -1072,7 +1094,7 @@ namespace TikzEdt.Parser
 
        //     return opts;
        // }
-        public static TikzMatrix GetTransform(TikzContainerParseItem tcpi)
+    /*    public static TikzMatrix GetTransform(TikzContainerParseItem tcpi)
         {
             TikzMatrix ret = new TikzMatrix();
 
@@ -1095,7 +1117,7 @@ namespace TikzEdt.Parser
             ret.m[0, 2] = xshift;
             ret.m[1, 2] = yshift;
             return ret;
-        }
+        } */
 
         public TikzMatrix GetTransform()
         {
@@ -1169,7 +1191,7 @@ namespace TikzEdt.Parser
             }
         }
 
-        public static void SetShiftRel(TikzContainerParseItem tcpi, double xshift, double yshift)
+   /*     public static void SetShiftRel(TikzContainerParseItem tcpi, double xshift, double yshift)
         {
             if (xshift != 0)
             {
@@ -1209,7 +1231,7 @@ namespace TikzEdt.Parser
                     o.UpdateText();
                 }
             }
-        }
+        } */
 
         public static Tikz_Option GetOption(TikzContainerParseItem tcpi, string optionname, Tikz_OptionType type)
         {
