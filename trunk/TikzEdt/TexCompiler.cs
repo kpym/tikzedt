@@ -339,7 +339,9 @@ namespace TikzEdt
             }
 
             //parse output from pdflatex.
-            myPdflatexOutputParser.parseOutput();
+            //myPdflatexOutputParser.parseOutput();
+            //This does not work because something texProcess_Exited is called
+            //before the complete output was received by texProcess_OutputDataReceived().
 
             isRunning = false;
  
@@ -351,11 +353,25 @@ namespace TikzEdt
 
         /// <summary>
         /// Checks whether the current code can be compiled,
-        /// or whether we need to append pre-/postambles
+        /// or whether we need to append pre-/postambles.
+        /// 
+        /// Code is standalone if
+        /// 1) defined by !TIKZEDT STANDALONE command or
+        /// 2) it contains string "\documentclass" or
+        /// 3) if it start with string "%&".
         /// </summary>
         /// <returns></returns>
         public static bool IsStandalone(string code)
         {
+            RegexOptions ro = new RegexOptions();
+            ro = ro | RegexOptions.IgnoreCase;
+            ro = ro | RegexOptions.Multiline;
+            string StandAlone_RegexString = @"^[ \t\s]*%[ \t\s]*!TIKZEDT[ \t\s]*STANDALONE[ \t\s]*^";
+            Regex BB_Regex = new Regex(StandAlone_RegexString, ro);
+            Match m = BB_Regex.Match(code);
+            if (m.Success == true)
+                return true;
+
             return (code.Contains("\\documentclass") 
                     || code.Trim().StartsWith("%&") );    // precompiled header
         }
@@ -412,7 +428,10 @@ namespace TikzEdt
                             OnTexOutput(this, Message);
 
                         //add warning and errors to
-                        myPdflatexOutputParser.addLine(Message);                        
+                        myPdflatexOutputParser.addLine(Message);
+                        //if this was the last output line, start parsing.
+                        if (Message.Contains("Transcript written on"))
+                            myPdflatexOutputParser.parseOutput();
                     }
                 )
             );
