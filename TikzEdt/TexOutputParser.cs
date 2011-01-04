@@ -53,7 +53,7 @@ namespace TikzEdt
             {
                 bool b = hasMoreTokens();
                 b = b;
-                return "";
+                return " ";
             }
             string ret = str.Substring(currentChar, nextChar - currentChar);
             currentChar = nextChar + Environment.NewLine.Length;
@@ -161,6 +161,13 @@ namespace TikzEdt
 
         public void parseOutput()
         {
+            //if WholeOutput is not complete, ignore it. However, this should NEVER happen.
+            if (!WholeOutput.Contains("Transcript written on"))
+            {                
+                WholeOutput = "";
+                return;
+            }
+
             //take WholeOutput and use each line as token
             StringTokenizer st = new StringTokenizer(WholeOutput, Environment.NewLine);
             //reset all variables (actually most of them could be local variables...)
@@ -231,7 +238,7 @@ namespace TikzEdt
 
                         String part2 = st.nextToken().Trim();
 
-                        if (Char.IsLower(part2[0]))
+                        if (part2 != "" && Char.IsLower(part2[0]))
                         {
                             error += ' ' + part2;
                         }

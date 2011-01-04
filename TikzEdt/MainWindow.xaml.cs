@@ -224,6 +224,9 @@ namespace TikzEdt
         // the try/catch should be removed for release
         void AsyncParser_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
+            //make sure that double to string is converted with decimal point (not comma!)       
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
+
             try
             {
                 Tikz_ParseTree tp = TikzParser.Parse(e.Argument as string);
@@ -469,7 +472,7 @@ namespace TikzEdt
             ro = ro | RegexOptions.Multiline;
             //string BB_RegexString = @".*BOUNDINGBOX[ \t\s]*=[ \t\s]*(?<left>[+-]?[0-9]+[.[0-9]+]?)+[ \t\s]+(?<bottom>[0-9])+[ \t\s]+(?<right>[0-9])+[ \t\s]+(?<top>[0-9])+[ \t\s]+.*";
             //string BB_RegexString = @".*BOUNDINGBOX[ \t\s]*=[ \t\s]*((?<left>[+-]?[0-9]+(\.[0-9]+)?)[ \t\s]*){4}.*";
-            string BB_RegexString = @".*BOUNDINGBOX[ \t\s]*=[ \t\s]*(?<left>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+(?<bottom>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+(?<right>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+(?<top>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+.*";
+            string BB_RegexString = @".*BOUNDINGBOX[ \t\s]*=[ \t\s]*(?<left>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+(?<bottom>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+(?<width>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+(?<height>[+-]?[0-9]+(\.[0-9]+)?)+[ \t\s]+.*";
             Regex BB_Regex = new Regex(BB_RegexString, ro);
 
             foreach (TikzParseItem tpi in t.Children)
@@ -484,8 +487,8 @@ namespace TikzEdt
                         {
                             double x = Convert.ToDouble(m.Groups[5].Value);
                             double y = Convert.ToDouble(m.Groups[6].Value);
-                            double width = Convert.ToDouble(m.Groups[7].Value) - x;
-                            double height = Convert.ToDouble(m.Groups[8].Value) - y;
+                            double width = Convert.ToDouble(m.Groups[7].Value);
+                            double height = Convert.ToDouble(m.Groups[8].Value);
 
                             Rect newBB = new Rect(x, y, width, height);
                             //chkAutoBB.IsChecked = true;
