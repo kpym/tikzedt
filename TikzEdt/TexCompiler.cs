@@ -58,20 +58,9 @@ namespace TikzEdt
         protected Queue<Job> todo_tex = new Queue<Job>();
         Job CurrentJob;     // the job that is currently compiling
 
-        public class TexError
-        {
-            // TODO
-            int _Line;
-            public int Line { get {return _Line; } set { _Line = value; }}
-            string _Message;
-            public string Message { get {return _Message; } set { _Message = value; }}
-            Severity _type;
-            public Severity type { get { return _type; } set { _type = value; } }
-        }
-        public enum Severity { NOTICE, ERROR, WARNING };
-        public delegate void TexErrorHandler(object sender, TexError Error);
+        TexOutputParser myPdflatexOutputParser = new TexOutputParser();        
+        public delegate void TexErrorHandler(object sender, TexOutputParser.TexError Error);
         public event TexErrorHandler OnTexError;
-
 
         /// <summary>
         /// Adds some tikz code to the internal TODO list, to be compiled as soon as possible.
@@ -282,8 +271,18 @@ namespace TikzEdt
             texProcess.Exited += new EventHandler(texProcess_Exited);
             texProcess.OutputDataReceived += new DataReceivedEventHandler(texProcess_OutputDataReceived);
             timer.Tick += new EventHandler(timer_Tick);
-            
+
+            myPdflatexOutputParser.OnTexError += new TexOutputParser.TexErrorHandler(myPdflatexOutputParser_OnTexError);
+            //myPdflatexOutputParser.addProblem +=new PdflatexOutputParser.addProblemEventHandler(myPdflatexOutputParser_addProblem);
             //texProcess.ErrorDataReceived += new DataReceivedEventHandler(texProcess_ErrorDataReceived);
+        }
+
+        void myPdflatexOutputParser_OnTexError(object sender, TexOutputParser.TexError e)
+        {
+            if (OnTexError != null)
+            {
+                OnTexError(sender, e);
+            }            
         }
 
 
@@ -338,6 +337,9 @@ namespace TikzEdt
                     JobFailed(this, job);
                 }        
             }
+
+            //parse output from pdflatex.
+            myPdflatexOutputParser.parseOutput();
 
             isRunning = false;
  
@@ -410,48 +412,11 @@ namespace TikzEdt
                             OnTexOutput(this, Message);
 
                         //add warning and errors to
-                        parseError(Message);
+                        myPdflatexOutputParser.addLine(Message);                        
                     }
                 )
             );
-        }
-
-        private void parseError(string line)
-        {
-            //return;
-            //from Texclipse LatexRunner.java
-            Regex LATEXERROR = new Regex("^! LaTeX Error: (.*)$");
-            Regex LATEXCERROR = new Regex("^(.+?\\.\\w{3}):(\\d+): (.+)$");
-            Regex TEXERROR = new Regex("^!\\s+(.*)$");
-            Regex FULLBOX = new Regex("^(?:Over|Under)full \\\\[hv]box .* at lines? (\\d+)-?-?(\\d+)?");
-            Regex WARNING = new Regex("^.+[Ww]arning.*: (.*)$");
-            Regex ATLINE = new Regex("^l\\.(\\d+)(.*)$");
-            Regex ATLINE2 = new Regex(".* line (\\d+).*");
-            Regex NOBIBFILE = new Regex("^No file .+\\.bbl\\.$");
-            Regex NOTOCFILE = new Regex("^No file .+\\.toc\\.$");
-
-            //not sure what this is good for
-            line = line.Replace(" {2,}", " ").Trim();
-
-
-
-            //TODO: continue...
-
-            Match m = TEXERROR.Match(line);
-            if (m.Success)
-            {
-                for (int i = 0; i < m.Groups.Count; i++)
-                {
-                    TexError err = new TexError();
-                    err.Line = 0;   // TODO
-                    err.Message = m.Groups[i].Value;
-                    err.type = Severity.ERROR;
-                    if (OnTexError != null)
-                        OnTexError(this, err);
-                }
-
-            }
-        }
+        }        
 
     }
 

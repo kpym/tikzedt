@@ -415,6 +415,7 @@
                                       Visibility="{Binding ElementName=chkErrorTex, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
                         <ListView Name="lstErrors" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                       Visibility="{Binding ElementName=chkErrorTex, Path=IsChecked, Converter={StaticResource boolToVis}}">
+                            <!-- <ItemsSource="{Binding Source={x:Static my:MainWindow.TexErrors}}"> -->
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn DisplayMemberBinding="{Binding Path=Line}" Header="line" Width="25" />

@@ -119,7 +119,7 @@ namespace TikzEdt
 
         public static bool isLoaded = false;
         public static bool isClosing = false;
-        public List<TexCompiler.TexError> TexErrors = new List<TexCompiler.TexError>();
+        public static List<TexOutputParser.TexError> TexErrors = new List<TexOutputParser.TexError>();
         public MainWindow()
         {
             InitializeComponent();
@@ -149,11 +149,11 @@ namespace TikzEdt
             tikzDisplay1.TexCompilerToListen = TheCompiler.Instance;
 
             // test
-            //TexCompiler.TexError err = new TexCompiler.TexError();
-            //err.Message = "Hallo";
-            //err.Line = 33;
-            //TexErrors.Add(err);
-            lstErrors.ItemsSource = TexErrors;
+            TexOutputParser.TexError err = new TexOutputParser.TexError();
+            err.Message = "Hallo";
+            err.Line = 33;
+            TexErrors.Add(err);
+            lstErrors.ItemsSource = TexErrors;            
 
             // in the constructor:
             txtCode.TextArea.TextEntering += textEditor_TextArea_TextEntering;
@@ -1292,104 +1292,21 @@ namespace TikzEdt
             txtTexout.Document.Blocks.Add(p);
             EditingCommands.MoveToDocumentEnd.Execute(null, txtTexout);
             txtTexout.ScrollToEnd();
-        }
-
-        //line de-breaking buffer for pdflatex output
-        /* 
-         * 
-         * ************ Note: this has been moved to TexCompiler class *******************
-         * 
-         * 
-         * 
-         * 
-         * 
-        private string OnTexOutputBufferString = "";
-        private const int MAX_LINE_LENGTH = 79;
-        private void tikzDisplay1_OnTexOutput(string Message)
-        {
-            //do not know why this happens.
-            if (Message == null)
-                return;
-            
-            if (OnTexOutputBufferString != "")
-            {
-                Message = OnTexOutputBufferString + Message;                
-                OnTexOutputBufferString = "";
-            }
-
-            // add tex output
-            if (Message != "")
-            {
-                //Add more lines if line length is a multiple of 79 and
-                //it does not end with ...
-                if (!Message.EndsWith("...") && Message.Length % MAX_LINE_LENGTH == 0)
-                {
-                    OnTexOutputBufferString = Message;
-                    //Message will be processed upon next call of this function.
-                    return;
-                }                
-
-                //add whole line as paragraph to txtTexout
-                Paragraph p = new Paragraph();
-                p.Margin = new Thickness(0);
-                p.Inlines.Add(new Run(Message));
-                txtTexout.Document.Blocks.Add(p);
-                EditingCommands.MoveToDocumentEnd.Execute(null, txtTexout);
-                txtTexout.ScrollToEnd();
-
-                //add warning and errors to 
-                parseError(Message);
-            }
-        }
-
-        private void parseError(string line)
-        {
-            //return;
-            //from Texclipse LatexRunner.java
-            Regex LATEXERROR = new Regex("^! LaTeX Error: (.*)$");
-            Regex LATEXCERROR = new Regex("^(.+?\\.\\w{3}):(\\d+): (.+)$");
-            Regex TEXERROR = new Regex("^!\\s+(.*)$");
-            Regex FULLBOX = new Regex("^(?:Over|Under)full \\\\[hv]box .* at lines? (\\d+)-?-?(\\d+)?");
-            Regex WARNING = new Regex("^.+[Ww]arning.*: (.*)$");
-            Regex ATLINE = new Regex("^l\\.(\\d+)(.*)$");
-            Regex ATLINE2 = new Regex(".* line (\\d+).*");
-            Regex NOBIBFILE = new Regex("^No file .+\\.bbl\\.$");
-            Regex NOTOCFILE = new Regex("^No file .+\\.toc\\.$");
-
-            //not sure what this is good for
-            line = line.Replace(" {2,}", " ").Trim();
-
-
-
-            //TODO: continue...
-
-            Match m = TEXERROR.Match(line);
-            if (m.Success)
-            { 
-                for(int i =0;i<m.Groups.Count;i++)
-                {
-                    addProblemMarker(m.Groups[i].Value, i, Severity.ERROR);
-                }
-                
-            }
-        }
-
-        enum Severity { NOTICE, ERROR, WARNING }; */
+        }        
         
         // this is called upon latex error,... the error is extracted from the latex output in the TexCompiler class
-        void addProblemMarker(object sender, TexCompiler.TexError err) //String error, int linenr, TexCompiler.Severity severity)
+        void addProblemMarker(object sender, TexOutputParser.TexError err) //String error, int linenr, TexCompiler.Severity severity)
         {
-            //TexCompiler.TexError err = new TexCompiler.TexError();
-            //err.Line = linenr;
-            //err.Message = error;
-            TexErrors.Add(err);
+            TexOutputParser.TexError err2 = new TexOutputParser.TexError();
+            err.Message = "Hallo2";
+            err.Line = 33;
+            TexErrors.Add(err2);
 
-            //textBox1.Text += "l." + linenr + ":" + severity.ToString() + ": " + error + Environment.NewLine;
+            TexErrors.Add(err);            
         } 
         public void clearProblemMarkers()
         {
-            TexErrors.Clear();
-            //textBox1.Clear();
+            TexErrors.Clear();            
         }
 
         private void MarkAtOffsetClick(object sender, RoutedEventArgs e)
