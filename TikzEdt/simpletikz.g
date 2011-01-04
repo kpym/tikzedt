@@ -161,7 +161,7 @@ no_rlbrace
 	:	~(LBRR | RBRR)
 	;
 iddornumberunitorstring
-	:	idd | tikzstring
+	:	numberunit | idd | tikzstring
 	;
 option_style
 	:	idd STYLETAG '=' LBRR (option_kv (',' option_kv)*)?  ','? RBRR  -> ^(IM_OPTION_STYLE idd option_kv*)  // '{' option '}' todo: optional ,

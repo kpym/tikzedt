@@ -415,7 +415,7 @@ namespace TikzEdt
                 Tikz_Picture tp = ParseTree.GetTikzPicture();
                 if (tp != null)
                 {
-                    TikzMatrix M = tp.GetCurrentTransform();
+                    TikzMatrix M = tp.GetCurrentTransform(); // todo
                     rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
                     rasterizer.RasterScale = M.m[1, 1];
                     rasterizer.IsCartesian = true;
@@ -426,9 +426,9 @@ namespace TikzEdt
                 Tikz_Scope ts = (o as OverlayScope).tikzitem;
                 TikzMatrix M;
                 if (IsParent)
-                    M = ts.GetCurrentTransform();
+                    M = ts.GetCurrentTransform(); // todo
                 else
-                    M = ts.parent.GetCurrentTransform();
+                    M = ts.parent.GetCurrentTransformAt(ts);
                 rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
                 rasterizer.RasterScale = M.m[1, 1];
                 rasterizer.IsCartesian = true;
@@ -437,7 +437,7 @@ namespace TikzEdt
             {
                 Tikz_XYItem t = (o as OverlayNode).tikzitem;
                 rasterizer.RasterOrigin = t.GetAbsPos(true);
-                TikzMatrix m = t.parent.GetCurrentTransform();
+                TikzMatrix m = t.parent.GetCurrentTransformAt(t);
                 rasterizer.RasterScale = m.m[1, 1];
                 rasterizer.IsCartesian = !(t.IsPolar());
             }
@@ -749,11 +749,14 @@ namespace TikzEdt
                     if (xs != 0 || ys != 0)
                     {
                         Tikz_Scope ts = (curDragged as OverlayScope).tikzitem;
-                        //if (ts.options == null)
-                        //    ts.options = new Tikz_Options();
-                        Tikz_Options.SetShiftRel(ts, xs, ys);
-                        //ts.options.SetShiftRel(xs, ys);
-                        //ts.UpdateText();
+                        if (ts.options == null)
+                        {
+                            ts.options = new Tikz_Options();
+                            ts.AddChild(ts.options, true);
+                        }
+                        //Tikz_Options.SetShiftRel(ts, xs, ys);
+                        ts.options.SetShiftRel(xs, ys);
+                        ts.UpdateText();
                     }
                 }
                 // update all other item's positions

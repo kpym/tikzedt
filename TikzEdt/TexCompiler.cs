@@ -56,6 +56,7 @@ namespace TikzEdt
             }
         }
         protected Queue<Job> todo_tex = new Queue<Job>();
+        Job CurrentJob;     // the job that is currently compiling
 
         public class TexError
         {
@@ -109,8 +110,6 @@ namespace TikzEdt
         /// <param name="name"></param>
         public void AddJobExclusive(string code, string path, Rect BB)
         {
-            todo_tex.Clear();
-
             Job job = new Job();
             job.code = code;
             job.path = path;
@@ -118,17 +117,20 @@ namespace TikzEdt
             job.CreateBMP = false;
             job.WriteCode = true;
 
-            AddJob(job);
+            AddJobExclusive(job);
         }
         public void AddJobExclusive(string path)
-        {
-            todo_tex.Clear();
-            
+        {           
             Job job = new Job();
             job.path = path;
             job.CreateBMP = false;
             job.WriteCode = false;
 
+            AddJobExclusive(job);
+        }
+        public void AddJobExclusive(Job job)
+        {
+            todo_tex.Clear();
             AddJob(job);
         }
 
@@ -167,7 +169,6 @@ namespace TikzEdt
                 return;
             }
             isRunning = true;
-            Job job = todo_tex.Peek();
 
             if (!File.Exists(Helper.GetPrecompiledHeaderPath() + ".fmt"))
             {
@@ -176,6 +177,10 @@ namespace TikzEdt
                 Helper.GeneratePrecompiledHeaders();  // todo: add as compile job
                 return;
             }
+
+            // Take the next job from the queue and process
+            Job job = todo_tex.Dequeue();
+            CurrentJob = job;
 
             // save into temporary textfile
             if (job.WriteCode)
@@ -257,7 +262,8 @@ namespace TikzEdt
             string[] tok = code.Split(new string[] { cend }, StringSplitOptions.None);
             succeeded = (tok.Length == 2 && BB.Width * BB.Height > 0);
             if (succeeded)
-                return tok[0] + @"\draw (" + BB.X + "," + BB.Y + ") rectangle (" + (BB.X + BB.Width).ToString() + "," + (BB.Y + BB.Height).ToString() + "); " + cend + tok[1];
+                return tok[0] + @"\tikzset{scale=1, xscale=1, yscale=1, xshift=0, yshift=0} " +
+                    @"\draw (" + BB.X + "," + BB.Y + ") rectangle (" + (BB.X + BB.Width).ToString() + "," + (BB.Y + BB.Height).ToString() + "); " + cend + tok[1];
             else
                 return code;
         }
@@ -295,10 +301,10 @@ namespace TikzEdt
             timer.Stop();
 
             Dispatcher.BeginInvoke(new Action(delegate()
-            {            
-            Job job = todo_tex.Dequeue();
+            {
+            Job job = CurrentJob;       // todo_tex.Dequeue();
             if (JobNumberChanged != null)
-                 JobNumberChanged(this);
+                 JobNumberChanged(this);    // invoke here... it would also be possible to invoke on start of compilation...
 
             if (texProcess.ExitCode == 0)
             {

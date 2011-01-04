@@ -199,16 +199,21 @@ namespace TikzEdt
             }
             else 
             {
-                // parsing succesfull
+                // parsing succesfull -> recompile to get BB right
                 Tikz_ParseTree tp = e.Result as Tikz_ParseTree;
+                pdfOverlay1.SetParseTree(tp, currentBB);
                 if (DetermineBB(tp))
                 {
                     // if BB changed->recompile .tex
-                    tikzDisplay1.Compile(txtCode.Text, currentBB, TexCompiler.IsStandalone(txtCode.Text));
-                    rasterControl1.BB = currentBB;
+                    // tikzDisplay1.Compile(txtCode.Text, currentBB, TexCompiler.IsStandalone(txtCode.Text));
+                    //TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, currentBB);
+                    //rasterControl1.BB = currentBB;
+                    Recompile(true);
                 }
-                pdfOverlay1.SetParseTree(tp, currentBB);
-                UpdateStyleLists(tp);
+                else
+                {
+                    UpdateStyleLists(tp);
+                }
             }
 
             // Restart parser if necessary
@@ -539,7 +544,8 @@ namespace TikzEdt
         /// Production Mode:
         ///     Compilation only, done on the current document directly (not on temp file).
         /// </summary>
-        private void Recompile()
+        /// <param name="NoParse">Skip the parsing step if true. (compile only)</param>
+        private void Recompile(bool NoParse = false)
         {
             // Parse and compile, depending on current mode
             string path = CurFile + ".preview.tex";
@@ -548,7 +554,7 @@ namespace TikzEdt
 
             if (chkFancyMode.IsChecked == true)
             {
-                if (ProgrammaticTextChange)
+                if (ProgrammaticTextChange || NoParse)
                 {
                     DetermineBB(pdfOverlay1.ParseTree);
                     pdfOverlay1.BB = currentBB;
