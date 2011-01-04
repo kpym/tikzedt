@@ -85,6 +85,8 @@ namespace TikzEdt.Snippets
         {
             //string source = xmldp.Source.LocalPath;
             //xmldp.Document.Save(source);
+            // remove focus from current control, so that pending data is written to dataset
+            lstSnippets.Focus();
             if (isSuccessfullyLoaded)
                 snippetsDataSet.WriteXml(Consts.cSnippetsFile);
             
