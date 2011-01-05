@@ -1360,6 +1360,47 @@ namespace TikzEdt
 
         }
 
+        private void txtCode_Drop(object sender, DragEventArgs e)
+        {
+            //open file which was drag&dropped.
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                //open only single file
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (files.Length == 1)
+                {
+                    //warn user about wrong file extension
+                    if (System.IO.Path.GetExtension(files[0]) != ".tex")
+                    {
+                        MessageBoxResult r = MessageBox.Show("File does not seem to be a LaTeX-file. Proceed opening?", "Wrong file extension", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+                        if (r == MessageBoxResult.No)
+                            return;                        
+                    }
+                    LoadFile(files[0]);
+                }
+                else
+                    MessageBox.Show("Only one file at a time allowed via drag&drop.", "Too many files", MessageBoxButton.OK, MessageBoxImage.Information);
+                        
+            }
+            
+        }
+
+        private void txtCode_DragEnter(object sender, DragEventArgs e)
+        {
+            //show that TikzEdt accepts files by drag&drop
+            //however, only a single file is allowed.
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (files.Length == 1)                
+                    e.Effects = DragDropEffects.Move;
+                else
+                    e.Effects = DragDropEffects.None;
+                e.Handled = true;
+            }
+            //setting e.Effects = DragDropEffects.None is ignored. why?
+        }
+
 
     }
 }
