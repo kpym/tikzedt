@@ -149,11 +149,7 @@ namespace TikzEdt
             TheCompiler.Instance.OnTexOutput += new TexCompiler.TexOutputHandler(TexCompiler_OnTexOutput);
             tikzDisplay1.TexCompilerToListen = TheCompiler.Instance;
 
-            // test
-            TexOutputParser.TexError err = new TexOutputParser.TexError();
-            err.Message = "Hallo";
-            err.Line = 33;
-            TexErrors.Add(err);
+            // bind lstError to TexErrors (make sure that TexErrors is suitable object for data binding!)
             lstErrors.ItemsSource = TexErrors;            
 
             // in the constructor:
@@ -169,7 +165,7 @@ namespace TikzEdt
             sfd.OverwritePrompt = true;
             sfd.ValidateNames = true;
 
-            RecentFileList.MenuClick += (s, e) => { if (TryDisposeFile()) LoadFile(e.Filepath); };
+            RecentFileList.MenuClick += (s, e) => { if (TryDisposeFile()) LoadFile(e.Filepath); };            
 
             //cmbGrid.SelectedIndex = 4;
         }
@@ -312,6 +308,15 @@ namespace TikzEdt
         {
             CoordinateStatusBarItem.Content = text;
         }
+
+        public void SetStandAloneStatus(bool IsStandAlone)
+        {
+            if (IsStandAlone)
+                StandAloneStatusBarItem.Content = "[Document is standalone]";
+            else
+                StandAloneStatusBarItem.Content = "";
+        }
+        
 
         public void AddStatusLine(string text, bool lError = false)
         {
@@ -565,15 +570,27 @@ namespace TikzEdt
                 }
                 else
                 {
-                    // start asynchronous parsing
-                    ParseNeeded = true;
+                    //start asynchronous parsing if there is something todo, otherwise clear canvas
+                    //if (!(txtCodeWasEmpty == true && txtCode.Text.Trim() == ""))
+                    if (txtCode.Text.Trim() != "")
+                        ParseNeeded = true;
+                    else
+                        pdfOverlay1.Clear();
                 }
 
                 // Always Compile tex
                 //tikzDisplay1.Compile(txtCode.Text, currentBB, TexCompiler.IsStandalone(txtCode.Text));
                 rasterControl1.BB = currentBB;
 
-                TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, currentBB);
+                //start compiling if NOT: txtCode was empty and still is empty now
+                /*if (!(txtCodeWasEmpty == true && txtCode.Text.Trim() == ""))
+                    TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, currentBB);*/
+
+                //compiling only must be started if there is latex code
+                if( txtCode.Text.Trim() != "")
+                    TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, currentBB);
+                else
+                    tikzDisplay1.SetUnavailable();                
             }
             else if (chkStandardMode.IsChecked == true)
             {
@@ -590,7 +607,7 @@ namespace TikzEdt
             }
         }
 
-        private void txtCode_TextChanged(object sender, EventArgs e)
+        public void txtCode_TextChanged(object sender, EventArgs e)
         {
 
             if (isLoaded)
@@ -733,9 +750,14 @@ namespace TikzEdt
             if (!TryDisposeFile())
                 return;
 
+            isLoaded = false;
             CurFile = Consts.defaultCurFile;
             CurFileNeverSaved = true;
+            ChangesMade = false;
             txtCode.Text = "";
+            tikzDisplay1.SetUnavailable();
+            pdfOverlay1.Clear();
+            isLoaded = true;
         }
 
         private void CompileCommandHandler(object sender, ExecutedRoutedEventArgs e)

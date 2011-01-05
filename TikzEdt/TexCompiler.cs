@@ -365,6 +365,7 @@ namespace TikzEdt
         /// <returns></returns>
         public static bool IsStandalone(string code)
         {
+            bool ret;
             RegexOptions ro = new RegexOptions();
             ro = ro | RegexOptions.IgnoreCase;
             ro = ro | RegexOptions.Multiline;
@@ -372,10 +373,15 @@ namespace TikzEdt
             Regex BB_Regex = new Regex(StandAlone_RegexString, ro);
             Match m = BB_Regex.Match(code);
             if (m.Success == true)
-                return true;
-
-            return (code.Contains("\\documentclass") 
+                ret = true;
+            else
+                ret = (code.Contains("\\documentclass") 
                     || code.Trim().StartsWith("%&") );    // precompiled header
+
+            //using data binding would probably be nicer...
+            ((MainWindow)Application.Current.Windows[0]).SetStandAloneStatus(ret);
+
+            return ret;
         }
 
         /*void texProcess_ErrorDataReceived(object sender, DataReceivedEventArgs e)

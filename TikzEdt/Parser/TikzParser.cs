@@ -20,8 +20,9 @@ namespace TikzEdt.Parser
 
         public static Tikz_ParseTree Parse(string code)
         {
-            //TIKZEDT_CMD_COMMENT are read from file. clean the here before they are re-read.
-            //TIKZEDT_CMD_COMMENT = "";
+            //if code is empty to bother ANTLR (it will raise an exception)
+            if (code.Trim() == "")
+                return null;
 
             simpletikzLexer lex = new simpletikzLexer(new ANTLRStringStream(code));
             CommonTokenStream tokens = new CommonTokenStream(lex);

@@ -15,6 +15,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TikzEdt.Parser;
 
+using System.Text.RegularExpressions;
+
 namespace TikzEdt
 {
     /// <summary>
@@ -213,17 +215,32 @@ namespace TikzEdt
             else return new Point((p.X - BB.X) * Resolution, (p.Y - BB.Y) * Resolution);
         }
 
+        /// <summary>
+        /// Clears all items from the canvas.
+        /// </summary>
+        public void Clear()
+        {
+            canvas1.Children.Clear();
+            curSel = null;
+            CurEditing = null;
+            ParseTree = null;
+            TopLevelItems = new List<OverLayShape>();
+        }
         public void RedrawObjects()
         {
             canvas1.Children.Clear();
-            //curDragged = null;
             curSel = null;
+            CurEditing = null;           
+            TopLevelItems = new List<OverLayShape>();
+
+            //curDragged = null;
+            
             if (ParseTree == null)
                 return; // nothing to display
 
             // set render transform
             //canvas1.RenderTransform
-            TopLevelItems = new List<OverLayShape>();
+            
             DrawObject(ParseTree, TopLevelItems);
 
           /*  foreach (TikzParseItem t in ParseTree.Children)
@@ -311,6 +328,35 @@ namespace TikzEdt
 
                     //bbg.Add(new Rect(Canvas.GetLeft(el), Canvas.GetTop(el), el.Width, el.Height));
                 }
+            }
+            else if (tpi is Tikz_Path)
+            {
+                //could this be a possibility to show edges and provide backward search?
+
+                //there are many possibility for draw commands. here we 
+                string simpleEdge_RegexString = @"[ \t\s]*\\draw.*\((?<start>.*)\).*\((?<end>.*)\).*";
+                Regex BB_Regex = new Regex(simpleEdge_RegexString);
+                Match m = BB_Regex.Match(tpi.ToString());
+                if (m.Success == true)
+                {
+                    //we just found a LaTex draw cmd, e.g.: \draw[default_edge] (v91) to (v99);
+
+                    //get both nodes
+                    Tikz_Node StartNode = tpi.parent.GetNodeByName(m.Groups[1].Value);
+                    Tikz_Node EndNode = tpi.parent.GetNodeByName(m.Groups[2].Value);
+
+                    if (StartNode != null && EndNode != null)
+                    {
+                        //and determine the position in between both nodes
+                        double x = (StartNode.GetAbsPos().X + EndNode.GetAbsPos().X) / 2;
+                        double y = (StartNode.GetAbsPos().Y + EndNode.GetAbsPos().Y) / 2;
+
+                        //draw an arrow at this pos.
+                        //(new Point(x, y));
+                        //and when clicked, jump to AvalonEdit at position tpi.StartPosition                        
+                    }
+
+                }                
             }
 
         }
@@ -450,6 +496,46 @@ namespace TikzEdt
                 rasterizer.IsCartesian = true;  // should not get here
         }
 
+        //create a new CurAddTo (even though their already might be one)
+        //(needed for edge tool)
+        bool AddNewCurAddTo()
+        {
+            // find tikzpicture
+            Tikz_Picture tpict = ParseTree.GetTikzPicture();
+            if (tpict == null)
+                return false;
+
+
+            Tikz_Path tp = new Tikz_Path();
+            tp.starttag = @"\draw";
+            tp.endtag = ";";
+            if (EdgeStyle != "")
+            {
+                Tikz_Options topt = new Tikz_Options();
+                topt.starttag = "[";
+                topt.endtag = "]";
+                Tikz_Option to = new Tikz_Option();
+                to.type = Tikz_OptionType.key;
+                to.key = EdgeStyle;
+
+                topt.AddOption(to);
+                tp.AddChild(topt);
+                tp.options = topt;
+            }
+            if (CurEditing != null)
+            {
+                CurEditing.tikzitem.AddChild(tp);
+                CurEditing.tikzitem.AddChild(new Tikz_Something("\r\n"));
+            }
+            else
+            {
+                tpict.AddChild(tp);
+                tpict.AddChild(new Tikz_Something("\r\n"));
+            }
+            curAddTo = tp;
+
+            return true;
+        }
         bool EnsureCurAddToExists(out bool created)
         {
             created = false;            
@@ -460,34 +546,7 @@ namespace TikzEdt
 
             if (curAddTo == null || !(curAddTo is Tikz_Path))
             {
-                Tikz_Path tp = new Tikz_Path();
-                tp.starttag = @"\draw";
-                tp.endtag = ";";
-                if (EdgeStyle != "")
-                {
-                    Tikz_Options topt = new Tikz_Options();
-                    topt.starttag = "[";
-                    topt.endtag = "]";
-                    Tikz_Option to = new Tikz_Option();
-                    to.type = Tikz_OptionType.key;
-                    to.key = EdgeStyle;
-
-                    topt.AddOption(to);
-                    tp.AddChild(topt);
-                    tp.options = topt;
-                }
-                if (CurEditing != null)
-                {
-                    CurEditing.tikzitem.AddChild(tp);
-                    CurEditing.tikzitem.AddChild(new Tikz_Something("\r\n"));
-                }
-                else
-                {
-                    tpict.AddChild(tp);
-                    tpict.AddChild(new Tikz_Something("\r\n"));
-                }
-                curAddTo = tp;
-                created = true;
+                created = AddNewCurAddTo();
             }
 
             return true;
@@ -499,6 +558,9 @@ namespace TikzEdt
             DrawObject(tpi, l);
             if (CurEditing == null)
             {
+                //do not redraw if there is nothing to show.
+                if (TopLevelItems == null)
+                    RedrawObjects();
                 TopLevelItems.AddRange(l);
             }
             else
@@ -633,17 +695,34 @@ namespace TikzEdt
                     return;
                 }
 
-                if (BeginModify != null)
-                    BeginModify(this);
-
                 // make sure both nodes involved are nodes
                 if (!(curSel.tikzitem is Tikz_Node) || !(n.tikzitem is Tikz_Node))
+                {
+                    String which = ""; String verb = "is";
+                    if (!(curSel.tikzitem is Tikz_Node) && !(n.tikzitem is Tikz_Node))
+                    {which = "Both"; verb = "are"; }
+                    else if (!(curSel.tikzitem is Tikz_Node))
+                        which = "The first";
+                    else if (!(n.tikzitem is Tikz_Node))
+                        which = "The second";
+                    AddStatusLine(which + " of the selected coordinates "+verb+" not a node (i.e. not defined with \\node but rather with \\draw or \\path)", true);
+                    curSel = null;
                     return; // hack
+                }
+
+                //the return from above must not interfere with BeginModify()
+                if (BeginModify != null)
+                    BeginModify(this);   
 
                 // add an edge curSel to n
-                bool lcreated;
-                if (EnsureCurAddToExists(out lcreated))
+                //bool lcreated;
+                //if (EnsureCurAddToExists(out lcreated))
+
+                //always create new \draw command. otherwise it can happen that the \draw-command
+                //is above the \node-definition which causes an error while compiling the latex code.
+                if(AddNewCurAddTo())
                 {
+
                     Tikz_Node t1 = curSel.tikzitem as Tikz_Node, t2 = n.tikzitem as Tikz_Node;
 
                     Tikz_Coord tc1 = new Tikz_Coord();
@@ -675,11 +754,21 @@ namespace TikzEdt
                     //tc1.UpdateText();
                     curAddTo.UpdateText();
                     //tpict.UpdateText();
-
+//                    txtCode_TextChanged
+                    
                     //RedrawObjects();
                     //if (OnModified != null)
                     //    OnModified.Invoke();
+
+                    //edge was drawn. release currently selected node.
+                    curSel = null;
+
+                    //will neither want to path tool to start from this last select nodes.
+                    curAddTo = null;
                 }
+                //forgetting to call EndModify causes weird "No undo group should be open at this point"-message.
+                if (EndModify != null)
+                    EndModify(this);
             }
             #endregion
             else if (tool == ToolType.addpath)
@@ -882,6 +971,16 @@ namespace TikzEdt
         {
             MarkerEllipse.Visibility = Visibility.Hidden;
         }        
+
+        /// <summary>
+        /// Helper method for optional output PdflatexOutputParser has to say.
+        /// </summary>
+        /// <param name="text">what is to say</param>
+        /// <param name="lError">defines it an error</param>
+        private void AddStatusLine(string text, bool lError = false)
+        {
+            ((MainWindow)Application.Current.Windows[0]).AddStatusLine(text, lError);
+        }
     }
 
     public abstract class OverLayShape : Shape {

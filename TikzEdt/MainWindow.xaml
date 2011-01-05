@@ -474,7 +474,10 @@
             <StatusBarItem>
                 <ProgressBar Name="progressCompile" Visibility="Collapsed" Width="80" Height="10"/>
             </StatusBarItem>
-            <StatusBarItem Name="CoordinateStatusBarItem" Content="(0,0)" HorizontalAlignment="Right" />
+
+            <StatusBarItem Name="CoordinateStatusBarItem" Content="(0,0)" DockPanel.Dock="Right" HorizontalAlignment="Right" />
+            <StatusBarItem Name="StandAloneStatusBarItem" Content="" DockPanel.Dock="Right" HorizontalAlignment="Right" />
+
         </StatusBar>
     </Grid>
 </Window>

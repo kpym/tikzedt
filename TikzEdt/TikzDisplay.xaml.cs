@@ -36,6 +36,8 @@ namespace TikzEdt
                 "Compiling", typeof(bool), typeof(TikzDisplay));
         public bool Compiling
         {
+            //if pre-compiling was started, isRunning stays true. No other compiliation can be started.
+            //could CompilingProperty and isRunning be merged?
             get { return (bool)GetValue(CompilingProperty); }
             set { }
         }
