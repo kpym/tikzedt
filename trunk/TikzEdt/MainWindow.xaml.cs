@@ -119,7 +119,8 @@ namespace TikzEdt
 
         public static bool isLoaded = false;
         public static bool isClosing = false;
-        public static List<TexOutputParser.TexError> TexErrors = new List<TexOutputParser.TexError>();
+        //public static List<TexOutputParser.TexError> TexErrors = new List<TexOutputParser.TexError>();
+        public System.Collections.ObjectModel.ObservableCollection<TexOutputParser.TexError> TexErrors = new System.Collections.ObjectModel.ObservableCollection<TexOutputParser.TexError>();
         public MainWindow()
         {
             InitializeComponent();
@@ -1301,11 +1302,6 @@ namespace TikzEdt
         // this is called upon latex error,... the error is extracted from the latex output in the TexCompiler class
         void addProblemMarker(object sender, TexOutputParser.TexError err) //String error, int linenr, TexCompiler.Severity severity)
         {
-            TexOutputParser.TexError err2 = new TexOutputParser.TexError();
-            err.Message = "Hallo2";
-            err.Line = 33;
-            TexErrors.Add(err2);
-
             TexErrors.Add(err);            
         } 
         public void clearProblemMarkers()
