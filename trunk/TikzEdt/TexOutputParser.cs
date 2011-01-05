@@ -97,6 +97,20 @@ namespace TikzEdt
             public String error;
             public string Message { get { return error; } set { error = value; } }
             public String causingSourceFile;
+            public String SourceFileName
+            {
+                get
+                {
+                    /*System.Uri AbsoluteFilePath = new Uri(causingSourceFile);
+                    System.Uri AbsoluteDirectory = new Uri(Environment.CurrentDirectory);
+                    Uri relativeUri = AbsoluteDirectory.MakeRelativeUri(AbsoluteFilePath);
+                    return relativeUri.ToString();*/
+
+                    return System.IO.Path.GetFileName(causingSourceFile);
+                    //return new Uri(causingSourceFile).MakeRelativeUri(new Uri(Environment.CurrentDirectory)).ToString(); 
+                }
+                set { error = causingSourceFile; }
+            }
             public int linenr;
             public int Line { get { return linenr; } set { linenr = value; } }           
             public Severity severity;
@@ -159,13 +173,13 @@ namespace TikzEdt
             WholeOutput = "";
         }
 
-        public void parseOutput()
+        public bool parseOutput()
         {
             //if WholeOutput is not complete, ignore it. However, this should NEVER happen.
             if (!WholeOutput.Contains("Transcript written on"))
             {                
                 WholeOutput = "";
-                return;
+                return true;
             }
 
             //take WholeOutput and use each line as token
@@ -207,16 +221,17 @@ namespace TikzEdt
                 if (m.Success)
                 {
                     //C-Style LaTeX error
-                    addProblemMarker(m.Groups[3].Value, m.Groups[1].Value, Convert.ToInt32(m.Groups[2].Value), Severity.ERROR);
+                    addProblemMarker(m.Groups[3].Value, m.Groups[1].Value, Convert.ToInt32(m.Groups[2]), Severity.ERROR);
                     //Maybe parsingStack is empty...
                     if (parsingStack.Count == 0)
                     {
                         //Add the file to the stack
-                        parsingStack.Push("(" + m.Groups[1].Value);
+                        parsingStack.Push("(" + m.Groups[1]);
                     }
                     continue;
                 }
-                m = TEXERROR.Match(line);
+
+                 m = TEXERROR.Match(line);
                 if (m.Success && line.IndexOf("warning", StringComparison.InvariantCultureIgnoreCase) == -1)
                 {
                     if (hasProblem)
@@ -370,7 +385,7 @@ namespace TikzEdt
                     AddStatusLine("SHOULD RERUN LATEX.", true);
                     continue;
                 }
-                m = ATLINE.Match(line);
+                m = ATLINE.Match(line);                
                 if (hasProblem && m.Success)
                 {
                     linenr = Convert.ToInt32(m.Groups[1].Value);
@@ -397,14 +412,15 @@ namespace TikzEdt
                 }
                 updateParsedFile(line);
 
-                if (hasProblem)
-                {
-                    // We have a not reported problem
-                    addProblemMarker(error, occurance, linenr, severity);
-                    hasProblem = false;
-                }                
-
             }
+
+            if (hasProblem)
+            {
+                // We have a not reported problem
+                addProblemMarker(error, occurance, linenr, severity);
+                //hasProblem = false;
+            }  
+            return errorsFound;
         }
 
         /// <summary>
@@ -499,7 +515,10 @@ namespace TikzEdt
         private String determineSourceFile()
         {
             int i = parsingStack.Count - 1;
+            //creating a new stack reverses the order!
             Stack<String> tempStack = new Stack<string>(parsingStack);
+            //so reverse it again!
+            tempStack = new Stack<string>(tempStack);
             while (i >= 0)
             {
                 //ORI: String fileName = parsingStack.get(i).substring(1);
@@ -508,7 +527,7 @@ namespace TikzEdt
                 //Remove "
                 if (fileName.StartsWith("\"") && fileName.EndsWith("\""))
                 {
-                    fileName = fileName.Substring(1, fileName.Length - 1);
+                    fileName = fileName.Substring(1, fileName.Length - 2);
                 }
                 if (isValidName(fileName)) return fileName;
                 i--;

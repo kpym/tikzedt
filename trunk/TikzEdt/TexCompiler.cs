@@ -199,7 +199,7 @@ namespace TikzEdt
             }
 
             // call pdflatex         
-            texProcess.StartInfo.Arguments = "-interaction=nonstopmode -halt-on-error " + "\"" + job.path + "\""; 
+            texProcess.StartInfo.Arguments = "-interaction=nonstopmode -halt-on-error \"" + job.path + "\""; 
             texProcess.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(job.path);
 
             // Set reset timer in case something goes wrong
