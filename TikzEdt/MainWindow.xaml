@@ -419,7 +419,8 @@
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn DisplayMemberBinding="{Binding Path=Line}" Header="line" Width="25" />
-                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Message}" Header="Message" Width="250"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=SourceFileName}" Header="src" Width="75" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Message}" Header="Message" Width="500"/>
                                 </GridView>
                             </ListView.View>
 
