@@ -28,7 +28,8 @@
     <Grid>        
         <Canvas HorizontalAlignment="Stretch" Name="canvas1" VerticalAlignment="Stretch" MouseDown="canvas1_MouseDown" 
                 MouseMove="canvas1_MouseMove" Background="#00000000" MouseUp="canvas1_MouseUp" MouseLeftButtonDown="canvas1_MouseLeftButtonDown" 
-                MouseLeftButtonUp="canvas1_MouseLeftButtonUp" ContextMenuOpening="canvas1_ContextMenuOpening" MouseRightButtonDown="canvas1_MouseRightButtonDown">
+                MouseLeftButtonUp="canvas1_MouseLeftButtonUp" ContextMenuOpening="canvas1_ContextMenuOpening" MouseRightButtonDown="canvas1_MouseRightButtonDown"
+                MouseWheel="JumpToSourceDoIt">
             <Ellipse Stroke="Red" StrokeThickness="8" Opacity="0.5" Width="50" Height="{Binding ElementName=MarkerEllipse, Path=Width}" HorizontalAlignment="Left" Name="MarkerEllipse" Visibility="Hidden"/>
             <Canvas.ContextMenu>
                 <ContextMenu ContextMenuOpening="ContextMenu_ContextMenuOpening">

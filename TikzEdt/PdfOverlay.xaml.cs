@@ -354,34 +354,39 @@ namespace TikzEdt
         private void canvas1_MouseMove(object sender, MouseEventArgs e)
         {
             Point p;
-            if (tool == ToolType.move && e.LeftButton == MouseButtonState.Pressed && curDragged != null)
-            {
+            
                 if (curDragged is OverlayScope)
                 {
                     p = new Point(e.GetPosition(canvas1).X - DragOriginC.X, e.GetPosition(canvas1).Y - DragOriginC.Y);
                     p = rasterizer.RasterizePixel(p);
-                    Canvas.SetLeft(curDragged, DragOriginO.X + p.X);
-                    Canvas.SetBottom(curDragged, DragOriginO.Y - p.Y); //hack
+
+                    if (tool == ToolType.move && e.LeftButton == MouseButtonState.Pressed && curDragged != null)
+                    {
+                        Canvas.SetLeft(curDragged, DragOriginO.X + p.X);
+                        Canvas.SetBottom(curDragged, DragOriginO.Y - p.Y); //hack
+                    }
                 }
                 else
                 {
                     p = new Point(e.GetPosition(canvas1).X - DragOrigin.X + 5, Height - (e.GetPosition(canvas1).Y - DragOrigin.Y) - 5);
                     p = rasterizer.RasterizePixel(p);
-                    Canvas.SetLeft(curDragged, p.X - curDragged.Width / 2);
-                    //Canvas.SetTop(curDragged, e.GetPosition(canvas1).Y - DragOrigin.Y);
-                    //Canvas.SetBottom(curDragged, Canvas.GetTop(curDragged) + 10); //hack
 
-                    Canvas.SetBottom(curDragged, p.Y - curDragged.Height / 2); //hack
+                    if (tool == ToolType.move && e.LeftButton == MouseButtonState.Pressed && curDragged != null)
+                    {
+                        Canvas.SetLeft(curDragged, p.X - curDragged.Width / 2);
+                        //Canvas.SetTop(curDragged, e.GetPosition(canvas1).Y - DragOrigin.Y);
+                        //Canvas.SetBottom(curDragged, Canvas.GetTop(curDragged) + 10); //hack
+
+                        Canvas.SetBottom(curDragged, p.Y - curDragged.Height / 2); //hack
+                    }
                 }
-            }
-            else { 
-                 p = new Point(e.GetPosition(canvas1).X - DragOrigin.X + 5, Height - (e.GetPosition(canvas1).Y - DragOrigin.Y) - 5);
-                 p = rasterizer.RasterizePixel(p);                 
-            }
-            p.X /= Consts.ptspertikzunit;
-            p.Y /= Consts.ptspertikzunit;
+            
+            p.Y /= Resolution;
+            p.X /= Resolution;
             p.X += _BB.X;
             p.Y += _BB.Y;
+            
+           
             String s = "(" + String.Format("{0:f1}", p.X) + "; "+ String.Format("{0:f1}", p.Y) + ")";
             ((MainWindow)Application.Current.Windows[0]).AddStatusBarCoordinate(s);
             
@@ -779,7 +784,23 @@ namespace TikzEdt
 
         }
 
+        private void JumpToSourceDoIt(object sender, RoutedEventArgs e)
+        {
+            IInputElement o = canvas1.InputHitTest(Mouse.GetPosition(canvas1));
+            if (o is OverLayShape)
+            {
+                mnuJumpSource.Tag = o;
+            }
+            else mnuJumpSource.Tag = null;
 
+            if (JumpToSource != null && mnuJumpSource.Tag != null)
+            {
+                if (mnuJumpSource.Tag is OverlayScope)
+                    JumpToSource((mnuJumpSource.Tag as OverlayScope).tikzitem);
+                else if (mnuJumpSource.Tag is OverlayNode)
+                    JumpToSource((mnuJumpSource.Tag as OverlayNode).tikzitem);
+            }
+        }
         private void contextmenuClick(object sender, RoutedEventArgs e)
         {
             if (sender == mnuMove)
@@ -792,13 +813,7 @@ namespace TikzEdt
                 tool = ToolType.addpath;
             else if (sender == mnuJumpSource)
             {
-                if (JumpToSource != null && mnuJumpSource.Tag != null)
-                {                
-                    if (mnuJumpSource.Tag is OverlayScope)
-                        JumpToSource((mnuJumpSource.Tag as OverlayScope).tikzitem);
-                    else if (mnuJumpSource.Tag is OverlayNode)
-                        JumpToSource((mnuJumpSource.Tag as OverlayNode).tikzitem);
-                }
+                JumpToSourceDoIt(sender, e);
             }
             else if (sender == mnuEdit)
             {
@@ -866,7 +881,7 @@ namespace TikzEdt
         private void Storyboard_Completed(object sender, EventArgs e)
         {
             MarkerEllipse.Visibility = Visibility.Hidden;
-        }
+        }        
     }
 
     public abstract class OverLayShape : Shape {
