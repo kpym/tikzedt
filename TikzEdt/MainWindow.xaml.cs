@@ -207,10 +207,9 @@ namespace TikzEdt
                     //rasterControl1.BB = currentBB;
                     Recompile(true);
                 }
-                else
-                {
-                    UpdateStyleLists(tp);
-                }
+                //even though BB may not be ready, we can already fill the style list
+                UpdateStyleLists(tp);
+                
             }
 
             // Restart parser if necessary
