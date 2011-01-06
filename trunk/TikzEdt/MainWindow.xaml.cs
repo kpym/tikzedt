@@ -1354,32 +1354,29 @@ namespace TikzEdt
 
         private void chkStatus_Checked(object sender, RoutedEventArgs e)
         {
-            /*if (chkSnippets != null && cmdFiles != null && snippetlist1 != null)
-            {
-                if (sender == cmdFiles)
-                {
-                    cmdSnippets.IsChecked = false;
-                    //snippetlist1.Visibility = System.Windows.Visibility.Hidden;
-                }
-                else if (sender == cmdSnippets)
-                {
-                    cmdFiles.IsChecked = false;
-                    snippetlist1.Visibility = System.Windows.Visibility.Visible;
-                }
 
-                GridLengthConverter g = new GridLengthConverter();
-                if (LeftSplitterCol.Width == (GridLength)g.ConvertFrom(0))
-                {
-                    LeftToolsCol.Width = oldwidth;
-                    LeftSplitterCol.Width = (GridLength)g.ConvertFrom(3);
-                }
-            }*/
         }
 
         private void chkStatus_Unchecked(object sender, RoutedEventArgs e)
         {
 
         }
+
+        private void lstErrors_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // jump to source of selected error
+            if (lstErrors.SelectedItem != null)
+            {
+                TexOutputParser.TexError err = lstErrors.SelectedItem as TexOutputParser.TexError;
+                if (txtCode.Document.LineCount >= err.Line && err.Line >= 1)
+                {
+                    txtCode.CaretOffset = txtCode.Document.GetOffset(err.Line, 1);
+                    txtCode.ScrollToLine(err.Line);
+                    txtCode.Focus();
+                }
+            }
+        }
+
 
         private void txtCode_Drop(object sender, DragEventArgs e)
         {

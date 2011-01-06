@@ -417,7 +417,8 @@
                         <TextBox Name="textBox1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
                                       Visibility="{Binding ElementName=chkErrorTex, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
                         <ListView Name="lstErrors" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                      Visibility="{Binding ElementName=chkErrorTex, Path=IsChecked, Converter={StaticResource boolToVis}}">
+                                  IsSynchronizedWithCurrentItem="True"
+                                      Visibility="{Binding ElementName=chkErrorTex, Path=IsChecked, Converter={StaticResource boolToVis}}" MouseDoubleClick="lstErrors_MouseDoubleClick">
                             <!-- <ItemsSource="{Binding Source={x:Static my:MainWindow.TexErrors}}"> -->
                             <ListView.View>
                                 <GridView>

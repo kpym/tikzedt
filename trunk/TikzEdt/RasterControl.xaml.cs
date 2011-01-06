@@ -93,6 +93,20 @@ namespace TikzEdt
             }
         }
 
+        private TikzEdt.Parser.TikzMatrix _CoordinateTransform;
+        public TikzEdt.Parser.TikzMatrix CoordinateTransform
+        {
+            get { return _CoordinateTransform; }
+            set { 
+                _CoordinateTransform = value;
+                // temp
+                RasterScale = CoordinateTransform.m[0, 0];
+                RasterOrigin = CoordinateTransform.Transform(new Point(0, 0));
+
+                DrawRaster();
+            }
+        }
+
         public Point RasterOrigin = new Point(0,0);
         public double RasterScale=1;
         private bool _IsCartesian = true;
