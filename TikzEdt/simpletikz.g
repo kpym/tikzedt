@@ -120,6 +120,10 @@ IM_TIKZEDT_CMD;
 tikzdocument
 	:	(dontcare_preamble | tikz_styleorsetorcmd | otherbegin)*  tikzpicture .*	-> ^(IM_DOCUMENT tikz_styleorsetorcmd* tikzpicture)
 	;
+
+tikzdocument_wo_tikzpicture
+	:	(dontcare_preamble | tikz_styleorsetorcmd | otherbegin)*  *.	-> ^(IM_DOCUMENT tikz_styleorsetorcmd*)
+	;
 	
 tikz_cmd_comment
 	:	TIKZEDT_CMD_COMMENT  	 -> ^(IM_TIKZEDT_CMD TIKZEDT_CMD_COMMENT)
