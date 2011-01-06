@@ -29,14 +29,44 @@ namespace TikzEdt
         /// <summary>
         /// This event is called whenever the picture gets modified.
         /// For example, in the handler one should update the code listing
+        /// The sender is the TIkzparseItem modified and oldtext is its text prior to the change.
         /// </summary>
         public event ModifiedEventHandler OnModified;
         public delegate void NoArgsEventHandler(object sender);
+        /// <summary>
+        /// This gets called prior to each group of modifications.
+        /// One user action, i.e., add path, might trigger multiple OnModified events.
+        /// Events will then be raised like this 
+        ///     BeginModify
+        ///     OnModified
+        ///     ...
+        ///     OnModified
+        ///     EndModify
+        /// </summary>
         public event NoArgsEventHandler BeginModify;
+        /// <summary>
+        /// Called after group of modifiactions has been done.
+        /// See BeginModify.
+        /// </summary>
         public event NoArgsEventHandler EndModify;
+        /// <summary>
+        /// Called when the currently selected tool has changed.
+        /// </summary>
         public event NoArgsEventHandler ToolChanged;
         public delegate void CallbackEventHandler(object sender, out bool allow);
+        /// <summary>
+        /// If the user attempts to add something (node, path...) to the empty PdfOverlay Control (i.e., ParseTree=null)
+        /// by default a new TikzPicture is created, to add the something to.
+        /// By catching the TryCreateNew Callback this can be forbidden.
+        /// (E.g., in a situation when the ParseTree is null because of errors in the document, 
+        /// not because nothing has been drawn yet.)
+        /// </summary>
         public event CallbackEventHandler TryCreateNew;
+        /// <summary>
+        /// This event is called when user selectes Jump To Source on an Overlay item.
+        /// The parameter sender will contain the TikzParseItem the user wants to jump to.
+        /// (Call its StartPosition() method to determine the text offset.)
+        /// </summary>
         public event NoArgsEventHandler JumpToSource;
 
         public static readonly DependencyProperty NodeStyleProperty = DependencyProperty.Register(
@@ -457,6 +487,15 @@ namespace TikzEdt
             }
         }
 
+        /// <summary>
+        /// The displayed raster changes depending on the currently selected object.
+        /// This method sets the raster, so as to fit the coordinate transformation at o.
+        /// There are two cases:    (i) (IsParent=false) o is the object being modified, so the relevant coordinate trsf. is that at o
+        ///                         (i) (IsParent=true)  o is a parent object to which items are added. 
+        ///                             In this case the relevant transf. is that at the end of o, since new items are inserted at the end.
+        /// </summary>
+        /// <param name="o">The object. If null, it is taken to be the tikzpicture.</param>
+        /// <param name="IsParent">Indicates whether object is to be moved itself, or children added.</param>
         void SetCorrectRaster(OverLayShape o, bool IsParent=false)
         {
             if (ParseTree == null)
@@ -466,9 +505,10 @@ namespace TikzEdt
                 Tikz_Picture tp = ParseTree.GetTikzPicture();
                 if (tp != null)
                 {
-                    TikzMatrix M = tp.GetCurrentTransform(); // todo
-                    rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
-                    rasterizer.RasterScale = M.m[1, 1];
+                    TikzMatrix M = tp.GetCurrentTransformAt(null);
+                    rasterizer.CoordinateTransform = M;
+                    //rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
+                    //rasterizer.RasterScale = M.m[1, 1];
                     rasterizer.IsCartesian = true;
                 }
             }
@@ -477,19 +517,20 @@ namespace TikzEdt
                 Tikz_Scope ts = (o as OverlayScope).tikzitem;
                 TikzMatrix M;
                 if (IsParent)
-                    M = ts.GetCurrentTransform(); // todo
+                    M = ts.GetCurrentTransformAt(null); // todo
                 else
                     M = ts.parent.GetCurrentTransformAt(ts);
-                rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
-                rasterizer.RasterScale = M.m[1, 1];
+                rasterizer.CoordinateTransform = M;
+                //rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
+                //rasterizer.RasterScale = M.m[1, 1];
                 rasterizer.IsCartesian = true;
             }
             else if (o is OverlayNode)
             {
                 Tikz_XYItem t = (o as OverlayNode).tikzitem;
                 rasterizer.RasterOrigin = t.GetAbsPos(true);
-                TikzMatrix m = t.parent.GetCurrentTransformAt(t);
-                rasterizer.RasterScale = m.m[1, 1];
+                TikzMatrix M = t.parent.GetCurrentTransformAt(t);
+                rasterizer.RasterScale = M.m[1, 1];
                 rasterizer.IsCartesian = !(t.IsPolar());
             }
             else
@@ -612,7 +653,7 @@ namespace TikzEdt
                 if (e.ClickCount == 2 && (o is OverlayScope)) // Select for editing
                 {
                     CurEditing = o as OverlayScope;
-                    SetCorrectRaster(CurEditing);
+                    SetCorrectRaster(CurEditing); // todo: correct? ,true
                 }
                 else if (o is OverLayShape)
                 {
@@ -777,7 +818,7 @@ namespace TikzEdt
                 if (BeginModify != null)
                     BeginModify(this);
                 
-                SetCorrectRaster(CurEditing);
+                SetCorrectRaster(CurEditing); // todo: correct???
 
                 Point p = new Point(e.GetPosition(canvas1).X, Height - e.GetPosition(canvas1).Y);
                 p = rasterizer.RasterizePixelToTikz(p);
@@ -873,14 +914,26 @@ namespace TikzEdt
 
         }
 
+        /// <summary>
+        /// Raises the Jumptosource event.
+        /// Note that the object to be jumped to might not be at the current mouse position.
+        /// (Namely, if the context menu was opened->mouse position changed to menu item-> clicked)
+        /// It is stored in mnuJumpSource.Tag
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void JumpToSourceDoIt(object sender, RoutedEventArgs e)
         {
-            IInputElement o = canvas1.InputHitTest(Mouse.GetPosition(canvas1));
-            if (o is OverLayShape)
+            if (sender != mnuJumpSource)
             {
-                mnuJumpSource.Tag = o;
+                // jump to object at mouse position
+                IInputElement o = canvas1.InputHitTest(Mouse.GetPosition(canvas1));
+                if (o is OverLayShape)
+                {
+                    mnuJumpSource.Tag = o;
+                }
+                else mnuJumpSource.Tag = null;
             }
-            else mnuJumpSource.Tag = null;
 
             if (JumpToSource != null && mnuJumpSource.Tag != null)
             {
@@ -928,6 +981,9 @@ namespace TikzEdt
             
             IInputElement o = canvas1.InputHitTest(Mouse.GetPosition(canvas1));
 
+            // some commands in the context menu (Jump to source, editing) operate on the object at mouse position
+            // when the contextmenu opens. Since this position is lost when clicking the menu item, the object there 
+            // has to be stored somewhere -> in the mnuJumpSource.Tag
             if (o is OverLayShape)
             {
                 mnuJumpSource.Tag = o;

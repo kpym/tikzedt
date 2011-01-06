@@ -132,9 +132,6 @@
     <Compile Include="MyCompletionData.cs" />
     <Compile Include="output\simpletikzLexer.cs" />
     <Compile Include="output\simpletikzParser.cs" />
-    <Compile Include="OverlayItem.xaml.cs">
-      <DependentUpon>OverlayItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="TexOutputParser.cs" />
     <Compile Include="PdfOverlay.xaml.cs">
       <DependentUpon>PdfOverlay.xaml</DependentUpon>
@@ -187,10 +184,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="OverlayItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="PdfOverlay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

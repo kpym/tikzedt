@@ -778,7 +778,7 @@ namespace TikzEdt.Parser
             else return null;
         }
 
-       public TikzMatrix GetCurrentTransform()
+      /*  public TikzMatrix GetCurrentTransform()
         {
             TikzMatrix M;
             //M = Tikz_Options.GetTransform(this);
@@ -789,8 +789,13 @@ namespace TikzEdt.Parser
             if (parent != null)
                 M = parent.GetCurrentTransform() * M;
             return M;
-        } /* */
-
+        } */
+        /// <summary>
+        /// Determines the coordinate transformation at object childtpi,
+        /// or at the end of the container in case childtpi is null.
+        /// </summary>
+        /// <param name="childtpi">The object to determine coordinate trsf. at.</param>
+        /// <returns>The coordinate transformation.</returns>
         public TikzMatrix GetCurrentTransformAt(TikzParseItem childtpi)
         {
             TikzMatrix M;
@@ -801,7 +806,7 @@ namespace TikzEdt.Parser
 
             foreach (TikzParseItem tpi in Children)
             {
-                if (tpi == childtpi)
+                if (tpi == childtpi && childtpi != null)
                 {
                     break;
                 }
@@ -1123,7 +1128,7 @@ namespace TikzEdt.Parser
         {
             TikzMatrix ret = new TikzMatrix();
 
-            double scale=1, xshift=0, yshift=0;
+            double scale=1, xshift=0, yshift=0, xscale=1, yscale=1;
 
             Tikz_Option o = GetOption("xshift", Tikz_OptionType.keyval);
             if (o != null)
@@ -1137,8 +1142,16 @@ namespace TikzEdt.Parser
             if (o != null)
                 if (o.numval != null)
                     scale = o.numval.GetInCM();
-            ret.m[0, 0] = scale;
-            ret.m[1, 1] = scale;
+            o = GetOption("xscale", Tikz_OptionType.keyval);
+            if (o != null)
+                if (o.numval != null)
+                    xscale = o.numval.GetInCM();
+            o = GetOption("yscale", Tikz_OptionType.keyval);
+            if (o != null)
+                if (o.numval != null)
+                    yscale = o.numval.GetInCM();
+            ret.m[0, 0] = scale * xscale;
+            ret.m[1, 1] = scale * yscale;
             ret.m[0, 2] = xshift;
             ret.m[1, 2] = yshift;
             return ret;
