@@ -29,9 +29,6 @@
 == TikzParser ==
 *TODO*
   * support full \path syntax
-  * support xscale, yscale
-  * support multiple options blocks in single path
-  * support path { } subsets
   * Build a test library
   * run more tests
   * Change recovery so as to stop on error
@@ -45,13 +42,14 @@
 
 *TODO*
   * Support multiple selection??
-  * Scale in tikpicture opts not recognized...error in Parser?
 
 === Snippetmanager ===
 *TODO*
   * Change snippet baseclass to list
-  * (BMPFactory... check for standalone)
-  * (Merge compilers ???)
+
+=== TexCompiler ===
+*TODO*
+  * precompilation as job
 
 === Misc ===
 *TODO*
