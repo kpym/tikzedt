@@ -183,18 +183,33 @@ namespace TikzEdt
 
         void AsyncParser_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            if (e.Cancelled)
+            //check if e.Result contains a exception (why does it not work with typeof?!!)
+            RecognitionException recogEx = e.Result as RecognitionException;
+            Exception ex = e.Result as Exception;
+
+            if ((e.Result != null && e.Result.GetType() == typeof(RecognitionException)) || recogEx != null)
             {
-                // error
-                AddStatusLine("Couldn't parse code.", true);
-                pdfOverlay1.SetParseTree(null, currentBB);
+                //RecognitionException Exception = e.Result as RecognitionException;  
+                RecognitionException Exception = recogEx;
+
+                AddStatusLine("Parser error in line " + Exception.Line.ToString() + " at position " + Exception.CharPositionInLine.ToString(), true);
+                AddStatusLine("-> " + Exception.Message+ " : "+ Exception.Index.ToString(), true);
+                //AddStatusLine("-> " + Exception.StackTrace, true);
+                if (Exception.InnerException != null)
+                txtCode_Goto(Exception.Index);
+            }
+            else if ( (e.Result != null && e.Result.GetType() == typeof(Exception)) || ex != null)
+            {
+                AddStatusLine("Couldn't parse code. " + e.Error.Message, true);
             }
             else if (e.Error != null)
             {
+                //not sure when Error != null, but anyways...
+                //how do you actually write something to Error? would be nice, wouldn't it?
                 AddStatusLine("Couldn't parse code. " + e.Error.Message, true);
                 pdfOverlay1.SetParseTree(null, currentBB);
             }
-            else 
+            else
             {
                 // parsing succesfull -> recompile to get BB right
                 Tikz_ParseTree tp = e.Result as Tikz_ParseTree;
@@ -209,7 +224,7 @@ namespace TikzEdt
                 }
                 //even though BB may not be ready, we can already fill the style list
                 UpdateStyleLists(tp);
-                
+
             }
 
             // Restart parser if necessary
@@ -225,14 +240,15 @@ namespace TikzEdt
 
             try
             {
-                Tikz_ParseTree tp = TikzParser.Parse(e.Argument as string);
+                Tikz_ParseTree tp = TikzParser.Parse(e.Argument as string);                
                 e.Result = tp;
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                e.Cancel = true;
-                e.Result = err;
-            }
+                //never set e.Cancel = true;
+                //if you do, you cannot access e.Result from AsyncParser_RunWorkerCompleted.
+                e.Result = ex;                
+            }            
         }
 
         void TikzToBmpFactory_JobNumberChanged(object sender)
@@ -1363,13 +1379,32 @@ namespace TikzEdt
             if (lstErrors.SelectedItem != null)
             {
                 TexOutputParser.TexError err = lstErrors.SelectedItem as TexOutputParser.TexError;
-                if (txtCode.Document.LineCount >= err.Line && err.Line >= 1)
-                {
-                    txtCode.CaretOffset = txtCode.Document.GetOffset(err.Line, 1);
-                    txtCode.ScrollToLine(err.Line);
-                    txtCode.Focus();
-                }
+                txtCode_Goto(err.Line, 1);                
             }
+        }
+
+        private bool txtCode_Goto(int pos)
+        {
+            if (pos >= 1)
+            {
+                ICSharpCode.AvalonEdit.Document.DocumentLine l = txtCode.Document.GetLineByOffset(pos);
+                return txtCode_Goto(l.LineNumber, pos - l.Offset);                
+            }
+            else
+                return false;
+        }
+        private bool txtCode_Goto(int line, int pos)
+        {
+            if (txtCode.Document.LineCount >= line && line >= 1)
+            {
+                if (pos < 0) pos = 0;
+                txtCode.CaretOffset = txtCode.Document.GetOffset(line, pos);
+                txtCode.ScrollToLine(line);
+                txtCode.Focus();
+                return true;
+            }
+            else
+                return false;
         }
 
 
