@@ -13,6 +13,7 @@
         Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico">
 
     <Window.Resources>
+        <!--  <my:TheCompiler x:Key="TheCompiler2"/> -->
         <!-- El Cheapo hack to make images within disabled toolbar buttons appear 'grayed out'.  This doesn't
     gray them at all, but lowers their opacity so the (usually gray) background of the button shows through.
     If WPF had a built-in facility for grayscaling images in disabled buttons, this kind of icky kludgery wouldn't
@@ -152,7 +153,8 @@
             </MenuItem>
             <MenuItem Header="_Compilation">
                 <MenuItem Header="Compile" Command="{x:Static custom:MainWindow.CompileCommand}" InputGestureText="F5"/>
-                <MenuItem Header="Abort" Click="AbortCompilationClick" IsEnabled="{Binding ElementName=tikzDisplay1, Path=Compiling}"/>
+                <MenuItem Name="mnuAbort" Header="Abort" Click="AbortCompilationClick"
+                          IsEnabled="{Binding Source={x:Static my:TheCompiler.Instance}, Path=Compiling, Mode=OneWay}"/>
                 <Separator/>
                 <MenuItem Header="(Re-)Generate precompiled headers" Click="GenerateHeadersClick"/>
             </MenuItem>
@@ -195,7 +197,8 @@
                         Compile the file (F5)
                     </Button.ToolTip>
                 </Button>
-                <Button Name="cmdAbortCompilation" IsEnabled="{Binding ElementName=tikzDisplay1, Path=Compiling}" Click="AbortCompilationClick" >
+                <Button Name="cmdAbortCompilation" Click="AbortCompilationClick" 
+                        IsEnabled="{Binding Source={x:Static my:TheCompiler.Instance}, Path=Compiling, Mode=OneWay}">
                     <Image Source="/TikzEdt;component/Images/error.png" Style="{StaticResource toolbarImageStyle}" Stretch="Fill" Height="16" Width="16"/>
                     <Button.ToolTip>Abort compilation in case something goes wrong</Button.ToolTip>
                 </Button>
@@ -458,8 +461,7 @@
                 <Grid Background="#303030">
                     <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center"
                                        Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"  />
-                    <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" Width="200" Height="200" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" 
-                                    OnCompileEvent="tikzDisplay1_OnCompileEvent" />                   
+                    <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" Width="200" Height="200" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" />                   
                     <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" 
                                     OnModified="pdfOverlay1_OnModified" BeginModify="pdfOverlay1_BeginModify" EndModify="pdfOverlay1_EndModify" 
                                     NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text,Mode=OneWay}" EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}"
