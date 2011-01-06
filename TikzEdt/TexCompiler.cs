@@ -21,7 +21,7 @@ using System.Text.RegularExpressions;
 
 namespace TikzEdt
 {
-    public class TexCompiler : DispatcherObject
+    public class TexCompiler : DependencyObject //DispatcherObject
     {
         public delegate void NoArgsEventHandler(object sender);
         public event NoArgsEventHandler BitmapGenerated;            // called after _successful_ bitmap generation
@@ -35,6 +35,18 @@ namespace TikzEdt
         public event CompileEventHandler OnCompileEvent;
         public delegate void TexOutputHandler(object sender, string Message);
         public event TexOutputHandler OnTexOutput;
+
+        // This read only property indicates whether the Compiler is currently busy
+        readonly private static DependencyPropertyKey CompilingPropertyKey = DependencyProperty.RegisterReadOnly(
+        "Compiling", typeof(bool), typeof(TexCompiler), new PropertyMetadata(false));
+        readonly public static DependencyProperty CompilingProperty = CompilingPropertyKey.DependencyProperty;
+        public bool Compiling
+        {
+            //if pre-compiling was started, isRunning stays true. No other compiliation can be started.
+            //could CompilingProperty and isRunning be merged?
+            get { return (bool)GetValue(CompilingProperty); }
+            set { }
+        }
 
         public double timeout = 10000; // in milliseconds
         public double Resolution = 50;
@@ -87,7 +99,7 @@ namespace TikzEdt
             todo_tex.Enqueue(job);
             if (JobNumberChanged != null)
                 JobNumberChanged(this);
-            if (!isRunning)
+            if (!Compiling)//(!isRunning)
                 doCompile();
         }
         /// <summary>
@@ -130,7 +142,7 @@ namespace TikzEdt
         }
 
         protected Process texProcess = new Process();
-        protected bool isRunning = false;
+        //protected bool isRunning = false;
         //PDFLibNet.PDFWrapper mypdfDoc = null;
         //System.Windows.Forms.Control dummy = new System.Windows.Forms.Control();
         DispatcherTimer timer = new DispatcherTimer();
@@ -153,11 +165,11 @@ namespace TikzEdt
         /// </summary>
         protected void doCompile()
         {
-            if (isRunning || todo_tex.Count == 0)
+            if (Compiling || todo_tex.Count == 0)
             {
                 return;
             }
-            isRunning = true;
+            
 
             if (!File.Exists(Helper.GetPrecompiledHeaderPath() + ".fmt"))
             {
@@ -167,6 +179,8 @@ namespace TikzEdt
                 return;
             }
 
+            //isRunning = true;
+            SetValue(CompilingPropertyKey, true);
             // Take the next job from the queue and process
             Job job = todo_tex.Dequeue();
             CurrentJob = job;
@@ -345,7 +359,8 @@ namespace TikzEdt
             //This does not work because something texProcess_Exited is called
             //before the complete output was received by texProcess_OutputDataReceived().
 
-            isRunning = false;
+            //isRunning = false;
+            SetValue(CompilingPropertyKey, false);
  
             if (todo_tex.Count > 0)
                 doCompile();
@@ -473,7 +488,11 @@ namespace TikzEdt
     /// </summary>
     public class TheCompiler : TexCompiler
     {
-        public static TexCompiler Instance = new TexCompiler();
-
+        public static TexCompiler _Instance = new TexCompiler();
+        public static TexCompiler Instance
+        {
+            get { return _Instance; }
+            set { }
+        }
     }
 }

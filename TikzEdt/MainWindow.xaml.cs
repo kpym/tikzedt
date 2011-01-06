@@ -635,11 +635,6 @@ namespace TikzEdt
                 pdfOverlay1.Visibility = Visibility.Hidden;
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            tikzDisplay1.AbortCompilation();
-        }
-
         private void Image_ImageFailed(object sender, ExceptionRoutedEventArgs e)
         {
 
@@ -771,7 +766,7 @@ namespace TikzEdt
 
         private void AbortCompilationClick(object sender, RoutedEventArgs e)
         {
-            tikzDisplay1.AbortCompilation();
+            TheCompiler.Instance.AbortCompilation();
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)

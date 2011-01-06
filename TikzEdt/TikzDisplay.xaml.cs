@@ -32,7 +32,7 @@ namespace TikzEdt
         public delegate void TexOutputHandler(string Message);
         public event TexOutputHandler OnTexOutput;
 
-        readonly public static DependencyProperty CompilingProperty = DependencyProperty.Register(
+        /*readonly public static DependencyProperty CompilingProperty = DependencyProperty.Register(
                 "Compiling", typeof(bool), typeof(TikzDisplay));
         public bool Compiling
         {
@@ -40,9 +40,9 @@ namespace TikzEdt
             //could CompilingProperty and isRunning be merged?
             get { return (bool)GetValue(CompilingProperty); }
             set { }
-        }
+        }*/
 
-        public void Compile(string code, Rect BB, bool IsStandAlone)
+  /*      public void Compile(string code, Rect BB, bool IsStandAlone)
         {
             if (IsStandAlone)
                 nextToCompile = code;
@@ -50,6 +50,7 @@ namespace TikzEdt
             nextBB = BB;
             doCompile();
         }
+   * */
 
         private double _Resolution = Consts.ptspertikzunit;
         public double Resolution
@@ -103,7 +104,7 @@ namespace TikzEdt
         /// If the compilation gets stuck (actually it shouldn't), 
         /// one can call this method to kill the pdflatex-process.
         /// </summary>
-        public void AbortCompilation()
+  /*      public void AbortCompilation()
         {
             try
             {
@@ -116,13 +117,13 @@ namespace TikzEdt
                 //process has already terminated. that is okay.
             }
         }
-        
+        */
 
         /// <summary>
         /// The main routine, starts the compilation of the Tikz-Picture.
         /// If necessary it initiates compilation of the precompiled headers.
         /// </summary>
-        protected void doCompile()
+    /*    protected void doCompile()
         {
             if (isRunning || nextToCompile == "")
             {
@@ -184,6 +185,7 @@ namespace TikzEdt
             texProcess.BeginErrorReadLine();
             
         }
+     * */
         /// <summary>
         /// Adds a rectangle to the Tikzcode in the size specified by BB. 
         /// The rectangle is added as the last command before the \end{tikzpicture} 
@@ -192,7 +194,7 @@ namespace TikzEdt
         /// <param name="BB">The bounding box (= size of rectangle to be written) </param>
         /// <param name="succeeded">Returns success, i.e., whether the string "\end{tikzpicture}" has been found</param>
         /// <returns>The Tikzcode, with the "\draw rectangle ...." inserted </returns>
-        string writeBBtoTikz(string code, Rect BB, out bool succeeded)
+ /*       string writeBBtoTikz(string code, Rect BB, out bool succeeded)
         {
             // hack
             string cend = @"\end{tikzpicture}"; // hack
@@ -202,13 +204,13 @@ namespace TikzEdt
                 return tok[0] + @"\draw (" + BB.X + "," + BB.Y + ") rectangle (" + (BB.X + BB.Width).ToString() + "," + (BB.Y + BB.Height).ToString() + ");\r\n " + cend + tok[1];
             else
                 return code;
-        }
+        }*/
 
         public TikzDisplay()
         {
             InitializeComponent();
 
-            texProcess.EnableRaisingEvents = true;
+            /* texProcess.EnableRaisingEvents = true;
             texProcess.StartInfo.Arguments = "-halt-on-error " + Consts.cTempFile + ".tex";
             texProcess.StartInfo.FileName = "pdflatex";
             texProcess.StartInfo.CreateNoWindow = true;
@@ -220,10 +222,10 @@ namespace TikzEdt
             // texProcess.SynchronizingObject = (System.ComponentModel.ISynchronizeInvoke) this;
             texProcess.Exited += new EventHandler(texProcess_Exited);
             texProcess.OutputDataReceived += new DataReceivedEventHandler(texProcess_OutputDataReceived);
-            texProcess.ErrorDataReceived += new DataReceivedEventHandler(texProcess_ErrorDataReceived);
+            texProcess.ErrorDataReceived += new DataReceivedEventHandler(texProcess_ErrorDataReceived); */
         }
 
-        void texProcess_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+ /*       void texProcess_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             string s = "ErrorDataReceived: " + e.Data;
             Dispatcher.Invoke(
@@ -248,7 +250,7 @@ namespace TikzEdt
                     }
                 )
             );
-        }
+        } */
 
         /// <summary>
         /// Reload the PDF file. This is called only when the pdf file changes on disk.
@@ -281,7 +283,7 @@ namespace TikzEdt
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void texProcess_Exited(object sender, EventArgs e)
+   /*     void texProcess_Exited(object sender, EventArgs e)
         {
             Dispatcher.Invoke(new Action(
             delegate()
@@ -325,7 +327,7 @@ namespace TikzEdt
                 ///texProcess.CancelOutputRead();
             }
             ));
-        }
+        }*/
 
 
         /// <summary>
