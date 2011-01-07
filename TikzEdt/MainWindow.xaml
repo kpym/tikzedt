@@ -11,7 +11,9 @@
         Title="TikzEdt" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
         Width="{Binding Source={x:Static p:Settings.Default}, Path=Window_Width, Mode=TwoWay}" 
-        Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico">
+        Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico"
+        xmlns:settings="clr-namespace:LogicaCMG.Settings"
+        settings:WindowSettings.Save="True">
 
     <Window.Resources>
         <!--  <my:TheCompiler x:Key="TheCompiler2"/> -->
@@ -368,12 +370,12 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="20" Name="LeftMenuCol"></ColumnDefinition>
-                <ColumnDefinition Width="150" Name="LeftToolsCol"></ColumnDefinition>
+                <ColumnDefinition Width="{Binding LeftMenuColWidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="LeftMenuCol"></ColumnDefinition>
+                <ColumnDefinition Width="{Binding LeftToolsColWidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="LeftToolsCol"></ColumnDefinition>
                 <ColumnDefinition Width="3" Name="LeftSplitterCol"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="{Binding OverlayCanvasColWidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="OverlayCanvasCol"></ColumnDefinition>
                 <ColumnDefinition Width="3"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="{Binding OverlayCanvasCol2WidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="OverlayCanvasCol2"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Background="Gray">
                 <ToggleButton  Width="60" Name="cmdFiles" Checked="cmdSnippets_Checked" Unchecked="cmdSnippets_Unchecked" Focusable="False">
@@ -397,7 +399,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="3"/>
-                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="{Binding StatusFieldRowHeightSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="StatusFieldRow" />                        
                 </Grid.RowDefinitions>
                 <GridSplitter Background="Gray" Grid.Row="1" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                 <DockPanel LastChildFill="true" Grid.Row="2">

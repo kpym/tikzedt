@@ -165,6 +165,7 @@
     </Compile>
     <Compile Include="Parser\TikzParser.cs" />
     <Compile Include="Parser\TikzParseTree.cs" />
+    <Compile Include="WindowSetting.cs" />
     <Page Include="Editor\FindReplaceDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

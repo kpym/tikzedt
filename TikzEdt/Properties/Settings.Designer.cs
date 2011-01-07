@@ -324,5 +324,65 @@ namespace TikzEdt.Properties {
                 this["Snippets_ShowThumbs"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public global::System.Windows.GridLength LeftMenuColWidthSetting {
+            get {
+                return ((global::System.Windows.GridLength)(this["LeftMenuColWidthSetting"]));
+            }
+            set {
+                this["LeftMenuColWidthSetting"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("151")]
+        public global::System.Windows.GridLength LeftToolsColWidthSetting {
+            get {
+                return ((global::System.Windows.GridLength)(this["LeftToolsColWidthSetting"]));
+            }
+            set {
+                this["LeftToolsColWidthSetting"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("*")]
+        public global::System.Windows.GridLength OverlayCanvasColWidthSetting {
+            get {
+                return ((global::System.Windows.GridLength)(this["OverlayCanvasColWidthSetting"]));
+            }
+            set {
+                this["OverlayCanvasColWidthSetting"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("*")]
+        public global::System.Windows.GridLength OverlayCanvasCol2WidthSetting {
+            get {
+                return ((global::System.Windows.GridLength)(this["OverlayCanvasCol2WidthSetting"]));
+            }
+            set {
+                this["OverlayCanvasCol2WidthSetting"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("80")]
+        public global::System.Windows.GridLength StatusFieldRowHeightSetting {
+            get {
+                return ((global::System.Windows.GridLength)(this["StatusFieldRowHeightSetting"]));
+            }
+            set {
+                this["StatusFieldRowHeightSetting"] = value;
+            }
+        }
     }
 }
