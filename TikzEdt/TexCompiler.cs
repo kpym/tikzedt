@@ -48,7 +48,7 @@ namespace TikzEdt
             set { }
         }
 
-        public double timeout = 10000; // in milliseconds
+        public double timeout = 0; // in milliseconds, 0 = no timeout
         public double Resolution = 50;
         public class Job
         {
@@ -59,6 +59,11 @@ namespace TikzEdt
             public bool CreateBMP=false;  // if true, create bmp file, if false, create pdf only
             public bool WriteCode=true;  // true if code should be written to path, false if file already exists and just needs to be compiled
             public bool GeneratePrecompiledHeaders = false; // if set to true, all other arguments are ignored
+
+            public bool BBShallBeWritten = false;   // indicates whether the compiler should try to smuggle BB code into the file
+            public bool hasBB = false;              // indicates whether the BB could be determined
+            public bool BBWritten = false;          // indicates whether code to determine the BB has been succesfully smuggled into the file
+            
             public Job(string tcode, string tpath, Rect tBB, string tname, bool tCreateBMP)
             {
                 code = tcode; path = tpath; BB = tBB; name = tname; CreateBMP = tCreateBMP;
@@ -109,12 +114,12 @@ namespace TikzEdt
         /// <param name="path"></param>
         /// <param name="BB"></param>
         /// <param name="name"></param>
-        public void AddJobExclusive(string code, string path, Rect BB)
+        public void AddJobExclusive(string code, string path, bool BBShallBeWritten)
         {
             Job job = new Job();
             job.code = code;
             job.path = path;
-            job.BB = BB;
+            job.BBShallBeWritten = BBShallBeWritten;
             job.CreateBMP = false;
             job.WriteCode = true;
 
@@ -191,8 +196,14 @@ namespace TikzEdt
                 // add bounding box
                 bool lsucceeded;
                 string codetowrite = job.code;
-                if (job.BB.Width > 0 && job.BB.Height > 0)
-                    codetowrite = writeBBtoTikz(job.code, job.BB, out lsucceeded);
+                //if (job.BB.Width > 0 && job.BB.Height > 0)
+                //    codetowrite = writeBBtoTikz(job.code, job.BB, out lsucceeded);
+                if (job.BBShallBeWritten)
+                {
+                    codetowrite = writeBBWritertoTikz(job.code, out lsucceeded);
+                    if (lsucceeded)
+                        job.BBWritten = true;
+                }
 
                 if (!Directory.Exists(System.IO.Path.GetDirectoryName(job.path)))
                     Directory.CreateDirectory(System.IO.Path.GetDirectoryName(job.path));
@@ -273,6 +284,18 @@ namespace TikzEdt
                 return code;
         }
 
+        string writeBBWritertoTikz(string code, out bool succeeded)
+        {
+            // hack
+            string cend = @"\end{tikzpicture}";
+            string[] tok = code.Split(new string[] { cend }, StringSplitOptions.None);
+            succeeded = (tok.Length == 2 );
+            if (succeeded)
+                return tok[0] + Consts.CodeToWriteBB + cend + tok[1];
+            else
+                return code;
+        }
+
         public TexCompiler()
         {
 
@@ -323,6 +346,11 @@ namespace TikzEdt
 
             if (texProcess.ExitCode == 0)
             {
+                if (job.BBWritten)
+                {
+                    ReadBBFromFile(job);
+                }
+
                 if (OnCompileEvent != null)
                     OnCompileEvent(this, "Compilation done", CompileEventType.Success);
                 if (JobSucceeded != null)
@@ -366,6 +394,40 @@ namespace TikzEdt
                 doCompile();
 
             }));
+        }
+
+        /// <summary>
+        /// Tries to read the Tikz bounding box from Metadata file mytikzfile_BB.txt
+        /// Format:
+        ///         X1,Y1,X2,Y2
+        /// (For example X1 = 27.3pt)
+        /// </summary>
+        /// <param name="job"></param>
+        void ReadBBFromFile(Job job)
+        {
+            string cMetaFile = Helper.RemoveFileExtension(job.path) + "_BB.txt";
+            if (File.Exists(cMetaFile))
+            {
+                StreamReader sr = new StreamReader(cMetaFile);;
+                try
+                {
+                    string s = sr.ReadLine();
+                    string[] arr = s.Split(new string[] {",", " ", "pt"}, StringSplitOptions.RemoveEmptyEntries);
+                    if (arr.Length == 4)
+                    {
+                        Point p1 = new Point( Double.Parse(arr[0]) / Consts.ptspertikzunit, Double.Parse(arr[1]) / Consts.ptspertikzunit);
+                        Point p2 = new Point( Double.Parse(arr[2]) / Consts.ptspertikzunit, Double.Parse(arr[3]) / Consts.ptspertikzunit);
+                        job.BB = new Rect(p1, p2);
+                        job.hasBB = true;
+
+                    }
+                }
+                finally
+                {
+                    sr.Close();
+                }
+
+            }
         }
 
         /// <summary>
@@ -473,6 +535,7 @@ namespace TikzEdt
         static TikzToBMPFactory()
         {
             Instance.JobFailed += new JobEventHandler(OnJobFailed);
+            Instance.timeout = 5000;
         }
 
         public static void OnJobFailed(object sender, Job job)

@@ -153,11 +153,11 @@
                 <MenuItem Header="Fancy Mode" IsCheckable="True" IsChecked="{Binding ElementName=chkFancyMode, Path=IsChecked}"/>
                 <MenuItem Header="Standard Mode" IsCheckable="True" IsChecked="{Binding ElementName=chkStandardMode, Path=IsChecked}"/>
                 <MenuItem Header="Toolbars">
-                <MenuItem Header="Main" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Mode=TwoWay}" IsCheckable="True" />
-                <MenuItem Header="Zoom" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowZoom, Mode=TwoWay}" IsCheckable="True" />
-                <MenuItem Header="Tools" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Mode=TwoWay}" IsCheckable="True"/>
-                <MenuItem Header="Bounding Box" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowBB, Mode=TwoWay}" IsCheckable="True"/>
-                <MenuItem Header="Mode" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowMode, Mode=TwoWay}" IsCheckable="True"/>
+                    <MenuItem Header="Main" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Mode=TwoWay}" IsCheckable="True" />
+                    <MenuItem Header="Zoom" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowZoom, Mode=TwoWay}" IsCheckable="True" />
+                    <MenuItem Header="Tools" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Mode=TwoWay}" IsCheckable="True"/>
+                        <!-- <MenuItem Header="Bounding Box" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowBB, Mode=TwoWay}" IsCheckable="True"/> -->
+                    <MenuItem Header="Mode" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowMode, Mode=TwoWay}" IsCheckable="True"/>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Compilation">
@@ -286,9 +286,9 @@
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Edge style:</TextBlock>
                 <ComboBox Name="cmbEdgeStyles" Width="80" IsEditable="True"></ComboBox>
             </ToolBar>
-            <ToolBar Height="28" Name="tlbBB" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowBB, Converter={StaticResource boolToVis}}">
+            <!-- <ToolBar Height="28" Name="tlbBB" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowBB, Converter={StaticResource boolToVis}}">
                 <TextBlock Name="txtBB" Margin="0 0 3 0" VerticalAlignment="Center">Bounding Box:</TextBlock>
-                <!-- <DockPanel VerticalAlignment="Center">-->
+                
                 <CheckBox Name="chkAutoBB" Checked="chkAutoBB_Checked" Unchecked="chkAutoBB_Checked" IsChecked="True">Auto</CheckBox>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">X</TextBlock>
             <TextBox Name="txtBBX" Width="25" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
@@ -298,7 +298,7 @@
             <TextBox Name="txtBBW" Width="25" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">H</TextBlock>
             <TextBox Name="txtBBH" Width="25" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
-        </ToolBar>
+        </ToolBar> -->
             <ToolBar  Band="1" Height="28" Name="tlbMode"
                       Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowMode, Converter={StaticResource boolToVis}}">
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Mode:</TextBlock>
@@ -498,10 +498,12 @@
             <StatusBarItem>
                 <ProgressBar Name="progressCompile" Visibility="Collapsed" Width="80" Height="10"/>
             </StatusBarItem>
-
+            
             <StatusBarItem Name="CoordinateStatusBarItem" Content="(0,0)" DockPanel.Dock="Right" HorizontalAlignment="Right" />
             <StatusBarItem Name="StandAloneStatusBarItem" Content="" DockPanel.Dock="Right" HorizontalAlignment="Right" />
 
+            <StatusBarItem Name="BBStatusBarItem" Content="Bounding Box:" DockPanel.Dock="Right" HorizontalAlignment="Right" />
+            
         </StatusBar>
     </Grid>
 </Window>

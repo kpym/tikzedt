@@ -93,7 +93,15 @@ namespace TikzEdt
             if (!job.GeneratePrecompiledHeaders)
             {
                 string pdfpath = Helper.RemoveFileExtension(job.path) + ".pdf";
-                currentBB = job.BB;
+                if (job.hasBB)
+                {
+                    currentBB = job.BB;
+                    // very small pdfs are cut off
+                    //if (currentBB.Width < 0.05 || currentBB.Height < 0.05)
+                    //    currentBB.Inflate(0.05, 0.05);
+                }
+                else
+                    currentBB = new Rect(0, 0, 0, 0);
                 RefreshPDF(pdfpath);
             }
         }
@@ -270,8 +278,8 @@ namespace TikzEdt
                 lblUnavailable.Visibility = Visibility.Collapsed;
                 mypdfDoc.LoadPdf(cFile);
                 image1.Visibility = Visibility.Visible;
-                RecalcSize();
             }
+            RecalcSize();
         }
         public void SetUnavailable()
         {
@@ -338,7 +346,11 @@ namespace TikzEdt
             if (currentBB.Width * currentBB.Height > 0)
             {
                 Width = currentBB.Width * Resolution;
+                if (Width < 5)  // a bit hacky
+                    Width = 5;
                 Height = currentBB.Height * Resolution;
+                if (Height < 5)
+                    Height = 5;
             }
             else
             {
