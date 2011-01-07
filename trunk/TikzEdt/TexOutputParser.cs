@@ -68,7 +68,7 @@ namespace TikzEdt
         }
     }
 
-    public enum Severity { NOTICE, ERROR, WARNING };
+    public enum Severity { NOTICE, WARNING, ERROR }; // the order is the inverse sort order
 
     public class TexOutputParser
     {
@@ -113,7 +113,8 @@ namespace TikzEdt
             }
             public int linenr;
             public int Line { get { return linenr; } set { linenr = value; } }           
-            public Severity severity;
+            private Severity _severity;
+            public Severity severity { get { return _severity; } set { _severity = value; } }
         }
     
 

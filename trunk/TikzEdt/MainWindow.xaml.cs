@@ -120,7 +120,7 @@ namespace TikzEdt
         public static bool isLoaded = false;
         public static bool isClosing = false;
         //public static List<TexOutputParser.TexError> TexErrors = new List<TexOutputParser.TexError>();
-        public System.Collections.ObjectModel.ObservableCollection<TexOutputParser.TexError> TexErrors = new System.Collections.ObjectModel.ObservableCollection<TexOutputParser.TexError>();
+        public static System.Collections.ObjectModel.ObservableCollection<TexOutputParser.TexError> TexErrors = new System.Collections.ObjectModel.ObservableCollection<TexOutputParser.TexError>();
         public MainWindow()
         {
             InitializeComponent();
@@ -150,7 +150,9 @@ namespace TikzEdt
             tikzDisplay1.TexCompilerToListen = TheCompiler.Instance;
 
             // bind lstError to TexErrors (make sure that TexErrors is suitable object for data binding!)
-            lstErrors.ItemsSource = TexErrors;            
+            //lstErrors.ItemsSource = TexErrors;
+            //lstErrors.Items.GroupDescriptions.Add(new System.ComponentModel.GroupDescription())
+            //lstErrors.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("severity", System.ComponentModel.ListSortDirection.Ascending));
 
             // in the constructor:
             txtCode.TextArea.TextEntering += textEditor_TextArea_TextEntering;
@@ -1447,6 +1449,39 @@ namespace TikzEdt
                 e.Handled = true;
             }
             //setting e.Effects = DragDropEffects.None is ignored. why?
+        }
+
+        private void Test2Click(object sender, RoutedEventArgs e)
+        {
+            TexOutputParser.TexError err = new TexOutputParser.TexError();
+            err.Line = 33;
+            err.Message = "blabla";
+            err.severity = Severity.WARNING;
+            addProblemMarker(this, err);
+
+            err = new TexOutputParser.TexError();
+            err.Line = 44;
+            err.Message = "blabl2a";
+            err.severity = Severity.ERROR;
+            addProblemMarker(this, err);
+
+            err = new TexOutputParser.TexError();
+            err.Line = 55;
+            err.Message = "blabla3";
+            err.severity = Severity.ERROR;
+            addProblemMarker(this, err);
+
+            err = new TexOutputParser.TexError();
+            err.Line = 66;
+            err.Message = "blabla4";
+            err.severity = Severity.NOTICE;
+            addProblemMarker(this, err);
+
+            err = new TexOutputParser.TexError();
+            err.Line = 77;
+            err.Message = "blabla5";
+            err.severity = Severity.WARNING;
+            addProblemMarker(this, err);
         }
 
 

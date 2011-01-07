@@ -306,4 +306,42 @@ namespace TikzEdt
         #endregion
     }
 
+    [ValueConversion(typeof(Severity), typeof(ImageSource))]
+    public sealed class SeverityImageConverter : IValueConverter
+    {
+        static BitmapSource WarningBmp, ErrorBmp, DefaultBmp;
+
+        static SeverityImageConverter()
+        {
+            System.Drawing.Icon icon = System.Drawing.SystemIcons.Warning;
+            WarningBmp = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            icon = System.Drawing.SystemIcons.Error;
+            ErrorBmp = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+
+            DefaultBmp = null;
+        }
+
+        public object Convert(object value, Type targetType,
+                              object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (targetType != typeof(ImageSource))
+                throw new InvalidOperationException("The target must be ImageSource");
+            Severity s = (Severity) value;
+            switch (s)
+            {
+                case Severity.ERROR:
+                    return ErrorBmp;
+                case Severity.WARNING:
+                    return WarningBmp;
+                default:
+                    return DefaultBmp;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType,
+                                  object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
