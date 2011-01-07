@@ -91,9 +91,26 @@ IM_TIKZEDT_CMD;
 @parser::members {
 
   //@Override
-  protected override Object RecoverFromMismatchedToken(IIntStream input, int ttype, BitSet follow) {
-    throw new MismatchedTokenException(ttype, input);
-  }
+  protected override object RecoverFromMismatchedToken(IIntStream input, int ttype, BitSet follow)
+    {
+        //throw new MismatchedTokenException(ttype, input);
+        //return base.RecoverFromMismatchedToken(input, ttype, follow);
+        string s = "After token #" + input.Index() + " \"" + this.TokenStream.Get(input.Index() - 1).Text.Replace("\n", "<NEWLINE>")+ "\" of type " 
+            + this.TokenNames[this.TokenStream.Get(input.Index() - 1).Type] + " at pos "
+            + (this.TokenStream.Get(input.Index() - 1).CharPositionInLine + this.TokenStream.Get(input.Index() - 1).Text.Length) + " in line " 
+            + this.TokenStream.Get(input.Index() - 1).Line + " parser expected token type " 
+            + this.TokenNames[ttype];
+        if (follow.Count > 0)
+        {
+            s += " followed by type ";
+            foreach (int f in follow.ToArray())
+            {
+                s += this.TokenNames[f] + ", ";
+            }
+
+        }
+        throw new Exception(s);
+    }
 
   //@Override
   public override Object RecoverFromMismatchedSet(IIntStream input, RecognitionException e, BitSet follow) {
