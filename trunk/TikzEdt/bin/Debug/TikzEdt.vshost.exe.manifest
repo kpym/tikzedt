@@ -122,17 +122,17 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>Q4rZPIUoY32nByo/Wi5MmvQEnIs=</dsig:DigestValue>
+        <dsig:DigestValue>Oc/yb3hz+xiSOQqjfKyfia6odXE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="TikzEdt.exe.config" size="4070">
+  <file name="TikzEdt.exe.config" size="4110">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>zEqS9YT4QaDFKC+mlr+jfs9f5Wk=</dsig:DigestValue>
+      <dsig:DigestValue>OaW+SO7LC7KuNsW9Cn8o3Ahutc4=</dsig:DigestValue>
     </hash>
   </file>
   <file name="tikzedt48.ico" size="9662">

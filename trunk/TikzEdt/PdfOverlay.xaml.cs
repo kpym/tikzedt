@@ -93,6 +93,8 @@ namespace TikzEdt
             set { }
         }
 
+        
+
         Tikz_ParseTree _parsetree;
         /// <summary>
         /// The Parse tree currently being displayed is stored in this property.
@@ -140,7 +142,7 @@ namespace TikzEdt
             set 
             { 
                 _BB = value;
-                Resolution = Resolution; // to redraw       
+                Resolution = Resolution; // to redraw
             }
         }
 

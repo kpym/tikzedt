@@ -30,6 +30,7 @@
             <Word>\begin</Word>
             <Word>\end</Word>
             <Word>\node</Word>
+            <Word>\coordinate</Word>
             <Word>\draw</Word>
             <Word>\fill</Word>
             <Word>\path</Word>

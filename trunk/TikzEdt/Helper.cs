@@ -28,12 +28,11 @@ namespace TikzEdt
     static class Consts
     {
         public const double cmperin = 2.54;
-        public const double ptspertikzunit = 72.0 / cmperin;
+        public const double ptspertikzunit = 72.0 / cmperin; // 28.3464567
         public const double TikzDefaultLinewidth = 0;
         public const string TikzDefaultFont = "Times";
         public const double TikzDefaultFontSize = 8;
         public const int TikzImgResolution = 300; // resolution in dpi with which images are compiled
-
 
         //public static string[] TikzArrowTipCodes = new string[] { "", ">", "<" };
         //public static DashStyle[] TikzToSystemDashStyle = new DashStyle[] { DashStyle.Solid, DashStyle.Dot, DashStyle.Dash };
@@ -73,6 +72,21 @@ namespace TikzEdt
         public const string ImgHeader =
         @"\documentclass[fleqn]{article}
 \usepackage{amsmath, amssymb,bm,color}
+";
+
+        public const string CodeToWriteBB =
+@"\usetikzlibrary{calc}
+\newwrite\metadatafile
+\immediate\openout\metadatafile=\jobname_BB.txt
+\path
+  let
+    \p1=(current bounding box.south west),
+    \p2=(current bounding box.north east)
+  in
+  node at (current bounding box) {
+\immediate\write\metadatafile{\p1,\p2}
+};
+\immediate\closeout\metadatafile
 ";
 
         public const string precompilation_args = "-ini -job-name=\"" + cTempFile + "\" \"&pdflatex " + cTempFile + "pre.tex\\dump\"";

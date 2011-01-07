@@ -93,10 +93,19 @@ namespace TikzEdt
             set
             {
                 _currentBB = value;
-                txtBBX.Text = currentBB.X.ToString();
-                txtBBY.Text = currentBB.Y.ToString();
-                txtBBW.Text = currentBB.Width.ToString();
-                txtBBH.Text = currentBB.Height.ToString();
+                //txtBBX.Text = currentBB.X.ToString();
+                //txtBBY.Text = currentBB.Y.ToString();
+                //txtBBW.Text = currentBB.Width.ToString();
+                //txtBBH.Text = currentBB.Height.ToString();
+
+                BBStatusBarItem.Content = "Bounding Box: ("+Math.Round(currentBB.X,2) + ", " + Math.Round(currentBB.Y,2) + ") ("
+                    +Math.Round(currentBB.X+currentBB.Width,2) + ", " + Math.Round(currentBB.Y+currentBB.Height,2) + ")";
+
+                // add some margin
+                Rect bigger = currentBB;
+                bigger.Inflate(Properties.Settings.Default.BB_Margin, Properties.Settings.Default.BB_Margin);
+                pdfOverlay1.BB = bigger;
+                rasterControl1.BB = bigger;
             }
         }
 
@@ -152,6 +161,7 @@ namespace TikzEdt
 
             // Register events with the global compiler
             TheCompiler.Instance.OnCompileEvent += new TexCompiler.CompileEventHandler(TexCompiler_OnCompileEvent);
+            TheCompiler.Instance.JobSucceeded += new TexCompiler.JobEventHandler(TheCompiler_JobSucceeded);
             TheCompiler.Instance.OnTexError += new TexCompiler.TexErrorHandler(addProblemMarker);
             TheCompiler.Instance.OnTexOutput += new TexCompiler.TexOutputHandler(TexCompiler_OnTexOutput);
             tikzDisplay1.TexCompilerToListen = TheCompiler.Instance;
@@ -177,6 +187,15 @@ namespace TikzEdt
             RecentFileList.MenuClick += (s, e) => { if (TryDisposeFile()) LoadFile(e.Filepath); };            
 
             //cmbGrid.SelectedIndex = 4;
+        }
+
+        void TheCompiler_JobSucceeded(object sender, TexCompiler.Job job)
+        {
+            // set the currrent BB
+            if (job.hasBB)
+            {
+                currentBB = job.BB;
+            }
         }
 
         void TexCompiler_OnCompileEvent(object sender, string Message, TexCompiler.CompileEventType type)
@@ -209,7 +228,8 @@ namespace TikzEdt
             }
             else if ( (e.Result != null && e.Result.GetType() == typeof(Exception)) || ex != null)
             {
-                AddStatusLine("Couldn't parse code. " + e.Error.Message, true);
+                //AddStatusLine("Couldn't parse code. " + e.Error.Message, true);
+                AddStatusLine("Couldn't parse code. " + ex.Message, true);
             }
             else if (e.Error != null)
             {
@@ -223,14 +243,14 @@ namespace TikzEdt
                 // parsing succesfull -> recompile to get BB right
                 Tikz_ParseTree tp = e.Result as Tikz_ParseTree;
                 pdfOverlay1.SetParseTree(tp, currentBB);
-                if (DetermineBB(tp))
-                {
+                //if (DetermineBB(tp))
+                //{
                     // if BB changed->recompile .tex
                     // tikzDisplay1.Compile(txtCode.Text, currentBB, TexCompiler.IsStandalone(txtCode.Text));
                     //TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, currentBB);
                     //rasterControl1.BB = currentBB;
-                    Recompile(true);
-                }
+                //    Recompile(true);
+                //}
                 //even though BB may not be ready, we can already fill the style list
                 UpdateStyleLists(tp);
 
@@ -416,8 +436,11 @@ namespace TikzEdt
         /// </summary>
         /// <param name="t">The Parsetree used to determine the BB.</param>
         /// <returns>True if BB changed, false if same.</returns>
-        bool DetermineBB(Tikz_ParseTree t)
+      /*  bool DetermineBB(Tikz_ParseTree t)
         {
+            // not needed anymore
+           
+
             Rect newBB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);
             //Rect newBB2;
             bool lret = false;
@@ -461,8 +484,8 @@ namespace TikzEdt
                     }
                 }
             }
-            return lret;
-        }
+            return lret; 
+        }*/
         /// <summary>
         /// Fills the currently displayed lists of styles from the parsetree provided
         /// </summary>
@@ -589,8 +612,8 @@ namespace TikzEdt
             {
                 if (ProgrammaticTextChange || NoParse)
                 {
-                    DetermineBB(pdfOverlay1.ParseTree);
-                    pdfOverlay1.BB = currentBB;
+                    //DetermineBB(pdfOverlay1.ParseTree);
+                    //pdfOverlay1.BB = currentBB;
                 }
                 else
                 {
@@ -604,7 +627,7 @@ namespace TikzEdt
 
                 // Always Compile tex
                 //tikzDisplay1.Compile(txtCode.Text, currentBB, TexCompiler.IsStandalone(txtCode.Text));
-                rasterControl1.BB = currentBB;
+                //rasterControl1.BB = currentBB;
 
                 //start compiling if NOT: txtCode was empty and still is empty now
                 /*if (!(txtCodeWasEmpty == true && txtCode.Text.Trim() == ""))
@@ -612,15 +635,15 @@ namespace TikzEdt
 
                 //compiling only must be started if there is latex code
                 if( txtCode.Text.Trim() != "")
-                    TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, currentBB);
+                    TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, true);
                 else
-                    tikzDisplay1.SetUnavailable();                
+                    tikzDisplay1.SetUnavailable();
             }
             else if (chkStandardMode.IsChecked == true)
             {
                 //tikzDisplay1.Compile(txtCode.Text, new Rect(0, 0, 0, 0), TexCompiler.IsStandalone(txtCode.Text));
 
-                TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, new Rect(0, 0, 0, 0));
+                TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, false);
             }
             else
             {
