@@ -7,6 +7,7 @@
         xmlns:my="clr-namespace:TikzEdt"
         xmlns:mySnippets="clr-namespace:TikzEdt.Snippets"
         xmlns:p="clr-namespace:TikzEdt.Properties"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
         Title="TikzEdt" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
         Width="{Binding Source={x:Static p:Settings.Default}, Path=Window_Width, Mode=TwoWay}" 
@@ -29,8 +30,16 @@
         "type my:InverseBooleanConverter was not found. verify that you are not missing an assembly"
         delete your obj directory within this project, then click the build button (F6) -->
         <my:InverseBooleanConverter x:Key="BoolInverter" />
+        <my:SeverityImageConverter x:Key="SeverityToImg"/>
         <BooleanToVisibilityConverter x:Key="boolToVis" />
         <my:InverseNullableBooleanConverter x:Key="NBoolInverter" />
+
+        <CollectionViewSource x:Key="TexErrorsSource" Source="{Binding Source={x:Static my:MainWindow.TexErrors}}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription Direction="Descending" PropertyName="severity"/>
+                <scm:SortDescription Direction="Ascending" PropertyName="Line"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Undo"
@@ -163,6 +172,7 @@
                 <MenuItem Header="Settings..." Click="SettingsMenuClick"/>
                 <MenuItem Header="Test..." Click="TestClick"/>
                 <MenuItem Header="Test...Updatetexts" Click="TestUpdClick"/>
+                <MenuItem Header="Test...Error Listview" Click="Test2Click"/>
             </MenuItem>
             <MenuItem Header="?">
                 <MenuItem Header="Help..."/>
@@ -421,10 +431,21 @@
                                       Visibility="{Binding ElementName=chkErrorTex, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
                         <ListView Name="lstErrors" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                   IsSynchronizedWithCurrentItem="True"
-                                      Visibility="{Binding ElementName=chkErrorTex, Path=IsChecked, Converter={StaticResource boolToVis}}" MouseDoubleClick="lstErrors_MouseDoubleClick">
-                            <!-- <ItemsSource="{Binding Source={x:Static my:MainWindow.TexErrors}}"> -->
+                                  Visibility="{Binding ElementName=chkErrorTex, Path=IsChecked, Converter={StaticResource boolToVis}}" 
+                                  MouseDoubleClick="lstErrors_MouseDoubleClick"
+                                  ItemsSource="{Binding Source={StaticResource TexErrorsSource}}">
+                            <ListView.Resources>
+
+                            </ListView.Resources>
                             <ListView.View>
                                 <GridView>
+                                    <GridViewColumn Header="" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding Path=severity, Converter={StaticResource SeverityToImg}}" Width="16" Height="16"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
                                     <GridViewColumn DisplayMemberBinding="{Binding Path=Line}" Header="line" Width="25" />
                                     <GridViewColumn DisplayMemberBinding="{Binding Path=SourceFileName}" Header="src" Width="75" />
                                     <GridViewColumn DisplayMemberBinding="{Binding Path=Message}" Header="Message" Width="500"/>
