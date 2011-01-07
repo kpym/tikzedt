@@ -423,6 +423,23 @@ namespace TikzEdt
             // Open a new file 
             ApplicationCommands.New.Execute(null, this);
 
+            //open file specified via command line parameter.
+            CLAParser.CLAParser CmdLine = new CLAParser.CLAParser("TikzEdt");
+            CmdLine.Parameter(CLAParser.CLAParser.ParamAllowType.Optional, "", CLAParser.CLAParser.ValueType.String, "Path to file that is to be loaded on starting TikzEdt.");
+            CmdLine.AllowAdditionalParameters = false;
+            try
+            {
+                CmdLine.Parse();
+            }
+            catch (CLAParser.CLAParser.CmdLineArgumentException Ex)
+            {
+                String msg = Ex.Message + Environment.NewLine + Environment.NewLine;
+                msg += CmdLine.GetUsage() + Environment.NewLine + Environment.NewLine;
+                msg += CmdLine.GetParameterInfo();
+                MessageBox.Show(msg);
+            }
+            if (CmdLine[""] != null)
+                LoadFile(CmdLine[""]);
         }
 
         
