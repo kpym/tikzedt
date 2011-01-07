@@ -20,7 +20,16 @@ using System.Text.RegularExpressions;
 namespace TikzEdt
 {
     /// <summary>
-    /// Interaction logic for PdfOverlay.xaml
+    /// The PdfOverlay component is responsible for displaying the Wysiwyg layer on top of the displayed pdf.
+    /// It contains all the logic for the Wysiwyg manipulations.
+    /// It does not manipulate the sourcecode directly, but manipulates the TikzParseTree.
+    /// All changes can be caught by subscribing to the OnModified event.
+    /// (MainWindow subsribes to this event and updates the source code appropriately.)
+    /// 
+    /// Note on coordinates:
+    /// Two sorts of coordinates are used:
+    ///     (i)  Pixel coordinates (of course, since wpf needs them).
+    ///     (ii) Absolute Cartesian Tikz coordinates. (Disregarding polar setting / coordinate transform).
     /// </summary>
     public partial class PdfOverlay : UserControl
     {
@@ -528,9 +537,12 @@ namespace TikzEdt
             else if (o is OverlayNode)
             {
                 Tikz_XYItem t = (o as OverlayNode).tikzitem;
-                rasterizer.RasterOrigin = t.GetAbsPos(true);
-                TikzMatrix M = t.parent.GetCurrentTransformAt(t);
-                rasterizer.RasterScale = M.m[1, 1];
+                Point offset = t.GetAbsPos(true);
+                TikzMatrix M = t.parent.GetCurrentTransformAt(t).CloneIt();
+                M.m[0, 2] = offset.X;
+                M.m[1, 2] = offset.Y;
+                //rasterizer.RasterScale = M.m[1, 1];
+                rasterizer.CoordinateTransform = M;
                 rasterizer.IsCartesian = !(t.IsPolar());
             }
             else
