@@ -307,11 +307,11 @@
                              ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="20000">
                     <DockPanel>
                     <Image Source="/TikzEdt;component/Images/base_star_32.png" Height="16" Width="16" Stretch="Fill"></Image>
-                        <TextBlock>Fancy</TextBlock>
+                        <TextBlock>Wysiwyg</TextBlock>
                     </DockPanel>
                     <RadioButton.ToolTip> 
                         <StackPanel>
-                            <TextBlock Text="Fancy Mode" FontWeight="Bold"></TextBlock>
+                            <TextBlock Text="Wysiwyg Mode" FontWeight="Bold"></TextBlock>
                             <TextBlock Width="200" TextWrapping="Wrap">
                                 In this mode, the parser and the overlay are turned on.
                                 There is also some command smuggled into the source code to determine
@@ -324,16 +324,16 @@
                              ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="20000">
                     <DockPanel>
                         <!-- <Image Source="/TikzEdt;component/Images/base_star_32.png"></Image>-->
-                        <TextBlock>Standard</TextBlock>
+                        <TextBlock>Preview</TextBlock>
                     </DockPanel>
                     <RadioButton.ToolTip>
                          <StackPanel>
-                            <TextBlock Text="Standard Mode" FontWeight="Bold"></TextBlock>
+                            <TextBlock Text="Preview Mode" FontWeight="Bold"></TextBlock>
                             <TextBlock Width="200" TextWrapping="Wrap">
                                 In this mode, the parser and the overlay are turned off.
                                 The document is rendered as it is. Hence TikzEdt becomes 
                                 a pure text editor with Preview. Use this mode if you have
-                                problems with fancy mode (speed/stability).
+                                problems with Wysiwyg mode (speed/stability).
                                 Note that the Picture displayed on the right is a temporary 
                                 pdf file stored in the tex-file's directory. If you want to
                                 produce the final pdf, choose Production Mode.

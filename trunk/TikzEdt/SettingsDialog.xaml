@@ -133,6 +133,7 @@
                     <!-- <TextBlock Grid.Row="0" Text="Parser and Overlay"></TextBlock> -->
                     <TextBlock Margin="3" Text="Margin for Auto B. Box" Grid.Column="0" Grid.Row="1"></TextBlock>
                     <TextBox Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Margin, Mode=TwoWay}"/>
+                    <!-- 
                     <TextBlock Margin="3" Text="Default Bounding Box" Grid.Column="0" Grid.Row="2"></TextBlock>
                     <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">                        
                         <TextBlock Margin="3" Text="X"/>
@@ -144,7 +145,7 @@
                         <TextBlock Margin="3" Text="H"/>
                         <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std_H, Mode=TwoWay}"/>
                     </StackPanel>
-
+                    -->
                 </Grid>
             </TabItem>
         </TabControl>
