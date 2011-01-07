@@ -116,6 +116,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CmdLineArgumentParser.cs" />
     <Compile Include="Editor\CodeCompleter.cs" />
     <Compile Include="Data\CompletionDS.cs">
       <DependentUpon>CompletionDS.xsd</DependentUpon>
@@ -231,6 +232,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="CmdLineArgumentParserRes.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
