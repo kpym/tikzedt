@@ -139,7 +139,7 @@ namespace TikzEdt
             return GetAppDir() + "\\" + Consts.cTempFile;
         }
 
-        public static void GeneratePrecompiledHeaders()
+       /* public static void GeneratePrecompiledHeaders()
         {
             //StreamWriter s = new StreamWriter(Consts.cTempImgFile + "pre.tex");
             //s.WriteLine(Consts.ImgHeader);
@@ -165,7 +165,7 @@ namespace TikzEdt
             //needs non-static callback function.
             //however, since this function is static it cannot reach anything non-static.
             p.Start();
-        }
+        } */
 
         public static string RemoveFileExtension(string file)
         {

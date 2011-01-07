@@ -192,7 +192,7 @@ namespace TikzEdt
         void TheCompiler_JobSucceeded(object sender, TexCompiler.Job job)
         {
             // set the currrent BB
-            if (job.hasBB)
+            if (job.hasBB && !job.GeneratePrecompiledHeaders)
             {
                 currentBB = job.BB;
             }
@@ -1176,7 +1176,7 @@ namespace TikzEdt
 
         private void GenerateHeadersClick(object sender, RoutedEventArgs e)
         {
-            Helper.GeneratePrecompiledHeaders();
+            TheCompiler.GeneratePrecompiledHeaders();
         }
 
         private void chkAutoBB_Checked(object sender, RoutedEventArgs e)

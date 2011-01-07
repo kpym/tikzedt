@@ -53,7 +53,7 @@ namespace TikzEdt
             {
                 // todo: do some checks
                 Properties.Settings.Default.Tex_Preamble = txtPreamble.Text;
-                Helper.GeneratePrecompiledHeaders();
+                TheCompiler.GeneratePrecompiledHeaders();
             }
             if (txtPostamble.Text != Properties.Settings.Default.Tex_Postamble)
             {

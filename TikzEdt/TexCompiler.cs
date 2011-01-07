@@ -58,7 +58,7 @@ namespace TikzEdt
             public Rect BB =new Rect(0,0,0,0);         // The BoundingBox. If it has size >0, a rectangle is inserted into the tex code
             public bool CreateBMP=false;  // if true, create bmp file, if false, create pdf only
             public bool WriteCode=true;  // true if code should be written to path, false if file already exists and just needs to be compiled
-            public bool GeneratePrecompiledHeaders = false; // if set to true, all other arguments are ignored
+            public bool GeneratePrecompiledHeaders = false; // if set to true, a precompiled header is generated
 
             public bool BBShallBeWritten = false;   // indicates whether the compiler should try to smuggle BB code into the file
             public bool hasBB = false;              // indicates whether the BB could be determined
@@ -106,6 +106,16 @@ namespace TikzEdt
                 JobNumberChanged(this);
             if (!Compiling)//(!isRunning)
                 doCompile();
+        }
+        // this Job generates the default precompiled header
+        public static Job GetPrecompiledHeaderJob()
+        {
+            Job job = new Job();
+            job.code = Properties.Settings.Default.Tex_Preamble;
+            job.path = Helper.GetPrecompiledHeaderPath() + ".tex";
+            job.name = Consts.cTempFile;
+            job.GeneratePrecompiledHeaders = true;
+            return job;
         }
         /// <summary>
         /// Same as AddJob, but deletes all other pending jobs first.
@@ -175,30 +185,33 @@ namespace TikzEdt
                 return;
             }
             
+            SetValue(CompilingPropertyKey, true);
 
+            Job job;
             if (!File.Exists(Helper.GetPrecompiledHeaderPath() + ".fmt"))
             {
-                if (OnCompileEvent != null)
-                    OnCompileEvent(this, "Generating precompiled headers.... please restart in some moments", CompileEventType.Status); 
-                Helper.GeneratePrecompiledHeaders();  // todo: add as compile job
-                return;
+                // if (OnCompileEvent != null)
+                //    OnCompileEvent(this, "Generating precompiled headers.... please restart in some moments", CompileEventType.Status); 
+                //Helper.GeneratePrecompiledHeaders();  // todo: add as compile job
+                //return;
+                job = GetPrecompiledHeaderJob();
             }
-
-            //isRunning = true;
-            SetValue(CompilingPropertyKey, true);
-            // Take the next job from the queue and process
-            Job job = todo_tex.Dequeue();
+            else
+            {
+                // Take the next job from the queue and process
+                job = todo_tex.Dequeue();
+            }
             CurrentJob = job;
 
             // save into temporary textfile
-            if (job.WriteCode)
+            if (job.WriteCode || job.GeneratePrecompiledHeaders)
             {
                 // add bounding box
                 bool lsucceeded;
                 string codetowrite = job.code;
                 //if (job.BB.Width > 0 && job.BB.Height > 0)
                 //    codetowrite = writeBBtoTikz(job.code, job.BB, out lsucceeded);
-                if (job.BBShallBeWritten)
+                if (job.BBShallBeWritten && !job.GeneratePrecompiledHeaders)
                 {
                     codetowrite = writeBBWritertoTikz(job.code, out lsucceeded);
                     if (lsucceeded)
@@ -209,7 +222,7 @@ namespace TikzEdt
                     Directory.CreateDirectory(System.IO.Path.GetDirectoryName(job.path));
 
                 StreamWriter s = new StreamWriter(job.path);
-                if (IsStandalone(job.code))
+                if (job.GeneratePrecompiledHeaders || IsStandalone(job.code))
                 {
                     s.WriteLine(codetowrite);
                 }
@@ -223,8 +236,16 @@ namespace TikzEdt
                 s.Close();
             }
 
-            // call pdflatex         
-            texProcess.StartInfo.Arguments = "-interaction=nonstopmode -halt-on-error \"" + job.path + "\""; 
+            // call pdflatex 
+            if (job.GeneratePrecompiledHeaders)
+            {
+                texProcess.StartInfo.Arguments = "-ini -job-name=\"" + job.name
+                    + "\" \"&pdflatex " + System.IO.Path.GetFileName(job.path) + "\\dump\"";
+            }
+            else
+            {
+                texProcess.StartInfo.Arguments = "-interaction=nonstopmode -halt-on-error \"" + job.path + "\"";
+            }
             texProcess.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(job.path);
 
             // Set reset timer in case something goes wrong
@@ -248,8 +269,12 @@ namespace TikzEdt
             }
 
             if (OnCompileEvent != null)
-                OnCompileEvent(this, "Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, CompileEventType.Start);
-  
+            {
+                if (job.GeneratePrecompiledHeaders)
+                    OnCompileEvent(this, "Generating precompiled header: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, CompileEventType.Start);
+                else
+                    OnCompileEvent(this, "Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, CompileEventType.Start);
+            }
             texProcess.Start();
             texProcess.BeginOutputReadLine();
             //texProcess.BeginErrorReadLine(); // this is not needed afaik....
@@ -269,7 +294,7 @@ namespace TikzEdt
         /// <param name="BB">The bounding box (= size of rectangle to be written) </param>
         /// <param name="succeeded">Returns success, i.e., whether the string "\end{tikzpicture}" has been found</param>
         /// <returns>The Tikzcode, with the "\draw rectangle ...." inserted </returns>
-        string writeBBtoTikz(string code, Rect BB, out bool succeeded)
+ /*       string writeBBtoTikz(string code, Rect BB, out bool succeeded)
         {
             // hack
             string cend = @"\end{tikzpicture}";
@@ -282,16 +307,18 @@ namespace TikzEdt
                     @"\draw (" + BB.X + "," + BB.Y + ") rectangle (" + (BB.X + BB.Width).ToString() + "," + (BB.Y + BB.Height).ToString() + "); " + cend + tok[1];
             else
                 return code;
-        }
+        } */
 
+        Regex endpictureRegex = new Regex(@"(\\end\s*{\s*tikzpicture\s*})", RegexOptions.Compiled);
         string writeBBWritertoTikz(string code, out bool succeeded)
         {
-            // hack
-            string cend = @"\end{tikzpicture}";
-            string[] tok = code.Split(new string[] { cend }, StringSplitOptions.None);
-            succeeded = (tok.Length == 2 );
+
+            string[] tok = endpictureRegex.Split(code, 3); // Regex.Split includes matched string in results if enclosed in parentheses
+            succeeded = (tok.Length == 3 );
             if (succeeded)
-                return tok[0] + Consts.CodeToWriteBB + cend + tok[1];
+            {
+                return tok[0] + Consts.CodeToWriteBB + tok[1] + tok[2];
+            }
             else
                 return code;
         }
@@ -346,7 +373,7 @@ namespace TikzEdt
 
             if (texProcess.ExitCode == 0)
             {
-                if (job.BBWritten)
+                if (job.BBWritten && !job.GeneratePrecompiledHeaders)
                 {
                     ReadBBFromFile(job);
                 }
@@ -356,7 +383,7 @@ namespace TikzEdt
                 if (JobSucceeded != null)
                     JobSucceeded(this, job);
 
-                if (job.CreateBMP)
+                if (job.CreateBMP && !job.GeneratePrecompiledHeaders)
                 {
                     string pathnoext = Helper.RemoveFileExtension(job.path);
 
@@ -556,6 +583,11 @@ namespace TikzEdt
         {
             get { return _Instance; }
             set { }
+        }
+
+        public static void GeneratePrecompiledHeaders()
+        {
+            Instance.AddJob(GetPrecompiledHeaderJob());
         }
     }
 }
