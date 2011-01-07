@@ -100,7 +100,8 @@ namespace TikzEdt
             set { 
                 _CoordinateTransform = value;
                 // temp
-                RasterScale = CoordinateTransform.m[0, 0];
+                RasterScaleX = CoordinateTransform.m[0, 0];
+                RasterScaleY = CoordinateTransform.m[1, 1];
                 RasterOrigin = CoordinateTransform.Transform(new Point(0, 0));
 
                 DrawRaster();
@@ -108,7 +109,8 @@ namespace TikzEdt
         }
 
         public Point RasterOrigin = new Point(0,0);
-        public double RasterScale=1;
+        public double RasterScaleX = 1;
+        public double RasterScaleY = 1;
         private bool _IsCartesian = true;
         public bool IsCartesian
         {   
@@ -117,9 +119,13 @@ namespace TikzEdt
         }
 
         // the scaled GridWidth
-        double scGW
+        double scGWX
         {
-            get { return GridWidth * RasterScale; }
+            get { return GridWidth * RasterScaleX; }
+        }
+        double scGWY
+        {
+            get { return GridWidth * RasterScaleY; }
         }
 
         /// <summary>
@@ -133,7 +139,7 @@ namespace TikzEdt
                 return;            
             if (IsCartesian)
             {
-                for (double x = Math.Ceiling((BB.X - RasterOrigin.X) / scGW) * scGW; x < BB.X - RasterOrigin.X + BB.Width; x += scGW)
+                for (double x = Math.Ceiling((BB.X - RasterOrigin.X) / scGWX) * scGWX; x < BB.X - RasterOrigin.X + BB.Width; x += scGWX)
                 {
                     Line myLine = new Line();
                     myLine.Stroke = System.Windows.Media.Brushes.WhiteSmoke;
@@ -144,7 +150,7 @@ namespace TikzEdt
                     canvas1.Children.Add(myLine);
                 }
 
-                for (double y = Math.Ceiling((BB.Y - RasterOrigin.Y) / scGW) * scGW; y < BB.Y - RasterOrigin.Y + BB.Height; y += scGW)
+                for (double y = Math.Ceiling((BB.Y - RasterOrigin.Y) / scGWY) * scGWY; y < BB.Y - RasterOrigin.Y + BB.Height; y += scGWY)
                 {
                     Line myLine = new Line();
                     myLine.Stroke = System.Windows.Media.Brushes.WhiteSmoke;
@@ -159,13 +165,13 @@ namespace TikzEdt
             {
                 
                 Point pixelorig = new Point((RasterOrigin.X-BB.X)*Resolution, (RasterOrigin.Y -BB.Y)*Resolution);
-                double R = 2 * (BB.Width + BB.Height)/RasterScale;
+                double R = 2 * (BB.Width + BB.Height)/Math.Min(Math.Abs(RasterScaleX), Math.Abs(RasterScaleY));
                 for (double r = 0; r < R; r += GridWidth)
                 {
                     Ellipse el = new Ellipse();
                     el.Stroke = System.Windows.Media.Brushes.WhiteSmoke;
-                    el.Height = 2 * r * Resolution * RasterScale;
-                    el.Width = el.Height;
+                    el.Height = 2 * r * Resolution * RasterScaleY;  
+                    el.Width = 2 * r * Resolution * RasterScaleX;
                     Canvas.SetLeft(el, pixelorig.X - el.Width/2);
                     Canvas.SetBottom(el, pixelorig.Y - el.Height / 2);
                     canvas1.Children.Add(el);
@@ -177,8 +183,8 @@ namespace TikzEdt
                     myLine.Stroke = System.Windows.Media.Brushes.WhiteSmoke;
                     myLine.X1 = pixelorig.X;
                     myLine.Y1 = Height-pixelorig.Y;
-                    myLine.X2 = pixelorig.X + R * Resolution * Math.Cos(i *2* Math.PI / RadialSteps + RadialOffset);
-                    myLine.Y2 = Height-( pixelorig.Y + R * Resolution * Math.Sin(i * 2 * Math.PI / RadialSteps + RadialOffset) );
+                    myLine.X2 = pixelorig.X + R * Resolution * Math.Cos(i *2* Math.PI / RadialSteps + RadialOffset) *RasterScaleX;
+                    myLine.Y2 = Height - (pixelorig.Y + R * Resolution * Math.Sin(i * 2 * Math.PI / RadialSteps + RadialOffset) * RasterScaleY);
 
                     canvas1.Children.Add(myLine);
                 }
@@ -188,27 +194,29 @@ namespace TikzEdt
         }
 
         /// <summary>
-        /// Note: In polar coordinates X is the r-coordinate
+        /// 
         /// </summary>
-        /// <param name="p">The point, in Tikz coordinates. In particular, in polar coordinates.</param>
-        /// <returns>The rasterized point, in Tikz coordinates. In particular, in polar coordinates.</returns>
+        /// <param name="p">The point, in absolute Cartesian Tikz coordinates.</param>
+        /// <returns>The rasterized point, in absolute Cartesian Tikz coordinates.</returns>
         public Point Rasterize(Point p)
         {
-            if (scGW == 0)
+            if (scGWX == 0 || scGWY == 0)
                 return p;
             if (IsCartesian)
             {
                 return new Point(
-                    Math.Round((p.X - RasterOrigin.X) / scGW) * scGW + RasterOrigin.X,
-                    Math.Round((p.Y - RasterOrigin.Y) / scGW) * scGW + RasterOrigin.Y
+                    Math.Round((p.X - RasterOrigin.X) / scGWX) * scGWX + RasterOrigin.X,
+                    Math.Round((p.Y - RasterOrigin.Y) / scGWX) * scGWX + RasterOrigin.Y
                     );
             }
             else
             {
-                return new Point(
-                    Math.Round(p.X / (GridWidth *RasterScale )) * GridWidth*RasterScale,
-                    Math.Round((p.Y - RadialOffset) / (2 * Math.PI / RadialSteps)) * (2 * Math.PI / RadialSteps) + RadialOffset
-                    );
+                Point polar = CartesianToPolar(p);
+                polar = new Point( Math.Round(polar.X / GridWidth)  * GridWidth,
+                                   Math.Round((polar.Y - RadialOffset) / (2 * Math.PI / RadialSteps)) * (2 * Math.PI / RadialSteps) + RadialOffset 
+                                   );
+
+                return PolarToCartesian(polar);
             }
         }
         /// <summary>
@@ -219,57 +227,62 @@ namespace TikzEdt
         public Point RasterizePixel(Point p)
         {
             Point pp = new Point(p.X/Resolution + BB.X, p.Y/Resolution + BB.Y);
-
-            if (IsCartesian)
-            {
-                pp = Rasterize(pp);                
-            }
-            else
-            {
-                pp = CartesianToPolar(pp);
-                pp = Rasterize(pp);
-                pp = PolarToCartesian(pp);
-            }
+            pp = Rasterize(pp);
             return new Point((pp.X - BB.X) * Resolution, (pp.Y - BB.Y) * Resolution);
         }
         /// <summary>
-        /// 
+        /// The output is in absolute Cartesian Tikz coordinates (It disregards 
+        /// the coordinate tranformation and Polar setting.)
         /// </summary>
         /// <param name="p">The point, in Cartesian screen coordinates</param>
-        /// <returns>The rasterized point, in Tikz coordinates. (polar for polar coordinates)</returns>
+        /// <returns>The rasterized point, in absolute Cartesian Tikz coordinates.</returns>
         public Point RasterizePixelToTikz(Point p)
         {
             Point pp = new Point(p.X / Resolution + BB.X, p.Y / Resolution + BB.Y);
-            if (IsCartesian)
-            {
-                pp = Rasterize(pp);
-            }
-            else
-            {
-                pp = CartesianToPolar(pp);
-                pp = Rasterize(pp);
-            }
+            pp = Rasterize(pp);            
             return pp;
         }
 
+
+        /// <summary>
+        /// Convertes polar to Cartesian, USING THE COORDINATE TRANSFORM!
+        /// (I.e., takes "normalized polar" coordinates.)
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public Point PolarToCartesian(Point p)
         {
-            return new Point(RasterOrigin.X + p.X * Math.Cos(p.Y), RasterOrigin.Y + p.X * Math.Sin(p.Y));
+            Point pcart = PolToCart(p);
+            return new Point(RasterOrigin.X + pcart.X * RasterScaleX, RasterOrigin.Y + pcart.Y * RasterScaleY);
         }
 
+        /// <summary>
+        /// Convertes Cartesian to polar, USING THE COORDINATE TRANSFORM!
+        /// (I.e., converts to "normalized polar" coordinates.)
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public Point CartesianToPolar(Point p)
         {
-            Point pp = new Point(p.X-RasterOrigin.X, p.Y-RasterOrigin.Y);
+            Point pp = new Point((p.X-RasterOrigin.X)/RasterScaleX, (p.Y-RasterOrigin.Y)/RasterScaleY);
             return CartToPol(pp);
         }
-
+        /// <summary>
+        /// Converts Cartesian to polar (standard, does not use the coordinate transf.)
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public static Point CartToPol(Point p)
         {
             double r = Math.Sqrt(p.X * p.X + p.Y * p.Y);
             double phi = Math.Atan2(p.Y, p.X);
             return new Point(r, phi);
         }
-
+        /// <summary>
+        /// Converts polar to Cartesian (standard, does not use the coordinate transf.)
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public static Point PolToCart(Point p)
         {
             return new Point(p.X * Math.Cos(p.Y), p.X * Math.Sin(p.Y));

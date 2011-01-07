@@ -84,6 +84,9 @@ namespace TikzEdt
             }
         }
         private Rect _currentBB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);
+        /// <summary>
+        /// The currently active bounding box.
+        /// </summary>
         Rect currentBB
         {
             get { return _currentBB; }
@@ -117,6 +120,10 @@ namespace TikzEdt
         Editor.FindReplaceDialog FindDialog;
         Editor.CodeCompleter codeCompleter = new Editor.CodeCompleter();
 
+        /// <summary>
+        /// Indicates whether the form is succesfully loaded.
+        /// This false on startup and set to true once and for all thereafter.
+        /// </summary>
         public static bool isLoaded = false;
         public static bool isClosing = false;
         //public static List<TexOutputParser.TexError> TexErrors = new List<TexOutputParser.TexError>();
@@ -347,10 +354,10 @@ namespace TikzEdt
             txtStatus.ScrollToEnd();
         }
 
-        private void tikzDisplay1_OnCompileEvent(string Message, TikzDisplay.CompileEventType type)
-        {
-            AddStatusLine(Message, type == TikzDisplay.CompileEventType.Error);            
-        }
+        //private void tikzDisplay1_OnCompileEvent(string Message, TikzDisplay.CompileEventType type)
+        //{
+        //    AddStatusLine(Message, type == TikzDisplay.CompileEventType.Error);            
+        //}
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -673,11 +680,16 @@ namespace TikzEdt
             }
 
             StreamReader stream = new StreamReader(cFile);
-            try            {
-                txtCode.Text = stream.ReadToEnd();
+            try {
+                string newcode = stream.ReadToEnd();
+                tikzDisplay1.SetUnavailable(); // new file is directly compiled... but set unavailable in case error occurs
+                pdfOverlay1.SetParseTree(null, currentBB);
                 CurFile = cFile;
                 ChangesMade = false;
                 CurFileNeverSaved = false;
+
+                txtCode.Text = newcode;
+                ChangesMade = false;  // set here since txtCode sets ChangesMade on Text change
             }
             catch (Exception Ex)
             {
@@ -689,6 +701,7 @@ namespace TikzEdt
             {
                 stream.Close();
             }
+
         }
         private bool TryDisposeFile()
         {
@@ -757,19 +770,23 @@ namespace TikzEdt
             SaveCurFile(true);
         }
 
+
+
         private void NewCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             if (!TryDisposeFile())
                 return;
 
-            isLoaded = false;
+            //isLoaded = false;
             CurFile = Consts.defaultCurFile;
             CurFileNeverSaved = true;
             ChangesMade = false;
             txtCode.Text = "";
             tikzDisplay1.SetUnavailable();
-            pdfOverlay1.Clear();
-            isLoaded = true;
+            //pdfOverlay1.Clear();
+            //DetermineBB(null);
+            pdfOverlay1.SetParseTree(null, currentBB);
+            //isLoaded = true;
         }
 
         private void CompileCommandHandler(object sender, ExecutedRoutedEventArgs e)

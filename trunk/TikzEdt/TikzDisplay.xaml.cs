@@ -26,11 +26,11 @@ namespace TikzEdt
     /// </summary>
     public partial class TikzDisplay : UserControl
     {
-        public enum CompileEventType {Start, Error, Success, Status};
-        public delegate void CompileEventHandler(string Message, CompileEventType type);
-        public event CompileEventHandler OnCompileEvent;
-        public delegate void TexOutputHandler(string Message);
-        public event TexOutputHandler OnTexOutput;
+        //public enum CompileEventType {Start, Error, Success, Status};
+        //public delegate void CompileEventHandler(string Message, CompileEventType type);
+        //public event CompileEventHandler OnCompileEvent;
+        //public delegate void TexOutputHandler(string Message);
+        //public event TexOutputHandler OnTexOutput;
 
         /*readonly public static DependencyProperty CompilingProperty = DependencyProperty.Register(
                 "Compiling", typeof(bool), typeof(TikzDisplay));
@@ -65,10 +65,10 @@ namespace TikzEdt
             }
         }
 
-        protected Process texProcess = new Process();
-        protected String nextToCompile = "";
-        Rect nextBB, compilingBB, currentBB;
-        protected bool isRunning = false;
+        //protected Process texProcess = new Process();
+        //protected String nextToCompile = "";
+        Rect currentBB;
+        //protected bool isRunning = false;
         //PDFLibNet.PDFWrapper mypdfDoc = null;
         PdfToBmp mypdfDoc = new PdfToBmp();
 

@@ -14,7 +14,7 @@ namespace TikzEdt.Parser
     /// <summary>
     /// This class represents a 3x2 Matrix used for Tikz coordinate transformations
     /// </summary>
-    public class TikzMatrix
+    public class TikzMatrix : ICloneable
     {
         public double[,] m = new double[2, 3];
 
@@ -73,6 +73,24 @@ namespace TikzEdt.Parser
             mi.m[1, 2] = - mi.m[1,0] * m[0, 2] - mi.m[1, 1] * m[1, 2];
 
             return mi;
+        }
+
+        public object Clone()
+        {
+            TikzMatrix M = (TikzMatrix)this.MemberwiseClone();
+            M.m = new double[2, 3];
+            for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++)
+                    M.m[i, j] = m[i, j];
+            return M;
+        }
+
+        public TikzMatrix CloneIt()
+        {
+            TikzMatrix M = (TikzMatrix)this.MemberwiseClone();
+            M.m = new double[2, 3];
+            for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++)
+                    M.m[i, j] = m[i, j];
+            return M;
         }
     }
 
@@ -228,6 +246,12 @@ namespace TikzEdt.Parser
         /// </summary>
         /// <param name="p"></param>
         public abstract void SetAbsPos(Point p);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        //public abstract Point GetAbsCoordOffset();
 
         public override bool GetBB(out Rect r)
         {
@@ -491,6 +515,7 @@ namespace TikzEdt.Parser
         /// Gets the absolute position. For the significance of relto, see SetAbsPos()
         /// </summary>
         /// <param name="relto"></param>
+        /// <param name="OnlyOffset">Only the coordinate offset is returned. (This is used to determine the raster offset.)</param>
         /// <returns>The position in the coordinates of the ancestral Tikz_Picture, or (0,0) in case of failure.</returns>
         public Point GetAbsPos(TikzParseItem relto, bool OnlyOffset=false)
         {
@@ -500,7 +525,7 @@ namespace TikzEdt.Parser
                     return new Point(0, 0);
                 Tikz_Node t = relto.parent.GetNodeByName(nameref);
                 if (t == null)
-                    return new Point(0, 0);
+                    return new Point(0, 0); // todo: somehow report error
                 else return t.GetAbsPos();
             }
 
@@ -699,7 +724,12 @@ namespace TikzEdt.Parser
                 return ret;
             }
         }
-
+        /// <summary>
+        /// Returns an estimate for the Bounding Box of the container.
+        /// In fact, it simply returns the smallest rectangle around all occuring coordinates in children.
+        /// </summary>
+        /// <param name="r">Will hold the rectangle upon return.</param>
+        /// <returns></returns>
         public override bool GetBB(out Rect r)
         {
             bool hasone = false;

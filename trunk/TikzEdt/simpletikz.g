@@ -22,6 +22,7 @@ tokens {
 	TIKZSTYLE	= '\\tikzstyle';
 	TIKZSET		= '\\tikzset';
 	NODE		= '\\node';
+	COORDINATE	= '\\coordinate';
 	DRAW		= '\\draw';
 	PATH		= '\\path';
 	FILL		= '\\fill';
@@ -122,7 +123,7 @@ tikzdocument
 	;
 
 tikzdocument_wo_tikzpicture
-	:	(dontcare_preamble | tikz_styleorsetorcmd | otherbegin)*  *.	-> ^(IM_DOCUMENT tikz_styleorsetorcmd*)
+	:	(dontcare_preamble | tikz_styleorsetorcmd | otherbegin)*  EOF	-> ^(IM_DOCUMENT tikz_styleorsetorcmd*)
 	;
 	
 tikz_cmd_comment
@@ -219,10 +220,10 @@ tikzbody
 	;
 	
 dontcare_body_nobr
-	:	(~ (BEGIN | END | NODE | DRAW | PATH | FILL | CLIP | TIKZSTYLE | TIKZSET | LBR))	// necessary to prevent conflict with options
+	:	(~ (BEGIN | END | NODE | COORDINATE | DRAW | PATH | FILL | CLIP | TIKZSTYLE | TIKZSET | LBR))	// necessary to prevent conflict with options
 	;	
 dontcare_body
-	:	(~ (BEGIN | END | NODE | DRAW | PATH | FILL | CLIP | TIKZSTYLE | TIKZSET ))   
+	:	(~ (BEGIN | END | NODE | COORDINATE | DRAW | PATH | FILL | CLIP | TIKZSTYLE | TIKZSET ))   
 	;
 otherend
 	:	END '{' idd2 '}'
@@ -415,7 +416,10 @@ path_start
 	:	path_start_tag -> ^(IM_STARTTAG path_start_tag)
 	;
 node_start
-	:	NODE -> ^(IM_STARTTAG NODE)
+	:	node_start_tag -> ^(IM_STARTTAG node_start_tag)
+	;
+node_start_tag
+	:	NODE | COORDINATE
 	;
 path_start_tag
 	:	DRAW | FILL | PATH | CLIP
