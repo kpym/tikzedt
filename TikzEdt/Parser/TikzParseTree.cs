@@ -484,17 +484,18 @@ namespace TikzEdt.Parser
             else
             {
                 Point relp; // will hold the new coordinates, in the current coordinate system
+                TikzMatrix MM = relto.parent.GetCurrentTransformAt(relto);
+                MM = MM.Inverse();
+
                 if (deco == "+" || deco == "++")
                 {
                     Point offset = (relto.parent as Tikz_Path).GetAbsOffset(relto);
-                    relp = new Point(p.X - offset.X, p.Y - offset.Y);
-                    relp = relto.parent.GetCurrentTransformAt(relto).Inverse().Transform(relp, false);
+                    relp = new Point(p.X - offset.X, p.Y - offset.Y);   // the desired shift, in absolute coordinates
+                    relp = MM.Transform(relp, true);
                 }
                 else
                 {
-                    TikzMatrix MM = relto.parent.GetCurrentTransformAt(relto);
-                    MM=MM.Inverse();
-                    relp = MM.Transform(new Point(p.X, p.Y));
+                    relp = MM.Transform(new Point(p.X, p.Y));   // this is the target point in current coordinate system
                 }
 
                 if (type == Tikz_CoordType.Polar)
@@ -668,7 +669,13 @@ namespace TikzEdt.Parser
                 case "in":
                     return number * Consts.cmperin;
                 case "mm":
-                    return 10 * number;
+                    return number /10;
+                case "pt":
+                    return number / Consts.ptspertikzunit;
+                case "em":
+                    return number * Consts.cmperem;
+                case "ex":
+                    return number * Consts.cmperex;
                 default:
                     //error 
                     return 0;
@@ -687,7 +694,16 @@ namespace TikzEdt.Parser
                     number = val / Consts.cmperin;
                     break;
                 case "mm":
-                    number = val / 10;
+                    number = val * 10;
+                    break;
+                case "pt":
+                    number = val * Consts.ptspertikzunit;
+                    break;
+                case "em":
+                    number = val / Consts.cmperem;
+                    break;
+                case "ex":
+                    number = val / Consts.cmperex;
                     break;
                 default:
                     //error 
@@ -1004,29 +1020,110 @@ namespace TikzEdt.Parser
     /// </summary>
     public class Tikz_Path : TikzContainerParseItem
     {
+        /// <summary>
+        /// Gets the offset, i.e., the current drawing position at some
+        /// position along the path. (in absolute Cartesian coordinates)
+        /// This is used to determine the absoulte position of nodes specified with relative 
+        /// coordinates like +(1,1).
+        /// </summary>
+        /// <param name="tpi">The node just before which the current drawing position is to be determined.</param>
+        /// <returns></returns>
         public Point GetAbsOffset(TikzParseItem tpi)
         {
-            int ind = Children.IndexOf(tpi);
-            Tikz_Coord previous = null;
+            Tikz_Coord ret;
+            if (GetLastDrawnItem(tpi, out ret))
+            {
+                // last drawn item exists
+                TikzMatrix M2 = GetCurrentTransformAt(tpi), M1=ret.parent.GetCurrentTransformAt(ret);
+                Point p1 = ret.GetAbsPos();
+                // p1 = M2 * orig point; offset = M1 * orig point (I guess) => offset = M1 * I(M2) * p1
+                Point offset = (M2 * (M1.Inverse())).Transform(p1);
+                return offset;
+            }
+            else
+            {
+                // no item was drawn before.... take origin (...after coord transform)
+                return GetCurrentTransformAt(tpi).Transform(new Point(0,0));
+            }
+            /*int ind = Children.IndexOf(tpi);
+                        Tikz_Coord previous = null;
+                        for (int i = ind - 1; i >= 0; i--)
+                        {
+                            if (Children[i] is Tikz_Coord)
+                            {
+                                Tikz_Coord tc = Children[i] as Tikz_Coord;
+
+                                if (tc.type == Tikz_CoordType.Named || tc.deco != "+")
+                                {
+                                    previous = tc;
+                                    break;
+                                }
+                            }
+                        }
+                        if (previous == null)
+                            return GetCurrentTransformAt(tpi).Transform(new Point(0,0));
+                        else 
+                            return previous.GetAbsPos(); */
+        }
+
+        bool GetLastDrawnItem(TikzParseItem before, out Tikz_Coord ret)
+        {
+            int ind;
+            if (before == null)
+                ind = Children.Count;
+            else
+                ind = Children.IndexOf(before);
+
+            //CoordTrafoInBetween = new TikzMatrix();
             for (int i = ind - 1; i >= 0; i--)
             {
                 if (Children[i] is Tikz_Coord)
                 {
                     Tikz_Coord tc = Children[i] as Tikz_Coord;
 
-                    if (tc.type == Tikz_CoordType.Named || tc.deco != "+")
+                    if (tc.type == Tikz_CoordType.Named || tc.deco != "+")  // todo: handle invalid coords., and unknown node names... IsValid method
                     {
-                        previous = tc;
-                        break;
+                        ret = tc;
+                        return true;
+                    }
+                }
+                //else if (Children[i] is Tikz_Options)
+                //{
+                //    CoordTrafoInBetween = (Children[i] as Tikz_Options).GetTransform() * CoordTrafoInBetween;
+                //}
+                else if (Children[i] is Tikz_Path)
+                {
+                    Tikz_Path tp = (Children[i] as Tikz_Path);
+                    Tikz_Coord tpi;
+                    //TikzMatrix M; // not used here
+                    bool lret = tp.GetLastDrawnItem(null, out tpi);
+                    if (lret)
+                    {
+                        ret = tpi;
+                        return true;
                     }
                 }
             }
-            if (previous == null)
-                return GetCurrentTransformAt(tpi).Transform(new Point(0,0));
-            else 
-                return previous.GetAbsPos();
+
+            // nothing found -> look in parent
+            if (this.parent is Tikz_Path)
+            {
+                Tikz_Path tparent = parent as Tikz_Path;
+                Tikz_Coord tpi;
+                if (tparent.GetLastDrawnItem(this, out tpi))
+                {
+                    ret = tpi;
+                    return true;
+                }
+            }
+
+            // if we come here, nothing has been found...
+            ret = null;
+            return false;
         }
+
     }
+
     public class Tikz_Scope : TikzContainerParseItem
     {
 

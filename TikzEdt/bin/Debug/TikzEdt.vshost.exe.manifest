@@ -115,24 +115,24 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="503296">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="518144">
       <assemblyIdentity name="TikzEdt" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>cuVvdo4I/G8Pk2xXnWhl+s+Dqyc=</dsig:DigestValue>
+        <dsig:DigestValue>s+Er9yYl7BJPX5xAEyZqzefVFc0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="TikzEdt.exe.config" size="4110">
+  <file name="TikzEdt.exe.config" size="4795">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>OaW+SO7LC7KuNsW9Cn8o3Ahutc4=</dsig:DigestValue>
+      <dsig:DigestValue>qho5r/OdzUFrgsRFzPyGH1rPEXs=</dsig:DigestValue>
     </hash>
   </file>
   <file name="tikzedt48.ico" size="9662">

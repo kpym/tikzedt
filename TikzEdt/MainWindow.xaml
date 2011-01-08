@@ -11,10 +11,9 @@
         Title="TikzEdt" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
         Width="{Binding Source={x:Static p:Settings.Default}, Path=Window_Width, Mode=TwoWay}" 
-        Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico"
-        xmlns:settings="clr-namespace:LogicaCMG.Settings"
-        settings:WindowSettings.Save="True">
-
+        Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico">
+        <!-- xmlns:settings="clr-namespace:LogicaCMG.Settings"
+        settings:WindowSettings.Save="True" -->
     <Window.Resources>
         <!--  <my:TheCompiler x:Key="TheCompiler2"/> -->
         <!-- El Cheapo hack to make images within disabled toolbar buttons appear 'grayed out'.  This doesn't
@@ -30,7 +29,8 @@
         </Style>
         <!-- Note: If VS2010 tells you something like:
         "type my:InverseBooleanConverter was not found. verify that you are not missing an assembly"
-        delete your obj directory within this project, then click the build button (F6) -->
+        delete your obj directory within this project, then click the build button (F6) 
+        (or Build->Clean, then Rebuild worked for me) -->
         <my:InverseBooleanConverter x:Key="BoolInverter" />
         <my:SeverityImageConverter x:Key="SeverityToImg"/>
         <BooleanToVisibilityConverter x:Key="boolToVis" />
@@ -370,7 +370,8 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="{Binding LeftMenuColWidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="LeftMenuCol"></ColumnDefinition>
+                <!--<ColumnDefinition Width="{Binding LeftMenuColWidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="LeftMenuCol"></ColumnDefinition> -->
+                <ColumnDefinition Width="Auto" Name="LeftMenuCol"></ColumnDefinition>
                 <ColumnDefinition Width="{Binding LeftToolsColWidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="LeftToolsCol"></ColumnDefinition>
                 <ColumnDefinition Width="3" Name="LeftSplitterCol"></ColumnDefinition>
                 <ColumnDefinition Width="{Binding OverlayCanvasColWidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="OverlayCanvasCol"></ColumnDefinition>
