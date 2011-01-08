@@ -112,7 +112,9 @@ namespace TikzEdt
                 set { error = causingSourceFile; }
             }
             public int linenr;
-            public int Line { get { return linenr; } set { linenr = value; } }           
+            public int Line { get { return linenr; } set { linenr = value; } }
+            public int pos;
+            public int Pos { get { return pos; } set { linenr = pos; } }                       
             private Severity _severity;
             public Severity severity { get { return _severity; } set { _severity = value; } }
         }
@@ -139,6 +141,7 @@ namespace TikzEdt
                 e.error = error;
                 e.causingSourceFile = causingSourceFile;
                 e.linenr = linenr;
+                e.pos = -1;
                 e.severity = severity;
                 OnTexError(this, e);
             }

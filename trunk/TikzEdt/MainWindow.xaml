@@ -449,9 +449,10 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Line}" Header="line" Width="25" />
-                                    <GridViewColumn DisplayMemberBinding="{Binding Path=SourceFileName}" Header="src" Width="75" />
-                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Message}" Header="Message" Width="500"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Message}" Header="Message" Width="{Binding MessageColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Line}" Header="line" Width="{Binding LineColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Pos}" Header="pos" Width="{Binding PosColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Path=SourceFileName}" Header="src" Width="{Binding SourceColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}" />
                                 </GridView>
                             </ListView.View>
 

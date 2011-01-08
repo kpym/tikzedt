@@ -384,5 +384,53 @@ namespace TikzEdt.Properties {
                 this["StatusFieldRowHeightSetting"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        public int MessageColWidth {
+            get {
+                return ((int)(this["MessageColWidth"]));
+            }
+            set {
+                this["MessageColWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("25")]
+        public int LineColWidth {
+            get {
+                return ((int)(this["LineColWidth"]));
+            }
+            set {
+                this["LineColWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("25")]
+        public int PosColWidth {
+            get {
+                return ((int)(this["PosColWidth"]));
+            }
+            set {
+                this["PosColWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("75")]
+        public int SourceColWidth {
+            get {
+                return ((int)(this["SourceColWidth"]));
+            }
+            set {
+                this["SourceColWidth"] = value;
+            }
+        }
     }
 }

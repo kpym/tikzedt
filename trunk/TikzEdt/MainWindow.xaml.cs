@@ -214,8 +214,16 @@ namespace TikzEdt
             //check if e.Result contains an RecognitionException or Exception
             if (e.Result != null && e.Result is RecognitionException)
             {
-                string errmsg = ANTLRErrorMsg.ToString((RecognitionException)e.Result, simpletikzParser.tokenNames);
+                RecognitionException ex = e.Result as RecognitionException;
+                string errmsg = ANTLRErrorMsg.ToString(ex, simpletikzParser.tokenNames);
                 AddStatusLine("Couldn't parse code. " + errmsg, true);
+                TexOutputParser.TexError err = new TexOutputParser.TexError();
+                err.error = errmsg;
+                err.causingSourceFile = CurFile;
+                err.linenr = ex.Line;
+                err.pos = ex.CharPositionInLine;
+                err.severity = Severity.ERROR;
+                addProblemMarker(this, err);
             }
             else if (e.Result != null && e.Result is Exception)
             {
@@ -268,7 +276,7 @@ namespace TikzEdt
                 //never set e.Cancel = true;
                 //if you do, you cannot access e.Result from AsyncParser_RunWorkerCompleted.
                 e.Result = ex;                
-            }            
+            }           
         }
 
         void TikzToBmpFactory_JobNumberChanged(object sender)
@@ -1429,7 +1437,10 @@ namespace TikzEdt
             if (lstErrors.SelectedItem != null)
             {
                 TexOutputParser.TexError err = lstErrors.SelectedItem as TexOutputParser.TexError;
-                txtCode_Goto(err.Line, 1);                
+                if (err.Pos > 0)
+                    txtCode_Goto(err.Line, err.Pos+1, false, true);
+                else
+                    txtCode_Goto(err.Line, 1, true);         
             }
         }
 
@@ -1443,12 +1454,24 @@ namespace TikzEdt
             else
                 return false;
         }
-        private bool txtCode_Goto(int line, int pos)
+        /// <summary>
+        /// First line is 1, first character in line is 0.
+        /// </summary>
+        /// <param name="line">line to go to</param>
+        /// <param name="pos">pos in line to go to</param>
+        /// <param name="HighlightLine">Highlight from pos to end of line</param>
+        /// <param name="HighlightChar">Highlight one character beginning from pos</param>
+        /// <returns></returns>
+        private bool txtCode_Goto(int line, int pos, bool HighlightLine = false, bool HighlightChar = false)
         {
             if (txtCode.Document.LineCount >= line && line >= 1)
             {
                 if (pos < 0) pos = 0;
                 txtCode.CaretOffset = txtCode.Document.GetOffset(line, pos);
+                if(HighlightLine)
+                    txtCode.Select(txtCode.CaretOffset, txtCode.Text.IndexOf(Environment.NewLine, txtCode.CaretOffset) - txtCode.CaretOffset);
+                else if(HighlightChar)
+                    txtCode.Select(txtCode.CaretOffset, 1);
                 txtCode.ScrollToLine(line);
                 txtCode.Focus();
                 return true;
