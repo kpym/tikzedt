@@ -211,25 +211,16 @@ namespace TikzEdt
 
         void AsyncParser_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            //check if e.Result contains a exception (why does it not work with typeof?!!)
-            RecognitionException recogEx = e.Result as RecognitionException;
-            Exception ex = e.Result as Exception;
-
-            if ((e.Result != null && e.Result.GetType() == typeof(RecognitionException)) || recogEx != null)
+            //check if e.Result contains an RecognitionException or Exception
+            if (e.Result != null && e.Result is RecognitionException)
             {
-                //RecognitionException Exception = e.Result as RecognitionException;  
-                RecognitionException Exception = recogEx;
-
-                AddStatusLine("Parser error in line " + Exception.Line.ToString() + " at position " + Exception.CharPositionInLine.ToString(), true);
-                AddStatusLine("-> " + Exception.Message+ " : "+ Exception.Index.ToString(), true);
-                //AddStatusLine("-> " + Exception.StackTrace, true);
-                if (Exception.InnerException != null)
-                txtCode_Goto(Exception.Index);
+                string errmsg = ANTLRErrorMsg.ToString((RecognitionException)e.Result, simpletikzParser.tokenNames);
+                AddStatusLine("Couldn't parse code. " + errmsg, true);
             }
-            else if ( (e.Result != null && e.Result.GetType() == typeof(Exception)) || ex != null)
+            else if (e.Result != null && e.Result is Exception)
             {
-                //AddStatusLine("Couldn't parse code. " + e.Error.Message, true);
-                AddStatusLine("Couldn't parse code. " + ex.Message, true);
+                string errmsg = ((Exception)e.Result).Message;
+                AddStatusLine("Couldn't parse code. " + errmsg, true);
             }
             else if (e.Error != null)
             {
@@ -245,10 +236,10 @@ namespace TikzEdt
                 pdfOverlay1.SetParseTree(tp, currentBB);
                 //if (DetermineBB(tp))
                 //{
-                    // if BB changed->recompile .tex
-                    // tikzDisplay1.Compile(txtCode.Text, currentBB, TexCompiler.IsStandalone(txtCode.Text));
-                    //TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, currentBB);
-                    //rasterControl1.BB = currentBB;
+                // if BB changed->recompile .tex
+                // tikzDisplay1.Compile(txtCode.Text, currentBB, TexCompiler.IsStandalone(txtCode.Text));
+                //TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, currentBB);
+                //rasterControl1.BB = currentBB;
                 //    Recompile(true);
                 //}
                 //even though BB may not be ready, we can already fill the style list
