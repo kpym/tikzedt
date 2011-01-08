@@ -185,7 +185,7 @@ iddornumberunitorstringorrange
 	:	numberunit | idd | tikzstring | range
 	;
 range
-	: numberunit ':' numberunit
+	: numberunit ':' numberunit	->	^(IM_STRING numberunit ':' numberunit )
 	;	
 option_style
 	:	idd '/.style' '=' '{' (option_kv (',' option_kv)*)?  ','? '}'  -> ^(IM_OPTION_STYLE idd option_kv*)  // '{' option '}' todo: optional ,
@@ -349,17 +349,17 @@ size
 //-> ^(IM_COORD[$lc] coord_modifier? numberunit)
 	
 
-//note: the last option is for complex coordinates which TE cannot parse -> rewrite as IM_DONTCARE
+//note: the last option is for complex coordinates which TE cannot parse/understand
 coord	
 	:	  nodename 								-> ^(IM_COORD nodename)
 		| ( coord_modifier? '(' numberunit coord_sep numberunit ')')		-> ^(IM_COORD coord_modifier? numberunit+ coord_sep)
-		| ( coord_modifier? '(' coord_part coord_sep coord_part ')')		-> ^(IM_DONTCARE coord_modifier? coord_part+ coord_sep)
+		| ( coord_modifier? '(' coord_part coord_sep coord_part ')')		-> ^(IM_COORD coord_modifier? coord_part+ coord_sep)
 	;
 //note: idd includes numberunit
 //note: '{' idd '}' is for some calculatation, like in  (\x,{5.5 - 1.5 * \x})
 coord_part
-	:	idd
-	|	'{' idd '}'
+	:	idd		-> ^(IM_DONTCARE idd )
+	|	'{' idd '}'	-> ^(IM_DONTCARE '{' idd '}')
 	;
 coord_sep
 	:	( ',' | ':' )	

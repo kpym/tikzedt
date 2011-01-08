@@ -217,21 +217,16 @@ namespace TikzEdt
                 RecognitionException ex = e.Result as RecognitionException;
                 string errmsg = ANTLRErrorMsg.ToString(ex, simpletikzParser.tokenNames);
                 AddStatusLine("Couldn't parse code. " + errmsg, true);
-                TexOutputParser.TexError err = new TexOutputParser.TexError();
-                err.error = errmsg;
-                err.causingSourceFile = CurFile;
                 if (ex.Line == 0 && ex.CharPositionInLine == -1)
                 {
-                    err.linenr = txtCode.LineCount;
-                    err.pos = 0;
+                    addProblemMarker(errmsg, txtCode.LineCount, 0, Severity.ERROR, CurFile); 
+                    
                 }
                 else
                 {
-                    err.linenr = ex.Line;
-                    err.pos = ex.CharPositionInLine;
+                    addProblemMarker(errmsg, ex.Line, ex.CharPositionInLine, Severity.ERROR, CurFile); 
                 }
-                err.severity = Severity.ERROR;
-                addProblemMarker(this, err);
+                
             }
             else if (e.Result != null && e.Result is Exception)
             {
@@ -1401,7 +1396,17 @@ namespace TikzEdt
         void addProblemMarker(object sender, TexOutputParser.TexError err) //String error, int linenr, TexCompiler.Severity severity)
         {
             TexErrors.Add(err);            
-        } 
+        }
+        public void addProblemMarker(string msg, int line, int pos, Severity severity, string file)
+        {
+            TexOutputParser.TexError err = new TexOutputParser.TexError();
+            err.error = msg;
+            err.causingSourceFile = file;
+            err.linenr = line;
+            err.pos = pos;
+            err.severity = severity;
+            addProblemMarker(this, err);
+        }
         public void clearProblemMarkers()
         {
             TexErrors.Clear();            

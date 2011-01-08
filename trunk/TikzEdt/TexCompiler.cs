@@ -225,6 +225,25 @@ namespace TikzEdt
                 if (job.GeneratePrecompiledHeaders || IsStandalone(job.code))
                 {
                     s.WriteLine(codetowrite);
+
+                    //check for:
+                    //\usepackage[active,tightpage]{preview}
+                    //\PreviewEnvironment{tikzpicture}
+                    if (ContainsPreviewEnvironment(job.code) == false)
+                    {
+                        string PreviewEnvCode = Environment.NewLine + @"\usepackage[active,tightpage]{preview}" + Environment.NewLine
+                                                + @"\PreviewEnvironment{tikzpicture}" + Environment.NewLine + Environment.NewLine;
+
+                        int PosBeginDoc = ((MainWindow)Application.Current.Windows[0]).txtCode.Text.IndexOf(@"\begin{document}");
+                        if (PosBeginDoc == -1)
+                            PosBeginDoc = ((MainWindow)Application.Current.Windows[0]).txtCode.Text.IndexOf(@"\begin {document}");
+                            if (PosBeginDoc == -1)
+                                ((MainWindow)Application.Current.Windows[0]).AddStatusLine("Could not insert PreviewEnvironment code!", true);
+                        ((MainWindow)Application.Current.Windows[0]).txtCode.Document.Insert(PosBeginDoc, PreviewEnvCode);
+                        //((MainWindow)Application.Current.Windows[0]).txtCode.Text.Insert
+                        ((MainWindow)Application.Current.Windows[0]).AddStatusLine("PreviewEnvironment code inserted.");
+                    }
+                        
                 }
                 else
                 {
@@ -486,6 +505,20 @@ namespace TikzEdt
             ((MainWindow)Application.Current.Windows[0]).SetStandAloneStatus(ret);
 
             return ret;
+        }
+
+        public bool ContainsPreviewEnvironment(string code)
+        {
+            RegexOptions ro = new RegexOptions();
+            ro = ro | RegexOptions.IgnoreCase;
+            ro = ro | RegexOptions.Multiline;
+            string StandAlone_RegexString = @"\\usepackage\s*\[([^\],]*,)*(\s*(active|tightpage)\s*,)([^\],]*,)*(\s*(active|tightpage)\s*)(,[^\],]*)*\]\s*{\s*preview\s*}\s*\\previewenvironment\s*{\s*tikzpicture\s*}";
+            Regex BB_Regex = new Regex(StandAlone_RegexString, ro);
+            Match m = BB_Regex.Match(code);
+            if (m.Success == true)
+                return true;
+            else
+                return false; 
         }
 
         /*void texProcess_ErrorDataReceived(object sender, DataReceivedEventArgs e)
