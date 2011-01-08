@@ -59,17 +59,29 @@ namespace TikzEdt.Parser
                     UnwantedTokenException ex2 = ex as UnwantedTokenException;
                     msg += " -> UnwantedTokenException";
                 }
-                else
+                else if(ex.Token != null)
                 {
-                    msg += ": Expected token type " + tokenNames[ex.Expecting] + ".";
+                    //this seem to be a parser exception.
+
+                    msg += ": Expected token " + tokenNames[ex.Expecting] + ".";
                     if (ex.Token.Text != null)
-                    {                        
-                        msg += " Instead found \"" + ex.Token.Text.Replace("\n", "<NewLine>") + "\" which is from type " + tokenNames[ex.Token.Type];                        
+                    {
+                        msg += " Instead found \"" + ex.Token.Text.Replace("\n", "<NewLine>") + "\"";
+                        if(! tokenNames[ex.Token.Type].Contains(ex.Token.Text))
+                            msg += " which is from type " + tokenNames[ex.Token.Type];                        
                     }
                     else
                     {
                         msg += " Instead found EOF";
                         TikzEdtNotice = "Does document include \\begin{tikzpicture} and \\end{tikzpicture}?";
+                    }
+                }
+                else if (ex.Token == null)
+                {
+                    //this is probably a lexer exception.
+                    if (ex.Node is String)
+                    {
+                        msg += ": Parser expected to start token \""+ ex.Node.ToString() +"\"";
                     }
                 }
             }
@@ -82,6 +94,15 @@ namespace TikzEdt.Parser
             {
                 NoViableAltException ex = Ex as NoViableAltException;
                 msg += "NoViableAltException";
+                if (ex.grammarDecisionDescription != null && ex.grammarDecisionDescription != "")
+                {
+                    if (ex.grammarDecisionDescription.ToLower().Contains("loopback"))
+                    {
+                        string loop = ex.grammarDecisionDescription.Substring(ex.grammarDecisionDescription.LastIndexOf(':') + 1);
+                        msg += ": Parser is stuck in following recursion: " + loop.Trim();
+                    }
+                }
+                TikzEdtNotice = "Is some \\end{} command missing?";
             }
             else
             {
