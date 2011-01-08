@@ -100,5 +100,17 @@
     <Setting Name="StatusFieldRowHeightSetting" Type="System.Windows.GridLength" Scope="User">
       <Value Profile="(Default)">80</Value>
     </Setting>
+    <Setting Name="MessageColWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">500</Value>
+    </Setting>
+    <Setting Name="LineColWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">25</Value>
+    </Setting>
+    <Setting Name="PosColWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">25</Value>
+    </Setting>
+    <Setting Name="SourceColWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">75</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

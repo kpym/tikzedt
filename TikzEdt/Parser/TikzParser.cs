@@ -136,7 +136,10 @@ namespace TikzEdt.Parser
                     case simpletikzParser.IM_OPTION_KV:
                     case simpletikzParser.IM_OPTION_STYLE:
                         Tikz_Option topt = Tikz_Option.FromCommonTree(childt, tokens);
-                        topt.text = getTokensString(tokens, childt);
+                        //if (topt == null) break;
+                        //topt.text = getTokensString(tokens, childt);
+                        String s = getTokensString(tokens, childt);
+                        topt.text = s;
                         item.AddChild(topt);
                         break;
                     case simpletikzParser.IM_OPTIONS:
@@ -176,9 +179,11 @@ namespace TikzEdt.Parser
                         Tikz_EdtCommand cmd = new Tikz_EdtCommand(getTokensString(tokens, childt));
                         item.AddChild(cmd);
                         break;
+                    case simpletikzParser.IM_DONTCARE:
+                        break;
                     default:
                         // getting here is an error
-                        throw new Exception("childt.Type not handled! " + childt.Type.ToString());
+                        throw new Exception(" childt.Type not handled! " + childt.Type.ToString());
                         //break;
 
                 }

@@ -86,6 +86,7 @@ IM_USETIKZLIB;
 IM_STRING;
 IM_STYLE;
 IM_TIKZEDT_CMD;
+IM_DONTCARE;
 }
 
 @parser::members {
@@ -170,7 +171,7 @@ option
 	;
 	
 option_kv
-	:	idd ('=' iddornumberunitorstring )? -> ^(IM_OPTION_KV idd iddornumberunitorstring?)  
+	:	idd ('=' iddornumberunitorstringorrange )? -> ^(IM_OPTION_KV idd iddornumberunitorstringorrange?)  
 	;
 	
 tikzstring
@@ -180,9 +181,12 @@ tikzstring
 no_rlbrace
 	:	~('{' | '}')
 	;
-iddornumberunitorstring
-	:	numberunit | idd | tikzstring
+iddornumberunitorstringorrange
+	:	numberunit | idd | tikzstring | range
 	;
+range
+	: numberunit ':' numberunit
+	;	
 option_style
 	:	idd '/.style' '=' '{' (option_kv (',' option_kv)*)?  ','? '}'  -> ^(IM_OPTION_STYLE idd option_kv*)  // '{' option '}' todo: optional ,
 	;
@@ -339,10 +343,18 @@ size
 //Is this needed?
 //-> ^(IM_COORD[$lc] coord_modifier? numberunit)
 	
-	
+
+//note: the last option is for complex coordinates which TE cannot parse -> rewrite as IM_DONTCARE
 coord	
 	:	  nodename 								-> ^(IM_COORD nodename)
 		| ( coord_modifier? '(' numberunit coord_sep numberunit ')')		-> ^(IM_COORD coord_modifier? numberunit+ coord_sep)
+		| ( coord_modifier? '(' coord_part coord_sep coord_part ')')		-> ^(IM_DONTCARE coord_modifier? coord_part+ coord_sep)
+	;
+//note: idd includes numberunit
+//note: '{' idd '}' is for some calculatation, like in  (\x,{5.5 - 1.5 * \x})
+coord_part
+	:	idd
+	|	'{' idd '}'
 	;
 coord_sep
 	:	( ',' | ':' )	
