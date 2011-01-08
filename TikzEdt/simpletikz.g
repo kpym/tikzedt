@@ -9,8 +9,8 @@ options
 
 
 tokens {
-	BEGIN	 	= '\\begin';	//todooooo
-	END 		= '\\end';    //todooooo
+	//BEGIN	 	= '\\begin';	//todooooo
+	//END 		= '\\end';    //todooooo
 	//BEGINTP	 	= '\\begin{tikzpicture}';
 	//ENDTP 		= '\\end{tikzpicture}';
 	//BEGINSCOPE	= '\\begin{scope}';
@@ -18,27 +18,27 @@ tokens {
 	//TIKZPICTURE	= 'tikzpicture';	
 	//SCOPE		= 'scope';
 	
-	USETIKZLIB	= '\\usetikzlibrary';
-	TIKZSTYLE	= '\\tikzstyle';
-	TIKZSET		= '\\tikzset';
-	NODE		= '\\node';
-	COORDINATE	= '\\coordinate';
-	DRAW		= '\\draw';
-	PATH		= '\\path';
-	FILL		= '\\fill';
-	CLIP		= '\\clip';
-	STYLETAG	= '/.style';
-	LPAR		= '(';
-	RPAR		= ')';
-	LBR		= '[';
-	RBR		= ']';
-	LBRR		= '{';
-	RBRR		= '}';
-	KOMMA		= ',';
+	//USETIKZLIB	= '\\usetikzlibrary';
+	//TIKZSTYLE	= '\\tikzstyle';
+	//TIKZSET		= '\\tikzset';
+	//NODE		= '\\node';
+	//COORDINATE	= '\\coordinate';
+	//DRAW		= '\\draw';
+	//PATH		= '\\path';
+	//FILL		= '\\fill';
+	//CLIP		= '\\clip';
+	//STYLETAG	= '/.style';
+	//LPAR		= '(';
+	//RPAR		= ')';
+	//LBR		= '[';
+	//RBR		= ']';
+	//LBRR		= '{';
+	//RBRR		= '}';
+	//KOMMA		= ',';
 	//SCALE		= 'scale';
-	EQU		= '=';
-	SEMIC		= ';';
-	COLON		= ':';
+	//EQU		= '=';
+	//SEMIC		= ';';
+	//COLON		= ':';
 	//BACKSLASH	= '\\'; // blame antlr
 	//STYLESEP	= '/.style';
 	//AT		= 'at';
@@ -112,10 +112,24 @@ IM_TIKZEDT_CMD;
 @lexer::members {
     //@Override
     public override void ReportError(RecognitionException e) {
+    	//if there is no Node we forward what the parser was looking for.
+        if(e.Node == null)    
+	    e.Node = ExpectedToken;
         throw e;
     }
-
+    
+    //Here we store what the parser is looking for next.
+    //It it does not succeed, we can use this variable to tell the user what
+    //the parser was looking for.
+    string ExpectedToken;
+    //@Override
+    public override void Match(string s)
+    {
+        ExpectedToken = s;
+        base.Match(s);
+    }
 }    
+  
 /* comment out above for java*/
 
 
@@ -136,14 +150,14 @@ tikz_styleorsetorcmd
 	;
 
 dontcare_preamble
-	:	~(BEGIN | TIKZSTYLE | TIKZSET | TIKZEDT_CMD_COMMENT)
+	:	~('\\begin' | '\\tikzstyle' | '\\tikzset' | TIKZEDT_CMD_COMMENT)
 	;
 otherbegin
-	:	BEGIN LBRR idd2 RBRR	// todo: sufficient to have ID???
+	:	'\\begin' '{' idd2 '}'	// todo: sufficient to have ID???
 	;
 
 tikz_style
-	:	TIKZSTYLE LBRR idd RBRR '=' tikz_options -> ^(IM_STYLE idd tikz_options)
+	:	'\\tikzstyle' '{' idd '}' '=' tikz_options -> ^(IM_STYLE idd tikz_options)
 	;
 
 tikz_options
@@ -160,17 +174,17 @@ option_kv
 	;
 	
 tikzstring
-	:	LBRR no_rlbrace* (tikzstring no_rlbrace*)* RBRR -> ^(IM_STRING LBRR RBRR ) //todo
+	:	'{' no_rlbrace* (tikzstring no_rlbrace*)* '}' -> ^(IM_STRING '{' '}' ) //todo
 	;
 
 no_rlbrace
-	:	~(LBRR | RBRR)
+	:	~('{' | '}')
 	;
 iddornumberunitorstring
 	:	numberunit | idd | tikzstring
 	;
 option_style
-	:	idd STYLETAG '=' LBRR (option_kv (',' option_kv)*)?  ','? RBRR  -> ^(IM_OPTION_STYLE idd option_kv*)  // '{' option '}' todo: optional ,
+	:	idd '/.style' '=' '{' (option_kv (',' option_kv)*)?  ','? '}'  -> ^(IM_OPTION_STYLE idd option_kv*)  // '{' option '}' todo: optional ,
 	;
 
 
@@ -186,7 +200,7 @@ idd
 	:	idd_heavenknowswhythisisnecessary  -> ^(IM_ID )
 	;
 idd_heavenknowswhythisisnecessary
- 	:	 ~( LPAR | RPAR | LBR |	RBR | LBRR | RBRR | KOMMA | EQU	| SEMIC	| COLON | STYLETAG)+ ;
+ 	:	 ~( '(' | ')' | '[' |	']' | '{' | '}' | ',' | '='	| ';'	| ':' | '/.style')+ ;
 idd2
 	:	ID+ -> ^(IM_ID )
 	;
@@ -221,13 +235,13 @@ tikzbody
 	;
 	
 dontcare_body_nobr
-	:	(~ (BEGIN | END | NODE | COORDINATE | DRAW | PATH | FILL | CLIP | TIKZSTYLE | TIKZSET | LBR))	// necessary to prevent conflict with options
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\coordinate' | '\\draw' | '\\path' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '['))	// necessary to prevent conflict with options
 	;	
 dontcare_body
-	:	(~ (BEGIN | END | NODE | COORDINATE | DRAW | PATH | FILL | CLIP | TIKZSTYLE | TIKZSET ))   
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\coordinate' | '\\draw' | '\\path' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' ))   
 	;
 otherend
-	:	END '{' idd2 '}'
+	:	'\\end' '{' idd2 '}'
 	;
 	
 	
@@ -300,13 +314,13 @@ tikznode_decorator
 		| tikz_options_dontcare
 	;
 tikz_options_dontcare
-	:	LBR no_rlbracket* (tikz_options_dontcare no_rlbracket*)* RBR -> ^(IM_OPTIONS ) //todo
+	:	'[' no_rlbracket* (tikz_options_dontcare no_rlbracket*)* ']' -> ^(IM_OPTIONS ) //todo
 	;
 no_rlbracket
-	:	~(LBR | RBR)
+	:	~('[' | ']')
 	;
 nodename
-	:	LPAR idd RPAR		-> ^(IM_NODENAME idd)
+	:	'(' idd ')'		-> ^(IM_NODENAME idd)
 	;
 
 // note that tikz is ambiguous. for example "3 and 4" is a valid node name, and furthermore the size is optional
@@ -316,11 +330,11 @@ circle
 	:	('circle' | 'ellipse') ((size)=> size)?	->	// note: options not allowed in between
 	;
 arc
-	:	'arc' (LPAR numberunit ':' numberunit ':' numberunit RPAR)? ->
+	:	'arc' ('(' numberunit ':' numberunit ':' numberunit ')')? ->
 	;
 	
 size
-	:	  LPAR numberunit ('and' numberunit)? RPAR		-> ^(IM_SIZE numberunit*)	// for future use
+	:	  '(' numberunit ('and' numberunit)? ')'		-> ^(IM_SIZE numberunit*)	// for future use
 	;
 //Is this needed?
 //-> ^(IM_COORD[$lc] coord_modifier? numberunit)
@@ -328,7 +342,7 @@ size
 	
 coord	
 	:	  nodename 								-> ^(IM_COORD nodename)
-		| ( coord_modifier? LPAR numberunit coord_sep numberunit RPAR)		-> ^(IM_COORD coord_modifier? numberunit+ coord_sep)
+		| ( coord_modifier? '(' numberunit coord_sep numberunit ')')		-> ^(IM_COORD coord_modifier? numberunit+ coord_sep)
 	;
 coord_sep
 	:	( ',' | ':' )	
@@ -348,7 +362,7 @@ coord_modifier
 
 
 path_end
-	:	SEMIC -> ^(IM_ENDTAG SEMIC)
+	:	';' -> ^(IM_ENDTAG ';')
 	;
 
 
@@ -369,7 +383,7 @@ usetikzlib
 	:	usetikzlib_start idd (',' idd)* roundbr_end -> ^(IM_USETIKZLIB usetikzlib_start idd* roundbr_end)
 	;
 usetikzlib_start
-	:	USETIKZLIB '{' -> ^(IM_STARTTAG USETIKZLIB) // todo: check if necessary ...
+	:	'\\usetikzlibrary' '{' -> ^(IM_STARTTAG '\\usetikzlibrary') // todo: check if necessary ...
 	;
 
 
@@ -384,10 +398,10 @@ tikzstring
 
 // ***** start and end tags *****
 squarebr_start
-	:	LBR -> ^(IM_STARTTAG LBR)
+	:	'[' -> ^(IM_STARTTAG '[')
 	;
 squarebr_end
-	:	RBR -> ^(IM_ENDTAG RBR)
+	:	']' -> ^(IM_ENDTAG ']')
 	;	
 semicolon_end
 	:	';'	-> ^(IM_ENDTAG ';')
@@ -399,19 +413,19 @@ roundbr_end
 	:	'}'	-> ^(IM_ENDTAG '}')
 	;
 tikz_set_start
-	:	TIKZSET '{'		-> ^(IM_STARTTAG ) // todo: check if suffices
+	:	'\\tikzset' '{'		-> ^(IM_STARTTAG ) // todo: check if suffices
 	;
 tikzpicture_start
-	:	BEGIN '{' 'tikzpicture' '}' -> ^(IM_STARTTAG BEGIN)
+	:	'\\begin' '{' 'tikzpicture' '}' -> ^(IM_STARTTAG '\\begin')
 	;
 tikzpicture_end
-	:	END '{' 'tikzpicture' '}' -> ^(IM_ENDTAG END)
+	:	'\\end' '{' 'tikzpicture' '}' -> ^(IM_ENDTAG '\\end')
 	;
 tikzscope_start
-	:	BEGIN '{' 'scope' '}' -> ^(IM_STARTTAG BEGIN)
+	:	'\\begin' '{' 'scope' '}' -> ^(IM_STARTTAG '\\begin')
 	;
 tikzscope_end
-	:	END '{' 'scope' '}' -> ^(IM_ENDTAG END)
+	:	'\\end' '{' 'scope' '}' -> ^(IM_ENDTAG '\\end')
 	;
 path_start 
 	:	path_start_tag -> ^(IM_STARTTAG path_start_tag)
@@ -420,10 +434,10 @@ node_start
 	:	node_start_tag -> ^(IM_STARTTAG node_start_tag)
 	;
 node_start_tag
-	:	NODE | COORDINATE
+	:	'\\node' | '\\coordinate'
 	;
 path_start_tag
-	:	DRAW | FILL | PATH | CLIP
+	:	'\\draw' | '\\fill' | '\\path' | '\\clip'
 	;
 
 ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'.'|'!')*
