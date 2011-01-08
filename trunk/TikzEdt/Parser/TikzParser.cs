@@ -136,7 +136,7 @@ namespace TikzEdt.Parser
                     case simpletikzParser.IM_OPTION_KV:
                     case simpletikzParser.IM_OPTION_STYLE:
                         Tikz_Option topt = Tikz_Option.FromCommonTree(childt, tokens);
-                        //if (topt == null) break;
+                        if (topt == null) break;
                         //topt.text = getTokensString(tokens, childt);
                         String s = getTokensString(tokens, childt);
                         topt.text = s;

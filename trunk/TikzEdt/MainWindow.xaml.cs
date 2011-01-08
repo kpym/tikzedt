@@ -220,8 +220,16 @@ namespace TikzEdt
                 TexOutputParser.TexError err = new TexOutputParser.TexError();
                 err.error = errmsg;
                 err.causingSourceFile = CurFile;
-                err.linenr = ex.Line;
-                err.pos = ex.CharPositionInLine;
+                if (ex.Line == 0 && ex.CharPositionInLine == -1)
+                {
+                    err.linenr = txtCode.LineCount;
+                    err.pos = 0;
+                }
+                else
+                {
+                    err.linenr = ex.Line;
+                    err.pos = ex.CharPositionInLine;
+                }
                 err.severity = Severity.ERROR;
                 addProblemMarker(this, err);
             }
@@ -276,7 +284,7 @@ namespace TikzEdt
                 //never set e.Cancel = true;
                 //if you do, you cannot access e.Result from AsyncParser_RunWorkerCompleted.
                 e.Result = ex;                
-            }           
+            }          
         }
 
         void TikzToBmpFactory_JobNumberChanged(object sender)
@@ -1468,9 +1476,16 @@ namespace TikzEdt
             {
                 if (pos < 0) pos = 0;
                 txtCode.CaretOffset = txtCode.Document.GetOffset(line, pos);
-                if(HighlightLine)
-                    txtCode.Select(txtCode.CaretOffset, txtCode.Text.IndexOf(Environment.NewLine, txtCode.CaretOffset) - txtCode.CaretOffset);
-                else if(HighlightChar)
+                if (HighlightLine)
+                {
+                    //if it is not the last line select it
+                    if(txtCode.Text.IndexOf(Environment.NewLine, txtCode.CaretOffset) != -1)
+                        txtCode.Select(txtCode.CaretOffset, txtCode.Text.IndexOf(Environment.NewLine, txtCode.CaretOffset) - txtCode.CaretOffset);
+                    //else select to end.
+                    else
+                        txtCode.Select(txtCode.CaretOffset, txtCode.Text.Length - txtCode.CaretOffset);
+                }
+                else if (HighlightChar)
                     txtCode.Select(txtCode.CaretOffset, 1);
                 txtCode.ScrollToLine(line);
                 txtCode.Focus();
