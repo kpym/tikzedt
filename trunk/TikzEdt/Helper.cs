@@ -42,9 +42,10 @@ namespace TikzEdt
         //    new float[]{0.1F}, new float[]{.1F,.1F}, new float[]{.2F,.1F}
         //};
 
-        public const string cCompletionsFile = "Editor\\CodeCompletions.xml";
+        public const string cSettingsDir = "Editor"; //this path is relative for GettAppdataPath().
+        public const string cCompletionsFile = "CodeCompletions.xml";
         public const string cSettingsFile = "T2Gsettings.xml";
-        public const string cSyntaxFile = "Editor\\TikzSyntax.xshd";
+        public const string cSyntaxFile = "TikzSyntax.xshd";
         public const string cSnippetsFile = "TheSnippets.xml";
         public const string cSnippetThumbsDir = "img";
         public const string cMRUFile = "T2GMRU.xml";    // not used
@@ -114,9 +115,56 @@ namespace TikzEdt
                 StringSplitOptions.RemoveEmptyEntries);
             return String.Join(" ", parts);
         }
+        /// <summary>
+        /// Options set current working directory can be set to.        
+        /// </summary>
+        public enum WorkingDirOptions { DirFromFile, TempDir };
+        /// <summary>
+        /// Set the current working directory. 
+        /// </summary>
+        /// <param name="option">Option to set work dir to.</param>
+        /// <param name="file">If WorkingDirOptions.DirFromFile, specify file that shall be in the working dir afterwards.</param>
+        public static void SetCurrentWorkingDir(WorkingDirOptions option, string file = "")
+        { 
+            if(option==WorkingDirOptions.TempDir)
+                Environment.CurrentDirectory = System.IO.Path.GetTempPath();
+            else if (option == WorkingDirOptions.DirFromFile)
+            {
+                if (file == "")
+                    throw new Exception("Parameter file in SetCurrentWorkingDir() must not be empty when option==WorkingDirOptions.DirFromFile!");
 
+                String dir = System.IO.Path.GetDirectoryName(file);
+                if (dir == "")
+                    throw new Exception("Parameter file in SetCurrentWorkingDir() must containing the full path!");
+                else
+                    Environment.CurrentDirectory = dir;
+            }
+        }
+        public static string GetCurrentWorkingDir()
+        {
+            return Environment.CurrentDirectory;
+        }
+        public enum AppdataPathOptions { AppData, ExeDir };
+        private static string _AppdataPath = "";
+        public static void SetAppdataPath(AppdataPathOptions option)
+        {
+            if (option == AppdataPathOptions.AppData)
+                _AppdataPath = System.Windows.Forms.Application.UserAppDataPath; //created automatically by .NET!
+            else
+                _AppdataPath = GetAppDir();
+        }
+        public static string GetAppdataPath()
+        {
+            if (_AppdataPath == "")
+                throw new Exception("AppdataPath not set yet! Do it using SetAppdataPath() before calling GetAppdataPath().");
+            return _AppdataPath;
+        }
+        
+        
         public static string GetAppDir() // w/o trailing backslash 
         {
+            return System.AppDomain.CurrentDomain.BaseDirectory; ;
+            /*throw new Exception("GetAppDir() is obsolete! Use GetAppdataPath() or GetCurrentWorkingDir() instead.");
             string appPath = "";
             try
             {
@@ -133,12 +181,43 @@ namespace TikzEdt
             {
                 MessageBox.Show("Exception: " + ex.ToString());
             }
-            return appPath;
+            return appPath;*/
         }
 
+        /// <summary>
+        /// Path where is configuration files are stored (usually \\Editor)
+        /// </summary>
+        /// <returns></returns>
+        public static string GetSettingsPath()
+        {
+            return GetAppdataPath() + "\\" + Consts.cSettingsDir + "\\";
+        }
+        /// <summary>
+        /// Path where the snippetes are stored (usually \\img)
+        /// </summary>
+        /// <returns></returns>
+        public static string GetSnippetsPath()
+        {
+            return GetAppdataPath() + "\\" + Consts.cSnippetThumbsDir  + "\\";
+        }
+        public static string GetSnippetsExt()
+        {
+            return ".tex";
+        }
+
+        
         public static string GetPrecompiledHeaderPath()
         {
-            return GetAppDir() + "\\" + Consts.cTempFile;
+            return GetAppdataPath() + "\\" + Consts.cTempFile;
+        }
+        public static string GetTempFileName()
+        {
+            return Consts.cTempFile;
+        }
+
+        public static string GetPrecompiledExt()
+        { 
+            return ".preview.tex";
         }
 
        /* public static void GeneratePrecompiledHeaders()

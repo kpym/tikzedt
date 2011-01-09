@@ -53,7 +53,7 @@ namespace TikzEdt
                     Title += "*";
                 // Add to MRU
                 if (_CurFile != Consts.defaultCurFile)
-                    RecentFileList.InsertFile(_CurFile);
+                    RecentFileList.InsertFile(Helper.GetCurrentWorkingDir() + "\\" + _CurFile);
             }
         }
         /// <summary>
@@ -407,27 +407,10 @@ namespace TikzEdt
             */
             //cmbGrid.SelectedIndex = 4;
 
-            if (!File.Exists(Consts.cSyntaxFile))
-            {
-                AddStatusLine("Syntax definitions not found");
-            } else{
-                XmlReader r = new XmlTextReader(Consts.cSyntaxFile);
-                txtCode.SyntaxHighlighting = HighlightingLoader.Load(r,null);  //HighlightingManager.Instance..GetDefinition("C#");
-                r.Close();
-            }
-
-            codeCompleter.LoadCompletions(Consts.cCompletionsFile);
-
-            isLoaded = true;
-            //txtRadialOffset.Text = txtRadialOffset.Text;
-            //txtRadialSteps.Text = txtRadialSteps.Text;
-
-            // Open a new file 
-            ApplicationCommands.New.Execute(null, this);
-
-            //open file specified via command line parameter.
+            //parse command line parameter
             CLAParser.CLAParser CmdLine = new CLAParser.CLAParser("TikzEdt");
             CmdLine.Parameter(CLAParser.CLAParser.ParamAllowType.Optional, "", CLAParser.CLAParser.ValueType.String, "Path to file that is to be loaded on starting TikzEdt.");
+            CmdLine.Parameter(CLAParser.CLAParser.ParamAllowType.Optional, "userapp", CLAParser.CLAParser.ValueType.Bool, "Read configuration files from %appdata% folder, else it is read from the application directory. ");// + System.Windows.Forms.Application.UserAppDataPath);
             CmdLine.AllowAdditionalParameters = false;
             try
             {
@@ -440,9 +423,96 @@ namespace TikzEdt
                 msg += CmdLine.GetParameterInfo();
                 MessageBox.Show(msg);
             }
+
+            //do we need such a routine that checks whether all files are available?            
+            /*string missing;
+            if (FirstRunPreparations(out missing) == false)
+            {
+                AddStatusLine("Required file \"" + missing + "\" not found. Please reinstall program.", true);
+            }*/
+
+            //set path to user-defined application data. depending on cmdline parameter
+            //it is stored next to .exe or in %appdata%
+            if (CmdLine["userapp"] != null)
+                Helper.SetAppdataPath(Helper.AppdataPathOptions.AppData);
+            else
+                Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
+
+
+            if (!File.Exists(Helper.GetSettingsPath() + Consts.cSyntaxFile))
+            {
+                AddStatusLine("Syntax definitions not found");
+            } else{
+                XmlReader r = new XmlTextReader(Helper.GetSettingsPath() + Consts.cSyntaxFile);
+                txtCode.SyntaxHighlighting = HighlightingLoader.Load(r,null);  //HighlightingManager.Instance..GetDefinition("C#");
+                r.Close();
+            }
+
+            codeCompleter.LoadCompletions(Helper.GetSettingsPath() + Consts.cCompletionsFile);
+
+            isLoaded = true;
+            //txtRadialOffset.Text = txtRadialOffset.Text;
+            //txtRadialSteps.Text = txtRadialSteps.Text;
+
+            ///Dictory handling:
+            ///Upon opening a new file or loading one, the current
+            ///directory is the to the corresponding path
+            ///(i.e. %temp% or path of loaded file)
+            ///use Helper.SetCurrentWorkingDir() to do that.
+            ///all function calls assume that they are in the correct dir.
+
+            // Open a new file 
+            ApplicationCommands.New.Execute(null, this);
+
+            //open file specified via command line parameter.            
             if (CmdLine[""] != null)
                 LoadFile(CmdLine[""]);
         }
+
+        /// <summary>
+        /// Checks if all config files are available and copies them
+        /// from the application direction to UserAppDataPath.
+        /// But actually this should have been done by the installer?!?
+        /// </summary>
+        /// <param name="missing"></param>
+        /// <returns></returns>
+        /*bool FirstRunPreparations(out string missing)
+        {
+            bool success = true;
+            missing = "";
+            List<String> InstallFiles = new List<string>();
+            InstallFiles.Add(Consts.cCompletionsFile);
+            //InstallFiles.Add(Consts.cMRUFile);
+            InstallFiles.Add(Consts.cSnippetsFile);
+
+            foreach (string file in InstallFiles)
+            {
+                if (!File.Exists(System.Windows.Forms.Application.UserAppDataPath + "\\" + file))
+                    if (!File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + "\\" + file))
+                    {
+                        success = false;
+                        missing = file;
+                        break;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            if (!Directory.Exists(System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.UserAppDataPath + "\\" + file)))
+                                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.UserAppDataPath + "\\" + file));
+                            File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + "\\" + file, System.Windows.Forms.Application.UserAppDataPath + "\\" + file);
+                        }
+                        catch (Exception)
+                        {
+                            success = false;
+                            missing = file;
+                            break;
+                        }
+                    }
+            }
+            return success;
+        }*/
+
 
         
         /// <summary>
@@ -623,7 +693,7 @@ namespace TikzEdt
         private void Recompile(bool NoParse = false)
         {
             // Parse and compile, depending on current mode
-            string path = CurFile + ".preview.tex";
+            string path = CurFile + Helper.GetPrecompiledExt();
             if (CurFileNeverSaved)
                 path = "";      // use a temp file in the application directory
 
@@ -713,6 +783,10 @@ namespace TikzEdt
         }
 
         
+        /// <summary>
+        /// Loads a file and sets the current directory to its containing folder.
+        /// </summary>
+        /// <param name="cFile">Specify file to load. This must be a full path (not relative).</param>
         private void LoadFile(string cFile)
         {
             if (!File.Exists(cFile))
@@ -721,12 +795,19 @@ namespace TikzEdt
                 return;
             }
 
+            //clean everything before loading file:
+            CleanupForNewFile();
+
+            //set current dir to dir containing cFile.
+            Helper.SetCurrentWorkingDir(Helper.WorkingDirOptions.DirFromFile, cFile);
+            AddStatusLine("Working directory is now: " + Helper.GetCurrentWorkingDir());
+
             StreamReader stream = new StreamReader(cFile);
             try {
                 string newcode = stream.ReadToEnd();
                 tikzDisplay1.SetUnavailable(); // new file is directly compiled... but set unavailable in case error occurs
                 pdfOverlay1.SetParseTree(null, currentBB);
-                CurFile = cFile;
+                CurFile = System.IO.Path.GetFileName(cFile); //always working in current dir, no need for absolute path.
                 ChangesMade = false;
                 CurFileNeverSaved = false;
 
@@ -819,6 +900,14 @@ namespace TikzEdt
             if (!TryDisposeFile())
                 return;
 
+            //all temporary files should be saved in the temporary folder.
+            Helper.SetCurrentWorkingDir(Helper.WorkingDirOptions.TempDir);
+            AddStatusLine("Working directory is now: " + Helper.GetCurrentWorkingDir());
+
+            CleanupForNewFile();
+        }
+        private void CleanupForNewFile()
+        {
             //isLoaded = false;
             CurFile = Consts.defaultCurFile;
             CurFileNeverSaved = true;
@@ -1517,7 +1606,8 @@ namespace TikzEdt
                         if (r == MessageBoxResult.No)
                             return;                        
                     }
-                    LoadFile(files[0]);
+                    if(TryDisposeFile())
+                        LoadFile(files[0]);
                 }
                 else
                     MessageBox.Show("Only one file at a time allowed via drag&drop.", "Too many files", MessageBoxButton.OK, MessageBoxImage.Information);
