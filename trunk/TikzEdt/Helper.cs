@@ -36,6 +36,10 @@ namespace TikzEdt
         public const double TikzDefaultFontSize = 8;
         public const int TikzImgResolution = 300; // resolution in dpi with which images are compiled
 
+        //these files will be deleted, when file is closed. (by DeleteTemporaryFiles())
+        public static string[] TemporaryFileExt = new string[] { ".aux", ".tmp", ".log" };
+        public static string[] PreviewFileExt = new string[] { ".tex", ".pdf", ".aux", ".tmp", ".log", "_BB.txt" };
+
         //public static string[] TikzArrowTipCodes = new string[] { "", ">", "<" };
         //public static DashStyle[] TikzToSystemDashStyle = new DashStyle[] { DashStyle.Solid, DashStyle.Dot, DashStyle.Dash };
         //public static float[][] TikzToSystemDashPattern = new float[][] {
@@ -92,8 +96,8 @@ namespace TikzEdt
 \immediate\closeout\metadatafile
 ";
 
-        public const string precompilation_args = "-ini -job-name=\"" + cTempFile + "\" \"&pdflatex " + cTempFile + "pre.tex\\dump\"";
-        public const string precompilation_args_img = "-ini -job-name=\"" + cTempImgFile + "\" \"&latex " + cTempImgFile + "pre.tex\\dump\"";
+        //public const string precompilation_args = "-ini -job-name=\"" + cTempFile + "\" \"&pdflatex " + cTempFile + "pre.tex\\dump\"";
+        //public const string precompilation_args_img = "-ini -job-name=\"" + cTempImgFile + "\" \"&latex " + cTempImgFile + "pre.tex\\dump\"";
 
 
     }
@@ -208,16 +212,20 @@ namespace TikzEdt
         
         public static string GetPrecompiledHeaderPath()
         {
-            return GetAppdataPath() + "\\" + Consts.cTempFile;
+            return GetAppdataPath() + "\\" + GetTempFileName();
         }
         public static string GetTempFileName()
         {
-            return Consts.cTempFile;
+            return Consts.cTempFile + Process.GetCurrentProcess().Id;
         }
 
-        public static string GetPrecompiledExt()
+        public static string GetPreviewFilename()
         { 
-            return ".preview.tex";
+            return ".preview";
+        }
+        public static string GetPreviewFilenameExt()
+        {
+            return ".tex";
         }
 
        /* public static void GeneratePrecompiledHeaders()
@@ -250,8 +258,45 @@ namespace TikzEdt
 
         public static string RemoveFileExtension(string file)
         {
-            string ext = System.IO.Path.GetExtension(file);
-            return file.Remove(file.Length - ext.Length, ext.Length);
+            return System.IO.Path.GetFileNameWithoutExtension(file);
+            /*string ext = System.IO.Path.GetExtension(file);
+            return file.Remove(file.Length - ext.Length, ext.Length);*/
+        }
+
+        /// <summary>
+        /// Delete all temporary files named FileName in working dir,
+        /// </summary>
+        /// <param name="FileName"></param>
+        public static void DeleteTemporaryFiles(string FileName, bool IsTempFile = false)
+        {
+            List<String> FilesToDelete = new List<string>();
+            if (IsTempFile)
+            {
+                //if this is a temp file delete all files created by preview (incl. .tex and .pdf)
+                foreach (string ext in Consts.PreviewFileExt)
+                    FilesToDelete.Add(RemoveFileExtension(FileName) + ext);
+            }
+            else
+            {
+                //this is not a temp file so only delete tempary files (filename + log,aux, ...)
+                foreach (string ext in Consts.TemporaryFileExt)
+                    FilesToDelete.Add(RemoveFileExtension(FileName) + ext);
+                //delete all preview files.
+                foreach (string ext in Consts.PreviewFileExt)
+                    FilesToDelete.Add(FileName + GetPreviewFilename() + ext);
+            }
+
+            foreach (String file in FilesToDelete)
+            {
+                try
+                {
+                    System.IO.File.Delete(file);
+                }
+                catch (IOException)
+                { 
+                    //PDF file is still loading and cannot be deleted.
+                }
+            }
         }
 
         public static Brush GetHatchBrush()

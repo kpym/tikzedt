@@ -99,7 +99,7 @@ namespace TikzEdt
         {
             // if job.path is empty, fill with a temp file name
             if (job.path == "") //compile in work dir!
-                job.path = /*Helper.GetAppDir() + "\\" + */Consts.cTempFile + Process.GetCurrentProcess().Id + ".tex";
+                job.path = /*Helper.GetAppDir() + "\\" + */Helper.GetTempFileName() + ".tex";
 
             todo_tex.Enqueue(job);
             if (JobNumberChanged != null)
@@ -112,8 +112,8 @@ namespace TikzEdt
         {
             Job job = new Job();
             job.code = Properties.Settings.Default.Tex_Preamble;
-            job.path = Helper.GetPrecompiledHeaderPath() + Helper.GetPrecompiledExt();
-            job.name = Consts.cTempFile;
+            job.path = Helper.GetPrecompiledHeaderPath() + Helper.GetPreviewFilename() + Helper.GetPreviewFilenameExt();
+            job.name = Helper.GetTempFileName();
             job.GeneratePrecompiledHeaders = true;
             return job;
         }
@@ -230,7 +230,7 @@ namespace TikzEdt
                     //\usepackage[active,tightpage]{preview}
                     //\PreviewEnvironment{tikzpicture}
                     if (ContainsPreviewEnvironment(job.code) == false)
-                    {
+                    { 
                         string PreviewEnvCode = Environment.NewLine + @"\usepackage[active,tightpage]{preview}" + Environment.NewLine
                                                 + @"\PreviewEnvironment{tikzpicture}" + Environment.NewLine + Environment.NewLine;
 
@@ -242,6 +242,7 @@ namespace TikzEdt
                         ((MainWindow)Application.Current.Windows[0]).txtCode.Document.Insert(PosBeginDoc, PreviewEnvCode);
                         //((MainWindow)Application.Current.Windows[0]).txtCode.Text.Insert
                         ((MainWindow)Application.Current.Windows[0]).AddStatusLine("PreviewEnvironment code inserted.");
+                        ((MainWindow)Application.Current.Windows[0]).ChangesMade = true;
                     }
                         
                 }

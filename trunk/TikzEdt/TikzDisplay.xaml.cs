@@ -276,14 +276,17 @@ namespace TikzEdt
             else
             {
                 lblUnavailable.Visibility = Visibility.Collapsed;
-                mypdfDoc.LoadPdf(cFile);
-                image1.Visibility = Visibility.Visible;
+                mypdfDoc.LoadPdf(cFile);                
+                image1.Visibility = Visibility.Visible;                
             }
-            RecalcSize();
+            RecalcSize();            
         }
         public void SetUnavailable()
         {
             RefreshPDF("");
+
+            //here it would be nice to release the handle to the pdf document
+            //so it can be deleted. but how?
         }
 
         /// <summary>
@@ -368,10 +371,13 @@ namespace TikzEdt
         /// </summary>
         void RedrawBMP()
         {
+            
             if (mypdfDoc != null)
-            {
+            {               
                 image1.Source = mypdfDoc.GetBitmap(Resolution, currentBB.Width*currentBB.Height >0); // mypdfDoc.GetBitmap(currentBB, Resolution);                
             }
+            //we have the image of the pdf, close the pdf handle now.
+            mypdfDoc.UnloadPdf();
         }
 
         private void image1_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -389,16 +395,34 @@ namespace TikzEdt
 
         public bool LoadPdf(string cfile)
         {
+
             if (mypdfDoc != null)
+            {
                 mypdfDoc.Dispose();
+                mypdfDoc = null;
+            }
             mypdfDoc = new PDFLibNet.PDFWrapper();
+            
             mypdfDoc.UseMuPDF = true;
             if (!File.Exists(cfile))
                 return false;
-            return mypdfDoc.LoadPDF(cfile);
+            //this line creates a handle
+            //it can be closed with Dispose()
+             return mypdfDoc.LoadPDF(cfile); 
         }
 
-        public BitmapSource GetBitmap(Rect r, double Resolution)
+        public bool UnloadPdf()
+        {
+            if (mypdfDoc != null)
+            {
+                mypdfDoc.Dispose();
+                mypdfDoc = null;
+                return true;
+            }
+            return false;
+        }
+
+        /*public BitmapSource GetBitmap(Rect r, double Resolution)
         {
             if (mypdfDoc != null)
             {
@@ -421,13 +445,42 @@ namespace TikzEdt
                 //GC.Collect();
             }
             else return null;
-        }
+        }*/
+        #region TEST
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        extern static bool DestroyIcon(IntPtr handle);
+        #endregion TEST
+
         public BitmapSource GetBitmap(double Resolution, bool Transparent = true)
-        {
+        {            
             if (mypdfDoc != null && mypdfDoc.PageCount >0)
-            {
- 
-                Bitmap b = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);
+            {                
+                //after this line pdf handle cannot be release with mypdfDoc.UnloadPdf();
+                //????
+                Bitmap b = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);                
+                #region TEST
+                /*
+                //mypdfDoc.Pages.Clear();
+                IntPtr ptr = IntPtr.Zero;
+                if (b != null) ptr = b.GetHicon();
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+                Microsoft.Win32.SafeHandles.SafeFileHandle dd = new Microsoft.Win32.SafeHandles.SafeFileHandle(ptr, true);
+                //dd.Close();
+                if (ptr != IntPtr.Zero) DestroyIcon(ptr);
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+                //DeleteObject(bitmap_handle);
+                if (b != null) b.Dispose();
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+                return null;
+                 */
+                #endregion TEST
+
                 if (Transparent)
                 {
                     b.MakeTransparent(System.Drawing.Color.White);
@@ -436,8 +489,8 @@ namespace TikzEdt
                 }
                 BitmapSource ret = loadBitmap(b);
                 b.Dispose();
-                return ret;
-                //GC.Collect();
+                
+                return ret;                
             }
             else return null;
         }
@@ -457,6 +510,9 @@ namespace TikzEdt
             }            
         }
 
+        [System.Runtime.InteropServices.DllImport("Kernel32")]
+        private extern static Boolean CloseHandle(IntPtr handle);
+
         [DllImport("gdi32")]
         static extern int DeleteObject(IntPtr o);
         /// <summary>
@@ -467,6 +523,7 @@ namespace TikzEdt
         /// <returns>The same Bitmap, in Wpf format</returns>
         public static BitmapSource loadBitmap(System.Drawing.Bitmap source)
         {
+
             IntPtr ip = source.GetHbitmap();
             BitmapSource bs;
             try
@@ -476,7 +533,7 @@ namespace TikzEdt
                    System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
             }
             finally
-            {
+            {                
                 DeleteObject(ip);
             }
 
@@ -484,7 +541,7 @@ namespace TikzEdt
         }
 
         ~PdfToBmp()
-        {
+        {            
             //if (mypdfDoc != null)
               //  mypdfDoc.Dispose();
         }

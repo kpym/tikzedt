@@ -48,12 +48,21 @@ namespace TikzEdt
             set
             {
                 _CurFile = value;
-                Title = "TikzEdt: " + _CurFile;
+                string AbsoluteCurFilePath = "";
+                //if file is relative, add current work dir.
+                if (System.IO.Path.GetDirectoryName(_CurFile) == "")
+                    AbsoluteCurFilePath = Helper.GetCurrentWorkingDir() + "\\" + _CurFile;
+                else
+                    AbsoluteCurFilePath = _CurFile;
+
+                Title = "TikzEdt: " + AbsoluteCurFilePath;
                 if (ChangesMade)
                     Title += "*";
                 // Add to MRU
                 if (_CurFile != Consts.defaultCurFile)
-                    RecentFileList.InsertFile(Helper.GetCurrentWorkingDir() + "\\" + _CurFile);
+                {
+                    RecentFileList.InsertFile(AbsoluteCurFilePath);
+                }
             }
         }
         /// <summary>
@@ -62,7 +71,7 @@ namespace TikzEdt
         bool CurFileNeverSaved = false;
         // indicates whether changes (that need to be saved) are made to the current file
         private bool _ChangesMade = false;
-        bool ChangesMade
+        public bool ChangesMade
         {
             get { return _ChangesMade; }
             set
@@ -693,7 +702,7 @@ namespace TikzEdt
         private void Recompile(bool NoParse = false)
         {
             // Parse and compile, depending on current mode
-            string path = CurFile + Helper.GetPrecompiledExt();
+            string path = CurFile + Helper.GetPreviewFilename() + Helper.GetPreviewFilenameExt();
             if (CurFileNeverSaved)
                 path = "";      // use a temp file in the application directory
 
@@ -826,7 +835,7 @@ namespace TikzEdt
             }
 
         }
-        private bool TryDisposeFile()
+        private bool TryDisposeFile(bool DeleteTemporaryFiles = true)
         {
             if (ChangesMade)
             {
@@ -839,6 +848,16 @@ namespace TikzEdt
                     case (MessageBoxResult.Cancel):
                         return false;
                 }
+            }
+            if (DeleteTemporaryFiles)
+            {
+                //before delete temp data, we have to cloase the pdf
+                tikzDisplay1.SetUnavailable();
+
+                if (CurFile == Consts.defaultCurFile)
+                    Helper.DeleteTemporaryFiles(Helper.GetTempFileName(), true);
+                else
+                    Helper.DeleteTemporaryFiles(CurFile);
             }
             return true;
         }
@@ -855,6 +874,11 @@ namespace TikzEdt
 
         bool SaveCurFile(bool saveas = false)
         {
+            bool isTempFile = false;
+            if (CurFile == Consts.defaultCurFile)
+                isTempFile = true;
+            string OldFileName = CurFile;                 
+
             //if (CurFile != Consts.defaultCurFile)
             //{
             sfd.FileName = System.IO.Path.GetFileName(CurFile);
@@ -864,7 +888,7 @@ namespace TikzEdt
             {
                 if (sfd.ShowDialog() != true)
                     return false;
-                else CurFile = sfd.FileName;
+                else CurFile = sfd.FileName; //note temporarily CurFile is absolute.
 
             }
 
@@ -875,6 +899,29 @@ namespace TikzEdt
             CurFileNeverSaved = false;
             AddStatusLine("File saved to " + CurFile + ".");
 
+            //delete old temp data.
+            if (saveas)
+            { 
+                //before delete temp data, we have to cloase the pdf
+                tikzDisplay1.SetUnavailable();
+
+                //if file was not saved yet, this data is in temp folder.
+                if (isTempFile)
+                {
+                    //current work dir still is temp dir
+
+                    //delete temp files there.
+                    Helper.DeleteTemporaryFiles(Helper.GetTempFileName(), true);
+                }
+                else
+                {   //else data is in current dir (note: current dir was not changed yet) 
+                    Helper.DeleteTemporaryFiles(OldFileName);
+                }
+
+                //now change current dir.
+                Helper.SetCurrentWorkingDir(Helper.WorkingDirOptions.DirFromFile, CurFile);
+                CurFile = System.IO.Path.GetFileName(CurFile);
+            }
             return true;
         }
 
@@ -890,7 +937,7 @@ namespace TikzEdt
 
         private void SaveAsCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            SaveCurFile(true);
+            SaveCurFile(true);            
         }
 
 
