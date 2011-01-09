@@ -280,8 +280,31 @@ namespace TikzEdt
 
             try
             {
-                Tikz_ParseTree tp = TikzParser.Parse(e.Argument as string);                
+                Tikz_ParseTree tp = TikzParser.Parse(e.Argument as string);                 
                 e.Result = tp;
+
+                Regex inputs = new Regex(@"(^[^%]*|\n[^\n%]*?)\\input{(?<file>.*)}", RegexOptions.Compiled);
+                //search the first child for \input cmd
+                //foreach (TikzParseItem child in tp.Children)
+                {
+                    MatchCollection files = inputs.Matches(e.Argument as string);
+                    foreach (Match file in files)
+                    {
+                        string inputfile = file.Groups["file"].ToString();
+                        if (File.Exists(inputfile))
+                        {
+                            StreamReader sr = new StreamReader(inputfile);
+                            string inputcode = sr.ReadToEnd();
+                            sr.Close();
+                            Tikz_ParseTree tp2 = TikzParser.ParseInputFile(inputcode);
+                            foreach(KeyValuePair<string, Tikz_Option> style in tp2.styles)
+                            {
+                                tp.styles.Add(style.Key, style.Value);
+                            }
+                            
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {

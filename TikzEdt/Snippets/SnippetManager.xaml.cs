@@ -160,6 +160,12 @@ namespace TikzEdt.Snippets
 
         private void cmdCompile_Click(object sender, RoutedEventArgs e)
         {
+            if (lstSnippets.SelectedItem == null)
+            {
+                MessageBox.Show("Select an item from snippet table on the left!");
+                return;
+            }
+
             SnippetsDataSet.SnippetsTableRow r = ((DataRowView)lstSnippets.SelectedItem).Row as SnippetsDataSet.SnippetsTableRow;
             if (!r.IsNull(snippetsTable.SampleCodeColumn))
                 fact.AddJob(r.SampleCode, Helper.GetSnippetsPath() + r.ID + Helper.GetSnippetsExt(), new Rect(0, 0, 0, 0), r.Name, true);

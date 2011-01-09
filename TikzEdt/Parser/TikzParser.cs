@@ -18,6 +18,27 @@ namespace TikzEdt.Parser
     {
         //static public string TIKZEDT_CMD_COMMENT = "";
 
+        public static Tikz_ParseTree ParseInputFile(string code)
+        {
+            //if code is empty to bother ANTLR (it will raise an exception)
+            if (code.Trim() == "")
+                return null;
+            simpletikzLexer lex = new simpletikzLexer(new ANTLRStringStream(code));
+            CommonTokenStream tokens = new CommonTokenStream(lex);
+            simpletikzParser parser = new simpletikzParser(tokens);
+            simpletikzParser.tikzdocument_wo_tikzpicture_return ret = parser.tikzdocument_wo_tikzpicture();
+            CommonTree t = (CommonTree)ret.Tree;
+            Tikz_ParseTree root = new Tikz_ParseTree();
+            bool success = FillItem(root, t, tokens);
+            if (success)
+            {
+                root.RegisterNodeAndStyleRefs(); // make a list with all node names for later reference                
+                return root;
+            }
+            else
+                return null;
+        }
+        
         public static Tikz_ParseTree Parse(string code)
         {
             //if code is empty to bother ANTLR (it will raise an exception)

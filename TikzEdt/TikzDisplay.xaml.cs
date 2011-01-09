@@ -373,11 +373,10 @@ namespace TikzEdt
         {
             
             if (mypdfDoc != null)
-            {               
+            {
                 image1.Source = mypdfDoc.GetBitmap(Resolution, currentBB.Width*currentBB.Height >0); // mypdfDoc.GetBitmap(currentBB, Resolution);                
             }
-            //we have the image of the pdf, close the pdf handle now.
-            mypdfDoc.UnloadPdf();
+
         }
 
         private void image1_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -457,7 +456,7 @@ namespace TikzEdt
             {                
                 //after this line pdf handle cannot be release with mypdfDoc.UnloadPdf();
                 //????
-                Bitmap b = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);                
+                Bitmap b = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);
                 #region TEST
                 /*
                 //mypdfDoc.Pages.Clear();
