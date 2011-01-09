@@ -160,7 +160,11 @@ namespace TikzEdt
         public static string GetAppdataPath()
         {
             if (_AppdataPath == "")
-                throw new Exception("AppdataPath not set yet! Do it using SetAppdataPath() before calling GetAppdataPath().");
+            {
+
+                //throw new Exception("AppdataPath not set yet! Do it using SetAppdataPath() before calling GetAppdataPath().");
+                int DOESNOTLETDESIGNSHOW = 3; //that is why this line is disabled.
+            }
             return _AppdataPath;
         }
         
@@ -257,10 +261,9 @@ namespace TikzEdt
         } */
 
         public static string RemoveFileExtension(string file)
-        {
-            return System.IO.Path.GetFileNameWithoutExtension(file);
-            /*string ext = System.IO.Path.GetExtension(file);
-            return file.Remove(file.Length - ext.Length, ext.Length);*/
+        {            
+            string ext = System.IO.Path.GetExtension(file);
+            return file.Remove(file.Length - ext.Length, ext.Length);
         }
 
         /// <summary>
@@ -274,13 +277,13 @@ namespace TikzEdt
             {
                 //if this is a temp file delete all files created by preview (incl. .tex and .pdf)
                 foreach (string ext in Consts.PreviewFileExt)
-                    FilesToDelete.Add(RemoveFileExtension(FileName) + ext);
+                    FilesToDelete.Add(System.IO.Path.GetFileNameWithoutExtension(FileName) + ext);
             }
             else
             {
                 //this is not a temp file so only delete tempary files (filename + log,aux, ...)
                 foreach (string ext in Consts.TemporaryFileExt)
-                    FilesToDelete.Add(RemoveFileExtension(FileName) + ext);
+                    FilesToDelete.Add(System.IO.Path.GetFileNameWithoutExtension(FileName) + ext);
                 //delete all preview files.
                 foreach (string ext in Consts.PreviewFileExt)
                     FilesToDelete.Add(FileName + GetPreviewFilename() + ext);

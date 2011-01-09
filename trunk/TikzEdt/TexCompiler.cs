@@ -229,20 +229,24 @@ namespace TikzEdt
                     //check for:
                     //\usepackage[active,tightpage]{preview}
                     //\PreviewEnvironment{tikzpicture}
-                    if (ContainsPreviewEnvironment(job.code) == false)
-                    { 
+                    if (ContainsPreviewEnvironment(job.code) == false && ContainsDoNotInsertPreviewEnvironment(job.code) == false)
+                    {
                         string PreviewEnvCode = Environment.NewLine + @"\usepackage[active,tightpage]{preview}" + Environment.NewLine
                                                 + @"\PreviewEnvironment{tikzpicture}" + Environment.NewLine + Environment.NewLine;
 
                         int PosBeginDoc = ((MainWindow)Application.Current.Windows[0]).txtCode.Text.IndexOf(@"\begin{document}");
                         if (PosBeginDoc == -1)
-                            PosBeginDoc = ((MainWindow)Application.Current.Windows[0]).txtCode.Text.IndexOf(@"\begin {document}");
-                            if (PosBeginDoc == -1)
-                                ((MainWindow)Application.Current.Windows[0]).AddStatusLine("Could not insert PreviewEnvironment code!", true);
-                        ((MainWindow)Application.Current.Windows[0]).txtCode.Document.Insert(PosBeginDoc, PreviewEnvCode);
-                        //((MainWindow)Application.Current.Windows[0]).txtCode.Text.Insert
-                        ((MainWindow)Application.Current.Windows[0]).AddStatusLine("PreviewEnvironment code inserted.");
-                        ((MainWindow)Application.Current.Windows[0]).ChangesMade = true;
+                        {
+                            ((MainWindow)Application.Current.Windows[0]).AddStatusLine("Could not insert PreviewEnvironment code!", true);
+
+                        }
+                        else
+                        {
+                            ((MainWindow)Application.Current.Windows[0]).txtCode.Document.Insert(PosBeginDoc, PreviewEnvCode);
+                            //((MainWindow)Application.Current.Windows[0]).txtCode.Text.Insert
+                            ((MainWindow)Application.Current.Windows[0]).AddStatusLine("PreviewEnvironment code inserted.");
+                            ((MainWindow)Application.Current.Windows[0]).ChangesMade = true;
+                        }
                     }
                         
                 }
@@ -513,14 +517,29 @@ namespace TikzEdt
             RegexOptions ro = new RegexOptions();
             ro = ro | RegexOptions.IgnoreCase;
             ro = ro | RegexOptions.Multiline;
-            string StandAlone_RegexString = @"\\usepackage\s*\[([^\],]*,)*(\s*(active|tightpage)\s*,)([^\],]*,)*(\s*(active|tightpage)\s*)(,[^\],]*)*\]\s*({\s*preview\s*})([\x00-\xFF]*?)\\previewenvironment\s*{\s*tikzpicture\s*}";
-            Regex BB_Regex = new Regex(StandAlone_RegexString, ro);
+            string PreviewEnv_RegexString = @"\\usepackage\s*\[([^\],]*,)*(\s*(active|tightpage)\s*,)([^\],]*,)*(\s*(active|tightpage)\s*)(,[^\],]*)*\]\s*({\s*preview\s*})([\x00-\xFF]*?)\\previewenvironment\s*{\s*tikzpicture\s*}";
+            Regex BB_Regex = new Regex(PreviewEnv_RegexString, ro);
             Match m = BB_Regex.Match(code);
             if (m.Success == true)
                 return true;
             else
                 return false; 
         }
+        public bool ContainsDoNotInsertPreviewEnvironment(string code)
+        {
+            RegexOptions ro = new RegexOptions();
+            ro = ro | RegexOptions.IgnoreCase;
+            ro = ro | RegexOptions.Multiline;
+            string NoPreview_RegexString = @"^[ \t\s]*%[ \t\s]*!TIKZEDT[ \t\s]*NOPREVIEW[ \t\s]*^";
+            Regex BB_Regex = new Regex(NoPreview_RegexString, ro);
+            Match m = BB_Regex.Match(code);
+            if (m.Success == true)
+                return true;
+            else
+                return false;
+        }
+        
+            
 
         /*void texProcess_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
