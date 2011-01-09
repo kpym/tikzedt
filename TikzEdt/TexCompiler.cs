@@ -98,8 +98,8 @@ namespace TikzEdt
         public void AddJob(Job job)
         {
             // if job.path is empty, fill with a temp file name
-            if (job.path == "")
-                job.path = Helper.GetAppDir() + "\\" + Consts.cTempFile + Process.GetCurrentProcess().Id + ".tex";
+            if (job.path == "") //compile in work dir!
+                job.path = /*Helper.GetAppDir() + "\\" + */Consts.cTempFile + Process.GetCurrentProcess().Id + ".tex";
 
             todo_tex.Enqueue(job);
             if (JobNumberChanged != null)
@@ -112,7 +112,7 @@ namespace TikzEdt
         {
             Job job = new Job();
             job.code = Properties.Settings.Default.Tex_Preamble;
-            job.path = Helper.GetPrecompiledHeaderPath() + ".tex";
+            job.path = Helper.GetPrecompiledHeaderPath() + Helper.GetPrecompiledExt();
             job.name = Consts.cTempFile;
             job.GeneratePrecompiledHeaders = true;
             return job;
@@ -219,7 +219,7 @@ namespace TikzEdt
                 }
 
                 if (!Directory.Exists(System.IO.Path.GetDirectoryName(job.path)))
-                    Directory.CreateDirectory(System.IO.Path.GetDirectoryName(job.path));
+                    Directory.CreateDirectory(System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(job.path)));
 
                 StreamWriter s = new StreamWriter(job.path);
                 if (job.GeneratePrecompiledHeaders || IsStandalone(job.code))
@@ -512,7 +512,7 @@ namespace TikzEdt
             RegexOptions ro = new RegexOptions();
             ro = ro | RegexOptions.IgnoreCase;
             ro = ro | RegexOptions.Multiline;
-            string StandAlone_RegexString = @"\\usepackage\s*\[([^\],]*,)*(\s*(active|tightpage)\s*,)([^\],]*,)*(\s*(active|tightpage)\s*)(,[^\],]*)*\]\s*{\s*preview\s*}\s*\\previewenvironment\s*{\s*tikzpicture\s*}";
+            string StandAlone_RegexString = @"\\usepackage\s*\[([^\],]*,)*(\s*(active|tightpage)\s*,)([^\],]*,)*(\s*(active|tightpage)\s*)(,[^\],]*)*\]\s*({\s*preview\s*})([\x00-\xFF]*?)\\previewenvironment\s*{\s*tikzpicture\s*}";
             Regex BB_Regex = new Regex(StandAlone_RegexString, ro);
             Match m = BB_Regex.Match(code);
             if (m.Success == true)

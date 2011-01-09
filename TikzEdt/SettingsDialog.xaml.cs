@@ -31,13 +31,13 @@ namespace TikzEdt
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!File.Exists(Consts.cSyntaxFile))
+            if (!File.Exists(Helper.GetSettingsPath() + Consts.cSyntaxFile))
             {
                 MessageBox.Show("Syntax definitions not found");
             }
             else
             {
-                XmlReader r = new XmlTextReader(Consts.cSyntaxFile);
+                XmlReader r = new XmlTextReader(Helper.GetSettingsPath() + Consts.cSyntaxFile);
                 txtPreamble.SyntaxHighlighting = HighlightingLoader.Load(r, null);  //HighlightingManager.Instance..GetDefinition("C#");
                 txtPostamble.SyntaxHighlighting = txtPreamble.SyntaxHighlighting;  //HighlightingManager.Instance..GetDefinition("C#");
                 r.Close();

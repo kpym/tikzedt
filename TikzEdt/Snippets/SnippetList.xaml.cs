@@ -42,8 +42,7 @@ namespace TikzEdt.Snippets
         CollectionViewSource snippetsTableViewSource;
         SnippetsDataSet.SnippetsTableDataTable snippetsTable;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
+        {            
             snippetsDataSet = ((SnippetsDataSet)(this.FindResource("snippetsDataSet")));
             snippetsTable = snippetsDataSet.Tables["SnippetsTable"] as SnippetsDataSet.SnippetsTableDataTable;
             snippetsTableViewSource = (CollectionViewSource)this.FindResource("snippetsTableViewSource");
@@ -51,7 +50,7 @@ namespace TikzEdt.Snippets
             Reload();
 
             // Do Thumbnails exist? -> Recompile
-            if (!Directory.Exists(Helper.GetAppDir() + "\\" + Consts.cSnippetThumbsDir))
+            if (!Directory.Exists(Helper.GetSnippetsPath()))
             {
                 if (MessageBox.Show("The Snippet Thumbnails do not seem to exist. Do you want them to be created now?\r\nIt may take some time, but it will happen in the background. You can also recompile them later from the Snippet Manager.", "Compile Thumbnails", MessageBoxButton.YesNoCancel, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
@@ -60,20 +59,21 @@ namespace TikzEdt.Snippets
                     {
                         if (!r.IsNull(snippetsTable.SampleCodeColumn))
                         {
-                            string cFile = Helper.GetAppDir() + "\\img\\" + r.ID;
+                            string cFile = Helper.GetSnippetsPath() + r.ID;
                             TikzToBMPFactory.Instance.AddJob(r.SampleCode, cFile + ".tex", new Rect(0, 0, 0, 0), r.Name, true);
                         }
                     }
                 }
             }
+            String s = Helper.GetSnippetsPath();
         }
 
         public void Reload()
         {
-            if (File.Exists(Consts.cSnippetsFile))
+            if (File.Exists(Helper.GetSettingsPath() + Consts.cSnippetsFile))
             {
                 snippetsDataSet.Clear();
-                snippetsDataSet.ReadXml(Consts.cSnippetsFile);
+                snippetsDataSet.ReadXml(Helper.GetSettingsPath() + Consts.cSnippetsFile);
                 snippetsTableViewSource.View.Refresh();
                 //snippetsTableViewSource.SortDescriptions.Clear();
                 //snippetsTableViewSource.SortDescriptions.Add(new System.ComponentModel.SortDescription("Category", System.ComponentModel.ListSortDirection.Ascending));
