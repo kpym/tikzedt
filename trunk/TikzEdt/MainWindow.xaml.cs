@@ -220,10 +220,14 @@ namespace TikzEdt
 
         void AsyncParser_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            //check if e.Result contains an RecognitionException or Exception
-            if (e.Result != null && e.Result is RecognitionException)
+            AsyncParserResultType Result = e.Result as AsyncParserResultType;
+            if (Result == null)
+                throw new Exception("AsyncParser_RunWorkerCompleted() can only handle e.Result  from type AsyncParserResultType!");
+
+            //check if error occurred
+            if (Result.Error != null && Result.Error is RecognitionException)
             {
-                RecognitionException ex = e.Result as RecognitionException;
+                RecognitionException ex = Result.Error as RecognitionException;
                 string errmsg = ANTLRErrorMsg.ToString(ex, simpletikzParser.tokenNames);
                 AddStatusLine("Couldn't parse code. " + errmsg, true);
                 if (ex.Line == 0 && ex.CharPositionInLine == -1)
@@ -237,81 +241,160 @@ namespace TikzEdt
                 }
                 
             }
-            else if (e.Result != null && e.Result is Exception)
+            else if (Result.Error != null && Result.Error is Exception)
             {
-                string errmsg = ((Exception)e.Result).Message;
+                string errmsg = ((Exception)Result.Error).Message;
                 AddStatusLine("Couldn't parse code. " + errmsg, true);
             }
             else if (e.Error != null)
             {
                 //not sure when Error != null, but anyways...
                 //how do you actually write something to Error? would be nice, wouldn't it?
-                AddStatusLine("Couldn't parse code. " + e.Error.Message, true);
+                AddStatusLine("Couldn't parse code. " + e.Error.Message + ". Please report to authors: How did this happen?", true);
                 pdfOverlay1.SetParseTree(null, currentBB);
             }
             else
             {
                 // parsing succesfull -> recompile to get BB right
-                Tikz_ParseTree tp = e.Result as Tikz_ParseTree;
+                Tikz_ParseTree tp = Result.ParseTree as Tikz_ParseTree;
                 pdfOverlay1.SetParseTree(tp, currentBB);
-                //if (DetermineBB(tp))
-                //{
-                // if BB changed->recompile .tex
-                // tikzDisplay1.Compile(txtCode.Text, currentBB, TexCompiler.IsStandalone(txtCode.Text));
-                //TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, currentBB);
-                //rasterControl1.BB = currentBB;
-                //    Recompile(true);
-                //}
+                
                 //even though BB may not be ready, we can already fill the style list
                 UpdateStyleLists(tp);
 
+                //now check if a warning occured. That would be a parser error in an included file.                
+                if (Result.Warning != null && Result.Warning is RecognitionException)
+                {
+                    RecognitionException ex = Result.Warning as RecognitionException;
+                    string errmsg = ANTLRErrorMsg.ToString(ex, simpletikzParser.tokenNames);
+                    AddStatusLine("Couldn't parse included file. " + errmsg, true);
+                    if (ex.Line == 0 && ex.CharPositionInLine == -1)
+                    {
+                        addProblemMarker(errmsg, txtCode.LineCount, 0, Severity.WARNING, Result.WarningSource);
+
+                    }
+                    else
+                    {
+                        addProblemMarker(errmsg, ex.Line, ex.CharPositionInLine, Severity.WARNING, Result.WarningSource);                        
+                    }
+
+                }
+                else if (Result.Warning != null && Result.Warning is ParserException)
+                {
+                    ParserException pe = Result.Warning as ParserException;
+                    addProblemMarker(this, pe.e);
+                }
+                else if (Result.Warning != null && Result.Warning is Exception)
+                {
+                    string errmsg = ((Exception)Result.Warning).Message;
+                    AddStatusLine("Couldn't parse included file " + Result.WarningSource + ". " + errmsg, true);
+                }
             }
 
             // Restart parser if necessary
             ParseNeeded = ParseNeeded;
         }
 
+        /// <summary>
+        /// The this is given from AsyncParser_DoWork() to AsyncParser_RunWorkerCompleted().
+        /// </summary>
+        class AsyncParserResultType { 
+            /// <summary>
+            /// Holds the ParseTree of the main file (shown in txtCode) if successful.
+            /// </summary>
+            public Tikz_ParseTree ParseTree {get; set;}
+            /// <summary>
+            /// Holds an error if parsing of main file was not successful.
+            /// </summary>
+            public Exception Error { get; set; }
+            /// <summary>
+            /// Warning if parsing of an included file was not successful.
+            /// </summary>
+            public Exception Warning { get; set; }
+            /// <summary>
+            /// Name of the included file which could not be parsed.
+            /// </summary>
+            public string WarningSource { get; set; }
+        }
+        class ParserException : Exception
+        {
+            public ParserException(string message) : base(message) { }
+            public TexOutputParser.TexError e;
+        }
         // Unfortunately, due to a debugger "bug", the exception has to be caught and transferred into a cancelled event
-        // the try/catch should be removed for release
+        // this cancel event type is AsyncParserResultType. It is passed to AsyncParser_RunWorkerCompleted().
         void AsyncParser_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            //make sure that double to string is converted with decimal point (not comma!)       
+            AsyncParserResultType Result = new AsyncParserResultType();
+            //make sure that double typed numbers are converted with decimal point (not comma!) to string
             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
 
             try
             {
-                Tikz_ParseTree tp = TikzParser.Parse(e.Argument as string);                 
-                e.Result = tp;
+                Tikz_ParseTree tp = TikzParser.Parse(e.Argument as string);
+                Result.ParseTree = tp;
 
-                Regex inputs = new Regex(@"(^[^%]*|\n[^\n%]*?)\\input{(?<file>.*)}", RegexOptions.Compiled);
-                //search the first child for \input cmd
-                //foreach (TikzParseItem child in tp.Children)
+                //include any styles from include files via \input cmd
+                string inputfile = "";
+                try
                 {
-                    MatchCollection files = inputs.Matches(e.Argument as string);
+                    //find input files using Regex
+                    Regex InputsRegex = new Regex(@"(^[^%]*|\n[^\n%]*?)\\input{(?<file>.*)}", RegexOptions.Compiled);
+                    MatchCollection files = InputsRegex.Matches(e.Argument as string);
                     foreach (Match file in files)
                     {
-                        string inputfile = file.Groups["file"].ToString();
+                        //open, read, parse, and close each included file.
+                        inputfile = file.Groups["file"].ToString();
                         if (File.Exists(inputfile))
                         {
                             StreamReader sr = new StreamReader(inputfile);
                             string inputcode = sr.ReadToEnd();
                             sr.Close();
                             Tikz_ParseTree tp2 = TikzParser.ParseInputFile(inputcode);
-                            foreach(KeyValuePair<string, Tikz_Option> style in tp2.styles)
+                            //if tp2 == null there probably was nothing useful included.
+                            if (tp2 != null)
                             {
-                                tp.styles.Add(style.Key, style.Value);
+                                //every style that was found in included file, add it to parse tree of main file.
+                                foreach (KeyValuePair<string, Tikz_Option> style in tp2.styles)
+                                {
+                                    if(! Result.ParseTree.styles.ContainsKey(style.Key))
+                                    {
+                                        Result.ParseTree.styles.Add(style.Key, style.Value);
+                                    }
+                                    else
+                                    {
+                                        ParserException pe = new ParserException("");
+                                        TexOutputParser.TexError te = new TexOutputParser.TexError();
+                                        te.Message = "Style [" + style.Key + "] is defined multiple times. Check position " + style.Value.StartPosition() + " in " + inputfile + " and this definition.";
+                                        te.pos = Result.ParseTree.styles[style.Key].StartPosition();
+                                        te.severity = Severity.WARNING;
+                                        pe.e = te;
+                                        throw pe;
+                                    }
+                                }
                             }
-                            
+
                         }
                     }
+
+                }
+                catch (Exception ex)
+                {
+                    Result.Warning = ex;
+                    Result.WarningSource = inputfile;
                 }
             }
             catch (Exception ex)
             {
                 //never set e.Cancel = true;
                 //if you do, you cannot access e.Result from AsyncParser_RunWorkerCompleted.
-                e.Result = ex;                
-            }          
+                Result.Error = ex;
+                Result.WarningSource = CurFile;
+            }
+            finally
+            {
+                e.Result = Result;
+            }
         }
 
         void TikzToBmpFactory_JobNumberChanged(object sender)
@@ -1609,19 +1692,22 @@ namespace TikzEdt
             if (lstErrors.SelectedItem != null)
             {
                 TexOutputParser.TexError err = lstErrors.SelectedItem as TexOutputParser.TexError;
-                if (err.Pos > 0)
-                    txtCode_Goto(err.Line, err.Pos+1, false, true);
+                if (err.Pos < 0)
+                    txtCode_Goto(err.Line, 1, true);
+                else if (err.Line == 0 && err.Pos > 0)
+                    txtCode_Goto(err.Pos+1, true);
                 else
-                    txtCode_Goto(err.Line, 1, true);         
+                    txtCode_Goto(err.Line, err.Pos + 1, false, true);
+                    
             }
         }
 
-        private bool txtCode_Goto(int pos)
+        private bool txtCode_Goto(int pos, bool HighlightLine = false, bool HighlightChar = false)
         {
             if (pos >= 1)
             {
                 ICSharpCode.AvalonEdit.Document.DocumentLine l = txtCode.Document.GetLineByOffset(pos);
-                return txtCode_Goto(l.LineNumber, pos - l.Offset);                
+                return txtCode_Goto(l.LineNumber, pos - l.Offset, HighlightLine, HighlightChar);                
             }
             else
                 return false;
@@ -1650,7 +1736,10 @@ namespace TikzEdt
                         txtCode.Select(txtCode.CaretOffset, txtCode.Text.Length - txtCode.CaretOffset);
                 }
                 else if (HighlightChar)
-                    txtCode.Select(txtCode.CaretOffset, 1);
+                {
+                    if (txtCode.Text.Length > txtCode.CaretOffset)
+                        txtCode.Select(txtCode.CaretOffset, 1);
+                }
                 txtCode.ScrollToLine(line);
                 txtCode.Focus();
                 return true;

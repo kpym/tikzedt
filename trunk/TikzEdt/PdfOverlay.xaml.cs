@@ -692,6 +692,8 @@ namespace TikzEdt
 
                 Point p = new Point(e.GetPosition(canvas1).X, Height - e.GetPosition(canvas1).Y);
                 p = rasterizer.RasterizePixelToTikz(p);
+                if (ContinueWithBigImage(p) == false)
+                    return;
 
                 // find next tikzpicture and add
                 Tikz_Picture tpict = ParseTree.GetTikzPicture();
@@ -836,6 +838,8 @@ namespace TikzEdt
 
                 Point p = new Point(e.GetPosition(canvas1).X, Height - e.GetPosition(canvas1).Y);
                 p = rasterizer.RasterizePixelToTikz(p);
+                if (ContinueWithBigImage(p) == false)
+                    return;
 
                 // find next tikzpicture and add
                 bool lcreated;
@@ -866,6 +870,17 @@ namespace TikzEdt
                     EndModify(this);
             }
             #endregion
+        }
+
+        private bool ContinueWithBigImage(Point p)
+        {
+            bool contin = true;
+            if (p.X < -100 || p.X > 100 || p.Y < -100 || p.Y > 100)
+                {
+                    if (MessageBoxResult.Cancel == MessageBox.Show("Warning! Image seems to be very big. TikzEdt might not be able to handle this.", "Image very big", MessageBoxButton.OKCancel))
+                        contin = false;
+                }
+            return contin;
         }
 
         private void UserControl_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
