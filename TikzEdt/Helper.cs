@@ -213,11 +213,16 @@ namespace TikzEdt
             return ".tex";
         }
 
-        
+        //this is where the .fmt is created.
         public static string GetPrecompiledHeaderPath()
         {
-            return GetAppdataPath() + "\\" + GetTempFileName();
+            return GetAppdataPath() + "\\";
         }
+        public static string GetPrecompiledHeaderFilename()
+        {
+            return "temp_header.tex";
+        }
+
         public static string GetTempFileName()
         {
             return Consts.cTempFile + Process.GetCurrentProcess().Id;
@@ -277,13 +282,13 @@ namespace TikzEdt
             {
                 //if this is a temp file delete all files created by preview (incl. .tex and .pdf)
                 foreach (string ext in Consts.PreviewFileExt)
-                    FilesToDelete.Add(System.IO.Path.GetFileNameWithoutExtension(FileName) + ext);
+                    FilesToDelete.Add(RemoveFileExtension(FileName) + ext);
             }
             else
             {
                 //this is not a temp file so only delete tempary files (filename + log,aux, ...)
                 foreach (string ext in Consts.TemporaryFileExt)
-                    FilesToDelete.Add(System.IO.Path.GetFileNameWithoutExtension(FileName) + ext);
+                    FilesToDelete.Add(RemoveFileExtension(FileName) + ext);
                 //delete all preview files.
                 foreach (string ext in Consts.PreviewFileExt)
                     FilesToDelete.Add(FileName + GetPreviewFilename() + ext);

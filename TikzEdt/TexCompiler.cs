@@ -35,6 +35,8 @@ namespace TikzEdt
         public event CompileEventHandler OnCompileEvent;
         public delegate void TexOutputHandler(object sender, string Message);
         public event TexOutputHandler OnTexOutput;
+        public delegate void TexErrorHandler(object sender, TexOutputParser.TexError Error);
+        public event TexErrorHandler OnTexError;
 
         // This read only property indicates whether the Compiler is currently busy
         readonly private static DependencyPropertyKey CompilingPropertyKey = DependencyProperty.RegisterReadOnly(
@@ -76,8 +78,7 @@ namespace TikzEdt
         Job CurrentJob;     // the job that is currently compiling
 
         TexOutputParser myPdflatexOutputParser = new TexOutputParser();        
-        public delegate void TexErrorHandler(object sender, TexOutputParser.TexError Error);
-        public event TexErrorHandler OnTexError;
+        
 
         /// <summary>
         /// Adds some tikz code to the internal TODO list, to be compiled as soon as possible.
@@ -112,8 +113,8 @@ namespace TikzEdt
         {
             Job job = new Job();
             job.code = Properties.Settings.Default.Tex_Preamble;
-            job.path = Helper.GetPrecompiledHeaderPath() + Helper.GetPreviewFilename() + Helper.GetPreviewFilenameExt();
-            job.name = Helper.GetTempFileName();
+            job.path = Helper.GetPrecompiledHeaderPath() + Helper.GetPrecompiledHeaderFilename();
+            job.name = System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename());
             job.GeneratePrecompiledHeaders = true;
             return job;
         }
@@ -188,12 +189,14 @@ namespace TikzEdt
             SetValue(CompilingPropertyKey, true);
 
             Job job;
-            if (!File.Exists(Helper.GetPrecompiledHeaderPath() + ".fmt"))
+            if (!File.Exists(Helper.GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename()) + ".fmt"))
             {
                 // if (OnCompileEvent != null)
                 //    OnCompileEvent(this, "Generating precompiled headers.... please restart in some moments", CompileEventType.Status); 
                 //Helper.GeneratePrecompiledHeaders();  // todo: add as compile job
                 //return;
+
+                //Note: If this job fails, header compiliation and compiliation of the main document is stopped to prevent infinite loop.
                 job = GetPrecompiledHeaderJob();
             }
             else
@@ -229,6 +232,7 @@ namespace TikzEdt
                     //check for:
                     //\usepackage[active,tightpage]{preview}
                     //\PreviewEnvironment{tikzpicture}
+                    //and insert if required
                     if (ContainsPreviewEnvironment(job.code) == false && ContainsDoNotInsertPreviewEnvironment(job.code) == false)
                     {
                         string PreviewEnvCode = Environment.NewLine + @"\usepackage[active,tightpage]{preview}" + Environment.NewLine
@@ -252,7 +256,7 @@ namespace TikzEdt
                 }
                 else
                 {
-                    s.WriteLine("%& \"" + Helper.GetPrecompiledHeaderPath() + "\"");
+                    s.WriteLine("%& \"" + Helper.GetPrecompiledHeaderPath() + Helper.GetPrecompiledHeaderFilename() + "\"");
                     s.WriteLine("\\begin{document}");
                     s.WriteLine(codetowrite);
                     s.WriteLine(Properties.Settings.Default.Tex_Postamble);
@@ -301,7 +305,8 @@ namespace TikzEdt
             }
             texProcess.Start();
             texProcess.BeginOutputReadLine();
-            //texProcess.BeginErrorReadLine(); // this is not needed afaik....
+            texProcess.BeginErrorReadLine(); // needed e.g. when %& "temp_preview_header" invalid.
+
             
         }
 
@@ -357,9 +362,11 @@ namespace TikzEdt
             texProcess.StartInfo.UseShellExecute = false;
             texProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             texProcess.StartInfo.RedirectStandardOutput = true;
+            texProcess.StartInfo.RedirectStandardError = true;
             // texProcess.SynchronizingObject = (System.ComponentModel.ISynchronizeInvoke) this;
             texProcess.Exited += new EventHandler(texProcess_Exited);
             texProcess.OutputDataReceived += new DataReceivedEventHandler(texProcess_OutputDataReceived);
+            texProcess.ErrorDataReceived += new DataReceivedEventHandler(texProcess_OutputDataReceived);
             timer.Tick += new EventHandler(timer_Tick);
 
             myPdflatexOutputParser.OnTexError += new TexOutputParser.TexErrorHandler(myPdflatexOutputParser_OnTexError);
@@ -426,11 +433,41 @@ namespace TikzEdt
                             BitmapGenerated(this);
                     }
                 }
+                else if (job.GeneratePrecompiledHeaders == true)
+                {   //if the header should have been generated but it was not
+                    if (!File.Exists(Helper.GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename()) + ".fmt"))
+                    {
+                        todo_tex.Clear();
+                        if (OnCompileEvent != null)
+                            OnCompileEvent(this, "Compilation of pre-compiled header succeded but the pre-compiled header file could not be found." +
+                                " It is supposed to be here: " + Helper.GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename()) + ".fmt" +
+                                Environment.NewLine + "Compilation of main document stopped. Check settings and read/write permissions!", CompileEventType.Error);
+                    }
+                    else
+                    { 
+                        //clear source and temp files of compilation of header                        
+                        //note: the .tex file must not be deleted!
+                        Helper.DeleteTemporaryFiles(job.path, false);
+                    }
+                }
             }
             else
             {
-                if (OnCompileEvent != null)
-                    OnCompileEvent(this, "Compilation failed wih exit code " + texProcess.ExitCode, CompileEventType.Error);
+                
+                //if generating pre-compiled header failed. it will not work next time.
+                //so clear job queue and tell user to fix header code.
+                if (job.GeneratePrecompiledHeaders == true)
+                {
+                    todo_tex.Clear();
+                    if (OnCompileEvent != null)
+                        OnCompileEvent(this, "Compilation of pre-compiled header failed with exit code " + texProcess.ExitCode +". Compilation of main document stopped. Check under settings code of pre-compiled header!", CompileEventType.Error);
+                }
+                else
+                {
+                    if (OnCompileEvent != null)
+                        OnCompileEvent(this, "Compilation failed with exit code " + texProcess.ExitCode, CompileEventType.Error);
+                }
+
                 if (JobFailed != null)
                 {
                     JobFailed(this, job);
