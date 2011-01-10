@@ -27,6 +27,7 @@
   * support full \path syntax
   * Build a test library
   * run more tests
+  * !TIKZEDT ignore command
 
 === Tikz ParseTree ===
   * commands in coordinates not handled correctly
