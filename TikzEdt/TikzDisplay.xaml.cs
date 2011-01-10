@@ -453,10 +453,19 @@ namespace TikzEdt
         public BitmapSource GetBitmap(double Resolution, bool Transparent = true)
         {            
             if (mypdfDoc != null && mypdfDoc.PageCount >0)
-            {                
-                //after this line pdf handle cannot be release with mypdfDoc.UnloadPdf();
-                //????
-                Bitmap b = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);
+            {
+
+                Bitmap b;
+                try
+                {
+                    //after this line pdf handle cannot be release with mypdfDoc.UnloadPdf();
+                    //????;
+                    b = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);
+                }
+                catch (ArgumentException)
+                {//this can happen if node position is very "big", like (500,500)
+                    return null;
+                }
                 #region TEST
                 /*
                 //mypdfDoc.Pages.Clear();
@@ -493,12 +502,16 @@ namespace TikzEdt
             }
             else return null;
         }
-
+        public bool IsEmpty()
+        {
+            if (mypdfDoc != null && mypdfDoc.Pages.Count == 0)
+                return true;
+            return false;
+        }
         public void SaveBmp(string cFile, double Resolution)
         {
-            if (mypdfDoc != null)
+            if (mypdfDoc != null && mypdfDoc.Pages.Count > 0)
             {
-
                 Bitmap b = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);
                 b.MakeTransparent(System.Drawing.Color.White);
                 b.MakeTransparent(System.Drawing.Color.FromArgb(255, 253, 253, 253));

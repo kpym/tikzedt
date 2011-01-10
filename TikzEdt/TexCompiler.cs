@@ -415,6 +415,10 @@ namespace TikzEdt
                     {
                         MessageBox.Show("Couldn't load pdf " + pathnoext + ".pdf");
                     }
+                    else if (mypdfDoc.IsEmpty())
+                    {
+                        MessageBox.Show("Image is empty. Did you fill out the sample code block?");
+                    }
                     else
                     {
                         mypdfDoc.SaveBmp(pathnoext + ".bmp", Resolution);

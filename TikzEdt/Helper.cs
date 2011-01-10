@@ -37,8 +37,8 @@ namespace TikzEdt
         public const int TikzImgResolution = 300; // resolution in dpi with which images are compiled
 
         //these files will be deleted, when file is closed. (by DeleteTemporaryFiles())
-        public static string[] TemporaryFileExt = new string[] { ".aux", ".tmp", ".log" };
-        public static string[] PreviewFileExt = new string[] { ".tex", ".pdf", ".aux", ".tmp", ".log", "_BB.txt" };
+        public static string[] TemporaryFileExt = new string[] { ".aux", ".tmp", ".log", ".svn", ".toc", ".out" };
+        public static string[] PreviewFileExt = new string[] { ".tex", ".pdf", ".aux", ".tmp", ".log", "_BB.txt", ".svn", ".toc", ".out" };
 
         //public static string[] TikzArrowTipCodes = new string[] { "", ">", "<" };
         //public static DashStyle[] TikzToSystemDashStyle = new DashStyle[] { DashStyle.Solid, DashStyle.Dot, DashStyle.Dash };
