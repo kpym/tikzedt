@@ -435,17 +435,27 @@ namespace TikzEdt
             {
                 if (Properties.Settings.Default.Editor_CompleteBegins)
                 {
+                    
+
                     ICSharpCode.AvalonEdit.Document.DocumentLine l = txtCode.Document.GetLineByOffset(txtCode.CaretOffset);
                     //if (l.LineNumber > 0) //todo 1?
                     {
+                        //get current line
                         string s = txtCode.Document.GetText(l.Offset, l.Length).Trim();                        
+                        //and check if it contains \begin{
                         Match m = _beginRegex.Match(s);
                         if (m.Success && m.Groups["tag"] != null && m.Groups["content"] != null)
                         {
                             string tag = m.Groups["tag"].Value, content = m.Groups["content"].Value;
                             int cp = txtCode.CaretOffset;
-                            txtCode.Document.Insert(l.Offset + l.Length, "\r\n\\end{" + tag + "}");
-                            txtCode.CaretOffset = cp;
+                            string insert = "\\end{" + tag + "}";
+
+                            //only insert if document does not already hold the corresponding \end{}
+                            if (txtCode.Text.IndexOf(insert, cp) == -1)
+                            {
+                                txtCode.Document.Insert(l.Offset + l.Length, "\r\n" + insert);
+                                txtCode.CaretOffset = cp;
+                            }                            
                         }
                     }
 

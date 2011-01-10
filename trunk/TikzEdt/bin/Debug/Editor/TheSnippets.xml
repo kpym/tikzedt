@@ -239,7 +239,7 @@ Will be displayed as tooltip</Description>
 
 
 \begin{tikzpicture}[ every label/.style={ font={\LARGE}}]
-
+\useasboundingbox (9,9) rectangle (14,2);
 \node (v84) at (5,8) [goal] {D};
 \node [building] (v144) at (15,5) {move me!};
 \node (v136) at (7,8) [building] {};
@@ -725,7 +725,8 @@ Will be displayed as tooltip</Description>
     <Description>Prevent TikzEdt from inserting \PreviewEnvironment command.
 
 Insert at head of document.</Description>
-    <SnippetCode>% !TIKZEDT NOPREVIEW</SnippetCode>
+    <SnippetCode>% !TIKZEDT NOPREVIEW
+</SnippetCode>
     <SampleCode>\begin{tikzpicture}
 \node at (6,6) {HEAD};
 \end{tikzpicture}</SampleCode>
@@ -739,7 +740,8 @@ Insert at head of document.</Description>
 This option is useful if the \begin{document} command is included via an input file.
 
 Insert at head of document.</Description>
-    <SnippetCode>draw</SnippetCode>
+    <SnippetCode>% !TIKZEDT STANDALONE
+</SnippetCode>
     <SampleCode>\begin{tikzpicture}
  \node at (6,6) {HEAD};
 \end{tikzpicture}</SampleCode>
