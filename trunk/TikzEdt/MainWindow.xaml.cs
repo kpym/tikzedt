@@ -731,6 +731,7 @@ namespace TikzEdt
         private void ClearStyleLists()
         {
             cmbNodeStyles.Items.Clear();
+            cmbEdgeStyles.Items.Clear();
         }
 
         /// <summary>
@@ -926,6 +927,7 @@ namespace TikzEdt
             if (!File.Exists(cFile))
             {
                 MessageBox.Show("Error: File not found: " + cFile, "File not found", MessageBoxButton.OK, MessageBoxImage.Error);
+                RecentFileList.RemoveFile(cFile);
                 return;
             }
 
@@ -1077,18 +1079,22 @@ namespace TikzEdt
             if (!TryDisposeFile())
                 return;
 
+            isLoaded = false;
+
             //all temporary files should be saved in the temporary folder.
             Helper.SetCurrentWorkingDir(Helper.WorkingDirOptions.TempDir);
             AddStatusLine("Working directory is now: " + Helper.GetCurrentWorkingDir());
 
             CleanupForNewFile();
+
+            isLoaded = true;
         }
         private void CleanupForNewFile()
         {
             //isLoaded = false;
-            CurFile = Consts.defaultCurFile;
             CurFileNeverSaved = true;
-            ChangesMade = false;
+            ChangesMade = false;  //Note: first set ChangesMade=false, then set CurFile.
+            CurFile = Consts.defaultCurFile;
             txtCode.Text = "";
             tikzDisplay1.SetUnavailable();
             //pdfOverlay1.Clear();
