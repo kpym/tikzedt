@@ -182,7 +182,7 @@ no_rlbrace
 	:	~('{' | '}')
 	;
 iddornumberunitorstringorrange
-	:	numberunit | idd | tikzstring | range
+	:	(numberunit)=>numberunit | idd | tikzstring | range  // changed here
 	;
 range
 	: numberunit ':' numberunit	->	^(IM_STRING numberunit ':' numberunit )
@@ -234,8 +234,8 @@ tikzpicture
 	;
 
 tikzbody
-	:	( tikzscope | tikzpath | tikznode_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body_nobr! )  // necessary to prevent conflict with options
-		( tikzscope | tikzpath | tikznode_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body! )*
+	:	( tikzscope | tikzpath | tikznode_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body_nobr! )  // necessary to prevent conflict with options
+		( tikzscope | tikzpath | tikznode_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body! )*
 	;
 	
 dontcare_body_nobr
@@ -300,6 +300,7 @@ tikzpath_element
 		  tikz_options 
 		| coord
 		| tikznode_int
+		| tikzcoordinate_int
 		| circle!
 		| arc!
 		| roundbr_start tikzpath_element* roundbr_end -> ^(IM_PATH roundbr_start tikzpath_element* roundbr_end)
@@ -308,12 +309,48 @@ tikzpath_element
 tikznode_ext
 	:	node_start tikznode_core tikzpath_element* semicolon_end	-> ^(IM_PATH node_start tikznode_core tikzpath_element* semicolon_end)
 	;
+	
+// the coordinate business is a hack
+tikzcoordinate_ext
+	:	coordinate_start //{greedy=false} tikznode_decorator* {greedy=true}
+				( ((tikzcoordinate_core3)=> tikzcoordinate_core3)
+	 			   | ((tikzcoordinate_core2)=> tikzcoordinate_core2) 
+	 			   | ((tikzcoordinate_core1)=> tikzcoordinate_core1) )?
+				 tikzpath_element* semicolon_end	
+				 -> ^(IM_PATH coordinate_start  
+				 tikzcoordinate_core3?
+				 tikzcoordinate_core2?
+				 tikzcoordinate_core1?
+				 tikzpath_element* semicolon_end)
+	;
+tikzcoordinate_int
+	:	'coordinate'! ( ((tikzcoordinate_core3)=> tikzcoordinate_core3)
+	 			   | ((tikzcoordinate_core2)=> tikzcoordinate_core2) 
+	 			   | ((tikzcoordinate_core1)=> tikzcoordinate_core1) )?  //-> ^(IM_NODE tikznode_decorator*)
+	;
 tikznode_int
 	:	'node'! tikznode_core
 	;
 tikznode_core
 	:	tikznode_decorator* tikzstring		-> ^(IM_NODE tikznode_decorator* tikzstring)
 	;
+// this is a total hack to circumvent non LL* structure
+tikzcoordinate_core3
+	:	  tikznode_decorator tikznode_decorator tikznode_decorator		-> ^(IM_NODE tikznode_decorator tikznode_decorator tikznode_decorator)
+		//| tikznode_decorator tikznode_decorator 					-> ^(IM_NODE tikznode_decorator tikznode_decorator)
+		//| tikznode_decorator							-> ^(IM_NODE tikznode_decorator )
+	;
+tikzcoordinate_core2
+	:	 // tikznode_decorator tikznode_decorator tikznode_decorator		-> ^(IM_NODE tikznode_decorator tikznode_decorator tikznode_decorator)
+		 tikznode_decorator tikznode_decorator 					-> ^(IM_NODE tikznode_decorator tikznode_decorator)
+		//| tikznode_decorator							-> ^(IM_NODE tikznode_decorator )
+	;
+tikzcoordinate_core1
+	:	 // tikznode_decorator tikznode_decorator tikznode_decorator		-> ^(IM_NODE tikznode_decorator tikznode_decorator tikznode_decorator)
+		 tikznode_decorator  							-> ^(IM_NODE tikznode_decorator )
+		//| tikznode_decorator							-> ^(IM_NODE tikznode_decorator )
+	;
+	
 //tikznode
 //	:	nodename? ('at' coord)? tikz_options* 			
 //	;
@@ -451,7 +488,10 @@ node_start
 	:	node_start_tag -> ^(IM_STARTTAG node_start_tag)
 	;
 node_start_tag
-	:	'\\node' | '\\coordinate'
+	:	'\\node'
+	;
+coordinate_start
+	:	'\\coordinate' -> ^(IM_STARTTAG '\\coordinate')
 	;
 path_start_tag
 	:	'\\draw' | '\\fill' | '\\path' | '\\clip'
