@@ -140,7 +140,7 @@
                 <MenuItem Header="New" Command="ApplicationCommands.New" />
                 <MenuItem Header="Save" Command="ApplicationCommands.Save" />
                 <MenuItem Header="Save As..."  Command="ApplicationCommands.SaveAs" />
-                <common:RecentFileList x:Name="RecentFileList" />
+                <common:RecentFileList x:Name="RecentFileList"/>
                 <MenuItem Header="Quit" Command="ApplicationCommands.Close"  />
             </MenuItem>
             <MenuItem Header="_Edit" >
@@ -295,7 +295,7 @@
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Node style:</TextBlock>
                 <ComboBox Name="cmbNodeStyles" Width="80" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"></ComboBox>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Edge style:</TextBlock>
-                <ComboBox Name="cmbEdgeStyles" Width="80" IsEditable="True"></ComboBox>
+                <ComboBox Name="cmbEdgeStyles" Width="80" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"></ComboBox>
             </ToolBar>
             <!-- <ToolBar Height="28" Name="tlbBB" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowBB, Converter={StaticResource boolToVis}}">
                 <TextBlock Name="txtBB" Margin="0 0 3 0" VerticalAlignment="Center">Bounding Box:</TextBlock>

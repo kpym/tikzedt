@@ -121,7 +121,6 @@ namespace Common
             if (_RecentFiles == null) return;
             if (_RecentFiles.Count == 0) return;
 
-
             int iMenuItem = FileMenu.Items.IndexOf(this);
             
             //RecentFiles contains the correct and current recent files.
@@ -134,11 +133,19 @@ namespace Common
             }
             else if (_RecentFiles.Count > RecentFiles.Count)
             {
-                for (int i = _RecentFiles.Count - RecentFiles.Count; i > 0; i--)
-                {
-                    FileMenu.Items.Remove(FileMenu.Items[FileMenu.Items.Count - 1]);
-                    _RecentFiles.RemoveAt(_RecentFiles.Count - 1);
-                }
+                List<RecentFile> RemovedItems = new List<RecentFile>();
+                
+                //find all menu items that are not in recent file list.
+                foreach (RecentFile r in _RecentFiles)
+                    if (!RecentFiles.Contains(r.Filepath))
+                    {
+                        FileMenu.Items.Remove(r.MenuItem);
+                        RemovedItems.Add(r);
+                    }
+
+                foreach (RecentFile r in RemovedItems)
+                    _RecentFiles.Remove(r);
+
             }
 
             for(int i=0;i<_RecentFiles.Count;i++)            
