@@ -32,7 +32,8 @@ Will be displayed as tooltip</Description>
     <Name>Green circle</Name>
     <Category>Styles Nodes</Category>
     <Description />
-    <SnippetCode>\tikzstyle{green_circle} = [  font={\huge\bfseries}, shape=circle, minimum size=0.5cm, circular drop shadow, text=black, very thick, draw=black!55, top color=white,bottom color=green!80, text width=0.5cm, align=center]</SnippetCode>
+    <SnippetCode>\tikzstyle{green_circle} = [  font={\huge\bfseries}, shape=circle, minimum size=0.5cm, circular drop shadow, text=black, very thick, draw=black!55, top color=white,bottom color=green!80, text width=0.5cm, align=center]
+</SnippetCode>
     <SampleCode>\usetikzlibrary{shadows}
 \begin{tikzpicture}
   \tikzstyle{green_circle} = [  font={\huge\bfseries}, shape=circle, minimum size=0.5cm, circular drop shadow, text=black, very thick, draw=black!55, top color=white,bottom color=green!80, text width=0.5cm, align=center]
@@ -313,7 +314,8 @@ Will be displayed as tooltip</Description>
     <Category>Styles Edges</Category>
     <Description>Add descriptive text here 
 Will be displayed as tooltip</Description>
-    <SnippetCode>\tikzstyle{default_edge} = [draw=orange!55, line width=2]</SnippetCode>
+    <SnippetCode>\tikzstyle{default_edge} = [draw=orange!55, line width=2]
+</SnippetCode>
     <SampleCode>\begin{tikzpicture}
 \tikzstyle{default_edge} = [draw=orange!55, line width=2]
 \node (v1) at (-1,1) {?};
@@ -647,7 +649,8 @@ child[concept color=orange,grow=0] {node[concept] {Child concept}};
     <Name>Green arrow</Name>
     <Category>Styles Edges</Category>
     <Description />
-    <SnippetCode>\tikzstyle{green_arrow_edge} = [-&gt;, draw=green!55, line width=5]</SnippetCode>
+    <SnippetCode>\tikzstyle{green_arrow_edge} = [-&gt;, draw=green!55, line width=5]
+</SnippetCode>
     <SampleCode>\begin{tikzpicture}
 \tikzstyle{green_arrow_edge} = [-&gt;, draw=green!55, line width=5]
 \node (v1) at (-1,1) {?};
@@ -745,6 +748,43 @@ Insert at head of document.</Description>
     <SampleCode>\begin{tikzpicture}
  \node at (6,6) {HEAD};
 \end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>42</ID>
+    <Name>Invisible</Name>
+    <Category>Styles Nodes</Category>
+    <Description>Node for creating anchors for edges.</Description>
+    <SnippetCode>\tikzstyle{invisible} = [outer sep=0,inner sep=0,minimum size=0]
+</SnippetCode>
+    <SampleCode>
+\tikzstyle{invisible} = [outer sep=0,inner sep=0,minimum size=0]
+\tikzstyle{bordered} = [draw,outer sep=0,inner sep=1,minimum size=10]
+
+\begin{tikzpicture}
+\node[invisible]  (v4) at (4,8) {};
+
+\node [bordered] (v1) at (4,9) {?};
+\node [bordered] (v2) at (5,8) {?};
+\draw (v1) edge (v4);
+\draw (v2) edge (v4);
+
+\end{tikzpicture} </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>43</ID>
+    <Name>Bordered</Name>
+    <Category>Styles Nodes</Category>
+    <Description />
+    <SnippetCode>\tikzstyle{bordered} = [draw,outer sep=0,inner sep=1,minimum size=10]
+</SnippetCode>
+    <SampleCode>
+\tikzstyle{bordered} = [draw,outer sep=0,inner sep=1,minimum size=10]
+
+\begin{tikzpicture}
+\node [bordered] (v1) at (4,9) {node};
+\end{tikzpicture} </SampleCode>
     <Dependencies />
   </SnippetsTable>
 </SnippetsDataSet>
