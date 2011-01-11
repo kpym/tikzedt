@@ -405,12 +405,15 @@ namespace TikzEdt.Parser
         public override void UpdateText()
         {
             string newtext = "node ";
-            // if parent is a node, and this item is the first, do not print node again
+            // if parent is a node or coordinate, and this item is the first, do not print node again
             if (parent is Tikz_Path)
             {
-                if (parent.starttag.Trim() == @"\node")
+                if (parent.starttag.Trim() == @"\node" || parent.starttag.Trim() == @"\coordinate")
                 {
-                    // todo: check for first....
+                    // todo: check for first.... 
+                    //int i = parent.Children.IndexOf(this);
+                    //bool found
+                    //for (int j=i-1; j
                     newtext = "";
                 }
             }
@@ -759,11 +762,19 @@ namespace TikzEdt.Parser
         {
             return number.ToString() + unit;
         }
-        public double GetInCM()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="defaultunit">Tells how a missing unit is interpreted.</param>
+        /// <returns></returns>
+        public double GetInCM(string defaultunit="cm")
         {
-            switch (unit)
+            string cunit = unit;
+            if (cunit == "")
+                cunit = defaultunit;
+            switch (cunit)
             {
-                case "":
+                //case "":
                 case "cm":
                     return number;
                 case "in":
@@ -782,11 +793,19 @@ namespace TikzEdt.Parser
             }
 
         }
-        public void SetInCM(double val)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        /// <param name="defaultunit">The unit to be assumed if no unit specified.</param>
+        public void SetInCM(double val, string defaultunit = "cm")
         {
-            switch (unit)
+            string cunit = unit;
+            if (cunit == "")
+                cunit = defaultunit;
+            switch (cunit)
             {
-                case "":
+                //case "":
                 case "cm":
                     number = val;
                     break;
@@ -1369,11 +1388,11 @@ namespace TikzEdt.Parser
             Tikz_Option o = GetOption("xshift", Tikz_OptionType.keyval);
             if (o != null)
                 if (o.numval != null)
-                    xshift = o.numval.GetInCM();
+                    xshift = o.numval.GetInCM("pt");
             o = GetOption("yshift", Tikz_OptionType.keyval);
             if (o != null)
                 if (o.numval != null)
-                    yshift = o.numval.GetInCM();
+                    yshift = o.numval.GetInCM("pt");
             o = GetOption("scale", Tikz_OptionType.keyval);
             if (o != null)
                 if (o.numval != null)
@@ -1415,7 +1434,7 @@ namespace TikzEdt.Parser
                 }
                 else
                 {
-                    o.numval.SetInCM(o.numval.GetInCM() + xshift);
+                    o.numval.SetInCM(o.numval.GetInCM() + xshift, "pt");
                     o.UpdateText();
                 }
             }
@@ -1434,7 +1453,7 @@ namespace TikzEdt.Parser
                 }
                 else
                 {
-                    o.numval.SetInCM(o.numval.GetInCM() + yshift);
+                    o.numval.SetInCM(o.numval.GetInCM() + yshift, "pt");
                     o.UpdateText();
                 }
             }

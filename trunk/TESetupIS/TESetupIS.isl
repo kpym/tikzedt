@@ -343,7 +343,9 @@
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{B36B4752-FEDD-47C1-8E61-47155CEA5026}</td><td>EDITOR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{13033CDB-8637-42AB-A81C-1A0B4892EFBE}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>TikzEdt.Primary_output</td><td>{AA2BD7FD-D51D-4F0F-984A-E5545258070E}</td><td>INSTALLDIR</td><td>2</td><td/><td>tikzedt.primary_output</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT2</td><td>{9D57E56E-4840-48D9-99C2-4DD75DC2574C}</td><td>USERPROFILE</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT3</td><td>{0D82F5D4-23F0-4847-A2C6-9B9A0B0E76A6}</td><td>PersonalFolder</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>TikzEdt.Primary_output</td><td>{46CD6876-D274-4AA3-A11E-7F35056709DC}</td><td>INSTALLDIR</td><td>2</td><td/><td>tikzedt.primary_output</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1053,6 +1055,9 @@
 	<table name="CreateFolder">
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
+		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT1</td></row>
+		<row><td>PersonalFolder</td><td>ISX_DEFAULTCOMPONENT3</td></row>
+		<row><td>USERPROFILE</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 	</table>
 
 	<table name="CustomAction">
@@ -1866,6 +1871,8 @@
 		<col key="yes" def="s72">Component_</col>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT2</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT3</td></row>
 		<row><td>AlwaysInstall</td><td>TikzEdt.Primary_output</td></row>
 	</table>
 
@@ -1882,7 +1889,6 @@
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
 		<row><td>codecompletions.xml</td><td>ISX_DEFAULTCOMPONENT</td><td>CODECO~1.XML|CodeCompletions.xml</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\thomas\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\Editor\CodeCompletions.xml</td><td>1</td><td/></row>
-		<row><td>thesnippets.xml</td><td>ISX_DEFAULTCOMPONENT1</td><td>THESNI~1.XML|TheSnippets.xml</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\thomas\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\bin\Debug\TheSnippets.xml</td><td>1</td><td/></row>
 		<row><td>tikzedt.primary_output</td><td>TikzEdt.Primary_output</td><td>TikzEdt.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;TikzEdt&gt;|Built</td><td>3</td><td/></row>
 		<row><td>tikzsyntax.xshd</td><td>ISX_DEFAULTCOMPONENT</td><td>TIKZSY~1.XSH|TikzSyntax.xshd</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\thomas\Documents\Visual Studio 2010\Projects\tikzedt\TikzEdt\Editor\TikzSyntax.xshd</td><td>1</td><td/></row>
 	</table>
@@ -2143,7 +2149,9 @@
 		<col def="S0">Miscellaneous</col>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_52482B53_999E_405F_AF68_A57E50C3BF12_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_F01C8A6D_633A_4F43_BD46_E2C8E98E988B_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>TikzEdt.Primary_output</td><td/><td/><td>_27CACC0D_1394_4729_ACB3_1753FE5264CA_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT2</td><td/><td/><td>_D1BA7D5F_56D5_4B54_AA0F_0B3F2E2382C8_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT3</td><td/><td/><td>_CF9C3906_8B52_4058_BD5A_E2E534C817EF_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>TikzEdt.Primary_output</td><td/><td/><td>_71A759A3_B5CD_4B64_BA93_80A2412E448F_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -4106,7 +4114,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{EA119281-E51D-439A-B266-2DA7C3818A2D}</td></row>
 		<row><td>ISUSSignature</td><td>{D1918263-0026-447E-9F38-B490190E7C47}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewSetupDesign,viewProject,viewISToday,viewUpgradePaths,viewRelease,viewSystemSearch,viewObjects,viewSupportFiles,viewCustomActions,viewUI</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewSetupDesign,viewProject,viewISToday,viewUpgradePaths,viewRelease,viewSystemSearch,viewObjects,viewSupportFiles,viewCustomActions,viewUI,viewAppFiles</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -4561,9 +4569,6 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="L255">FileName</col>
 		<col def="s72">DirProperty</col>
 		<col def="i2">InstallMode</col>
-		<row><td>FileKey1</td><td>TikzEdt.Primary_output</td><td/><td>open</td><td>2</td></row>
-		<row><td>FileKey2</td><td>TikzEdt.Primary_output</td><td/><td>tikzedt</td><td>2</td></row>
-		<row><td>_Built</td><td>TikzEdt.Primary_output</td><td/><td>tikzedt</td><td>2</td></row>
 	</table>
 
 	<table name="RemoveIniFile">
@@ -4649,7 +4654,6 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>_Built</td><td>tikzedt</td><td>##IDS_SHORTCUT_DISPLAY_NAME1##</td><td>TikzEdt.Primary_output</td><td>AlwaysInstall</td><td/><td/><td/><td/><td/><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">

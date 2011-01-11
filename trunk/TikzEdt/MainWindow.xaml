@@ -43,6 +43,7 @@
         <CollectionViewSource x:Key="TexErrorsSource" Source="{Binding Source={x:Static my:MainWindow.TexErrors}}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription Direction="Descending" PropertyName="severity"/>
+                <scm:SortDescription Direction="Ascending" PropertyName="SourceFileName"/>
                 <scm:SortDescription Direction="Ascending" PropertyName="Line"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
