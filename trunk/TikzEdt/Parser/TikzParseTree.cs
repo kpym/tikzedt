@@ -238,14 +238,27 @@ namespace TikzEdt.Parser
         //public abstract void SetPosition(Point p);
         /// <summary>
         /// Returns the absolute position of this node within the Tikzpicture (in cm).
+        /// Note that sometimes this is not possible, for example if the coordinates involve math expressions,
+        /// or node names that are not found in the global node name list.
         /// </summary>
-        /// <returns></returns>
-        public abstract Point GetAbsPos(bool OnlyOffset = false);
+        /// <param name="ret">The point, if it was possible to determine coordinates, and something otherwise.</param>
+        /// <param name="OnlyOffset"></param>
+        /// <returns>True if coordinate could be determined, false otherwise.</returns>
+        public abstract bool GetAbsPos(out Point ret, bool OnlyOffset = false);
         /// <summary>
         /// Sets the absolute position of this node within the Tikzpicture (in cm).
+        /// If it is not possible to set the coordinates, the function just does nothing and doesn't complain.
         /// </summary>
         /// <param name="p"></param>
         public abstract void SetAbsPos(Point p);
+
+        /// <summary>
+        /// Indicates whether the item's coordinate can be edited.
+        /// It cannot be edited, e.g., if the items position is relative to some unknown node, or 
+        /// if the coord is given through a math expression etc.
+        /// </summary>
+        /// <returns></returns>
+        public abstract bool HasEditableCoordinate();
 
         /// <summary>
         /// 
@@ -255,9 +268,17 @@ namespace TikzEdt.Parser
 
         public override bool GetBB(out Rect r)
         {
-            Point p = GetAbsPos();
-            r = new Rect(p,p);
-            return true;
+            Point p;
+            if (!GetAbsPos(out p))
+            {
+                r = new Rect(0, 0, 0, 0);
+                return false;
+            }
+            else
+            {
+                r = new Rect(p, p);
+                return true;
+            }
         }
         public abstract bool IsPolar();
         
@@ -326,6 +347,21 @@ namespace TikzEdt.Parser
             name = tname;
             RegisterNodeAndStyleRefs();
         }
+
+        public override bool HasEditableCoordinate()
+        {
+            if (coord == null) 
+                return false;
+            else
+            {
+                if (coord.type == Tikz_CoordType.Named)
+                    return false;
+                Point pdummy;
+                return coord.GetAbsPos(out pdummy, this);  
+            }
+//            if  (tpi is Tikz_Coord && (tpi as Tikz_Coord).type == Tikz_CoordType.Named)
+//                    && !(tpi is Tikz_Node && (tpi as Tikz_Node).coord == null) // TODO: yet to decide whether to draw such things
+        }
         //public override void SetPosition(Point p)
        // {
         //    coord.SetPosition(p);
@@ -339,16 +375,16 @@ namespace TikzEdt.Parser
         }
 
 
-        public override Point GetAbsPos(bool OnlyOffset = false) 
+        public override bool GetAbsPos(out Point ret, bool OnlyOffset = false) 
         {
             if (coord == null)// later possibly: todo: return correct value if OnlyOffset 
             {
-                return (parent as Tikz_Path).GetAbsOffset(this);
+                return (parent as Tikz_Path).GetAbsOffset(out ret, this);
                 //return new Point(0, 0);
             }
             else
             {
-                return coord.GetAbsPos(this, OnlyOffset);
+                return coord.GetAbsPos(out ret, this, OnlyOffset);
             }
         }
         public override void SetAbsPos(Point p)
@@ -414,10 +450,26 @@ namespace TikzEdt.Parser
             return to;
         }
     }
-    public enum Tikz_CoordType { Cartesian, Polar, Named }
+    public enum Tikz_CoordType { Cartesian, Polar, Named, Invalid } // Invaid means ununderstandable for TikzEdt, not necessarily incorrect in Tikz
     //public enum Tikz_CoordDeco { none, p, pp }
     public class Tikz_Coord : Tikz_XYItem
     {
+        /// <summary>
+        /// TikzEdt cannot understand some coordinates (e.g., with math expressions or macros).
+        /// For those cases, the coordinate will be marked as broken.
+        /// All attempts to get the position of the coordinate will fail.
+        /// </summary>
+        public bool IsBroken { get { return type == Tikz_CoordType.Invalid; } }
+
+        public override bool HasEditableCoordinate()
+        {
+            if (type == Tikz_CoordType.Named)
+                return false;
+
+            Point pdummy;
+            return GetAbsPos(out pdummy);  
+        }
+
         /// <summary>
         /// The Parser calls this method to create a Tikz_Coord from a node of the 
         /// abstract syntax tree produced by antlr.
@@ -442,20 +494,26 @@ namespace TikzEdt.Parser
                     i = 1;
                 }
 
-                tc.uX = new Tikz_NumberUnit(t.GetChild(i));
-                tc.uY = new Tikz_NumberUnit(t.GetChild(i + 1));
-                if (t.GetChild(i + 2).Text == ":")
+                if (t.GetChild(i).Type == simpletikzParser.IM_NUMBERUNIT && t.GetChild(i).Type == simpletikzParser.IM_NUMBERUNIT)
                 {
-                    tc.type = Tikz_CoordType.Polar;                    
+                    tc.uX = new Tikz_NumberUnit(t.GetChild(i));
+                    tc.uY = new Tikz_NumberUnit(t.GetChild(i + 1));
+                    if (t.GetChild(i + 2).Text == ":")
+                    {
+                        tc.type = Tikz_CoordType.Polar;
+                    }
                 }
-                
+                else
+                {
+                    tc.type = Tikz_CoordType.Invalid;
+                }
                 //tc.x = tc.uX.number; // hack
                 //tc.y = tc.uY.number;
 
                 return tc;
             }
 
-            return null;
+            return null;    // coming here is an error... this should not happen.
         }
         public override void SetAbsPos(Point p)
         {
@@ -477,7 +535,7 @@ namespace TikzEdt.Parser
         /// <param name="relto">Object with respect to which the coordinate transformation is determined</param>
         public void SetAbsPos(Point p, TikzParseItem relto)
         {
-            if (type == Tikz_CoordType.Named)
+            if (IsBroken && type == Tikz_CoordType.Named)
             {
                 // cannot change coord
             }
@@ -489,9 +547,17 @@ namespace TikzEdt.Parser
 
                 if (deco == "+" || deco == "++")
                 {
-                    Point offset = (relto.parent as Tikz_Path).GetAbsOffset(relto);
-                    relp = new Point(p.X - offset.X, p.Y - offset.Y);   // the desired shift, in absolute coordinates
-                    relp = MM.Transform(relp, true);
+                    Point offset;
+                    if ((relto.parent as Tikz_Path).GetAbsOffset(out offset, relto))
+                    {
+                        relp = new Point(p.X - offset.X, p.Y - offset.Y);   // the desired shift, in absolute coordinates
+                        relp = MM.Transform(relp, true);
+                    }
+                    else
+                    {
+                        // error in determining offset -> cannot set coordinate
+                        return;
+                    }
                 }
                 else
                 {
@@ -508,9 +574,9 @@ namespace TikzEdt.Parser
             }
         }
 
-        public override Point GetAbsPos(bool OnlyOffset = false)
+        public override bool GetAbsPos(out Point ret, bool OnlyOffset = false)
         {
-            return GetAbsPos(this, OnlyOffset);
+            return GetAbsPos(out ret, this, OnlyOffset);
         }
         /// <summary>
         /// Gets the absolute position. For the significance of relto, see SetAbsPos()
@@ -518,16 +584,32 @@ namespace TikzEdt.Parser
         /// <param name="relto"></param>
         /// <param name="OnlyOffset">Only the coordinate offset is returned. (This is used to determine the raster offset.)</param>
         /// <returns>The position in the coordinates of the ancestral Tikz_Picture, or (0,0) in case of failure.</returns>
-        public Point GetAbsPos(TikzParseItem relto, bool OnlyOffset=false)
+        public bool GetAbsPos(out Point ret, TikzParseItem relto, bool OnlyOffset=false)
         {
+            if (IsBroken)   // cannot determine coordinates
+            {
+                ret = new Point(0,0);
+                return false;
+            }
+
             if (type == Tikz_CoordType.Named)
             {
                 if (relto.parent == null)
-                    return new Point(0, 0);
+                {
+                    // node name not find in node list (either error or not parsed)
+                    ret = new Point(0, 0);
+                    return false;
+                }
                 Tikz_Node t = relto.parent.GetNodeByName(nameref);
                 if (t == null)
-                    return new Point(0, 0); // todo: somehow report error
-                else return t.GetAbsPos();
+                {
+                    ret = new Point(0, 0);
+                    return false;
+                }
+                else
+                {
+                    return t.GetAbsPos(out ret);
+                }
             }
 
             Point offset = new Point(0, 0);
@@ -535,7 +617,14 @@ namespace TikzEdt.Parser
             {
                 // determine offset
                 if (relto.parent is Tikz_Path)
-                    offset = (relto.parent as Tikz_Path).GetAbsOffset(relto);
+                {
+                    if (!(relto.parent as Tikz_Path).GetAbsOffset(out offset, relto))
+                    {
+                        // error in determining offset -> cannot determine coordinates
+                        ret = new Point(0, 0);
+                        return false;
+                    }
+                }
 
                 Point relpos = new Point(uX.GetInCM(), uY.GetInCM());
                 if (type == Tikz_CoordType.Polar)
@@ -545,35 +634,46 @@ namespace TikzEdt.Parser
                     relpos = relto.parent.GetCurrentTransformAt(relto).Transform(relpos, true);
 
                 if (OnlyOffset)
-                    return offset;
+                {
+                    ret = offset;
+                    return true;
+                }
                 else
-                    return new Point(offset.X + relpos.X, offset.Y + relpos.Y);
+                {
+                    ret = new Point(offset.X + relpos.X, offset.Y + relpos.Y);
+                    return true;
+                }
             }
 
-            // std coordinate
+            // standard coordinate (not relative etc.)
             Point p = new Point(uX.GetInCM(), uY.GetInCM());
             if (type == Tikz_CoordType.Polar)
                 p = RasterControl.PolToCartTC(p);
             if (relto.parent == null)
             {
                 if (OnlyOffset)
-                    return new Point(0, 0);
+                {
+                    ret = new Point(0, 0);
+                }
                 else
-                    return p;
+                {
+                    ret = p;
+                }
+                return true;
             }
             else
             {
                 TikzMatrix M = relto.parent.GetCurrentTransformAt(relto);
-                Point pret;
+                //Point pret;
                 if (OnlyOffset)
                 {
-                    pret = M.Transform(new Point(0, 0));
+                    ret = M.Transform(new Point(0, 0));
                 }
                 else
                 {
-                    pret = M.Transform(p);                    
+                    ret = M.Transform(p);                    
                 }
-                return pret;
+                return true;
             }
                 
         }
@@ -1027,23 +1127,32 @@ namespace TikzEdt.Parser
         /// coordinates like +(1,1).
         /// </summary>
         /// <param name="tpi">The node just before which the current drawing position is to be determined.</param>
-        /// <returns></returns>
-        public Point GetAbsOffset(TikzParseItem tpi)
+        /// <returns>True, if offset could be determined, false otherwise.</returns>
+        public bool GetAbsOffset(out Point ret, TikzParseItem tpi)
         {
-            Tikz_Coord ret;
-            if (GetLastDrawnItem(tpi, out ret))
+            Tikz_Coord tcret;
+            if (GetLastDrawnItem(tpi, out tcret))
             {
                 // last drawn item exists
-                TikzMatrix M2 = GetCurrentTransformAt(tpi), M1=ret.parent.GetCurrentTransformAt(ret);
-                Point p1 = ret.GetAbsPos();
-                // p1 = M2 * orig point; offset = M1 * orig point (I guess) => offset = M1 * I(M2) * p1
-                Point offset = (M2 * (M1.Inverse())).Transform(p1);
-                return offset;
+                TikzMatrix M2 = GetCurrentTransformAt(tpi), M1=tcret.parent.GetCurrentTransformAt(tcret);
+                Point p1;
+                if (tcret.GetAbsPos(out p1))
+                {
+                    // p1 = M2 * orig point; offset = M1 * orig point (I guess) => offset = M1 * I(M2) * p1
+                    ret = (M2 * (M1.Inverse())).Transform(p1);
+                    return true;
+                }
+                else
+                {
+                    ret = new Point(0, 0);
+                    return false;
+                }
             }
             else
             {
                 // no item was drawn before.... take origin (...after coord transform)
-                return GetCurrentTransformAt(tpi).Transform(new Point(0,0));
+                ret = GetCurrentTransformAt(tpi).Transform(new Point(0, 0));
+                return true;
             }
             /*int ind = Children.IndexOf(tpi);
                         Tikz_Coord previous = null;
@@ -1081,7 +1190,7 @@ namespace TikzEdt.Parser
                 {
                     Tikz_Coord tc = Children[i] as Tikz_Coord;
 
-                    if (tc.type == Tikz_CoordType.Named || tc.deco != "+")  // todo: handle invalid coords., and unknown node names... IsValid method
+                    if (tc.type == Tikz_CoordType.Named || tc.deco != "+")  
                     {
                         ret = tc;
                         return true;
