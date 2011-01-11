@@ -68,6 +68,10 @@
                     Executed="NewCommandHandler"
                     CanExecute="AlwaysTrue"
                     />
+        <CommandBinding Command="ApplicationCommands.Close"
+                    Executed="ExitCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    />
         <CommandBinding Command="ApplicationCommands.Find"
                     Executed="FindCommandHandler"
                     CanExecute="AlwaysTrue"
@@ -128,11 +132,11 @@
         <Menu Height="23" HorizontalAlignment="Stretch" Name="menu1" VerticalAlignment="Top" Grid.Row="0">
             <MenuItem Header="_File" >
                 <MenuItem Header="Open" Command="ApplicationCommands.Open" />
-                <MenuItem Header="New" />
+                <MenuItem Header="New" Command="ApplicationCommands.New" />
                 <MenuItem Header="Save" Command="ApplicationCommands.Save" />
                 <MenuItem Header="Save As..."  Command="ApplicationCommands.SaveAs" />
                 <common:RecentFileList x:Name="RecentFileList" />
-                <MenuItem Header="Quit"  />
+                <MenuItem Header="Quit" Command="ApplicationCommands.Close"  />
             </MenuItem>
             <MenuItem Header="_Edit" >
                 <MenuItem Header="Undo" Command="ApplicationCommands.Undo"/>

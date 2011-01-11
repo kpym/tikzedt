@@ -1056,6 +1056,10 @@ namespace TikzEdt
             SaveCurFile(true);            
         }
 
+        private void ExitCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
 
 
         private void NewCommandHandler(object sender, ExecutedRoutedEventArgs e)
