@@ -171,7 +171,17 @@ namespace TikzEdt.Parser
                         //to.text = getTokensString(tokens, childt);
                         //item.AddChild(tn);
                         if (item.options == null)
-                            item.options = to;
+                        {
+                            // determine whether option belongs to the item (e.g. \draw [this belongs to draw] blabla [thisnot])
+                            // i.e., the scope of the options is the whole item's body
+                            // this is hacky
+                            if (item.Children.Count == 0 ||
+                                (item.Children.Count == 1 && (item.Children[0] is Tikz_Something)
+                                 && item.Children[0].ToString().Trim() == ""))
+                            {
+                                item.options = to;
+                            }
+                        }
                         break;
                     case simpletikzParser.IM_TIKZSET:
                         Tikz_Options to2 = new Tikz_Options();

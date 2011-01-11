@@ -37,16 +37,12 @@
     <EndTag>\}</EndTag>
     <ID>0</ID>
     <Snippets>
-      <Text>tikzpicture}</Text>
+      <Text>tikzpicture</Text>
       <environment>0</environment>
       <Description>A Tikz picture environment. The document should contain exactly one.</Description>
     </Snippets>
     <Snippets>
-      <Text>scope}</Text>
-      <environment>0</environment>
-    </Snippets>
-    <Snippets>
-      <Text>document}</Text>
+      <Text>scope</Text>
       <environment>0</environment>
     </Snippets>
   </Environments>
@@ -81,42 +77,6 @@
     </Snippets>
   </Environments>
   
-  <Environments>
-    <StartTag>\\</StartTag>
-    <EndTag>\{</EndTag>
-    <ID>3</ID>
-		<Snippets>
-      <Text>node</Text>
-      <environment>3</environment>
-    </Snippets>
-    <Snippets>
-      <Text>draw</Text>
-      <environment>3</environment>
-    </Snippets>
-    
-    <Snippets>
-      <Text>begin{</Text>
-      <environment>3</environment>
-    </Snippets>
-    <Snippets>
-      <Text>tikzstyle{</Text>
-      <environment>3</environment>
-    </Snippets>
-    <Snippets>
-      <Text>usetikzlibrary{</Text>
-      <environment>3</environment>
-    </Snippets>   
-    <Snippets>
-      <Text>input{</Text>
-      <environment>3</environment>
-    </Snippets>
-    
-    <Snippets>
-      <Text>useasboundingbox{</Text>
-      <environment>3</environment>
-    </Snippets>
-  </Environments>
-  
  
   <Triggers>
     <Trigger>.</Trigger>
@@ -126,8 +86,5 @@
   </Triggers>
   <Triggers>
     <Trigger>[</Trigger>
-  </Triggers>
-  <Triggers>
-    <Trigger>\</Trigger>
   </Triggers>
 </CompletionDS>
