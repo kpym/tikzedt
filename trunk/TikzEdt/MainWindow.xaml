@@ -11,9 +11,9 @@
         Title="TikzEdt" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
         Width="{Binding Source={x:Static p:Settings.Default}, Path=Window_Width, Mode=TwoWay}" 
-        Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico">
-        <!-- xmlns:settings="clr-namespace:LogicaCMG.Settings"
-        settings:WindowSettings.Save="True" -->
+        Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico"
+        xmlns:settings="clr-namespace:LogicaCMG.Settings"
+        settings:WindowSettings.Save="True">
     <Window.Resources>
         <!--  <my:TheCompiler x:Key="TheCompiler2"/> -->
         <!-- El Cheapo hack to make images within disabled toolbar buttons appear 'grayed out'.  This doesn't
