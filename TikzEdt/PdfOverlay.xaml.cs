@@ -318,6 +318,12 @@ namespace TikzEdt
             canvas1.Children.Add(ell); */
         }
 
+        /// <summary>
+        /// Draws the TikzParseItem tpi, if it is drawn, or its children, if they can be drawn, 
+        /// or grandchildren etc..., and adds the drawn items to bag.
+        /// </summary>
+        /// <param name="tpi"></param>
+        /// <param name="bag"></param>
         public void DrawObject(TikzParseItem tpi, List<OverLayShape> bag)
         {
             //BBGatherer bbg = new BBGatherer();
@@ -330,12 +336,18 @@ namespace TikzEdt
                 os.tikzitem = tpi as Tikz_Scope;
                 foreach (TikzParseItem t in (tpi as TikzContainerParseItem).Children)
                     DrawObject(t, os.children);
-                bag.Add(os);
-                os.Stroke = new SolidColorBrush(Color.FromArgb(100, 0, 255, 0));
-                os.StrokeThickness = 10;
-                //os.Fill = new SolidColorBrush(Color.FromArgb(100, 0, 255, 0));
-                os.AdjustPosition(Resolution);
-                canvas1.Children.Add(os);
+
+                // don't draw scopes with no drawable children
+                // (we don't know where to render them)
+                if (os.children.Count > 0)
+                {
+                    bag.Add(os);
+                    os.Stroke = new SolidColorBrush(Color.FromArgb(100, 0, 255, 0));
+                    os.StrokeThickness = 10;
+                    //os.Fill = new SolidColorBrush(Color.FromArgb(100, 0, 255, 0));
+                    os.AdjustPosition(Resolution);
+                    canvas1.Children.Add(os);
+                }
             }
             else if (tpi is TikzContainerParseItem)
             {
@@ -344,9 +356,7 @@ namespace TikzEdt
             }
             if (tpi is Tikz_XYItem)
             {
-                if (!(tpi is Tikz_Coord && (tpi as Tikz_Coord).type == Tikz_CoordType.Named)
-                    && !(tpi is Tikz_Node && (tpi as Tikz_Node).coord == null) // TODO: yet to decide whether to draw such things
-                    )
+                if ((tpi as Tikz_XYItem).HasEditableCoordinate())
                 {
                     OverlayNode el = new OverlayNode();
                     el.pol = this;
@@ -375,7 +385,7 @@ namespace TikzEdt
                 //could this be a possibility to show edges and provide backward search?
 
                 //there are many possibility for draw commands. here we 
-                string simpleEdge_RegexString = @"[ \t\s]*\\draw.*\((?<start>.*)\).*\((?<end>.*)\).*";
+                /* string simpleEdge_RegexString = @"[ \t\s]*\\draw.*\((?<start>.*)\).*\((?<end>.*)\).*";
                 Regex BB_Regex = new Regex(simpleEdge_RegexString);
                 Match m = BB_Regex.Match(tpi.ToString());
                 if (m.Success == true)
@@ -389,6 +399,8 @@ namespace TikzEdt
                     if (StartNode != null && EndNode != null)
                     {
                         //and determine the position in between both nodes
+                        Point start, end;
+                        if (StartNode.GetAbsPos()
                         double x = (StartNode.GetAbsPos().X + EndNode.GetAbsPos().X) / 2;
                         double y = (StartNode.GetAbsPos().Y + EndNode.GetAbsPos().Y) / 2;
 
@@ -397,7 +409,7 @@ namespace TikzEdt
                         //and when clicked, jump to AvalonEdit at position tpi.StartPosition                        
                     }
 
-                }                
+                }       */          
             }
 
         }
@@ -539,13 +551,17 @@ namespace TikzEdt
             else if (o is OverlayNode)
             {
                 Tikz_XYItem t = (o as OverlayNode).tikzitem;
-                Point offset = t.GetAbsPos(true);
-                TikzMatrix M = t.parent.GetCurrentTransformAt(t).CloneIt();
-                M.m[0, 2] = offset.X;
-                M.m[1, 2] = offset.Y;
-                //rasterizer.RasterScale = M.m[1, 1];
-                rasterizer.CoordinateTransform = M;
-                rasterizer.IsCartesian = !(t.IsPolar());
+                Point offset;
+                if (t.GetAbsPos(out offset, true))
+                {
+                    TikzMatrix M = t.parent.GetCurrentTransformAt(t).CloneIt();
+                    M.m[0, 2] = offset.X;
+                    M.m[1, 2] = offset.Y;
+                    //rasterizer.RasterScale = M.m[1, 1];
+                    rasterizer.CoordinateTransform = M;
+                    rasterizer.IsCartesian = !(t.IsPolar());
+                }
+                else throw new Exception("In PdfOverlay: Encountered drawn item without valid coordinates");
             }
             else
                 rasterizer.IsCartesian = true;  // should not get here
@@ -1087,7 +1103,7 @@ namespace TikzEdt
             return r;
         }
         public PdfOverlay pol;
-        public abstract void AdjustPosition(double Resolution);
+        public abstract bool AdjustPosition(double Resolution);
         public abstract TikzParseItem item { get; }
     }
 
@@ -1100,7 +1116,7 @@ namespace TikzEdt
         /// <summary>
         /// Sets the item's position according to its tikzitem's value
         /// </summary>
-        public override void AdjustPosition(double Resolution)
+        public override bool AdjustPosition(double Resolution)
         {
             Rect r=new Rect(0,0,0,0);
             bool hasone = false;
@@ -1118,13 +1134,15 @@ namespace TikzEdt
             }
             if (hasone)
             {
-                r.Inflate(20,20);
+                r.Inflate(20, 20);
                 //r = new Rect(10, 10, 100, 100);
                 Width = r.Width;
                 Height = r.Height;
                 Canvas.SetLeft(this, r.X);
                 Canvas.SetBottom(this, r.Y);
+                return true;
             }
+            else return false;
         }
 
         protected override Geometry DefiningGeometry
@@ -1170,15 +1188,24 @@ namespace TikzEdt
         /// <summary>
         /// Sets the item's position according to its tikzitem's value
         /// </summary>
-        public override void AdjustPosition(double Resolution)
+        public override bool AdjustPosition(double Resolution)
         {
             Width = 10;
             Height = 10;
 
-            Point p = tikzitem.GetAbsPos();
-            Point pp = pol.TikzToScreen(p);
-            Canvas.SetLeft(this, pp.X - Width / 2);
-            Canvas.SetBottom(this, pp.Y - Height / 2);  // not quite ok like this?
+            Point p;
+            if (tikzitem.GetAbsPos(out p))
+            {
+                Point pp = pol.TikzToScreen(p);
+                Canvas.SetLeft(this, pp.X - Width / 2);
+                Canvas.SetBottom(this, pp.Y - Height / 2);  // not quite ok like this?
+                return true;
+            }
+            else
+            {
+                //return false;
+                throw new Exception("Encountered drawn item without valid coordinates.");
+            }
         }
 
         protected override Geometry DefiningGeometry
