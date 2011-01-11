@@ -15,6 +15,9 @@
         xmlns:settings="clr-namespace:LogicaCMG.Settings"
         settings:WindowSettings.Save="True">
     <Window.Resources>
+        <ItemsPanelTemplate x:Key="Virtualized">
+            <VirtualizingStackPanel IsItemsHost="True"/>
+        </ItemsPanelTemplate>
         <!--  <my:TheCompiler x:Key="TheCompiler2"/> -->
         <!-- El Cheapo hack to make images within disabled toolbar buttons appear 'grayed out'.  This doesn't
     gray them at all, but lowers their opacity so the (usually gray) background of the button shows through.
@@ -289,7 +292,7 @@
                     <Image Source="/TikzEdt;component/Images/path.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                 </RadioButton>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Node style:</TextBlock>
-                <ComboBox Name="cmbNodeStyles" Width="80" IsEditable="True"></ComboBox>
+                <ComboBox Name="cmbNodeStyles" Width="80" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"></ComboBox>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Edge style:</TextBlock>
                 <ComboBox Name="cmbEdgeStyles" Width="80" IsEditable="True"></ComboBox>
             </ToolBar>
