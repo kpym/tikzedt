@@ -239,12 +239,16 @@ namespace TikzEdt
                 {
                     addProblemMarker(errmsg, ex.Line, ex.CharPositionInLine, Severity.ERROR, CurFile); 
                 }
+                pdfOverlay1.SetParseTree(null, currentBB);
+                ClearStyleLists();
                 
             }
             else if (Result.Error != null && Result.Error is Exception)
             {
                 string errmsg = ((Exception)Result.Error).Message;
                 AddStatusLine("Couldn't parse code. " + errmsg, true);
+                pdfOverlay1.SetParseTree(null, currentBB);
+                ClearStyleLists();
             }
             else if (e.Error != null)
             {
@@ -252,6 +256,7 @@ namespace TikzEdt
                 //how do you actually write something to Error? would be nice, wouldn't it?
                 AddStatusLine("Couldn't parse code. " + e.Error.Message + ". Please report to authors: How did this happen?", true);
                 pdfOverlay1.SetParseTree(null, currentBB);
+                ClearStyleLists();
             }
             else
             {
@@ -723,6 +728,10 @@ namespace TikzEdt
             }
             cmbEdgeStyles.Text = oldsel;
         }
+        private void ClearStyleLists()
+        {
+            cmbNodeStyles.Items.Clear();
+        }
 
         /// <summary>
         /// Tries to find a BOUNDINGBOX command in the parsetree specified.
@@ -932,6 +941,7 @@ namespace TikzEdt
                 string newcode = stream.ReadToEnd();
                 tikzDisplay1.SetUnavailable(); // new file is directly compiled... but set unavailable in case error occurs
                 pdfOverlay1.SetParseTree(null, currentBB);
+                ClearStyleLists();
                 CurFile = System.IO.Path.GetFileName(cFile); //always working in current dir, no need for absolute path.
                 ChangesMade = false;
                 CurFileNeverSaved = false;
@@ -1084,6 +1094,7 @@ namespace TikzEdt
             //pdfOverlay1.Clear();
             //DetermineBB(null);
             pdfOverlay1.SetParseTree(null, currentBB);
+            ClearStyleLists();
             //isLoaded = true;
         }
 
@@ -1151,7 +1162,16 @@ namespace TikzEdt
             //ProgrammaticTextChange = true; 
 
             //txtCode.Text = pdfOverlay1.ParseTree.ToString();
-            txtCode.Document.Replace(sender.StartPosition(), oldtext.Length, sender.ToString());
+
+            int InsertAt = sender.StartPosition();
+            if (InsertAt > txtCode.Text.Length)
+            {
+                AddStatusLine("Trying to insert code \"" + sender.ToString().Replace(Environment.NewLine, "<NEWLINE>") + "\" to position " + sender.StartPosition() + " but document has only " + txtCode.Text.Length + " characters." 
+                +" Inserting code at end of document instead. Code does probably not compile now. Please correct or choose undo.", true);
+                InsertAt = txtCode.Text.Length;
+            }
+
+            txtCode.Document.Replace(InsertAt, oldtext.Length, sender.ToString());
 
             //ProgrammaticTextChange = false; 
             //MessageBox.Show(pdfOverlay1.ParseTree.ToString());
@@ -1507,6 +1527,11 @@ namespace TikzEdt
         {
             TikzParseItem tpi = sender as TikzParseItem;
             int spos = tpi.StartPosition();
+            if (spos > txtCode.Text.Length)
+            {
+                AddStatusLine("Trying to jump to position " + spos + " but document only has " + txtCode.Text.Length + " characters. Please correct any parser errors or restart TikzEdt.", true);
+                return;
+            }
             txtCode.CaretOffset = spos;
             txtCode.SelectionStart = spos;
             txtCode.SelectionLength = tpi.ToString().Length;

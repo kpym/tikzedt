@@ -631,7 +631,7 @@ namespace TikzEdt
             // Try to create a new ParseTree
             if (ParseTree == null)
             {
-                if (TryCreateNew != null && ( tool == ToolType.addpath || tool == ToolType.addvert) )
+                if (TryCreateNew != null && (tool == ToolType.addpath || tool == ToolType.addvert))
                 {
                     bool lret;
                     TryCreateNew(this, out lret);
@@ -642,7 +642,7 @@ namespace TikzEdt
                         Tikz_Picture tp = new Tikz_Picture();
                         tp.starttag = "\\begin{tikzpicture}";
                         tp.AddChild(new Tikz_Something("\r\n"));
-                        tp.endtag = "\\end{tikzpicture}";                        
+                        tp.endtag = "\\end{tikzpicture}";
 
                         if (BeginModify != null)
                             BeginModify(this);
@@ -655,9 +655,16 @@ namespace TikzEdt
                             EndModify(this);
 
                     }
-                    else return;
-                } else  return;
+
+                    else
+                    {
+                        MessageBox.Show("Parse tree could not be created. Please correct all parser errors in the code and try again.", "Function not available", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
+                    }
+                }
+                else return;
             }
+            
 
             if (tool == ToolType.move)
             #region move
