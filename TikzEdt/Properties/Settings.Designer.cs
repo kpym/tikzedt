@@ -432,5 +432,29 @@ namespace TikzEdt.Properties {
                 this["SourceColWidth"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LeftToolsColVisible {
+            get {
+                return ((bool)(this["LeftToolsColVisible"]));
+            }
+            set {
+                this["LeftToolsColVisible"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public global::System.Windows.GridLength SplitterColWidthSetting {
+            get {
+                return ((global::System.Windows.GridLength)(this["SplitterColWidthSetting"]));
+            }
+            set {
+                this["SplitterColWidthSetting"] = value;
+            }
+        }
     }
 }

@@ -112,5 +112,11 @@
     <Setting Name="SourceColWidth" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">75</Value>
     </Setting>
+    <Setting Name="LeftToolsColVisible" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SplitterColWidthSetting" Type="System.Windows.GridLength" Scope="User">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
