@@ -35,6 +35,7 @@
         <my:SeverityImageConverter x:Key="SeverityToImg"/>
         <BooleanToVisibilityConverter x:Key="boolToVis" />
         <my:InverseNullableBooleanConverter x:Key="NBoolInverter" />
+        <my:BooleanToWidthConverter x:Key="BoolToWidth" />
 
         <CollectionViewSource x:Key="TexErrorsSource" Source="{Binding Source={x:Static my:MainWindow.TexErrors}}">
             <CollectionViewSource.SortDescriptions>
@@ -374,10 +375,27 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <!--<ColumnDefinition Width="{Binding LeftMenuColWidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="LeftMenuCol"></ColumnDefinition> -->
+                <!--  Width="{Binding LeftToolsColWidthSetting, Source={x:Static p:Settings.Default},
+                    Converter={StaticResource BoolToWidth}, ConverterParameter=LeftToolsColVisible,
+                    Mode=TwoWay}"
+                <ColumnDefinition Width="{Binding LeftMenuColWidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="LeftMenuCol"></ColumnDefinition> -->
                 <ColumnDefinition Width="Auto" Name="LeftMenuCol"></ColumnDefinition>
-                <ColumnDefinition Width="{Binding LeftToolsColWidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="LeftToolsCol"></ColumnDefinition>
-                <ColumnDefinition Width="3" Name="LeftSplitterCol"></ColumnDefinition>
+                <ColumnDefinition Name="LeftToolsCol">
+                    <ColumnDefinition.Width>
+                        <MultiBinding Converter="{StaticResource BoolToWidth}" Mode="OneWay" >
+                            <Binding Path="LeftToolsColWidthSetting" Source="{x:Static p:Settings.Default}" />
+                            <Binding Path="LeftToolsColVisible" Source="{x:Static p:Settings.Default}" />
+                        </MultiBinding>
+                    </ColumnDefinition.Width>
+                </ColumnDefinition>
+                <ColumnDefinition Name="LeftSplitterCol">
+                    <ColumnDefinition.Width>
+                        <MultiBinding Converter="{StaticResource BoolToWidth}" Mode="OneWay" >
+                            <Binding Path="SplitterColWidthSetting" Source="{x:Static p:Settings.Default}" />
+                            <Binding Path="LeftToolsColVisible" Source="{x:Static p:Settings.Default}" />
+                        </MultiBinding>
+                    </ColumnDefinition.Width>
+                </ColumnDefinition>
                 <ColumnDefinition Width="{Binding OverlayCanvasColWidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="OverlayCanvasCol"></ColumnDefinition>
                 <ColumnDefinition Width="3"></ColumnDefinition>
                 <ColumnDefinition Width="{Binding OverlayCanvasCol2WidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="OverlayCanvasCol2"></ColumnDefinition>
@@ -399,7 +417,8 @@
             <GridSplitter Background="Gray" Grid.Column="2" Grid.Row="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             <mySnippets:SnippetList x:Name="snippetlist1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                     Grid.Column="1" Grid.Row="0" OnInsert="snippetlist1_OnInsert" 
-                                    ShowThumbnails="{Binding Source={x:Static p:Settings.Default}, Path=Snippets_ShowThumbs}" />
+                                    ShowThumbnails="{Binding Source={x:Static p:Settings.Default}, Path=Snippets_ShowThumbs}" 
+                                    Visibility="{Binding ElementName=cmdSnippets, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
             <Grid Grid.Column="3" Background="Black">
                 <Grid.RowDefinitions>
                     <RowDefinition/>

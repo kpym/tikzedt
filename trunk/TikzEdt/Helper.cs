@@ -83,6 +83,7 @@ namespace TikzEdt
 
         public const string CodeToWriteBB =
 @"\usetikzlibrary{calc}
+\pgftransformreset
 \newwrite\metadatafile
 \immediate\openout\metadatafile=\jobname_BB.txt
 \path
@@ -492,4 +493,22 @@ namespace TikzEdt
             throw new NotImplementedException();
         }
     }
+
+    public class BooleanToWidthConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType,
+                              object parameter, System.Globalization.CultureInfo culture)
+        {
+            GridLength width = (GridLength) (values[0]);
+            bool visible = (bool)(values[1]);
+            return (visible) ? width : new GridLength(0);
+        }
+
+        public object[] ConvertBack(object value, Type[] targetType,
+                                  object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

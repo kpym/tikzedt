@@ -1315,7 +1315,7 @@ namespace TikzEdt
             }
         }
 
-        GridLength oldwidth;
+        //GridLength oldwidth;
         private void cmdSnippets_Checked(object sender, RoutedEventArgs e)
         {
             if (LeftSplitterCol != null && cmdSnippets != null && cmdFiles != null && snippetlist1 != null)
@@ -1328,15 +1328,16 @@ namespace TikzEdt
                 else if (sender == cmdSnippets)
                 {
                     cmdFiles.IsChecked = false;
-                    snippetlist1.Visibility = System.Windows.Visibility.Visible;
+                    //snippetlist1.Visibility = System.Windows.Visibility.Visible;
                 }
 
-                GridLengthConverter g = new GridLengthConverter();
-                if (LeftSplitterCol.Width == (GridLength)g.ConvertFrom(0))
-                {
-                    LeftToolsCol.Width = oldwidth;
-                    LeftSplitterCol.Width = (GridLength)g.ConvertFrom(3);
-                }
+                Properties.Settings.Default.LeftToolsColVisible =  (cmdSnippets.IsChecked == true || cmdFiles.IsChecked == true);
+                //GridLengthConverter g = new GridLengthConverter();
+                //if (LeftSplitterCol.Width == (GridLength)g.ConvertFrom(0))
+                //{
+                //    LeftToolsCol.Width = oldwidth;
+                //    LeftSplitterCol.Width = (GridLength)g.ConvertFrom(3);
+                //}
             }
         }
 
@@ -1350,14 +1351,15 @@ namespace TikzEdt
             else if (sender == cmdSnippets)
             {
                 //cmdFiles.IsChecked = false;
-                snippetlist1.Visibility = System.Windows.Visibility.Hidden;
+                //snippetlist1.Visibility = System.Windows.Visibility.Hidden;
             }
             if (cmdFiles.IsChecked == false && cmdSnippets.IsChecked == false)
             {
-                GridLengthConverter g = new GridLengthConverter();
-                oldwidth = LeftToolsCol.Width;
-                LeftToolsCol.Width = (GridLength)g.ConvertFrom(0);
-                LeftSplitterCol.Width = (GridLength)g.ConvertFrom(0);                
+                Properties.Settings.Default.LeftToolsColVisible = false;
+                //GridLengthConverter g = new GridLengthConverter();
+                //oldwidth = LeftToolsCol.Width;
+                //LeftToolsCol.Width = (GridLength)g.ConvertFrom(0);
+                //LeftSplitterCol.Width = (GridLength)g.ConvertFrom(0);                
             }
         }
 

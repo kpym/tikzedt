@@ -1,14 +1,12 @@
 ﻿<SyntaxDefinition name="tikz"
         xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
     <Color name="Comment" foreground="Green" />
-    <Color name="TikzEdtComment" fontWeight="bold" foreground="DarkGreen" />
     <Color name="String" foreground="Gray" />
     <Color name="MathString" foreground="Red" />
     
     <!-- This is the main ruleset. -->
     <RuleSet>
-    		<Span color="TikzEdtComment" begin="% !TIKZEDT" />
-        <Span color="Comment" begin="%" />    		
+        <Span color="Comment" begin="%" />
         <Span color="Comment" multiline="true" 
            begin="/\*" end="\*/" />
         <Span color="MathString" multiline="true"
@@ -39,8 +37,6 @@
             <Word>\matrix</Word>
             <Word>\tikzset</Word>
             <Word>\tikzstyle</Word>
-            <Word>\foreach</Word>
-            <Word>\useasboundingbox</Word>
             <!-- ... -->
         </Keywords>
 
@@ -65,15 +61,12 @@
         <Word>\documentclass</Word>
         <Word>\usepackage</Word>
         <Word>\usetikzlibrary</Word>
-        <Word>\PreviewEnvironment</Word>
-        <Word>\input</Word>
         <!-- ... -->
       </Keywords>
       
       <!-- environment names -->
       <Keywords foreground="Red">
         <Word>tikzpicture</Word>
-        <Word>document</Word>
         <Word>equation</Word>
         <Word>scope</Word>
         
