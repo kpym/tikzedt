@@ -156,7 +156,7 @@ namespace TikzEdt
                     myLine.Stroke = System.Windows.Media.Brushes.WhiteSmoke;
                     myLine.X1 = 0;
                     myLine.X2 = Width;
-                    myLine.Y1 = (y - BB.Y + RasterOrigin.Y) * Resolution;
+                    myLine.Y1 = Height - (y - BB.Y + RasterOrigin.Y) * Resolution;
                     myLine.Y2 = myLine.Y1;
                     canvas1.Children.Add(myLine);
                 }
