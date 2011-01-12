@@ -182,8 +182,8 @@ no_rlbrace
 	:	~('{' | '}')
 	;
 iddornumberunitorstringorrange
-	:	(numberunit)=>numberunit | idd | tikzstring | range  // changed here
-	;
+	:	 range | numberunit | idd | tikzstring  // changed here (numberunit)=>
+		;
 range
 	: numberunit ':' numberunit	->	^(IM_STRING numberunit ':' numberunit )
 	;	
