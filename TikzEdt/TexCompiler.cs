@@ -544,7 +544,7 @@ namespace TikzEdt
             if (m.Success == true)
                 ret = true;
             else
-                ret = (code.Contains("\\documentclass") 
+                ret = ( (code.Contains("\\documentclass") && !code.Contains("%\\documentclass") && !code.Contains("% \\documentclass")  )
                     || code.Trim().StartsWith("%&") );    // precompiled header
 
             //using data binding would probably be nicer...
