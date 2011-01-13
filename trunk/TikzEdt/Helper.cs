@@ -91,7 +91,7 @@ namespace TikzEdt
     \p1=(current bounding box.south west),
     \p2=(current bounding box.north east)
   in
-  node at (current bounding box) {
+  node[inner sep=0pt,outer sep=0pt,minimum size=0pt,line width=0pt,text width=0pt,text height=0pt,draw=white] at (current bounding box) {
 \immediate\write\metadatafile{\p1,\p2}
 };
 \immediate\closeout\metadatafile
