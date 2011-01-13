@@ -5,30 +5,52 @@
     <EndTag>\]</EndTag>
     <ID>1</ID>
     <Snippets>
-      <Text>minimum size</Text>
+      <Text>minimum size=</Text>
       <environment>1</environment>
     </Snippets>
     <Snippets>
-      <Text>draw</Text>
+      <Text>minimum width=</Text>
       <environment>1</environment>
     </Snippets>
     <Snippets>
-      <Text>fill</Text>
+      <Text>minimum height=</Text>
       <environment>1</environment>
     </Snippets>
     <Snippets>
-      <Text>circle</Text>
+      <Text>draw=</Text>
       <environment>1</environment>
     </Snippets>
     <Snippets>
-      <Text>outer sep</Text>
+      <Text>fill=</Text>
+      <environment>1</environment>
+    </Snippets>
+    <Snippets>
+      <Text>font=</Text>
+      <environment>1</environment>
+    </Snippets>
+    <Snippets>
+      <Text>circle=</Text>
+      <environment>1</environment>
+    </Snippets>
+    <Snippets>
+      <Text>outer sep=</Text>
       <environment>1</environment>
       <Description>The spacing around the element.</Description>
     </Snippets>
     <Snippets>
-      <Text>inner sep</Text>
+      <Text>inner sep=</Text>
       <environment>1</environment>
-      <Description>The spacing around the text of the element.</Description>
+      <Description>The spacing around the text inside the element.</Description>
+    </Snippets>
+    <Snippets>
+      <Text>shape=</Text>
+      <environment>1</environment>
+      <Description></Description>
+    </Snippets>
+    <Snippets>
+      <Text>text=</Text>
+      <environment>1</environment>
+      <Description></Description>
     </Snippets>
   </Environments>
   
@@ -37,18 +59,22 @@
     <EndTag>\}</EndTag>
     <ID>0</ID>
     <Snippets>
-      <Text>tikzpicture</Text>
+      <Text>tikzpicture}</Text>
       <environment>0</environment>
       <Description>A Tikz picture environment. The document should contain exactly one.</Description>
     </Snippets>
     <Snippets>
-      <Text>scope</Text>
+      <Text>scope}</Text>
+      <environment>0</environment>
+    </Snippets>
+    <Snippets>
+      <Text>document}</Text>
       <environment>0</environment>
     </Snippets>
   </Environments>
 
   <Environments>
-    <StartTag>(fill|draw)\s*=</StartTag>
+    <StartTag>(fill|draw|text)\s*=</StartTag>
     <EndTag>(,|\])</EndTag>
     <ID>2</ID>
     <Snippets>
@@ -75,9 +101,120 @@
       <Text>gray</Text>
       <environment>2</environment>
     </Snippets>
+    <Snippets>
+      <Text>black</Text>
+      <environment>2</environment>
+    </Snippets>
   </Environments>
   
- 
+  <Environments>
+    <StartTag>\\</StartTag>
+    <EndTag>\{</EndTag>
+    <ID>3</ID>
+		<Snippets>
+      <Text>node</Text>
+      <environment>3</environment>
+    </Snippets>
+    <Snippets>
+      <Text>draw</Text>
+      <environment>3</environment>
+    </Snippets>
+    
+    <Snippets>
+      <Text>begin{</Text>
+      <environment>3</environment>
+    </Snippets>
+    <Snippets>
+      <Text>tikzstyle{</Text>
+      <environment>3</environment>
+    </Snippets>
+    <Snippets>
+      <Text>usetikzlibrary{</Text>
+      <environment>3</environment>
+    </Snippets>   
+    <Snippets>
+      <Text>input{</Text>
+      <environment>3</environment>
+    </Snippets>
+    
+    <Snippets>
+      <Text>useasboundingbox{</Text>
+      <environment>3</environment>
+    </Snippets>
+  </Environments>
+  
+ 	<Environments>
+    <StartTag>shape=</StartTag>
+    <EndTag>(,|\])</EndTag>
+    <ID>4</ID>
+    <Snippets>
+      <Text>ellipse</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>circle</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>diamond</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>rectangle</Text>
+      <environment>4</environment>
+    </Snippets>
+  </Environments>
+  
+  <Environments>
+    <StartTag>font=</StartTag>
+    <EndTag>(,|\])</EndTag>
+    <ID>5</ID>
+    <Snippets>
+      <text>\itshape</Text>
+      <environment>5</environment>
+    </Snippets>
+    <Snippets>
+      <text>\bfseries</Text>
+      <environment>5</environment>
+    </Snippets>
+    <Snippets>
+      <text>\footnotesize</Text>
+      <environment>5</environment>
+    </Snippets>
+    <Snippets>
+      <text>\large</Text>
+      <environment>5</environment>
+    </Snippets>
+    <Snippets>
+      <text>\Large</Text>
+      <environment>5</environment>
+    </Snippets>
+    <Snippets>
+      <text>\LARGE</Text>
+      <environment>5</environment>
+    </Snippets>
+    <Snippets>
+      <text>\huge</Text>
+      <environment>5</environment>
+    </Snippets>
+    <Snippets>
+      <text>\Huge</Text>
+      <environment>5</environment>
+    </Snippets>
+    <Snippets>
+      <text>\HUGE</Text>
+      <environment>5</environment>
+    </Snippets>
+    <Snippets>
+      <text>\small</Text>
+      <environment>5</environment>
+    </Snippets>
+    <Snippets>
+      <text>\tiny</Text>
+      <environment>5</environment>
+    </Snippets>
+  </Environments>
+    
   <Triggers>
     <Trigger>.</Trigger>
   </Triggers>
@@ -86,5 +223,8 @@
   </Triggers>
   <Triggers>
     <Trigger>[</Trigger>
+  </Triggers>
+  <Triggers>
+    <Trigger>\</Trigger>
   </Triggers>
 </CompletionDS>
