@@ -787,4 +787,98 @@ Insert at head of document.</Description>
 \end{tikzpicture} </SampleCode>
     <Dependencies />
   </SnippetsTable>
+  <SnippetsTable>
+    <ID>44</ID>
+    <Name>Document</Name>
+    <Category>Styles Nodes</Category>
+    <Description>Node in shape of document (with little corner)</Description>
+    <SnippetCode>draw</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>45</ID>
+    <Name>Message</Name>
+    <Category>Styles Nodes</Category>
+    <Description>Node with shape of a UML note</Description>
+    <SnippetCode>\makeatletter
+\pgfdeclareshape{document}{
+	\inheritsavedanchors[from=rectangle] % this is nearly a rectangle
+	\inheritanchorborder[from=rectangle]
+	\inheritanchor[from=rectangle]{center}
+	\inheritanchor[from=rectangle]{north}
+	\inheritanchor[from=rectangle]{south}
+	\inheritanchor[from=rectangle]{west}
+	\inheritanchor[from=rectangle]{east}
+	% ... and possibly more
+	\backgroundpath{% this is new
+		% store lower right in xa/ya and upper right in xb/yb
+		\southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+		\northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+		% compute corner of ``flipped page''
+		\pgf@xc=\pgf@xb \advance\pgf@xc by-5pt % this should be a parameter
+		\pgf@yc=\pgf@yb \advance\pgf@yc by-5pt
+		% construct main path
+		\pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+		\pgfpathlineto{\pgfpoint{\pgf@xa}{\pgf@yb}}
+		\pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yb}}
+		\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yc}}
+		\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@ya}}
+		\pgfpathclose
+		% add little corner
+		\pgfpathmoveto{\pgfpoint{\pgf@xc}{\pgf@yb}}
+		\pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yc}}
+		\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yc}}
+		\pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yc}}
+	}
+}
+\tikzstyle{message} = [shape=document, thick, draw=black, minimum width=2cm]
+</SnippetCode>
+    <SampleCode>
+\makeatletter
+\pgfdeclareshape{document}{
+	\inheritsavedanchors[from=rectangle] % this is nearly a rectangle
+	\inheritanchorborder[from=rectangle]
+	\inheritanchor[from=rectangle]{center}
+	\inheritanchor[from=rectangle]{north}
+	\inheritanchor[from=rectangle]{south}
+	\inheritanchor[from=rectangle]{west}
+	\inheritanchor[from=rectangle]{east}
+	% ... and possibly more
+	\backgroundpath{% this is new
+		% store lower right in xa/ya and upper right in xb/yb
+		\southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+		\northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+		% compute corner of ``flipped page''
+		\pgf@xc=\pgf@xb \advance\pgf@xc by-5pt % this should be a parameter
+		\pgf@yc=\pgf@yb \advance\pgf@yc by-5pt
+		% construct main path
+		\pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+		\pgfpathlineto{\pgfpoint{\pgf@xa}{\pgf@yb}}
+		\pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yb}}
+		\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yc}}
+		\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@ya}}
+		\pgfpathclose
+		% add little corner
+		\pgfpathmoveto{\pgfpoint{\pgf@xc}{\pgf@yb}}
+		\pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yc}}
+		\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yc}}
+		\pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yc}}
+	}
+}
+\tikzstyle{message} = [shape=document, thick, draw=black, minimum width=2cm]
+
+
+\begin{tikzpicture}
+
+\node [message] at (-6,11) {Message};
+
+\end{tikzpicture}
+
+
+</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
 </SnippetsDataSet>

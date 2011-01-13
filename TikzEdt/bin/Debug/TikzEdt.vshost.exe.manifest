@@ -115,14 +115,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="562176">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="562688">
       <assemblyIdentity name="TikzEdt" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>R3FwQaTEPI84+sK0dizI7Lt/W0I=</dsig:DigestValue>
+        <dsig:DigestValue>H0DpVf2RBSfPOfw8pFxte11SYHI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
