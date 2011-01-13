@@ -48,6 +48,16 @@
       <Description></Description>
     </Snippets>
     <Snippets>
+      <Text>rectangle split parts=</Text>
+      <environment>1</environment>
+      <Description></Description>
+    </Snippets>
+    <Snippets>
+      <Text>regular polygon sides=</Text>
+      <environment>1</environment>
+      <Description></Description>
+    </Snippets>
+    <Snippets>
       <Text>text=</Text>
       <environment>1</environment>
       <Description></Description>
@@ -116,6 +126,10 @@
       <environment>3</environment>
     </Snippets>
     <Snippets>
+      <Text>nodepart{lower}</Text>
+      <environment>3</environment>
+    </Snippets>
+    <Snippets>
       <Text>draw</Text>
       <environment>3</environment>
     </Snippets>
@@ -148,7 +162,19 @@
     <EndTag>(,|\])</EndTag>
     <ID>4</ID>
     <Snippets>
-      <Text>ellipse</Text>
+      <Text>arrow box</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>cloud</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>cloud callout</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>chamfered rectangle</Text>
       <environment>4</environment>
     </Snippets>
     <Snippets>
@@ -156,11 +182,115 @@
       <environment>4</environment>
     </Snippets>
     <Snippets>
+      <Text>circle split</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>circle solidus</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>circular sector</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>cross out</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>cylinder</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>dart</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
       <Text>diamond</Text>
       <environment>4</environment>
     </Snippets>
     <Snippets>
+      <Text>double arrow</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>ellipse</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>ellipse callout</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>ellipse split</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>forbidden sign</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>isosceles triangle</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>kite</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>magnifying glass</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
       <Text>rectangle</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>rectangle callout</Text>
+      <environment>4</environment>
+    </Snippets>
+     <Snippets>
+      <Text>rectangle split</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>regular polygon</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>rounded rectangle</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>semicircle</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>signal</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>single arrow</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>star</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>starbust</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>strike out</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>tape</Text>
+      <environment>4</environment>
+    </Snippets>
+    <Snippets>
+      <Text>trapezium</Text>
       <environment>4</environment>
     </Snippets>
   </Environments>
