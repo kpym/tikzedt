@@ -170,47 +170,47 @@
     <EndTag>(,|\])</EndTag>
     <ID>5</ID>
     <Snippets>
-      <text>\itshape</Text>
+      <Text>\itshape</Text>
       <environment>5</environment>
     </Snippets>
     <Snippets>
-      <text>\bfseries</Text>
+      <Text>\bfseries</Text>
       <environment>5</environment>
     </Snippets>
     <Snippets>
-      <text>\footnotesize</Text>
+      <Text>\footnotesize</Text>
       <environment>5</environment>
     </Snippets>
     <Snippets>
-      <text>\large</Text>
+      <Text>\large</Text>
       <environment>5</environment>
     </Snippets>
     <Snippets>
-      <text>\Large</Text>
+      <Text>\Large</Text>
       <environment>5</environment>
     </Snippets>
     <Snippets>
-      <text>\LARGE</Text>
+      <Text>\LARGE</Text>
       <environment>5</environment>
     </Snippets>
     <Snippets>
-      <text>\huge</Text>
+      <Text>\huge</Text>
       <environment>5</environment>
     </Snippets>
     <Snippets>
-      <text>\Huge</Text>
+      <Text>\Huge</Text>
       <environment>5</environment>
     </Snippets>
     <Snippets>
-      <text>\HUGE</Text>
+      <Text>\HUGE</Text>
       <environment>5</environment>
     </Snippets>
     <Snippets>
-      <text>\small</Text>
+      <Text>\small</Text>
       <environment>5</environment>
     </Snippets>
     <Snippets>
-      <text>\tiny</Text>
+      <Text>\tiny</Text>
       <environment>5</environment>
     </Snippets>
   </Environments>

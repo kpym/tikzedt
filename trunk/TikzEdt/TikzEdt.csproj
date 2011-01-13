@@ -243,7 +243,7 @@
     </None>
     <None Include="Editor\CodeCompletions.xml">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Data\CompletionDS.xsc">
       <DependentUpon>CompletionDS.xsd</DependentUpon>
@@ -272,7 +272,7 @@
       <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
     </None>
     <None Include="Editor\TikzSyntax.xshd">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
     <None Include="TikzEdt_TemporaryKey.pfx" />
