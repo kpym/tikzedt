@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" standalone="yes"?>
 <CompletionDS xmlns="http://tempuri.org/CompletionDS.xsd">
   <Environments>
-    <StartTag>\[</StartTag>
+    <StartTag>[,\[]</StartTag>
     <EndTag>\]</EndTag>
     <ID>1</ID>
     <Snippets>
@@ -356,5 +356,8 @@
   </Triggers>
   <Triggers>
     <Trigger>\</Trigger>
+  </Triggers>
+  <Triggers>
+    <Trigger>,</Trigger>
   </Triggers>
 </CompletionDS>
