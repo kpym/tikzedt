@@ -31,6 +31,9 @@
                 MouseLeftButtonUp="canvas1_MouseLeftButtonUp" ContextMenuOpening="canvas1_ContextMenuOpening" MouseRightButtonDown="canvas1_MouseRightButtonDown"
                 MouseWheel="JumpToSourceDoIt">
             <Ellipse Stroke="Red" StrokeThickness="8" Opacity="0.5" Width="50" Height="{Binding ElementName=MarkerEllipse, Path=Width}" HorizontalAlignment="Left" Name="MarkerEllipse" Visibility="Hidden"/>
+            <Rectangle Name="SelectionRect" Width="200" Height="200" StrokeThickness="1" 
+                       Visibility="Collapsed" Fill="#23008ACA" Stroke="Blue"/>
+            <!-- StrokeDashArray="4 4" -->
             <Canvas.ContextMenu>
                 <ContextMenu ContextMenuOpening="ContextMenu_ContextMenuOpening">
                     <MenuItem Header="Move" Name="mnuMove" Click="contextmenuClick">

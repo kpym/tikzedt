@@ -118,5 +118,17 @@
     <Setting Name="SplitterColWidthSetting" Type="System.Windows.GridLength" Scope="User">
       <Value Profile="(Default)">3</Value>
     </Setting>
+    <Setting Name="Overlay_CoordSelColor" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#FFADFF2F</Value>
+    </Setting>
+    <Setting Name="Overlay_CoordColor" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#FFFF0000</Value>
+    </Setting>
+    <Setting Name="Overlay_ScopeSelColor" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#70FF0000</Value>
+    </Setting>
+    <Setting Name="Overlay_ScopeColor" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#7000FF00</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

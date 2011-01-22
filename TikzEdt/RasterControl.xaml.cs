@@ -231,6 +231,17 @@ namespace TikzEdt
             return new Point((pp.X - BB.X) * Resolution, (pp.Y - BB.Y) * Resolution);
         }
         /// <summary>
+        /// Rasterizes a relative shift.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public Point RasterizePixelRelative(Point p)
+        {
+            Point pp = new Point(p.X / Resolution, p.Y / Resolution);
+            pp = Rasterize(pp);
+            return new Point((pp.X ) * Resolution, (pp.Y ) * Resolution);
+        }
+        /// <summary>
         /// The output is in absolute Cartesian Tikz coordinates (It disregards 
         /// the coordinate tranformation and Polar setting.)
         /// </summary>
@@ -242,7 +253,6 @@ namespace TikzEdt
             pp = Rasterize(pp);            
             return pp;
         }
-
 
         /// <summary>
         /// Convertes polar to Cartesian, USING THE COORDINATE TRANSFORM!

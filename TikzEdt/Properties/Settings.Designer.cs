@@ -456,5 +456,53 @@ namespace TikzEdt.Properties {
                 this["SplitterColWidthSetting"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFADFF2F")]
+        public global::System.Windows.Media.Color Overlay_CoordSelColor {
+            get {
+                return ((global::System.Windows.Media.Color)(this["Overlay_CoordSelColor"]));
+            }
+            set {
+                this["Overlay_CoordSelColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFF0000")]
+        public global::System.Windows.Media.Color Overlay_CoordColor {
+            get {
+                return ((global::System.Windows.Media.Color)(this["Overlay_CoordColor"]));
+            }
+            set {
+                this["Overlay_CoordColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#70FF0000")]
+        public global::System.Windows.Media.Color Overlay_ScopeSelColor {
+            get {
+                return ((global::System.Windows.Media.Color)(this["Overlay_ScopeSelColor"]));
+            }
+            set {
+                this["Overlay_ScopeSelColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#7000FF00")]
+        public global::System.Windows.Media.Color Overlay_ScopeColor {
+            get {
+                return ((global::System.Windows.Media.Color)(this["Overlay_ScopeColor"]));
+            }
+            set {
+                this["Overlay_ScopeColor"] = value;
+            }
+        }
     }
 }

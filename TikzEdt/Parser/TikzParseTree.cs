@@ -545,7 +545,9 @@ namespace TikzEdt.Parser
             else
             {
                 Point relp; // will hold the new coordinates, in the current coordinate system
-                TikzMatrix MM = relto.parent.GetCurrentTransformAt(relto);
+                TikzMatrix MM;
+                if (!relto.parent.GetCurrentTransformAt(relto, out MM))
+                    return; // broken coord trafo -> do nothing
                 MM = MM.Inverse();
 
                 if (deco == "+" || deco == "++")
@@ -634,8 +636,15 @@ namespace TikzEdt.Parser
                     relpos = RasterControl.PolToCartTC(relpos);
 
                 if (relto.parent != null)
-                    relpos = relto.parent.GetCurrentTransformAt(relto).Transform(relpos, true);
-
+                {
+                    TikzMatrix M;
+                    if (!relto.parent.GetCurrentTransformAt(relto, out M))
+                    {
+                        ret = new Point(0, 0);
+                        return false;
+                    }
+                    relpos = M.Transform(relpos, true);
+                }
                 if (OnlyOffset)
                 {
                     ret = offset;
@@ -666,7 +675,12 @@ namespace TikzEdt.Parser
             }
             else
             {
-                TikzMatrix M = relto.parent.GetCurrentTransformAt(relto);
+                TikzMatrix M;
+                if (!relto.parent.GetCurrentTransformAt(relto, out M))
+                {
+                    ret = new Point(0, 0);
+                    return false;
+                }
                 //Point pret;
                 if (OnlyOffset)
                 {
@@ -682,6 +696,9 @@ namespace TikzEdt.Parser
         }
         public override void UpdateText()
         {
+            if (IsBroken)   // if coordinate could not be determined-> do not change the text
+                return;
+
             string newtext = deco + "(";
             switch (type)
             {
@@ -723,6 +740,34 @@ namespace TikzEdt.Parser
         //{
             //x = tx; y = ty;
         //}
+
+        /// <summary>
+        /// returns the Cartesian coordinates, w/o any coordinate transformation applied
+        /// </summary>
+        /// <returns></returns>
+        public Point GetCartesian()
+        {
+            if (type == Tikz_CoordType.Cartesian)
+            {
+                return new Point(uX.GetInCM(), uY.GetInCM());
+            }
+            else if (type == Tikz_CoordType.Polar)
+            {
+                double angle = uX.GetInCM() * 2 * Math.PI / 360;    // in radians
+                return new Point(uY.GetInCM() * Math.Cos(angle), uY.GetInCM() * Math.Sin(angle));
+            }
+            else
+                throw new Exception("Tikz_Coord.GetCartesian should only be called for valid cartesian or polar coordinates");
+
+        }
+        public void SetCartesian(double x, double y)
+        {
+            if (type != Tikz_CoordType.Cartesian)
+                throw new Exception("Tikz_Coord.SetCartesian should only be called for valid cartesian coordinates");
+            uX.SetInCM(x);
+            uY.SetInCM(y);
+        }
+
     }
 
     /// <summary>
@@ -788,8 +833,9 @@ namespace TikzEdt.Parser
                 case "ex":
                     return number * Consts.cmperex;
                 default:
-                    //error 
-                    return 0;
+                    //error
+                    throw new Exception("Tikz_Numberunit: unknown unit, value queried.");
+                    //return 0;
             }
 
         }
@@ -828,7 +874,7 @@ namespace TikzEdt.Parser
                     //error 
                     number = val;
                     break;
-            }
+            }            
         }
     }
 
@@ -961,11 +1007,13 @@ namespace TikzEdt.Parser
         /// </summary>
         /// <param name="childtpi">The object to determine coordinate trsf. at.</param>
         /// <returns>The coordinate transformation.</returns>
-        public TikzMatrix GetCurrentTransformAt(TikzParseItem childtpi)
+        public bool GetCurrentTransformAt(TikzParseItem childtpi, out TikzMatrix M)
         {
-            TikzMatrix M;
             if (parent != null)
-                M = parent.GetCurrentTransformAt(this);
+            {
+                if (!parent.GetCurrentTransformAt(this, out M))
+                    return false;
+            }
             else
                 M = new TikzMatrix(); // identity matrix
 
@@ -977,10 +1025,14 @@ namespace TikzEdt.Parser
                 }
                 else if (tpi is Tikz_Options)
                 {
-                    M = M * (tpi as Tikz_Options).GetTransform();
+                    TikzMatrix MM;
+                    if ((tpi as Tikz_Options).GetTransform(out MM))
+                        M = M * MM;
+                    else
+                        return false;
                 }
             }
-            return M;
+            return true;
         }
 
         public override string ToString()
@@ -1153,7 +1205,12 @@ namespace TikzEdt.Parser
             if (GetLastDrawnItem(tpi, out tcret))
             {
                 // last drawn item exists
-                TikzMatrix M2 = GetCurrentTransformAt(tpi), M1=tcret.parent.GetCurrentTransformAt(tcret);
+                TikzMatrix M2, M1;
+                if (!GetCurrentTransformAt(tpi, out M2) || !tcret.parent.GetCurrentTransformAt(tcret, out M1))
+                {
+                    ret = new Point(0, 0);
+                    return false;
+                }
                 Point p1;
                 if (tcret.GetAbsPos(out p1))
                 {
@@ -1170,7 +1227,13 @@ namespace TikzEdt.Parser
             else
             {
                 // no item was drawn before.... take origin (...after coord transform)
-                ret = GetCurrentTransformAt(tpi).Transform(new Point(0, 0));
+                TikzMatrix M;
+                if (!GetCurrentTransformAt(tpi, out M))
+                {
+                    ret = new Point(0, 0);
+                    return false;
+                }
+                ret = M.Transform(new Point(0, 0));
                 return true;
             }
             /*int ind = Children.IndexOf(tpi);
@@ -1254,7 +1317,22 @@ namespace TikzEdt.Parser
 
     public class Tikz_Scope : TikzContainerParseItem
     {
-
+        /// <summary>
+        /// This method determines the coord transform that should be used for rasterizing the scope's
+        /// shift. Note that this is tricky since a scope per se does not have an anchor point.
+        /// We take here as anchor point (i.e., the image of (0,0) under returned coord transformation)
+        /// the transformed origin of the coordinate system at the position of the editable option shift=...
+        /// that determines the scope's position.
+        /// </summary>
+        /// <param name="ret"></param>
+        /// <returns></returns>
+         public bool GetRasterTransform(out TikzMatrix ret)
+         {
+             if (options != null)
+                 return options.GetTransformAtEditableShift(out ret);
+             else
+                 return parent.GetCurrentTransformAt(this, out ret);
+         }
     }
 
     public enum Tikz_OptionType { keyval, key, style }
@@ -1262,8 +1340,9 @@ namespace TikzEdt.Parser
     {
         public Tikz_OptionType type;
 
-        public string key, val; // for style, key is the style's name, val is the style definition
-        public Tikz_NumberUnit numval; // only one of val, numval should be not null
+        public string key, val;        // for style, key is the style's name, val is the style definition
+        public Tikz_Coord coordval;    // this is used for shift={(3,3)} option
+        public Tikz_NumberUnit numval; // only one of val, numval, coordval should be not null
        /* public static string GetID(ITree t)
         {
             if (t.ChildCount <= 0)
@@ -1284,16 +1363,24 @@ namespace TikzEdt.Parser
                         to.type = Tikz_OptionType.key;
                         to.key = TikzParser.getTokensString(tokens, t.GetChild(0));
                         return to;
-                    } else if (t.ChildCount == 2)
+                    }
+                    else if (t.ChildCount == 2)
                     {
                         to.type = Tikz_OptionType.keyval;
                         to.key = TikzParser.getTokensString(tokens, t.GetChild(0));
                         if (t.GetChild(1).Type == simpletikzParser.IM_NUMBERUNIT)
                             to.numval = new Tikz_NumberUnit(t.GetChild(1));
+                        else if (t.GetChild(1).Type == simpletikzParser.IM_COORD)
+                            to.coordval = Tikz_Coord.FromCommonTree(t.GetChild(1), tokens);
                         else
                             to.val = TikzParser.getTokensString(tokens, t.GetChild(1));
                         return to;
-                    } else return null;                    
+                    }
+                    else
+                    {
+                        throw new Exception("The parser seems to have returned an invalid parsetree: invalid number of children of IM_OPTION_KV node");
+                        //return null;
+                    }
                 case simpletikzParser.IM_OPTION_STYLE:
                     if (t.ChildCount < 1)
                         return null;
@@ -1326,8 +1413,14 @@ namespace TikzEdt.Parser
                     newtext = key + "=";
                     if (numval != null)                    
                         newtext = newtext + numval.ToString();
+                    else if (coordval != null)
+                    {
+                        coordval.UpdateText();
+                        newtext = newtext + "{" + coordval.text + "}";
+                    }
                     else
                         newtext = newtext + val;
+                    
                     break;
                 case Tikz_OptionType.style:
                     newtext = key + "/.style=" + val;
@@ -1379,10 +1472,28 @@ namespace TikzEdt.Parser
             return ret;
         } */
 
-        public TikzMatrix GetTransform()
+        /// <summary>
+        /// Gets the total coordinate transformation that is encoded in this options block.
+        /// How this apparently works in Tikz is as follows: 
+        /// (determined by trial and error rather than specification, so hope for the best...)
+        ///     - for each relevant option (shift, xshift, yshift, scale, xscale, yscale) a separate transformation is produced
+        ///     - all those transformations are multiplied
+        /// </summary>
+        /// <returns></returns>
+        public bool GetTransform(out TikzMatrix ret)
         {
-            TikzMatrix ret = new TikzMatrix();
-
+            ret = new TikzMatrix();  // start with unit matrix
+            foreach (TikzParseItem tpi in Children)
+            {
+                if (tpi is Tikz_Option)
+                {
+                    Tikz_Option to = tpi as Tikz_Option;
+                    if (!TransformFromOption(to, ret, out ret))
+                        return false;
+                }
+            }
+            return true;
+            /*
             double scale=1, xshift=0, yshift=0, xscale=1, yscale=1;
 
             Tikz_Option o = GetOption("xshift", Tikz_OptionType.keyval);
@@ -1396,7 +1507,7 @@ namespace TikzEdt.Parser
             o = GetOption("scale", Tikz_OptionType.keyval);
             if (o != null)
                 if (o.numval != null)
-                    scale = o.numval.GetInCM();
+                   scale = o.numval.GetInCM();
             o = GetOption("xscale", Tikz_OptionType.keyval);
             if (o != null)
                 if (o.numval != null)
@@ -1408,19 +1519,178 @@ namespace TikzEdt.Parser
             ret.m[0, 0] = scale * xscale;
             ret.m[1, 1] = scale * yscale;
             ret.m[0, 2] = xshift;
-            ret.m[1, 2] = yshift;
-            return ret;
+            ret.m[1, 2] = yshift; */
+            //return ret;
         }
 
         /// <summary>
-        /// adds the specified amounts to the current xshift and yshift
+        /// 
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="oldTrafo"></param>
+        /// <param name="newTrafo"></param>
+        /// <returns></returns>
+        bool TransformFromOption(Tikz_Option to, TikzMatrix oldTrafo, out TikzMatrix newTrafo)
+        {
+            TikzMatrix ret = new TikzMatrix();
+            newTrafo = ret;
+            if (to.type == Tikz_OptionType.keyval)
+            {
+                if (to.numval == null && to.coordval == null)
+                    return false;
+                switch (to.key.Trim())
+                {
+                    case "xscale":
+                        ret.m[0, 0] = to.numval.GetInCM();
+                        break;
+                    case "yscale":
+                        ret.m[1, 1] = to.numval.GetInCM();
+                        break;
+                    case "scale":
+                        ret.m[0, 0] = to.numval.GetInCM();
+                        ret.m[1, 1] = ret.m[0, 0];
+                        break;
+                    case "xshift":
+                        ret.m[0, 2] = to.numval.GetInCM("pt");
+                        break;
+                    case "yshift":
+                        ret.m[1, 2] = to.numval.GetInCM("pt");
+                        break;
+                    case "shift":
+                        // shift is complicated.....
+                        if (to.coordval == null)
+                            return false;
+                        if (to.coordval.type == Tikz_CoordType.Named)
+                        {
+                            // for named coord, shift sets the _absolute_ origin of the coord system
+                            // hence we need the absolute coord trafo at the current point!
+                            Point neworig;
+                            if (!to.coordval.GetAbsPos(out neworig, this))
+                                return false;
+
+                            TikzMatrix Mabs;
+                            if (!parent.GetCurrentTransformAt(this, out Mabs))
+                                return false;
+
+                            Mabs = Mabs * oldTrafo;
+                            Point theshift = Mabs.Inverse().Transform(neworig);
+                            ret.m[0, 2] = theshift.X;
+                            ret.m[1, 2] = theshift.Y;
+
+                        }
+                        else if (to.coordval.type == Tikz_CoordType.Cartesian || to.coordval.type == Tikz_CoordType.Polar)
+                        {
+                            Point p = to.coordval.GetCartesian();
+                            ret.m[0, 2] = p.X;
+                            ret.m[1, 2] = p.Y;
+                        }
+                        else
+                        {
+                            // invalid coordinate value
+                            return false;
+                        }                        
+                        break;
+                    case "rotate":
+                        double angle = to.numval.GetInCM() * 2* Math.PI / 360;
+                        ret.m[0, 0] = Math.Cos(angle);
+                        ret.m[1, 0] = Math.Sin(angle);
+                        ret.m[0, 1] = -Math.Sin(angle);
+                        ret.m[1, 1] = Math.Cos(angle);
+                        break;
+                }
+            }
+            newTrafo = oldTrafo * ret;
+            return true;
+        }
+        /// <summary>
+        /// Adds the specified amounts to the current xshift and yshift.
+        /// Note that this might be complicated since the coord transf. can be encoded as, e.g.
+        /// [xshift=1cm, scale=2, xshift=-3cm, scale=-1, shift={(45:1)}]
+        /// Which shift should we change? Where should we insert a yshift?
+        /// 
+        /// The policy is as follows:
+        ///     (i)  change the first occuring _cartesian_ "shift=..." item if present.
+        ///     (ii) if not present, add a shift=... to the end.
+        ///     
+        /// Keep in mind that we also want to support rotations.... 
+        /// Todo: check whether ambient coord transform is taken into account...
         /// </summary>
         /// <param name="xshift"></param>
         /// <param name="yshift"></param>
         public void SetShiftRel(double xshift, double yshift)
         {
-            if (xshift != 0)
+            TikzMatrix curTrafo;
+            Tikz_Option EditableShift;
+            if (!GetTransformAtEditableShift(out curTrafo, out EditableShift))
+                return;
+
+            if (EditableShift == null)
             {
+                // We need to add a new shift=... option
+                Point theshift = curTrafo.Inverse().Transform(new Point(xshift, yshift), true);
+                Tikz_Option topt = new Tikz_Option();
+                topt.type = Tikz_OptionType.keyval;
+                topt.key = "shift";
+                topt.coordval = new Tikz_Coord();
+                topt.coordval.type = Tikz_CoordType.Cartesian;
+                topt.coordval.SetCartesian(theshift.X, theshift.Y);
+                AddOption(topt);
+            }
+            else
+            {
+                // We already have a suitable shift=... -option, add shift 
+                Point oldshift = EditableShift.coordval.GetCartesian();
+                Point shifttoadd = curTrafo.Inverse().Transform(new Point(xshift, yshift), true);
+
+                EditableShift.coordval.SetCartesian(oldshift.X + shifttoadd.X, oldshift.Y + shifttoadd.Y);
+                EditableShift.UpdateText();
+                return;
+            }
+
+            /*= new TikzMatrix();     // stores the coord trsf. at current position
+            if (!parent.GetCurrentTransformAt(this, out curTrafo))
+                return;
+            //bool foundone = false;
+            foreach (TikzParseItem tpi in Children)
+            {
+                if (tpi is Tikz_Option)
+                {
+                    Tikz_Option to = tpi as Tikz_Option;
+
+                    if (to.type == Tikz_OptionType.keyval && to.key.Trim() == "shift")
+                    {
+                        if (to.coordval == null)
+                            return;
+                        if (to.coordval.type == Tikz_CoordType.Cartesian)
+                        {
+                            // we found one (yoohoo), set the shift accordingly and exit
+                            Point oldshift = to.coordval.GetCartesian();
+                            Point shifttoadd = curTrafo.Inverse().Transform(new Point(xshift, yshift), true);
+
+                            to.coordval.SetCartesian(oldshift.X + shifttoadd.X, oldshift.Y + shifttoadd.Y);
+                            to.UpdateText();
+                            return;
+                        }
+                    }
+
+                    if (!TransformFromOption(to, curTrafo, out curTrafo))
+                        return; // invalid coord trafo encountered -> do nothing
+                }
+            }
+             */
+
+            // When we get here, nothing was found -> add new shift=... at the end
+
+            
+            
+            //if (!foundone)
+            //{
+
+            //}
+            
+            /*if (xshift != 0)
+            {
+
                 Tikz_Option o = GetOption("xshift", Tikz_OptionType.keyval);
                 if (o == null)
                 {
@@ -1456,7 +1726,60 @@ namespace TikzEdt.Parser
                     o.numval.SetInCM(o.numval.GetInCM() + yshift, "pt");
                     o.UpdateText();
                 }
+            } */
+        }
+
+        /// <summary>
+        /// It returns, if possible, the coordinate transformation at the shift=... option that will
+        /// be editted by SetShiftRel(). This method is in particular used by PdfOverlay to draw the raster associated 
+        /// to a scope object. 
+        /// </summary>
+        /// <param name="ret"></param>
+        /// <returns>true on success, false if coord trafo could not be determined</returns>
+        public bool GetTransformAtEditableShift(out TikzMatrix ret)
+        {
+            Tikz_Option dummy;
+            return GetTransformAtEditableShift(out ret, out dummy);
+        }
+        /// <summary>
+        /// Same as above, but additionally the editable shift is returned.
+        /// (or null if a new one needs to be created)
+        /// </summary>
+        /// <param name="ret"></param>
+        /// <param name="EditableShift"></param>
+        /// <returns></returns>
+        bool GetTransformAtEditableShift(out TikzMatrix ret, out Tikz_Option EditableShift)
+        {
+            ret = new TikzMatrix();     // stores the coord trsf. at current position
+            EditableShift = null;
+            if (!parent.GetCurrentTransformAt(this, out ret))
+                return false;
+            //bool foundone = false;
+            foreach (TikzParseItem tpi in Children)
+            {
+                if (tpi is Tikz_Option)
+                {
+                    Tikz_Option to = tpi as Tikz_Option;
+
+                    if (to.type == Tikz_OptionType.keyval && to.key.Trim() == "shift")
+                    {
+                        if (to.coordval == null)
+                            return false;
+                        if (to.coordval.type == Tikz_CoordType.Cartesian)
+                        {
+                            // we found one (yoohoo)
+                            EditableShift = to;
+                            return true;
+                        }
+                    }
+
+                    if (!TransformFromOption(to, ret, out ret))
+                        return false; // invalid coord trafo encountered -> report failure
+                }
             }
+
+            EditableShift = null;   // nothing found -> return null
+            return true;
         }
 
    /*     public static void SetShiftRel(TikzContainerParseItem tcpi, double xshift, double yshift)

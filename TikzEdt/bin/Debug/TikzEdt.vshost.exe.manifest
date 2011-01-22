@@ -115,24 +115,36 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="562688">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="574976">
       <assemblyIdentity name="TikzEdt" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>H0DpVf2RBSfPOfw8pFxte11SYHI=</dsig:DigestValue>
+        <dsig:DigestValue>8JRFwwLG2eDuUHflgjHLvGdAQxY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="TikzEdt.exe.config" size="5557">
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="WPFToolkit.Extended.dll" size="133120">
+      <assemblyIdentity name="WPFToolkit.Extended" version="1.3.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>SY2oyi1+g4Q/SqpldDW9mqn/+g8=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="TikzEdt.exe.config" size="6107">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>B/32W3o3+okM06AzAxtYZTzfs+c=</dsig:DigestValue>
+      <dsig:DigestValue>+ehzS6AJNNcuP8pR1XOCIIilISs=</dsig:DigestValue>
     </hash>
   </file>
   <file name="tikzedt48.ico" size="9662">
