@@ -175,8 +175,8 @@ namespace TikzEdt.Parser
                             // determine whether option belongs to the item (e.g. \draw [this belongs to draw] blabla [thisnot])
                             // i.e., the scope of the options is the whole item's body
                             // this is hacky
-                            if (item.Children.Count == 0 ||
-                                (item.Children.Count == 1 && (item.Children[0] is Tikz_Something)
+                            if (item.Children.Count == 1 ||
+                                (item.Children.Count == 2 && (item.Children[0] is Tikz_Something)
                                  && item.Children[0].ToString().Trim() == ""))
                             {
                                 item.options = to;

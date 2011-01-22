@@ -149,7 +149,7 @@ namespace TikzEdt
         public MainWindow()
         {
             InitializeComponent();
-
+            
             //make sure that double to string is converted with decimal point (not comma!)       
             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
 
@@ -1007,17 +1007,16 @@ namespace TikzEdt
                 isTempFile = true;
             string OldFileName = CurFile;                 
 
-            //if (CurFile != Consts.defaultCurFile)
-            //{
             sfd.FileName = System.IO.Path.GetFileName(CurFile);
             sfd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
-            //}
+
+            bool WeNeedRecompilationAfterSave = false;
             if (CurFileNeverSaved || saveas)
             {
                 if (sfd.ShowDialog() != true)
                     return false;
                 else CurFile = sfd.FileName; //note temporarily CurFile is absolute.
-
+                WeNeedRecompilationAfterSave = true;
             }
 
             StreamWriter wr = new StreamWriter(CurFile);
@@ -1030,7 +1029,7 @@ namespace TikzEdt
             //delete old temp data.
             if (saveas)
             { 
-                //before delete temp data, we have to cloase the pdf
+                //before delete temp data, we have to close the pdf
                 tikzDisplay1.SetUnavailable();
 
                 //if file was not saved yet, this data is in temp folder.
@@ -1050,6 +1049,9 @@ namespace TikzEdt
                 Helper.SetCurrentWorkingDir(Helper.WorkingDirOptions.DirFromFile, CurFile);
                 CurFile = System.IO.Path.GetFileName(CurFile);
             }
+
+            if (WeNeedRecompilationAfterSave)
+                Recompile();
             return true;
         }
 

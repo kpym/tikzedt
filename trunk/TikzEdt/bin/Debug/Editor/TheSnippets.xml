@@ -53,6 +53,7 @@ Will be displayed as tooltip</Description>
 \begin{scope}[xshift=1cm]
   \draw (1,1)--(3,3);
 \end{scope}
+\draw (1,1)--(3,3);
 \end{tikzpicture}</SnippetCode>
     <SampleCode>\begin{tikzpicture}
 \begin{scope}[xshift=1cm]

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:p="clr-namespace:TikzEdt.Properties"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
         Title="Settings" Height="346" Width="438" Loaded="Window_Loaded" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico" KeyDown="Window_KeyDown">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -129,10 +130,19 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <!-- <TextBlock Grid.Row="0" Text="Parser and Overlay"></TextBlock> -->
                     <TextBlock Margin="3" Text="Margin for Auto B. Box" Grid.Column="0" Grid.Row="1"></TextBlock>
                     <TextBox Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Margin, Mode=TwoWay}"/>
+                    <TextBlock Margin="3" Text="Color Overlay Node" Grid.Column="0" Grid.Row="2"/>
+                    <extToolkit:ColorPicker  Margin="3" Grid.Column="1" Grid.Row="2" SelectedColor="{Binding Source={x:Static p:Settings.Default}, Path=Overlay_CoordColor, Mode=TwoWay}"/>
+                    <TextBlock Margin="3" Text="Color Ovl. Node (selected)" Grid.Column="0" Grid.Row="3"/>
+                    <extToolkit:ColorPicker  Margin="3" Grid.Column="1" Grid.Row="3" SelectedColor="{Binding Source={x:Static p:Settings.Default}, Path=Overlay_CoordSelColor, Mode=TwoWay}"/>
+                    <TextBlock Margin="3" Text="Color Overlay Scope" Grid.Column="0" Grid.Row="4"/>
+                    <extToolkit:ColorPicker  Margin="3" Grid.Column="1" Grid.Row="4" SelectedColor="{Binding Source={x:Static p:Settings.Default}, Path=Overlay_ScopeColor, Mode=TwoWay}"/>
+                    <TextBlock Margin="3" Text="Color Ovl. Scope (selected)" Grid.Column="0" Grid.Row="5"/>
+                    <extToolkit:ColorPicker  Margin="3" Grid.Column="1" Grid.Row="5" SelectedColor="{Binding Source={x:Static p:Settings.Default}, Path=Overlay_ScopeSelColor, Mode=TwoWay}" IsManipulationEnabled="True" />
                     <!-- 
                     <TextBlock Margin="3" Text="Default Bounding Box" Grid.Column="0" Grid.Row="2"></TextBlock>
                     <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">                        

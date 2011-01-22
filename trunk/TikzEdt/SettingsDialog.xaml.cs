@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
+//using Microsoft.Windows.Controls;
 using System.Xml;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
@@ -26,7 +27,7 @@ namespace TikzEdt
     {
         public SettingsDialog()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
