@@ -42,13 +42,18 @@ namespace TikzEdt
                 }
                 finally
                 {
+                    System.Environment.Exit(1);
                     Application.Current.MainWindow.Close();
                 }
             }
 
             // Exits the program when the user clicks Abort.
-            if (result == System.Windows.Forms.DialogResult.Abort)
+            if (result == System.Windows.Forms.DialogResult.Yes)
             {
+                System.Environment.Exit(1);                
+            }
+            else if (result == System.Windows.Forms.DialogResult.No)
+            {                
                 Application.Current.MainWindow.Close();                
             }
 
@@ -62,13 +67,14 @@ namespace TikzEdt
 
             string errorMsg = "An error occurred. If it can be reproduced please inform the author of this program providing log file "+logfilepath+"\n\n";
             errorMsg = errorMsg + e.Message + "\n\nStack Trace:\n" + e.StackTrace;
+            errorMsg = errorMsg + e.Message + "\n\nTerminate application immediately?";
 
             System.IO.File.AppendAllText(logfilepath, "========== TIKZEDT UNCAUGHT EXCEPTION ======" + Environment.NewLine);
             System.IO.File.AppendAllText(logfilepath, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString() + Environment.NewLine);
             System.IO.File.AppendAllText(logfilepath, e.Message + Environment.NewLine+ Environment.NewLine +"Stack Trace:" + Environment.NewLine + e.StackTrace + Environment.NewLine);
             System.IO.File.AppendAllText(logfilepath, "===== END: TIKZEDT UNCAUGHT EXCEPTION ======" + Environment.NewLine);
 
-            return System.Windows.Forms.MessageBox.Show(errorMsg, "Application Error", System.Windows.Forms.MessageBoxButtons.AbortRetryIgnore, System.Windows.Forms.MessageBoxIcon.Stop);
+            return System.Windows.Forms.MessageBox.Show(errorMsg, "Application Error", System.Windows.Forms.MessageBoxButtons.YesNoCancel, System.Windows.Forms.MessageBoxIcon.Stop);
         }
     }
 
