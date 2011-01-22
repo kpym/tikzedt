@@ -11,7 +11,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+//using System.Windows.Shapes;
 using System.Drawing;
 using System.Diagnostics;
 using System.IO;
@@ -70,7 +70,7 @@ namespace TikzEdt
         Rect currentBB;
         //protected bool isRunning = false;
         //PDFLibNet.PDFWrapper mypdfDoc = null;
-        PdfToBmp mypdfDoc = new PdfToBmp();
+        PdfToBmp myPdfBmpDoc = new PdfToBmp();
 
         
         TexCompiler _TexCompilerToListen;
@@ -276,7 +276,7 @@ namespace TikzEdt
             else
             {
                 lblUnavailable.Visibility = Visibility.Collapsed;
-                mypdfDoc.LoadPdf(cFile);                
+                myPdfBmpDoc.LoadPdf(cFile);                
                 image1.Visibility = Visibility.Visible;                
             }
             RecalcSize();            
@@ -285,6 +285,7 @@ namespace TikzEdt
         {
             RefreshPDF("");
 
+            myPdfBmpDoc.UnloadPdf();
             //here it would be nice to release the handle to the pdf document
             //so it can be deleted. but how?
         }
@@ -372,9 +373,31 @@ namespace TikzEdt
         void RedrawBMP()
         {
             
-            if (mypdfDoc != null)
+            if (myPdfBmpDoc != null)
             {
-                image1.Source = mypdfDoc.GetBitmap(Resolution, currentBB.Width*currentBB.Height >0); // mypdfDoc.GetBitmap(currentBB, Resolution);                
+                
+                //check version of PDFLibNet, if the old 1.0.6.6 use old GetBitmap
+                System.Reflection.Assembly a = System.Reflection.Assembly.GetAssembly(typeof(PDFWrapper));
+                if(a.GetName().Version.Major == 1)
+                    if(a.GetName().Version.Minor == 0)
+                        if(a.GetName().Version.Build == 6)
+                            if (a.GetName().Version.Revision == 6)
+                            {
+                                BitmapSource bitmap = myPdfBmpDoc.GetBitmap(Resolution, currentBB.Width * currentBB.Height > 0); // mypdfDoc.GetBitmap(currentBB, Resolution);                
+                                if (bitmap != null)
+                                  image1.Source = bitmap;
+                                return;
+                            }
+                 
+                //otherwise the new Bitmap2 function
+                
+                image1.Source = null;
+                //myPdfBmpDoc.GetBitmap2(Resolution, currentBB.Width * currentBB.Height > 0); ;
+                image1.Source = myPdfBmpDoc.GetBitmap2(Resolution, currentBB.Width * currentBB.Height > 0); ;
+
+                /*GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();*/
             }
 
         }
@@ -391,6 +414,7 @@ namespace TikzEdt
     public class PdfToBmp
     {
         PDFWrapper mypdfDoc;
+        
 
         public bool LoadPdf(string cfile)
         {
@@ -399,15 +423,18 @@ namespace TikzEdt
             {
                 mypdfDoc.Dispose();
                 mypdfDoc = null;
+                
             }
             mypdfDoc = new PDFLibNet.PDFWrapper();
             
             mypdfDoc.UseMuPDF = true;
+
             if (!File.Exists(cfile))
                 return false;
             //this line creates a handle
             //it can be closed with Dispose()
-             return mypdfDoc.LoadPDF(cfile); 
+             bool ret = mypdfDoc.LoadPDF(cfile);             
+             return ret;
         }
 
         public bool UnloadPdf()
@@ -450,6 +477,69 @@ namespace TikzEdt
         extern static bool DestroyIcon(IntPtr handle);
         #endregion TEST
 
+        public BitmapSource GetBitmap2(double Resolution, bool Transparent = true)
+        {
+            if (mypdfDoc != null && mypdfDoc.PageCount > 0)
+            {
+                mypdfDoc.RenderDPI = 72 * Resolution / Consts.ptspertikzunit;
+
+                System.Windows.Forms.PictureBox pic = new System.Windows.Forms.PictureBox();
+                mypdfDoc.CurrentPage = 1;
+                mypdfDoc.RenderPage(pic.Handle);                
+                
+
+                /*Added since 1.0.6.2*/                                
+                mypdfDoc.CurrentX = 0;
+                mypdfDoc.CurrentY = 0;
+                mypdfDoc.ClientBounds = new Rectangle(0, 0, mypdfDoc.PageWidth, mypdfDoc.PageHeight);
+
+                if (mypdfDoc.PageWidth * mypdfDoc.PageHeight == 0)
+                    return null;
+                Bitmap _backbuffer = new Bitmap(mypdfDoc.PageWidth, mypdfDoc.PageHeight);
+                using (Graphics g = Graphics.FromImage(_backbuffer))
+                {
+                    /*New thread safe method*/
+                    mypdfDoc.DrawPageHDC(g.GetHdc());
+                    g.ReleaseHdc();
+                }
+                pic.Dispose();
+                
+                if (Transparent)
+                {
+                    _backbuffer.MakeTransparent(System.Drawing.Color.White);
+                    _backbuffer.MakeTransparent(System.Drawing.Color.FromArgb(255, 253, 253, 253));
+                    _backbuffer.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
+                }
+
+
+                BitmapSource ret = loadBitmap(_backbuffer);
+                _backbuffer.Dispose();                
+                
+                return ret;
+            }
+            else return null;
+        }
+
+        public BitmapSource getBitmapSourceFromBitmap(Bitmap bmp)
+        {
+
+            BitmapSource returnSource = null;
+
+            try
+            {
+
+                returnSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(),
+
+                IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+
+            }
+
+            catch { returnSource = null; }
+
+            return returnSource;
+
+        }
+
         public BitmapSource GetBitmap(double Resolution, bool Transparent = true)
         {            
             if (mypdfDoc != null && mypdfDoc.PageCount >0)
@@ -460,43 +550,29 @@ namespace TikzEdt
                 {
                     //after this line pdf handle cannot be release with mypdfDoc.UnloadPdf();
                     //????;
-                    b = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);
+                    b = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);                    
+                    
                 }
                 catch (ArgumentException)
                 {//this can happen if node position is very "big", like (500,500)
                     return null;
                 }
-                #region TEST
-                /*
-                //mypdfDoc.Pages.Clear();
-                IntPtr ptr = IntPtr.Zero;
-                if (b != null) ptr = b.GetHicon();
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
-                Microsoft.Win32.SafeHandles.SafeFileHandle dd = new Microsoft.Win32.SafeHandles.SafeFileHandle(ptr, true);
-                //dd.Close();
-                if (ptr != IntPtr.Zero) DestroyIcon(ptr);
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
-                //DeleteObject(bitmap_handle);
-                if (b != null) b.Dispose();
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
-                return null;
-                 */
-                #endregion TEST
 
-                if (Transparent)
+                BitmapSource ret = null;
+
+                if (b != null)
                 {
-                    b.MakeTransparent(System.Drawing.Color.White);
-                    b.MakeTransparent(System.Drawing.Color.FromArgb(255, 253, 253, 253));
-                    b.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
+                    if (Transparent)
+                    {
+                        b.MakeTransparent(System.Drawing.Color.White);
+                        b.MakeTransparent(System.Drawing.Color.FromArgb(255, 253, 253, 253));
+                        b.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
+                    }
+                    ret = loadBitmap(b);
+                    b.Dispose();
                 }
-                BitmapSource ret = loadBitmap(b);
-                b.Dispose();
+                else
+                    b = b;
                 
                 return ret;                
             }
@@ -513,7 +589,7 @@ namespace TikzEdt
             if (mypdfDoc != null && mypdfDoc.Pages.Count > 0)
             {
                 Bitmap b = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);
-                b.MakeTransparent(System.Drawing.Color.White);
+                b.MakeTransparent(System.Drawing.Color.White);                
                 b.MakeTransparent(System.Drawing.Color.FromArgb(255, 253, 253, 253));
                 b.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
                 b.Save(cFile);
@@ -522,8 +598,6 @@ namespace TikzEdt
             }            
         }
 
-        [System.Runtime.InteropServices.DllImport("Kernel32")]
-        private extern static Boolean CloseHandle(IntPtr handle);
 
         [DllImport("gdi32")]
         static extern int DeleteObject(IntPtr o);
@@ -553,9 +627,12 @@ namespace TikzEdt
         }
 
         ~PdfToBmp()
-        {            
-            //if (mypdfDoc != null)
-              //  mypdfDoc.Dispose();
+        {
+            if (mypdfDoc != null)
+            {
+                mypdfDoc.Dispose();
+                mypdfDoc = null;
+            }
         }
     }
 }

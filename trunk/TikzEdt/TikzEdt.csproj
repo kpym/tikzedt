@@ -85,9 +85,9 @@
     <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\..\avalonedit\bin\Debug\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
-    <Reference Include="PDFLibNet, Version=1.0.6.6, Culture=neutral, PublicKeyToken=26d87f7d66fb2aee, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="PDFLibNet, Version=1.0.6.7, Culture=neutral, PublicKeyToken=26d87f7d66fb2aee, processorArchitecture=x86">
       <HintPath>..\..\cube-soft-PDFLibNet-a097e5a\bin\x86\Release\PDFLibNet.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="StringTemplate">
       <HintPath>..\..\..\..\..\Desktop\antlr\antlr-3.1.3\runtime\CSharp\Libraries\bin\net-2.0\StringTemplate.dll</HintPath>
