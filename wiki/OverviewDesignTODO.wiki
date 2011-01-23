@@ -17,7 +17,7 @@
 == TikzDisplay ==
 *TODO*
   * pdflatex hangs sometimes
-  * Memory leak in PdfLibNet ???
+  * Memory leak in PdfLibNet (fixed Jan 23, 2011)
 
 == Rasterizer ==
 *TODO*
