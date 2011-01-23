@@ -7,6 +7,7 @@ using System.Windows;
 
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
+using System.Windows.Media;
 
 namespace TikzEdt.Parser
 {
@@ -28,7 +29,7 @@ namespace TikzEdt.Parser
             ret.m[0, 0] = 0; ret.m[1, 1] = 0;
             return ret;
         }
-
+        
         public static TikzMatrix operator *(TikzMatrix M1, TikzMatrix M2)
         {
             TikzMatrix ret = TikzMatrix.ZeroMatrix();
@@ -77,20 +78,21 @@ namespace TikzEdt.Parser
 
         public object Clone()
         {
-            TikzMatrix M = (TikzMatrix)this.MemberwiseClone();
-            M.m = new double[2, 3];
-            for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++)
-                    M.m[i, j] = m[i, j];
-            return M;
+            return CloneIt();
         }
 
         public TikzMatrix CloneIt()
         {
             TikzMatrix M = (TikzMatrix)this.MemberwiseClone();
             M.m = new double[2, 3];
-            for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++)
+            for (int i = 0; i < 2; i++) for (int j = 0; j < 3; j++)
                     M.m[i, j] = m[i, j];
             return M;
+        }
+
+        public Matrix ToWpfMatrix()
+        {
+            return new Matrix(m[0, 0], m[0, 1], m[1, 0], m[1, 1], m[0, 2], m[1, 2]);
         }
     }
 
