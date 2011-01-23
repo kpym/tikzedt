@@ -122,6 +122,15 @@ namespace TikzEdt
             set { _IsCartesian = value; DrawRaster(); }
         }
 
+        /// <summary>
+        /// Resets the raster to some default values
+        /// </summary>
+        public void ResetRaster()
+        {
+            IsCartesian = true;
+            CoordinateTransform = new Parser.TikzMatrix(); // unit matrix
+        }
+
         // the scaled GridWidth
         /*double scGWX
         {

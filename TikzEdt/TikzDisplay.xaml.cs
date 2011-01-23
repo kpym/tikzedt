@@ -493,6 +493,8 @@ namespace TikzEdt
                 mypdfDoc.CurrentY = 0;
                 mypdfDoc.ClientBounds = new Rectangle(0, 0, mypdfDoc.PageWidth, mypdfDoc.PageHeight);
 
+                //Bitmap bbb = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit, false);                
+
                 if (mypdfDoc.PageWidth * mypdfDoc.PageHeight == 0)
                     return null;
                 Bitmap _backbuffer = new Bitmap(mypdfDoc.PageWidth, mypdfDoc.PageHeight);

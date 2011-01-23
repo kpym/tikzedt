@@ -772,6 +772,7 @@ namespace TikzEdt
                 }
                 else if (o is OverlayShape)
                 {
+                    // initiate a drag/drop operation
                     curDragged = (OverlayShape)o;
                     DragOrigin = e.GetPosition(o);
                     DragOrigin = new Point(DragOrigin.X, (o as OverlayShape).Height - DragOrigin.Y);
@@ -796,6 +797,10 @@ namespace TikzEdt
 
                     // adjust raster origin/scale/polar/cartesian
                     SetCorrectRaster(curDragged);
+
+                    // capture mouse. this is important if the user drags sth. outside canvas1's bounds
+                    if (curDragged != null && !canvas1.IsMouseCaptured)
+                        canvas1.CaptureMouse();
                 }
                 else if (o == canvas1)
                 {

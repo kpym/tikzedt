@@ -63,6 +63,7 @@ namespace TikzEdt
                 {
                     RecentFileList.InsertFile(AbsoluteCurFilePath);
                 }
+
             }
         }
         /// <summary>
@@ -146,6 +147,7 @@ namespace TikzEdt
         public static bool isClosing = false;
         //public static List<TexOutputParser.TexError> TexErrors = new List<TexOutputParser.TexError>();
         public static System.Collections.ObjectModel.ObservableCollection<TexOutputParser.TexError> TexErrors = new System.Collections.ObjectModel.ObservableCollection<TexOutputParser.TexError>();
+        public FileSystemWatcher fileWatcher = new FileSystemWatcher();
         public MainWindow()
         {
             InitializeComponent();
@@ -167,6 +169,9 @@ namespace TikzEdt
 
             AsyncParser.DoWork += new System.ComponentModel.DoWorkEventHandler(AsyncParser_DoWork);
             AsyncParser.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(AsyncParser_RunWorkerCompleted);
+
+            //fileWatcher.NotifyFilter = NotifyFilters.LastWrite;
+            fileWatcher.Changed += new FileSystemEventHandler(fileWatcher_Changed);
 
             // Register events with the global compiler
             TheCompiler.Instance.OnCompileEvent += new TexCompiler.CompileEventHandler(TexCompiler_OnCompileEvent);
@@ -196,6 +201,26 @@ namespace TikzEdt
             RecentFileList.MenuClick += (s, e) => { if (TryDisposeFile()) LoadFile(e.Filepath); };            
 
             //cmbGrid.SelectedIndex = 4;
+        }
+
+        void fileWatcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            Dispatcher.Invoke(new Action( delegate() {
+                // there is a well-known issue with filewatcher raising multiple events... so, as a hack, stop wtaching
+                fileWatcher.EnableRaisingEvents = false;
+                // the currently watched file was changed -> ask the user to reload
+                switch (MessageBox.Show("The currently open file was modified outside the editor.\r\nDo you want to reload the file from disk?", 
+                    "Modified outside TikzEdt", MessageBoxButton.YesNo, MessageBoxImage.Warning))
+                {
+                    case MessageBoxResult.Yes:
+                        ChangesMade = false;
+                        LoadFile(Directory.GetCurrentDirectory() + "\\" + CurFile); // here the filewatcher is turned on again implicitly
+                        break;
+                    case MessageBoxResult.No:
+                        ChangesMade = true;
+                        fileWatcher.EnableRaisingEvents = true;
+                        break;
+                } } ));
         }
 
         void TheCompiler_JobSucceeded(object sender, TexCompiler.Job job)
@@ -950,6 +975,11 @@ namespace TikzEdt
 
                 txtCode.Text = newcode;
                 ChangesMade = false;  // set here since txtCode sets ChangesMade on Text change
+
+                // start watching for external changes
+             fileWatcher.Path = Directory.GetCurrentDirectory();
+            fileWatcher.Filter = CurFile;
+            fileWatcher.EnableRaisingEvents = true;
             }
             catch (Exception Ex)
             {
@@ -961,7 +991,7 @@ namespace TikzEdt
             {
                 stream.Close();
             }
-
+            
         }
         private bool TryDisposeFile(bool DeleteTemporaryFiles = true)
         {
@@ -1019,6 +1049,9 @@ namespace TikzEdt
                 WeNeedRecompilationAfterSave = true;
             }
 
+            // turn off listening for changes... we don't want to catch our change
+            fileWatcher.EnableRaisingEvents = false;
+
             StreamWriter wr = new StreamWriter(CurFile);
             wr.Write(txtCode.Text);
             wr.Close();
@@ -1049,6 +1082,11 @@ namespace TikzEdt
                 Helper.SetCurrentWorkingDir(Helper.WorkingDirOptions.DirFromFile, CurFile);
                 CurFile = System.IO.Path.GetFileName(CurFile);
             }
+
+            // start watching for external changes again
+            fileWatcher.Path = Directory.GetCurrentDirectory();
+            fileWatcher.Filter = CurFile;
+            fileWatcher.EnableRaisingEvents = true;
 
             if (WeNeedRecompilationAfterSave)
                 Recompile();
@@ -1093,6 +1131,8 @@ namespace TikzEdt
         }
         private void CleanupForNewFile()
         {
+            // stop listening for changes
+            fileWatcher.EnableRaisingEvents = false;
             //isLoaded = false;
             CurFileNeverSaved = true;
             ChangesMade = false;  //Note: first set ChangesMade=false, then set CurFile.
@@ -1101,8 +1141,9 @@ namespace TikzEdt
             tikzDisplay1.SetUnavailable();
             //pdfOverlay1.Clear();
             //DetermineBB(null);
+            rasterControl1.ResetRaster();
             pdfOverlay1.SetParseTree(null, currentBB);
-            currentBB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);            
+            currentBB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);
             ClearStyleLists();
             //isLoaded = true;
         }

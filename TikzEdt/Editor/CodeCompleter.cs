@@ -79,7 +79,6 @@ namespace TikzEdt.Editor
                     }
                 }
             }
-    
 
             //data.Add(new MyCompletionData("draw"));
             //data.Add(new MyCompletionData("fill"));
