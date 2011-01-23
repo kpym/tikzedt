@@ -36,11 +36,23 @@ namespace WindowsFormsApplication1
 
                 _pdfDoc = new PDFLibNet.PDFWrapper();
                 _pdfDoc.UseMuPDF = true;
-                _pdfDoc.LoadPDF(pdfdoc);
-                _pdfDoc.CurrentPage = 1;
+                try
+                {
+                    bool b = _pdfDoc.LoadPDF(pdfdoc);
 
-                //render
-                button4_Click(sender, e);
+                    _pdfDoc.CurrentPage = 1;
+
+                    //render
+                    button4_Click(sender, e);
+
+                }
+                catch (Exception ex)
+                {
+                    string s = ex.Message;
+                    MessageBox.Show(s);
+                    System.Environment.Exit(1);
+                }
+                
         }
 
         private void button2_Click(object sender, EventArgs e)
