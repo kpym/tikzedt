@@ -30,6 +30,36 @@
       <environment>1</environment>
       <Description>The spacing around the text of the element.</Description>
     </Snippets>
+    <Snippets>
+      <Text>xscale</Text>
+      <environment>1</environment>
+      <Description>Scaling of coordinates in x direction.</Description>
+    </Snippets>
+    <Snippets>
+      <Text>yscale</Text>
+      <environment>1</environment>
+      <Description>Scaling of coordinates in y direction.</Description>
+    </Snippets>
+    <Snippets>
+      <Text>scale</Text>
+      <environment>1</environment>
+      <Description>Scaling of coordinates in x and y direction.</Description>
+    </Snippets>
+    <Snippets>
+      <Text>shift={(1,1)}</Text>
+      <environment>1</environment>
+      <Description>A translation in x and y direction by some amount (by 1,1 in the snippet).</Description>
+    </Snippets>
+    <Snippets>
+      <Text>xshift</Text>
+      <environment>1</environment>
+      <Description>Translation in x direction.</Description>
+    </Snippets>
+    <Snippets>
+      <Text>yshift</Text>
+      <environment>1</environment>
+      <Description>Translation in y direction.</Description>
+    </Snippets>
   </Environments>
   
   <Environments>

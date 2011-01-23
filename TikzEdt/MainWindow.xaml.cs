@@ -436,12 +436,12 @@ namespace TikzEdt
         static Regex _beginRegex = new Regex(@"^\\begin\{(?<tag>\s*\w*\s*)\}(?<content>.*)$", RegexOptions.Compiled);
         void textEditor_TextArea_TextEntering(object sender, TextCompositionEventArgs e)
         {
+            // The following code auto-completes \begin{something} +<return> by inserting \end{something}
+            // This autocompletion can be turned off in the settings
             if (e.Text == "\n")
             {
                 if (Properties.Settings.Default.Editor_CompleteBegins)
                 {
-                    
-
                     ICSharpCode.AvalonEdit.Document.DocumentLine l = txtCode.Document.GetLineByOffset(txtCode.CaretOffset);
                     //if (l.LineNumber > 0) //todo 1?
                     {
@@ -1102,6 +1102,7 @@ namespace TikzEdt
             //pdfOverlay1.Clear();
             //DetermineBB(null);
             pdfOverlay1.SetParseTree(null, currentBB);
+            currentBB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);            
             ClearStyleLists();
             //isLoaded = true;
         }
@@ -1643,6 +1644,17 @@ namespace TikzEdt
             completionWindow = new CompletionWindow(txtCode.TextArea);
             IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
             codeCompleter.GetCompletions(txtCode.Document, txtCode.CaretOffset, data);
+            // use the word at current cursor position to filter the list 
+            // (i.e., if we type bla<CTRL+SPACE>, the list should be filtered by bla
+            int LineStartOffset = txtCode.Document.GetLineByOffset(txtCode.CaretOffset).Offset;
+            string curLineToCursor = txtCode.Document.GetText(LineStartOffset, txtCode.CaretOffset - LineStartOffset);
+            string[] words = Regex.Split(curLineToCursor, @"\W+"); // split at non-word characters
+            if (words.Length > 0 && words.Last() != "")
+            {
+                completionWindow.CompletionList.SelectItem(words.Last());
+                completionWindow.StartOffset = txtCode.CaretOffset - words.Last().Length;
+            }
+            
             completionWindow.Show();
             completionWindow.Closed += delegate
             {
