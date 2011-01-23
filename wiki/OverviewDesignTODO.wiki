@@ -24,20 +24,15 @@
 
 == TikzParser ==
 *TODO*
-  * support full \path syntax
-  * Build a test library
-  * run more tests
   * !TIKZEDT ignore command
 
 === Tikz ParseTree ===
-  * commands in coordinates not handled correctly
   * check again whether missing nodenames are treated right
   * Use Length property
 
 == PdfOverlay ==
 
 *TODO*
-  * Support multiple selection??
 
 === Snippetmanager ===
 *TODO*
@@ -50,8 +45,3 @@
 *TODO*
   * Deployment
   * Improve documentation
-  * Monitor open files for changes by other process
-  * check whether conflict on pdf access while compiling 
-  * option of containerparseitem should not be first option found! (only if it is first tag)
-  * for xshift, std unit is pt, not cm
-  * catch and handle default style file not found  
