@@ -92,7 +92,9 @@ namespace TikzEdt.Parser
 
         public Matrix ToWpfMatrix()
         {
-            return new Matrix(m[0, 0], m[0, 1], m[1, 0], m[1, 1], m[0, 2], m[1, 2]);
+            // Which is correct? I think the first
+            return new Matrix(m[0, 0], m[1, 0], m[0, 1], m[1, 1], m[0, 2], m[1, 2]);
+            //return new Matrix(m[0, 0], m[0, 1], m[1, 0], m[1, 1], m[0, 2], m[1, 2]);
         }
     }
 

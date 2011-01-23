@@ -24,6 +24,10 @@ namespace TikzEdt
         public RasterControl()
         {
             InitializeComponent();
+            ClipToBounds = true;
+            // these settings are to improve rendering speed
+            RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
+            IsHitTestVisible = false;
         }
 
         double _Resolution = Consts.ptspertikzunit;
@@ -133,10 +137,11 @@ namespace TikzEdt
         /// </summary>
         public void DrawRaster()
         {
-            canvas1.Children.Clear();
+            this.InvalidateVisual();
+            //canvas1.Children.Clear();
 
-            if (GridWidth <= 0)
-                return;            
+            //if (GridWidth <= 0)
+            //    return;            
             /*if (IsCartesian)
             {
                 for (double x = Math.Ceiling((BB.X - RasterOrigin.X) / scGWX) * scGWX; x < BB.X - RasterOrigin.X + BB.Width; x += scGWX)
@@ -192,11 +197,26 @@ namespace TikzEdt
 
             } */
 
-            Path p = new Path();
-            p.Stroke = Brushes.WhiteSmoke;
-            p.StrokeThickness = 1;
-            p.Data = DrawRasterGeometry(EstimateRasterSteps());
-            canvas1.Children.Add(p);
+           
+            //return;
+            //Path p = new Path();
+            //p.Stroke = Brushes.WhiteSmoke;
+            //p.StrokeThickness = 1;
+            //p.Data = DrawRasterGeometry(EstimateRasterSteps());
+            //canvas1.Children.Add(p);
+            /* * */
+            //canvas1.Children.Add(new GeometryDrawing(Brushes.WhiteSmoke, null, DrawRasterGeometry(EstimateRasterSteps()) ));
+            /*Pen pen = new Pen(Brushes.Black, 1);
+            pen.Freeze();
+
+            GeometryDrawing gd = new GeometryDrawing(Brushes.WhiteSmoke, pen, DrawRasterGeometry(EstimateRasterSteps()));
+            gd.Freeze();
+
+            DrawingGroup dg = new DrawingGroup();
+            dg.ClipGeometry = new RectangleGeometry(new Rect(0, 0, Width, Height));
+            dg.Children.Add(gd);
+                        
+            imgRaster.Source = new DrawingImage(dg ); */
         }
 
         // estimate size of raster to be drawn, in number of steps
@@ -210,10 +230,14 @@ namespace TikzEdt
                 Math.Max(Math.Abs(p4.X), Math.Abs(p4.Y))))))));
             return Convert.ToInt32(2 * maxcoord / GridWidth);
         }
-        GeometryGroup DrawRasterGeometry(int rasterwidth)
+        /*GeometryGroup DrawRasterGeometry(int rasterwidth)
         {
             GeometryGroup gc = new GeometryGroup();
-
+          return gc;
+            Transform t = GetTikzToScreenTransform();
+            t.Freeze();
+            //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            //sw.Start();
             if (IsCartesian)
             {
                 for (int i = -rasterwidth; i <= rasterwidth; i++)
@@ -221,10 +245,22 @@ namespace TikzEdt
                     // draw both an x and a y coordinate line
                     LineGeometry lg = new LineGeometry(new Point(i * GridWidth, - rasterwidth * GridWidth),
                                                        new Point(i * GridWidth,   rasterwidth * GridWidth));
-                    gc.Children.Add(lg);
+                    lg.Transform = t; 
+                    Path pa = new Path();
+                    pa.Data = lg;
+                    pa.Stroke=Brushes.WhiteSmoke;
+                    pa.StrokeThickness = 1;
+                    canvas1.Children.Add(pa);
+                    //gc.Children.Add(lg);
                     lg = new LineGeometry(new Point(-rasterwidth * GridWidth, i * GridWidth),
                                           new Point( rasterwidth * GridWidth, i * GridWidth));
-                    gc.Children.Add(lg);
+                    lg.Transform = t; 
+                    pa = new Path();
+                    pa.Data = lg;
+                    pa.Stroke = Brushes.WhiteSmoke;
+                    pa.StrokeThickness = 1;
+                    canvas1.Children.Add(pa);
+                    //gc.Children.Add(lg);
                 }
             }
             else
@@ -246,11 +282,64 @@ namespace TikzEdt
             }
 
             // set transform
-            gc.Transform = GetTikzToScreenTransform();
-
+            //gc.Transform = t;
+            
             gc.Freeze();
+            //sw.Stop();
+            //if (sw.ElapsedMilliseconds> 1)
+            //    MessageBox.Show("Zeit: " + sw.ElapsedMilliseconds);
             return gc;
+        }*/
+
+        protected override void OnRender(DrawingContext dc)
+        {
+            dc.DrawRectangle(Brushes.White, null, new Rect(RenderSize)); //new Rect(0, 0, Resolution * BB.Width, Resolution * BB.Height));//
+            
+            if (GridWidth <= 0)
+               return;    
+
+            Transform t = GetTikzToScreenTransform();
+            t.Freeze();
+            //dc.PushTransform(t);
+            int rasterwidth = EstimateRasterSteps();
+            //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            //sw.Start();
+            Pen pen = new Pen(Brushes.WhiteSmoke, 1);
+            pen.Freeze();
+            if (IsCartesian)
+            {
+                for (int i = -rasterwidth; i <= rasterwidth; i++)
+                {
+                    // draw both an x and a y coordinate line
+                    dc.DrawLine(pen, t.Transform( new Point(i * GridWidth, -rasterwidth * GridWidth) ),
+                                     t.Transform( new Point(i * GridWidth, rasterwidth * GridWidth)));
+
+                    dc.DrawLine(pen, t.Transform( new Point(-rasterwidth * GridWidth, i * GridWidth) ),
+                                          t.Transform( new Point(rasterwidth * GridWidth, i * GridWidth)));
+                }
+            }
+            else
+            {
+                // draw circles
+                for (int i = 1; i <= rasterwidth; i++)
+                {
+                    EllipseGeometry eg = new EllipseGeometry(new Point(0, 0), i * GridWidth, i * GridWidth);
+                    eg.Transform = t;
+                    eg.Freeze();
+                    dc.DrawGeometry(null, pen, eg);                    
+                }
+
+                // draw radial lines
+                for (int i = 0; i < RadialSteps; i++)
+                {
+                    dc.DrawLine(pen, t.Transform( new Point(0, 0) ),
+                                     t.Transform( new Point(rasterwidth * GridWidth * Math.Cos(RadialOffset + i * 2 * Math.PI / RadialSteps),
+                                                            rasterwidth * GridWidth * Math.Sin(RadialOffset + i * 2 * Math.PI / RadialSteps))) );
+                }
+            }
+
         }
+
 
         Transform GetTikzToScreenTransform()
         {

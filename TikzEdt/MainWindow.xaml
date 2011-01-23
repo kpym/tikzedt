@@ -8,6 +8,7 @@
         xmlns:mySnippets="clr-namespace:TikzEdt.Snippets"
         xmlns:p="clr-namespace:TikzEdt.Properties"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
+        xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
         Title="TikzEdt" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
         Width="{Binding Source={x:Static p:Settings.Default}, Path=Window_Width, Mode=TwoWay}" 
@@ -274,9 +275,10 @@
                     <ComboBoxItem Content="1"/>
                 </ComboBox>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center" ToolTip="The number of coordinate lines of constant angular parameter shown in polar coordinate mode">RS:</TextBlock>
-                <TextBox Width ="30" Name="txtRadialSteps" Text="{Binding Source={x:Static p:Settings.Default}, Path=Raster_RadSteps, Mode=TwoWay}" TextChanged="txtRadialSteps_TextChanged" />
+                <TextBox Width ="30" Name="txtRadialSteps" Text="{Binding Source={x:Static p:Settings.Default}, Path=Raster_RadSteps, Mode=TwoWay}" TextChanged="txtRadialSteps_TextChanged" />                
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center" ToolTip="The offset (in degrees) of the first coordinate line of constant angular parameter shown in polar coordinate mode">RO:</TextBlock>
                 <TextBox Width ="30" Name="txtRadialOffset" Text="{Binding Source={x:Static p:Settings.Default}, Path=Raster_RadialOffset, Mode=TwoWay}" TextChanged="txtRadialOffset_TextChanged" />
+                <!-- <extToolkit:NumericUpDown Increment="1" Maximum="360" Minimum="-360" Width="50"/> -->
             </ToolBar>
             
             <ToolBar Name="tlbTools"  Height="28" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}" Band="1">
