@@ -1,0 +1,4 @@
+#summary Frequently asked questions (-:
+
+* Latex reports an error "...default stile file not found ...".*
+Solution: Compile->RegGenerate precompiled headers
