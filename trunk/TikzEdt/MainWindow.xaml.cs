@@ -1926,6 +1926,18 @@ namespace TikzEdt
             addProblemMarker(this, err);
         }
 
+        private void pdfOverlay1_MouseWheel(object sender, MouseWheelEventArgs e)
+        {            
+            if (System.Windows.Forms.Control.ModifierKeys == System.Windows.Forms.Keys.Control)
+            {
+                int count = cmbZoom.Items.Count;
+                int step = e.Delta > 0 ? 1 : -1;
+                if (cmbZoom.SelectedIndex + step > 0 && cmbZoom.SelectedIndex + step < count)
+                cmbZoom.SelectedIndex += step;
+            }
+
+        }        
+
 
     }
 }
