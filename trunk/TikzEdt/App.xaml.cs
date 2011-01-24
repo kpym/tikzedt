@@ -31,7 +31,7 @@ namespace TikzEdt
 
             System.Windows.Forms.DialogResult result = System.Windows.Forms.DialogResult.Cancel;
             try
-            {                
+            {
                 result = this.ShowThreadExceptionDialog(e.Exception);
             }
             catch
@@ -65,9 +65,22 @@ namespace TikzEdt
         {
             string logfilepath = System.IO.Directory.GetCurrentDirectory() + "\\tikzedt_exception.log";
 
-            string errorMsg = "An error occurred. If it can be reproduced please inform the author of this program providing log file "+logfilepath+"\n\n";
-            errorMsg = errorMsg + e.Message + "\n\nStack Trace:\n" + e.StackTrace;
-            errorMsg = errorMsg + e.Message + "\n\nTerminate application immediately?";
+            string firstline = "An error occurred. If it can be reproduced please inform the author of this program providing log file "+logfilepath+"\n\n";
+            string errorMsg = e.Message;
+            Exception innerexception = e.InnerException;
+            while (innerexception != null)
+            {
+                errorMsg += Environment.NewLine + "caused by:";
+                errorMsg += Environment.NewLine + innerexception.Message;
+                innerexception = innerexception.InnerException;
+            }
+            if (errorMsg.Contains("Could not load file or assembly"))
+                firstline = "An error occurred. Please try to reinstall this program or provided all required libary files." + Environment.NewLine + Environment.NewLine;
+            errorMsg += Environment.NewLine + Environment.NewLine + "Stack Trace:\n" + e.StackTrace;
+            errorMsg += e.Message + Environment.NewLine + Environment.NewLine + "Terminate application immediately?";
+            errorMsg += Environment.NewLine + "Click 'no' if you want to try close the main window gracefully, 'cancel' to ignore this exception.";
+
+            errorMsg = firstline + errorMsg;
 
             System.IO.File.AppendAllText(logfilepath, "========== TIKZEDT UNCAUGHT EXCEPTION ======" + Environment.NewLine);
             System.IO.File.AppendAllText(logfilepath, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString() + Environment.NewLine);

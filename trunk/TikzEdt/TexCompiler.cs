@@ -68,6 +68,9 @@ namespace TikzEdt
 
             public long DocumentID = 0;             // used to match jobs with documents, see comment on CurDocumentID
 
+            //for debugging include cmdline which is executed
+            public string cmdline;
+
             public Job(string tcode, string tpath, Rect tBB, string tname, bool tCreateBMP)
             {
                 code = tcode; path = tpath; BB = tBB; name = tname; CreateBMP = tCreateBMP;
@@ -307,6 +310,7 @@ namespace TikzEdt
                 else
                     OnCompileEvent(this, "Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, CompileEventType.Start);
             }
+            job.cmdline =  texProcess.StartInfo.WorkingDirectory +">"+ texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments;
             texProcess.Start();
             texProcess.BeginOutputReadLine();
             texProcess.BeginErrorReadLine(); // needed e.g. when %& "temp_preview_header" invalid.
@@ -666,7 +670,9 @@ namespace TikzEdt
 
         public static void OnJobFailed(object sender, Job job)
         {
-            MessageBox.Show("Compilation of the Codesnippet-Thumbnail " + job.path + " (" + job.name + ") failed.\r\nPlease re-check the code.");
+            string msg = "Compilation of the Codesnippet-Thumbnail " + job.path + " (" + job.name + ") failed.\r\nPlease re-check the code.";
+            msg += Environment.NewLine + Environment.NewLine + "cmdline: " + job.cmdline;
+            MessageBox.Show(msg);
         }
 
     }
