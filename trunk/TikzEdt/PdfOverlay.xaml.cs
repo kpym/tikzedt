@@ -31,7 +31,7 @@ namespace TikzEdt
     ///     (i)  Pixel coordinates (of course, since wpf needs them).
     ///     (ii) Absolute Cartesian Tikz coordinates. (Disregarding polar setting / coordinate transform).
     /// </summary>
-    public partial class PdfOverlay : UserControl
+    public partial class PdfOverlay : UserControl, OverlayInterface
     {
 
         public delegate void ModifiedEventHandler(TikzParseItem sender, string oldtext);
@@ -53,11 +53,21 @@ namespace TikzEdt
         ///     EndModify
         /// </summary>
         public event NoArgsEventHandler BeginModify;
+        public void BeginUpdate()
+        {
+            if (BeginModify != null)
+                BeginModify(this);
+        }
         /// <summary>
         /// Called after group of modifiactions has been done.
         /// See BeginModify.
         /// </summary>
         public event NoArgsEventHandler EndModify;
+        public void EndUpdate()
+        {
+            if (EndModify != null)
+                EndModify(this);
+        }
         /// <summary>
         /// Called when the currently selected tool has changed.
         /// </summary>
@@ -78,7 +88,7 @@ namespace TikzEdt
         /// </summary>
         public event NoArgsEventHandler JumpToSource;
 
-        SelectionTool selectionTool = new SelectionTool();
+
 
         public static readonly DependencyProperty NodeStyleProperty = DependencyProperty.Register(
         "NodeStyle", typeof(string), typeof(PdfOverlay), new PropertyMetadata(""));
@@ -101,7 +111,7 @@ namespace TikzEdt
         /// For TikzEdt, it is should be set to false whenever the document is out of sync with the current parsetree.
         /// This happens (i) while parsing a recent change and (ii) upon parse error
         /// </summary>
-        bool AllowEditing
+        public bool AllowEditing
         {
             get { return _AllowEditing; }
             set { 
@@ -124,12 +134,12 @@ namespace TikzEdt
         public Tikz_ParseTree ParseTree
         {
             get { return _parsetree; }
-            private set 
+            set 
             {
                 if (_parsetree != null)
                     _parsetree.TextChanged -= new Tikz_ParseTree.TextChangedHandler(_parsetree_TextChanged);
                 _parsetree = value;
-                curAddTo = null;
+                //curAddTo = null;
                 if (_parsetree != null)
                     _parsetree.TextChanged += new Tikz_ParseTree.TextChangedHandler(_parsetree_TextChanged);
             }
@@ -141,15 +151,15 @@ namespace TikzEdt
                 OnModified(sender, oldtext);
         }
 
-        private double lResolution = Consts.ptspertikzunit;
+        private double _Resolution = Consts.ptspertikzunit;
         public double Resolution
         {
-            get { return lResolution; }
+            get { return _Resolution; }
             set
             {
                 if (value > 0)
                 {
-                    lResolution = value;
+                    _Resolution = value;
                     Width = BB.Width * Resolution;
                     Height = BB.Height * Resolution;
                     AdjustPositions();
@@ -168,7 +178,38 @@ namespace TikzEdt
             }
         }
 
-        List<OverlayShape> TopLevelItems;
+        private List<OverlayShape> _TopLevelItems;
+        /// <summary>
+        /// The link to the overlay (display) tree.
+        /// </summary>
+        public List<OverlayShape> TopLevelItems { get { return _TopLevelItems; } set { _TopLevelItems = value; } }
+
+        public Canvas canvas { get { return canvas1; } }
+
+        OverlayTool CurrentTool
+        {
+            get {
+                switch (tool)
+                {
+                    case ToolType.move:
+                        return selectionTool;
+                    case ToolType.addedge:
+                        return edgeTool;
+                    case ToolType.addpath:
+                        return pathTool;
+                    case ToolType.addvert:
+                        return nodeTool;
+                    default:
+                        return null; // should not come here
+                }
+            }
+        }
+
+        // The tools
+        SelectionTool selectionTool = new SelectionTool();
+        EdgeTool edgeTool = new EdgeTool();
+        PathTool pathTool = new PathTool();
+        NodeTool nodeTool = new NodeTool();
 
         public enum ToolType { move, addvert, addedge, addpath }
         ToolType _tool=ToolType.move;
@@ -177,8 +218,9 @@ namespace TikzEdt
             get { return _tool; }
             set {
                 ToolType old = _tool;
+                CurrentTool.OnDeactivate();
                 _tool = value;
-                switch (tool)
+                /*switch (tool)
                 {
                     case ToolType.move:                    
                         Cursor = Cursors.Arrow;
@@ -190,13 +232,21 @@ namespace TikzEdt
                     case ToolType.addedge:
                         Cursor = Cursors.UpArrow;
                         break;
-                }
+                }*/
+                CurrentTool.OnActivate();
                 if (old != _tool && ToolChanged != null)
                     ToolChanged(this);
             }
         }
+        // resets tool to standard
+        public void DeactivateMe()
+        {
+            tool = ToolType.move;
+        }
 
-        public RasterControl rasterizer;
+
+        private RasterControl _Rasterizer;
+        public RasterControl Rasterizer { get {return _Rasterizer; } set { _Rasterizer = value; } }
 
         //List<Control> objects = new List<Control>();
 
@@ -206,6 +256,13 @@ namespace TikzEdt
         public PdfOverlay()
         {
             InitializeComponent();
+
+            // initialize tools
+            selectionTool.overlay = this;
+            edgeTool.overlay = this;
+            nodeTool.overlay = this;
+            pathTool.overlay = this;
+
         }
 
 
@@ -257,8 +314,9 @@ namespace TikzEdt
         {
             BB = tBB;
             ParseTree = t;
-            curSel = null; curDragged = null;
+            //curSel = null; //curDragged = null;
             Resolution = Resolution; // to recalc size
+            DeactivateMe(); // to reset current tool
             RedrawObjects();
         }
 
@@ -288,7 +346,7 @@ namespace TikzEdt
         public void Clear()
         {
             canvas1.Children.Clear();
-            curSel = null;
+            //curSel = null;
             CurEditing = null;
             ParseTree = null;
             TopLevelItems = new List<OverlayShape>();
@@ -296,7 +354,7 @@ namespace TikzEdt
         public void RedrawObjects()
         {
             canvas1.Children.Clear();
-            curSel = null;
+            //curSel = null;
             CurEditing = null;           
             TopLevelItems = new List<OverlayShape>();
 
@@ -309,39 +367,6 @@ namespace TikzEdt
             //canvas1.RenderTransform
             
             DrawObject(ParseTree, TopLevelItems);
-
-          /*  foreach (TikzParseItem t in ParseTree.Children)
-                if (t is Tikz_Picture)
-                    foreach (TikzParseItem tt in (t as Tikz_Picture).Children)
-                        if (tt is Tikz_Path)
-                            foreach (TikzParseItem ttt in (tt as Tikz_Path).Children)
-                                if (ttt is Tikz_XYItem)
-                                {
-                                    OverlayNode el = new OverlayNode();
-                                    el.tikzitem = ttt as Tikz_XYItem;
-                                    //Ellipse el = new Ellipse();                                   
-                                    el.Stroke = Brushes.Red;
-                                    el.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-                    
-                                    el.Width = 10;
-                                    el.Height = 10;
-                                    Canvas.SetLeft(el, Resolution * el.tikzitem.x - el.Width / 2);
-                                    Canvas.SetBottom(el, Resolution * el.tikzitem.y - el.Height / 2);  // not quite ok like this???
-                                    canvas1.Children.Add(el);
-                                }
-           * */
-
-            // test 
-            /*
-            OverlayNode ell = new OverlayNode();
-            ell.Stroke = Brushes.Red;
-            ell.Fill = Brushes.Red;
-
-            ell.Width = 10;
-            ell.Height = 10;
-            Canvas.SetLeft(ell, 100);
-            Canvas.SetBottom(ell, 100);
-            canvas1.Children.Add(ell); */
         }
 
         /// <summary>
@@ -441,14 +466,8 @@ namespace TikzEdt
 
         }
 
-        // all these points are in bottom left centered coordinates (as in LaTeX)
-        OverlayShape curDragged;
-        Point DragOrigin; // relative to the currently dragged object
-        Point DragOriginC; // Mouse position on Canvas when started dragging
-        Point DragOriginO; // bottom left of dragged object
-
         OverlayScope _CurEditing;
-        OverlayScope CurEditing
+        public OverlayScope CurEditing
         {
             get { return _CurEditing; }
             set
@@ -469,13 +488,9 @@ namespace TikzEdt
                 _CurEditing = value;
                 if (_CurEditing != null)
                     AdornerLayer.GetAdornerLayer(CurEditing).Add(new ScopeAdorner(CurEditing));
+
+                SetCorrectRaster(CurEditing); // todo: correct? ,true
             }
-        }
-
-        private void canvas1_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-        
-
         }
 
         private void canvas1_MouseMove(object sender, MouseEventArgs e)
@@ -484,56 +499,8 @@ namespace TikzEdt
             // convert to bottom left coordinates
             Point p = new Point(mousep.X, Height - mousep.Y);
 
-            if (SelectionRect.Visibility == Visibility.Visible)
-            {
-                // update the size of the selection rect
-                double x = Math.Min(mousep.X, SelectionRectOrigin.X),
-                       y = Math.Min(mousep.Y, SelectionRectOrigin.Y);
-                //SelectionRect.RenderTransform = new TranslateTransform(x, y);
-                Canvas.SetLeft(SelectionRect, x);
-                Canvas.SetTop(SelectionRect, y);
-                SelectionRect.Width = Math.Abs(mousep.X - SelectionRectOrigin.X);
-                SelectionRect.Height = Math.Abs(mousep.Y - SelectionRectOrigin.Y);
+            CurrentTool.OnMouseMove(p, e);
 
-                // update current selection
-                Rect selr = System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(SelectionRect); // this is BB of selection rect
-                selectionTool.UpdateSelection(selr, Keyboard.Modifiers.HasFlag(ModifierKeys.Control), canvas1.Children);
-                
-            }
-
-            // for a dragged scope, the relative movement gets rasterized
-            // for a dragged node, the center of the node gets rasterized
-            if (curDragged != null && tool == ToolType.move && e.LeftButton == MouseButtonState.Pressed)
-            {
-                if (curDragged is OverlayScope)
-                {
-                    // total shift
-                    Point relshift_pixel = new Point(p.X - DragOriginC.X, p.Y - DragOriginC.Y);
-                    relshift_pixel = rasterizer.RasterizePixelRelative(relshift_pixel);
-                    // shift yet to be done
-                    Point relshift_tobedone = new Point(
-                         DragOriginO.X + relshift_pixel.X - Canvas.GetLeft(curDragged),
-                         DragOriginO.Y + relshift_pixel.Y - Canvas.GetBottom(curDragged)
-                        );
-
-                    selectionTool.ShiftSelItemsOnScreen(relshift_tobedone);
-                }
-                else if (curDragged is OverlayNode)
-                {
-                    // use width instead actual width
-                    Point center_pixel = new Point(p.X - DragOrigin.X + curDragged.Width / 2,
-                                                   p.Y - DragOrigin.Y + curDragged.Height / 2);
-                    // the center pixel of the node should go here
-                    center_pixel = rasterizer.RasterizePixel(center_pixel);
-
-                    // shift yet to be done
-                    Point relshift_tobedone = new Point(
-                         center_pixel.X - Canvas.GetLeft(curDragged) - curDragged.Width / 2,
-                         center_pixel.Y - Canvas.GetBottom(curDragged) - curDragged.Height / 2
-                        );
-                    selectionTool.ShiftSelItemsOnScreen(relshift_tobedone);
-                }
-            }
             //if (curDragged != null)
             //{
   
@@ -551,25 +518,6 @@ namespace TikzEdt
             
         }
 
-        private void canvas1_MouseUp(object sender, MouseButtonEventArgs e)
-        {
- 
-        }
-
-        OverlayNode _curSel;
-        OverlayNode curSel
-        {
-            get { return _curSel; }
-            set
-            {
-                if (_curSel != null)
-                    _curSel.Stroke = Brushes.Red;
-                _curSel = value;
-                if (_curSel != null)
-                    _curSel.Stroke = Brushes.Gold;
-            }
-        }
-
         /// <summary>
         /// The displayed raster changes depending on the currently selected object.
         /// This method sets the raster, so as to fit the coordinate transformation at o.
@@ -579,7 +527,7 @@ namespace TikzEdt
         /// </summary>
         /// <param name="o">The object. If null, it is taken to be the tikzpicture.</param>
         /// <param name="IsParent">Indicates whether object is to be moved itself, or children added.</param>
-        void SetCorrectRaster(OverlayShape o, bool IsParent=false)
+        public void SetCorrectRaster(OverlayShape o, bool IsParent=false)
         {
             if (ParseTree == null)
                 return;
@@ -590,12 +538,12 @@ namespace TikzEdt
                 {
                     TikzMatrix M;
                     if (!tp.GetCurrentTransformAt(null, out M))
-                       rasterizer.CoordinateTransform = new TikzMatrix();   // if the program gets here, the global coord. transformation could not be understood->ovelay should display nothing
+                       Rasterizer.CoordinateTransform = new TikzMatrix();   // if the program gets here, the global coord. transformation could not be understood->ovelay should display nothing
                     else
-                        rasterizer.CoordinateTransform = M;
+                        Rasterizer.CoordinateTransform = M;
                     //rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
                     //rasterizer.RasterScale = M.m[1, 1];
-                    rasterizer.IsCartesian = true;
+                    Rasterizer.IsCartesian = true;
                 }
             }
             if (o is OverlayScope)
@@ -614,10 +562,10 @@ namespace TikzEdt
                     if (!ts.GetRasterTransform(out M))
                         M = new TikzMatrix();
                 }
-                rasterizer.CoordinateTransform = M;
+                Rasterizer.CoordinateTransform = M;
                 //rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
                 //rasterizer.RasterScale = M.m[1, 1];
-                rasterizer.IsCartesian = true;
+                Rasterizer.IsCartesian = true;
             }
             else if (o is OverlayNode)
             {
@@ -631,72 +579,22 @@ namespace TikzEdt
                     M.m[0, 2] = offset.X;
                     M.m[1, 2] = offset.Y;
                     //rasterizer.RasterScale = M.m[1, 1];
-                    rasterizer.CoordinateTransform = M;
-                    rasterizer.IsCartesian = !(t.IsPolar());
+                    Rasterizer.CoordinateTransform = M;
+                    Rasterizer.IsCartesian = !(t.IsPolar());
                 }
                 else throw new Exception("In PdfOverlay: Encountered drawn item without valid coordinates");
             }
             else
-                rasterizer.IsCartesian = true;  // should not get here
+                Rasterizer.IsCartesian = true;  // should not get here
         }
 
-        //create a new CurAddTo (even though their already might be one)
-        //(needed for edge tool)
-        bool AddNewCurAddTo()
-        {
-            // find tikzpicture
-            Tikz_Picture tpict = ParseTree.GetTikzPicture();
-            if (tpict == null)
-                return false;
-
-
-            Tikz_Path tp = new Tikz_Path();
-            tp.starttag = @"\draw";
-            tp.endtag = ";";
-            if (EdgeStyle != "")
-            {
-                Tikz_Options topt = new Tikz_Options();
-                topt.starttag = "[";
-                topt.endtag = "]";
-                Tikz_Option to = new Tikz_Option();
-                to.type = Tikz_OptionType.key;
-                to.key = EdgeStyle;
-
-                topt.AddOption(to);
-                tp.AddChild(topt);
-                tp.options = topt;
-            }
-            if (CurEditing != null)
-            {
-                CurEditing.tikzitem.AddChild(tp);
-                CurEditing.tikzitem.AddChild(new Tikz_Something("\r\n"));
-            }
-            else
-            {
-                tpict.AddChild(tp);
-                tpict.AddChild(new Tikz_Something("\r\n"));
-            }
-            curAddTo = tp;
-
-            return true;
-        }
-        bool EnsureCurAddToExists(out bool created)
-        {
-            created = false;            
-            // find tikzpicture
-            Tikz_Picture tpict = ParseTree.GetTikzPicture();
-            if (tpict == null)
-                return false;
-
-            if (curAddTo == null || !(curAddTo is Tikz_Path))
-            {
-                created = AddNewCurAddTo();
-            }
-
-            return true;
-        }
-
-        void AddToDisplayTree(TikzParseItem tpi)
+        /// <summary>
+        /// Adds a single parseitem to the display tree and redraws.
+        /// This is called by tools adding something to the parsetree to refresh the overlay
+        /// without redrawing it completely.
+        /// </summary>
+        /// <param name="tpi">The parseitem to add.</param>
+        public void AddToDisplayTree(TikzParseItem tpi)
         {
             List<OverlayShape> l = new List<OverlayShape>();
             DrawObject(tpi, l);
@@ -714,368 +612,33 @@ namespace TikzEdt
             AdjustPositions();
         }
 
-        TikzContainerParseItem curAddTo;
-        Point SelectionRectOrigin;
+        //TikzContainerParseItem curAddTo;
+        
         private void canvas1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // if editing not allowed -> not do anything
             if (!AllowEditing)
                 return;
 
-            // Try to create a new ParseTree
-            if (ParseTree == null)
-            {
-                if (TryCreateNew != null && (tool == ToolType.addpath || tool == ToolType.addvert))
-                {
-                    bool lret;
-                    TryCreateNew(this, out lret);
-                    if (lret)
-                    {
-                        // create a new parsetree
-                        Tikz_ParseTree t = new Tikz_ParseTree();
-                        Tikz_Picture tp = new Tikz_Picture();
-                        tp.starttag = "\\begin{tikzpicture}";
-                        tp.AddChild(new Tikz_Something("\r\n"));
-                        tp.endtag = "\\end{tikzpicture}";
-
-                        if (BeginModify != null)
-                            BeginModify(this);
-
-                        ParseTree = t;
-                        t.AddChild(tp);
-                        tp.UpdateText();
-
-                        if (EndModify != null)
-                            EndModify(this);
-
-                    }
-
-                    else
-                    {
-                        MessageBox.Show("Parse tree could not be created. Please correct all parser errors in the code and try again.", "Function not available", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        return;
-                    }
-                }
-                else return;
-            }
-            
-
-            if (tool == ToolType.move)
-            #region move
-            {
-                IInputElement o = canvas1.InputHitTest(e.GetPosition(canvas1));
-
-                if (e.ClickCount == 2 && (o is OverlayScope)) // Select for editing
-                {
-                    CurEditing = o as OverlayScope;
-                    SetCorrectRaster(CurEditing); // todo: correct? ,true
-                }
-                else if (o is OverlayShape)
-                {
-                    // initiate a drag/drop operation
-                    curDragged = (OverlayShape)o;
-                    DragOrigin = e.GetPosition(o);
-                    DragOrigin = new Point(DragOrigin.X, (o as OverlayShape).Height - DragOrigin.Y);
-                    DragOriginC = e.GetPosition(canvas1);
-                    DragOriginC = new Point(DragOriginC.X, Height - DragOriginC.Y);                    
-                    DragOriginO = new Point(Canvas.GetLeft(curDragged), Canvas.GetBottom(curDragged));
-                    //MessageBox.Show(o.ToString());
-
-                    // select the clicked shape
-                    if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
-                    {
-                        if (!selectionTool.ToggleItem(curDragged))
-                        {
-                            // unselected -> start no drag operation
-                            curDragged = null;
-                        }
-                    }
-                    else
-                    {
-                        selectionTool.AddItem(curDragged, !selectionTool.IsItemSelected(curDragged));
-                    }
-
-                    // adjust raster origin/scale/polar/cartesian
-                    SetCorrectRaster(curDragged);
-
-                    // capture mouse. this is important if the user drags sth. outside canvas1's bounds
-                    if (curDragged != null && !canvas1.IsMouseCaptured)
-                        canvas1.CaptureMouse();
-                }
-                else if (o == canvas1)
-                {
-                    selectionTool.BeginSelectionChange(Keyboard.Modifiers.HasFlag(ModifierKeys.Control));
-
-                    // display selection rectangle
-                    SelectionRectOrigin = e.GetPosition(canvas1);
-                    //SelectionRect.RenderTransform = new TranslateTransform(SelectionRectOrigin.X, SelectionRectOrigin.Y);
-                    Canvas.SetLeft(SelectionRect, SelectionRectOrigin.X);
-                    Canvas.SetTop(SelectionRect, SelectionRectOrigin.Y);
-                    SelectionRect.Width=0;
-                    SelectionRect.Height = 0;
-                    Canvas.SetZIndex(SelectionRect, canvas1.Children.Count);
-                    if (!canvas1.Children.Contains(SelectionRect))
-                        canvas1.Children.Add(SelectionRect);
-                    SelectionRect.Visibility = System.Windows.Visibility.Visible;
-                    if (!canvas1.IsMouseCaptured)
-                        canvas1.CaptureMouse();
-
-                }
-            }
-            #endregion
-            else if (tool == ToolType.addvert)
-            #region addvert
-            {
-                if (BeginModify != null)
-                    BeginModify(this);
-
-                SetCorrectRaster(CurEditing, true);
-
-                Point p = new Point(e.GetPosition(canvas1).X, Height - e.GetPosition(canvas1).Y);
-                p = rasterizer.RasterizePixelToTikz(p);
-                if (ContinueWithBigImage(p) == false)
-                    return;
-
-                // find next tikzpicture and add
-                Tikz_Picture tpict = ParseTree.GetTikzPicture();
-                if (tpict != null)
-                {
-                    Tikz_Node tn = new Tikz_Node();
-                    tn.label = "?";
-                    tn.coord = new Tikz_Coord();
-                    if (NodeStyle != "")
-                        tn.options = "[" + NodeStyle + "]";
-
-                    Tikz_Path tp = new Tikz_Path();
-                    tp.starttag = @"\node ";
-                    tp.endtag = ";";
-
-                    tp.AddChild(tn);
-                    if (CurEditing != null)
-                    {
-                        CurEditing.tikzitem.AddChild(tp);
-                        CurEditing.tikzitem.AddChild(new Tikz_Something("\r\n"));
-                    }
-                    else
-                    {
-                        tpict.AddChild(tp);
-                        tpict.AddChild(new Tikz_Something("\r\n"));
-                    }
-                    // do it here since the coordinate calculation needs the parents' coord. transform
-                    tn.SetAbsPos(new Point(p.X, p.Y )); //hack
-
-                    //tn.UpdateText();
-                    tp.UpdateText();
-                    //tpict.UpdateText();
-
-                    //RedrawObjects();
-                    AddToDisplayTree(tp);
-                }
-                if (EndModify != null)
-                    EndModify(this);
-            }
-            #endregion
-            else if (tool == ToolType.addedge)
-            #region addedge
-            {
-
-                IInputElement o = canvas1.InputHitTest(e.GetPosition(canvas1));
-                if (!(o is OverlayNode))
-                {
-                    curSel = null;
-                    return;
-                }
-                OverlayNode n = o as OverlayNode;
-
-                if (curSel == null)
-                {
-                    curSel = n;
-                    return;
-                }
-
-                // make sure both nodes involved are nodes
-                if (!(curSel.tikzitem is Tikz_Node) || !(n.tikzitem is Tikz_Node))
-                {
-                    String which = ""; String verb = "is";
-                    if (!(curSel.tikzitem is Tikz_Node) && !(n.tikzitem is Tikz_Node))
-                    {which = "Both"; verb = "are"; }
-                    else if (!(curSel.tikzitem is Tikz_Node))
-                        which = "The first";
-                    else if (!(n.tikzitem is Tikz_Node))
-                        which = "The second";
-                    AddStatusLine(which + " of the selected coordinates "+verb+" not a node (i.e. not defined with \\node but rather with \\draw or \\path)", true);
-                    curSel = null;
-                    return; // hack
-                }
-
-                //the return from above must not interfere with BeginModify()
-                if (BeginModify != null)
-                    BeginModify(this);   
-
-                // add an edge curSel to n
-                //bool lcreated;
-                //if (EnsureCurAddToExists(out lcreated))
-
-                //always create new \draw command. otherwise it can happen that the \draw-command
-                //is above the \node-definition which causes an error while compiling the latex code.
-                if(AddNewCurAddTo())
-                {
-
-                    Tikz_Node t1 = curSel.tikzitem as Tikz_Node, t2 = n.tikzitem as Tikz_Node;
-
-                    Tikz_Coord tc1 = new Tikz_Coord();
-                    tc1.type = Tikz_CoordType.Named;
-                    Tikz_Coord tc2 = new Tikz_Coord();
-                    tc2.type = Tikz_CoordType.Named;
-
-                    curAddTo.AddChild(new Tikz_Something(" "));
-                    curAddTo.AddChild(tc1);
-                    curAddTo.AddChild(new Tikz_Something(" edge "));
-                    curAddTo.AddChild(tc2);
-                    //tpict.AddChild(tp);                    
-
-                    // make sure both nodes have names
-                    Tikz_Picture tpict = ParseTree.GetTikzPicture();
-                    if (t1.name == "")
-                    {
-                        t1.SetName(tpict.GetUniqueName());
-                        t1.UpdateText();
-                    }
-                    if (t2.name == "")
-                    {
-                        t2.SetName(tpict.GetUniqueName());
-                        t2.UpdateText();
-                    }
-
-                    tc1.nameref = t1.name;
-                    tc2.nameref = t2.name;
-                    //tc1.UpdateText();
-                    curAddTo.UpdateText();
-                    //tpict.UpdateText();
-//                    txtCode_TextChanged
-                    
-                    //RedrawObjects();
-                    //if (OnModified != null)
-                    //    OnModified.Invoke();
-
-                    //edge was drawn. release currently selected node.
-                    curSel = null;
-
-                    //will neither want to path tool to start from this last select nodes.
-                    curAddTo = null;
-                }
-                //forgetting to call EndModify causes weird "No undo group should be open at this point"-message.
-                if (EndModify != null)
-                    EndModify(this);
-            }
-            #endregion
-            else if (tool == ToolType.addpath)
-            #region addpath
-            {
-                if (BeginModify != null)
-                    BeginModify(this);
-                
-                SetCorrectRaster(CurEditing); // todo: correct???
-
-                Point p = new Point(e.GetPosition(canvas1).X, Height - e.GetPosition(canvas1).Y);
-                p = rasterizer.RasterizePixelToTikz(p);
-                if (ContinueWithBigImage(p) == false)
-                    return;
-
-                // find next tikzpicture and add
-                bool lcreated;
-                if (EnsureCurAddToExists(out lcreated))
-                {
-
-                    if (!lcreated)
-                    {
-                        // add an edge
-                        curAddTo.AddChild(new Tikz_Something(" -- "));
-                    }
-
-                    // create new coordinate
-                    Tikz_Coord tc = new Tikz_Coord();
-                    curAddTo.AddChild(tc);
-
-                    // do it here since the coordinate calculation needs the parents' coord. transform
-                    tc.SetAbsPos(new Point(p.X, p.Y)); //hack
-
-                    //tn.UpdateText();
-                    curAddTo.UpdateText();
-                    //tpict.UpdateText();
-
-                    //RedrawObjects();
-                    AddToDisplayTree(tc);
-                }
-                if (EndModify != null)
-                    EndModify(this);
-            }
-            #endregion
-        }
-
-        private bool ContinueWithBigImage(Point p)
-        {
-            bool contin = true;
-            if (p.X < -100 || p.X > 100 || p.Y < -100 || p.Y > 100)
-                {
-                    if (MessageBoxResult.Cancel == MessageBox.Show("Warning! Image seems to be very big. TikzEdt might not be able to handle this.", "Image very big", MessageBoxButton.OKCancel))
-                        contin = false;
-                }
-            return contin;
-        }
-
-        private void UserControl_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
+            // call left down-method in the current tool
+            Point mousep = e.GetPosition(canvas1);
+            object oo = canvas1.InputHitTest(mousep);
+            if (! ( oo is OverlayShape))
+                oo = null;
+            CurrentTool.OnLeftMouseButtonDown(oo as OverlayShape, new Point(mousep.X, Height - mousep.Y), e);
+                        
 
         }
+
 
         private void canvas1_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (SelectionRect.Visibility == Visibility.Visible)
-            {
-                SelectionRect.Visibility = Visibility.Collapsed;
-            }
+
             if (canvas1.IsMouseCaptured)
                 canvas1.ReleaseMouseCapture();
 
-            // adjust position of dragged item (in parsetree) // hack
-            if (tool == ToolType.move && curDragged != null)
-            {
-                if (BeginModify != null)
-                    BeginModify(this);
-                // determine the relative shift
-                Point relshift = new Point(Canvas.GetLeft(curDragged)-DragOriginO.X, Canvas.GetBottom(curDragged)-DragOriginO.Y);
-                Point relshift_tikz = new Point(relshift.X / Resolution, relshift.Y / Resolution);
-                selectionTool.ShiftSelItemsInParseTree(relshift_tikz, TopLevelItems);
-                /*
-                Point pp = new Point(Canvas.GetLeft(curDragged) + curDragged.Width / 2, Canvas.GetBottom(curDragged) + curDragged.Height / 2);
-                pp = ScreenToTikz(pp);
-                if (curDragged is OverlayNode)
-                {
-                    (curDragged as OverlayNode).tikzitem.SetAbsPos(pp);
-                    (curDragged as OverlayNode).tikzitem.UpdateText();
+            CurrentTool.OnLeftMouseButtonUp(e);
 
-                }
-                else if (curDragged is OverlayScope)
-                {
-                    Point pdiff = new Point(e.GetPosition(canvas1).X - DragOriginC.X, e.GetPosition(canvas1).Y - DragOriginC.Y);
-                    pdiff = rasterizer.RasterizePixel(pdiff);
-
-                    double xs = pdiff.X / Resolution, ys = -pdiff.Y / Resolution;
-
-                    curDragged.ShiftItemRelative(pdiff);
-                }*/
-                // update all item's positions
-                foreach (OverlayShape o in TopLevelItems)
-                    o.AdjustPosition(Resolution);
-                
-                curDragged = null;
-
-                //if (OnModified != null)
-                //    OnModified.Invoke(); 
-                if (EndModify != null)
-                    EndModify(this);
-            }
         }
 
         private void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
@@ -1164,21 +727,31 @@ namespace TikzEdt
 
         private void canvas1_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (tool == ToolType.move)
+
+            // call right down-method in the current tool
+            Point mousep = e.GetPosition(canvas1);
+            object oo = canvas1.InputHitTest(mousep);
+            if (!(oo is OverlayShape))
+                oo = null;
+            CurrentTool.OnRightMouseButtonDown(oo as OverlayShape, new Point(mousep.X, Height - mousep.Y), e);
+            
+            // if the tool didn't use the click-> proceed with standard handling
+            if (!e.Handled)
             {
-                //canvas1.ContextMenu.IsEnabled = true;
-                if (CurEditing != null)
+                if (tool == ToolType.move)
                 {
-                    CurEditing = null;
+                    //canvas1.ContextMenu.IsEnabled = true;
+                    if (CurEditing != null)
+                    {
+                        CurEditing = null;
+                        PreventContextMenuOpening = true;
+                    }
+                }
+                else
+                {
+                    tool = ToolType.move;
                     PreventContextMenuOpening = true;
                 }
-
-            }
-            else
-            {
-                tool = ToolType.move;
-                curAddTo = null;
-                PreventContextMenuOpening = true;
             }
         }
 
@@ -1197,15 +770,7 @@ namespace TikzEdt
             MarkerEllipse.Visibility = Visibility.Hidden;
         }        
 
-        /// <summary>
-        /// Helper method for optional output PdflatexOutputParser has to say.
-        /// </summary>
-        /// <param name="text">what is to say</param>
-        /// <param name="lError">defines it an error</param>
-        private void AddStatusLine(string text, bool lError = false)
-        {
-            ((MainWindow)Application.Current.Windows[0]).AddStatusLine(text, lError);
-        }
+
     }
 
     public abstract class OverlayShape : Shape {
@@ -1466,204 +1031,6 @@ namespace TikzEdt
         }
     }
 
-    class SelectionTool
-    {
-        HashSet<OverlayShape> SelectedItems = new HashSet<OverlayShape>();
-        HashSet<OverlayShape> SelectedItemsBak;
-
-        /// <summary>
-        /// if Exclusive is set, all other items are unselected.
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="Exclusive"></param>
-        public void AddItem(OverlayShape o, bool Exclusive = false)
-        {
-            if (Exclusive)
-                Clear(o);
-            if (!SelectedItems.Contains(o))
-            {
-                o.SetSelectedColor();
-                SelectedItems.Add(o);
-            }
-        }
-
-        public bool IsItemSelected(OverlayShape o)
-        {
-            return SelectedItems.Contains(o);
-        }
-
-        void RemoveItem(OverlayShape o)
-        {
-            if (SelectedItems.Contains(o))
-            {
-                SelectedItems.Remove(o);
-                o.SetStdColor();
-            }
-        }
-
-        /// <summary>
-        /// Toggles selection state, returns new selection state.
-        /// </summary>
-        /// <param name="o"></param>
-        /// <returns></returns>
-        public bool ToggleItem(OverlayShape o)
-        {
-            if (SelectedItems.Contains(o))
-            {
-                RemoveItem(o);
-                return false;
-            }
-            else
-            {
-                AddItem(o);
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Clears the list, except possibly except
-        /// </summary>
-        /// <param name="except"></param>
-        void Clear(OverlayShape except = null)
-        {
-            foreach (OverlayShape o in SelectedItems)
-                if (o != except)
-                    o.SetStdColor();
-            SelectedItems.RemoveWhere(o => (o != except));
-            //SelectedItems.Clear();
-        }
-
-        public void ShiftSelItemsOnScreen(Point RelShift)
-        {
-            foreach (OverlayShape o in SelectedItems)
-            {
-                Canvas.SetLeft(o, Canvas.GetLeft(o) + RelShift.X);
-                Canvas.SetBottom(o, Canvas.GetBottom(o) + RelShift.Y);
-            }
-        }
-
-        /// <summary>
-        /// Shifts each selected item's coordinates by specified amount.
-        /// Note that items position might be relative to some other node, which can be either also shifted or not.
-        /// That's why the dictionary is needed.
-        /// The shifting for scopes and nodes is a bit different.
-        /// </summary>
-        /// <param name="RelShift"></param>
-        /// <param name="AllItems"></param>
-        public void ShiftSelItemsInParseTree(Point RelShift, List<OverlayShape> AllItems)
-        {
-            // remember the positions of nodes to which RelShift must be added
-            Dictionary<OverlayNode, Point> origPositions = new Dictionary<OverlayNode,Point>();
-            foreach (OverlayShape o in SelectedItems)
-                if (o is OverlayNode)
-                {
-                    Point p;
-                    if ((o as OverlayNode).tikzitem.GetAbsPos(out p))
-                        origPositions[o as OverlayNode] = p;
-                    else
-                        throw new Exception("Noneditable overlay node found");
-                }
-
-            
-            doShiftSelItemsRelative(RelShift, AllItems, origPositions);
-
-        }
-
-        void doShiftSelItemsRelative(Point RelShift, List<OverlayShape> AllItems, Dictionary<OverlayNode, Point> origPositions)
-        {
-            foreach (OverlayShape o in AllItems)
-            {
-                if (o is OverlayScope)
-                {
-                    if (SelectedItems.Contains(o))
-                    {
-                        o.ShiftItemRelative(RelShift);
-                    }
-                    else
-                    {
-                        ShiftSelItemsInParseTree(RelShift, (o as OverlayScope).children);
-                    }
-                }
-                else if (o is OverlayNode && SelectedItems.Contains(o))
-                {
-                    OverlayNode on = o as OverlayNode;
-                    on.tikzitem.SetAbsPos(new Point(origPositions[on].X + RelShift.X, origPositions[on].Y + RelShift.Y));
-                    on.tikzitem.UpdateText();
-                }
-            }
-        }
-
-        public void BeginSelectionChange(bool CtrlPressed)
-        {
-            if (!CtrlPressed)
-                Clear();
-
-            SelectedItemsBak = new HashSet<OverlayShape>(SelectedItems);
-        }
-        public void UpdateSelection(Rect SelectionRect, bool CtrlPressed, UIElementCollection Elements)
-        {
-            foreach (FrameworkElement o in Elements)
-            {
-                if (o is OverlayShape)
-                {
-                    Rect r = System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(o);
-                    bool nowsel = r.IntersectsWith(SelectionRect);
-                    // for overlayscope, we do not want select it when it it contains completely the selection rect
-                    if (o is OverlayScope)
-                    {
-                        double framewidth = (o as OverlayScope).StrokeThickness;
-                        r.Inflate(-framewidth, -framewidth);
-                        if (r.Contains(SelectionRect))
-                            nowsel = false;
-                    }
-                    bool shouldbeselected;
-                    if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
-                    {
-                        if (nowsel)
-                            shouldbeselected = !SelectedItemsBak.Contains(o);
-                        else
-                            shouldbeselected = SelectedItemsBak.Contains(o);
-                    }
-                    else
-                        shouldbeselected = nowsel;
-
-                    if (shouldbeselected)
-                        AddItem(o as OverlayShape);
-                    else
-                        RemoveItem(o as OverlayShape);
-                }
-            }
-        }
-
-       /* void SelectedItems_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove
-                || e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace
-                )
-            {
-                if (e.OldItems != null)
-                    foreach (OverLayShape ols in e.OldItems)
-                    {
-                        ols.SetStdColor();
-                    }
-            }
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
-            {
-            }
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add
-                || e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace
-                )
-            {
-                if (e.NewItems != null)
-                    foreach (OverLayShape ols in e.NewItems)
-                    {
-                        ols.SetSelectedColor();
-                    }
-            }
-
-            //throw new NotImplementedException();
-        }*/
-    }
+    
 
 }

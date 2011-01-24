@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Background="{x:Null}" MouseRightButtonDown="UserControl_MouseRightButtonDown">
+             d:DesignHeight="300" d:DesignWidth="300" Background="{x:Null}">
     <UserControl.Resources>
         <Storyboard x:Key="MarkerAnimation" CurrentTimeInvalidated="DoubleAnimationUsingKeyFrames_Changed" Completed="Storyboard_Completed">
 
@@ -26,8 +26,8 @@
         </Storyboard>
     </UserControl.Resources>
     <Grid>        
-        <Canvas HorizontalAlignment="Stretch" Name="canvas1" VerticalAlignment="Stretch" MouseDown="canvas1_MouseDown" 
-                MouseMove="canvas1_MouseMove" Background="#00000000" MouseUp="canvas1_MouseUp" MouseLeftButtonDown="canvas1_MouseLeftButtonDown" 
+        <Canvas HorizontalAlignment="Stretch" Name="canvas1" VerticalAlignment="Stretch"
+                MouseMove="canvas1_MouseMove" Background="#00000000" MouseLeftButtonDown="canvas1_MouseLeftButtonDown" 
                 MouseLeftButtonUp="canvas1_MouseLeftButtonUp" ContextMenuOpening="canvas1_ContextMenuOpening" MouseRightButtonDown="canvas1_MouseRightButtonDown"
                 MouseWheel="JumpToSourceDoIt">
             <Ellipse Stroke="Red" StrokeThickness="8" Opacity="0.5" Width="50" Height="{Binding ElementName=MarkerEllipse, Path=Width}" HorizontalAlignment="Left" Name="MarkerEllipse" Visibility="Hidden"/>

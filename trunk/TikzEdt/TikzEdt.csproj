@@ -135,6 +135,7 @@
     <Compile Include="MyCompletionData.cs" />
     <Compile Include="output\simpletikzLexer.cs" />
     <Compile Include="output\simpletikzParser.cs" />
+    <Compile Include="OverlayTool.cs" />
     <Compile Include="Parser\ANTLRErrorMsg.cs" />
     <Compile Include="TexOutputParser.cs" />
     <Compile Include="PdfOverlay.xaml.cs">

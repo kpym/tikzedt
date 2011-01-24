@@ -241,14 +241,14 @@ namespace TikzEdt
                         int PosBeginDoc = ((MainWindow)Application.Current.Windows[0]).txtCode.Text.IndexOf(@"\begin{document}");
                         if (PosBeginDoc == -1)
                         {
-                            ((MainWindow)Application.Current.Windows[0]).AddStatusLine("Could not insert PreviewEnvironment code!", true);
+                            MainWindow.AddStatusLine("Could not insert PreviewEnvironment code!", true);
 
                         }
                         else
                         {
                             ((MainWindow)Application.Current.Windows[0]).txtCode.Document.Insert(PosBeginDoc, PreviewEnvCode);
                             //((MainWindow)Application.Current.Windows[0]).txtCode.Text.Insert
-                            ((MainWindow)Application.Current.Windows[0]).AddStatusLine("PreviewEnvironment code inserted.");
+                            MainWindow.AddStatusLine("PreviewEnvironment code inserted.");
                             ((MainWindow)Application.Current.Windows[0]).ChangesMade = true;
                         }
                     }
@@ -312,7 +312,7 @@ namespace TikzEdt
 
         void timer_Tick(object sender, EventArgs e)
         {
-            ((MainWindow)Application.Current.Windows[0]).AddStatusLine("Timeout. Compilation aborted", true);
+            MainWindow.AddStatusLine("Timeout. Compilation aborted", true);
             AbortCompilation();
         }
         /// <summary>

@@ -98,7 +98,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>wTCAAXTR9pBY2mKw2yyvmMIa/AI=</dsig:DigestValue>
+        <dsig:DigestValue>ZZKi16hzAZ/UQWM8OOIDDQtgF/0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -115,14 +115,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="579584">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="581632">
       <assemblyIdentity name="TikzEdt" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>Sn8+25SPIAulP/fybVKGHR6Ab/4=</dsig:DigestValue>
+        <dsig:DigestValue>aHDBynHJfIeJAwZocGMazYgiDPs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
