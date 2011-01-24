@@ -631,17 +631,22 @@ namespace TikzEdt
                 AddStatusLine("Required file \"" + missing + "\" not found. Please reinstall program.", true);
             }*/
 
-            //set path to user-defined application data. depending on cmdline parameter
-            //it is stored next to .exe or in %appdata%
-            if (CmdLine["userapp"] != null)
+            //set path to user-defined application data. depending on cmdline parameter user data
+            //is stored next to .exe or in %appdata%. If program dir is not writable %userappdata% is used.
+            if (CmdLine["userapp"] != null || !Helper.IsAppDirWritable() || true)
                 Helper.SetAppdataPath(Helper.AppdataPathOptions.AppData);
             else
                 Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
 
+            AddStatusLine("Application data directory is " + Helper.GetAppdataPath());
+
+            string missingfile = "";
+            if(false == FirstRunPreparations(out missingfile))
+                AddStatusLine("File "+missingfile+" not found. Please re-install program or provide file manually.", true);
 
             if (!File.Exists(Helper.GetSettingsPath() + Consts.cSyntaxFile))
             {
-                AddStatusLine("Syntax definitions not found");
+                AddStatusLine("Syntax definitions not found", true);
             } else{
                 XmlReader r = new XmlTextReader(Helper.GetSettingsPath() + Consts.cSyntaxFile);
                 txtCode.SyntaxHighlighting = HighlightingLoader.Load(r,null);  //HighlightingManager.Instance..GetDefinition("C#");
@@ -672,23 +677,26 @@ namespace TikzEdt
         /// <summary>
         /// Checks if all config files are available and copies them
         /// from the application direction to UserAppDataPath.
-        /// But actually this should have been done by the installer?!?
         /// </summary>
         /// <param name="missing"></param>
         /// <returns></returns>
-        /*bool FirstRunPreparations(out string missing)
+        bool FirstRunPreparations(out string missing)
         {
             bool success = true;
             missing = "";
+            //these files need to be in the appdata path.
             List<String> InstallFiles = new List<string>();
             InstallFiles.Add(Consts.cCompletionsFile);
-            //InstallFiles.Add(Consts.cMRUFile);
+            InstallFiles.Add(Consts.cSyntaxFile);
             InstallFiles.Add(Consts.cSnippetsFile);
 
             foreach (string file in InstallFiles)
             {
-                if (!File.Exists(System.Windows.Forms.Application.UserAppDataPath + "\\" + file))
-                    if (!File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + "\\" + file))
+                //check if file is in Helper.GetSettingsPath() if not try to copy it from exe dir.
+                if (!File.Exists(Helper.GetSettingsPath() + file))
+                {
+                    //if not there check if it is in exe dir
+                    if (!File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + "\\Editor\\" + file))
                     {
                         success = false;
                         missing = file;
@@ -696,22 +704,14 @@ namespace TikzEdt
                     }
                     else
                     {
-                        try
-                        {
-                            if (!Directory.Exists(System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.UserAppDataPath + "\\" + file)))
-                                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.UserAppDataPath + "\\" + file));
-                            File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + "\\" + file, System.Windows.Forms.Application.UserAppDataPath + "\\" + file);
-                        }
-                        catch (Exception)
-                        {
-                            success = false;
-                            missing = file;
-                            break;
-                        }
+                        Directory.CreateDirectory(Helper.GetSettingsPath());
+                        File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + "\\Editor\\" + file, Helper.GetSettingsPath() + file);
+                        //let global exception handler show exception to user.
                     }
+                }
             }
             return success;
-        }*/
+        }
 
 
         

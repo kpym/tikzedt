@@ -175,6 +175,32 @@ namespace TikzEdt
             }
             return _AppdataPath;
         }
+
+        public static bool IsAppDirWritable()
+        {           
+            return HasWritePermissionOnDir(GetAppDir());
+        }
+
+        public static bool HasWritePermissionOnDir(string path)
+        {
+            var writeAllow = false;
+            var writeDeny = false;
+            var accessControlList = Directory.GetAccessControl(path);
+            var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+
+            foreach (System.Security.AccessControl.FileSystemAccessRule rule in accessRules)
+            {
+                if ((System.Security.AccessControl.FileSystemRights.Write & rule.FileSystemRights) != System.Security.AccessControl.FileSystemRights.Write) continue;
+
+                if (rule.AccessControlType == System.Security.AccessControl.AccessControlType.Allow)
+                    writeAllow = true;
+                else if (rule.AccessControlType == System.Security.AccessControl.AccessControlType.Deny)
+                    writeDeny = true;
+            }
+
+            return writeAllow && !writeDeny;
+        }
+
         
         
         public static string GetAppDir() // w/o trailing backslash 

@@ -64,8 +64,7 @@ namespace TikzEdt.Snippets
                         }
                     }
                 }
-            }
-            String s = Helper.GetSnippetsPath();
+            }            
         }
 
         public void Reload()
