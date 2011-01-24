@@ -22,6 +22,7 @@ namespace TikzEdt
         public TikzEdtAbout()
         {
             InitializeComponent();
+            VersionText.Text = "Version " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

@@ -63,5 +63,7 @@
             </Canvas.ContextMenu>
             
         </Canvas>
+        <Grid Name="DisablerGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Cursor="No" 
+              ToolTip="Wysiwyg editing is currently disabled, source out of sync." Background="#00000000" Visibility="Collapsed"></Grid>
     </Grid>
 </UserControl>
