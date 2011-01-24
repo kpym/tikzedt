@@ -633,7 +633,7 @@ namespace TikzEdt
 
             //set path to user-defined application data. depending on cmdline parameter user data
             //is stored next to .exe or in %appdata%. If program dir is not writable %userappdata% is used.
-            if (CmdLine["userapp"] != null || !Helper.IsAppDirWritable() || true)
+            if (CmdLine["userapp"] != null || !Helper.IsAppDirWritable())
                 Helper.SetAppdataPath(Helper.AppdataPathOptions.AppData);
             else
                 Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
