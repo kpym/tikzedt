@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" standalone="yes"?>
 <CompletionDS xmlns="http://tempuri.org/CompletionDS.xsd">
   <Environments>
-    <StartTag>\,</StartTag>
+    <!-- Environment for options (todo: should we have the \, ? )-->
+    <StartTag>\,|\[</StartTag>
     <EndTag>\]</EndTag>
     <ID>1</ID>
     <Snippets>
@@ -62,8 +63,39 @@
       <environment>1</environment>
       <Description></Description>
     </Snippets>
+    <Snippets>
+      <Text>xscale=</Text>
+      <environment>1</environment>
+      <Description>Scaling of coordinates in x direction.</Description>
+    </Snippets>
+    <Snippets>
+      <Text>yscale=</Text>
+      <environment>1</environment>
+      <Description>Scaling of coordinates in y direction.</Description>
+    </Snippets>
+    <Snippets>
+      <Text>scale=</Text>
+      <environment>1</environment>
+      <Description>Scaling of coordinates in x and y direction.</Description>
+    </Snippets>
+    <Snippets>
+      <Text>shift=</Text>
+      <environment>1</environment>
+      <Description>A translation in x and y direction by some amount. Example: shift={(1,1)}.</Description>
+    </Snippets>
+    <Snippets>
+      <Text>xshift=</Text>
+      <environment>1</environment>
+      <Description>Translation in x direction.</Description>
+    </Snippets>
+    <Snippets>
+      <Text>yshift=</Text>
+      <environment>1</environment>
+      <Description>Translation in y direction.</Description>
+    </Snippets>
   </Environments>
   
+  <!-- Environment for \begin{ ***** } commands -->
   <Environments>
     <StartTag>\\begin\s*\{</StartTag>
     <EndTag>\}</EndTag>

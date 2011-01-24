@@ -81,9 +81,16 @@ namespace TikzEdt
 \usepackage{amsmath, amssymb,bm,color}
 ";
 
+        /// <summary>
+        ///  The tikz code that is inserted before \end{tikzpicture}.
+        ///  It writes the bounding box to the auxiliary file ..._BB.txt.
+        ///  The "unnecessary" invisible node at the beginning is inserted since for some strange reason
+        ///  Tikz outputs a very large bounding box if the tikzpicture is empty.  
+        /// </summary> 
         public const string CodeToWriteBB =
 @"\usetikzlibrary{calc}
 \pgftransformreset
+\node[inner sep=0pt,outer sep=0pt,minimum size=0pt,line width=0pt,text width=0pt,text height=0pt] at (current bounding box) {};
 \newwrite\metadatafile
 \immediate\openout\metadatafile=\jobname_BB.txt
 \path

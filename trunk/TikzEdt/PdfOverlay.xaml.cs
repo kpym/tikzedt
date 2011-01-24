@@ -727,7 +727,6 @@ namespace TikzEdt
 
         private void canvas1_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-
             // call right down-method in the current tool
             Point mousep = e.GetPosition(canvas1);
             object oo = canvas1.InputHitTest(mousep);
@@ -753,6 +752,8 @@ namespace TikzEdt
                     PreventContextMenuOpening = true;
                 }
             }
+            else 
+                PreventContextMenuOpening = true;
         }
 
         Point MarkerCenter = new Point(100, 100);

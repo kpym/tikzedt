@@ -65,7 +65,9 @@ namespace TikzEdt
             public bool BBShallBeWritten = false;   // indicates whether the compiler should try to smuggle BB code into the file
             public bool hasBB = false;              // indicates whether the BB could be determined
             public bool BBWritten = false;          // indicates whether code to determine the BB has been succesfully smuggled into the file
-            
+
+            public long DocumentID = 0;             // used to match jobs with documents, see comment on CurDocumentID
+
             public Job(string tcode, string tpath, Rect tBB, string tname, bool tCreateBMP)
             {
                 code = tcode; path = tpath; BB = tBB; name = tname; CreateBMP = tCreateBMP;
@@ -125,7 +127,7 @@ namespace TikzEdt
         /// <param name="path"></param>
         /// <param name="BB"></param>
         /// <param name="name"></param>
-        public void AddJobExclusive(string code, string path, bool BBShallBeWritten)
+        public void AddJobExclusive(string code, string path, bool BBShallBeWritten, long DocumentID = 0)
         {
             Job job = new Job();
             job.code = code;
@@ -133,15 +135,17 @@ namespace TikzEdt
             job.BBShallBeWritten = BBShallBeWritten;
             job.CreateBMP = false;
             job.WriteCode = true;
+            job.DocumentID = DocumentID;
 
             AddJobExclusive(job);
         }
-        public void AddJobExclusive(string path)
+        public void AddJobExclusive(string path, long DocumentID = 0)
         {           
             Job job = new Job();
             job.path = path;
             job.CreateBMP = false;
             job.WriteCode = false;
+            job.DocumentID = DocumentID;
 
             AddJobExclusive(job);
         }
@@ -509,6 +513,7 @@ namespace TikzEdt
                     {
                         Point p1 = new Point( Double.Parse(arr[0]) / Consts.ptspertikzunit, Double.Parse(arr[1]) / Consts.ptspertikzunit);
                         Point p2 = new Point( Double.Parse(arr[2]) / Consts.ptspertikzunit, Double.Parse(arr[3]) / Consts.ptspertikzunit);
+                        
                         job.BB = new Rect(p1, p2);
                         job.hasBB = true;
 

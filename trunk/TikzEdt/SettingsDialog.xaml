@@ -96,7 +96,12 @@
                               >\begin{} Completion</CheckBox>
                     <CheckBox Grid.Row="4" Margin="3"  Grid.Column="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=Snippets_ShowThumbs}"
                               >Show Snippet Thumbnails</CheckBox>
-                    <TextBlock Margin="3" Grid.Row="5" Grid.ColumnSpan="2" TextWrapping="Wrap">If you don't like the colors used for syntax highlighting, please edit the file "TikzSyntax.xshd" in a text or xml editor and reload TikzEdt.</TextBlock>
+                    <TextBlock Margin="3" Grid.Row="5" Grid.ColumnSpan="2" TextWrapping="Wrap">If you don't like the colors used for syntax highlighting, 
+                        please edit the file "TikzSyntax.xshd" in a text or xml editor and reload TikzEdt. The file can be found                        
+                        <Hyperlink Name="LinkToSyntaxFolder" NavigateUri="" RequestNavigate="Hyperlink_RequestNavigate">
+                            here
+                        </Hyperlink>.                        
+                    </TextBlock>
                 </Grid>
             </TabItem>
             <TabItem>

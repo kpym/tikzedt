@@ -65,15 +65,31 @@ namespace TikzEdt
             }
         }
 
+        private string _PdfPath = "";
+        public string PdfPath
+        {
+            set { _PdfPath = value; RefreshPDF(_PdfPath); }
+            get { return _PdfPath; }
+        }
+
         //protected Process texProcess = new Process();
         //protected String nextToCompile = "";
         Rect currentBB;
+        public Rect BB
+        {
+            get { return currentBB; }
+            set
+            {
+                currentBB = value;
+                RecalcSize();
+            }
+        }
         //protected bool isRunning = false;
         //PDFLibNet.PDFWrapper mypdfDoc = null;
         PdfToBmp myPdfBmpDoc = new PdfToBmp();
 
         
-        TexCompiler _TexCompilerToListen;
+        /*TexCompiler _TexCompilerToListen;
         public TexCompiler TexCompilerToListen
         {
             get { return _TexCompilerToListen; }
@@ -104,7 +120,7 @@ namespace TikzEdt
                     currentBB = new Rect(0, 0, 0, 0);
                 RefreshPDF(pdfpath);
             }
-        }
+        }*/
         
         //System.Windows.Forms.Control dummy = new System.Windows.Forms.Control();
 
@@ -314,9 +330,15 @@ namespace TikzEdt
     }
 
 
-
+    /// <summary>
+    /// The job of this class is to load a pdf file and render it into bitmaps of
+    /// possibly varying resolutions. Internally it uses pdflibnet. to do the conversion.
+    /// </summary>
     public class PdfToBmp
     {
+        /// <summary>
+        /// Holds the pdflibnet PdfWrapper, which does the conversion.
+        /// </summary>
         PDFWrapper mypdfDoc;
         
 

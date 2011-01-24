@@ -541,6 +541,8 @@ namespace TikzEdt
 
         /// <summary>
         /// Helper method for optional output PdflatexOutputParser has to say.
+        /// 
+        /// NOTE: rather use global static MainWindow.AddStatusLine()
         /// </summary>
         /// <param name="text">what is to say</param>
         /// <param name="lError">defines it an error</param>

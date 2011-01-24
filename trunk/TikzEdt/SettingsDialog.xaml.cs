@@ -17,6 +17,7 @@ using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using System.Diagnostics;
 
 namespace TikzEdt
 {
@@ -67,6 +68,15 @@ namespace TikzEdt
         {
             if (e.Key == Key.Escape)
                 Close();
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            if (sender == LinkToSyntaxFolder)
+            {
+                Process.Start(new ProcessStartInfo(Helper.GetSettingsPath()));
+                e.Handled = true;
+            }
         }
     }
 }
