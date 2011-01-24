@@ -116,14 +116,12 @@ namespace TikzEdt
             get { return _AllowEditing; }
             set { 
                 _AllowEditing = value;
+                // display a transparent grid on top of the control that captures all input and displays 
+                // a no-go message via tooltip
                 if (_AllowEditing)
-                {
-                    canvas1.ToolTip = null;
-                }
+                    DisablerGrid.Visibility = System.Windows.Visibility.Collapsed;
                 else
-                {
-                    canvas1.ToolTip = "Editing is currently disabled, source out of sync.";
-                }
+                    DisablerGrid.Visibility = System.Windows.Visibility.Visible;
             }
         }
 
@@ -239,7 +237,7 @@ namespace TikzEdt
             }
         }
         // resets tool to standard
-        public void DeactivateMe()
+        public void ActivateDefaultTool()
         {
             tool = ToolType.move;
         }
@@ -316,7 +314,7 @@ namespace TikzEdt
             ParseTree = t;
             //curSel = null; //curDragged = null;
             Resolution = Resolution; // to recalc size
-            DeactivateMe(); // to reset current tool
+            ActivateDefaultTool(); // to reset current tool
             RedrawObjects();
         }
 
@@ -349,6 +347,7 @@ namespace TikzEdt
             //curSel = null;
             CurEditing = null;
             ParseTree = null;
+            tool = tool;    // this deactivates + reactivates the current tool to reset its status... e.g., it might contain links to some selected objects etc.
             TopLevelItems = new List<OverlayShape>();
         }
         public void RedrawObjects()
@@ -616,10 +615,6 @@ namespace TikzEdt
         
         private void canvas1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // if editing not allowed -> not do anything
-            if (!AllowEditing)
-                return;
-
             // call left down-method in the current tool
             Point mousep = e.GetPosition(canvas1);
             object oo = canvas1.InputHitTest(mousep);

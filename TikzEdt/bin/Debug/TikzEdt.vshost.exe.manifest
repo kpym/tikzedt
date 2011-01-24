@@ -4,7 +4,7 @@
   <description asmv2:iconFile="tikzedt48.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="TikzEdt" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
+    <assemblyIdentity name="TikzEdt" version="0.1.0.0" language="neutral" processorArchitecture="x86" />
     <commandLine file="TikzEdt.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -115,14 +115,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="582656">
-      <assemblyIdentity name="TikzEdt" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="583680">
+      <assemblyIdentity name="TikzEdt" version="0.1.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>u9ph/1MqJXEaL4TmkJEjNFWPdXM=</dsig:DigestValue>
+        <dsig:DigestValue>fzgXYusiqg1nfvxIXXp/sBWj+8E=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

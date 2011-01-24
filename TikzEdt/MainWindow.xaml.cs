@@ -317,11 +317,14 @@ namespace TikzEdt
             }
             else
             {
-                // parsing succesfull -> recompile to get BB right
+                // parsing succesfull
                 Tikz_ParseTree tp = Result.ParseTree as Tikz_ParseTree;
                 pdfOverlay1.SetParseTree(tp, currentBB);
+
+                // if no other changes are pending, we can turn on editing again
+                pdfOverlay1.AllowEditing = true;
                 
-                //even though BB may not be ready, we can already fill the style list
+                // fill the style list
                 UpdateStyleLists(tp);
 
                 //now check if a warning occured. That would be a parser error in an included file.                
@@ -911,9 +914,15 @@ namespace TikzEdt
                     //start asynchronous parsing if there is something todo, otherwise clear canvas
                     //if (!(txtCodeWasEmpty == true && txtCode.Text.Trim() == ""))
                     if (txtCode.Text.Trim() != "")
+                    {
+                        pdfOverlay1.AllowEditing = false;   // overlay out of date->turn off editing
                         ParseNeeded = true;
+                    }
                     else
+                    {
                         pdfOverlay1.Clear();
+                        pdfOverlay1.AllowEditing = true;
+                    }
                 }
 
                 // Always Compile tex
