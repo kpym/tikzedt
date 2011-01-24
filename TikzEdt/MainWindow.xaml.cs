@@ -162,7 +162,7 @@ namespace TikzEdt
             CommandBinding ShowCodeCompletionsCommandBinding = new CommandBinding(ShowCodeCompletionsCommand, ShowCodeCompletionsCommandHandler, AlwaysTrue);
             CommandBinding CompileCommandBinding = new CommandBinding(CompileCommand, CompileCommandHandler, AlwaysTrue);     
 
-            pdfOverlay1.rasterizer = rasterControl1;
+            pdfOverlay1.Rasterizer = rasterControl1;
             EnsureFindDialogExists();
 
             TikzToBMPFactory.Instance.JobNumberChanged += new TikzToBMPFactory.NoArgsEventHandler(TikzToBmpFactory_JobNumberChanged);
@@ -517,9 +517,13 @@ namespace TikzEdt
             else
                 StandAloneStatusBarItem.Content = "";
         }
-        
 
-        public void AddStatusLine(string text, bool lError = false)
+
+        public static void AddStatusLine(string text, bool lError = false)
+        {
+            ((MainWindow)Application.Current.Windows[0])._AddStatusLine(text, lError);
+        }
+        private void _AddStatusLine(string text, bool lError = false)
         {
             Paragraph p = new Paragraph();
             if (lError)
