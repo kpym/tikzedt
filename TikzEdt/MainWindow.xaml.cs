@@ -39,6 +39,15 @@ namespace TikzEdt
         public static RoutedCommand ShowCodeCompletionsCommand = new RoutedCommand();
 
         System.ComponentModel.BackgroundWorker AsyncParser = new System.ComponentModel.BackgroundWorker();
+        class AsyncParserJob
+        {
+            public string code;
+            public long DocumentID;
+            public AsyncParserJob(string tcode, long tDocumentID)
+            {
+                code = tcode; DocumentID = tDocumentID;
+            }
+        }
 
         // the current file
         private string _CurFile= Consts.defaultCurFile;
@@ -66,6 +75,17 @@ namespace TikzEdt
 
             }
         }
+
+        /// <summary>
+        /// The document ID uniquely identifies the current document. It is used to assure that results of 
+        /// asynchronous operations (parser & pdflatex) can be matched with the document they belong to.
+        /// Note that a problem arises, e.g., when
+        ///     one changes the file-> it gets compiled with pdflatex-> now one hits newfile
+        ///     -> the compiler returns -> if careless, the wrong file is displayed.
+        /// 
+        /// </summary>
+        long CurDocumentID=0;
+
         /// <summary>
         /// indicates whether current file has never been saved (=created with new file and not yet saved)
         /// </summary>
@@ -103,14 +123,11 @@ namespace TikzEdt
             set
             {
                 _currentBB = value;
-                //txtBBX.Text = currentBB.X.ToString();
-                //txtBBY.Text = currentBB.Y.ToString();
-                //txtBBW.Text = currentBB.Width.ToString();
-                //txtBBH.Text = currentBB.Height.ToString();
 
                 BBStatusBarItem.Content = "Bounding Box: ("+Math.Round(currentBB.X,2) + ", " + Math.Round(currentBB.Y,2) + ") ("
                     +Math.Round(currentBB.X+currentBB.Width,2) + ", " + Math.Round(currentBB.Y+currentBB.Height,2) + ")";
 
+                tikzDisplay1.BB = currentBB;
                 // add some margin
                 Rect bigger = currentBB;
                 bigger.Inflate(Properties.Settings.Default.BB_Margin, Properties.Settings.Default.BB_Margin);
@@ -129,7 +146,7 @@ namespace TikzEdt
                 if (_ParseNeeded && !AsyncParser.IsBusy)
                 {
                     _ParseNeeded = false;
-                    AsyncParser.RunWorkerAsync(txtCode.Text);
+                    AsyncParser.RunWorkerAsync(new AsyncParserJob(txtCode.Text, CurDocumentID));
                 }
             }
         }
@@ -178,7 +195,7 @@ namespace TikzEdt
             TheCompiler.Instance.JobSucceeded += new TexCompiler.JobEventHandler(TheCompiler_JobSucceeded);
             TheCompiler.Instance.OnTexError += new TexCompiler.TexErrorHandler(addProblemMarker);
             TheCompiler.Instance.OnTexOutput += new TexCompiler.TexOutputHandler(TexCompiler_OnTexOutput);
-            tikzDisplay1.TexCompilerToListen = TheCompiler.Instance;
+            //tikzDisplay1.TexCompilerToListen = TheCompiler.Instance;
 
             // bind lstError to TexErrors (make sure that TexErrors is suitable object for data binding!)
             //lstErrors.ItemsSource = TexErrors;
@@ -225,10 +242,21 @@ namespace TikzEdt
 
         void TheCompiler_JobSucceeded(object sender, TexCompiler.Job job)
         {
-            // set the currrent BB
-            if (job.hasBB && !job.GeneratePrecompiledHeaders)
+            // it may happen that pdflatex returns after a new document has been created->then don't load the pdf
+            if (job.DocumentID == CurDocumentID)
             {
-                currentBB = job.BB;
+                if (!job.GeneratePrecompiledHeaders)
+                {
+                    // set the currrent BB
+                    if (job.hasBB && !job.GeneratePrecompiledHeaders)
+                    {
+                        currentBB = job.BB;
+                    }
+
+                    // (re-)load the pdf to display                
+                    string pdfpath = Helper.RemoveFileExtension(job.path) + ".pdf";
+                    tikzDisplay1.PdfPath = pdfpath;
+                }
             }
         }
 
@@ -248,6 +276,10 @@ namespace TikzEdt
             AsyncParserResultType Result = e.Result as AsyncParserResultType;
             if (Result == null)
                 throw new Exception("AsyncParser_RunWorkerCompleted() can only handle e.Result  from type AsyncParserResultType!");
+
+            // in case of outdated parse -> ignore
+            if (Result.DocumentID != CurDocumentID)
+                return;
 
             //check if error occurred
             if (Result.Error != null && Result.Error is RecognitionException)
@@ -345,6 +377,10 @@ namespace TikzEdt
             /// Name of the included file which could not be parsed.
             /// </summary>
             public string WarningSource { get; set; }
+            /// <summary>
+            /// The ID of the document that was parsed.
+            /// </summary>
+            public long DocumentID;
         }
         class ParserException : Exception
         {
@@ -361,8 +397,10 @@ namespace TikzEdt
 
             try
             {
-                Tikz_ParseTree tp = TikzParser.Parse(e.Argument as string);
+                AsyncParserJob job = e.Argument as AsyncParserJob;
+                Tikz_ParseTree tp = TikzParser.Parse(job.code);
                 Result.ParseTree = tp;
+                Result.DocumentID = job.DocumentID;
 
                 //include any styles from include files via \input cmd
                 string inputfile = "";
@@ -888,7 +926,7 @@ namespace TikzEdt
 
                 //compiling only must be started if there is latex code
                 if( txtCode.Text.Trim() != "")
-                    TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, true);
+                    TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, true, CurDocumentID);
                 else
                     tikzDisplay1.SetUnavailable();
             }
@@ -896,12 +934,12 @@ namespace TikzEdt
             {
                 //tikzDisplay1.Compile(txtCode.Text, new Rect(0, 0, 0, 0), TexCompiler.IsStandalone(txtCode.Text));
 
-                TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, false);
+                TheCompiler.Instance.AddJobExclusive(txtCode.Text, path, false, CurDocumentID);
             }
             else
             {
                 if (SaveCurFile())
-                    TheCompiler.Instance.AddJobExclusive(CurFile);
+                    TheCompiler.Instance.AddJobExclusive(CurFile, CurDocumentID);
                 else
                     tikzDisplay1.SetUnavailable();
             }
@@ -1149,6 +1187,9 @@ namespace TikzEdt
             pdfOverlay1.SetParseTree(null, currentBB);
             currentBB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);
             ClearStyleLists();
+
+            // Set new document ID
+            CurDocumentID = DateTime.Now.Ticks;
             //isLoaded = true;
         }
 
