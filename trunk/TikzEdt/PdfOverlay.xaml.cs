@@ -33,7 +33,7 @@ namespace TikzEdt
     /// </summary>
     public partial class PdfOverlay : UserControl, OverlayInterface
     {
-
+        #region EVENTS
         public delegate void ModifiedEventHandler(TikzParseItem sender, string oldtext);
         /// <summary>
         /// This event is called whenever the picture gets modified.
@@ -80,7 +80,7 @@ namespace TikzEdt
         /// (E.g., in a situation when the ParseTree is null because of errors in the document, 
         /// not because nothing has been drawn yet.)
         /// </summary>
-        public event CallbackEventHandler TryCreateNew;
+        //public event CallbackEventHandler TryCreateNew;
         /// <summary>
         /// This event is called when user selectes Jump To Source on an Overlay item.
         /// The parameter sender will contain the TikzParseItem the user wants to jump to.
@@ -88,8 +88,9 @@ namespace TikzEdt
         /// </summary>
         public event NoArgsEventHandler JumpToSource;
 
+        #endregion
 
-
+        #region PROPERTIES
         public static readonly DependencyProperty NodeStyleProperty = DependencyProperty.Register(
         "NodeStyle", typeof(string), typeof(PdfOverlay), new PropertyMetadata(""));
         public string NodeStyle
@@ -143,12 +144,6 @@ namespace TikzEdt
             }
         }
 
-        void _parsetree_TextChanged(TikzParseItem sender, string oldtext)
-        {
-            if (OnModified != null)
-                OnModified(sender, oldtext);
-        }
-
         private double _Resolution = Consts.ptspertikzunit;
         public double Resolution
         {
@@ -184,9 +179,46 @@ namespace TikzEdt
 
         public Canvas canvas { get { return canvas1; } }
 
+        private RasterControl _Rasterizer;
+        public RasterControl Rasterizer { get { return _Rasterizer; } set { _Rasterizer = value; } }
+
+        OverlayScope _CurEditing;
+        /// <summary>
+        /// This is a link to the scope currently selected for editing.
+        /// New nodes/paths are added to this scope.
+        /// The scope can be selected for editing by double-clicking or context menu command.
+        /// It then becomes highlighted, i.e., a hatched thick additional border is drawn.
+        /// </summary>
+        public OverlayScope CurEditing
+        {
+            get { return _CurEditing; }
+            set
+            {
+                if (_CurEditing != null)
+                {
+                    // remove adorner
+                    AdornerLayer al = AdornerLayer.GetAdornerLayer(CurEditing);
+                    if (al != null)
+                    {
+                        Adorner[] toRemoveArray = al.GetAdorners(CurEditing);
+                        if (toRemoveArray != null)
+                        {
+                            AdornerLayer.GetAdornerLayer(CurEditing).Remove(toRemoveArray[0]);
+                        }
+                    }
+                }
+                _CurEditing = value;
+                if (_CurEditing != null)
+                    AdornerLayer.GetAdornerLayer(CurEditing).Add(new ScopeAdorner(CurEditing));
+
+                SetCorrectRaster(CurEditing); // todo: correct? ,true
+            }
+        }
+
         OverlayTool CurrentTool
         {
-            get {
+            get
+            {
                 switch (tool)
                 {
                     case ToolType.move:
@@ -198,77 +230,43 @@ namespace TikzEdt
                     case ToolType.addvert:
                         return nodeTool;
                     default:
-                        return null; // should not come here
+                        throw new Exception("Unknown tool type... please make sure all tool types are handled in PdfOverlay.CurrentTool."); // should not come here
                 }
             }
         }
 
-        // The tools
-        SelectionTool selectionTool = new SelectionTool();
-        EdgeTool edgeTool = new EdgeTool();
-        PathTool pathTool = new PathTool();
-        NodeTool nodeTool = new NodeTool();
-
         public enum ToolType { move, addvert, addedge, addpath }
-        ToolType _tool=ToolType.move;
+        ToolType _tool = ToolType.move;
         public ToolType tool
         {
             get { return _tool; }
-            set {
+            set
+            {
                 ToolType old = _tool;
                 CurrentTool.OnDeactivate();
                 _tool = value;
-                /*switch (tool)
-                {
-                    case ToolType.move:                    
-                        Cursor = Cursors.Arrow;
-                        break;
-                    case ToolType.addvert:
-                    case ToolType.addpath:
-                        Cursor = Cursors.Cross;
-                        break;
-                    case ToolType.addedge:
-                        Cursor = Cursors.UpArrow;
-                        break;
-                }*/
                 CurrentTool.OnActivate();
                 if (old != _tool && ToolChanged != null)
                     ToolChanged(this);
             }
         }
-        // resets tool to standard
-        public void ActivateDefaultTool()
-        {
-            tool = ToolType.move;
-        }
+
+        // Member variables for the tools
+        SelectionTool selectionTool = new SelectionTool();
+        EdgeTool edgeTool = new EdgeTool();
+        PathTool pathTool = new PathTool();
+        NodeTool nodeTool = new NodeTool();
 
 
-        private RasterControl _Rasterizer;
-        public RasterControl Rasterizer { get {return _Rasterizer; } set { _Rasterizer = value; } }
+        #endregion
 
-        //List<Control> objects = new List<Control>();
-
-        //System.Collections.ObjectModel.ObservableCollection<OverlayShape> SelectedItems = new System.Collections.ObjectModel.ObservableCollection<OverlayShape>();
-        //List<OverlayShape> SelectedItemsBak = new List<OverlayShape>();   // stores old selection during SelectionRect display
-
-        public PdfOverlay()
-        {
-            InitializeComponent();
-
-            // initialize tools
-            selectionTool.overlay = this;
-            edgeTool.overlay = this;
-            nodeTool.overlay = this;
-            pathTool.overlay = this;
-
-        }
-
+        #region MarkObjectAt
 
         /// <summary>
         /// Tries to display a ring around the object at text position
         /// offset.
         /// </summary>
-        /// <param name="offset"></param>
+        /// <param name="offset">The text position.</param>
         public void MarkObjectAt(int offset)
         {
             OverlayShape ols = ObjectFromOffset(offset, TopLevelItems);
@@ -283,12 +281,21 @@ namespace TikzEdt
 
                 if (!canvas1.Children.Contains(MarkerEllipse))
                     canvas1.Children.Add(MarkerEllipse);
-                Storyboard anim = (Storyboard) FindResource( "MarkerAnimation" ); 
-                anim.Begin( this );
+                Storyboard anim = (Storyboard)FindResource("MarkerAnimation");
+                anim.Begin(this);
                 MarkerEllipse.Visibility = System.Windows.Visibility.Visible;
             }
         }
 
+        /// <summary>
+        /// This method searches recursively among all items in the displaytree for one whose associated code segment
+        /// contains the position offset. In case multiple items match, the deepest (in the tree) one is chosen.
+        /// E.g., if a scope contains a node, and the offset matches the node, it also also lies within the scope,
+        /// but the node is returned.
+        /// </summary>
+        /// <param name="offset">The code position.</param>
+        /// <param name="bag">Overlayshapes to search in.</param>
+        /// <returns></returns>
         public OverlayShape ObjectFromOffset(int offset, List<OverlayShape> bag)
         {
             foreach (OverlayShape ols in bag)
@@ -308,6 +315,62 @@ namespace TikzEdt
             return null;
         }
 
+        Point MarkerCenter = new Point(100, 100);
+        private void DoubleAnimationUsingKeyFrames_Changed(object sender, EventArgs e)
+        {
+            if (MarkerEllipse != null)
+            {
+                Canvas.SetBottom(MarkerEllipse, MarkerCenter.Y - MarkerEllipse.ActualHeight / 2);
+                Canvas.SetLeft(MarkerEllipse, MarkerCenter.X - MarkerEllipse.ActualWidth / 2);
+            }
+        }
+
+        private void Storyboard_Completed(object sender, EventArgs e)
+        {
+            MarkerEllipse.Visibility = Visibility.Hidden;
+        }
+        #endregion
+
+        /// <summary>
+        /// This method is called by the parsetree upon change.
+        /// It just redirects the event...
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="oldtext"></param>
+        void _parsetree_TextChanged(TikzParseItem sender, string oldtext)
+        {
+            if (OnModified != null)
+                OnModified(sender, oldtext);
+        }
+
+        // resets tool to standard (= the move tool)
+        public void ActivateDefaultTool()
+        {
+            tool = ToolType.move;
+        }
+        
+        //List<Control> objects = new List<Control>();
+
+        //System.Collections.ObjectModel.ObservableCollection<OverlayShape> SelectedItems = new System.Collections.ObjectModel.ObservableCollection<OverlayShape>();
+        //List<OverlayShape> SelectedItemsBak = new List<OverlayShape>();   // stores old selection during SelectionRect display
+
+        public PdfOverlay()
+        {
+            InitializeComponent();
+
+            // initialize tools
+            selectionTool.overlay = this;
+            edgeTool.overlay = this;
+            nodeTool.overlay = this;
+            pathTool.overlay = this;
+
+        }
+
+        /// <summary>
+        /// Sets the current parsetree and updates the overlay.
+        /// </summary>
+        /// <param name="t">The new parsetree.</param>
+        /// <param name="tBB">The new bounding box.</param>
         public void SetParseTree(Tikz_ParseTree t, Rect tBB)
         {
             BB = tBB;
@@ -318,11 +381,15 @@ namespace TikzEdt
             RedrawObjects();
         }
 
+        /// <summary>
+        /// This recomputes the positions of all OverlayItems.
+        /// (It does not recreate the displaytree, just adjusts positions.)
+        /// </summary>
         public void AdjustPositions()
         {
             if (TopLevelItems != null)
                 foreach (OverlayShape o in TopLevelItems)
-                    o.AdjustPosition(Resolution);                                      
+                    o.AdjustPosition(Resolution);
         }
 
         public Point ScreenToTikz(Point p, bool invY=false)
@@ -344,28 +411,39 @@ namespace TikzEdt
         public void Clear()
         {
             canvas1.Children.Clear();
-            //curSel = null;
             CurEditing = null;
             ParseTree = null;
             tool = tool;    // this deactivates + reactivates the current tool to reset its status... e.g., it might contain links to some selected objects etc.
             TopLevelItems = new List<OverlayShape>();
+            Rasterizer.ResetRaster();
         }
         public void RedrawObjects()
         {
             canvas1.Children.Clear();
             //curSel = null;
-            CurEditing = null;           
+            CurEditing = null;
+            tool = tool;    // this deactivates + reactivates the current tool to reset its status
             TopLevelItems = new List<OverlayShape>();
 
-            //curDragged = null;
-            
             if (ParseTree == null)
+            {
+                Rasterizer.ResetRaster();
                 return; // nothing to display
+            }
 
-            // set render transform
-            //canvas1.RenderTransform
-            
-            DrawObject(ParseTree, TopLevelItems);
+            try
+            {
+                DrawObject(ParseTree, TopLevelItems);
+                SetCorrectRaster(null);
+            }
+            catch (Exception e)
+            {
+                // we should really not come here.... but there are conceivable tex files with cyclic references that might 
+                // produce errors.
+                Clear();
+                AllowEditing = false;
+                MainWindow.AddStatusLine("Error in Overlay rendering: '"+e.Message + "' Overlay disabled for now.", true);
+            }
         }
 
         /// <summary>
@@ -392,9 +470,6 @@ namespace TikzEdt
                 if (os.children.Count > 0)
                 {
                     bag.Add(os);
-                    os.SetStdColor(); //os.Stroke = new SolidColorBrush(Color.FromArgb(100, 0, 255, 0));
-                    os.StrokeThickness = 10;
-                    //os.Fill = new SolidColorBrush(Color.FromArgb(100, 0, 255, 0));
                     os.AdjustPosition(Resolution);
                     canvas1.Children.Add(os);
                 }
@@ -413,8 +488,7 @@ namespace TikzEdt
                     el.tikzitem = tpi as Tikz_XYItem;
                     //Ellipse el = new Ellipse();                                   
                     //el.Stroke = Brushes.Red;
-                    el.SetStdColor();
-                    el.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+                    
                     el.AdjustPosition(Resolution);
 
                     // add tooltip
@@ -465,33 +539,6 @@ namespace TikzEdt
 
         }
 
-        OverlayScope _CurEditing;
-        public OverlayScope CurEditing
-        {
-            get { return _CurEditing; }
-            set
-            {
-                if (_CurEditing != null)
-                {
-                    // remove adorner
-                    AdornerLayer al = AdornerLayer.GetAdornerLayer(CurEditing);
-                    if (al != null)
-                    {
-                        Adorner[] toRemoveArray = al.GetAdorners(CurEditing);
-                        if (toRemoveArray != null)
-                        {
-                            AdornerLayer.GetAdornerLayer(CurEditing).Remove(toRemoveArray[0]);
-                        }
-                    }
-                }
-                _CurEditing = value;
-                if (_CurEditing != null)
-                    AdornerLayer.GetAdornerLayer(CurEditing).Add(new ScopeAdorner(CurEditing));
-
-                SetCorrectRaster(CurEditing); // todo: correct? ,true
-            }
-        }
-
         private void canvas1_MouseMove(object sender, MouseEventArgs e)
         {
             Point mousep = e.GetPosition(canvas1);
@@ -499,19 +546,13 @@ namespace TikzEdt
             Point p = new Point(mousep.X, Height - mousep.Y);
 
             CurrentTool.OnMouseMove(p, e);
-
-            //if (curDragged != null)
-            //{
-  
-            //}
             
             // display the current mouse position
             p.Y /= Resolution;
             p.X /= Resolution;
             p.X += _BB.X;
             p.Y += _BB.Y;
-            
-           
+                   
             String s = "(" + String.Format("{0:f1}", p.X) + "; "+ String.Format("{0:f1}", p.Y) + ")";
             ((MainWindow)Application.Current.Windows[0]).AddStatusBarCoordinate(s);
             
@@ -520,9 +561,9 @@ namespace TikzEdt
         /// <summary>
         /// The displayed raster changes depending on the currently selected object.
         /// This method sets the raster, so as to fit the coordinate transformation at o.
-        /// There are two cases:    (i) (IsParent=false) o is the object being modified, so the relevant coordinate trsf. is that at o
-        ///                         (i) (IsParent=true)  o is a parent object to which items are added. 
-        ///                             In this case the relevant transf. is that at the end of o, since new items are inserted at the end.
+        /// There are two cases:    (i)  (IsParent=false) o is the object being modified, so the relevant coordinate trsf. is that at o
+        ///                         (ii) (IsParent=true)  o is a parent object to which items are added. 
+        ///                              In this case the relevant transf. is that at the end of o, since new items are inserted at the end.
         /// </summary>
         /// <param name="o">The object. If null, it is taken to be the tikzpicture.</param>
         /// <param name="IsParent">Indicates whether object is to be moved itself, or children added.</param>
@@ -610,9 +651,7 @@ namespace TikzEdt
             }
             AdjustPositions();
         }
-
-        //TikzContainerParseItem curAddTo;
-        
+    
         private void canvas1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // call left down-method in the current tool
@@ -622,7 +661,6 @@ namespace TikzEdt
                 oo = null;
             CurrentTool.OnLeftMouseButtonDown(oo as OverlayShape, new Point(mousep.X, Height - mousep.Y), e);
                         
-
         }
 
 
@@ -636,10 +674,6 @@ namespace TikzEdt
 
         }
 
-        private void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-
-        }
 
         /// <summary>
         /// Raises the Jumptosource event.
@@ -720,6 +754,14 @@ namespace TikzEdt
             mnuEdit.IsEnabled = (o is OverlayScope);
         }
 
+        /// <summary>
+        /// The standard handling of right click is as follows (with this priority): 
+        ///   1. The current tool uses the click.
+        ///   2. Set the tool to the standrad tool (move)
+        ///   3. Deselect the CurEditing item.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void canvas1_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             // call right down-method in the current tool
@@ -750,22 +792,6 @@ namespace TikzEdt
             else 
                 PreventContextMenuOpening = true;
         }
-
-        Point MarkerCenter = new Point(100, 100);
-        private void DoubleAnimationUsingKeyFrames_Changed(object sender, EventArgs e)
-        {
-            if (MarkerEllipse != null)
-            {
-                Canvas.SetBottom(MarkerEllipse, MarkerCenter.Y - MarkerEllipse.ActualHeight / 2);
-                Canvas.SetLeft(MarkerEllipse, MarkerCenter.X - MarkerEllipse.ActualWidth / 2);
-            }
-        }
-
-        private void Storyboard_Completed(object sender, EventArgs e)
-        {
-            MarkerEllipse.Visibility = Visibility.Hidden;
-        }        
-
 
     }
 
@@ -898,6 +924,13 @@ namespace TikzEdt
 
         }
 
+
+        public OverlayScope()
+        {
+            SetStdColor(); //os.Stroke = new SolidColorBrush(Color.FromArgb(100, 0, 255, 0));
+            StrokeThickness = 10;
+            //os.Fill = new SolidColorBrush(Color.FromArgb(100, 0, 255, 0));
+        }
     }
 
     public class OverlayNode : OverlayShape
@@ -988,7 +1021,11 @@ namespace TikzEdt
             context.LineTo(new Point(0, 10), true, true);
         }
 
-
+        public OverlayNode()
+        {
+            Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)); // necessary?
+            SetStdColor();
+        }
 
     }
 

@@ -354,7 +354,7 @@ namespace TikzEdt
             mypdfDoc = new PDFLibNet.PDFWrapper();
             
             mypdfDoc.UseMuPDF = true;
-
+            
             if (!File.Exists(cfile))
                 return false;
             //this line creates a handle
@@ -398,6 +398,8 @@ namespace TikzEdt
                 mypdfDoc.ClientBounds = new Rectangle(0, 0, mypdfDoc.PageWidth, mypdfDoc.PageHeight);
 
                 //Bitmap bbb = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit, false);                
+                //System.Drawing.Image I = mypdfDoc.Pages[1].GetImage(1);
+                //System.Drawing.Image I2 = mypdfDoc.Pages[1].GetImage(0);
 
                 if (mypdfDoc.PageWidth * mypdfDoc.PageHeight == 0)
                     return null;
@@ -409,7 +411,7 @@ namespace TikzEdt
                     g.ReleaseHdc();
                 }
                 pic.Dispose();
-
+                
                 if (Transparent)
                 {
                     _backbuffer.MakeTransparent(System.Drawing.Color.White);
@@ -417,6 +419,7 @@ namespace TikzEdt
                     _backbuffer.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
                 }
 
+                //_backbuffer.Save("temp.bmp");
                 return _backbuffer;
             }
             else return null;

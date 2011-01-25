@@ -24,7 +24,7 @@
       <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="Tex_Preamble" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\documentclass[tight]{article}
+      <Value Profile="(Default)">\documentclass{article}
 \usepackage{tikz,amsmath, amssymb,bm,color}
 \usepackage[margin=0cm,nohead]{geometry}
 \usepackage[active,tightpage]{preview}

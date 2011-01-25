@@ -510,7 +510,7 @@ namespace TikzEdt
 
             overlay.BeginUpdate();
 
-            overlay.SetCorrectRaster(overlay.CurEditing); // todo: correct???
+            overlay.SetCorrectRaster(overlay.CurEditing, true);
 
             //Point p = new Point(e.GetPosition(canvas1).X, Height - e.GetPosition(canvas1).Y);
 
@@ -761,6 +761,12 @@ namespace TikzEdt
         /// the segments are to be added to. 
         /// </summary>
         protected TikzContainerParseItem curAddTo;
+
+        public override void OnActivate()
+        {
+            base.OnActivate();
+            overlay.SetCorrectRaster(overlay.CurEditing, true);
+        }
 
         public override void OnDeactivate()
         {

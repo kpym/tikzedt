@@ -366,14 +366,15 @@ namespace TikzEdt
         /// 
         /// </summary>
         /// <param name="p">The point, in absolute Cartesian Tikz coordinates.</param>
+        /// <param name="IsRelative">Specifies whether the point is a shift, rather than an absolute position.</param>
         /// <returns>The rasterized point, in absolute Cartesian Tikz coordinates.</returns>
-        public Point Rasterize(Point p)
+        public Point Rasterize(Point p, bool IsRelative = false)
         {
             //if (scGWX == 0 || scGWY == 0)
             if (GridWidth <= 0)
                 return p;
             // transform to std coordinates
-            Point pstd = CoordinateTransform.Inverse().Transform(p);
+            Point pstd = CoordinateTransform.Inverse().Transform(p, IsRelative);
             Point pstd_rast;
             // Rasterize
             if (IsCartesian)
@@ -399,7 +400,7 @@ namespace TikzEdt
                                    );
                 pstd_rast = PolToCart(polar);
             }
-            return CoordinateTransform.Transform(pstd_rast);
+            return CoordinateTransform.Transform(pstd_rast, IsRelative);
         }
         /// <summary>
         /// 
@@ -420,7 +421,7 @@ namespace TikzEdt
         public Point RasterizePixelRelative(Point p)
         {
             Point pp = new Point(p.X / Resolution, p.Y / Resolution);
-            pp = Rasterize(pp);
+            pp = Rasterize(pp, true);
             return new Point((pp.X ) * Resolution, (pp.Y ) * Resolution);
         }
         /// <summary>

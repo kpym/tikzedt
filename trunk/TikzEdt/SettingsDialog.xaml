@@ -141,7 +141,7 @@
                     <TextBlock Margin="3" Text="Margin for Auto B. Box" Grid.Column="0" Grid.Row="1"></TextBlock>
                     <TextBox Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Margin, Mode=TwoWay}"/>
                     <TextBlock Margin="3" Text="Color Overlay Node" Grid.Column="0" Grid.Row="2"/>
-                    <extToolkit:ColorPicker  Margin="3" Grid.Column="1" Grid.Row="2" SelectedColor="{Binding Source={x:Static p:Settings.Default}, Path=Overlay_CoordColor, Mode=TwoWay}"/>
+                    <extToolkit:ColorPicker  Margin="3" Grid.Column="1" Grid.Row="2" SelectedColor="{Binding Source={x:Static p:Settings.Default}, Path=Overlay_CoordColor, Mode=TwoWay}" IsManipulationEnabled="True" />
                     <TextBlock Margin="3" Text="Color Ovl. Node (selected)" Grid.Column="0" Grid.Row="3"/>
                     <extToolkit:ColorPicker  Margin="3" Grid.Column="1" Grid.Row="3" SelectedColor="{Binding Source={x:Static p:Settings.Default}, Path=Overlay_CoordSelColor, Mode=TwoWay}"/>
                     <TextBlock Margin="3" Text="Color Overlay Scope" Grid.Column="0" Grid.Row="4"/>
