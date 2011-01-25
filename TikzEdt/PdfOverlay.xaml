@@ -28,14 +28,15 @@
     <Grid>        
         <Canvas HorizontalAlignment="Stretch" Name="canvas1" VerticalAlignment="Stretch"
                 MouseMove="canvas1_MouseMove" Background="#00000000" MouseLeftButtonDown="canvas1_MouseLeftButtonDown" 
-                MouseLeftButtonUp="canvas1_MouseLeftButtonUp" ContextMenuOpening="canvas1_ContextMenuOpening" MouseRightButtonDown="canvas1_MouseRightButtonDown"
+                MouseLeftButtonUp="canvas1_MouseLeftButtonUp" ContextMenuOpening="canvas1_ContextMenuOpening" 
+                MouseRightButtonDown="canvas1_MouseRightButtonDown"
                 MouseWheel="JumpToSourceDoIt">
             <Ellipse Stroke="Red" StrokeThickness="8" Opacity="0.5" Width="50" Height="{Binding ElementName=MarkerEllipse, Path=Width}" HorizontalAlignment="Left" Name="MarkerEllipse" Visibility="Hidden"/>
             <Rectangle Name="SelectionRect" Width="200" Height="200" StrokeThickness="1" 
                        Visibility="Collapsed" Fill="#23008ACA" Stroke="Blue"/>
             <!-- StrokeDashArray="4 4" -->
             <Canvas.ContextMenu>
-                <ContextMenu ContextMenuOpening="ContextMenu_ContextMenuOpening">
+                <ContextMenu>
                     <MenuItem Header="Move" Name="mnuMove" Click="contextmenuClick">
                         <MenuItem.Icon>
                             <Image Source="/TikzEdt;component/Images/base_cursor.png" Stretch="Fill" Height="16" Width="16"/>

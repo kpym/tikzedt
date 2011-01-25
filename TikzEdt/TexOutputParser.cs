@@ -68,7 +68,7 @@ namespace TikzEdt
         }
     }
 
-    public enum Severity { NOTICE, WARNING, ERROR }; // the order is the inverse sort order
+    public enum Severity { NOTICE, WARNING, ERROR }; // the order is the inverse sort order in the error listbox
 
     public class TexOutputParser
     {
@@ -421,7 +421,9 @@ namespace TikzEdt
             if (hasProblem)
             {
                 // We have a not reported problem
-                addProblemMarker(error, occurance, linenr, severity);
+                
+                  // do not add "==> Fatal error blabla " to error list (is not an error)
+                  //addProblemMarker(error, occurance, linenr, severity);
                 //hasProblem = false;
             }  
             return errorsFound;

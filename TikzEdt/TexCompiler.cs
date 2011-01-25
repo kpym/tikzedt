@@ -68,6 +68,8 @@ namespace TikzEdt
 
             public long DocumentID = 0;             // used to match jobs with documents, see comment on CurDocumentID
 
+            public int lineoffset = 0;     // stores how many lines were inserted at the beginning. This is to conpute the true linenr of errors
+
             //for debugging include cmdline which is executed
             public string cmdline;
 
@@ -244,8 +246,9 @@ namespace TikzEdt
                     {
                         string PreviewEnvCode = Environment.NewLine + @"\usepackage[active,tightpage]{preview}" + Environment.NewLine
                                                 + @"\PreviewEnvironment{tikzpicture}" + Environment.NewLine + Environment.NewLine;
-
                         int PosBeginDoc = ((MainWindow)Application.Current.Windows[0]).txtCode.Text.IndexOf(@"\begin{document}");
+                        
+                        //int PosBeginDoc = job.code.IndexOf(@"\begin{document}");
                         if (PosBeginDoc == -1)
                         {
                             MainWindow.AddStatusLine("Could not insert PreviewEnvironment code!", true);
@@ -267,6 +270,7 @@ namespace TikzEdt
                     s.WriteLine("\\begin{document}");
                     s.WriteLine(codetowrite);
                     s.WriteLine(Properties.Settings.Default.Tex_Postamble);
+                    job.lineoffset = 2;
                 }
                 s.Close();
             }
@@ -481,7 +485,7 @@ namespace TikzEdt
                     JobFailed(this, job);
                 }        
             }
-
+            
             //parse output from pdflatex.
             //myPdflatexOutputParser.parseOutput();
             //This does not work because something texProcess_Exited is called

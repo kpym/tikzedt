@@ -115,36 +115,36 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="583680">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="585728">
       <assemblyIdentity name="TikzEdt" version="0.1.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>fzgXYusiqg1nfvxIXXp/sBWj+8E=</dsig:DigestValue>
+        <dsig:DigestValue>+fdwEKGISQreF7/qarU/U5sFVdY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="WPFToolkit.Extended.dll" size="133120">
-      <assemblyIdentity name="WPFToolkit.Extended" version="1.3.0.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="WPFToolkit.Extended.dll" size="111104">
+      <assemblyIdentity name="WPFToolkit.Extended" version="1.2.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>SY2oyi1+g4Q/SqpldDW9mqn/+g8=</dsig:DigestValue>
+        <dsig:DigestValue>yk/7QjOYyw6PY5Wi27scU017tJ8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="TikzEdt.exe.config" size="6107">
+  <file name="TikzEdt.exe.config" size="6100">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>+ehzS6AJNNcuP8pR1XOCIIilISs=</dsig:DigestValue>
+      <dsig:DigestValue>u0dG1MmaZ/rN4E0pPcsk/aZ9zfY=</dsig:DigestValue>
     </hash>
   </file>
   <file name="tikzedt48.ico" size="9662">
