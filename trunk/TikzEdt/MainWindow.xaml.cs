@@ -410,8 +410,8 @@ namespace TikzEdt
                 try
                 {
                     //find input files using Regex
-                    Regex InputsRegex = new Regex(@"(^[^%]*|\n[^\n%]*?)\\input{(?<file>.*)}", RegexOptions.Compiled);
-                    MatchCollection files = InputsRegex.Matches(e.Argument as string);
+                    Regex InputsRegex = new Regex(@"(^[^%]*|\n[^\n%]*?)\\input{(?<file>.*)}", RegexOptions.Compiled);                    
+                    MatchCollection files = InputsRegex.Matches(job.code as string);
                     foreach (Match file in files)
                     {
                         //open, read, parse, and close each included file.
