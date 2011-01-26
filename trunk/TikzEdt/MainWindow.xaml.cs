@@ -1413,6 +1413,10 @@ namespace TikzEdt
                 pdfOverlay1.tool = PdfOverlay.ToolType.addedge;
             else if (sender == rbToolAddPath)
                 pdfOverlay1.tool = PdfOverlay.ToolType.addpath;
+            else if (sender == rbToolRectangle)
+                pdfOverlay1.tool = PdfOverlay.ToolType.rectangle;
+            else if (sender == rbToolEllipse)
+                pdfOverlay1.tool = PdfOverlay.ToolType.ellipse;
         }
 
         private void SnippetMenuClick(object sender, RoutedEventArgs e)

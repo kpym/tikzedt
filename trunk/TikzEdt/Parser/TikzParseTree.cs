@@ -977,6 +977,13 @@ namespace TikzEdt.Parser
             // raise event
             RaiseTextChanged(tpi, "");
         }
+        public void InsertChildAt(TikzParseItem tpi, int position)
+        {
+            tpi.parent = this;
+            Children.Insert(position, tpi);
+            // raise event
+            RaiseTextChanged(tpi, "");
+        }
 
         /// <summary>
         /// This method is used by the children of this parse-node to query for a certain tik-node by name.

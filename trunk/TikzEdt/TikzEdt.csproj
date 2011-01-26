@@ -138,6 +138,7 @@
     <Compile Include="output\simpletikzParser.cs" />
     <Compile Include="OverlayTool.cs" />
     <Compile Include="Parser\ANTLRErrorMsg.cs" />
+    <Compile Include="Rect_and_EllipseTools.cs" />
     <Compile Include="TexOutputParser.cs" />
     <Compile Include="PdfOverlay.xaml.cs">
       <DependentUpon>PdfOverlay.xaml</DependentUpon>
@@ -462,7 +463,12 @@
   <ItemGroup>
     <Resource Include="Images\ZoomOutHS.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Rectangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Ellipse.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
