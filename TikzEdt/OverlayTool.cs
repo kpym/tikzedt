@@ -634,10 +634,12 @@ namespace TikzEdt
         }
         public override void OnActivate()
         {
+            base.OnActivate();
             overlay.canvas.Cursor = Cursors.UpArrow;
         }
         public override void OnDeactivate()
         {
+            base.OnDeactivate();
             curSel = null;
         } 
 

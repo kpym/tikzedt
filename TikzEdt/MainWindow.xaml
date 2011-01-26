@@ -515,7 +515,9 @@
                 <Grid Background="#303030">
                     <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center"
                                        Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"  />
-                    <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" Width="200" Height="200" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" />                   
+                    <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" 
+                                    RenderTransparent="{Binding ElementName=chkFancyMode, Path=IsChecked}"
+                                    VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" />                   
                     <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" 
                                     OnModified="pdfOverlay1_OnModified" BeginModify="pdfOverlay1_BeginModify" EndModify="pdfOverlay1_EndModify" 
                                     NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text,Mode=OneWay}" EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}"

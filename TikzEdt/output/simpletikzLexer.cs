@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g 2011-01-22 14:38:19
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g 2011-01-25 17:44:10
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 168, 219
@@ -1622,75 +1622,149 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = COMMENT;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:527:5: ( '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:527:9: '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:527:5: ( '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' | '%/*' ( options {greedy=false; } : . )* '%*/' )
+            int alt15 = 2;
+            alt15 = dfa15.Predict(input);
+            switch (alt15) 
             {
-            	Match('%'); 
-            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:527:13: (~ ( '\\n' | '\\r' ) )*
-            	do 
-            	{
-            	    int alt12 = 2;
-            	    int LA12_0 = input.LA(1);
+                case 1 :
+                    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:527:9: '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+                    {
+                    	Match('%'); 
+                    	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:527:13: (~ ( '\\n' | '\\r' ) )*
+                    	do 
+                    	{
+                    	    int alt12 = 2;
+                    	    int LA12_0 = input.LA(1);
 
-            	    if ( ((LA12_0 >= '\u0000' && LA12_0 <= '\t') || (LA12_0 >= '\u000B' && LA12_0 <= '\f') || (LA12_0 >= '\u000E' && LA12_0 <= '\uFFFF')) )
-            	    {
-            	        alt12 = 1;
-            	    }
-
-
-            	    switch (alt12) 
-            		{
-            			case 1 :
-            			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:527:13: ~ ( '\\n' | '\\r' )
-            			    {
-            			    	if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t') || (input.LA(1) >= '\u000B' && input.LA(1) <= '\f') || (input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) 
-            			    	{
-            			    	    input.Consume();
-
-            			    	}
-            			    	else 
-            			    	{
-            			    	    MismatchedSetException mse = new MismatchedSetException(null,input);
-            			    	    Recover(mse);
-            			    	    throw mse;}
+                    	    if ( ((LA12_0 >= '\u0000' && LA12_0 <= '\t') || (LA12_0 >= '\u000B' && LA12_0 <= '\f') || (LA12_0 >= '\u000E' && LA12_0 <= '\uFFFF')) )
+                    	    {
+                    	        alt12 = 1;
+                    	    }
 
 
-            			    }
-            			    break;
+                    	    switch (alt12) 
+                    		{
+                    			case 1 :
+                    			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:527:13: ~ ( '\\n' | '\\r' )
+                    			    {
+                    			    	if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t') || (input.LA(1) >= '\u000B' && input.LA(1) <= '\f') || (input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) 
+                    			    	{
+                    			    	    input.Consume();
 
-            			default:
-            			    goto loop12;
-            	    }
-            	} while (true);
+                    			    	}
+                    			    	else 
+                    			    	{
+                    			    	    MismatchedSetException mse = new MismatchedSetException(null,input);
+                    			    	    Recover(mse);
+                    			    	    throw mse;}
 
-            	loop12:
-            		;	// Stops C# compiler whining that label 'loop12' has no statements
 
-            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:527:27: ( '\\r' )?
-            	int alt13 = 2;
-            	int LA13_0 = input.LA(1);
+                    			    }
+                    			    break;
 
-            	if ( (LA13_0 == '\r') )
-            	{
-            	    alt13 = 1;
-            	}
-            	switch (alt13) 
-            	{
-            	    case 1 :
-            	        // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:527:27: '\\r'
-            	        {
-            	        	Match('\r'); 
+                    			default:
+                    			    goto loop12;
+                    	    }
+                    	} while (true);
 
-            	        }
-            	        break;
+                    	loop12:
+                    		;	// Stops C# compiler whining that label 'loop12' has no statements
 
-            	}
+                    	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:527:27: ( '\\r' )?
+                    	int alt13 = 2;
+                    	int LA13_0 = input.LA(1);
 
-            	Match('\n'); 
-            	_channel=HIDDEN;
+                    	if ( (LA13_0 == '\r') )
+                    	{
+                    	    alt13 = 1;
+                    	}
+                    	switch (alt13) 
+                    	{
+                    	    case 1 :
+                    	        // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:527:27: '\\r'
+                    	        {
+                    	        	Match('\r'); 
+
+                    	        }
+                    	        break;
+
+                    	}
+
+                    	Match('\n'); 
+                    	_channel=HIDDEN;
+
+                    }
+                    break;
+                case 2 :
+                    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:528:9: '%/*' ( options {greedy=false; } : . )* '%*/'
+                    {
+                    	Match("%/*"); 
+
+                    	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:528:15: ( options {greedy=false; } : . )*
+                    	do 
+                    	{
+                    	    int alt14 = 2;
+                    	    int LA14_0 = input.LA(1);
+
+                    	    if ( (LA14_0 == '%') )
+                    	    {
+                    	        int LA14_1 = input.LA(2);
+
+                    	        if ( (LA14_1 == '*') )
+                    	        {
+                    	            int LA14_3 = input.LA(3);
+
+                    	            if ( (LA14_3 == '/') )
+                    	            {
+                    	                alt14 = 2;
+                    	            }
+                    	            else if ( ((LA14_3 >= '\u0000' && LA14_3 <= '.') || (LA14_3 >= '0' && LA14_3 <= '\uFFFF')) )
+                    	            {
+                    	                alt14 = 1;
+                    	            }
+
+
+                    	        }
+                    	        else if ( ((LA14_1 >= '\u0000' && LA14_1 <= ')') || (LA14_1 >= '+' && LA14_1 <= '\uFFFF')) )
+                    	        {
+                    	            alt14 = 1;
+                    	        }
+
+
+                    	    }
+                    	    else if ( ((LA14_0 >= '\u0000' && LA14_0 <= '$') || (LA14_0 >= '&' && LA14_0 <= '\uFFFF')) )
+                    	    {
+                    	        alt14 = 1;
+                    	    }
+
+
+                    	    switch (alt14) 
+                    		{
+                    			case 1 :
+                    			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:528:43: .
+                    			    {
+                    			    	MatchAny(); 
+
+                    			    }
+                    			    break;
+
+                    			default:
+                    			    goto loop14;
+                    	    }
+                    	} while (true);
+
+                    	loop14:
+                    		;	// Stops C# compiler whining that label 'loop14' has no statements
+
+                    	Match("%*/"); 
+
+                    	_channel=HIDDEN;
+
+                    }
+                    break;
 
             }
-
             state.type = _type;
             state.channel = _channel;
         }
@@ -1707,8 +1781,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = WS;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:530:5: ( ( ' ' | '\\t' | '\\r' | '\\n' ) )
-            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:530:9: ( ' ' | '\\t' | '\\r' | '\\n' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:531:5: ( ( ' ' | '\\t' | '\\r' | '\\n' ) )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:531:9: ( ' ' | '\\t' | '\\r' | '\\n' )
             {
             	if ( (input.LA(1) >= '\t' && input.LA(1) <= '\n') || input.LA(1) == '\r' || input.LA(1) == ' ' ) 
             	{
@@ -1739,8 +1813,8 @@ public partial class simpletikzLexer : Lexer {
     {
     		try
     		{
-            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:537:19: ( ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ )
-            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:537:21: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:538:19: ( ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:538:21: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
             {
             	if ( input.LA(1) == 'E' || input.LA(1) == 'e' ) 
             	{
@@ -1753,15 +1827,15 @@ public partial class simpletikzLexer : Lexer {
             	    Recover(mse);
             	    throw mse;}
 
-            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:537:31: ( '+' | '-' )?
-            	int alt14 = 2;
-            	int LA14_0 = input.LA(1);
+            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:538:31: ( '+' | '-' )?
+            	int alt16 = 2;
+            	int LA16_0 = input.LA(1);
 
-            	if ( (LA14_0 == '+' || LA14_0 == '-') )
+            	if ( (LA16_0 == '+' || LA16_0 == '-') )
             	{
-            	    alt14 = 1;
+            	    alt16 = 1;
             	}
-            	switch (alt14) 
+            	switch (alt16) 
             	{
             	    case 1 :
             	        // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:
@@ -1783,23 +1857,23 @@ public partial class simpletikzLexer : Lexer {
 
             	}
 
-            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:537:42: ( '0' .. '9' )+
-            	int cnt15 = 0;
+            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:538:42: ( '0' .. '9' )+
+            	int cnt17 = 0;
             	do 
             	{
-            	    int alt15 = 2;
-            	    int LA15_0 = input.LA(1);
+            	    int alt17 = 2;
+            	    int LA17_0 = input.LA(1);
 
-            	    if ( ((LA15_0 >= '0' && LA15_0 <= '9')) )
+            	    if ( ((LA17_0 >= '0' && LA17_0 <= '9')) )
             	    {
-            	        alt15 = 1;
+            	        alt17 = 1;
             	    }
 
 
-            	    switch (alt15) 
+            	    switch (alt17) 
             		{
             			case 1 :
-            			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:537:43: '0' .. '9'
+            			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:538:43: '0' .. '9'
             			    {
             			    	MatchRange('0','9'); 
 
@@ -1807,16 +1881,16 @@ public partial class simpletikzLexer : Lexer {
             			    break;
 
             			default:
-            			    if ( cnt15 >= 1 ) goto loop15;
-            		            EarlyExitException eee15 =
-            		                new EarlyExitException(15, input);
-            		            throw eee15;
+            			    if ( cnt17 >= 1 ) goto loop17;
+            		            EarlyExitException eee17 =
+            		                new EarlyExitException(17, input);
+            		            throw eee17;
             	    }
-            	    cnt15++;
+            	    cnt17++;
             	} while (true);
 
-            	loop15:
-            		;	// Stops C# compiler whining that label 'loop15' has no statements
+            	loop17:
+            		;	// Stops C# compiler whining that label 'loop17' has no statements
 
 
             }
@@ -1835,37 +1909,37 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = MATHSTRING;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:544:2: ( '$' ( ESC_SEQ | ~ ( '\\\\' | '$' ) )* '$' )
-            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:544:4: '$' ( ESC_SEQ | ~ ( '\\\\' | '$' ) )* '$'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:545:2: ( '$' ( ESC_SEQ | ~ ( '\\\\' | '$' ) )* '$' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:545:4: '$' ( ESC_SEQ | ~ ( '\\\\' | '$' ) )* '$'
             {
             	Match('$'); 
-            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:544:8: ( ESC_SEQ | ~ ( '\\\\' | '$' ) )*
+            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:545:8: ( ESC_SEQ | ~ ( '\\\\' | '$' ) )*
             	do 
             	{
-            	    int alt16 = 3;
-            	    int LA16_0 = input.LA(1);
+            	    int alt18 = 3;
+            	    int LA18_0 = input.LA(1);
 
-            	    if ( (LA16_0 == '\\') )
+            	    if ( (LA18_0 == '\\') )
             	    {
-            	        alt16 = 1;
+            	        alt18 = 1;
             	    }
-            	    else if ( ((LA16_0 >= '\u0000' && LA16_0 <= '#') || (LA16_0 >= '%' && LA16_0 <= '[') || (LA16_0 >= ']' && LA16_0 <= '\uFFFF')) )
+            	    else if ( ((LA18_0 >= '\u0000' && LA18_0 <= '#') || (LA18_0 >= '%' && LA18_0 <= '[') || (LA18_0 >= ']' && LA18_0 <= '\uFFFF')) )
             	    {
-            	        alt16 = 2;
+            	        alt18 = 2;
             	    }
 
 
-            	    switch (alt16) 
+            	    switch (alt18) 
             		{
             			case 1 :
-            			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:544:10: ESC_SEQ
+            			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:545:10: ESC_SEQ
             			    {
             			    	mESC_SEQ(); 
 
             			    }
             			    break;
             			case 2 :
-            			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:544:20: ~ ( '\\\\' | '$' )
+            			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:545:20: ~ ( '\\\\' | '$' )
             			    {
             			    	if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '#') || (input.LA(1) >= '%' && input.LA(1) <= '[') || (input.LA(1) >= ']' && input.LA(1) <= '\uFFFF') ) 
             			    	{
@@ -1883,12 +1957,12 @@ public partial class simpletikzLexer : Lexer {
             			    break;
 
             			default:
-            			    goto loop16;
+            			    goto loop18;
             	    }
             	} while (true);
 
-            	loop16:
-            		;	// Stops C# compiler whining that label 'loop16' has no statements
+            	loop18:
+            		;	// Stops C# compiler whining that label 'loop18' has no statements
 
             	Match('$'); 
 
@@ -1910,8 +1984,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = COMMAND;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:555:2: ( '\\\\' ID )
-            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:555:4: '\\\\' ID
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:556:2: ( '\\\\' ID )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:556:4: '\\\\' ID
             {
             	Match('\\'); 
             	mID(); 
@@ -1934,8 +2008,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = ESC_SEQ;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:560:5: ( '\\\\' . )
-            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:560:9: '\\\\' .
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:561:5: ( '\\\\' . )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:561:9: '\\\\' .
             {
             	Match('\\'); 
             	MatchAny(); 
@@ -1958,8 +2032,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = SOMETHING;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:566:2: ( . )
-            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:566:4: .
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:567:2: ( . )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:567:4: .
             {
             	MatchAny(); 
 
@@ -1977,9 +2051,9 @@ public partial class simpletikzLexer : Lexer {
     override public void mTokens() // throws RecognitionException 
     {
         // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:1:8: ( T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | ID | INT | FLOAT_WO_EXP | TIKZEDT_CMD_COMMENT | COMMENT | WS | MATHSTRING | COMMAND | ESC_SEQ | SOMETHING )
-        int alt17 = 53;
-        alt17 = dfa17.Predict(input);
-        switch (alt17) 
+        int alt19 = 53;
+        alt19 = dfa19.Predict(input);
+        switch (alt19) 
         {
             case 1 :
                 // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\TikzEdt\\simpletikz.g:1:10: T__36
@@ -2358,19 +2432,212 @@ public partial class simpletikzLexer : Lexer {
     }
 
 
-    protected DFA17 dfa17;
+    protected DFA15 dfa15;
+    protected DFA19 dfa19;
 	private void InitializeCyclicDFAs()
 	{
-	    this.dfa17 = new DFA17(this);
-	    this.dfa17.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA17_SpecialStateTransition);
+	    this.dfa15 = new DFA15(this);
+	    this.dfa19 = new DFA19(this);
+	    this.dfa15.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA15_SpecialStateTransition);
+	    this.dfa19.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA19_SpecialStateTransition);
 	}
 
-    const string DFA17_eotS =
+    const string DFA15_eotS =
+        "\x06\uffff\x01\x03\x04\uffff\x01\x09";
+    const string DFA15_eofS =
+        "\x0c\uffff";
+    const string DFA15_minS =
+        "\x01\x25\x02\x00\x01\uffff\x05\x00\x01\uffff\x02\x00";
+    const string DFA15_maxS =
+        "\x01\x25\x02\uffff\x01\uffff\x05\uffff\x01\uffff\x02\uffff";
+    const string DFA15_acceptS =
+        "\x03\uffff\x01\x01\x05\uffff\x01\x02\x02\uffff";
+    const string DFA15_specialS =
+        "\x01\uffff\x01\x01\x01\x06\x01\uffff\x01\x03\x01\x00\x01\x02\x01"+
+        "\x08\x01\x05\x01\uffff\x01\x07\x01\x04}>";
+    static readonly string[] DFA15_transitionS = {
+            "\x01\x01",
+            "\x2f\x03\x01\x02\uffd0\x03",
+            "\x2a\x03\x01\x04\uffd5\x03",
+            "",
+            "\x0a\x08\x01\x06\x02\x08\x01\x05\x17\x08\x01\x07\uffda\x08",
+            "\x0a\x09\x01\x06\ufff5\x09",
+            "\x00\x09",
+            "\x0a\x08\x01\x06\x02\x08\x01\x05\x17\x08\x01\x07\x04\x08\x01"+
+            "\x0a\uffd5\x08",
+            "\x0a\x08\x01\x06\x02\x08\x01\x05\x17\x08\x01\x07\uffda\x08",
+            "",
+            "\x0a\x08\x01\x06\x02\x08\x01\x05\x17\x08\x01\x07\x09\x08\x01"+
+            "\x0b\uffd0\x08",
+            "\x0a\x08\x01\x06\x02\x08\x01\x05\x17\x08\x01\x07\uffda\x08"
+    };
+
+    static readonly short[] DFA15_eot = DFA.UnpackEncodedString(DFA15_eotS);
+    static readonly short[] DFA15_eof = DFA.UnpackEncodedString(DFA15_eofS);
+    static readonly char[] DFA15_min = DFA.UnpackEncodedStringToUnsignedChars(DFA15_minS);
+    static readonly char[] DFA15_max = DFA.UnpackEncodedStringToUnsignedChars(DFA15_maxS);
+    static readonly short[] DFA15_accept = DFA.UnpackEncodedString(DFA15_acceptS);
+    static readonly short[] DFA15_special = DFA.UnpackEncodedString(DFA15_specialS);
+    static readonly short[][] DFA15_transition = DFA.UnpackEncodedStringArray(DFA15_transitionS);
+
+    protected class DFA15 : DFA
+    {
+        public DFA15(BaseRecognizer recognizer)
+        {
+            this.recognizer = recognizer;
+            this.decisionNumber = 15;
+            this.eot = DFA15_eot;
+            this.eof = DFA15_eof;
+            this.min = DFA15_min;
+            this.max = DFA15_max;
+            this.accept = DFA15_accept;
+            this.special = DFA15_special;
+            this.transition = DFA15_transition;
+
+        }
+
+        override public string Description
+        {
+            get { return "526:1: COMMENT : ( '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' | '%/*' ( options {greedy=false; } : . )* '%*/' );"; }
+        }
+
+    }
+
+
+    protected internal int DFA15_SpecialStateTransition(DFA dfa, int s, IIntStream _input) //throws NoViableAltException
+    {
+            IIntStream input = _input;
+    	int _s = s;
+        switch ( s )
+        {
+               	case 0 : 
+                   	int LA15_5 = input.LA(1);
+
+                   	s = -1;
+                   	if ( ((LA15_5 >= '\u0000' && LA15_5 <= '\t') || (LA15_5 >= '\u000B' && LA15_5 <= '\uFFFF')) ) { s = 9; }
+
+                   	else if ( (LA15_5 == '\n') ) { s = 6; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 1 : 
+                   	int LA15_1 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA15_1 == '/') ) { s = 2; }
+
+                   	else if ( ((LA15_1 >= '\u0000' && LA15_1 <= '.') || (LA15_1 >= '0' && LA15_1 <= '\uFFFF')) ) { s = 3; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 2 : 
+                   	int LA15_6 = input.LA(1);
+
+                   	s = -1;
+                   	if ( ((LA15_6 >= '\u0000' && LA15_6 <= '\uFFFF')) ) { s = 9; }
+
+                   	else s = 3;
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 3 : 
+                   	int LA15_4 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA15_4 == '\r') ) { s = 5; }
+
+                   	else if ( (LA15_4 == '\n') ) { s = 6; }
+
+                   	else if ( (LA15_4 == '%') ) { s = 7; }
+
+                   	else if ( ((LA15_4 >= '\u0000' && LA15_4 <= '\t') || (LA15_4 >= '\u000B' && LA15_4 <= '\f') || (LA15_4 >= '\u000E' && LA15_4 <= '$') || (LA15_4 >= '&' && LA15_4 <= '\uFFFF')) ) { s = 8; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 4 : 
+                   	int LA15_11 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA15_11 == '%') ) { s = 7; }
+
+                   	else if ( (LA15_11 == '\r') ) { s = 5; }
+
+                   	else if ( (LA15_11 == '\n') ) { s = 6; }
+
+                   	else if ( ((LA15_11 >= '\u0000' && LA15_11 <= '\t') || (LA15_11 >= '\u000B' && LA15_11 <= '\f') || (LA15_11 >= '\u000E' && LA15_11 <= '$') || (LA15_11 >= '&' && LA15_11 <= '\uFFFF')) ) { s = 8; }
+
+                   	else s = 9;
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 5 : 
+                   	int LA15_8 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA15_8 == '%') ) { s = 7; }
+
+                   	else if ( (LA15_8 == '\r') ) { s = 5; }
+
+                   	else if ( (LA15_8 == '\n') ) { s = 6; }
+
+                   	else if ( ((LA15_8 >= '\u0000' && LA15_8 <= '\t') || (LA15_8 >= '\u000B' && LA15_8 <= '\f') || (LA15_8 >= '\u000E' && LA15_8 <= '$') || (LA15_8 >= '&' && LA15_8 <= '\uFFFF')) ) { s = 8; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 6 : 
+                   	int LA15_2 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA15_2 == '*') ) { s = 4; }
+
+                   	else if ( ((LA15_2 >= '\u0000' && LA15_2 <= ')') || (LA15_2 >= '+' && LA15_2 <= '\uFFFF')) ) { s = 3; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 7 : 
+                   	int LA15_10 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA15_10 == '/') ) { s = 11; }
+
+                   	else if ( (LA15_10 == '%') ) { s = 7; }
+
+                   	else if ( (LA15_10 == '\r') ) { s = 5; }
+
+                   	else if ( (LA15_10 == '\n') ) { s = 6; }
+
+                   	else if ( ((LA15_10 >= '\u0000' && LA15_10 <= '\t') || (LA15_10 >= '\u000B' && LA15_10 <= '\f') || (LA15_10 >= '\u000E' && LA15_10 <= '$') || (LA15_10 >= '&' && LA15_10 <= '.') || (LA15_10 >= '0' && LA15_10 <= '\uFFFF')) ) { s = 8; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 8 : 
+                   	int LA15_7 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA15_7 == '*') ) { s = 10; }
+
+                   	else if ( (LA15_7 == '%') ) { s = 7; }
+
+                   	else if ( (LA15_7 == '\r') ) { s = 5; }
+
+                   	else if ( (LA15_7 == '\n') ) { s = 6; }
+
+                   	else if ( ((LA15_7 >= '\u0000' && LA15_7 <= '\t') || (LA15_7 >= '\u000B' && LA15_7 <= '\f') || (LA15_7 >= '\u000E' && LA15_7 <= '$') || (LA15_7 >= '&' && LA15_7 <= ')') || (LA15_7 >= '+' && LA15_7 <= '\uFFFF')) ) { s = 8; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+        }
+        NoViableAltException nvae15 =
+            new NoViableAltException(dfa.Description, 15, _s, input);
+        dfa.Error(nvae15);
+        throw nvae15;
+    }
+    const string DFA19_eotS =
         "\x01\uffff\x01\x20\x05\uffff\x01\x20\x05\uffff\x08\x39\x02\x20"+
         "\x01\x4c\x02\x39\x01\uffff\x01\x4f\x02\x20\x01\uffff\x01\x20\x01"+
         "\uffff\x08\x57\x0d\uffff\x01\x60\x02\x39\x01\uffff\x01\x63\x01\x64"+
         "\x01\x65\x01\x39\x01\x67\x01\x68\x02\x39\x01\x6b\x02\x39\x03\uffff"+
-        "\x01\x4f\x04\uffff\x02\x39\x03\uffff\x01\x53\x03\uffff\x01\x57\x01"+
+        "\x01\x4f\x04\uffff\x02\x39\x04\uffff\x01\x50\x02\uffff\x01\x57\x01"+
         "\uffff\x08\x57\x01\uffff\x02\x39\x03\uffff\x01\x39\x02\uffff\x01"+
         "\x7e\x01\x39\x01\uffff\x01\u0080\x01\u0081\x02\x39\x02\uffff\x02"+
         "\x57\x01\u0087\x06\x57\x03\x39\x01\uffff\x01\u0091\x02\uffff\x02"+
@@ -2382,16 +2649,16 @@ public partial class simpletikzLexer : Lexer {
         "\x01\uffff\x01\x57\x01\uffff\x01\x57\x02\x39\x01\uffff\x01\u00be"+
         "\x01\x57\x01\u00c0\x01\x39\x02\uffff\x01\u00c5\x01\uffff\x01\u00c6"+
         "\x05\uffff";
-    const string DFA17_eofS =
+    const string DFA19_eofS =
         "\u00c7\uffff";
-    const string DFA17_minS =
+    const string DFA19_minS =
         "\x02\x00\x05\uffff\x01\x2e\x05\uffff\x01\x69\x01\x6e\x01\x6c\x01"+
         "\x6d\x01\x74\x01\x65\x01\x6f\x01\x6e\x02\x2d\x01\x2b\x01\x69\x01"+
         "\x63\x01\uffff\x01\x2e\x01\x30\x01\x00\x01\uffff\x01\x00\x01\uffff"+
         "\x01\x65\x01\x69\x01\x6e\x01\x6f\x01\x6c\x01\x72\x01\x61\x01\x69"+
         "\x0d\uffff\x01\x21\x01\x6f\x01\x72\x01\uffff\x03\x21\x01\x6c\x02"+
         "\x21\x01\x74\x01\x64\x01\x21\x01\x63\x01\x64\x03\uffff\x01\x2e\x04"+
-        "\uffff\x01\x6b\x01\x6f\x01\uffff\x01\x00\x01\x0a\x01\x21\x03\uffff"+
+        "\uffff\x01\x6b\x01\x6f\x02\uffff\x01\x00\x01\x0a\x01\x21\x02\uffff"+
         "\x01\x67\x01\uffff\x01\x6b\x02\x64\x01\x6f\x01\x69\x01\x61\x01\x74"+
         "\x01\x6c\x01\uffff\x01\x72\x01\x63\x03\uffff\x01\x69\x02\uffff\x01"+
         "\x21\x01\x65\x01\uffff\x02\x21\x01\x7a\x01\x70\x01\x00\x01\uffff"+
@@ -2404,15 +2671,15 @@ public partial class simpletikzLexer : Lexer {
         "\x61\x01\uffff\x01\x21\x01\x74\x01\x00\x01\x6c\x01\x21\x01\x61\x01"+
         "\x74\x01\uffff\x01\x75\x01\x00\x01\x65\x01\uffff\x01\x74\x01\x65"+
         "\x01\x72\x01\x00\x01\x21\x01\x65\x01\x21\x01\x65\x01\x00\x01\uffff"+
-        "\x01\x21\x01\uffff\x01\x21\x01\x0a\x01\uffff\x01\x00\x02\uffff";
-    const string DFA17_maxS =
+        "\x01\x21\x01\uffff\x01\x21\x01\x00\x01\x0a\x03\uffff";
+    const string DFA19_maxS =
         "\x02\uffff\x05\uffff\x01\x2e\x05\uffff\x01\x6f\x01\x6e\x01\x78"+
         "\x01\x6d\x01\x74\x01\x65\x01\x6f\x01\x74\x01\x7c\x01\x2d\x01\x2b"+
         "\x01\x69\x01\x63\x01\uffff\x02\x39\x01\uffff\x01\uffff\x01\uffff"+
         "\x01\uffff\x01\x65\x01\x69\x01\x6e\x02\x6f\x01\x72\x01\x61\x01\x69"+
         "\x0d\uffff\x01\x7a\x01\x6f\x01\x72\x01\uffff\x03\x7a\x01\x6c\x02"+
         "\x7a\x01\x74\x01\x64\x01\x7a\x01\x63\x01\x64\x03\uffff\x01\x39\x04"+
-        "\uffff\x01\x6b\x01\x6f\x01\uffff\x01\uffff\x02\x21\x03\uffff\x01"+
+        "\uffff\x01\x6b\x01\x6f\x02\uffff\x01\uffff\x02\x21\x02\uffff\x01"+
         "\x67\x01\uffff\x01\x6b\x02\x64\x01\x6f\x01\x69\x01\x61\x01\x74\x01"+
         "\x6c\x01\uffff\x01\x72\x01\x63\x03\uffff\x01\x69\x02\uffff\x01\x7a"+
         "\x01\x65\x01\uffff\x03\x7a\x01\x70\x01\uffff\x01\uffff\x01\x69\x02"+
@@ -2425,28 +2692,28 @@ public partial class simpletikzLexer : Lexer {
         "\x7a\x01\x74\x01\uffff\x01\x6c\x01\x7a\x01\x61\x01\x74\x01\uffff"+
         "\x01\x75\x01\uffff\x01\x65\x01\uffff\x01\x74\x01\x65\x01\x72\x01"+
         "\uffff\x01\x7a\x01\x65\x01\x7a\x01\x65\x01\uffff\x01\uffff\x01\x7a"+
-        "\x01\uffff\x01\x7a\x01\x0a\x01\uffff\x01\uffff\x02\uffff";
-    const string DFA17_acceptS =
+        "\x01\uffff\x01\x7a\x01\uffff\x01\x0a\x03\uffff";
+    const string DFA19_acceptS =
         "\x02\uffff\x01\x04\x01\x05\x01\x06\x01\x07\x01\x08\x01\uffff\x01"+
         "\x0a\x01\x0b\x01\x0c\x01\x0d\x01\x0e\x0d\uffff\x01\x2c\x03\uffff"+
         "\x01\x31\x01\uffff\x01\x35\x08\uffff\x01\x33\x01\x34\x01\x04\x01"+
         "\x05\x01\x06\x01\x07\x01\x08\x01\x09\x01\x0a\x01\x0b\x01\x0c\x01"+
         "\x0d\x01\x0e\x03\uffff\x01\x2c\x0b\uffff\x01\x24\x01\x25\x01\x27"+
-        "\x01\uffff\x01\x2e\x01\x26\x01\x29\x01\x28\x02\uffff\x01\x2d\x03"+
-        "\uffff\x01\x30\x01\x31\x01\x32\x01\uffff\x01\x33\x08\uffff\x01\x0f"+
+        "\x01\uffff\x01\x2e\x01\x26\x01\x29\x01\x28\x02\uffff\x01\x2d\x01"+
+        "\x30\x03\uffff\x01\x31\x01\x32\x01\uffff\x01\x33\x08\uffff\x01\x0f"+
         "\x02\uffff\x01\x10\x01\x11\x01\x14\x01\uffff\x01\x12\x01\x13\x02"+
         "\uffff\x01\x1f\x05\uffff\x01\x2f\x0c\uffff\x01\x1c\x01\uffff\x01"+
         "\x22\x01\x23\x05\uffff\x01\x15\x09\uffff\x01\x1e\x05\uffff\x01\x16"+
         "\x01\uffff\x01\x1b\x01\x18\x01\x19\x01\x1a\x04\uffff\x01\x2b\x01"+
         "\uffff\x01\x01\x04\uffff\x01\x20\x07\uffff\x01\x21\x03\uffff\x01"+
-        "\x03\x09\uffff\x01\x02\x01\uffff\x01\x1d\x02\uffff\x01\x2f\x01\uffff"+
-        "\x01\x17\x01\x2a";
-    const string DFA17_specialS =
-        "\x01\x0d\x01\x09\x1b\uffff\x01\x07\x01\uffff\x01\x0b\x30\uffff"+
-        "\x01\x08\x1f\uffff\x01\x00\x13\uffff\x01\x01\x0f\uffff\x01\x02\x0d"+
+        "\x03\x09\uffff\x01\x02\x01\uffff\x01\x1d\x03\uffff\x01\x2f\x01\x17"+
+        "\x01\x2a";
+    const string DFA19_specialS =
+        "\x01\x08\x01\x0b\x1b\uffff\x01\x07\x01\uffff\x01\x0a\x31\uffff"+
+        "\x01\x09\x1e\uffff\x01\x00\x13\uffff\x01\x01\x0f\uffff\x01\x02\x0d"+
         "\uffff\x01\x03\x08\uffff\x01\x04\x06\uffff\x01\x05\x05\uffff\x01"+
-        "\x06\x04\uffff\x01\x0a\x06\uffff\x01\x0c\x02\uffff}>";
-    static readonly string[] DFA17_transitionS = {
+        "\x06\x04\uffff\x01\x0c\x04\uffff\x01\x0d\x04\uffff}>";
+    static readonly string[] DFA19_transitionS = {
             "\x09\x20\x02\x1e\x02\x20\x01\x1e\x12\x20\x01\x1e\x03\x20\x01"+
             "\x1f\x01\x1d\x02\x20\x01\x08\x01\x09\x01\x20\x01\x17\x01\x05"+
             "\x01\x15\x01\x1c\x01\x07\x0a\x1b\x01\x06\x01\x0c\x01\x20\x01"+
@@ -2485,8 +2752,8 @@ public partial class simpletikzLexer : Lexer {
             "",
             "\x01\x49\x01\uffff\x0a\x48",
             "\x0a\x49",
-            "\x09\x53\x01\x50\x01\x52\x02\x53\x01\x51\x12\x53\x01\x50\uffdf"+
-            "\x53",
+            "\x09\x50\x01\x51\x01\x53\x02\x50\x01\x52\x12\x50\x01\x51\uffdf"+
+            "\x50",
             "",
             "\x00\x55",
             "",
@@ -2544,10 +2811,10 @@ public partial class simpletikzLexer : Lexer {
             "\x01\x6e",
             "\x01\x6f",
             "",
-            "\x21\x53\x01\x70\uffde\x53",
-            "\x01\x53\x16\uffff\x01\x71",
-            "\x01\x71",
             "",
+            "\x21\x50\x01\x70\uffde\x50",
+            "\x01\x50\x16\uffff\x01\x71",
+            "\x01\x71",
             "",
             "",
             "\x01\x72",
@@ -2579,7 +2846,7 @@ public partial class simpletikzLexer : Lexer {
             "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "\x01\u0082",
             "\x01\u0083",
-            "\x54\x53\x01\u0084\uffab\x53",
+            "\x54\x50\x01\u0084\uffab\x50",
             "",
             "\x01\u0085",
             "\x01\u0086",
@@ -2601,7 +2868,7 @@ public partial class simpletikzLexer : Lexer {
             "",
             "\x01\u0092",
             "\x01\u0093",
-            "\x49\x53\x01\u0094\uffb6\x53",
+            "\x49\x50\x01\u0094\uffb6\x50",
             "\x01\u0095",
             "\x01\u0096",
             "",
@@ -2623,7 +2890,7 @@ public partial class simpletikzLexer : Lexer {
             "\x01\u00a0",
             "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
             "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
-            "\x4b\x53\x01\u00a2\uffb4\x53",
+            "\x4b\x50\x01\u00a2\uffb4\x50",
             "\x01\x57\x0c\uffff\x01\x57\x01\uffff\x0a\x57\x07\uffff\x1a"+
             "\x57\x04\uffff\x01\x57\x01\uffff\x1a\x57",
             "\x01\u00a5\x0e\uffff\x01\u00a4",
@@ -2639,7 +2906,7 @@ public partial class simpletikzLexer : Lexer {
             "\x01\u00a9",
             "\x01\u00aa",
             "",
-            "\x5a\x53\x01\u00ab\uffa5\x53",
+            "\x5a\x50\x01\u00ab\uffa5\x50",
             "",
             "\x01\u00ac",
             "\x01\u00ad",
@@ -2649,7 +2916,7 @@ public partial class simpletikzLexer : Lexer {
             "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
             "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "\x01\u00b1",
-            "\x45\x53\x01\u00b2\uffba\x53",
+            "\x45\x50\x01\u00b2\uffba\x50",
             "\x01\u00b3",
             "\x01\x57\x0c\uffff\x01\x57\x01\uffff\x0a\x57\x07\uffff\x1a"+
             "\x57\x04\uffff\x01\x57\x01\uffff\x1a\x57",
@@ -2657,54 +2924,54 @@ public partial class simpletikzLexer : Lexer {
             "\x01\u00b6",
             "",
             "\x01\u00b7",
-            "\x44\x53\x01\u00b8\uffbb\x53",
+            "\x44\x50\x01\u00b8\uffbb\x50",
             "\x01\u00b9",
             "",
             "\x01\u00ba",
             "\x01\u00bb",
             "\x01\u00bc",
-            "\x54\x53\x01\u00bd\uffab\x53",
+            "\x54\x50\x01\u00bd\uffab\x50",
             "\x01\x57\x0c\uffff\x01\x57\x01\uffff\x0a\x57\x07\uffff\x1a"+
             "\x57\x04\uffff\x01\x57\x01\uffff\x1a\x57",
             "\x01\u00bf",
             "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
             "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "\x01\u00c1",
-            "\x0a\u00c4\x01\u00c3\x02\u00c4\x01\u00c2\ufff2\u00c4",
+            "\x0a\u00c2\x01\u00c4\x02\u00c2\x01\u00c3\ufff2\u00c2",
             "",
             "\x01\x57\x0c\uffff\x01\x57\x01\uffff\x0a\x57\x07\uffff\x1a"+
             "\x57\x04\uffff\x01\x57\x01\uffff\x1a\x57",
             "",
             "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
             "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
-            "\x01\u00c3",
+            "\x0a\u00c2\x01\u00c4\x02\u00c2\x01\u00c3\ufff2\u00c2",
+            "\x01\u00c4",
             "",
-            "\x0a\u00c4\x01\u00c3\x02\u00c4\x01\u00c2\ufff2\u00c4",
             "",
             ""
     };
 
-    static readonly short[] DFA17_eot = DFA.UnpackEncodedString(DFA17_eotS);
-    static readonly short[] DFA17_eof = DFA.UnpackEncodedString(DFA17_eofS);
-    static readonly char[] DFA17_min = DFA.UnpackEncodedStringToUnsignedChars(DFA17_minS);
-    static readonly char[] DFA17_max = DFA.UnpackEncodedStringToUnsignedChars(DFA17_maxS);
-    static readonly short[] DFA17_accept = DFA.UnpackEncodedString(DFA17_acceptS);
-    static readonly short[] DFA17_special = DFA.UnpackEncodedString(DFA17_specialS);
-    static readonly short[][] DFA17_transition = DFA.UnpackEncodedStringArray(DFA17_transitionS);
+    static readonly short[] DFA19_eot = DFA.UnpackEncodedString(DFA19_eotS);
+    static readonly short[] DFA19_eof = DFA.UnpackEncodedString(DFA19_eofS);
+    static readonly char[] DFA19_min = DFA.UnpackEncodedStringToUnsignedChars(DFA19_minS);
+    static readonly char[] DFA19_max = DFA.UnpackEncodedStringToUnsignedChars(DFA19_maxS);
+    static readonly short[] DFA19_accept = DFA.UnpackEncodedString(DFA19_acceptS);
+    static readonly short[] DFA19_special = DFA.UnpackEncodedString(DFA19_specialS);
+    static readonly short[][] DFA19_transition = DFA.UnpackEncodedStringArray(DFA19_transitionS);
 
-    protected class DFA17 : DFA
+    protected class DFA19 : DFA
     {
-        public DFA17(BaseRecognizer recognizer)
+        public DFA19(BaseRecognizer recognizer)
         {
             this.recognizer = recognizer;
-            this.decisionNumber = 17;
-            this.eot = DFA17_eot;
-            this.eof = DFA17_eof;
-            this.min = DFA17_min;
-            this.max = DFA17_max;
-            this.accept = DFA17_accept;
-            this.special = DFA17_special;
-            this.transition = DFA17_transition;
+            this.decisionNumber = 19;
+            this.eot = DFA19_eot;
+            this.eof = DFA19_eof;
+            this.min = DFA19_min;
+            this.max = DFA19_max;
+            this.accept = DFA19_accept;
+            this.special = DFA19_special;
+            this.transition = DFA19_transition;
 
         }
 
@@ -2716,245 +2983,245 @@ public partial class simpletikzLexer : Lexer {
     }
 
 
-    protected internal int DFA17_SpecialStateTransition(DFA dfa, int s, IIntStream _input) //throws NoViableAltException
+    protected internal int DFA19_SpecialStateTransition(DFA dfa, int s, IIntStream _input) //throws NoViableAltException
     {
             IIntStream input = _input;
     	int _s = s;
         switch ( s )
         {
                	case 0 : 
-                   	int LA17_112 = input.LA(1);
+                   	int LA19_112 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_112 == 'T') ) { s = 132; }
+                   	if ( (LA19_112 == 'T') ) { s = 132; }
 
-                   	else if ( ((LA17_112 >= '\u0000' && LA17_112 <= 'S') || (LA17_112 >= 'U' && LA17_112 <= '\uFFFF')) ) { s = 83; }
+                   	else if ( ((LA19_112 >= '\u0000' && LA19_112 <= 'S') || (LA19_112 >= 'U' && LA19_112 <= '\uFFFF')) ) { s = 80; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 1 : 
-                   	int LA17_132 = input.LA(1);
+                   	int LA19_132 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_132 == 'I') ) { s = 148; }
+                   	if ( (LA19_132 == 'I') ) { s = 148; }
 
-                   	else if ( ((LA17_132 >= '\u0000' && LA17_132 <= 'H') || (LA17_132 >= 'J' && LA17_132 <= '\uFFFF')) ) { s = 83; }
+                   	else if ( ((LA19_132 >= '\u0000' && LA19_132 <= 'H') || (LA19_132 >= 'J' && LA19_132 <= '\uFFFF')) ) { s = 80; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 2 : 
-                   	int LA17_148 = input.LA(1);
+                   	int LA19_148 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_148 == 'K') ) { s = 162; }
+                   	if ( (LA19_148 == 'K') ) { s = 162; }
 
-                   	else if ( ((LA17_148 >= '\u0000' && LA17_148 <= 'J') || (LA17_148 >= 'L' && LA17_148 <= '\uFFFF')) ) { s = 83; }
+                   	else if ( ((LA19_148 >= '\u0000' && LA19_148 <= 'J') || (LA19_148 >= 'L' && LA19_148 <= '\uFFFF')) ) { s = 80; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 3 : 
-                   	int LA17_162 = input.LA(1);
+                   	int LA19_162 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_162 == 'Z') ) { s = 171; }
+                   	if ( (LA19_162 == 'Z') ) { s = 171; }
 
-                   	else if ( ((LA17_162 >= '\u0000' && LA17_162 <= 'Y') || (LA17_162 >= '[' && LA17_162 <= '\uFFFF')) ) { s = 83; }
+                   	else if ( ((LA19_162 >= '\u0000' && LA19_162 <= 'Y') || (LA19_162 >= '[' && LA19_162 <= '\uFFFF')) ) { s = 80; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 4 : 
-                   	int LA17_171 = input.LA(1);
+                   	int LA19_171 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_171 == 'E') ) { s = 178; }
+                   	if ( (LA19_171 == 'E') ) { s = 178; }
 
-                   	else if ( ((LA17_171 >= '\u0000' && LA17_171 <= 'D') || (LA17_171 >= 'F' && LA17_171 <= '\uFFFF')) ) { s = 83; }
+                   	else if ( ((LA19_171 >= '\u0000' && LA19_171 <= 'D') || (LA19_171 >= 'F' && LA19_171 <= '\uFFFF')) ) { s = 80; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 5 : 
-                   	int LA17_178 = input.LA(1);
+                   	int LA19_178 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_178 == 'D') ) { s = 184; }
+                   	if ( (LA19_178 == 'D') ) { s = 184; }
 
-                   	else if ( ((LA17_178 >= '\u0000' && LA17_178 <= 'C') || (LA17_178 >= 'E' && LA17_178 <= '\uFFFF')) ) { s = 83; }
+                   	else if ( ((LA19_178 >= '\u0000' && LA19_178 <= 'C') || (LA19_178 >= 'E' && LA19_178 <= '\uFFFF')) ) { s = 80; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 6 : 
-                   	int LA17_184 = input.LA(1);
+                   	int LA19_184 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_184 == 'T') ) { s = 189; }
+                   	if ( (LA19_184 == 'T') ) { s = 189; }
 
-                   	else if ( ((LA17_184 >= '\u0000' && LA17_184 <= 'S') || (LA17_184 >= 'U' && LA17_184 <= '\uFFFF')) ) { s = 83; }
+                   	else if ( ((LA19_184 >= '\u0000' && LA19_184 <= 'S') || (LA19_184 >= 'U' && LA19_184 <= '\uFFFF')) ) { s = 80; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 7 : 
-                   	int LA17_29 = input.LA(1);
+                   	int LA19_29 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_29 == '\t' || LA17_29 == ' ') ) { s = 80; }
+                   	if ( ((LA19_29 >= '\u0000' && LA19_29 <= '\b') || (LA19_29 >= '\u000B' && LA19_29 <= '\f') || (LA19_29 >= '\u000E' && LA19_29 <= '\u001F') || (LA19_29 >= '!' && LA19_29 <= '\uFFFF')) ) { s = 80; }
 
-                   	else if ( (LA17_29 == '\r') ) { s = 81; }
+                   	else if ( (LA19_29 == '\t' || LA19_29 == ' ') ) { s = 81; }
 
-                   	else if ( (LA17_29 == '\n') ) { s = 82; }
+                   	else if ( (LA19_29 == '\r') ) { s = 82; }
 
-                   	else if ( ((LA17_29 >= '\u0000' && LA17_29 <= '\b') || (LA17_29 >= '\u000B' && LA17_29 <= '\f') || (LA17_29 >= '\u000E' && LA17_29 <= '\u001F') || (LA17_29 >= '!' && LA17_29 <= '\uFFFF')) ) { s = 83; }
+                   	else if ( (LA19_29 == '\n') ) { s = 83; }
 
                    	else s = 32;
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 8 : 
-                   	int LA17_80 = input.LA(1);
+                   	int LA19_0 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_80 == '!') ) { s = 112; }
+                   	if ( (LA19_0 == '\\') ) { s = 1; }
 
-                   	else if ( ((LA17_80 >= '\u0000' && LA17_80 <= ' ') || (LA17_80 >= '\"' && LA17_80 <= '\uFFFF')) ) { s = 83; }
+                   	else if ( (LA19_0 == '{') ) { s = 2; }
+
+                   	else if ( (LA19_0 == '}') ) { s = 3; }
+
+                   	else if ( (LA19_0 == '=') ) { s = 4; }
+
+                   	else if ( (LA19_0 == ',') ) { s = 5; }
+
+                   	else if ( (LA19_0 == ':') ) { s = 6; }
+
+                   	else if ( (LA19_0 == '/') ) { s = 7; }
+
+                   	else if ( (LA19_0 == '(') ) { s = 8; }
+
+                   	else if ( (LA19_0 == ')') ) { s = 9; }
+
+                   	else if ( (LA19_0 == '[') ) { s = 10; }
+
+                   	else if ( (LA19_0 == ']') ) { s = 11; }
+
+                   	else if ( (LA19_0 == ';') ) { s = 12; }
+
+                   	else if ( (LA19_0 == 'c') ) { s = 13; }
+
+                   	else if ( (LA19_0 == 'i') ) { s = 14; }
+
+                   	else if ( (LA19_0 == 'e') ) { s = 15; }
+
+                   	else if ( (LA19_0 == 'm') ) { s = 16; }
+
+                   	else if ( (LA19_0 == 'p') ) { s = 17; }
+
+                   	else if ( (LA19_0 == 'l') ) { s = 18; }
+
+                   	else if ( (LA19_0 == 'n') ) { s = 19; }
+
+                   	else if ( (LA19_0 == 'a') ) { s = 20; }
+
+                   	else if ( (LA19_0 == '-') ) { s = 21; }
+
+                   	else if ( (LA19_0 == '|') ) { s = 22; }
+
+                   	else if ( (LA19_0 == '+') ) { s = 23; }
+
+                   	else if ( (LA19_0 == 't') ) { s = 24; }
+
+                   	else if ( (LA19_0 == 's') ) { s = 25; }
+
+                   	else if ( ((LA19_0 >= 'A' && LA19_0 <= 'Z') || LA19_0 == '_' || LA19_0 == 'b' || LA19_0 == 'd' || (LA19_0 >= 'f' && LA19_0 <= 'h') || (LA19_0 >= 'j' && LA19_0 <= 'k') || LA19_0 == 'o' || (LA19_0 >= 'q' && LA19_0 <= 'r') || (LA19_0 >= 'u' && LA19_0 <= 'z')) ) { s = 26; }
+
+                   	else if ( ((LA19_0 >= '0' && LA19_0 <= '9')) ) { s = 27; }
+
+                   	else if ( (LA19_0 == '.') ) { s = 28; }
+
+                   	else if ( (LA19_0 == '%') ) { s = 29; }
+
+                   	else if ( ((LA19_0 >= '\t' && LA19_0 <= '\n') || LA19_0 == '\r' || LA19_0 == ' ') ) { s = 30; }
+
+                   	else if ( (LA19_0 == '$') ) { s = 31; }
+
+                   	else if ( ((LA19_0 >= '\u0000' && LA19_0 <= '\b') || (LA19_0 >= '\u000B' && LA19_0 <= '\f') || (LA19_0 >= '\u000E' && LA19_0 <= '\u001F') || (LA19_0 >= '!' && LA19_0 <= '#') || (LA19_0 >= '&' && LA19_0 <= '\'') || LA19_0 == '*' || LA19_0 == '<' || (LA19_0 >= '>' && LA19_0 <= '@') || LA19_0 == '^' || LA19_0 == '`' || (LA19_0 >= '~' && LA19_0 <= '\uFFFF')) ) { s = 32; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 9 : 
-                   	int LA17_1 = input.LA(1);
+                   	int LA19_81 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_1 == 'b') ) { s = 33; }
+                   	if ( (LA19_81 == '!') ) { s = 112; }
 
-                   	else if ( (LA17_1 == 't') ) { s = 34; }
+                   	else if ( ((LA19_81 >= '\u0000' && LA19_81 <= ' ') || (LA19_81 >= '\"' && LA19_81 <= '\uFFFF')) ) { s = 80; }
 
-                   	else if ( (LA17_1 == 'e') ) { s = 35; }
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 10 : 
+                   	int LA19_31 = input.LA(1);
 
-                   	else if ( (LA17_1 == 'n') ) { s = 36; }
-
-                   	else if ( (LA17_1 == 'c') ) { s = 37; }
-
-                   	else if ( (LA17_1 == 'd') ) { s = 38; }
-
-                   	else if ( (LA17_1 == 'p') ) { s = 39; }
-
-                   	else if ( (LA17_1 == 'f') ) { s = 40; }
-
-                   	else if ( ((LA17_1 >= 'A' && LA17_1 <= 'Z') || LA17_1 == '_' || LA17_1 == 'a' || (LA17_1 >= 'g' && LA17_1 <= 'm') || LA17_1 == 'o' || (LA17_1 >= 'q' && LA17_1 <= 's') || (LA17_1 >= 'u' && LA17_1 <= 'z')) ) { s = 41; }
-
-                   	else if ( ((LA17_1 >= '\u0000' && LA17_1 <= '@') || (LA17_1 >= '[' && LA17_1 <= '^') || LA17_1 == '`' || (LA17_1 >= '{' && LA17_1 <= '\uFFFF')) ) { s = 42; }
+                   	s = -1;
+                   	if ( ((LA19_31 >= '\u0000' && LA19_31 <= '\uFFFF')) ) { s = 85; }
 
                    	else s = 32;
 
                    	if ( s >= 0 ) return s;
                    	break;
-               	case 10 : 
-                   	int LA17_189 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA17_189 == '\r') ) { s = 194; }
-
-                   	else if ( (LA17_189 == '\n') ) { s = 195; }
-
-                   	else if ( ((LA17_189 >= '\u0000' && LA17_189 <= '\t') || (LA17_189 >= '\u000B' && LA17_189 <= '\f') || (LA17_189 >= '\u000E' && LA17_189 <= '\uFFFF')) ) { s = 196; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
                	case 11 : 
-                   	int LA17_31 = input.LA(1);
+                   	int LA19_1 = input.LA(1);
 
                    	s = -1;
-                   	if ( ((LA17_31 >= '\u0000' && LA17_31 <= '\uFFFF')) ) { s = 85; }
+                   	if ( (LA19_1 == 'b') ) { s = 33; }
+
+                   	else if ( (LA19_1 == 't') ) { s = 34; }
+
+                   	else if ( (LA19_1 == 'e') ) { s = 35; }
+
+                   	else if ( (LA19_1 == 'n') ) { s = 36; }
+
+                   	else if ( (LA19_1 == 'c') ) { s = 37; }
+
+                   	else if ( (LA19_1 == 'd') ) { s = 38; }
+
+                   	else if ( (LA19_1 == 'p') ) { s = 39; }
+
+                   	else if ( (LA19_1 == 'f') ) { s = 40; }
+
+                   	else if ( ((LA19_1 >= 'A' && LA19_1 <= 'Z') || LA19_1 == '_' || LA19_1 == 'a' || (LA19_1 >= 'g' && LA19_1 <= 'm') || LA19_1 == 'o' || (LA19_1 >= 'q' && LA19_1 <= 's') || (LA19_1 >= 'u' && LA19_1 <= 'z')) ) { s = 41; }
+
+                   	else if ( ((LA19_1 >= '\u0000' && LA19_1 <= '@') || (LA19_1 >= '[' && LA19_1 <= '^') || LA19_1 == '`' || (LA19_1 >= '{' && LA19_1 <= '\uFFFF')) ) { s = 42; }
 
                    	else s = 32;
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 12 : 
-                   	int LA17_196 = input.LA(1);
+                   	int LA19_189 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_196 == '\r') ) { s = 194; }
+                   	if ( ((LA19_189 >= '\u0000' && LA19_189 <= '\t') || (LA19_189 >= '\u000B' && LA19_189 <= '\f') || (LA19_189 >= '\u000E' && LA19_189 <= '\uFFFF')) ) { s = 194; }
 
-                   	else if ( (LA17_196 == '\n') ) { s = 195; }
+                   	else if ( (LA19_189 == '\r') ) { s = 195; }
 
-                   	else if ( ((LA17_196 >= '\u0000' && LA17_196 <= '\t') || (LA17_196 >= '\u000B' && LA17_196 <= '\f') || (LA17_196 >= '\u000E' && LA17_196 <= '\uFFFF')) ) { s = 196; }
+                   	else if ( (LA19_189 == '\n') ) { s = 196; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 13 : 
-                   	int LA17_0 = input.LA(1);
+                   	int LA19_194 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_0 == '\\') ) { s = 1; }
+                   	if ( (LA19_194 == '\r') ) { s = 195; }
 
-                   	else if ( (LA17_0 == '{') ) { s = 2; }
+                   	else if ( (LA19_194 == '\n') ) { s = 196; }
 
-                   	else if ( (LA17_0 == '}') ) { s = 3; }
-
-                   	else if ( (LA17_0 == '=') ) { s = 4; }
-
-                   	else if ( (LA17_0 == ',') ) { s = 5; }
-
-                   	else if ( (LA17_0 == ':') ) { s = 6; }
-
-                   	else if ( (LA17_0 == '/') ) { s = 7; }
-
-                   	else if ( (LA17_0 == '(') ) { s = 8; }
-
-                   	else if ( (LA17_0 == ')') ) { s = 9; }
-
-                   	else if ( (LA17_0 == '[') ) { s = 10; }
-
-                   	else if ( (LA17_0 == ']') ) { s = 11; }
-
-                   	else if ( (LA17_0 == ';') ) { s = 12; }
-
-                   	else if ( (LA17_0 == 'c') ) { s = 13; }
-
-                   	else if ( (LA17_0 == 'i') ) { s = 14; }
-
-                   	else if ( (LA17_0 == 'e') ) { s = 15; }
-
-                   	else if ( (LA17_0 == 'm') ) { s = 16; }
-
-                   	else if ( (LA17_0 == 'p') ) { s = 17; }
-
-                   	else if ( (LA17_0 == 'l') ) { s = 18; }
-
-                   	else if ( (LA17_0 == 'n') ) { s = 19; }
-
-                   	else if ( (LA17_0 == 'a') ) { s = 20; }
-
-                   	else if ( (LA17_0 == '-') ) { s = 21; }
-
-                   	else if ( (LA17_0 == '|') ) { s = 22; }
-
-                   	else if ( (LA17_0 == '+') ) { s = 23; }
-
-                   	else if ( (LA17_0 == 't') ) { s = 24; }
-
-                   	else if ( (LA17_0 == 's') ) { s = 25; }
-
-                   	else if ( ((LA17_0 >= 'A' && LA17_0 <= 'Z') || LA17_0 == '_' || LA17_0 == 'b' || LA17_0 == 'd' || (LA17_0 >= 'f' && LA17_0 <= 'h') || (LA17_0 >= 'j' && LA17_0 <= 'k') || LA17_0 == 'o' || (LA17_0 >= 'q' && LA17_0 <= 'r') || (LA17_0 >= 'u' && LA17_0 <= 'z')) ) { s = 26; }
-
-                   	else if ( ((LA17_0 >= '0' && LA17_0 <= '9')) ) { s = 27; }
-
-                   	else if ( (LA17_0 == '.') ) { s = 28; }
-
-                   	else if ( (LA17_0 == '%') ) { s = 29; }
-
-                   	else if ( ((LA17_0 >= '\t' && LA17_0 <= '\n') || LA17_0 == '\r' || LA17_0 == ' ') ) { s = 30; }
-
-                   	else if ( (LA17_0 == '$') ) { s = 31; }
-
-                   	else if ( ((LA17_0 >= '\u0000' && LA17_0 <= '\b') || (LA17_0 >= '\u000B' && LA17_0 <= '\f') || (LA17_0 >= '\u000E' && LA17_0 <= '\u001F') || (LA17_0 >= '!' && LA17_0 <= '#') || (LA17_0 >= '&' && LA17_0 <= '\'') || LA17_0 == '*' || LA17_0 == '<' || (LA17_0 >= '>' && LA17_0 <= '@') || LA17_0 == '^' || LA17_0 == '`' || (LA17_0 >= '~' && LA17_0 <= '\uFFFF')) ) { s = 32; }
+                   	else if ( ((LA19_194 >= '\u0000' && LA19_194 <= '\t') || (LA19_194 >= '\u000B' && LA19_194 <= '\f') || (LA19_194 >= '\u000E' && LA19_194 <= '\uFFFF')) ) { s = 194; }
 
                    	if ( s >= 0 ) return s;
                    	break;
         }
-        NoViableAltException nvae17 =
-            new NoViableAltException(dfa.Description, 17, _s, input);
-        dfa.Error(nvae17);
-        throw nvae17;
+        NoViableAltException nvae19 =
+            new NoViableAltException(dfa.Description, 19, _s, input);
+        dfa.Error(nvae19);
+        throw nvae19;
     }
  
     

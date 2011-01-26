@@ -26,31 +26,22 @@ namespace TikzEdt
     /// </summary>
     public partial class TikzDisplay : UserControl
     {
-        //public enum CompileEventType {Start, Error, Success, Status};
-        //public delegate void CompileEventHandler(string Message, CompileEventType type);
-        //public event CompileEventHandler OnCompileEvent;
-        //public delegate void TexOutputHandler(string Message);
-        //public event TexOutputHandler OnTexOutput;
-
-        /*readonly public static DependencyProperty CompilingProperty = DependencyProperty.Register(
-                "Compiling", typeof(bool), typeof(TikzDisplay));
-        public bool Compiling
+                
+        readonly public static DependencyProperty RenderTransparentProperty = DependencyProperty.Register(
+                    "RenderTransparent", typeof(bool), typeof(TikzDisplay),
+                    new PropertyMetadata(true, OnRenderTransparentChanged));
+        static void OnRenderTransparentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            //if pre-compiling was started, isRunning stays true. No other compiliation can be started.
-            //could CompilingProperty and isRunning be merged?
-            get { return (bool)GetValue(CompilingProperty); }
-            set { }
-        }*/
-
-  /*      public void Compile(string code, Rect BB, bool IsStandAlone)
-        {
-            if (IsStandAlone)
-                nextToCompile = code;
-            else nextToCompile = @"%&" + Consts.cTempFile + "\r\n\\begin{document}\r\n" + code + "\r\n" + Properties.Settings.Default.Tex_Postamble;  
-            nextBB = BB;
-            doCompile();
+            (d as TikzDisplay).RedrawBMP();
         }
-   * */
+        /// <summary>
+        /// Indicates whether the pdf background should be rendered transparent
+        /// </summary>
+        public bool RenderTransparent
+        {
+            get { return (bool)GetValue(RenderTransparentProperty); }
+            set { SetValue(RenderTransparentProperty, value); }
+        }
 
         private double _Resolution = Consts.ptspertikzunit;
         public double Resolution
@@ -60,7 +51,8 @@ namespace TikzEdt
                 if (value > 0)
                 {
                     _Resolution = value;
-                    RecalcSize();
+                    //RecalcSize();
+                    RedrawBMP();
                 }
             }
         }
@@ -74,166 +66,22 @@ namespace TikzEdt
 
         //protected Process texProcess = new Process();
         //protected String nextToCompile = "";
-        Rect currentBB;
-        public Rect BB
-        {
-            get { return currentBB; }
-            set
-            {
-                currentBB = value;
-                RecalcSize();
-            }
-        }
-        //protected bool isRunning = false;
-        //PDFLibNet.PDFWrapper mypdfDoc = null;
+        //Rect currentBB;
+        //public Rect BB
+        //{
+          //  get { return currentBB; }
+           // set
+            //{
+              //  currentBB = value;
+                //RecalcSize();
+            //}
+        //}
+
         PdfToBmp myPdfBmpDoc = new PdfToBmp();
-
-        
-        /*TexCompiler _TexCompilerToListen;
-        public TexCompiler TexCompilerToListen
-        {
-            get { return _TexCompilerToListen; }
-            set 
-            {
-                if (_TexCompilerToListen != null)
-                    _TexCompilerToListen.JobSucceeded -= new TexCompiler.JobEventHandler(TexCompilerToListen_JobSucceeded);
-                _TexCompilerToListen = value;
-                if (_TexCompilerToListen != null)
-                    _TexCompilerToListen.JobSucceeded += new TexCompiler.JobEventHandler(TexCompilerToListen_JobSucceeded);
-            }
-        }
-
-        void TexCompilerToListen_JobSucceeded(object sender, TexCompiler.Job job)
-        {
-            // reload the pdf upon successful compilation
-            if (!job.GeneratePrecompiledHeaders)
-            {
-                string pdfpath = Helper.RemoveFileExtension(job.path) + ".pdf";
-                if (job.hasBB)
-                {
-                    currentBB = job.BB;
-                    // very small pdfs are cut off
-                    //if (currentBB.Width < 0.05 || currentBB.Height < 0.05)
-                    //    currentBB.Inflate(0.05, 0.05);
-                }
-                else
-                    currentBB = new Rect(0, 0, 0, 0);
-                RefreshPDF(pdfpath);
-            }
-        }*/
-        
-        //System.Windows.Forms.Control dummy = new System.Windows.Forms.Control();
-
-        /// <summary>
-        /// If the compilation gets stuck (actually it shouldn't), 
-        /// one can call this method to kill the pdflatex-process.
-        /// </summary>
-  /*      public void AbortCompilation()
-        {
-            try
-            {
-                if (!texProcess.HasExited)
-                    texProcess.Kill();
-            }
-            catch (InvalidOperationException)
-            {
-                isRunning = false;
-                //process has already terminated. that is okay.
-            }
-        }
-        */
-
-        /// <summary>
-        /// The main routine, starts the compilation of the Tikz-Picture.
-        /// If necessary it initiates compilation of the precompiled headers.
-        /// </summary>
-    /*    protected void doCompile()
-        {
-            if (isRunning || nextToCompile == "")
-            {
-                return;
-            }
-            isRunning = true;
-            SetValue(CompilingProperty, true);
-
-            if (!File.Exists(Consts.cTempFile + ".fmt"))
-            {
-                OnCompileEvent("Generating precompiled headers.... please restart in some moments", CompileEventType.Status); 
-                Helper.GeneratePrecompiledHeaders();
-                //GeneratePrecompiledHeaders() has no callback function. thus:                
-                isRunning = false;
-                return;
-            }
-
-            // save into temporary textfile
-            // add bounding box, if bounding box provided has size other than 0
-            bool lsucceeded= true;
-            string codetowrite;
-            if (nextBB.Width * nextBB.Height == 0)
-                codetowrite = nextToCompile;
-            else
-                codetowrite = writeBBtoTikz(nextToCompile, nextBB, out lsucceeded);
-
-            StreamWriter s = new StreamWriter(Consts.cTempFile + ".tex");
- 
-            s.WriteLine(codetowrite);
-            s.Close();
-            nextToCompile = "";
-            if (lsucceeded)
-                compilingBB = nextBB;
-            else compilingBB = new Rect(0, 0, 0, 0);
-
-            // call pdflatex         
-            OnCompileEvent("Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, CompileEventType.Start);
-            
-            //clear error windows
-            ((MainWindow)Application.Current.Windows[0]).txtTexout.Document.Blocks.Clear();
-            ((MainWindow)Application.Current.Windows[0]).clearProblemMarkers();
-            
-
-            try
-            {
-                if (texProcess.HasExited == true)
-                {
-                    texProcess.CancelOutputRead();
-                    texProcess.CancelErrorRead();
-                }
-            }
-            catch (InvalidOperationException)
-            {
-                //on first call when texProcess was not started, HasExited raises exception.
-            }
-
-            texProcess.Start();
-            texProcess.BeginOutputReadLine();
-            texProcess.BeginErrorReadLine();
-            
-        }
-     * */
-        /// <summary>
-        /// Adds a rectangle to the Tikzcode in the size specified by BB. 
-        /// The rectangle is added as the last command before the \end{tikzpicture} 
-        /// </summary>
-        /// <param name="code">The Tikz Code. Must contain an "\end{tikzpicture}" </param>
-        /// <param name="BB">The bounding box (= size of rectangle to be written) </param>
-        /// <param name="succeeded">Returns success, i.e., whether the string "\end{tikzpicture}" has been found</param>
-        /// <returns>The Tikzcode, with the "\draw rectangle ...." inserted </returns>
- /*       string writeBBtoTikz(string code, Rect BB, out bool succeeded)
-        {
-            // hack
-            string cend = @"\end{tikzpicture}"; // hack
-            string[] tok = code.Split(new string[] { cend }, StringSplitOptions.None);
-            succeeded = (tok.Length == 2 && nextBB.Width * nextBB.Height > 0); //TODO: check
-            if (succeeded)
-                return tok[0] + @"\draw (" + BB.X + "," + BB.Y + ") rectangle (" + (BB.X + BB.Width).ToString() + "," + (BB.Y + BB.Height).ToString() + ");\r\n " + cend + tok[1];
-            else
-                return code;
-        }*/
 
         public TikzDisplay()
         {
             InitializeComponent();
-
         }
 
         /// <summary>
@@ -255,7 +103,8 @@ namespace TikzEdt
                 myPdfBmpDoc.LoadPdf(cFile);                
                 image1.Visibility = Visibility.Visible;                
             }
-            RecalcSize();            
+            RedrawBMP();
+            //RecalcSize();            
         }
         public void SetUnavailable()
         {
@@ -266,35 +115,13 @@ namespace TikzEdt
             //so it can be deleted. but how?
         }
 
-        /// <summary>
-        /// Size is given by resolution * bounding box, if present.
-        /// </summary>
-        void RecalcSize()
-        {
-            if (currentBB.Width * currentBB.Height > 0)
-            {
-                Width = currentBB.Width * Resolution;
-                if (Width < 5)  // a bit hacky
-                    Width = 5;
-                Height = currentBB.Height * Resolution;
-                if (Height < 5)
-                    Height = 5;
-            }
-            else
-            {
-                Width = double.NaN; // auto height/width
-                Height = double.NaN;
-            }
-
-            RedrawBMP();
-        }
 
         /// <summary>
         /// This method draws the currently loaded Pdf into a bitmap, and displays this bitmap in the image control.
         /// It is called, e.g., when the size of the TikzDisplay control changes
         /// Warning: It does _not_ reload the Pdf. 
         /// </summary>
-        void RedrawBMP()
+        public void RedrawBMP()
         {
             
             if (myPdfBmpDoc != null)
@@ -307,7 +134,7 @@ namespace TikzEdt
                         if(a.GetName().Version.Build == 6)
                             if (a.GetName().Version.Revision == 6)
                             {
-                                BitmapSource bitmap = myPdfBmpDoc.GetBitmapSourceOld(Resolution, currentBB.Width * currentBB.Height > 0); // mypdfDoc.GetBitmap(currentBB, Resolution);                
+                                BitmapSource bitmap = myPdfBmpDoc.GetBitmapSourceOld(Resolution, RenderTransparent); // mypdfDoc.GetBitmap(currentBB, Resolution);                
                                 if (bitmap != null)
                                   image1.Source = bitmap;
                                 return;
@@ -317,15 +144,15 @@ namespace TikzEdt
                 
                 image1.Source = null;
                 //myPdfBmpDoc.GetBitmap2(Resolution, currentBB.Width * currentBB.Height > 0); ;
-                image1.Source = myPdfBmpDoc.GetBitmapSource(Resolution, currentBB.Width * currentBB.Height > 0); ;                
+                image1.Source = myPdfBmpDoc.GetBitmapSource(Resolution, RenderTransparent); ;                
             }
 
         }
 
-        private void image1_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
+       // private void image1_SizeChanged(object sender, SizeChangedEventArgs e)
+       // {
             //RedrawBMP();
-        }
+        //}
 
     }
 
@@ -353,8 +180,9 @@ namespace TikzEdt
             }
             mypdfDoc = new PDFLibNet.PDFWrapper();
             
+
             mypdfDoc.UseMuPDF = true;
-            
+
             if (!File.Exists(cfile))
                 return false;
             //this line creates a handle
@@ -385,32 +213,42 @@ namespace TikzEdt
         {
             if (mypdfDoc != null && mypdfDoc.PageCount > 0)
             {
+                double dpi = 72 * Resolution / Consts.ptspertikzunit;
+                PDFPage p = mypdfDoc.Pages[1];
+                double pwidth = p.Width, pheight = p.Height;
+                // the following lines are as in the PDFPage.GetBitmap() function
+                int width = Convert.ToInt32(pwidth*dpi/254);
+		        int height= Convert.ToInt32(pheight*dpi/254);
+                int safetymargin = 0; // >0 => hack to prevent cropping near boundary
+		                
                 mypdfDoc.RenderDPI = 72 * Resolution / Consts.ptspertikzunit;
 
-                System.Windows.Forms.PictureBox pic = new System.Windows.Forms.PictureBox();
+                //System.Windows.Forms.PictureBox pic = new System.Windows.Forms.PictureBox();
                 mypdfDoc.CurrentPage = 1;
-                mypdfDoc.RenderPage(pic.Handle);
-
-
+                
                 /*Added since 1.0.6.2*/
                 mypdfDoc.CurrentX = 0;
                 mypdfDoc.CurrentY = 0;
-                mypdfDoc.ClientBounds = new Rectangle(0, 0, mypdfDoc.PageWidth, mypdfDoc.PageHeight);
+                mypdfDoc.ClientBounds = new System.Drawing.Rectangle(0, 0, width + safetymargin, height + safetymargin);//new Rectangle(0, 0, mypdfDoc.PageWidth, mypdfDoc.PageHeight);
 
-                //Bitmap bbb = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit, false);                
+                mypdfDoc.RenderPage(IntPtr.Zero, true); ///pic.Handle); // it works with zero, very strange!!!
+
+
+                Bitmap bbb = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit, false);                
                 //System.Drawing.Image I = mypdfDoc.Pages[1].GetImage(1);
                 //System.Drawing.Image I2 = mypdfDoc.Pages[1].GetImage(0);
 
-                if (mypdfDoc.PageWidth * mypdfDoc.PageHeight == 0)
+                //if (mypdfDoc.PageWidth * mypdfDoc.PageHeight == 0)
+                if (height * width == 0)
                     return null;
-                Bitmap _backbuffer = new Bitmap(mypdfDoc.PageWidth, mypdfDoc.PageHeight);
+                Bitmap _backbuffer = new System.Drawing.Bitmap(width + safetymargin, height + safetymargin); //new Bitmap(mypdfDoc.PageWidth, mypdfDoc.PageHeight);
                 using (Graphics g = Graphics.FromImage(_backbuffer))
                 {
                     /*New thread safe method*/
                     mypdfDoc.DrawPageHDC(g.GetHdc());
                     g.ReleaseHdc();
                 }
-                pic.Dispose();
+                //pic.Dispose();
                 
                 if (Transparent)
                 {
@@ -419,7 +257,10 @@ namespace TikzEdt
                     _backbuffer.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
                 }
 
-                //_backbuffer.Save("temp.bmp");
+                // test
+                //_backbuffer.Save(@"C:\temp\temp.bmp");
+                //mypdfDoc.ExportJpg(@"C:\temp\temp.jpg",1,1,75,100,1000);
+                
                 return _backbuffer;
             }
             else return null;

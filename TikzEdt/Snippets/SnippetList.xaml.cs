@@ -50,6 +50,7 @@ namespace TikzEdt.Snippets
             Reload();
 
             // Do Thumbnails exist? -> Recompile
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))  // we don't want this to happen in the vs designer
             if (!Directory.Exists(Helper.GetSnippetsPath()))
             {
                 if (MessageBox.Show("The Snippet Thumbnails do not seem to exist. Do you want them to be created now?\r\nIt may take some time, but it will happen in the background. You can also recompile them later from the Snippet Manager.", "Compile Thumbnails", MessageBoxButton.YesNoCancel, MessageBoxImage.Question) == MessageBoxResult.Yes)

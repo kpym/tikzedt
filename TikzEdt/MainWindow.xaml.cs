@@ -127,7 +127,6 @@ namespace TikzEdt
                 BBStatusBarItem.Content = "Bounding Box: ("+Math.Round(currentBB.X,2) + ", " + Math.Round(currentBB.Y,2) + ") ("
                     +Math.Round(currentBB.X+currentBB.Width,2) + ", " + Math.Round(currentBB.Y+currentBB.Height,2) + ")";
 
-                tikzDisplay1.BB = currentBB;
                 // add some margin
                 Rect bigger = currentBB;
                 bigger.Inflate(Properties.Settings.Default.BB_Margin, Properties.Settings.Default.BB_Margin);
@@ -1848,13 +1847,16 @@ namespace TikzEdt
             if (lstErrors.SelectedItem != null)
             {
                 TexOutputParser.TexError err = lstErrors.SelectedItem as TexOutputParser.TexError;
-                if (err.Pos < 0)
-                    txtCode_Goto(err.Line, 1, true);
-                else if (err.Line == 0 && err.Pos > 0)
-                    txtCode_Goto(err.Pos+1, true);
-                else
-                    txtCode_Goto(err.Line, err.Pos + 1, false, true);
-                    
+
+                if (!err.inincludefile) // cannot jump to error position if it occured in \input-ted file 
+                {
+                    if (err.Pos < 0)
+                        txtCode_Goto(err.Line, 1, true);
+                    else if (err.Line == 0 && err.Pos > 0)
+                        txtCode_Goto(err.Pos + 1, true);
+                    else
+                        txtCode_Goto(err.Line, err.Pos + 1, false, true);
+                }   
             }
         }
 
