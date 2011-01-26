@@ -128,7 +128,7 @@ namespace TikzEdt
         /// to receive these problems.
         /// </summary>
         public event TexErrorHandler OnTexError;
-        public delegate void TexErrorHandler(Object sender, TexError e);
+        public delegate void TexErrorHandler(Object sender, TexError e, TexCompiler.Job job);
         
         /// <summary>
         /// Private function that is called for each found problem in output of pdflatex when
@@ -154,8 +154,16 @@ namespace TikzEdt
                 }
                 e.pos = -1;
                 e.severity = severity;
-                OnTexError(this, e);
+                OnTexError(this, e, job);
             }
+        }
+
+        /// <summary>
+        /// clears the current code
+        /// </summary>
+        public void Clear()
+        {
+            WholeOutput = "";
         }
 
         private Stack<String> parsingStack;
@@ -272,7 +280,7 @@ namespace TikzEdt
                         {
                             error += ' ' + part2;
                         }
-                        updateParsedFile(part2);
+                        updateParsedFile(part2, job);
                         continue;
                     }
                     if (line.StartsWith("! Undefined control sequence."))
@@ -345,7 +353,7 @@ namespace TikzEdt
                         {
                             linenr = Convert.ToInt32(pm.Groups[1].Value);
                         }
-                        updateParsedFile(nextLine);
+                        updateParsedFile(nextLine, job);
                         error += nextLine;
                         if (linenr != -1)
                         {
@@ -425,7 +433,7 @@ namespace TikzEdt
                     hasProblem = false;
                     continue;
                 }
-                updateParsedFile(line);
+                updateParsedFile(line, job);
 
             }
 
@@ -471,7 +479,7 @@ namespace TikzEdt
          * 
          * @param logLine A line from latex' output containing which file we are in
          */
-        private void updateParsedFile(String logLine)
+        private void updateParsedFile(String logLine, TexCompiler.Job job)
         {
             if (logLine.IndexOf('(') == -1 && logLine.IndexOf(')') == -1)
                 return;
@@ -497,7 +505,7 @@ namespace TikzEdt
                     string err = "Error while parsing the LaTeX output. " +
                             "Please consult the console output";
                     MainWindow.AddStatusLine(err, true);
-                    addProblemMarker(err, "file", 0, Severity.ERROR, null);
+                    addProblemMarker(err, "file", 0, Severity.ERROR, job);
                 }
             }
         }
