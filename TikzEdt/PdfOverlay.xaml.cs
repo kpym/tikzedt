@@ -229,13 +229,17 @@ namespace TikzEdt
                         return pathTool;
                     case ToolType.addvert:
                         return nodeTool;
+                    case ToolType.rectangle:
+                        return rectangleTool;
+                    case ToolType.ellipse:
+                        return ellipseTool;
                     default:
                         throw new Exception("Unknown tool type... please make sure all tool types are handled in PdfOverlay.CurrentTool."); // should not come here
                 }
             }
         }
 
-        public enum ToolType { move, addvert, addedge, addpath }
+        public enum ToolType { move, addvert, addedge, addpath, rectangle, ellipse }
         ToolType _tool = ToolType.move;
         public ToolType tool
         {
@@ -256,6 +260,8 @@ namespace TikzEdt
         EdgeTool edgeTool = new EdgeTool();
         PathTool pathTool = new PathTool();
         NodeTool nodeTool = new NodeTool();
+        RectangleTool rectangleTool = new RectangleTool();
+        EllipseTool ellipseTool = new EllipseTool();
 
 
         #endregion
@@ -363,7 +369,8 @@ namespace TikzEdt
             edgeTool.overlay = this;
             nodeTool.overlay = this;
             pathTool.overlay = this;
-
+            rectangleTool.overlay = this;
+            ellipseTool.overlay = this;
         }
 
         /// <summary>
@@ -669,8 +676,8 @@ namespace TikzEdt
 
             if (canvas1.IsMouseCaptured)
                 canvas1.ReleaseMouseCapture();
-
-            CurrentTool.OnLeftMouseButtonUp(e);
+            Point mousep = e.GetPosition(canvas1);
+            CurrentTool.OnLeftMouseButtonUp(e, new Point(mousep.X, Height - mousep.Y));
 
         }
 

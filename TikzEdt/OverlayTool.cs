@@ -46,7 +46,7 @@ namespace TikzEdt
         /// <param name="p">The cursor position, in BOTTOM LEFT CENTERED pixel coordinates.</param>
         /// <param name="e"></param>
         public virtual void OnLeftMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e) { }
-        public virtual void OnLeftMouseButtonUp(MouseButtonEventArgs e) { }
+        public virtual void OnLeftMouseButtonUp(MouseButtonEventArgs e, Point p) { }
         /// <summary>
         /// Set e.Handled if you want to turn off the default handling... like opening the context menu etc.
         /// </summary>
@@ -98,6 +98,11 @@ namespace TikzEdt
         string NodeStyle { get; }
         string EdgeStyle { get; }
 
+        Point ScreenToTikz(Point p, bool invY=false);
+        Point TikzToScreen(Point p, bool invY = false);
+
+        double Height { get; }
+        double Width { get; }
     }
 
     class SelectionTool : OverlayTool
@@ -323,7 +328,7 @@ namespace TikzEdt
             }
         }
 
-        public override void OnLeftMouseButtonUp(MouseButtonEventArgs e) 
+        public override void OnLeftMouseButtonUp(MouseButtonEventArgs e, Point p) 
         {
             if (SelectionRect.Visibility == Visibility.Visible)
             {
@@ -543,10 +548,6 @@ namespace TikzEdt
 
             overlay.EndUpdate();
         }
-        public override void OnLeftMouseButtonUp(MouseButtonEventArgs e) 
-        {
-        
-        }
     }
 
     class NodeTool : OverlayAdderTool
@@ -608,10 +609,6 @@ namespace TikzEdt
 
             overlay.EndUpdate();
         }
-        public override void OnLeftMouseButtonUp(MouseButtonEventArgs e) 
-        {
-        
-        }
     }
 
     class EdgeTool : OverlayAdderTool
@@ -641,7 +638,69 @@ namespace TikzEdt
         {
             base.OnDeactivate();
             curSel = null;
-        } 
+        }
+
+        /// <summary>
+        /// Takes an XYItem (like (2,2) or a node) and tries to make it into a referenceable node
+        /// (i.e, one with a name)
+        /// 
+        /// Concretely, the routine does the following:
+        ///     - if item is a named node, return item.
+        ///     - if item is an unnamed node, give it a unique name and return item.
+        ///     - if item is a coordinate, see if there is a node at this coordinate
+        ///         (algorithm: see if next non-tikz_something item is a node)
+        ///         - if yes, start anew with item=this node
+        ///         - if no, add a named node at the specified coordinate
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        Tikz_Node MakeReferenceableNode(Tikz_XYItem item)
+        {
+            Tikz_Picture tpict = overlay.ParseTree.GetTikzPicture();
+
+            if (item is Tikz_Node)
+            {
+                Tikz_Node n = item as Tikz_Node;
+                if (n.name == "")
+                {
+                    n.SetName(tpict.GetUniqueName());
+                    n.UpdateText();
+                }
+                return n;
+            }
+            else if (item is Tikz_Coord)
+            {
+                // find the next node
+                for (int i = item.parent.Children.IndexOf(item) + 1; i < item.parent.Children.Count; i++)
+                {
+                    if (item.parent.Children[i] is Tikz_Node)
+                    {
+                        // check if the node is really at the same position as the coordinate item
+                        if ((item.parent.Children[i] as Tikz_Node).coord == null)
+                            return MakeReferenceableNode(item.parent.Children[i] as Tikz_Node);
+                        else
+                            break;
+                    }
+                    
+                    if (! (item.parent.Children[i] is Tikz_Something) )
+                        break;
+                }
+
+                // if we get here, nothing was found => add a new node
+                Tikz_Something ws = new Tikz_Something(" ");
+                Tikz_Node n = new Tikz_Node();
+                n.coord = null;
+
+                item.parent.InsertChildAt(ws, item.parent.Children.IndexOf(item)+1);
+                item.parent.InsertChildAt(n, item.parent.Children.IndexOf(item)+2);
+                n.SetName(tpict.GetUniqueName());
+                n.UpdateText();
+
+                return n;
+            }
+            else
+                throw new NotImplementedException("MakeReferenceableNode not implemented for this type");
+        }
 
         public override void OnLeftMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e) 
         {
@@ -661,19 +720,19 @@ namespace TikzEdt
             }
 
             // make sure both nodes involved are nodes
-            if (!(curSel.tikzitem is Parser.Tikz_Node) || !(n.tikzitem is Parser.Tikz_Node))
+          /*  if (!(curSel.tikzitem is Tikz_Node) || !(n.tikzitem is Tikz_Node))
             {
                 String which = ""; String verb = "is";
-                if (!(curSel.tikzitem is Parser.Tikz_Node) && !(n.tikzitem is Parser.Tikz_Node))
+                if (!(curSel.tikzitem is Tikz_Node) && !(n.tikzitem is Tikz_Node))
                 { which = "Both"; verb = "are"; }
-                else if (!(curSel.tikzitem is Parser.Tikz_Node))
+                else if (!(curSel.tikzitem is Tikz_Node))
                     which = "The first";
-                else if (!(n.tikzitem is Parser.Tikz_Node))
+                else if (!(n.tikzitem is Tikz_Node))
                     which = "The second";
                 MainWindow.AddStatusLine(which + " of the selected coordinates " + verb + " not a node (i.e. not defined with \\node but rather with \\draw or \\path)", true);
                 curSel = null;
                 return; // hack
-            }
+            } */
 
             //the return from above must not interfere with BeginModify()
             overlay.BeginUpdate();
@@ -686,8 +745,11 @@ namespace TikzEdt
             //is above the \node-definition which causes an error while compiling the latex code.
             if (AddNewCurAddTo())
             {
+                // make sure both nodes involved are nodes
 
-                Parser.Tikz_Node t1 = curSel.tikzitem as Parser.Tikz_Node, t2 = n.tikzitem as Parser.Tikz_Node;
+
+                Parser.Tikz_Node t1 = MakeReferenceableNode(curSel.tikzitem ),
+                                 t2 = MakeReferenceableNode(n.tikzitem );
 
                 Parser.Tikz_Coord tc1 = new Parser.Tikz_Coord();
                 tc1.type = Parser.Tikz_CoordType.Named;
@@ -701,7 +763,7 @@ namespace TikzEdt
                 //tpict.AddChild(tp);                    
 
                 // make sure both nodes have names
-                Parser.Tikz_Picture tpict = overlay.ParseTree.GetTikzPicture();
+                Tikz_Picture tpict = overlay.ParseTree.GetTikzPicture();
                 if (t1.name == "")
                 {
                     t1.SetName(tpict.GetUniqueName());
@@ -732,10 +794,6 @@ namespace TikzEdt
             }
             //forgetting to call EndModify causes weird "No undo group should be open at this point"-message.
             overlay.EndUpdate();
-        }
-        public override void OnLeftMouseButtonUp(MouseButtonEventArgs e) 
-        {
-        
         }
 
         public override void OnRightMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e)
