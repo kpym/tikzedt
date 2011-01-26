@@ -37,6 +37,10 @@ namespace TikzEdt
         public static RoutedCommand CommentCommand = new RoutedCommand();
         public static RoutedCommand UnCommentCommand = new RoutedCommand();
         public static RoutedCommand ShowCodeCompletionsCommand = new RoutedCommand();
+        public static RoutedCommand SavePdfCommand = new RoutedCommand();
+        public static RoutedCommand SavePdfAsCommand = new RoutedCommand();
+        public static RoutedCommand ShowPdfCommand = new RoutedCommand();
+        
 
         System.ComponentModel.BackgroundWorker AsyncParser = new System.ComponentModel.BackgroundWorker();
         class AsyncParserJob
@@ -176,7 +180,11 @@ namespace TikzEdt
             CommandBinding FindNextCommandBinding = new CommandBinding(FindNextCommand, FindNextCommandHandler, AlwaysTrue);
             CommandBinding FindPreviousCommandBinding = new CommandBinding(FindPreviousCommand, FindPreviousCommandHandler, AlwaysTrue);
             CommandBinding ShowCodeCompletionsCommandBinding = new CommandBinding(ShowCodeCompletionsCommand, ShowCodeCompletionsCommandHandler, AlwaysTrue);
-            CommandBinding CompileCommandBinding = new CommandBinding(CompileCommand, CompileCommandHandler, AlwaysTrue);     
+            CommandBinding CompileCommandBinding = new CommandBinding(CompileCommand, CompileCommandHandler, AlwaysTrue);
+            CommandBinding SavePdfCommandBinding = new CommandBinding(SavePdfCommand, SavePdfHandler, AlwaysTrue);
+            CommandBinding SavePdfAsCommandBinding = new CommandBinding(SavePdfAsCommand, SavePdfAsHandler, AlwaysTrue);
+            CommandBinding ShowPdfCommandBinding = new CommandBinding(ShowPdfCommand, ShowPdfHandler, AlwaysTrue);     
+            
 
             pdfOverlay1.Rasterizer = rasterControl1;
             EnsureFindDialogExists();
@@ -1817,12 +1825,11 @@ namespace TikzEdt
             pdfOverlay1.MarkObjectAt(txtCode.CaretOffset);
         }
 
-        private void ShowInExternalViewerClick(object sender, RoutedEventArgs e)
+        private void ShowPdfHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            string PdfPath = CurFile;
-            if (PdfPath.EndsWith(".tex", StringComparison.InvariantCultureIgnoreCase))
-                PdfPath = PdfPath.Remove(PdfPath.Length - 4);
-            PdfPath = PdfPath + ".pdf";
+            string PdfPath = SavePdf(false);
+
+            if (PdfPath == "") return;
 
             if (Properties.Settings.Default.Path_externalviewer.Trim() == "")
             {
@@ -1834,6 +1841,62 @@ namespace TikzEdt
             }
         }
 
+        private void SavePdfHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            SavePdf(false);
+        }
+
+        private void SavePdfAsHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            SavePdf(true);
+        }
+
+        private string SavePdf(bool SaveAs)
+        {
+            if (SaveAs == false && CurFile == Consts.defaultCurFile)
+            {
+                AddStatusLine("Please save document first", true);
+                return "";
+            }
+
+            string s = Helper.GetCurrentWorkingDir();
+            string t = Helper.GetPreviewFilename();
+            string PreviewPdfFilePath = s + "\\" + CurFile + t + ".pdf";
+            string PdfFilePath = s + "\\" + Helper.RemoveFileExtension(CurFile) + ".pdf";
+
+            if (SaveAs == true)
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+
+                sfd.Filter = "Pdf Files|*.pdf" +
+             "|All Files|*.*";
+                sfd.OverwritePrompt = true;
+                sfd.ValidateNames = true;
+
+                sfd.FileName = System.IO.Path.GetFileName(CurFile);
+                sfd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
+                if (sfd.ShowDialog() != true)
+                    return "";
+                PdfFilePath = sfd.FileName;
+            }
+        
+
+            
+            try
+            {
+                File.Copy(PreviewPdfFilePath, PdfFilePath, true);
+            }
+            catch (Exception Ex)
+            {
+                AddStatusLine("Could not save PDF. " + Ex.Message, true);
+                return "";
+            }
+
+            AddStatusLine("Preview PDF file saved as " + PdfFilePath);
+            return PdfFilePath;
+        }
+
+        
         private void chkStatus_Checked(object sender, RoutedEventArgs e)
         {
 
