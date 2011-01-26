@@ -119,6 +119,15 @@
         <CommandBinding Command="{x:Static custom:MainWindow.CompileCommand}" 
                     Executed="CompileCommandHandler" 
                     CanExecute="AlwaysTrue" />
+        <CommandBinding Command="{x:Static custom:MainWindow.SavePdfCommand}" 
+                    Executed="SavePdfHandler" 
+                    CanExecute="AlwaysTrue" />
+        <CommandBinding Command="{x:Static custom:MainWindow.SavePdfAsCommand}" 
+                    Executed="SavePdfAsHandler" 
+                    CanExecute="AlwaysTrue" />
+        <CommandBinding Command="{x:Static custom:MainWindow.ShowPdfCommand}" 
+                    Executed="ShowPdfHandler" 
+                    CanExecute="AlwaysTrue" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="{x:Static custom:MainWindow.CommentCommand}" Key="D" Modifiers="Ctrl"/>
@@ -127,6 +136,8 @@
         <KeyBinding Command="{x:Static custom:MainWindow.FindPreviousCommand}" Key="F3" Modifiers="Shift"/>
         <KeyBinding Command="{x:Static custom:MainWindow.ShowCodeCompletionsCommand}" Key="SPACE"  Modifiers="Ctrl"/>
         <KeyBinding Command="{x:Static custom:MainWindow.CompileCommand}" Key="F5"/>
+        <KeyBinding Command="{x:Static custom:MainWindow.ShowPdfCommand}" Key="F6"/>
+        <KeyBinding Command="{x:Static custom:MainWindow.SavePdfCommand}" Key="S" Modifiers="Ctrl+Shift"/>
     </Window.InputBindings>
     <Grid>
             <Grid.RowDefinitions>
@@ -141,6 +152,9 @@
                 <MenuItem Header="New" Command="ApplicationCommands.New" />
                 <MenuItem Header="Save" Command="ApplicationCommands.Save" />
                 <MenuItem Header="Save As..."  Command="ApplicationCommands.SaveAs" />
+                <Separator/>
+                <MenuItem Header="Save Pdf" Command="{x:Static custom:MainWindow.SavePdfCommand}"/>
+                <MenuItem Header="Save Pdf As..." Command="{x:Static custom:MainWindow.SavePdfAsCommand}" InputGestureText="Ctrtl+Shift+S"/>
                 <common:RecentFileList x:Name="RecentFileList"/>
                 <MenuItem Header="Quit" Command="ApplicationCommands.Close"  />
             </MenuItem>
@@ -160,7 +174,7 @@
                 <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
             </MenuItem>
             <MenuItem Header="_View">
-                <MenuItem Header="Show Pdf in external viewer" Click="ShowInExternalViewerClick"/>
+                <MenuItem Header="Show Pdf in external viewer" Command="{x:Static custom:MainWindow.ShowPdfCommand}" InputGestureText="F6"/>
                 <Separator/>
                 <MenuItem Header="Fancy Mode" IsCheckable="True" IsChecked="{Binding ElementName=chkFancyMode, Path=IsChecked}"/>
                 <MenuItem Header="Standard Mode" IsCheckable="True" IsChecked="{Binding ElementName=chkStandardMode, Path=IsChecked}"/>
