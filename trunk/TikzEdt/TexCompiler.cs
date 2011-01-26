@@ -36,7 +36,7 @@ namespace TikzEdt
         public event CompileEventHandler OnCompileEvent;
         public delegate void TexOutputHandler(object sender, string Message);
         public event TexOutputHandler OnTexOutput;
-        public delegate void TexErrorHandler(object sender, TexOutputParser.TexError Error);
+        public delegate void TexErrorHandler(object sender, TexOutputParser.TexError Error, Job job);
         public event TexErrorHandler OnTexError;
 
         // This read only property indicates whether the Compiler is currently busy
@@ -96,7 +96,10 @@ namespace TikzEdt
         /// (I.e., when exited occurs, all output has been read)
         /// </summary>
         System.ComponentModel.BackgroundWorker AsyncReaderWorker = new System.ComponentModel.BackgroundWorker();
-        
+        class AsyncReaderReturnType
+        {
+            public string stdout, stderr;
+        }
         void AsyncReaderWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             // read asynchronously from the process output
@@ -130,10 +133,18 @@ namespace TikzEdt
             finally
             {
                 texProcess.WaitForExit();
-                //EventArgs ea = new EventArgs();
-                //texProcess_Exited(texProcess, ea);
-                texprocess_Exited(sw.ToString(), ew.ToString()); 
+                AsyncReaderReturnType ret = new AsyncReaderReturnType();
+                ret.stderr = ew.ToString();
+                ret.stdout = sw.ToString();
+                e.Result = ret;
             }
+        }
+        void AsyncReaderWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            //EventArgs ea = new EventArgs();
+            //texProcess_Exited(texProcess, ea);
+            AsyncReaderReturnType ret = e.Result as AsyncReaderReturnType;
+            texprocess_Exited(ret.stdout, ret.stderr); 
         }
 
         /// <summary>
@@ -369,6 +380,7 @@ namespace TikzEdt
             // start asynchronous reading of the process output
             //texProcess.BeginOutputReadLine();
             //texProcess.BeginErrorReadLine(); // needed e.g. when %& "temp_preview_header" invalid.
+            //myPdflatexOutputParser.Clear();
             AsyncReaderWorker.RunWorkerAsync();
             
         }
@@ -433,6 +445,7 @@ namespace TikzEdt
             timer.Tick += new EventHandler(timer_Tick);
 
             AsyncReaderWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(AsyncReaderWorker_DoWork);
+            AsyncReaderWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(AsyncReaderWorker_RunWorkerCompleted);
 
             myPdflatexOutputParser.OnTexError += new TexOutputParser.TexErrorHandler(myPdflatexOutputParser_OnTexError);
             //myPdflatexOutputParser.addProblem +=new PdflatexOutputParser.addProblemEventHandler(myPdflatexOutputParser_addProblem);
@@ -440,11 +453,12 @@ namespace TikzEdt
         }
 
 
-        void myPdflatexOutputParser_OnTexError(object sender, TexOutputParser.TexError e)
+
+        void myPdflatexOutputParser_OnTexError(object sender, TexOutputParser.TexError e, Job job)
         {
             if (OnTexError != null)
             {
-                OnTexError(sender, e);
+                OnTexError(sender, e, job);
             }            
         }
 
@@ -468,6 +482,10 @@ namespace TikzEdt
             Job job = CurrentJob;       // todo_tex.Dequeue();
             if (JobNumberChanged != null)
                  JobNumberChanged(this);    // invoke here... it would also be possible to invoke on start of compilation...
+
+            // Parse tex errors/warnings and display
+            myPdflatexOutputParser.parseOutput(job);
+
 
             if (texProcess.ExitCode == 0)
             {
@@ -539,9 +557,6 @@ namespace TikzEdt
                 {
                     JobFailed(this, job);
                 }
-
-                // Parse tex errors and display
-                myPdflatexOutputParser.parseOutput(job);
 
             }
             
