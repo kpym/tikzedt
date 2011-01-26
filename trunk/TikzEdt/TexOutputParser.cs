@@ -117,6 +117,8 @@ namespace TikzEdt
             public int Pos { get { return pos; } set { linenr = pos; } }                       
             private Severity _severity;
             public Severity severity { get { return _severity; } set { _severity = value; } }
+
+            public bool inincludefile=false;  // tells whether the error occured in a file \input-ted (rather than in the main file)
         }
     
 
@@ -133,7 +135,7 @@ namespace TikzEdt
         /// calling parseOutput(). addProblemMarker() fits the arguments into addProblemEventArgs
         /// so that addProblemEventHandler addProblem can be triggered. 
         /// </summary>
-        private void addProblemMarker(String error, String causingSourceFile, int linenr, Severity severity)
+        private void addProblemMarker(String error, String causingSourceFile, int linenr, Severity severity, TexCompiler.Job job)
         {
             if (OnTexError != null)
             {
@@ -141,6 +143,15 @@ namespace TikzEdt
                 e.error = error;
                 e.causingSourceFile = causingSourceFile;
                 e.linenr = linenr;
+                if (job != null)
+                {
+                    e.inincludefile = (String.Compare(e.causingSourceFile.Trim(),
+                                            System.IO.Path.GetFullPath(job.path), true) != 0);
+                    if (!e.inincludefile && linenr > 0)
+                    {
+                        e.linenr -= job.lineoffset;
+                    }
+                }
                 e.pos = -1;
                 e.severity = severity;
                 OnTexError(this, e);
@@ -176,9 +187,9 @@ namespace TikzEdt
             errorsFound = false;
             WholeOutput = "";
         }
-
-        public bool parseOutput()
+        public bool parseOutput( TexCompiler.Job job)
         {
+
             //if WholeOutput is not complete, ignore it. However, this should NEVER happen.
             if (!WholeOutput.Contains("Transcript written on"))
             {                
@@ -225,7 +236,7 @@ namespace TikzEdt
                 if (m.Success)
                 {
                     //C-Style LaTeX error
-                    addProblemMarker(m.Groups[3].Value, m.Groups[1].Value, Convert.ToInt32(m.Groups[2]), Severity.ERROR);
+                    addProblemMarker(m.Groups[3].Value, m.Groups[1].Value, Convert.ToInt32(m.Groups[2]), Severity.ERROR, job);
                     //Maybe parsingStack is empty...
                     if (parsingStack.Count == 0)
                     {
@@ -241,7 +252,7 @@ namespace TikzEdt
                     if (hasProblem)
                     {
                         // We have a not reported problem
-                        addProblemMarker(error, occurance, linenr, severity);
+                        addProblemMarker(error, occurance, linenr, severity, job);
                         linenr = -1;
                     }
                     hasProblem = true;
@@ -282,7 +293,7 @@ namespace TikzEdt
                     if (hasProblem)
                     {
                         // We have a not reported problem
-                        addProblemMarker(error, occurance, linenr, severity);
+                        addProblemMarker(error, occurance, linenr, severity, job);
                         linenr = -1;
                         hasProblem = false;
                     }
@@ -338,7 +349,7 @@ namespace TikzEdt
                         error += nextLine;
                         if (linenr != -1)
                         {
-                            addProblemMarker(line, occurance, linenr, severity);
+                            addProblemMarker(line, occurance, linenr, severity, job);
                             hasProblem = false;
                             linenr = -1;
                         }
@@ -362,7 +373,7 @@ namespace TikzEdt
                     if (hasProblem)
                     {
                         // We have a not reported problem
-                        addProblemMarker(error, occurance, linenr, severity);
+                        addProblemMarker(error, occurance, linenr, severity, job);
                         linenr = -1;
                         hasProblem = false;
                     }
@@ -370,7 +381,7 @@ namespace TikzEdt
                     occurance = determineSourceFile();
                     error = line;
                     linenr = Convert.ToInt32(m.Groups[1].Value);
-                    addProblemMarker(line, occurance, linenr, severity);
+                    addProblemMarker(line, occurance, linenr, severity, job);
                     hasProblem = false;
                     linenr = -1;
                     continue;
@@ -399,7 +410,7 @@ namespace TikzEdt
                     {
                         error += " " + line.Substring(index).Trim() + " (followed by: "
                                 + part2.Trim() + ")";
-                        addProblemMarker(error, occurance, linenr, severity);
+                        addProblemMarker(error, occurance, linenr, severity, job);
                         linenr = -1;
                         hasProblem = false;
                         continue;
@@ -409,7 +420,7 @@ namespace TikzEdt
                 if (hasProblem && m.Success)
                 {
                     linenr = Convert.ToInt32(m.Groups[1].Value);
-                    addProblemMarker(error, occurance, linenr, severity);
+                    addProblemMarker(error, occurance, linenr, severity, job);
                     linenr = -1;
                     hasProblem = false;
                     continue;
@@ -486,7 +497,7 @@ namespace TikzEdt
                     string err = "Error while parsing the LaTeX output. " +
                             "Please consult the console output";
                     MainWindow.AddStatusLine(err, true);
-                    addProblemMarker(err, "file", 0, Severity.ERROR);
+                    addProblemMarker(err, "file", 0, Severity.ERROR, null);
                 }
             }
         }
