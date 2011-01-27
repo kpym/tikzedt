@@ -9,6 +9,7 @@
         xmlns:p="clr-namespace:TikzEdt.Properties"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
         xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+        xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
         Title="TikzEdt" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
         Width="{Binding Source={x:Static p:Settings.Default}, Path=Window_Width, Mode=TwoWay}" 
@@ -143,6 +144,7 @@
             <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="0"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
@@ -396,7 +398,9 @@
                 </RadioButton>
             </ToolBar>
         </ToolBarTray>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Name="MainElements" Height="0">
+
+
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
@@ -426,6 +430,8 @@
                 <ColumnDefinition Width="3"></ColumnDefinition>
                 <ColumnDefinition Width="{Binding OverlayCanvasCol2WidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="OverlayCanvasCol2"></ColumnDefinition>
             </Grid.ColumnDefinitions>
+            
+            
             <StackPanel Grid.Column="0" Background="Gray">
                 <ToggleButton  Width="60" Name="cmdFiles" Checked="cmdSnippets_Checked" Unchecked="cmdSnippets_Unchecked" 
                               Visibility="Collapsed" Focusable="False">
@@ -442,15 +448,17 @@
                 </ToggleButton>
             </StackPanel>
             <GridSplitter Background="Gray" Grid.Column="2" Grid.Row="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <mySnippets:SnippetList x:Name="snippetlist1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+            <mySnippets:SnippetList x:Name="snippetlist2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                     Grid.Column="1" Grid.Row="0" OnInsert="snippetlist1_OnInsert" 
                                     ShowThumbnails="{Binding Source={x:Static p:Settings.Default}, Path=Snippets_ShowThumbs}" 
                                     Visibility="{Binding ElementName=cmdSnippets, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
+            
+            
             <Grid Grid.Column="3" Background="Black">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="3"/>
-                    <RowDefinition Height="{Binding StatusFieldRowHeightSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="StatusFieldRow" />                        
+                    <RowDefinition Height="{Binding StatusFieldRowHeightSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="StatusFieldRow" />
                 </Grid.RowDefinitions>
                 <GridSplitter Background="Gray" Grid.Row="1" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                 <DockPanel LastChildFill="true" Grid.Row="2">
@@ -476,13 +484,13 @@
                         </RadioButton>
                     </StackPanel>
                     <Grid>
-                        <RichTextBox  HorizontalAlignment="Stretch"  Name="txtStatus" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
+                        <RichTextBox  HorizontalAlignment="Stretch"  Name="txtStatus2" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
                                       Visibility="{Binding ElementName=chkStatus, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
-                        <RichTextBox  HorizontalAlignment="Stretch"  Name="txtTexout" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
+                        <RichTextBox  HorizontalAlignment="Stretch"  Name="txtTexout2" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
                                       Visibility="{Binding ElementName=chkFullTex, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
-                        <TextBox Name="textBox1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
+                        <TextBox Name="textBox2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
                                       Visibility="{Binding ElementName=chkErrorTex, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
-                        <ListView Name="lstErrors" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        <ListView Name="lstErrors2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                   IsSynchronizedWithCurrentItem="True"
                                   Visibility="{Binding ElementName=chkErrorTex, Path=IsChecked, Converter={StaticResource boolToVis}}" 
                                   MouseDoubleClick="lstErrors_MouseDoubleClick"
@@ -510,7 +518,7 @@
 
                     </Grid>
                 </DockPanel>
-                <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" 
+                <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode2" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" 
                                        ShowLineNumbers="{Binding Source={x:Static p:Settings.Default}, Path=Editor_ShowLineNumbers}"
                                        WordWrap="{Binding Source={x:Static p:Settings.Default}, Path=Editor_WordWrap}" Drop="txtCode_Drop" DragEnter="txtCode_DragEnter">
                     <avalonedit:TextEditor.ContextMenu>
@@ -524,7 +532,7 @@
                             <MenuItem Header="En-Scope" Click="Enscope_Click"/>
                             <Separator/>
                             <MenuItem Header="Mark item in Overlay (if possible)" Click="MarkAtOffsetClick" />
-                        </ContextMenu>                            
+                        </ContextMenu>
                     </avalonedit:TextEditor.ContextMenu>
                 </avalonedit:TextEditor>
             </Grid>
@@ -534,20 +542,150 @@
                 <Button Grid.Row="0" Grid.Column="0">Hallo Welt</Button> <my:PdfOverlay  HorizontalAlignment="Stretch" x:Name="pdfOverlay1" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" />
                 -->
                 <Grid Background="#303030">
-                    <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center"
+                    <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl2" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center"
                                        Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"  />
-                    <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" 
+                    <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay2" 
                                     RenderTransparent="{Binding ElementName=chkFancyMode, Path=IsChecked}"
-                                    VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" />                   
-                    <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" 
+                                    VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" />
+                    <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay2" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" 
                                     OnModified="pdfOverlay1_OnModified" BeginModify="pdfOverlay1_BeginModify" EndModify="pdfOverlay1_EndModify" 
                                     NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text,Mode=OneWay}" EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}"
                                     Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"   
                                     JumpToSource="pdfOverlay1_JumpToSource" ToolChanged="pdfOverlay1_ToolChanged" MouseWheel="pdfOverlay1_MouseWheel"/>
                 </Grid>
             </ScrollViewer>
+
+
+
         </Grid>
-        <StatusBar Grid.Row="3" Height="23" HorizontalAlignment="Stretch" Name="statusBar1" VerticalAlignment="Top">
+
+        <ad:DockingManager x:Name="dockManager" Grid.Row="3" DocumentsSource="{Binding MyDocuments}">
+            <ad:ResizingPanel>
+
+                <ad:ResizingPanel Name="SnipptesAndFiles" ResizeWidth="140">
+                    <ad:DockablePane>
+                        <ad:DockableContent Title="Files" >
+                        
+                        
+                        </ad:DockableContent>
+                                                    <ad:DockableContent  Title="Snippets">
+                        <Border>
+                            <mySnippets:SnippetList x:Name="snippetlist1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                    Grid.Column="1" Grid.Row="0" OnInsert="snippetlist1_OnInsert" 
+                                    ShowThumbnails="{Binding Source={x:Static p:Settings.Default}, Path=Snippets_ShowThumbs}" 
+                                    Visibility="{Binding ElementName=cmdSnippets, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
+                        </Border>
+                    </ad:DockableContent>
+                    </ad:DockablePane>
+                </ad:ResizingPanel>
+
+                <ad:ResizingPanel Name="TextAndErrors" ResizeHeight="*" EffectiveSize="517,141.5" Orientation="Vertical">
+
+                    <ad:DocumentPane>
+                        <ad:DockableContent Title="Text Editor">
+                            <Border>
+                                <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" 
+                                       ShowLineNumbers="{Binding Source={x:Static p:Settings.Default}, Path=Editor_ShowLineNumbers}"
+                                       WordWrap="{Binding Source={x:Static p:Settings.Default}, Path=Editor_WordWrap}" Drop="txtCode_Drop" DragEnter="txtCode_DragEnter">
+                                    <avalonedit:TextEditor.ContextMenu>
+                                        <ContextMenu >
+                                            <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
+                                            <MenuItem Header="Cut" Command="ApplicationCommands.Cut"/>
+                                            <MenuItem Header="Paste" Command="ApplicationCommands.Paste"/>
+                                            <Separator />
+                                            <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}"/>
+                                            <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
+                                            <MenuItem Header="En-Scope" Click="Enscope_Click"/>
+                                            <Separator/>
+                                            <MenuItem Header="Mark item in Overlay (if possible)" Click="MarkAtOffsetClick" />
+                                        </ContextMenu>
+                                    </avalonedit:TextEditor.ContextMenu>
+                                </avalonedit:TextEditor>
+                            </Border>
+                       
+                       </ad:DockableContent>
+                
+
+                </ad:DocumentPane>
+                    <ad:DockablePane ad:ResizingPanel.ResizeHeight="200">
+
+                        <ad:DockableContent Name="StatusDock" Title="Status">
+                            <RichTextBox  HorizontalAlignment="Stretch"  Name="txtStatus" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+                        </ad:DockableContent>
+                        
+                        <ad:DockableContent Name="PdflatexDock" Title="Pdflatex">
+                            <RichTextBox  HorizontalAlignment="Stretch"  Name="txtTexout" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
+                        </ad:DockableContent>
+
+                        <ad:DockableContent Name="ErrorsDock" Title="Errors">
+                            <ListView Name="lstErrors" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                  IsSynchronizedWithCurrentItem="True"                                  
+                                  MouseDoubleClick="lstErrors_MouseDoubleClick"
+                                  ItemsSource="{Binding Source={StaticResource TexErrorsSource}}"
+                                      >
+                                
+                                <ListView.Resources>
+
+                                </ListView.Resources>
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="" Width="Auto">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Image Source="{Binding Path=severity, Converter={StaticResource SeverityToImg}}" Width="16" Height="16"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Message}" Header="Message" Width="{Binding MessageColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}"/>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Line}" Header="line" Width="{Binding LineColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}" />
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Pos}" Header="pos" Width="{Binding PosColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}" />
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=SourceFileName}" Header="src" Width="{Binding SourceColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}" />
+                                    </GridView>
+                                </ListView.View>
+
+                            </ListView>
+                        </ad:DockableContent>
+
+                        
+
+
+                    </ad:DockablePane>
+                </ad:ResizingPanel>
+                
+                <ad:ResizingPanel Name="PdfView">
+                    
+                    <ad:DockablePane>
+                        
+                        
+                        <ad:DockableContent>
+
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <Grid Background="#303030">
+                                    <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center"
+                                       Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"  />
+                                    <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" 
+                                    RenderTransparent="{Binding ElementName=chkFancyMode, Path=IsChecked}"
+                                    VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" />
+                                    <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" 
+                                    OnModified="pdfOverlay1_OnModified" BeginModify="pdfOverlay1_BeginModify" EndModify="pdfOverlay1_EndModify" 
+                                    NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text,Mode=OneWay}" EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}"
+                                    Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"   
+                                    JumpToSource="pdfOverlay1_JumpToSource" ToolChanged="pdfOverlay1_ToolChanged" MouseWheel="pdfOverlay1_MouseWheel"/>
+                                </Grid>
+                            </ScrollViewer>
+
+
+                        </ad:DockableContent>
+                    </ad:DockablePane>
+                    
+                </ad:ResizingPanel>
+                
+                
+            </ad:ResizingPanel>
+
+        </ad:DockingManager>
+
+        <StatusBar Grid.Row="4" Height="23" HorizontalAlignment="Stretch" Name="statusBar1" VerticalAlignment="Top">
             <StatusBarItem>
                 <TextBlock Name="textCompileInfo" Width="Auto"/>
             </StatusBarItem>
