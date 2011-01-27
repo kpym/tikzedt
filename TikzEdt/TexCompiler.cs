@@ -69,7 +69,60 @@ namespace TikzEdt
 
             public long DocumentID = 0;             // used to match jobs with documents, see comment on CurDocumentID
 
-            public int lineoffset = 0;     // stores how many lines were inserted at the beginning. This is to conpute the true linenr of errors
+            //public int lineoffset = 0;     // stores how many lines were inserted at the beginning. This is to conpute the true linenr of errors
+
+            System.Collections.Generic.SortedDictionary<int, int> LineOffsetDict = new SortedDictionary<int, int>();
+            /// <summary>
+            /// Translates a line number of the temp file (that is the one that was compiled)
+            /// to the corresponding line number in the editor.
+            /// </summary>
+            /// <param name="LineInTempFile"></param>
+            /// <returns></returns>
+            public int TempFileLineToEditorLine(int LineInTempFile)
+            {
+                //search for the key (i.e. the line) that is just greater than LineInTempFile 
+                //then take the value (as offset) of the previous line.
+                //Note: If a line is requested that was inserted into the temp file, this will
+                //return the line number in the editor of where the text was inserted.
+                int Offset = 0;
+                foreach(System.Collections.Generic.KeyValuePair<int, int> entry in LineOffsetDict)
+                {
+                    if (LineInTempFile >= entry.Key)
+                        Offset = entry.Value;
+                    else
+                        break;               
+                }
+                return LineInTempFile - Offset;
+            }
+            /// <summary>
+            /// Call this function if text is added to the temp file (the one that is compiled).
+            /// Automatically clears itself when called with LineNumber==0.
+            /// Note: PositionOfAddedLine==1 means at the very top was something inserted.
+            /// </summary>
+            /// <param name="LineNumber">indicates where lines are added</param>
+            /// <param name="LineCount">indicates how many line are added at that location</param>
+            public void AddOffset(int PositionOfAddedLine, int NumberOfAddedLines)
+            {
+                LineOffsetDict.Add(PositionOfAddedLine, NumberOfAddedLines);
+
+                //if there are offset are the just inserted one, that all have to be adapted accordingly.
+                System.Collections.Generic.SortedDictionary<int, int> TempDict = new SortedDictionary<int, int>();
+                foreach (System.Collections.Generic.KeyValuePair<int, int> entry in LineOffsetDict)
+                {
+                    if (PositionOfAddedLine < entry.Key)
+                        TempDict[entry.Key] = LineOffsetDict[entry.Key] + NumberOfAddedLines;
+                    else if (PositionOfAddedLine > entry.Key)
+                        break;
+                }
+                foreach (System.Collections.Generic.KeyValuePair<int, int> entry in TempDict)
+                {
+                    LineOffsetDict[entry.Key] = TempDict[entry.Key];
+                }
+            }
+            public void OffsetClear()
+            {
+                LineOffsetDict.Clear();
+            }
 
             //for debugging include cmdline which is executed
             public string cmdline;
@@ -280,14 +333,18 @@ namespace TikzEdt
             {
                 // add bounding box
                 bool lsucceeded;
+                int PositionOfAddedLine, NumberOfAddedLines;
                 string codetowrite = job.code;
                 //if (job.BB.Width > 0 && job.BB.Height > 0)
                 //    codetowrite = writeBBtoTikz(job.code, job.BB, out lsucceeded);
                 if (job.BBShallBeWritten && !job.GeneratePrecompiledHeaders)
                 {
-                    codetowrite = writeBBWritertoTikz(job.code, out lsucceeded);
+                    codetowrite = writeBBWritertoTikz(job.code, out lsucceeded, out PositionOfAddedLine, out NumberOfAddedLines);
                     if (lsucceeded)
+                    {
                         job.BBWritten = true;
+                        job.AddOffset(PositionOfAddedLine, NumberOfAddedLines);
+                    }
                 }
 
                 if (!Directory.Exists(System.IO.Path.GetDirectoryName(job.path)))
@@ -328,9 +385,14 @@ namespace TikzEdt
                 {
                     s.WriteLine("%& \"" + Helper.GetPrecompiledHeaderPath() + Helper.GetPrecompiledHeaderFilename() + "\"");
                     s.WriteLine("\\begin{document}");
+                    int LinesJustAdded = 2;
+                    //job.lineoffset = 2;
+                    job.AddOffset(1 /*start counting at 1*/, LinesJustAdded);
+
                     s.WriteLine(codetowrite);
                     s.WriteLine(Properties.Settings.Default.Tex_Postamble);
-                    job.lineoffset = 2;
+                    job.AddOffset(LinesJustAdded + Helper.CountStringOccurrences(codetowrite, Environment.NewLine) + 1 /*start counting at 1*/,
+                        Helper.CountStringOccurrences(Properties.Settings.Default.Tex_Postamble, Environment.NewLine) + 1 /*add 1 for WriteLine()*/);
                 }
                 s.Close();
             }
@@ -414,18 +476,26 @@ namespace TikzEdt
         } */
 
         Regex endpictureRegex = new Regex(@"(\\end\s*{\s*tikzpicture\s*})", RegexOptions.Compiled);
-        string writeBBWritertoTikz(string code, out bool succeeded)
+        string writeBBWritertoTikz(string code, out bool succeeded, out int PositionOfAddedLine, out int NumberOfAddedLines)
         {
 
             string[] tok = endpictureRegex.Split(code, 3); // Regex.Split includes matched string in results if enclosed in parentheses
             succeeded = (tok.Length == 3 );
             if (succeeded)
             {
+
+                PositionOfAddedLine = Helper.CountStringOccurrences(tok[0], System.Environment.NewLine) + 1 /*start counting at 1*/;
+                NumberOfAddedLines = Helper.CountStringOccurrences(Consts.CodeToWriteBB, System.Environment.NewLine);
                 return tok[0] + Consts.CodeToWriteBB + tok[1] + tok[2];
             }
             else
+            {
+                PositionOfAddedLine = 0;
+                NumberOfAddedLines = 0;
                 return code;
+            }
         }
+
 
         public TexCompiler()
         {
@@ -711,8 +781,10 @@ namespace TikzEdt
                         if (Message != "")
                         {
                             //Add more lines if line length is a multiple of 79 and
-                            //it does not end with ...
-                            if (!Message.EndsWith("...") && Message.Length % MAX_LINE_LENGTH == 0)
+                            //it does not end with "...", '"', or ')'
+                            //[These are the common line endings of lines with variable length]
+                            if (!Message.EndsWith("...") && !Message.EndsWith("\"") && !Message.EndsWith(")") 
+                                && Message.Length % MAX_LINE_LENGTH == 0)
                             {
                                 OnTexOutputBufferString = Message;
                                 //Message will be processed upon next call of this function.

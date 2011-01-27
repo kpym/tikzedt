@@ -1918,7 +1918,7 @@ namespace TikzEdt
             {
                 TexOutputParser.TexError err = lstErrors.SelectedItem as TexOutputParser.TexError;
 
-                if (!err.inincludefile) // cannot jump to error position if it occured in \input-ted file 
+                if (!err.inincludefile) // cannot jump to error position if it occured in \input-tex file 
                 {
                     if (err.Pos < 0)
                         txtCode_Goto(err.Line, 1, true);

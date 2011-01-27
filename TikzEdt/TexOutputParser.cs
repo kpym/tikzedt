@@ -145,11 +145,19 @@ namespace TikzEdt
                 e.linenr = linenr;
                 if (job != null)
                 {
-                    e.inincludefile = (String.Compare(e.causingSourceFile.Trim(),
+                    if (e.causingSourceFile == null)
+                        e.inincludefile = true;
+                    else
+                        e.inincludefile = (String.Compare(e.causingSourceFile.Trim(),
                                             System.IO.Path.GetFullPath(job.path), true) != 0);
                     if (!e.inincludefile && linenr > 0)
+                    {                        
+                        e.linenr = job.TempFileLineToEditorLine(e.linenr);                        
+                    }
+                    if (!e.inincludefile)
                     {
-                        e.linenr -= job.lineoffset;
+                        //trim preview file ending.
+                        e.causingSourceFile = e.SourceFileName.Substring(0, (e.SourceFileName.Length - Helper.GetPreviewFilename().Length - Helper.GetPreviewFilenameExt().Length));
                     }
                 }
                 e.pos = -1;
