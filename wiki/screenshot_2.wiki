@@ -1,0 +1,7 @@
+#summary One-sentence summary of this page.
+
+= The snippet library =
+
+http://lh5.ggpht.com/_t8n2oghTr8Y/TUElpvBdcTI/AAAAAAAAABE/Ul2hDdtyJuw/s800/screenshot2.jpg
+
+Snippet library (left), preview (right) with wysiwyg editable overlay (the red X's).
