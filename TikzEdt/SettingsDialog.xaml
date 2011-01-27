@@ -115,7 +115,7 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <!-- <TextBlock Text="Compiler"></TextBlock>   -->
-                    <TextBlock Margin="3" Text="Code preappended:" Grid.Row="0" ></TextBlock>
+                    <TextBlock Margin="3" Text="Code prepended:" Grid.Row="0" ></TextBlock>
                     <TextBlock  Grid.Row="1"  Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!"></TextBlock>
                     <avalonedit:TextEditor  Grid.Row="2"  Margin="3" Name="txtPreamble"  VerticalAlignment="Stretch" BorderThickness="1" />
                     <TextBlock  Grid.Row="3"  Margin="3" Text="Code appended:" ></TextBlock>
