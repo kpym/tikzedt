@@ -525,7 +525,7 @@ TIKZEDT_CMD_COMMENT
 
 COMMENT
     :   '%' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
-    |   '%/*' ( options {greedy=false;} : . )* '%*/' {$channel=HIDDEN;} // allows to ignore some parts of a file with which the parser might have problems
+    |   '%/*' ( options {greedy=false;} : . )* '%*/' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;} // allows to ignore some parts of a file with which the parser might have problems
     ;
 
 WS  :   ( ' '

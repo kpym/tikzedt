@@ -1703,7 +1703,9 @@ namespace TikzEdt
 
         private void HelpCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-
+            // open the wiki main page
+            System.Diagnostics.Process.Start( new System.Diagnostics.ProcessStartInfo(
+                                        "http://code.google.com/p/tikzedt/wiki/WikiUserMain"));
         }
 
         private void ZoomoutCommandHandler(object sender, ExecutedRoutedEventArgs e)
