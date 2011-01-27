@@ -1,0 +1,7 @@
+#summary Screenshot
+
+= Style parsing =
+
+http://lh6.ggpht.com/_t8n2oghTr8Y/TUElpr2KoAI/AAAAAAAAABI/23VKi4NmkNc/screenshot3.jpg
+
+Styles are parsed from the source and `\input`-ted files and can be automatically applied to wysiwyg generated paths.
