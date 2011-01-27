@@ -220,15 +220,19 @@ namespace TikzEdt
                 int width = Convert.ToInt32(pwidth*dpi/254);
 		        int height= Convert.ToInt32(pheight*dpi/254);
                 int safetymargin = 0; // >0 => hack to prevent cropping near boundary
-		        
-                // if we'd need too much memory -> don't proceed
-                if (width * height > 20e6)
+
+
+                const double MAX_SIZE = 20e6;
+                MainWindow.AddStatusLine("Debug: Width: " + width + " Height: " + height + " Size: " + (width * height).ToString() + " MAX_SIZE: " + MAX_SIZE);
+                    
+                // if we'd need too much memory -> don't proceed                
+                if (width * height > MAX_SIZE)
                 {
                     MainWindow.AddStatusLine("Pdf rendering aborted: it's too big!", true);
                     return null;
                 }
-
-
+                
+                
                 mypdfDoc.RenderDPI = 72 * Resolution / Consts.ptspertikzunit;
 
                 //System.Windows.Forms.PictureBox pic = new System.Windows.Forms.PictureBox();
