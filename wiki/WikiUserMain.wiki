@@ -1,29 +1,29 @@
 #summary The main page of the user wiki
 
-= TikzEdt =
+= !TikzEdt =
 
-TikzEdt is an editor for the Tikz language, used to encode vector graphics in Latex documents. 
+!TikzEdt is an editor for the Tikz language, used to encode vector graphics in Latex documents. 
 
-== What TikzEdt can and cannot do for you ==
+== What !TikzEdt can and cannot do for you ==
 Typically, when producing graphics for use in LaTeX documents, you have the choice between:
   # Using a scripting language, like Tikz or PsTricks to directly code the image.
   # Using an external wysiwyg drawing program (like Inkscape, OpenOffice Draw, or even MS Powerpoint), export your dawing as pdf or eps, and include it in your tex-file.
 
 Both approaches have advantages and disadvantages. Usually the manually coded graphics are higher quality, but more effort to produce. In particular, positioning items in Code such that proportions "look good" can be painful. Real time preview programs like [http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language ktikz] already help a lot. 
-The goal of TikzEdt is to go one step further and combine wysiwyg and code editing, so that ideally you can generate graphics coded in Tikz in little more time that would need with a vector drawing program, but still retain the full flexibility and high quality look of Tikz drawings.
+The goal of !TikzEdt is to go one step further and combine wysiwyg and code editing, so that ideally you can generate graphics coded in Tikz in little more time that would need with a vector drawing program, but still retain the full flexibility and high quality look of Tikz drawings.
 
-TikzEdt is however not a replacement for full-featured wysiwyg vector graphics programs. It assists you writing Tikz code, but you will still have to learn the Tikz language, since  only a few Tikz command are accessible through TikzEdt's wysiwyg tools. If you do not want to deal with TikZ coding, you probably are better of using Inkscape or one of its commercial counterparts.
+!TikzEdt is however not a replacement for full-featured wysiwyg vector graphics programs. It assists you writing Tikz code, but you will still have to learn the Tikz language, since  only a few Tikz command are accessible through TikzEdt's wysiwyg tools. If you do not want to deal with TikZ coding, you probably are better of using Inkscape or one of its commercial counterparts.
 
 = Getting started =
 
-To use TikzEdt, you need to install pdflatex. The authors use the [MiKTeX http://miktex.org/] distribution. We strongly recommend to do a full installation of all packages, or at least of all tikz-related packages.  Also, you need .NET 4. the setup program will complain and direct you to the appropriate download page if you don't have it installed already.
+To use !TikzEdt, you need to install pdflatex. The authors use the [MiKTeX http://miktex.org/] distribution. We strongly recommend to do a full installation of all packages, or at least of all tikz-related packages.  Also, you need .NET 4. the setup program will complain and direct you to the appropriate download page if you don't have it installed already.
 
-== The first start ==
-If you start up TikzEdt for the first time, it will ask you for allowance to compile the Snippet library. You should click "Yes". Each snippet comes with a small preview image, which itself is coded in TikZ. TikzEdt needs to compile all those code snippets and produce the preview images to display. All this happens in the background, you will probably only notice the progress indicator in the status bar.
+== The first run ==
+If you start up !TikzEdt for the first time, it will ask you for allowance to compile the Snippet library. You should click "Yes". Each snippet comes with a small preview image, which itself is coded in TikZ. TikzEdt needs to compile all those code snippets and produce the preview images to display. All this happens in the background, you will probably only notice the progress indicator in the status bar.
 
 == Hello World ==
 
-Start TikzEdt and enter the following code:
+Start !TikzEdt and enter the following code:
 
 {{{
 \begin{tikzpicture}
@@ -118,6 +118,6 @@ For example, try to move the node in this example:
 
 == Additional features ==
 There are some additional features:
-  * `\begin{}`-completion: If you type `\begin{bla}` + RETURN, TikzEdt automatically inserts an `\end{bla}`, as in Kile. If you don't like this feature, you can turn it off in the settings dialog.
+  * `\begin{}`-completion: If you type `\begin{bla}` + RETURN, !TikzEdt automatically inserts an `\end{bla}`, as in Kile. If you don't like this feature, you can turn it off in the settings dialog.
   * Put the caret at some position in the text editor and right click->Mark item in overlay. Then the location of the item is highlighted in the preview on the right. (Note: Make sure the caret is really at the right position, not just the mouse....)
   * The other way around, you can jump to the source code corresponding to some item in the overlay using the context menu or mouse wheel.
