@@ -109,9 +109,16 @@ namespace TikzEdt.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\\documentclass{article}\r\n\\usepackage{tikz,amsmath, amssymb,bm,color}\r\n\\usepackage" +
-            "[margin=0cm,nohead]{geometry}\r\n\\usepackage[active,tightpage]{preview}\r\n% needed " +
-            "for BB\r\n\\usetikzlibrary{calc}\r\n\r\n\\PreviewEnvironment{tikzpicture}\r\n")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"\documentclass{article}
+\usepackage{tikz,amsmath, amssymb,bm,color}
+\usepackage[margin=0cm,nohead]{geometry}
+\usepackage[active,tightpage]{preview}
+\usetikzlibrary{shapes,arrows}
+% needed for BB
+\usetikzlibrary{calc}
+
+\PreviewEnvironment{tikzpicture}
+")]
         public string Tex_Preamble {
             get {
                 return ((string)(this["Tex_Preamble"]));

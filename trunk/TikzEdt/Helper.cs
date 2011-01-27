@@ -74,6 +74,7 @@ namespace TikzEdt
 \usepackage{tikz,amsmath, amssymb,bm,color}
 \usepackage[margin=0cm,nohead]{geometry}
 \usepackage[active,tightpage]{preview}
+\usetikzlibrary{shapes,arrows}
 ";
 
         public const string ImgHeader =
