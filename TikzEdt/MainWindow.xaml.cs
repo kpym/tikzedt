@@ -592,6 +592,7 @@ namespace TikzEdt
         {
             AddStatusLine("Welcome to TikzEdt");
             AddStatusLine("Help/feedback/feature requests/error reports are welcome");
+
             /*
             FrameworkElement overflowGrid = tlbMode.Template.FindName("OverflowGrid", tlbMode) as FrameworkElement;
             if (overflowGrid != null)
@@ -645,7 +646,7 @@ namespace TikzEdt
             else
                 Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
 
-            AddStatusLine("Application data directory is " + Helper.GetAppdataPath());
+            AddStatusLine("Application data directory is " + Helper.GetAppdataPath());            
 
             string missingfile = "";
             if(false == FirstRunPreparations(out missingfile))
@@ -660,7 +661,7 @@ namespace TikzEdt
                 r.Close();
             }
 
-            codeCompleter.LoadCompletions(Helper.GetSettingsPath() + Consts.cCompletionsFile);
+            codeCompleter.LoadCompletions(Helper.GetSettingsPath() + Consts.cCompletionsFile);            
 
             isLoaded = true;
             //txtRadialOffset.Text = txtRadialOffset.Text;
@@ -1541,6 +1542,7 @@ namespace TikzEdt
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            dockManager.SaveLayout(Helper.GetLayoutConfigFilepath());
             TikzEdt.Properties.Settings.Default.Save();
 
             if (!TryDisposeFile())
@@ -2064,8 +2066,14 @@ namespace TikzEdt
                 cmbZoom.SelectedIndex += step;
             }
 
-        }        
+        }
 
+        private void DockManager_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (File.Exists(Helper.GetLayoutConfigFilepath()))
+                dockManager.RestoreLayout(Helper.GetLayoutConfigFilepath());
+            dockManager.Visibility = System.Windows.Visibility.Visible;
+        }
 
     }
 }

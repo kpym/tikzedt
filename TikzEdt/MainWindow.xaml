@@ -559,30 +559,31 @@
 
         </Grid>
 
-        <ad:DockingManager x:Name="dockManager" Grid.Row="3" DocumentsSource="{Binding MyDocuments}">
+        <ad:DockingManager x:Name="dockManager" Visibility="Hidden" Grid.Row="3" DocumentsSource="{Binding MyDocuments}" Loaded="DockManager_Loaded">
             <ad:ResizingPanel>
 
-                <ad:ResizingPanel Name="SnipptesAndFiles" ResizeWidth="140">
+                <ad:ResizingPanel Name="SnippetsAndFiles" ResizeWidth="0.3*">
                     <ad:DockablePane>
-                        <ad:DockableContent Title="Files" >
+                        <ad:DockableContent Name="Files" Title="Files" IsCloseable="False" >
                         
                         
                         </ad:DockableContent>
-                                                    <ad:DockableContent  Title="Snippets">
-                        <Border>
+                        <ad:DockableContent Name="Snippets" Title="Snippets" IsCloseable="False">
+                       
                             <mySnippets:SnippetList x:Name="snippetlist1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                     Grid.Column="1" Grid.Row="0" OnInsert="snippetlist1_OnInsert" 
                                     ShowThumbnails="{Binding Source={x:Static p:Settings.Default}, Path=Snippets_ShowThumbs}" 
                                     Visibility="{Binding ElementName=cmdSnippets, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
-                        </Border>
+                      
                     </ad:DockableContent>
                     </ad:DockablePane>
                 </ad:ResizingPanel>
 
                 <ad:ResizingPanel Name="TextAndErrors" ResizeHeight="*" EffectiveSize="517,141.5" Orientation="Vertical">
-
-                    <ad:DocumentPane>
-                        <ad:DockableContent Title="Text Editor">
+                    <ad:ResizingPanel>
+                        
+                            <ad:DockablePane>
+                            <ad:DockableContent Name="TextEditor" Title="Text Editor" IsCloseable="False">
                             <Border>
                                 <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" 
                                        ShowLineNumbers="{Binding Source={x:Static p:Settings.Default}, Path=Editor_ShowLineNumbers}"
@@ -604,60 +605,59 @@
                             </Border>
                        
                        </ad:DockableContent>
-                
-
-                </ad:DocumentPane>
-                    <ad:DockablePane ad:ResizingPanel.ResizeHeight="200">
-
-                        <ad:DockableContent Name="StatusDock" Title="Status">
+                        </ad:DockablePane>
+                       
+                    </ad:ResizingPanel>
+                    <ad:ResizingPanel>
+                    <ad:DockablePane ad:ResizingPanel.ResizeHeight="200" SelectedIndex="0" >
+                            <ad:DockableContent Name="StatusDock" Title="Status" IsCloseable="False">
                             <RichTextBox  HorizontalAlignment="Stretch"  Name="txtStatus" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
                         </ad:DockableContent>
-                        
-                        <ad:DockableContent Name="PdflatexDock" Title="Pdflatex">
+                            <ad:DockableContent Name="PdflatexDock" Title="Pdflatex" IsCloseable="False">
                             <RichTextBox  HorizontalAlignment="Stretch"  Name="txtTexout" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
                         </ad:DockableContent>
-
-                        <ad:DockableContent Name="ErrorsDock" Title="Errors">
-                            <ListView Name="lstErrors" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                            <ad:DockableContent Name="ErrorsDock" Title="Errors" IsCloseable="False">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible">
+                                <ListView Name="lstErrors" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                   IsSynchronizedWithCurrentItem="True"                                  
                                   MouseDoubleClick="lstErrors_MouseDoubleClick"
                                   ItemsSource="{Binding Source={StaticResource TexErrorsSource}}"
                                       >
-                                
-                                <ListView.Resources>
 
-                                </ListView.Resources>
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn Header="" Width="Auto">
-                                            <GridViewColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <Image Source="{Binding Path=severity, Converter={StaticResource SeverityToImg}}" Width="16" Height="16"/>
-                                                </DataTemplate>
-                                            </GridViewColumn.CellTemplate>
-                                        </GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Message}" Header="Message" Width="{Binding MessageColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}"/>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Line}" Header="line" Width="{Binding LineColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}" />
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Pos}" Header="pos" Width="{Binding PosColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}" />
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=SourceFileName}" Header="src" Width="{Binding SourceColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}" />
-                                    </GridView>
-                                </ListView.View>
 
-                            </ListView>
+                                    <ListView.Resources>
+
+                                    </ListView.Resources>
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="" Width="Auto">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Image Source="{Binding Path=severity, Converter={StaticResource SeverityToImg}}" Width="16" Height="16"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=Message}" Header="Message" Width="{Binding MessageColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}"/>
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=Line}" Header="line" Width="{Binding LineColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=Pos}" Header="pos" Width="{Binding PosColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=SourceFileName}" Header="src" Width="{Binding SourceColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}" />
+                                        </GridView>
+                                    </ListView.View>
+
+                                </ListView>
+                            </ScrollViewer>
                         </ad:DockableContent>
-
-                        
-
-
                     </ad:DockablePane>
+                    </ad:ResizingPanel>
+
                 </ad:ResizingPanel>
                 
                 <ad:ResizingPanel Name="PdfView">
                     
                     <ad:DockablePane>
-                        
-                        
-                        <ad:DockableContent>
+
+
+                        <ad:DockableContent Name="Preview" Title="Preview" IsCloseable="False">
 
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                 <Grid Background="#303030">

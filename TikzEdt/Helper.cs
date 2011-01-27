@@ -157,6 +157,11 @@ namespace TikzEdt
         {
             return Environment.CurrentDirectory;
         }
+
+        public static string GetLayoutConfigFilepath()
+        {
+            return GetAppdataPath() + "\\TikzEdtLayout.xml";
+        }
         public enum AppdataPathOptions { AppData, ExeDir };
         private static string _AppdataPath = "";
         public static void SetAppdataPath(AppdataPathOptions option)
