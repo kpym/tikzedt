@@ -1,0 +1,40 @@
+#summary The main page of the user wiki
+
+= TikzEdt =
+
+TikzEdt is an editor for the Tikz language, used to encode vector graphics in Latex documents. 
+
+== What it can do for you, what it can not do for you ==
+Typically, when producing graphics for use in LaTeX documents, you have the choice between:
+  # Using a scripting language, like Tikz or PsTricks to directly code the image.
+  # Using an external wysiwyg drawing program (like Inkscape, OpenOffice Draw, or even MS Powerpoint), export your dawing as pdf or eps, and include it in your tex-file.
+
+Both approaches have advantages and disadvantages. Usually the manually coded graphics are higher quality, but more effort to produce. In particular, positioning items in Code such that proportions "look good" can be painful. Real time preview programs like [http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language ktikz] already help a lot. 
+The goal of TikzEdt is to go one step further and combine wysiwyg and code editing, so that ideally you can generate graphics coded in Tikz in little more time that would need with a vector drawing program, but still retain the full flexibility and high quality look of Tikz drawings.
+
+TikzEdt is however not a replacement for full-featured wysiwyg vector graphics programs. It assists you writing Tikz code, but you will still have to learn the Tikz language, since  only a few Tikz command are accessible through TikzEdt's wysiwyg tools.
+
+= Getting started =
+
+To use TikzEdt, you need to install pdflatex. The authors use the [MiKTeX http://miktex.org/] distribution. Also, you need .NET 4. the setup program will complain and direct you to the appropriate download page if you don't have it installed already.
+
+== Hello World ==
+
+Start TikzEdt and enter the following code:
+
+{{{
+\begin{tikzpicture}
+  \node (h) at (1,1) {hello};
+  \node (w) at (3,3) {world};
+  \draw (h) edge (w);
+\end{tikzpicture}
+}}}
+
+If all goes well, you will see on the right hand side the preview of this tikz picture, plus two red crosses at the location of the nodes. Try dragging the red crosses with the mouse and watch the code update itself.
+
+=  =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
