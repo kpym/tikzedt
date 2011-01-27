@@ -4,7 +4,7 @@
 
 TikzEdt is an editor for the Tikz language, used to encode vector graphics in Latex documents. 
 
-== What it can do for you, what it can not do for you ==
+== What TikzEdt can and cannot do for you ==
 Typically, when producing graphics for use in LaTeX documents, you have the choice between:
   # Using a scripting language, like Tikz or PsTricks to directly code the image.
   # Using an external wysiwyg drawing program (like Inkscape, OpenOffice Draw, or even MS Powerpoint), export your dawing as pdf or eps, and include it in your tex-file.
@@ -121,4 +121,3 @@ There are some smaller additional features:
   * `\begin{}`-completion: If you type `\begin{bla}` + RETURN, TikzEdt automatically inserts an `\end{bla}`, as in Kile. If you don't like this feature, you can turn it off in the settings dialog.
   * Put the caret at some position in the text editor and right click->Mark item in overlay. Then the location of the item is highlighted in the preview on the right. (Note: Make sure the caret is really at the right position, not just the mouse....)
   * The other way around, you can jump to the source code corresponding to some item in the overlay using the context menu or mouse wheel.
-
