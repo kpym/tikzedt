@@ -7,7 +7,7 @@
 == What !TikzEdt can and cannot do for you ==
 Typically, when producing graphics for use in LaTeX documents, you have the choice between:
   # Using a scripting language, like Tikz or pstricks to directly code the image.
-  # Using an external wysiwyg drawing program (like !Inkscape, !OpenOffice Draw, or even MS Powerpoint), export your dawing as pdf or eps, and include it in your tex-file.
+  # Using an external wysiwyg drawing program (like Inkscape, !OpenOffice Draw, or even MS Powerpoint), export your dawing as pdf or eps, and include it in your tex-file.
 
 Both approaches have advantages and disadvantages. Usually the manually coded graphics are higher quality, but more effort to produce. In particular, positioning items in Code such that proportions "look good" can be painful. Real time preview programs like [http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language ktikz] already help a lot. 
 The goal of !TikzEdt is to go one step further and combine wysiwyg and code editing, so that ideally you can generate graphics coded in Tikz in little more time that would need with a vector drawing program, but still retain the full flexibility and high quality look of Tikz drawings.
