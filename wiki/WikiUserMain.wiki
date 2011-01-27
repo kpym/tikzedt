@@ -1,5 +1,7 @@
 #summary The main page of the user wiki
 
+<wiki:toc max_depth="1" />
+
 = !TikzEdt =
 
 !TikzEdt is an editor for the Tikz language, used to encode vector graphics in Latex documents. 
