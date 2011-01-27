@@ -14,7 +14,7 @@ Typically, when producing graphics for use in LaTeX documents, you have the choi
 Both approaches have advantages and disadvantages. Usually the manually coded graphics are higher quality, but more effort to produce. In particular, positioning items in Code such that proportions "look good" can be painful. Real time preview programs like [http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language ktikz] already help a lot. 
 The goal of !TikzEdt is to go one step further and combine wysiwyg and code editing, so that ideally you can generate graphics coded in Tikz in little more time that would need with a vector drawing program, but still retain the full flexibility and high quality look of Tikz drawings.
 
-!TikzEdt is however not a replacement for full-featured wysiwyg vector graphics programs. It assists you writing Tikz code, but you will still have to learn the Tikz language, since  only a few Tikz command are accessible through !TikzEdt's wysiwyg tools. If you do not want to deal with TikZ coding, you probably are better of using Inkscape or one of its commercial counterparts.
+!TikzEdt is however not a replacement for full-featured wysiwyg vector graphics programs. It assists you writing Tikz code, but you will still have to learn the Tikz language, since  only a few Tikz commands are accessible through !TikzEdt's wysiwyg tools. If you do not want to deal with TikZ coding, you probably are better of using Inkscape or one of its commercial counterparts.
 
 = Getting started =
 
@@ -41,7 +41,7 @@ If all goes well, you will see on the right hand side the compiled preview of yo
 !TikzEdt assists you in the following ways:
   # By providing a good text editor with syntax highlighting and code completion (CTRL-SPACE), powered by AvalonEdit. You can customize the syntax highlighting and code completion by editing the appropriate xml-files.
   # By providing real time preview of the compiled TikZ picture as you type. The preview is speeded up by using precompiled headers.
-  # By an extensible snippet library that you can display or hide by pressing the button on the left. Insert snippets by double click or using the context menu. You can write your own snippets using the snippet editor (Menu Settings->Snippet Editor), or directly edit the xml file.
+  # By an extensible snippet library that you can display or hide by pressing the button on the left. Insert snippets by double click or using the context menu. You can write your own snippets usinging the snippet editor (Menu Settings->Snippet Editor), or directly editing the xml file.
   # By the wysiwig tools accessible through an overlay displayed on top of the compiled tikz image. 
 
 Except the last, these features are pretty standard, so let us discuss only the wysiwyg part in more detail. This is also the part that is programmatically most difficult to realize and took most of our time.
@@ -55,8 +55,8 @@ http://lh6.ggpht.com/_t8n2oghTr8Y/TUE_eaWjsiI/AAAAAAAAABk/_3lhD1usJoQ/toolstoolb
 || Node || Insert new nodes, like `\node at (3,4) {?}`. Replace the ? by whatever text you want to show at that position. ||
 || Edge || This tool connects two coordinates or nodes by a Tikz edge, like `\draw (v1) edge (mynode)`. If you select unnamed coordinates to connect, a `node` tag is inserted, with a unique name like `v13`.  ||
 || Path || This tool produces a series of lines.||
-|| Rectangle || Prduces a rectangle, press CTRL to make a square. ||
-|| Ellipse || Prduces an ellipse, press CTRL to make a circle. ||
+|| Rectangle || Produces a rectangle, press CTRL to make a square. ||
+|| Ellipse || Produces an ellipse, press CTRL to make a circle. ||
 
 The code will be inserted by default at the end of the tikzpicture.
 You can also select Tikz `scope`s for editing by double clicking or through the context menu. Then a thick border is drawn around the scope and items are inserted at the end of the scope. For example:
@@ -104,8 +104,7 @@ Determining and modifying the positions of nodes is rather intricate programmati
 In the current beta phase, in case you encounter problems (we don't hope so, of course), you should:
   # Either turn off the wysiwyg features by switching to "Preview Mode", and use !TikzEdt as just a text editor with preview.
   # Or enclose the conflicting part of your code in `%/*` ... `%*/`. The part ... in the middle will be ignored by the parser and will not appear on the overlay.
-  # In any case, we are happy if you report the problem and send us the conflicting file, so that we can improve the program.  
-
+  # In any case, we are happy if you [http://code.google.com/p/tikzedt/issues report] the problem and send us the conflicting file, so that we can improve the program.
 == Coordinate systems and tranformations ==
 
 !TikzEdt supports TikZ coordinate transformations, but currently not canvas transformations. In particular, you can use the wysiwyg features with polar coordinates, and things should behave as you expect.
