@@ -201,7 +201,7 @@
                 <MenuItem Header="Test...Error Listview" Click="Test2Click"/>
             </MenuItem>
             <MenuItem Header="?">
-                <MenuItem Header="Help..."/>
+                <MenuItem Header="Help..." Command="ApplicationCommands.Help"/>
                 <MenuItem Header="About..." Click="AboutClick"/>
             </MenuItem>
         </Menu>
