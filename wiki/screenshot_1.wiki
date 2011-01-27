@@ -1,0 +1,7 @@
+#summary Screenshot
+
+= Editor and Preview =
+
+http://lh3.ggpht.com/_t8n2oghTr8Y/TUElpTFcqFI/AAAAAAAAABA/nyFIP2vG4wM/s800/screenshot1.jpg
+
+The editor comes with syntax highlighting and code completion (based on AvalonEdit). The preview on the right is automatically updated in real time.
