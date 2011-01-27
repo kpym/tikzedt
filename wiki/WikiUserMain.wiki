@@ -1,6 +1,6 @@
 #summary The main page of the user wiki
 
-<wiki:toc max_depth="1" />
+<wiki:toc max_depth="2" />
 
 = !TikzEdt =
 
