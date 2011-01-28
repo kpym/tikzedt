@@ -560,10 +560,9 @@
         </Grid>
 
         <ad:DockingManager x:Name="dockManager" Visibility="Hidden" Grid.Row="3" DocumentsSource="{Binding MyDocuments}" Loaded="DockManager_Loaded">
-            <ad:ResizingPanel>
-
-                <ad:ResizingPanel Name="SnippetsAndFiles" ResizeWidth="0.3*">
-                    <ad:DockablePane>
+            <ad:ResizingPanel ResizeWidth="*" ResizeHeight="*" EffectiveSize="0,0" Orientation="Horizontal">
+                <ad:ResizingPanel ResizeWidth="150">
+                <ad:DockablePane>
                         <ad:DockableContent Name="Files" Title="Files" IsCloseable="False" >
                         
                         
@@ -579,44 +578,39 @@
                     </ad:DockablePane>
                 </ad:ResizingPanel>
 
-                <ad:ResizingPanel Name="TextAndErrors" ResizeHeight="*" EffectiveSize="517,141.5" Orientation="Vertical">
-                    <ad:ResizingPanel>
-                        
-                            <ad:DockablePane>
-                            <ad:DockableContent Name="TextEditor" Title="Text Editor" IsCloseable="False">
-                            <Border>
-                                <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" 
+                <ad:ResizingPanel Name="TextAndErrors" ResizeWidth="*" ResizeHeight="*" EffectiveSize="517,141.5" Orientation="Vertical">
+
+                    <ad:DocumentPane>
+                        <ad:DocumentContent Name="TextEditor" Title="Text Editor" IsCloseable="False">
+
+                            <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" 
                                        ShowLineNumbers="{Binding Source={x:Static p:Settings.Default}, Path=Editor_ShowLineNumbers}"
                                        WordWrap="{Binding Source={x:Static p:Settings.Default}, Path=Editor_WordWrap}" Drop="txtCode_Drop" DragEnter="txtCode_DragEnter">
-                                    <avalonedit:TextEditor.ContextMenu>
-                                        <ContextMenu >
-                                            <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
-                                            <MenuItem Header="Cut" Command="ApplicationCommands.Cut"/>
-                                            <MenuItem Header="Paste" Command="ApplicationCommands.Paste"/>
-                                            <Separator />
-                                            <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}"/>
-                                            <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
-                                            <MenuItem Header="En-Scope" Click="Enscope_Click"/>
-                                            <Separator/>
-                                            <MenuItem Header="Mark item in Overlay (if possible)" Click="MarkAtOffsetClick" />
-                                        </ContextMenu>
-                                    </avalonedit:TextEditor.ContextMenu>
-                                </avalonedit:TextEditor>
-                            </Border>
-                       
-                       </ad:DockableContent>
-                        </ad:DockablePane>
-                       
-                    </ad:ResizingPanel>
-                    <ad:ResizingPanel>
+                                <avalonedit:TextEditor.ContextMenu>
+                                    <ContextMenu >
+                                        <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
+                                        <MenuItem Header="Cut" Command="ApplicationCommands.Cut"/>
+                                        <MenuItem Header="Paste" Command="ApplicationCommands.Paste"/>
+                                        <Separator />
+                                        <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}"/>
+                                        <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
+                                        <MenuItem Header="En-Scope" Click="Enscope_Click"/>
+                                        <Separator/>
+                                        <MenuItem Header="Mark item in Overlay (if possible)" Click="MarkAtOffsetClick" />
+                                    </ContextMenu>
+                                </avalonedit:TextEditor.ContextMenu>
+                            </avalonedit:TextEditor>
+
+                        </ad:DocumentContent>
+                    </ad:DocumentPane>
                     <ad:DockablePane ad:ResizingPanel.ResizeHeight="200" SelectedIndex="0" >
-                            <ad:DockableContent Name="StatusDock" Title="Status" IsCloseable="False">
+                        <ad:DockableContent Name="StatusDock" Title="Status" IsCloseable="False">
                             <RichTextBox  HorizontalAlignment="Stretch"  Name="txtStatus" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
                         </ad:DockableContent>
-                            <ad:DockableContent Name="PdflatexDock" Title="Pdflatex" IsCloseable="False">
+                        <ad:DockableContent Name="PdflatexDock" Title="Pdflatex" IsCloseable="False">
                             <RichTextBox  HorizontalAlignment="Stretch"  Name="txtTexout" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
                         </ad:DockableContent>
-                            <ad:DockableContent Name="ErrorsDock" Title="Errors" IsCloseable="False">
+                        <ad:DockableContent Name="ErrorsDock" Title="Errors" IsCloseable="False">
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible">
                                 <ListView Name="lstErrors" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                   IsSynchronizedWithCurrentItem="True"                                  
@@ -648,13 +642,10 @@
                             </ScrollViewer>
                         </ad:DockableContent>
                     </ad:DockablePane>
-                    </ad:ResizingPanel>
-
                 </ad:ResizingPanel>
-                
-                <ad:ResizingPanel Name="PdfView">
-                    
-                    <ad:DockablePane>
+
+                <ad:ResizingPanel ResizeWidth="450">
+                <ad:DockablePane>
 
 
                         <ad:DockableContent Name="Preview" Title="Preview" IsCloseable="False">
@@ -677,10 +668,9 @@
 
                         </ad:DockableContent>
                     </ad:DockablePane>
-                    
                 </ad:ResizingPanel>
-                
-                
+
+
             </ad:ResizingPanel>
 
         </ad:DockingManager>
