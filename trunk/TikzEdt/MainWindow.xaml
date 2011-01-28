@@ -564,8 +564,11 @@
                 <ad:ResizingPanel ResizeWidth="150">
                 <ad:DockablePane>
                         <ad:DockableContent Name="Files" Title="Files" IsCloseable="False" >
-                        
-                        
+                            <ListView Name="lstFiles" MouseRightButtonUp="lstFile_MouseRightButtonUp" MouseDoubleClick="lstFiles_MouseDoubleClick">
+                                <ListView.ToolTip>
+                                    TeX-files in current working directory
+                                </ListView.ToolTip>
+                            </ListView>
                         </ad:DockableContent>
                         <ad:DockableContent Name="Snippets" Title="Snippets" IsCloseable="False">
                        
@@ -580,7 +583,8 @@
 
                 <ad:ResizingPanel Name="TextAndErrors" ResizeWidth="*" ResizeHeight="*" EffectiveSize="517,141.5" Orientation="Vertical">
 
-                    <ad:DocumentPane>
+                    <ad:DocumentPane Name="TextEditorsPane" >
+                        <ad:DockableContent></ad:DockableContent>
                         <ad:DocumentContent Name="TextEditor" Title="Text Editor" IsCloseable="False">
 
                             <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" 

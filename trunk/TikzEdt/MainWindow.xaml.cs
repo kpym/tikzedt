@@ -1050,8 +1050,40 @@ namespace TikzEdt
             {
                 stream.Close();
             }
+
+            ShowFilesOfCurrentDirectory();  
             
         }
+
+        private void ShowFilesOfCurrentDirectory()
+        {
+            lstFiles.Items.Clear();
+
+            string[] Files = Directory.GetFiles(Helper.GetCurrentWorkingDir(), "*" + Helper.GetPreviewFilenameExt());            
+
+            foreach (string file in Files)
+            {
+                if (!file.EndsWith(Helper.GetPreviewFilename() + Helper.GetPreviewFilenameExt()) && !System.IO.Path.GetFileName(file).StartsWith(Consts.cTempFile))
+                {
+                    TextBlock textBlock1 = new TextBlock();
+                    textBlock1.Text = System.IO.Path.GetFileNameWithoutExtension(file);
+                   
+                    if (System.IO.Path.GetFileName(file) == CurFile)
+                    {
+                        lstFiles.SelectedIndex = lstFiles.Items.Count;
+                        //textBlock1.FontStyle = System.Windows.FontStyles.Oblique;
+                        textBlock1.FontWeight = System.Windows.FontWeights.Bold;
+                    }
+                    lstFiles.Items.Add(textBlock1);
+
+
+                }
+            }
+
+            
+        }
+
+
         private bool TryDisposeFile(bool DeleteTemporaryFiles = true)
         {
             if (ChangesMade)
@@ -1185,6 +1217,8 @@ namespace TikzEdt
             AddStatusLine("Working directory is now: " + Helper.GetCurrentWorkingDir());
 
             CleanupForNewFile();
+
+            ShowFilesOfCurrentDirectory(); 
 
             isLoaded = true;
         }
@@ -1914,7 +1948,7 @@ namespace TikzEdt
         {
 
         }
-
+        
         private void lstErrors_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             // jump to source of selected error
@@ -1934,6 +1968,37 @@ namespace TikzEdt
             }
         }
 
+        private void lstFiles_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {            
+            TextBlock item = lstFiles.SelectedItem as TextBlock;
+            if (TryDisposeFile())
+                LoadFile(Helper.GetCurrentWorkingDir() + "\\" + item.Text + ".tex");
+            
+        }
+        private void lstFile_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            TextBlock item = lstFiles.SelectedItem as TextBlock;
+            string file = item.Text;
+
+            var documentContent = new AvalonDock.DocumentContent();
+            documentContent.Title = file;
+            
+            ICSharpCode.AvalonEdit.TextEditor newEditor = new ICSharpCode.AvalonEdit.TextEditor();
+            newEditor.ShowLineNumbers = txtCode.ShowLineNumbers;
+            newEditor.WordWrap = txtCode.WordWrap;
+            newEditor.SyntaxHighlighting = txtCode.SyntaxHighlighting;
+            newEditor.Background = Brushes.LightGray;
+            newEditor.Load(Helper.GetCurrentWorkingDir() + "\\" + file + ".tex");
+            newEditor.IsReadOnly = true;
+
+            documentContent.Content = newEditor;
+            documentContent.Show(dockManager);
+            //select the just added document
+            if(dockManager.ActiveDocument != null)
+                dockManager.ActiveDocument.ContainerPane.SelectedIndex = 0;
+        }
+        
+        
         private bool txtCode_Goto(int pos, bool HighlightLine = false, bool HighlightChar = false)
         {
             if (pos >= 1)
