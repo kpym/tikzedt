@@ -569,7 +569,22 @@ namespace TikzEdt
 
         public static void AddStatusLine(string text, bool lError = false)
         {
-            ((MainWindow)Application.Current.Windows[0])._AddStatusLine(text, lError);
+            if (Application.Current.Dispatcher.CheckAccess())
+            {
+                MainWindow mw = ((MainWindow)Application.Current.Windows[0]);
+                if (mw != null)
+                    mw._AddStatusLine(text, lError);
+            }
+            else
+            {
+                Application.Current.Dispatcher.Invoke(new Action(delegate()
+                    {
+                        MainWindow mw = ((MainWindow)Application.Current.Windows[0]);
+                        if (mw != null)
+                            mw._AddStatusLine(text, lError);
+                    }
+                    ));
+            }
         }
         private void _AddStatusLine(string text, bool lError = false)
         {
