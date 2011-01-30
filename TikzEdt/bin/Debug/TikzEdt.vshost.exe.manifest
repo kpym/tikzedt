@@ -79,6 +79,18 @@
     </dependentAssembly>
   </dependency>
   <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AvalonDock.dll" size="322560">
+      <assemblyIdentity name="AvalonDock" version="1.3.3571.0" publicKeyToken="85A1E0ADA7EC13E4" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>POR2f6iwDU/4f730rT+cpRvuoV0=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ICSharpCode.AvalonEdit.dll" size="540672">
       <assemblyIdentity name="ICSharpCode.AvalonEdit" version="4.0.0.5950" publicKeyToken="9CC39BE672370310" language="neutral" processorArchitecture="msil" />
       <hash>
@@ -91,14 +103,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PDFLibNet.dll" size="5605376">
-      <assemblyIdentity name="PDFLibNet" version="1.0.6.7" publicKeyToken="26D87F7D66FB2AEE" language="neutral" processorArchitecture="x86" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PDFLibNet.dll" size="5017088">
+      <assemblyIdentity name="PDFLibNet" version="1.0.6.6" publicKeyToken="26D87F7D66FB2AEE" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>ZZKi16hzAZ/UQWM8OOIDDQtgF/0=</dsig:DigestValue>
+        <dsig:DigestValue>IPCT5TzzPjSEAI9R5ET2wcs52w4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -115,14 +127,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="600576">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="613376">
       <assemblyIdentity name="TikzEdt" version="0.1.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>tPSc4l0HBnO1XPA0UfXMcTW6MNw=</dsig:DigestValue>
+        <dsig:DigestValue>/W3v6i8EKTqkiAq9kvpPYJFcIVM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -138,13 +150,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="TikzEdt.exe.config" size="6100">
+  <file name="TikzEdt.exe.config" size="6132">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>u0dG1MmaZ/rN4E0pPcsk/aZ9zfY=</dsig:DigestValue>
+      <dsig:DigestValue>jReh1k1IxksyYVlm/liQC54ZD6Y=</dsig:DigestValue>
     </hash>
   </file>
   <file name="tikzedt48.ico" size="9662">

@@ -47,7 +47,6 @@ namespace TikzEdt
             // initiate drawing process
             Point mousep = overlay.Rasterizer.RasterizePixel(p);
             origin = new Point(mousep.X, overlay.Height - mousep.Y);
-
             
             Canvas.SetLeft(PreviewRect, origin.X);
             Canvas.SetTop(PreviewRect, origin.Y);
@@ -55,6 +54,9 @@ namespace TikzEdt
             if (!overlay.canvas.Children.Contains(PreviewRect))
                 overlay.canvas.Children.Add(PreviewRect);
             PreviewRect.Visibility = Visibility.Visible;
+
+            if (!overlay.canvas.IsMouseCaptured)
+                overlay.canvas.CaptureMouse();
         }
         public override void OnLeftMouseButtonUp(MouseButtonEventArgs e, Point p)
         {
@@ -175,6 +177,9 @@ namespace TikzEdt
             if (!overlay.canvas.Children.Contains(PreviewEllipse))
                 overlay.canvas.Children.Add(PreviewEllipse);
             PreviewEllipse.Visibility = Visibility.Visible;
+
+            if (!overlay.canvas.IsMouseCaptured)
+                overlay.canvas.CaptureMouse();
         }
         public override void OnLeftMouseButtonUp(MouseButtonEventArgs e, Point p)
         {
@@ -220,7 +225,10 @@ namespace TikzEdt
                     width = Math.Round(width, (int)Properties.Settings.Default.RoundToDecimals);
                     height = Math.Round(height, (int)Properties.Settings.Default.RoundToDecimals);
 
-                    curAddTo.AddChild(new Parser.Tikz_Something(" ellipse (" + width + " and " + height + ")" ));
+                    if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control) && width == height)
+                        curAddTo.AddChild(new Parser.Tikz_Something(" circle (" + width + ")" ));
+                    else
+                        curAddTo.AddChild(new Parser.Tikz_Something(" ellipse (" + width + " and " + height + ")"));
 
                     tc1.SetAbsPos(center);
 

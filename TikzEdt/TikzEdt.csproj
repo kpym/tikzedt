@@ -89,8 +89,9 @@
     <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\lib\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
-    <Reference Include="PDFLibNet">
-      <HintPath>..\lib\PDFLibNet.dll</HintPath>
+    <Reference Include="PDFLibNet, Version=1.0.6.6, Culture=neutral, PublicKeyToken=26d87f7d66fb2aee, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\cubesoft_pdflibnet\PDFLibNet.dll</HintPath>
     </Reference>
     <Reference Include="StringTemplate">
       <HintPath>..\lib\StringTemplate.dll</HintPath>

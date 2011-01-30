@@ -721,6 +721,10 @@ namespace TikzEdt
                 tool = ToolType.addedge;
             else if (sender == mnuAddPath)
                 tool = ToolType.addpath;
+            else if (sender == mnuRectangle)
+                tool = ToolType.rectangle;
+            else if (sender == mnuEllipse)
+                tool = ToolType.ellipse;
             else if (sender == mnuJumpSource)
             {
                 JumpToSourceDoIt(sender, e);

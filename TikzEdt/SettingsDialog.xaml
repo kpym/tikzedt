@@ -69,9 +69,18 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <TextBlock Margin="3" Text="Path to PdfLatex" Grid.Column="0" Grid.Row="0"></TextBlock>
-                    <TextBox Margin="3" Grid.Column="1" Grid.Row="0" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_pdflatex, Mode=TwoWay}"/>
-                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="1" Text="Path to Pdf Viewer" Grid.ColumnSpan="2"></TextBlock>
-                    <TextBox Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_externalviewer, Mode=TwoWay}"/>
+                    <TextBox Margin="3" Grid.Column="1" Grid.Row="0" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_pdflatex, Mode=TwoWay}">
+                        <TextBox.ToolTip>
+                            Usually the path to pdflatex should be included in the %PATH% environment variable.
+                            So you don't need the fully qualified path.
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="1" Text="External Pdf Viewer" Grid.ColumnSpan="2"> </TextBlock>
+                    <TextBox Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_externalviewer, Mode=TwoWay}">
+                        <TextBox.ToolTip>
+                            Leave empty to use the default application for opening pdf's.
+                        </TextBox.ToolTip>
+                    </TextBox>
                 </Grid>
             </TabItem>
             <TabItem>
