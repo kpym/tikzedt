@@ -209,7 +209,7 @@ namespace TikzEdt
                 data.RenderTransparent = RenderTransparent;
                 data.File = PdfPath;
                 data.Reload = ReloadFile;
-                AsyncBmpGenerator.RunWorkerAsync(data);
+                NextBmpJob = data;
 
                 return;
 
