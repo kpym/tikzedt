@@ -46,6 +46,7 @@
         <Word>circle</Word>
         <Word>grid</Word>
         <Word>rectangle</Word>
+        <Word>ellipse</Word>
         <Word>edge</Word>
         <Word>at</Word>
         <Word>--</Word>

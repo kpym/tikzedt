@@ -72,7 +72,7 @@ namespace TikzEdt
                 if (ChangesMade)
                     Title += "*";
                 // Add to MRU
-                if (_CurFile != Consts.defaultCurFile)
+                if (!CurFileNeverSaved)
                 {
                     RecentFileList.InsertFile(AbsoluteCurFilePath);
                 }

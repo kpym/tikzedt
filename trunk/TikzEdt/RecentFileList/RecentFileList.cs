@@ -155,6 +155,11 @@ namespace Common
                 {                    
                     _RecentFiles[i] = new RecentFile(i, RecentFiles[i]);
                     _RecentFiles[i].MenuItem = new MenuItem { Header = ShortenPathname(RecentFiles[i], MaxPathLength) };
+                    // add a tooltip if path was shortened
+                    if (RecentFiles[i].Length > MaxPathLength + Path.GetExtension(RecentFiles[i]).Length )
+                    {
+                        _RecentFiles[i].MenuItem.ToolTip = RecentFiles[i];
+                    }
                     _RecentFiles[i].Filepath = RecentFiles[i];
                     _RecentFiles[i].MenuItem.Click += MenuItem_Click;
                     FileMenu.Items.Insert(iMenuItem + i + 1, _RecentFiles[i].MenuItem);
@@ -193,6 +198,11 @@ namespace Common
 				string header = GetMenuItemText( r.Number + 1, r.Filepath, r.DisplayPath );
 
 				r.MenuItem = new MenuItem { Header = header };
+                // add a tooltip if path was shortened (a bit a hack)
+                if (r.Filepath.Length > MaxPathLength + Path.GetExtension(r.Filepath).Length )
+                {
+                    r.MenuItem.ToolTip = r.Filepath;
+                }
 				r.MenuItem.Click += MenuItem_Click;
 
 				FileMenu.Items.Insert( ++iMenuItem, r.MenuItem );

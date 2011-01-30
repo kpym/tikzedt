@@ -1535,7 +1535,10 @@ namespace TikzEdt.Parser
         }
 
         /// <summary>
-        /// 
+        /// Returns the coordinate transfor corresponding to an option, if possible.
+        /// If the option is not relevant for coordinate tranformation (or not supported), true is returned 
+        /// and newTrafo = oldTrafo. If the option is recognized, but the value cannot be determined,
+        /// false is returned and newTrafo shouldn't be used.
         /// </summary>
         /// <param name="to"></param>
         /// <param name="oldTrafo"></param>
@@ -1547,24 +1550,32 @@ namespace TikzEdt.Parser
             newTrafo = ret;
             if (to.type == Tikz_OptionType.keyval)
             {
-                if (to.numval == null && to.coordval == null)
-                    return false;
                 switch (to.key.Trim())
                 {
                     case "xscale":
+                        if (to.numval == null)
+                            return false;
                         ret.m[0, 0] = to.numval.GetInCM();
                         break;
                     case "yscale":
+                        if (to.numval == null)
+                            return false;
                         ret.m[1, 1] = to.numval.GetInCM();
                         break;
                     case "scale":
+                        if (to.numval == null)
+                            return false;
                         ret.m[0, 0] = to.numval.GetInCM();
                         ret.m[1, 1] = ret.m[0, 0];
                         break;
                     case "xshift":
+                        if (to.numval == null)
+                            return false;
                         ret.m[0, 2] = to.numval.GetInCM("pt");
                         break;
                     case "yshift":
+                        if (to.numval == null)
+                            return false;
                         ret.m[1, 2] = to.numval.GetInCM("pt");
                         break;
                     case "shift":
@@ -1602,14 +1613,21 @@ namespace TikzEdt.Parser
                         }                        
                         break;
                     case "rotate":
+                        if (to.numval == null)
+                            return false;
                         double angle = to.numval.GetInCM() * 2* Math.PI / 360;
                         ret.m[0, 0] = Math.Cos(angle);
                         ret.m[1, 0] = Math.Sin(angle);
                         ret.m[0, 1] = -Math.Sin(angle);
                         ret.m[1, 1] = Math.Cos(angle);
                         break;
+                    default:
+                        // option not relevant for coordinate computation (or not supported) -> ignore
+                        newTrafo = oldTrafo;
+                        return true;
                 }
             }
+            // if we get here, the option was recognized as relevant for coordinate transf., and the value could be read
             newTrafo = oldTrafo * ret;
             return true;
         }
