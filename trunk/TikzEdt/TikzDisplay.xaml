@@ -17,6 +17,6 @@
         <Image Grid.Row="0" HorizontalAlignment="Stretch" Name="image1" Stretch="None" VerticalAlignment="Stretch" 
                SnapsToDevicePixels="True"/>
         <TextBox Text="&lt;unavailable&gt;" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"
-                 FontWeight="Bold" Foreground="Silver" Name="lblUnavailable"/>
+                 FontWeight="Bold" Foreground="Silver" Name="lblUnavailable" BorderThickness="0" />
     </Grid>
 </UserControl>
