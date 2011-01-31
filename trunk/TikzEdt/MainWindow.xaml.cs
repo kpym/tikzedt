@@ -215,10 +215,8 @@ namespace TikzEdt
 
             ofd.CheckFileExists = true;
             ofd.ValidateNames = true;
-            ofd.Filter = "Tex Files|*.tex"+
-             "|All Files|*.*";
-            sfd.Filter = "Tex Files|*.tex"+
-             "|All Files|*.*";
+            ofd.Filter = "Tex Files|*.tex"+"|All Files|*.*";
+            sfd.Filter = "Tex Files|*.tex"+"|All Files|*.*";
             sfd.OverwritePrompt = true;
             sfd.ValidateNames = true;
 
@@ -605,6 +603,12 @@ namespace TikzEdt
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+            {
+                //MessageBox.Show(Directory.GetCurrentDirectory());
+                return;
+            }
+
             AddStatusLine("Welcome to TikzEdt");
             AddStatusLine("Help/feedback/feature requests/error reports are welcome");
 
@@ -1591,18 +1595,21 @@ namespace TikzEdt
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            dockManager.SaveLayout(Helper.GetLayoutConfigFilepath());
-            TikzEdt.Properties.Settings.Default.Save();
-
-            if (!TryDisposeFile())
-                e.Cancel = true;
-            else
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {
-                // Set closing flag
-                isClosing = true;
-                //FindDialog.txtCode = null;
-                if (FindDialog != null)
-                    FindDialog.Close();
+                //ad// dockManager.SaveLayout(Helper.GetLayoutConfigFilepath());
+                TikzEdt.Properties.Settings.Default.Save();
+
+                if (!TryDisposeFile())
+                    e.Cancel = true;
+                else
+                {
+                    // Set closing flag
+                    isClosing = true;
+                    //FindDialog.txtCode = null;
+                    if (FindDialog != null)
+                        FindDialog.Close();
+                }
             }
         }
 
@@ -1910,7 +1917,7 @@ namespace TikzEdt
 
         private string SavePdf(bool SaveAs)
         {
-            if (SaveAs == false && CurFile == Consts.defaultCurFile)
+            if (SaveAs == false && CurFileNeverSaved)
             {
                 AddStatusLine("Please save document first", true);
                 return "";
@@ -1931,6 +1938,8 @@ namespace TikzEdt
                 sfd.ValidateNames = true;
 
                 sfd.FileName = System.IO.Path.GetFileName(CurFile);
+                // change file extension to .pdf
+                sfd.FileName = Helper.RemoveFileExtension(sfd.FileName) + ".pdf";
                 sfd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
                 if (sfd.ShowDialog() != true)
                     return "";
@@ -1992,6 +2001,7 @@ namespace TikzEdt
         }
         private void lstFile_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
+            /* //ad//
             TextBlock item = lstFiles.SelectedItem as TextBlock;
             string file = item.Text;
 
@@ -2010,7 +2020,7 @@ namespace TikzEdt
             documentContent.Show(dockManager);
             //select the just added document
             if(dockManager.ActiveDocument != null)
-                dockManager.ActiveDocument.ContainerPane.SelectedIndex = 0;
+                dockManager.ActiveDocument.ContainerPane.SelectedIndex = 0; */
         }
         
         
@@ -2150,9 +2160,11 @@ namespace TikzEdt
 
         private void DockManager_Loaded(object sender, RoutedEventArgs e)
         {
-            if (File.Exists(Helper.GetLayoutConfigFilepath()))
+            /* //ad//
+            if (File.Exists(Helper.GetLayoutConfigFilepath()))            
                 dockManager.RestoreLayout(Helper.GetLayoutConfigFilepath());
-            dockManager.Visibility = System.Windows.Visibility.Visible;
+            TextEditorsPane.ShowHeader = false;
+            dockManager.Visibility = System.Windows.Visibility.Visible;  */
         }
 
     }
