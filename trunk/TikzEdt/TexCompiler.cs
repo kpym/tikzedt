@@ -359,7 +359,7 @@ namespace TikzEdt
                     //\usepackage[active,tightpage]{preview}
                     //\PreviewEnvironment{tikzpicture}
                     //and insert if required
-                    if (ContainsPreviewEnvironment(job.code) == false && ContainsDoNotInsertPreviewEnvironment(job.code) == false)
+                    if (ContainsPreviewEnvironment(job.code) == false && ContainsDoNotInsertPreviewEnvironment(job.code) == false && !job.GeneratePrecompiledHeaders)
                     {
                         string PreviewEnvCode = Environment.NewLine + @"\usepackage[active,tightpage]{preview}" + Environment.NewLine
                                                 + @"\PreviewEnvironment{tikzpicture}" + Environment.NewLine + Environment.NewLine;
@@ -401,7 +401,7 @@ namespace TikzEdt
             if (job.GeneratePrecompiledHeaders)
             {
                 texProcess.StartInfo.Arguments = "-ini -job-name=\"" + job.name
-                    + "\" \"&pdflatex " + System.IO.Path.GetFileName(job.path) + "\\dump\"";
+                    + "\" \"&pdflatex " + System.IO.Path.GetFileName(job.path) + "\\dump\"";                
             }
             else
             {

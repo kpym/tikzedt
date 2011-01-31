@@ -17,6 +17,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Threading;
 using System.Runtime.InteropServices;
+using System.Security.Permissions;
+using System.Security;
 
 //using System.Drawing;
 
@@ -192,6 +194,44 @@ namespace TikzEdt
 
         public static bool HasWritePermissionOnDir(string path)
         {
+            //**** This is still not  working well on my machine *******
+
+            // stupid method: try to write to a file 
+            string cFile = System.IO.Path.Combine(path, "TikzEdt_temp_todelete" + ".txt"); // DateTime.Now.Ticks.ToString()+
+            //string cFile2 = System.IO.Path.Combine(path, "TikzEdt_temp_todelete" + ".txt"); // DateTime.Now.Ticks.ToString()+
+            StreamWriter sw = null;
+            StreamReader sr = null;
+            string secret = DateTime.Now.Ticks.ToString();
+            try
+            {
+                sw = new StreamWriter(cFile);
+                sw.WriteLine(secret);
+                sw.Close();
+
+                sr = new StreamReader(cFile);
+                string s = sr.ReadLine();
+                sr.Close();
+                
+                //MainWindow.AddStatusLine("Testen " + cFile);
+                File.Delete(cFile);
+
+                if (secret == s)
+                    return true;                
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                if (sw != null)
+                    sw.Close();
+                if (sr != null)
+                    sr.Close();
+            }
+            return false;
+
+            // this doesn't seem to work on my machine
             var writeAllow = false;
             var writeDeny = false;
             var accessControlList = Directory.GetAccessControl(path);
@@ -259,7 +299,11 @@ namespace TikzEdt
         //this is where the .fmt is created.
         public static string GetPrecompiledHeaderPath()
         {
-            return GetAppdataPath() + "\\";
+            string s = GetAppdataPath();
+            if (s.EndsWith("\\"))
+                return s;
+            else
+                return s + "\\";
         }
         public static string GetPrecompiledHeaderFilename()
         {

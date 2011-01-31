@@ -198,9 +198,9 @@
             <MenuItem Header="_Settings">
                 <MenuItem Header="Snippet Manager..." Click="SnippetMenuClick"/>
                 <MenuItem Header="Settings..." Click="SettingsMenuClick"/>
-                <MenuItem Header="Test..." Click="TestClick"/>
-                <MenuItem Header="Test...Updatetexts" Click="TestUpdClick"/>
-                <MenuItem Header="Test...Error Listview" Click="Test2Click"/>
+                 <!-- <MenuItem Header="Test..." Click="TestClick"/>
+               <MenuItem Header="Test...Updatetexts" Click="TestUpdClick"/>
+                <MenuItem Header="Test...Error Listview" Click="Test2Click"/> -->
             </MenuItem>
             <MenuItem Header="?">
                 <MenuItem Header="Help..." Command="ApplicationCommands.Help"/>
@@ -525,9 +525,10 @@
                 </DockPanel>
                 <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" 
                                        ShowLineNumbers="{Binding Source={x:Static p:Settings.Default}, Path=Editor_ShowLineNumbers}"
-                                       WordWrap="{Binding Source={x:Static p:Settings.Default}, Path=Editor_WordWrap}" Drop="txtCode_Drop" DragEnter="txtCode_DragEnter">
+                                       WordWrap="{Binding Source={x:Static p:Settings.Default}, Path=Editor_WordWrap}" Drop="txtCode_Drop" DragEnter="txtCode_DragEnter"
+                                       ContextMenuOpening="txtCodeContextMenu_ContextMenuOpening">
                     <avalonedit:TextEditor.ContextMenu>
-                        <ContextMenu >
+                        <ContextMenu>
                             <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
                             <MenuItem Header="Cut" Command="ApplicationCommands.Cut"/>
                             <MenuItem Header="Paste" Command="ApplicationCommands.Paste"/>

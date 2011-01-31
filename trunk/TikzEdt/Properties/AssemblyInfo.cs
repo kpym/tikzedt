@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("TikzEdt")]
 [assembly: AssemblyDescription("A semigraphical Tikz editor")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Open Source")]
+[assembly: AssemblyCompany("TikzEdt")]
 [assembly: AssemblyProduct("TikzEdt")]
 [assembly: AssemblyCopyright("Copyright © 2010")]
 [assembly: AssemblyTrademark("")]

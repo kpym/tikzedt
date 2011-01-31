@@ -610,7 +610,7 @@ namespace TikzEdt
             }
 
             AddStatusLine("Welcome to TikzEdt");
-            AddStatusLine("Help/feedback/feature requests/error reports are welcome");
+            AddStatusLine("This software is under development. All help/feedback/feature requests/error reports are welcome.");
 
             /*
             FrameworkElement overflowGrid = tlbMode.Template.FindName("OverflowGrid", tlbMode) as FrameworkElement;
@@ -660,7 +660,7 @@ namespace TikzEdt
 
             //set path to user-defined application data. depending on cmdline parameter user data
             //is stored next to .exe or in %appdata%. If program dir is not writable %userappdata% is used.
-            if (CmdLine["userapp"] != null || !Helper.IsAppDirWritable())
+            if (true || CmdLine["userapp"] != null || !Helper.IsAppDirWritable()) // hack: always use Appdata folder (...since I couldn't make HasWritePermissionOnDir work)
                 Helper.SetAppdataPath(Helper.AppdataPathOptions.AppData);
             else
                 Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
@@ -1617,8 +1617,12 @@ namespace TikzEdt
 
         private void TestClick(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText(pdfOverlay1.ParseTree.ToString());
-            return;
+
+            MessageBox.Show("wp: " + Helper.HasWritePermissionOnDir(@"C:\Program Files").ToString());
+            MessageBox.Show("wp: " + Helper.HasWritePermissionOnDir(@"C:\Program Files (x86)\TikzEdt\TikzEdt 0.1").ToString());
+            MessageBox.Show("wp: " + Helper.GetAppDir() + " : " + Helper.HasWritePermissionOnDir(Helper.GetAppDir()).ToString());
+            //Clipboard.SetText(pdfOverlay1.ParseTree.ToString());
+            //return;
             //PDFLibNet.PDFWrapper p = new PDFLibNet.PDFWrapper();
             //p.LoadPDF("testtight.pdf");
 
@@ -1888,6 +1892,12 @@ namespace TikzEdt
 
         private void MarkAtOffsetClick(object sender, RoutedEventArgs e)
         {
+            // the mouse position upon context menu opening is stored in mousepos_whenmenuopened
+            // first place the caret at this position
+            if (mousepos_whenmenuopened >= 0)
+            {
+                txtCode.CaretOffset = mousepos_whenmenuopened; 
+            }
             pdfOverlay1.MarkObjectAt(txtCode.CaretOffset);
         }
 
@@ -2167,6 +2177,24 @@ namespace TikzEdt
                 dockManager.RestoreLayout(Helper.GetLayoutConfigFilepath());
             TextEditorsPane.ShowHeader = false;
             dockManager.Visibility = System.Windows.Visibility.Visible;  */
+        }
+
+        private void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+
+        }
+
+        int mousepos_whenmenuopened = -1;  // The mouse position (as a text offset) upon context menu opening; -1 = could not be determined
+        private void txtCodeContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            // the mouse position upon context menu opening is stored in mousepos_whenmenuopened
+            Nullable<TextViewPosition> vp = txtCode.TextArea.TextView.GetPosition(new Point(e.CursorLeft, e.CursorTop));
+            if (vp != null)
+            {
+                mousepos_whenmenuopened = txtCode.Document.GetOffset(vp.Value.Line, vp.Value.Column);
+            }
+            else
+                mousepos_whenmenuopened = -1;
         }
 
     }
