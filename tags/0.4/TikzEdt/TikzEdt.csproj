@@ -1,0 +1,485 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8DC4C41D-2095-4213-A46B-121EB550A2ED}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TikzEdt</RootNamespace>
+    <AssemblyName>TikzEdt</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://www.willwacher.de/</InstallUrl>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>0.1.0.2</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>tikzedt48.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>B8A3E3FE43C9296C0BBED5CDCB2F2D63E9635BAD</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>TikzEdt_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="antlr.runtime">
+      <HintPath>..\lib\antlr.runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Utility">
+      <HintPath>..\lib\Antlr3.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonDock, Version=1.3.3571.0, Culture=neutral, PublicKeyToken=85a1e0ada7ec13e4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.AvalonEdit">
+      <HintPath>..\lib\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
+    <Reference Include="PDFLibNet, Version=1.0.6.6, Culture=neutral, PublicKeyToken=26d87f7d66fb2aee, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\PDFLibNet.dll</HintPath>
+    </Reference>
+    <Reference Include="StringTemplate">
+      <HintPath>..\lib\StringTemplate.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WPFToolkit.Extended, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\wpfextoolkit v1.2\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="CmdLineArgumentParser.cs" />
+    <Compile Include="Editor\CodeCompleter.cs" />
+    <Compile Include="Data\CompletionDS.cs">
+      <DependentUpon>CompletionDS.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Data\CompletionDS.Designer.cs">
+      <DependentUpon>CompletionDS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editor\FindReplaceDialog.xaml.cs">
+      <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Helper.cs" />
+    <Compile Include="MyCompletionData.cs" />
+    <Compile Include="output\simpletikzLexer.cs" />
+    <Compile Include="output\simpletikzParser.cs" />
+    <Compile Include="OverlayTool.cs" />
+    <Compile Include="Parser\ANTLRErrorMsg.cs" />
+    <Compile Include="Rect_and_EllipseTools.cs" />
+    <Compile Include="TexOutputParser.cs" />
+    <Compile Include="PdfOverlay.xaml.cs">
+      <DependentUpon>PdfOverlay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RasterControl.xaml.cs">
+      <DependentUpon>RasterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RecentFileList\RecentFileList.cs" />
+    <Compile Include="SettingsDialog.xaml.cs">
+      <DependentUpon>SettingsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Snippets\SnippetList.xaml.cs">
+      <DependentUpon>SnippetList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Snippets\SnippetManager.xaml.cs">
+      <DependentUpon>SnippetManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Snippets\SnippetsDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="SourceManager.cs" />
+    <Compile Include="TexCompiler.cs" />
+    <Compile Include="TikzDisplay.xaml.cs">
+      <DependentUpon>TikzDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TikzEdtAbout.xaml.cs">
+      <DependentUpon>TikzEdtAbout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Parser\TikzParser.cs" />
+    <Compile Include="Parser\TikzParseTree.cs" />
+    <Compile Include="WindowSetting.cs" />
+    <Page Include="Editor\FindReplaceDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Images\All_icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="PdfOverlay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RasterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Snippets\SnippetList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Snippets\SnippetManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TikzDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TikzEdtAbout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Editor\CodeCompletions.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\CompletionDS.xsc">
+      <DependentUpon>CompletionDS.xsd</DependentUpon>
+    </None>
+    <None Include="Data\CompletionDS.xsd" />
+    <None Include="Data\CompletionDS.xss">
+      <DependentUpon>CompletionDS.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="Snippets\SnippetSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Snippets\SnippetsDataSet.xsc">
+      <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Snippets\SnippetsDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SnippetsDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Snippets\SnippetsDataSet.xss">
+      <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Editor\TikzSyntax.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="TikzEdt_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\112_ArrowReturnLeft_Blue_48x48_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\112_ArrowReturnRight_Blue_48x48_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\112_RefreshArrow_Blue_48x48_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\126_Edit_48x48_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\2391_ZoomOut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\2392_ZoomIn_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\openfolderHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\saveHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\NewDocument_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PlayHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Gear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bmpvert.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edge.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\empty.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\hand.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\path.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\radial.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\base_cursor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pencil_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\base_cog_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pencil_321.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\XML_Schema.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\settings_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1409_Monitor_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1435_ClipBoard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1475_Text Balloon_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1547_ballpointpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AutoList.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Autoplay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\batfile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Start.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\base_star_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="tikzedtlogo48.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo48.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="tikzedt48.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\tikzedt48.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\OpenPL.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SaveHL.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logotight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PasteHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ZoomOutHS.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ZoomInHS.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ZoomInHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bmpvert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\path.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ZoomOutHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Rectangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Ellipse.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,132 @@
+\tikzstyle{vertex} = [circle, minimum size=22pt, shading=ball, text=black, very thick, draw=black!55, top color=white,bottom color=black!15, inner sep=0]
+\tikzstyle{sink} = [vertex,top color=black!15,bottom color=black!30, inner sep=0]
+
+\tikzstyle{edge} = [line to]
+\tikzstyle{comm edge} = [edge,draw=black!30,dotted,very thick]
+\tikzstyle{tree edge} = [edge,very thick,<-,>=stealth,shorten <= .2pt]
+
+\pgfdeclarelayer{comm}
+\pgfdeclarelayer{tree}
+\pgfsetlayers{comm,tree,main}
+
+\makeatletter
+
+\pgfdeclareshape{mymsg}{
+  \inheritsavedanchors[from=rectangle] % this is nearly a rectangle
+  \inheritanchorborder[from=rectangle]
+  \inheritanchor[from=rectangle]{center}
+  \inheritanchor[from=rectangle]{north}
+  \inheritanchor[from=rectangle]{south}
+  \inheritanchor[from=rectangle]{west}
+  \inheritanchor[from=rectangle]{east}
+  \inheritanchor[from=rectangle]{southwest}
+  \inheritanchor[from=rectangle]{northeast}
+  % ... and possibly more
+  \backgroundpath{% this is new
+    % store lower left in xa/ya and upper right in xb/yb
+    \southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    % compute center of envelope
+    \pgf@xc=\pgf@xb \advance\pgf@xc by-2.3mm % this should be a parameter
+    \pgf@yc=\pgf@yb \advance\pgf@yc by-1.2mm
+    % construct main path
+    \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}  % lower left
+    \pgfpathlineto{\pgfpoint{\pgf@xa}{\pgf@yb}}  % to upper left
+    \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}  % to upper right
+    \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@ya}}  % to lower right
+    \pgfpathclose
+    % add little corner
+%    \advance\pgf@xa by+0.3mm
+%    \advance\pgf@xb by-0.3mm
+    \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@yb}}
+    \pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yc}}
+    \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}
+    \pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yc}}
+  }
+}
+
+\tikzstyle{msg} = [mymsg, minimum width=4.6mm, minimum height=2.3mm, semithick, draw=black!55, top color=white,bottom color=black!5, inner sep=0]
+
+%\tikzstyle{bufframe} = [fill=white, draw=black!55, semithick, opacity=.3, circular drop shadow={opacity=.8}]
+\tikzstyle{bufframe} =  [fill=white, draw=black!20, thin, opacity=.95]
+\tikzstyle{bufshadow} = [fill=none, draw=none, thin]
+\tikzstyle{buffill} =   [draw=black!70, semithick, shade=ball, top color=black!60, bottom color=black!70]
+
+\begin{tikzpicture}[scale=0.9]
+  \useasboundingbox (0.0,0.0) rectangle (14.9,7.5);
+
+  \foreach \pos/\name/\label/\type in {
+        {(0.9,2.3)/v0/$v_{0}$/sink},
+        {(2.5,4.7)/v1/$v_{1}$/vertex},
+        {(0.5,6.8)/v2/$v_{2}$/vertex},
+        {(4.9,6.5)/v3/$v_{3}$/vertex},
+        {(5.4,4.3)/v4/$v_{4}$/vertex},
+        {(7.6,5.4)/v5/$v_{5}$/vertex},
+        {(7.8,2.8)/v6/$v_{6}$/vertex},
+        {(5.9,.6)/v7/$v_{7}$/vertex},
+        {(10.4,1.5)/v8/$v_{8}$/vertex},
+        {(11.2,4.2)/v9/$v_{9}$/vertex},
+        {(10.2,6.5)/v10/$v_{10}$/vertex},
+        {(12.7,6.2)/v11/$v_{11}$/vertex},
+        {(13.0,2.5)/v12/$v_{12}$/vertex},
+        {(14.2,0.7)/v13/$v_{13}$/vertex}}
+     \node[\type] (\name) at \pos {\label};
+
+  % buffer fill levels
+  \foreach \name/\lvl in {
+        {v1/.82},
+        {v2/.10},
+        {v3/.21},
+        {v4/.65},
+        {v5/.31},
+        {v6/.90},
+        {v7/.15},
+        {v8/.17},
+        {v9/.10},
+        {v10/.25},
+        {v11/.06},
+        {v12/.12},
+        {v13/.08}}
+   {
+     \filldraw[bufshadow] (\name)+(2.0mm,5.4mm) arc (90:-270:1.8mm);  % buffer shadow
+     \filldraw[bufframe]  (\name)+(2.0mm,5.4mm) arc (90:-270:1.8mm);  % buffer frame
+     \filldraw[buffill]   (\name)++(2.0mm,3.6mm) -- ++(0,1.8mm) arc (90:\lvl * -360+90:1.8mm) -- cycle; % fill level
+   }
+
+  \begin{pgfonlayer}{comm}
+    \foreach \from/\to in {
+        {v0/v1},
+        {v1/v2}, {v1/v3}, {v1/v4},
+        {v3/v4}, {v3/v5},
+        {v4/v5}, {v4/v6},
+        {v5/v6}, {v5/v10},
+        {v6/v7}, {v6/v8},
+        {v8/v9}, {v8/v12},
+        {v9/v10}, {v9/v11}, {v9/v12},
+        {v10/v11},
+        {v12/v13}}
+      \draw[comm edge] (\from) -- (\to);
+  \end{pgfonlayer}
+
+  \begin{pgfonlayer}{tree}
+    \foreach \from/\to in {
+        {v0/v1},
+        {v1/v2}, {v1/v3}, {v1/v4},
+        {v4/v5}, {v4/v6},
+        {v5/v10},
+        {v6/v7}, {v6/v8},
+        {v8/v12},
+        {v10/v9}, {v10/v11},
+        {v12/v13}}
+      \draw[tree edge] (\from) -- (\to);
+  \end{pgfonlayer}
+
+  % place message
+  \path (v0) -- node[msg] {}  (v1);
+  \path (v13) -- node[msg] {}  (v12);
+  \path (v10) -- node[msg] {}  (v5);
+
+\node (v150) at (13,7) [msg] {};
+
+\end{tikzpicture}
+
