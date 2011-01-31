@@ -1,0 +1,33 @@
+<DockingManager version="1.3.0">
+    <ResizingPanel ResizeWidth="*" ResizeHeight="*" EffectiveSize="0,0" Orientation="Vertical">
+        <ResizingPanel ResizeWidth="*" ResizeHeight="*" EffectiveSize="792,263" Orientation="Horizontal">
+            <ResizingPanel ResizeWidth="208" ResizeHeight="*" EffectiveSize="89.5,263" Orientation="Horizontal">
+                <DockablePane ResizeWidth="*" ResizeHeight="*" EffectiveSize="89.5,263" ID="290ce4bd-2c68-4280-a88f-f6cf3f5200e5" Anchor="Left" SelectedIndex="1" IsAutoHidden="false">
+                    <DockableContent Name="Files" FloatingWindowSize="250,400" />
+                    <DockableContent Name="Snippets" FloatingWindowSize="250,400" />
+                </DockablePane>
+            </ResizingPanel>
+            <ResizingPanel ResizeWidth="*" ResizeHeight="*" EffectiveSize="0,263" Orientation="Vertical">
+                <DocumentPane IsMain="true" ResizeWidth="*" ResizeHeight="*" EffectiveSize="0,263">
+                    <DocumentContent Name="TextEditor" />
+                </DocumentPane>
+            </ResizingPanel>
+            <DockablePane ResizeWidth="809" ResizeHeight="*" EffectiveSize="690.5,263" ID="287f5c03-5278-42b0-b382-a049b86d2b17" Anchor="Right" IsAutoHidden="false">
+                <DockableContent Name="Preview" FloatingWindowSize="250,400" ChildIndex="0" Width="100" Height="851" Anchor="Right" State="Docked" />
+            </DockablePane>
+        </ResizingPanel>
+        <ResizingPanel ResizeWidth="*" ResizeHeight="202" EffectiveSize="792,202" Orientation="Horizontal">
+            <DockablePane ResizeWidth="0.31791154927361*" ResizeHeight="202" EffectiveSize="247.971008433416,202" ID="d4ee93e2-5bd9-49b3-aa9e-1eef26d1c11f" Anchor="Bottom" IsAutoHidden="false">
+                <DockableContent Name="StatusDock" FloatingWindowSize="250,400" ChildIndex="0" Width="651" Height="200" Anchor="Bottom" State="Docked" />
+            </DockablePane>
+            <DockablePane ResizeWidth="0.349661850561131*" ResizeHeight="*" EffectiveSize="272.736243437682,202" ID="4a08270b-8968-43d6-acdf-f00e989c36ef" Anchor="Bottom" IsAutoHidden="false">
+                <DockableContent Name="PdflatexDock" FloatingWindowSize="250,400" ChildIndex="1" Width="1457.16062176166" Height="202" Anchor="Bottom" State="Docked" />
+            </DockablePane>
+            <DockablePane ResizeWidth="0.332426600165259*" ResizeHeight="*" EffectiveSize="259.292748128902,202" ID="96aead06-3b35-4fc8-aa79-dac6c420e0a4" Anchor="Bottom" IsAutoHidden="false">
+                <DockableContent Name="ErrorsDock" FloatingWindowSize="250,400" ChildIndex="2" Width="1680" Height="202" Anchor="Bottom" State="Docked" />
+            </DockablePane>
+        </ResizingPanel>
+    </ResizingPanel>
+    <Hidden />
+    <Windows />
+</DockingManager>
