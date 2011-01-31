@@ -1131,12 +1131,13 @@ namespace TikzEdt
         }
         private void OpenCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            ofd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
+            //ofd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
+            ofd.InitialDirectory = Directory.GetCurrentDirectory();
             ofd.FileName = System.IO.Path.GetFileName(CurFile);
             if (ofd.ShowDialog() == true)
             {
                 if (TryDisposeFile())
-                    LoadFile(ofd.FileName);             
+                    LoadFile(ofd.FileName);
             }
         }
 
@@ -1148,7 +1149,8 @@ namespace TikzEdt
             string OldFileName = CurFile;                 
 
             sfd.FileName = System.IO.Path.GetFileName(CurFile);
-            sfd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
+            //sfd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
+            sfd.InitialDirectory = Directory.GetCurrentDirectory();
 
             bool WeNeedRecompilationAfterSave = false;
             if (CurFileNeverSaved || saveas)
