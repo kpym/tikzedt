@@ -103,14 +103,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PDFLibNet.dll" size="5017088">
-      <assemblyIdentity name="PDFLibNet" version="1.0.6.6" publicKeyToken="26D87F7D66FB2AEE" language="neutral" processorArchitecture="x86" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PDFLibNet.dll" size="5605376">
+      <assemblyIdentity name="PDFLibNet" version="1.0.6.7" publicKeyToken="26D87F7D66FB2AEE" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>IPCT5TzzPjSEAI9R5ET2wcs52w4=</dsig:DigestValue>
+        <dsig:DigestValue>ZZKi16hzAZ/UQWM8OOIDDQtgF/0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -127,14 +127,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="613376">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TikzEdt.exe" size="607232">
       <assemblyIdentity name="TikzEdt" version="0.1.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>FNvlMJq180cSx5ISTMLb4McqaN4=</dsig:DigestValue>
+        <dsig:DigestValue>NES4OmTA/du69kPydzbQLGaoeI8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

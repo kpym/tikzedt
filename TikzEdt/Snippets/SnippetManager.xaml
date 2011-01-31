@@ -39,8 +39,8 @@
                                 </Expander.Header>
                             <Expander.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                    <GradientStop Color="LightBlue" Offset="0.263"/>
-                                    <GradientStop Color="LightBlue" Offset="0.942"/>
+                                    <GradientStop Color="Gainsboro"  Offset="0.263"/>
+                                    <GradientStop Color="WhiteSmoke" Offset="0.942"/>
                                 </LinearGradientBrush>
                             </Expander.Background>
                             <Grid Background="White">
