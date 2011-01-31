@@ -502,7 +502,7 @@ namespace TikzEdt
 
             //texProcess.EnableRaisingEvents = true;
             //texProcess.StartInfo.Arguments = "-quiet -halt-on-error " + Consts.cTempFile + ".tex";
-            texProcess.StartInfo.FileName = "pdflatex";
+            texProcess.StartInfo.FileName = Properties.Settings.Default.Path_pdflatex;//"pdflatex";
             texProcess.StartInfo.CreateNoWindow = true;
             texProcess.StartInfo.UseShellExecute = false;
             texProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
