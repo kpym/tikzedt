@@ -300,21 +300,70 @@
             <ToolBar Name="tlbTools"  Height="28" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}" Band="1">
                 <RadioButton HorizontalAlignment="Left" Name="rbToolMove" VerticalAlignment="Top" IsChecked="True" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/base_cursor.png" Style="{StaticResource toolbarImageStyle}" Stretch="Fill" Height="16" Width="16"/>
+                    <RadioButton.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="Select and move tool" FontWeight="Bold"></TextBlock>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                Use this tool to select and move things. The coordinate raster is automatically adjusted to the 
+                                coordinate system (Polar/Cartesian) at the object moved. Coordinate transformations are respected.
+                            </TextBlock>
+                        </StackPanel>
+                    </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolAddVert" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/bmpvert.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <RadioButton.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="Node tool" FontWeight="Bold"></TextBlock>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                A simple tool to create nodes. Choose the style you want to apply in the "Node style" dropdown on the right.
+                            </TextBlock>
+                        </StackPanel>
+                    </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolAddEdge" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/edge.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <RadioButton.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="Edge tool" FontWeight="Bold"></TextBlock>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                Connect things by edges. If the things are unnamed nodes, unique node names are inserted. If the things are coordinates, a node tag is inserted.
+                            </TextBlock>
+                        </StackPanel>
+                    </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolAddPath" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/path.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <RadioButton.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="Path tool" FontWeight="Bold"></TextBlock>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                Create a path of straight lines. To close the path, double click when you want to close. If you don't want to close the path, use right button to stop drawnig.
+                            </TextBlock>
+                        </StackPanel>
+                    </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolRectangle" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/Rectangle.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <RadioButton.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="Rectangle tool" FontWeight="Bold"></TextBlock>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                Creates a rectangle. Press CTRL for square.
+                            </TextBlock>
+                        </StackPanel>
+                    </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolEllipse" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/Ellipse.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <RadioButton.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="Ellipse tool" FontWeight="Bold"></TextBlock>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                Creates an ellipse. Press CTRL for circle.
+                            </TextBlock>
+                        </StackPanel>
+                    </RadioButton.ToolTip>
                 </RadioButton>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Node style:</TextBlock>
                 <ComboBox Name="cmbNodeStyles" Width="80" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"></ComboBox>

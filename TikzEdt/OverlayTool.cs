@@ -524,29 +524,43 @@ namespace TikzEdt
             bool lcreated;
             if (EnsureCurAddToExists(out lcreated))
             {
-
-                if (!lcreated)
+                // on double click -> close path
+                if (e.ClickCount == 2)
                 {
-                    // add an edge
-                    curAddTo.AddChild(new Parser.Tikz_Something(" -- "));
+                    if (!lcreated)
+                    {
+                        curAddTo.AddChild(new Parser.Tikz_Something(" -- cycle"));
+                    }
                 }
+                else
+                {
+                    if (!lcreated)
+                    {
+                        // add an edge
+                        curAddTo.AddChild(new Parser.Tikz_Something(" -- "));
+                    }
 
-                // create new coordinate
-                Parser.Tikz_Coord tc = new Parser.Tikz_Coord();
-                curAddTo.AddChild(tc);
+                    // create new coordinate
+                    Parser.Tikz_Coord tc = new Parser.Tikz_Coord();
+                    curAddTo.AddChild(tc);
 
-                // do it here since the coordinate calculation needs the parents' coord. transform
-                tc.SetAbsPos(new Point(p.X, p.Y)); //hack
+                    // do it here since the coordinate calculation needs the parents' coord. transform
+                    tc.SetAbsPos(new Point(p.X, p.Y)); //hack
 
-                //tn.UpdateText();
-                curAddTo.UpdateText();
-                //tpict.UpdateText();
+                    //tn.UpdateText();
+                    curAddTo.UpdateText();
+                    //tpict.UpdateText();
 
-                // draw the added object in the overlay
-                overlay.AddToDisplayTree(tc);
+                    // draw the added object in the overlay
+                    overlay.AddToDisplayTree(tc);
+                }
             }
 
             overlay.EndUpdate();
+
+            // doubleclick also stops path drawing
+            if (e.ClickCount == 2)
+                overlay.ActivateDefaultTool();
         }
     }
 
