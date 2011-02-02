@@ -68,7 +68,7 @@ namespace TikzEdt.Parser
                     {
                         msg += " Instead found \"" + ex.Token.Text.Replace("\n", "<NewLine>") + "\"";
                         if(! tokenNames[ex.Token.Type].Contains(ex.Token.Text))
-                            msg += " which is from type " + tokenNames[ex.Token.Type];                        
+                            msg += " which is of type " + tokenNames[ex.Token.Type];                        
                     }
                     else
                     {

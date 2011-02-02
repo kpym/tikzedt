@@ -280,7 +280,7 @@ namespace TikzEdt
         {
             AsyncParserResultType Result = e.Result as AsyncParserResultType;
             if (Result == null)
-                throw new Exception("AsyncParser_RunWorkerCompleted() can only handle e.Result  from type AsyncParserResultType!");
+                throw new Exception("AsyncParser_RunWorkerCompleted() can only handle e.Result  of type AsyncParserResultType!");
 
             // in case of outdated parse -> ignore
             if (Result.DocumentID != CurDocumentID)
