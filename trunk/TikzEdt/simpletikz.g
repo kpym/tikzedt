@@ -85,6 +85,7 @@ IM_TIKZSET;
 IM_USETIKZLIB;
 IM_STRING;
 IM_STYLE;
+IM_CONTROLS;	
 IM_TIKZEDT_CMD;
 IM_DONTCARE;
 }
@@ -302,6 +303,7 @@ tikzpath_element
 	:
 		  tikz_options 
 		| coord
+		| controls
 		| tikznode_int
 		| tikzcoordinate_int
 		| circle!
@@ -309,6 +311,11 @@ tikzpath_element
 		| roundbr_start tikzpath_element* roundbr_end -> ^(IM_PATH roundbr_start tikzpath_element* roundbr_end)
 		| edgeop!
 	;
+	
+controls		// for bezier path, e.g.,  .. (1,1) and (2,2) ..
+	:	controls_start coord ('and' coord)? controls_end -> ^(IM_CONTROLS controls_start coord+ controls_end)
+	;	
+	
 tikznode_ext
 	:	node_start tikznode_core tikzpath_element* semicolon_end	-> ^(IM_PATH node_start tikznode_core tikzpath_element* semicolon_end)
 	;
@@ -468,6 +475,12 @@ roundbr_start
 	;
 roundbr_end
 	:	'}'	-> ^(IM_ENDTAG '}')
+	;
+controls_start
+	:	'..' 'controls'	-> ^(IM_STARTTAG '..')
+	;
+controls_end
+	:	'..' -> ^(IM_ENDTAG '..')
 	;
 tikz_set_start
 	:	'\\tikzset' '{'		-> ^(IM_STARTTAG ) // todo: check if suffices

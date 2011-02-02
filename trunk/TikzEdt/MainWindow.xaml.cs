@@ -406,9 +406,9 @@ namespace TikzEdt
             try
             {
                 AsyncParserJob job = e.Argument as AsyncParserJob;
-                Tikz_ParseTree tp = TikzParser.Parse(job.code);
-                Result.ParseTree = tp;
                 Result.DocumentID = job.DocumentID;
+                Tikz_ParseTree tp = TikzParser.Parse(job.code);
+                Result.ParseTree = tp;                
 
                 //include any styles from include files via \input cmd
                 string inputfile = "";
@@ -1473,6 +1473,12 @@ namespace TikzEdt
                 pdfOverlay1.tool = PdfOverlay.ToolType.rectangle;
             else if (sender == rbToolEllipse)
                 pdfOverlay1.tool = PdfOverlay.ToolType.ellipse;
+            else if (sender == rbToolBezier)
+                pdfOverlay1.tool = PdfOverlay.ToolType.bezier;
+            else if (sender == rbToolSmooth)
+                pdfOverlay1.tool = PdfOverlay.ToolType.smooth;
+            else if (sender == rbToolGrid)
+                pdfOverlay1.tool = PdfOverlay.ToolType.grid;
         }
 
         private void SnippetMenuClick(object sender, RoutedEventArgs e)

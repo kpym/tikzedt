@@ -557,7 +557,20 @@ namespace TikzEdt.Parser
                 if (deco == "+" || deco == "++")
                 {
                     Point offset;
-                    if ((relto.parent as Tikz_Path).GetAbsOffset(out offset, relto))
+                    if (relto.parent is Tikz_Controls)
+                    {
+                        Tikz_Controls par = relto.parent as Tikz_Controls;
+                        Tikz_Coord offc = null;
+                        if (relto == par.FirstCP)
+                            offc = par.CoordBefore;
+                        else if (relto == par.LastCP)
+                            offc = par.CoordAfter;
+                        if (offc == null || !offc.GetAbsPos(out offset))
+                            return;
+                        relp = new Point(p.X - offset.X, p.Y - offset.Y);   // the desired shift, in absolute coordinates
+                        relp = MM.Transform(relp, true);
+                    }
+                    else if ((relto.parent as Tikz_Path).GetAbsOffset(out offset, relto))
                     {
                         relp = new Point(p.X - offset.X, p.Y - offset.Y);   // the desired shift, in absolute coordinates
                         relp = MM.Transform(relp, true);
@@ -633,6 +646,24 @@ namespace TikzEdt.Parser
                         ret = new Point(0, 0);
                         return false;
                     }
+                }
+                else if (relto.parent is Tikz_Controls)
+                {
+                    Tikz_Controls par = relto.parent as Tikz_Controls;
+                    Tikz_Coord offc = null;
+                    if (relto == par.FirstCP)
+                        offc = par.CoordBefore;
+                    else if (relto == par.LastCP)
+                        offc = par.CoordAfter;
+                    if (offc == null || !offc.GetAbsPos(out offset))
+                    {
+                        ret = new Point(0, 0);
+                        return false;
+                    }
+                } else
+                {
+                    // not supported
+
                 }
 
                 Point relpos = new Point(uX.GetInCM(), uY.GetInCM());
@@ -1097,6 +1128,66 @@ namespace TikzEdt.Parser
 
             return (GetType().ToString() + ":   " + s + endtag + "\r\n");
         }
+    }
+
+    /// <summary>
+    /// This is a container for the control points used to define bezier curves.
+    /// There can be either one or two
+    /// </summary>
+    public class Tikz_Controls : TikzContainerParseItem
+    {
+        /// <summary>
+        /// The start point of the Bezier curve
+        /// </summary>
+        public Tikz_Coord CoordBefore
+        {
+            get
+            {
+                for (int i = parent.Children.IndexOf(this) - 1; i >= 0; i--)
+                {
+                    if (parent.Children[i] is Tikz_Coord)
+                        return parent.Children[i] as Tikz_Coord;
+                    if (!(parent.Children[i] is Tikz_Something))
+                        break;
+                }
+                return null;
+            }
+        }
+        /// <summary>
+        /// The endpoint of the Bezier curve
+        /// </summary>
+        public Tikz_Coord CoordAfter
+        {
+            get
+            {
+                for (int i = parent.Children.IndexOf(this) + 1; i < parent.Children.Count; i++)
+                {
+                    if (parent.Children[i] is Tikz_Coord)
+                        return parent.Children[i] as Tikz_Coord;
+                    if (!(parent.Children[i] is Tikz_Something))
+                        break;
+                }
+                return null;
+            }
+        }
+
+        public IEnumerable<Tikz_Coord> ControlPoints
+        {
+            get 
+            {
+                return Children.Where(tpi => (tpi is Tikz_Coord)).Cast<Tikz_Coord>();
+            }
+        }
+
+        public Tikz_Coord FirstCP
+        {
+            get { return Children.First(tpi => (tpi is Tikz_Coord)) as Tikz_Coord; }
+        }
+        public Tikz_Coord LastCP
+        {
+            get { return Children.Last(tpi => (tpi is Tikz_Coord)) as Tikz_Coord; }
+        }
+
     }
 
     /// <summary>
@@ -1894,6 +1985,24 @@ namespace TikzEdt.Parser
                     ret++;
              
             return ret;
+        }
+
+        public Tikz_Option AddOption(string key)
+        {
+            Tikz_Option to = new Tikz_Option();
+            to.type = Tikz_OptionType.key;
+            to.key = key;
+            AddOption(to);
+            return to;
+        }
+        public Tikz_Option AddOption(string key, string value)
+        {
+            Tikz_Option to = new Tikz_Option();
+            to.type = Tikz_OptionType.keyval;
+            to.key = key;
+            to.val = value;
+            AddOption(to);
+            return to;
         }
 
         public void AddOption(Tikz_Option o)

@@ -193,7 +193,12 @@ namespace TikzEdt.Parser
                         //FillItem(to2, childt, tokens);
                         topt2.text = getTokensString(tokens, childt);
                         item.AddChild(topt2);
-                        break;                    
+                        break;
+                    case simpletikzParser.IM_CONTROLS:
+                        Tikz_Controls tcontrols = new Tikz_Controls();
+                        FillItem(tcontrols, childt, tokens);
+                        item.AddChild(tcontrols);
+                        break;
                     case simpletikzParser.IM_SIZE:
                         Tikz_Size tsize = Tikz_Size.FromCommonTree(childt, tokens);
                         tsize.text = getTokensString(tokens, childt);

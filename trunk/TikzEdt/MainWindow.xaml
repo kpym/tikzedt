@@ -343,6 +343,28 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
+                <RadioButton HorizontalAlignment="Left" Name="rbToolSmooth" VerticalAlignment="Top" Checked="rb1_Checked">
+                    <Image Source="/TikzEdt;component/Images/Smooth.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <RadioButton.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="Smooth curve tool" FontWeight="Bold"></TextBlock>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                Draw a smooth curve. Doubleclick closes the curve. Right click to not close the curve.
+                            </TextBlock>
+                        </StackPanel>
+                    </RadioButton.ToolTip>
+                </RadioButton>
+                <RadioButton HorizontalAlignment="Left" Name="rbToolBezier" VerticalAlignment="Top" Checked="rb1_Checked">
+                    <Image Source="/TikzEdt;component/Images/Bezier.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <RadioButton.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="Bezier tool" FontWeight="Bold"></TextBlock>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                Creates an path of Bezier curves.
+                            </TextBlock>
+                        </StackPanel>
+                    </RadioButton.ToolTip>
+                </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolRectangle" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/Rectangle.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
@@ -361,6 +383,17 @@
                             <TextBlock Text="Ellipse tool" FontWeight="Bold"></TextBlock>
                             <TextBlock Width="200" TextWrapping="Wrap">
                                 Creates an ellipse. Press CTRL for circle.
+                            </TextBlock>
+                        </StackPanel>
+                    </RadioButton.ToolTip>
+                </RadioButton>
+                <RadioButton HorizontalAlignment="Left" Name="rbToolGrid" VerticalAlignment="Top" Checked="rb1_Checked">
+                    <Image Source="/TikzEdt;component/Images/Grid.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <RadioButton.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="Grid tool" FontWeight="Bold"></TextBlock>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                Draws a grid. The grid spacing should be edited in the code.
                             </TextBlock>
                         </StackPanel>
                     </RadioButton.ToolTip>

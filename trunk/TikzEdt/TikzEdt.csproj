@@ -123,6 +123,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BezierTool.cs" />
     <Compile Include="CmdLineArgumentParser.cs" />
     <Compile Include="Editor\CodeCompleter.cs" />
     <Compile Include="Data\CompletionDS.cs">
@@ -143,6 +144,7 @@
     <Compile Include="OverlayTool.cs" />
     <Compile Include="Parser\ANTLRErrorMsg.cs" />
     <Compile Include="Rect_and_EllipseTools.cs" />
+    <Compile Include="SmoothCurveTool.cs" />
     <Compile Include="TexOutputParser.cs" />
     <Compile Include="PdfOverlay.xaml.cs">
       <DependentUpon>PdfOverlay.xaml</DependentUpon>
@@ -473,6 +475,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Ellipse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Bezier.png" />
+    <Resource Include="Images\grid.png" />
+    <Resource Include="Images\Smooth.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
