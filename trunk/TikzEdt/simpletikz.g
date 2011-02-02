@@ -192,7 +192,7 @@ range
 	: numberunit ':' numberunit	->	^(IM_STRING numberunit ':' numberunit )
 	;	
 option_style
-	:	idd '/.style' '=' '{' (option_kv (',' option_kv)*)?  ','? '}'  -> ^(IM_OPTION_STYLE idd option_kv*)  // '{' option '}' todo: optional ,
+	:	idd ('/.style' | ('/.append' 'style')) '=' '{' (option_kv (',' option_kv)*)?  ','? '}'  -> ^(IM_OPTION_STYLE idd option_kv*)  // '{' option '}' todo: optional ,
 	;
 
 
@@ -208,7 +208,7 @@ idd
 	:	idd_heavenknowswhythisisnecessary  -> ^(IM_ID )
 	;
 idd_heavenknowswhythisisnecessary
- 	:	 ~( '(' | ')' | '[' |	']' | '{' | '}' | ',' | '='	| ';'	| ':' | '/.style')+ ;
+ 	:	 ~( '(' | ')' | '[' |	']' | '{' | '}' | ',' | '='	| ';'	| ':' | '/.style' | '/.append' )+ ;
 idd2
 	:	ID+ -> ^(IM_ID )
 	;
@@ -228,7 +228,7 @@ unit
 	;
 			
 tikz_set
-	:	 tikz_set_start (option (',' option)*)? roundbr_end -> ^(IM_TIKZSET tikz_set_start option* roundbr_end)
+	:	 tikz_set_start (option (',' option)* ','?)? roundbr_end -> ^(IM_TIKZSET tikz_set_start option* roundbr_end)
 	;
 
 // *** Things that go within the picture ****
@@ -386,7 +386,7 @@ circle
 	:	('circle' | 'ellipse') ((size)=> size)?	->	// note: options not allowed in between
 	;
 arc
-	:	'arc' ('(' numberunit ':' numberunit ':' numberunit ')')? ->
+	:	'arc' ('(' numberunit ':' numberunit ':' numberunit ('and' numberunit)? ')')? ->
 	;
 	
 size
