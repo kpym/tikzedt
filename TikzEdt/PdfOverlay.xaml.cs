@@ -233,13 +233,19 @@ namespace TikzEdt
                         return rectangleTool;
                     case ToolType.ellipse:
                         return ellipseTool;
+                    case ToolType.smooth:
+                        return smoothCurveTool;
+                    case ToolType.bezier:
+                        return bezierTool;
+                    case ToolType.grid:
+                        return gridTool;
                     default:
                         throw new Exception("Unknown tool type... please make sure all tool types are handled in PdfOverlay.CurrentTool."); // should not come here
                 }
             }
         }
 
-        public enum ToolType { move, addvert, addedge, addpath, rectangle, ellipse }
+        public enum ToolType { move, addvert, addedge, addpath, rectangle, ellipse, smooth, bezier, grid }
         ToolType _tool = ToolType.move;
         public ToolType tool
         {
@@ -260,6 +266,9 @@ namespace TikzEdt
         EdgeTool edgeTool = new EdgeTool();
         PathTool pathTool = new PathTool();
         NodeTool nodeTool = new NodeTool();
+        SmoothCurveTool smoothCurveTool = new SmoothCurveTool();
+        BezierTool bezierTool = new BezierTool(); 
+        GridTool gridTool = new GridTool();
         RectangleTool rectangleTool = new RectangleTool();
         EllipseTool ellipseTool = new EllipseTool();
 
@@ -371,6 +380,13 @@ namespace TikzEdt
             pathTool.overlay = this;
             rectangleTool.overlay = this;
             ellipseTool.overlay = this;
+            smoothCurveTool.overlay = this;
+            bezierTool.overlay = this;
+            gridTool.overlay = this;
+
+            // allow to gain keyboard focus
+            canvas.Focusable = true;
+            
         }
 
         /// <summary>
@@ -490,7 +506,11 @@ namespace TikzEdt
             {
                 if ((tpi as Tikz_XYItem).HasEditableCoordinate())
                 {
-                    OverlayNode el = new OverlayNode();
+                    OverlayNode el;
+                    if (tpi.parent is Tikz_Controls)
+                        el = new OverlayControlPoint();     // control points for Bezier curves
+                    else
+                        el = new OverlayNode();
                     el.pol = this;
                     el.tikzitem = tpi as Tikz_XYItem;
                     //Ellipse el = new Ellipse();                                   
@@ -660,7 +680,10 @@ namespace TikzEdt
         }
     
         private void canvas1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
+        {            
+            // for some unknown reason the focus has to be set using the dispatcher...
+            Dispatcher.BeginInvoke(new Action(delegate() { Keyboard.Focus(canvas); }));            
+            
             // call left down-method in the current tool
             Point mousep = e.GetPosition(canvas1);
             object oo = canvas1.InputHitTest(mousep);
@@ -802,6 +825,27 @@ namespace TikzEdt
             }
             else 
                 PreventContextMenuOpening = true;
+        }
+
+        private void canvas1_KeyDown(object sender, KeyEventArgs e)
+        {
+            // route event to current tool
+            CurrentTool.KeyDown(e);
+
+            if (!e.Handled)
+            {
+                // escape cancels current operation
+                if (e.Key == Key.Escape)
+                    ActivateDefaultTool();
+
+            }
+
+        }
+
+        private void canvas1_KeyUp(object sender, KeyEventArgs e)
+        {
+            // route event to current tool
+            CurrentTool.KeyUp(e);
         }
 
     }
@@ -1017,7 +1061,7 @@ namespace TikzEdt
         /// Draw an X
         /// </summary>
         /// <param name="context"></param>
-        private void InternalDrawNodeGeometry(StreamGeometryContext context)
+        protected virtual void InternalDrawNodeGeometry(StreamGeometryContext context)
         {
             context.BeginFigure(new Point(0, 0), true, false);
             context.LineTo(new Point(10, 0), false, false);
@@ -1036,6 +1080,27 @@ namespace TikzEdt
         {
             Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)); // necessary?
             SetStdColor();
+        }
+
+    }
+
+
+    public class OverlayControlPoint : OverlayNode
+    {
+        protected override Geometry DefiningGeometry
+        {
+            get
+            {
+                // Create a StreamGeometry for describing the shape
+                EllipseGeometry geometry = new EllipseGeometry();
+                geometry.Center = new Point(5, 5);
+                geometry.RadiusX = geometry.RadiusY = 5;
+
+                // Freeze the geometry for performance benefits
+                geometry.Freeze();
+
+                return geometry;
+            }
         }
 
     }

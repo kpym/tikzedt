@@ -28,7 +28,9 @@ namespace TikzEdt
         {
             //do whatever you need to do with the exception
             //e.Exception
-
+#if (DEBUG)
+            // in debug mode, let the debugger handle the exception
+#else
             System.Windows.Forms.DialogResult result = System.Windows.Forms.DialogResult.Cancel;
             try
             {
@@ -58,6 +60,7 @@ namespace TikzEdt
             }
 
             e.Handled = true;
+#endif
         }
 
         // Creates the error message, displays and logs it.

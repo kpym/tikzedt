@@ -55,6 +55,9 @@ namespace TikzEdt
         public virtual void OnRightMouseButtonUp(MouseButtonEventArgs e) { }
         public virtual void OnMouseMove(Point p, MouseEventArgs e) { }
 
+        public virtual void KeyDown(KeyEventArgs e) { }
+        public virtual void KeyUp(KeyEventArgs e) { }
+
     }
 
 
@@ -850,7 +853,7 @@ namespace TikzEdt
 
         //create a new CurAddTo (even though their already might be one)
         //(needed for edge tool)
-        protected bool AddNewCurAddTo()
+        protected virtual bool AddNewCurAddTo()
         {
             // find tikzpicture
             Tikz_Picture tpict = overlay.ParseTree.GetTikzPicture();
@@ -888,7 +891,7 @@ namespace TikzEdt
 
             return true;
         }
-        protected bool EnsureCurAddToExists(out bool created)
+        protected virtual bool EnsureCurAddToExists(out bool created)
         {
             created = false;
             // find tikzpicture
@@ -951,4 +954,5 @@ namespace TikzEdt
         }
 
     }
+
 }

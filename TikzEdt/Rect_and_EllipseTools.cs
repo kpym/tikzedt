@@ -22,7 +22,9 @@ namespace TikzEdt
         Point origin;
 
         // the rectangle to be shown on drawing
-        Rectangle PreviewRect = new Rectangle();
+        protected Shape PreviewRect = new Rectangle();
+        // this is overwritten in GridTool
+        protected string codeToInsert = " rectangle ";
 
         public RectangleTool()
         {
@@ -89,7 +91,7 @@ namespace TikzEdt
 
                     curAddTo.AddChild(new Parser.Tikz_Something(" "));
                     curAddTo.AddChild(tc1);
-                    curAddTo.AddChild(new Parser.Tikz_Something(" rectangle "));
+                    curAddTo.AddChild(new Parser.Tikz_Something(codeToInsert));
                     curAddTo.AddChild(tc2);
 
                     tc1.SetAbsPos(firstpoint);
@@ -136,6 +138,28 @@ namespace TikzEdt
                 }
             }
         }
+
+        public override void KeyDown(KeyEventArgs e)
+        {
+            base.KeyDown(e);
+            // refresh preview rect size in case CTRL was pressed
+            if (PreviewRect.Visibility == Visibility.Visible)
+            {
+                Point p = new Point(Mouse.GetPosition(overlay.canvas).X, overlay.Height - Mouse.GetPosition(overlay.canvas).Y);
+                OnMouseMove(p, null);
+            }
+        }
+        public override void KeyUp(KeyEventArgs e)
+        {
+            base.KeyUp(e);
+            // refresh preview rect size in case CTRL was pressed
+            if (PreviewRect.Visibility == Visibility.Visible)
+            {
+                Point p = new Point(Mouse.GetPosition(overlay.canvas).X, overlay.Height - Mouse.GetPosition(overlay.canvas).Y);
+                OnMouseMove(p, null);
+            }
+        }
+
     }
 
     class EllipseTool : OverlayAdderTool
@@ -266,6 +290,104 @@ namespace TikzEdt
                 PreviewEllipse.Height = 2*height;
 
             }
+        }
+
+        public override void KeyDown(KeyEventArgs e)
+        {
+            base.KeyDown(e);
+            // refresh preview rect size in case CTRL was pressed
+            if (PreviewEllipse.Visibility == Visibility.Visible)
+            {
+                Point p = new Point(Mouse.GetPosition(overlay.canvas).X, overlay.Height - Mouse.GetPosition(overlay.canvas).Y);
+                OnMouseMove(p, null);
+            }
+        }
+        public override void KeyUp(KeyEventArgs e)
+        {
+            base.KeyUp(e);
+            // refresh preview rect size in case CTRL was pressed
+            if (PreviewEllipse.Visibility == Visibility.Visible)
+            {
+                Point p = new Point(Mouse.GetPosition(overlay.canvas).X, overlay.Height - Mouse.GetPosition(overlay.canvas).Y);
+                OnMouseMove(p, null);
+            }
+        }
+    }
+
+    class GridTool : RectangleTool
+    {
+        class PreviewGrid : Shape
+        {
+            public PreviewGrid()
+            {
+                StrokeThickness = 1;
+                StrokeDashArray = new DoubleCollection(new double[] { 4, 4 } );
+            }
+
+            protected override Geometry DefiningGeometry
+            {
+                get
+                {
+                    // Create a StreamGeometry for describing the shape
+                    StreamGeometry geometry = new StreamGeometry();
+                    geometry.FillRule = FillRule.EvenOdd;
+
+                    using (StreamGeometryContext context = geometry.Open())
+                    {
+                        InternalDrawNodeGeometry(context);
+                    }
+
+                    // Freeze the geometry for performance benefits
+                    geometry.Freeze();
+
+                    return geometry;
+                }
+            }
+
+            /// <summary>
+            /// Draw a rectangle
+            /// </summary>
+            /// <param name="context"></param>
+            private void InternalDrawNodeGeometry(StreamGeometryContext context)
+            {
+                context.BeginFigure(new Point(0, 0), true, true);
+                context.LineTo(new Point(Width, 0), true, false);
+                context.LineTo(new Point(Width, Height), true, false);
+                context.LineTo(new Point(0, Height), true, false);
+
+                context.BeginFigure(new Point(Width/2, 0), true, true);
+                context.LineTo(new Point(Width / 2, Height), true, false);
+
+                context.BeginFigure(new Point(0, Height/2), true, true);
+                context.LineTo(new Point(Width, Height/2), true, false);
+            }
+        }
+
+        protected override bool AddNewCurAddTo()
+        {
+            bool ret = base.AddNewCurAddTo();
+
+            if (ret)
+            {
+                // add options
+                Tikz_Options topts = new Tikz_Options();
+                topts.starttag = "[";
+                topts.endtag = "]";
+                topts.AddOption("help lines");
+                topts.AddOption("step", "1cm");
+
+                curAddTo.options = topts;
+                curAddTo.AddChild(topts);
+            }
+            return ret;
+        }
+
+        public GridTool()
+        {
+            codeToInsert = " grid ";
+            PreviewRect = new PreviewGrid();
+            PreviewRect.Visibility = Visibility.Collapsed;
+            PreviewRect.Stroke = Brushes.Black;
         }
     }
 }
