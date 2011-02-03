@@ -123,7 +123,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BezierTool.cs" />
+    <Compile Include="Overlay\ArcTool.cs" />
+    <Compile Include="Overlay\BezierTool.cs" />
     <Compile Include="CmdLineArgumentParser.cs" />
     <Compile Include="Editor\CodeCompleter.cs" />
     <Compile Include="Data\CompletionDS.cs">
@@ -141,12 +142,12 @@
     <Compile Include="MyCompletionData.cs" />
     <Compile Include="output\simpletikzLexer.cs" />
     <Compile Include="output\simpletikzParser.cs" />
-    <Compile Include="OverlayTool.cs" />
+    <Compile Include="Overlay\OverlayTool.cs" />
     <Compile Include="Parser\ANTLRErrorMsg.cs" />
-    <Compile Include="Rect_and_EllipseTools.cs" />
-    <Compile Include="SmoothCurveTool.cs" />
+    <Compile Include="Overlay\Rect_and_EllipseTools.cs" />
+    <Compile Include="Overlay\SmoothCurveTool.cs" />
     <Compile Include="TexOutputParser.cs" />
-    <Compile Include="PdfOverlay.xaml.cs">
+    <Compile Include="Overlay\PdfOverlay.xaml.cs">
       <DependentUpon>PdfOverlay.xaml</DependentUpon>
     </Compile>
     <Compile Include="RasterControl.xaml.cs">
@@ -198,7 +199,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PdfOverlay.xaml">
+    <Page Include="Overlay\PdfOverlay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
