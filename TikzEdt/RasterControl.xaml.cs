@@ -43,10 +43,18 @@ namespace TikzEdt
             }
         }
 
+        bool _OverrideWithZeroGridWidth = false;
+        // use this to set GridWidth to zero temporarily (e.g., on ALT pressed)
+        public bool OverrideWithZeroGridWidth
+        {
+            set { _OverrideWithZeroGridWidth = value; DrawRaster(); }
+            get { return _OverrideWithZeroGridWidth; }
+        }
+
         double _GridWidth = Properties.Settings.Default.Raster_GridWidth;
         public double GridWidth
         {
-            get { return _GridWidth; }
+            get { if (OverrideWithZeroGridWidth) return 0; else return _GridWidth; }
             set { _GridWidth = value; DrawRaster(); }
         }
         uint _RadialSteps = Properties.Settings.Default.Raster_RadSteps;
