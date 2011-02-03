@@ -1819,7 +1819,7 @@ namespace TikzEdt
 
         private void ShowCodeCompletionsCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            // Open code completion after the user has pressed dot:
+            // Open code completion window
             completionWindow = new CompletionWindow(txtCode.TextArea);
             IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
             codeCompleter.GetCompletions(txtCode.Document, txtCode.CaretOffset, data);
