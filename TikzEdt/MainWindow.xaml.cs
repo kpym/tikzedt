@@ -1257,6 +1257,7 @@ namespace TikzEdt
             //DetermineBB(null);
             rasterControl1.ResetRaster();
             pdfOverlay1.SetParseTree(null, currentBB);
+            pdfOverlay1.AllowEditing = true;
             currentBB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);
             ClearStyleLists();
 
