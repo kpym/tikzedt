@@ -131,7 +131,7 @@ namespace TikzEdt
         Point DragOrigin; // relative to the currently dragged object
         Point DragOriginC; // Mouse position on Canvas when started dragging
         Point DragOriginO; // bottom left of dragged object
-
+        bool movedenough = false;   // is set to true when mouse moved more than xx pixels. This is to prevent accidental dragging
 
         public override void OnActivate()
         {
@@ -230,6 +230,7 @@ namespace TikzEdt
                 DragOrigin = new Point(DragOrigin.X, (item as OverlayShape).Height - DragOrigin.Y);
                 DragOriginC = p;
                 DragOriginO = new Point(Canvas.GetLeft(curDragged), Canvas.GetBottom(curDragged));
+                movedenough = false;
                 //MessageBox.Show(o.ToString());
 
                 // select the clicked shape
@@ -276,6 +277,7 @@ namespace TikzEdt
         
         }
 
+        
         public override void OnMouseMove(Point p, MouseEventArgs e) 
         {
             Point mousep = e.GetPosition(overlay.canvas);
@@ -296,9 +298,12 @@ namespace TikzEdt
 
             }
 
+            // start a drag operation only after the mouse moved at least xx pixels to avoid accidental moving
+            if ((DragOriginC - p).Length > 5)
+                movedenough = true;
             // for a dragged scope, the relative movement gets rasterized
             // for a dragged node, the center of the node gets rasterized
-            if (curDragged != null && e.LeftButton == MouseButtonState.Pressed)
+            if (curDragged != null && e.LeftButton == MouseButtonState.Pressed && movedenough)
             {
                 if (curDragged is OverlayScope)
                 {
@@ -339,7 +344,7 @@ namespace TikzEdt
             }
 
             // adjust position of dragged item (in parsetree)
-            if (curDragged != null)
+            if (curDragged != null && movedenough)
             {
                 overlay.BeginUpdate();
                 // determine the relative shift

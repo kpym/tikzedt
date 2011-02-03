@@ -60,6 +60,11 @@ namespace TikzEdt.Parser
 
             return pp;
         }
+        public Vector Transform(Vector v)
+        {
+            Point p = Transform(new Point(v.X, v.Y), true);
+            return new Vector(p.X, p.Y);
+        }
         public double Det() { return m[0, 0] * m[1, 1] - m[0, 1] * m[1, 0]; }
         public TikzMatrix Inverse()
         {
@@ -1303,7 +1308,7 @@ namespace TikzEdt.Parser
         /// <returns>True, if offset could be determined, false otherwise.</returns>
         public bool GetAbsOffset(out Point ret, TikzParseItem tpi)
         {
-            Tikz_Coord tcret;
+            Tikz_XYItem tcret;
             if (GetLastDrawnItem(tpi, out tcret))
             {
                 // last drawn item exists
@@ -1359,7 +1364,14 @@ namespace TikzEdt.Parser
                             return previous.GetAbsPos(); */
         }
 
-        bool GetLastDrawnItem(TikzParseItem before, out Tikz_Coord ret)
+        /// <summary>
+        /// Get the last item that changes the "current position" in a tikz path.
+        /// This implememntation is not yet entirely accurate at present.... for example  ... edge (v) .. does not change the current position.
+        /// </summary>
+        /// <param name="before">The item before which we should search.</param>
+        /// <param name="ret">The last item that changed the current position.</param>
+        /// <returns></returns>
+        bool GetLastDrawnItem(TikzParseItem before, out Tikz_XYItem ret)
         {
             int ind;
             if (before == null)
@@ -1380,6 +1392,11 @@ namespace TikzEdt.Parser
                         return true;
                     }
                 }
+                else if (Children[i] is Tikz_Arc)
+                {
+                    ret = Children[i] as Tikz_Arc;
+                    return true;
+                }
                 //else if (Children[i] is Tikz_Options)
                 //{
                 //    CoordTrafoInBetween = (Children[i] as Tikz_Options).GetTransform() * CoordTrafoInBetween;
@@ -1387,7 +1404,7 @@ namespace TikzEdt.Parser
                 else if (Children[i] is Tikz_Path)
                 {
                     Tikz_Path tp = (Children[i] as Tikz_Path);
-                    Tikz_Coord tpi;
+                    Tikz_XYItem tpi;
                     //TikzMatrix M; // not used here
                     bool lret = tp.GetLastDrawnItem(null, out tpi);
                     if (lret)
@@ -1402,7 +1419,7 @@ namespace TikzEdt.Parser
             if (this.parent is Tikz_Path)
             {
                 Tikz_Path tparent = parent as Tikz_Path;
-                Tikz_Coord tpi;
+                Tikz_XYItem tpi;
                 if (tparent.GetLastDrawnItem(this, out tpi))
                 {
                     ret = tpi;
@@ -2038,4 +2055,151 @@ namespace TikzEdt.Parser
         //    text = "[" + String.Join(", ", opts) + "]";
         //}
     }
+
+    /// <summary>
+    /// The class for path elements of the form "arc (30:60:2)" or arc "arc (30:60:2 and 4)"
+    /// </summary>
+    class Tikz_Arc : Tikz_XYItem
+    {
+        Tikz_NumberUnit phi1 = null, phi2=null, r1 = null, r2 = null;
+
+        /// <summary>
+        /// This flag will be set when the coordinates cannot be determined, either because
+        /// of erroneous Tikz code or unsupported operations (math expressions, macros etc.)
+        /// </summary>
+        bool IsBroken = false;
+
+        /// <summary>
+        /// The Treenode t must have either 3 or four children
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
+        public static Tikz_Arc FromCommonTree(ITree t, CommonTokenStream tokens)
+        {
+            Tikz_Arc ta = new Tikz_Arc();
+            if (t.ChildCount != 3 && t.ChildCount != 4)
+            {
+                throw new Exception("Parser returned invalid IM_ARC node.");
+            }
+
+            // if one of the children is not of type numberunit (i.e., math expression etc.), then the present arc will be marked invalid
+            for (int i = 0; i < t.ChildCount; i++)
+                if (t.GetChild(i).Type != simpletikzParser.IM_NUMBERUNIT)
+                    ta.IsBroken = true;
+
+            if (!ta.IsBroken)
+            {
+                ta.phi1 = new Tikz_NumberUnit(t.GetChild(0));
+                ta.phi2 = new Tikz_NumberUnit(t.GetChild(1));
+                ta.r1 = new Tikz_NumberUnit(t.GetChild(2));
+                if (t.ChildCount == 4)
+                {
+                    ta.r2 = new Tikz_NumberUnit(t.GetChild(3));
+                }
+            }
+            return ta;
+        }
+
+        public override bool GetAbsPos(out Point ret, bool OnlyOffset = false)
+        {
+            ret = new Point(0, 0);
+            if (IsBroken)                       
+                return false;
+            
+            // get the offset (=starting point of arc)
+            Point offset;
+            if (!(parent as Tikz_Path).GetAbsOffset(out offset, this))
+                return false;
+
+            if (OnlyOffset)
+            {
+                ret = offset;
+                return true;
+            }
+
+            // compute relative distance
+            double R1 = r1.GetInCM(), R2=R1;
+            double a1 = phi1.GetInCM()*2*Math.PI/360, a2 = phi2.GetInCM()*2*Math.PI/360;  // angles in radians
+            if (r2 != null) // ellipse case
+            {
+                R2 = r2.GetInCM();
+            }
+            Point relp = new Point((Math.Cos(a2) - Math.Cos(a1)) * R1, (Math.Sin(a2) - Math.Sin(a1)) * R2);
+
+            // Transform
+            TikzMatrix M;
+            if (!parent.GetCurrentTransformAt(this, out M))
+                return false;
+            relp = M.Transform(relp, true);
+
+            ret = new Point(offset.X + relp.X, offset.Y + relp.Y);
+            return true;
+        }
+        public override bool HasEditableCoordinate()
+        {
+            Point pdummy;
+            return GetAbsPos(out pdummy);
+        }
+        public override void SetAbsPos(Point p)
+        {
+            if (IsBroken)
+                return;
+            if (r2 != null)
+                return;     // currently unsupported
+
+            // compute the starting point and desired shift
+            Point offset;
+            if (!(parent as Tikz_Path).GetAbsOffset(out offset, this))
+                return;
+            //Point relp = new Point(p.X-offset.X, p.Y-offset.Y);
+            Vector relp = p - offset;
+            // transform
+            TikzMatrix M;
+            if (!parent.GetCurrentTransformAt(this, out M))
+                return;
+            relp = M.Inverse().Transform(relp);
+            
+            // compute the new parameters
+            // Note that there is some ambiguity since one would could change both radii and both angles
+            // We keep the difference of angles the same, and change the radius
+            // still there is a twofold ambiguity ...            
+            double a1 = phi1.GetInCM() * 2 * Math.PI / 360, a2 = phi2.GetInCM() * 2 * Math.PI / 360, a=a2-a1;  // angles in radians
+
+            double R = Math.Abs( .5 * relp.Length / Math.Sin(a / 2) );
+            if (! (R < 50))
+                return;
+
+            Vector mid = relp / 2;
+            Vector normal = new Vector(relp.Y, -relp.X);
+            normal.Normalize();
+
+            Vector c = mid + normal * Math.Cos(a/2) * R; // the new center
+
+            // new angles
+            double b1 = Math.Atan2((-c).Y, (-c).X), b2 = Math.Atan2((relp-c).Y, (relp-c).X);
+            if (b2 - b1 > Math.PI)
+                b2 = b2 - 2 * Math.PI;
+            r1.SetInCM(R);
+            phi1.SetInCM(b1 * 180 / Math.PI);
+            phi2.SetInCM(b2 * 180 / Math.PI);
+        }
+
+        public override void UpdateText()
+        {
+            if (!IsBroken)
+            {
+                string newtext = "arc (" + phi1.GetInCM() + ":" + phi2.GetInCM() + ":" + r1.GetInCM();
+                if (r2 != null)
+                    newtext += " and " + r2.GetInCM();
+                text = newtext + ")";   // there should only be one update to newtext since updates generate events
+            }
+        }
+
+        public override bool IsPolar()
+        {
+            return false; // true;
+        }
+    }
+
 }

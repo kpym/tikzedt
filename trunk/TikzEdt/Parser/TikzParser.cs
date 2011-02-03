@@ -148,7 +148,11 @@ namespace TikzEdt.Parser
                         tc.text = getTokensString(tokens, childt);
                         item.AddChild(tc);
                         break;
-                    
+                    case simpletikzParser.IM_ARC:
+                        Tikz_Arc ta = Tikz_Arc.FromCommonTree(childt, tokens);
+                        ta.text = getTokensString(tokens, childt);
+                        item.AddChild(ta);
+                        break;
                     case simpletikzParser.IM_NODE:
                         Tikz_Node tn = Tikz_Node.FromCommonTree(childt, tokens);
                         tn.text = getTokensString(tokens, childt);

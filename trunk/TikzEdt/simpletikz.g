@@ -88,6 +88,7 @@ IM_STYLE;
 IM_CONTROLS;	
 IM_TIKZEDT_CMD;
 IM_DONTCARE;
+IM_ARC;
 }
 
 @parser::members {
@@ -307,7 +308,7 @@ tikzpath_element
 		| tikznode_int
 		| tikzcoordinate_int
 		| circle!
-		| arc!
+		| arc
 		| roundbr_start tikzpath_element* roundbr_end -> ^(IM_PATH roundbr_start tikzpath_element* roundbr_end)
 		| edgeop!
 	;
@@ -386,7 +387,7 @@ circle
 	:	('circle' | 'ellipse') ((size)=> size)?	->	// note: options not allowed in between
 	;
 arc
-	:	'arc' ('(' numberunit ':' numberunit ':' numberunit ('and' numberunit)? ')')? ->
+	:	'arc' ('(' numberunit ':' numberunit ':' numberunit ('and' numberunit)? ')')? -> ^(IM_ARC numberunit+)
 	;
 	
 size
