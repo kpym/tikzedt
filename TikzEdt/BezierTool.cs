@@ -14,13 +14,27 @@ namespace TikzEdt
     class BezierTool : OverlayAdderTool
     {
         Point CP1, CP2; // the control points
+        Ellipse Preview_CP1 = new Ellipse(), Preview_CP2 = new Ellipse();
         int CPCount = 0;
-        
+
+        public BezierTool()
+        {
+            Preview_CP1.Width = Preview_CP1.Height = Preview_CP2.Width = Preview_CP2.Height = 10;
+            Preview_CP1.Stroke = Preview_CP2.Stroke = Brushes.Red;
+            Preview_CP1.Fill = Preview_CP2.Fill = Brushes.Gray;
+        }
+
         public override void OnActivate()
         {
             base.OnActivate();
             overlay.canvas.Cursor = Cursors.Cross;
-            CPCount = 0;
+            CPCount = 0;            
+        }
+
+        public override void OnDeactivate()
+        {
+            base.OnDeactivate();
+            Preview_CP1.Visibility = Preview_CP2.Visibility = Visibility.Collapsed;
         }
 
         public override void OnLeftMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e)
@@ -28,6 +42,7 @@ namespace TikzEdt
             if (!EnsureParseTreeExists())
                 return;
 
+            Point prast = overlay.Rasterizer.RasterizePixel(p);
             p = overlay.Rasterizer.RasterizePixelToTikz(p);
             if (ContinueWithBigImage(p) == false)
                 return;
@@ -51,7 +66,7 @@ namespace TikzEdt
                     {
                         // add controls
                         Tikz_Controls tcont = new Tikz_Controls();
-                        tcont.starttag = ".. controls ";
+                        tcont.starttag = " .. controls ";
                         tcont.endtag = " ..";
                         Parser.Tikz_Coord tc1 = new Parser.Tikz_Coord(), tc2 = new Parser.Tikz_Coord();
                         tcont.AddChild(tc1);
@@ -78,6 +93,7 @@ namespace TikzEdt
                         overlay.AddToDisplayTree(tcont);
 
                         CPCount = 0;
+                        Preview_CP1.Visibility = Preview_CP2.Visibility = Visibility.Collapsed;
                     }
                     else if (lcreated)
                     {
@@ -96,9 +112,24 @@ namespace TikzEdt
                     {
                         // remember control points
                         if (CPCount == 0)
+                        {
                             CP1 = p;
+
+                            Canvas.SetLeft(Preview_CP1, prast.X - Preview_CP1.Width / 2);
+                            Canvas.SetBottom(Preview_CP1, prast.Y - Preview_CP1.Height / 2);
+                            if (!overlay.canvas.Children.Contains(Preview_CP1))
+                                overlay.canvas.Children.Add(Preview_CP1);
+                            Preview_CP1.Visibility = Visibility.Visible;
+                        }
                         else if (CPCount == 1)
+                        {
                             CP2 = p;
+                            Canvas.SetLeft(Preview_CP2, prast.X - Preview_CP2.Width / 2);
+                            Canvas.SetBottom(Preview_CP2, prast.Y - Preview_CP2.Height / 2);
+                            if (!overlay.canvas.Children.Contains(Preview_CP2))
+                                overlay.canvas.Children.Add(Preview_CP2);
+                            Preview_CP2.Visibility = Visibility.Visible;
+                        }
                         CPCount++;
                     }
                 }

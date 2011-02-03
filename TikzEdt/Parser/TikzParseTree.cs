@@ -1176,6 +1176,16 @@ namespace TikzEdt.Parser
             }
         }
 
+        public Tikz_XYItem CoordByCP(Tikz_Coord ControlPoint)
+        {
+            if (ControlPoint == FirstCP)
+                return CoordBefore;
+            else if (ControlPoint == LastCP)
+                return CoordAfter;
+            else
+                return null;
+        }
+
         public IEnumerable<Tikz_Coord> ControlPoints
         {
             get 
