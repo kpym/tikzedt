@@ -144,7 +144,7 @@ namespace TikzEdt.Editor
                 txtCode.BeginChange();
                 foreach (Match m in r.Matches(txtCode.Text))
                 {                
-                    txtCode.Document.Replace(offset+m.Index, offset+m.Length, txtReplace.Text);
+                    txtCode.Document.Replace(offset+m.Index, m.Length, txtReplace.Text);
                     offset += txtReplace.Text.Length - m.Length;
                 }
                 txtCode.EndChange();

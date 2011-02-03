@@ -761,6 +761,12 @@ namespace TikzEdt
                 tool = ToolType.rectangle;
             else if (sender == mnuEllipse)
                 tool = ToolType.ellipse;
+            else if (sender == mnuGrid)
+                tool = ToolType.grid;
+            else if (sender == mnuSmooth)
+                tool = ToolType.smooth;
+            else if (sender == mnuBezier)
+                tool = ToolType.bezier;
             else if (sender == mnuJumpSource)
             {
                 JumpToSourceDoIt(sender, e);
@@ -850,7 +856,7 @@ namespace TikzEdt
                 // escape cancels current operation
                 if (e.Key == Key.Escape)
                     ActivateDefaultTool();
-
+               
             }
 
         }

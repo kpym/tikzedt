@@ -91,12 +91,13 @@ namespace TikzEdt
         ///  Tikz outputs a very large bounding box if the tikzpicture is empty.  
         /// </summary> 
         public const string CodeToWriteBB =
-@"%add border to avoid cropping by pdflibnet
-\foreach \border in {0.1}
-  \useasboundingbox (current bounding box.south west)+(-\border,-\border) rectangle (current bounding box.north east)+(\border,\border);
+@"
 \usetikzlibrary{calc}
 \pgftransformreset
 \node[inner sep=0pt,outer sep=0pt,minimum size=0pt,line width=0pt,text width=0pt,text height=0pt] at (current bounding box) {};
+%add border to avoid cropping by pdflibnet
+\foreach \border in {0.1}
+  \useasboundingbox (current bounding box.south west)+(-\border,-\border) rectangle (current bounding box.north east)+(\border,\border);
 \newwrite\metadatafile
 \immediate\openout\metadatafile=\jobname_BB.txt
 \path

@@ -26,17 +26,17 @@
         <TabControl Name="tabMain" Height="Auto">
             <TabItem Header="Find" Name="tabFind"  ContentTemplate="{StaticResource FindPageTemplate}">
                 <StackPanel>
-                <TextBox Margin="3" Name="txtFind" AcceptsReturn="True" Text="{Binding Source={StaticResource findrepd}, Path=TextToFind}">
+                <TextBox Margin="3" Name="txtFind" AcceptsReturn="True" Text="{Binding Source={StaticResource findrepd}, Path=TextToFind, Mode=TwoWay}">
                 </TextBox>
                 <Button Margin="3" HorizontalAlignment="Right" Width="65" Click="FindNextClick">Find Next</Button>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Replace" Name="tabReplace"  ContentTemplate="{StaticResource FindPageTemplate}">
                 <StackPanel>
-                    <TextBox Margin="3" Name="txtFind2" AcceptsReturn="True" Text="{Binding Source={StaticResource findrepd}, Path=TextToFind}">
+                    <TextBox Margin="3" Name="txtFind2" AcceptsReturn="True" Text="{Binding Source={StaticResource findrepd}, Path=TextToFind, Mode=TwoWay}">
                     </TextBox>
                     <TextBlock Margin="3">Replace with:</TextBlock>
-                    <TextBox Margin="3" Name="txtReplace" AcceptsReturn="True" Text="{Binding Source={StaticResource findrepd}, Path=ReplacementText}"></TextBox>
+                    <TextBox Margin="3" Name="txtReplace" AcceptsReturn="True" Text="{Binding Source={StaticResource findrepd}, Path=ReplacementText, Mode=TwoWay}"></TextBox>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Margin="3" HorizontalAlignment="Right" Width="65" Click="FindNextClick">Find Next</Button>
                         <Button Margin="3" HorizontalAlignment="Right" Width="65" Click="ReplaceClick">Replace</Button>
