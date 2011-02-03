@@ -457,6 +457,7 @@ namespace TikzEdt
             try
             {
                 DrawObject(ParseTree, TopLevelItems);
+                BindControlPointsToOrigins();
                 SetCorrectRaster(null);
             }
             catch (Exception e)
@@ -564,6 +565,17 @@ namespace TikzEdt
                 }       */          
             }
 
+        }
+
+        public void BindControlPointsToOrigins()
+        {
+            for (int i = 0; i < canvas1.Children.Count; i++ )
+            {
+                if (canvas1.Children[i] is OverlayControlPoint)
+                {
+                    (canvas1.Children[i] as OverlayControlPoint).BindToOrigin();
+                }
+            }
         }
 
         private void canvas1_MouseMove(object sender, MouseEventArgs e)
@@ -677,6 +689,7 @@ namespace TikzEdt
                 CurEditing.children.AddRange(l);
             }
             AdjustPositions();
+            BindControlPointsToOrigins();
         }
     
         private void canvas1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -991,7 +1004,13 @@ namespace TikzEdt
     public class OverlayNode : OverlayShape
     {
         public Tikz_XYItem tikzitem;
-        public override TikzParseItem item { get { return tikzitem; } } 
+        public override TikzParseItem item { get { return tikzitem; } }
+
+        public delegate void PositionChangedHandler(OverlayNode sender);
+        /// <summary>
+        /// This event is called whenever the position changes.
+        /// </summary>
+        public event PositionChangedHandler PositionChanged;
 
         /// <summary>
         /// Sets the item's position according to its tikzitem's value
@@ -1007,6 +1026,8 @@ namespace TikzEdt
                 Point pp = pol.TikzToScreen(p);
                 Canvas.SetLeft(this, pp.X - Width / 2);
                 Canvas.SetBottom(this, pp.Y - Height / 2);  // not quite ok like this?
+                if (PositionChanged != null)
+                    PositionChanged(this);
                 return true;
             }
             else
@@ -1103,6 +1124,73 @@ namespace TikzEdt
             }
         }
 
+        public OverlayControlPoint()
+        {
+            Fill = Brushes.Gray;
+            PositionChanged += on_PositionChanged;
+        }
+
+        public void BindToOrigin()
+        {
+            // find the correct node (s)
+            OverlayNode on1 = null, on2=null;
+            if (lineToOrigin1 == null && lineToOrigin2 == null && tikzitem.parent is Tikz_Controls)
+            {
+                Tikz_Controls pa = tikzitem.parent as Tikz_Controls;
+                foreach (object o in pol.canvas.Children)
+                    if (o is OverlayNode)
+                    {
+                        if ((o as OverlayNode).tikzitem == pa.CoordBefore)                        
+                            on1 = o as OverlayNode;                            
+                        else if ((o as OverlayNode).tikzitem == pa.CoordAfter)
+                            on2 = o as OverlayNode;
+                    }
+
+                if (pa.FirstCP == tikzitem && on1 != null)    // bind to first
+                {
+                    lineToOrigin1 = new Line() { Stroke = Brushes.Gray, StrokeDashArray = new DoubleCollection(new double[] { 4, 4 }) };
+                    Canvas.SetZIndex(lineToOrigin1, -1);
+                    Origin1 = on1;
+                    on_PositionChanged(on1);
+                    pol.canvas.Children.Add(lineToOrigin1);
+                    lineToOrigin1.Visibility = Visibility.Visible;
+                    on1.PositionChanged += new PositionChangedHandler(on_PositionChanged);
+                }
+                if (pa.LastCP == tikzitem && on2 != null)    // bind to second                
+                {
+                    lineToOrigin2 = new Line() { Stroke = Brushes.Gray, StrokeDashArray = new DoubleCollection(new double[] { 4, 4 }) };
+                    Canvas.SetZIndex(lineToOrigin2, -1);
+                    Origin2 = on2;
+                    on_PositionChanged(on2);
+                    pol.canvas.Children.Add(lineToOrigin2);
+                    lineToOrigin2.Visibility = Visibility.Visible;
+                    on2.PositionChanged += new PositionChangedHandler(on_PositionChanged);
+                }
+            }
+        }
+
+        Line lineToOrigin1 = null, lineToOrigin2 =  null; //new Line() { Stroke = Brushes.Gray };
+        OverlayNode Origin1, Origin2;
+
+        void on_PositionChanged(OverlayNode sender)
+        {
+            if (lineToOrigin1 != null)
+            {
+                lineToOrigin1.X1 = Canvas.GetLeft(Origin1) + Origin1.Width / 2;
+                lineToOrigin1.Y1 = pol.Height - Canvas.GetBottom(Origin1) - Origin1.Height / 2;
+
+                lineToOrigin1.X2 = Canvas.GetLeft(this) + this.Width / 2;
+                lineToOrigin1.Y2 = pol.Height - Canvas.GetBottom(this) - this.Height / 2;
+            }
+            if (lineToOrigin2 != null)
+            {
+                lineToOrigin2.X1 = Canvas.GetLeft(Origin2) + Origin2.Width / 2;
+                lineToOrigin2.Y1 = pol.Height - Canvas.GetBottom(Origin2) - Origin2.Height / 2;
+
+                lineToOrigin2.X2 = Canvas.GetLeft(this) + this.Width / 2;
+                lineToOrigin2.Y2 = pol.Height - Canvas.GetBottom(this) - this.Height / 2;
+            }
+        }
     }
 
     // Adorners must subclass the abstract base class Adorner.
