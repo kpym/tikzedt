@@ -1769,22 +1769,13 @@ namespace TikzEdt
         private void FindCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             EnsureFindDialogExists();
-            FindDialog.tabMain.SelectedIndex = 0;
-            FindDialog.Show();
-            FindDialog.Activate();
-            FindDialog.txtFind.Focus();
-            //FindDialog.txtCode.Focus();
+            FindDialog.ShowAsFind();
         }
 
         private void ReplaceCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             EnsureFindDialogExists();
-            FindDialog.tabMain.SelectedIndex = 1;
-            FindDialog.Show();
-            //FindDialog.Focus();
-            FindDialog.Activate();
-            FindDialog.txtFind2.Focus();
-            //FindDialog..Focus();
+            FindDialog.ShowAsReplace();
         }
 
         private void HelpCommandHandler(object sender, ExecutedRoutedEventArgs e)
@@ -1808,15 +1799,9 @@ namespace TikzEdt
         {
             if (FindDialog == null)
             {
-                FindDialog = new Editor.FindReplaceDialog();
-                FindDialog.txtCode = txtCode;
-                FindDialog.Closed += new EventHandler(FindDialog_Closed); ;
+                FindDialog = new Editor.FindReplaceDialog(txtCode);
+                FindDialog.Closed += delegate { FindDialog = null; }; 
             }
-        }
-
-        void FindDialog_Closed(object sender, EventArgs e)
-        {
-            FindDialog = null;
         }
 
         private void FindNextCommandHandler(object sender, ExecutedRoutedEventArgs e)
