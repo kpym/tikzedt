@@ -1,4 +1,19 @@
-﻿using System;
+﻿/*This file is part of TikzEdt.
+ 
+TikzEdt is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+ 
+TikzEdt is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+ 
+You should have received a copy of the GNU General Public License
+along with TikzEdt.  If not, see <http://www.gnu.org/licenses/>.*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,17 +66,37 @@ namespace TikzEdt
             get { return _OverrideWithZeroGridWidth; }
         }
 
+        bool _OverrideWithHalfGridWidth = false;
+        // use this to set GridWidth to zero temporarily (e.g., on ALT pressed)
+        public bool OverrideWithHalfGridWidth
+        {
+            set { _OverrideWithHalfGridWidth = value; DrawRaster(); }
+            get { return _OverrideWithHalfGridWidth; }
+        }
+
         double _GridWidth = Properties.Settings.Default.Raster_GridWidth;
         public double GridWidth
         {
-            get { if (OverrideWithZeroGridWidth) return 0; else return _GridWidth; }
+            get {
+                if (OverrideWithZeroGridWidth)
+                    return 0;
+                else if (OverrideWithHalfGridWidth)
+                    return _GridWidth / 2;
+                else
+                    return _GridWidth;
+            }
             set { _GridWidth = value; DrawRaster(); }
         }
         uint _RadialSteps = Properties.Settings.Default.Raster_RadSteps;
         public uint RadialSteps
         {
             //get { return Properties.Settings.Default.Raster_RadSteps; }
-            get { return _RadialSteps; }
+            get {
+                if (OverrideWithHalfGridWidth)
+                    return 2 * _RadialSteps;
+                else
+                    return _RadialSteps;
+            }
             set 
             { 
                 _RadialSteps = value; 
