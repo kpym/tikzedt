@@ -1735,6 +1735,7 @@ namespace TikzEdt
                 AddStatusLine("Trying to jump to position " + spos + " but document only has " + txtCode.Text.Length + " characters. Please correct any parser errors or restart TikzEdt.", true);
                 return;
             }
+            txtCode.SelectionLength = 0; //deselect first
             txtCode.CaretOffset = spos;
             txtCode.SelectionStart = spos;
             txtCode.SelectionLength = tpi.ToString().Length;
