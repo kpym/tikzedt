@@ -580,7 +580,7 @@ namespace TikzEdt.Parser
                     if (relto.parent is Tikz_Controls)
                     {
                         Tikz_Controls par = relto.parent as Tikz_Controls;
-                        Tikz_Coord offc = null;
+                        Tikz_XYItem offc = null;
                         if (relto == par.FirstCP)
                             offc = par.CoordBefore;
                         else if (relto == par.LastCP)
@@ -670,7 +670,7 @@ namespace TikzEdt.Parser
                 else if (relto.parent is Tikz_Controls)
                 {
                     Tikz_Controls par = relto.parent as Tikz_Controls;
-                    Tikz_Coord offc = null;
+                    Tikz_XYItem offc = null;
                     if (relto == par.FirstCP)
                         offc = par.CoordBefore;
                     else if (relto == par.LastCP)
@@ -1159,14 +1159,14 @@ namespace TikzEdt.Parser
         /// <summary>
         /// The start point of the Bezier curve
         /// </summary>
-        public Tikz_Coord CoordBefore
+        public Tikz_XYItem CoordBefore
         {
             get
             {
                 for (int i = parent.Children.IndexOf(this) - 1; i >= 0; i--)
                 {
-                    if (parent.Children[i] is Tikz_Coord)
-                        return parent.Children[i] as Tikz_Coord;
+                    if (parent.Children[i] is Tikz_Coord || parent.Children[i] is Tikz_Arc)
+                        return parent.Children[i] as Tikz_XYItem;
                     if (!(parent.Children[i] is Tikz_Something))
                         break;
                 }
@@ -1176,14 +1176,14 @@ namespace TikzEdt.Parser
         /// <summary>
         /// The endpoint of the Bezier curve
         /// </summary>
-        public Tikz_Coord CoordAfter
+        public Tikz_XYItem CoordAfter
         {
             get
             {
                 for (int i = parent.Children.IndexOf(this) + 1; i < parent.Children.Count; i++)
                 {
-                    if (parent.Children[i] is Tikz_Coord)
-                        return parent.Children[i] as Tikz_Coord;
+                    if (parent.Children[i] is Tikz_Coord || parent.Children[i] is Tikz_Arc)
+                        return parent.Children[i] as Tikz_XYItem;
                     if (!(parent.Children[i] is Tikz_Something))
                         break;
                 }
