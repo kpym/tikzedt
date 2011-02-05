@@ -21,7 +21,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="BB_Margin" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">3</Value>
+      <Value Profile="(Default)">6</Value>
     </Setting>
     <Setting Name="Tex_Preamble" Type="System.String" Scope="User">
       <Value Profile="(Default)">\documentclass{article}

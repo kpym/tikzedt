@@ -134,7 +134,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>MNOvhI86pN6WL26eioDzyzsvhVE=</dsig:DigestValue>
+        <dsig:DigestValue>1Fxh/jR9ieJj3HKRnNjjC4Wzgxs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -150,13 +150,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="TikzEdt.exe.config" size="6144">
+  <file name="TikzEdt.exe.config" size="6145">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>GWvlbv4wlAlWW+HZOuKra7VHwwA=</dsig:DigestValue>
+      <dsig:DigestValue>ptq4q0J1FEIGLLV9YE1e1YMmu7k=</dsig:DigestValue>
     </hash>
   </file>
   <file name="tikzedt48.ico" size="9662">
