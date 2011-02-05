@@ -1252,9 +1252,7 @@ namespace TikzEdt
         {
             if (!TryDisposeFile())
                 return;
-
-            isLoaded = false;
-
+            
             //all temporary files should be saved in the temporary folder.
             Helper.SetCurrentWorkingDir(Helper.WorkingDirOptions.TempDir);
             AddStatusLine("Working directory is now: " + Helper.GetCurrentWorkingDir());
@@ -1263,7 +1261,6 @@ namespace TikzEdt
 
             ShowFilesOfCurrentDirectory(); 
 
-            isLoaded = true;
         }
         private void CleanupForNewFile()
         {
@@ -1285,7 +1282,11 @@ namespace TikzEdt
 
             // Set new document ID
             CurDocumentID = DateTime.Now.Ticks;
-            //isLoaded = true;
+
+            // start with std code
+            txtCode.Document.BeginUpdate();
+            txtCode.Document.Insert(0,"\\begin{tikzpicture}"+Environment.NewLine+Environment.NewLine+"\\end{tikzpicture}");
+            txtCode.Document.EndUpdate();
         }
 
         private void CompileCommandHandler(object sender, ExecutedRoutedEventArgs e)
@@ -1683,13 +1684,7 @@ namespace TikzEdt
         {
             TheCompiler.GeneratePrecompiledHeaders();
         }
-
-        private void chkAutoBB_Checked(object sender, RoutedEventArgs e)
-        {
-            if (isLoaded)
-                Recompile();
-        }
-
+       
         private void chkFancyMode_Checked(object sender, RoutedEventArgs e)
         {
             if (isLoaded)

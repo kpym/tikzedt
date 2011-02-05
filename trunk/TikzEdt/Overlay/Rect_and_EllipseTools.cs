@@ -21,6 +21,12 @@ namespace TikzEdt
         // point where the rectangle originates, in screen coordinates
         Point origin;
 
+        /// <summary>
+        /// If this flag is set, the first coordinate is bottom left, the second is top right.
+        /// This is used for drawing the grid (subclass GridTool)
+        /// </summary>
+        protected bool ForcePointsBLTR = false;
+
         // the rectangle to be shown on drawing
         protected Shape PreviewRect = new Rectangle();
         // this is overwritten in GridTool
@@ -70,6 +76,14 @@ namespace TikzEdt
 
                 Point firstpoint = overlay.ScreenToTikz(origin, true);
                 Point secondpoint = overlay.Rasterizer.RasterizePixelToTikz(p);
+
+                if (ForcePointsBLTR)
+                {
+                    // ensure first pt is bottom left, second top right
+                    Rect r = new Rect(firstpoint, secondpoint);
+                    firstpoint = r.TopLeft; // note that we use upside down coordinates, so the c# notations are different
+                    secondpoint = r.BottomRight;
+                }
 
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
                 {
@@ -388,6 +402,7 @@ namespace TikzEdt
             PreviewRect = new PreviewGrid();
             PreviewRect.Visibility = Visibility.Collapsed;
             PreviewRect.Stroke = Brushes.Black;
+            ForcePointsBLTR = true;
         }
     }
 }
