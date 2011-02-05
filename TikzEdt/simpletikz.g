@@ -160,7 +160,7 @@ otherbegin
 	;
 
 tikz_style
-	:	'\\tikzstyle' '{' idd '}' '=' tikz_options -> ^(IM_STYLE idd tikz_options)
+	:	'\\tikzstyle' '{' idd '}' ('=' | '+=') tikz_options -> ^(IM_STYLE idd tikz_options)
 	;
 
 tikz_options

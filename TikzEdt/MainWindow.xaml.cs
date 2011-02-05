@@ -153,6 +153,12 @@ namespace TikzEdt
                 rasterControl1.BB = bigger;
             }
         }
+        /// <summary>
+        /// Indicates whether the current BB is valid for the pdf currently displayed.
+        /// It can be invalid upon failure to determine the bounding box.
+        /// In this case, the bounding box (in wysiwyg mode at least) should be determined from the pdf's size.
+        /// </summary>
+        bool BBvalid = true;
 
         bool _ParseNeeded = false;
         bool ParseNeeded
@@ -267,12 +273,13 @@ namespace TikzEdt
             {
                 if (!job.GeneratePrecompiledHeaders)
                 {
-                    // set the currrent BB
-                    if (job.hasBB && !job.GeneratePrecompiledHeaders)
+                    // set the currrent BB, if the BB could be determined.
+                    // if not, and we are in preview mode, we have a problem
+                    if (job.hasBB)
                     {
                         currentBB = job.BB;
                     }
-
+                    BBvalid = job.hasBB;
                     // (re-)load the pdf to display                
                     string pdfpath = Helper.RemoveFileExtension(job.path) + ".pdf";
                     tikzDisplay1.PdfPath = pdfpath;

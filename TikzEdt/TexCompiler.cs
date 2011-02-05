@@ -376,9 +376,17 @@ namespace TikzEdt
                     //and insert if required
                     if (ContainsPreviewEnvironment(job.code) == false && ContainsDoNotInsertPreviewEnvironment(job.code) == false && !job.GeneratePrecompiledHeaders)
                     {
+
+                        // Inserting code in the editor is not so good since it breaks some tex files, e.g., testcase 29.
+                        // Also, in production mode, preview env. code is not necessary
+                        // just display a warning
+
+
                         string PreviewEnvCode = Environment.NewLine + @"\usepackage[active,tightpage]{preview}" + Environment.NewLine
-                                                + @"\PreviewEnvironment{tikzpicture}" + Environment.NewLine + Environment.NewLine;
-                        int PosBeginDoc = ((MainWindow)Application.Current.Windows[0]).txtCode.Text.IndexOf(@"\begin{document}");
+                                                + @"\PreviewEnvironment{tikzpicture}";// +Environment.NewLine + Environment.NewLine;
+                        MainWindow.AddStatusLine("Warning: No PreviewEnvironment code found, overlay might be misaligned. Insert:"
+                              + PreviewEnvCode);
+                        /*int PosBeginDoc = ((MainWindow)Application.Current.Windows[0]).txtCode.Text.IndexOf(@"\begin{document}");
                         
                         //int PosBeginDoc = job.code.IndexOf(@"\begin{document}");
                         if (PosBeginDoc == -1)
@@ -391,8 +399,8 @@ namespace TikzEdt
                             ((MainWindow)Application.Current.Windows[0]).txtCode.Document.Insert(PosBeginDoc, PreviewEnvCode);
                             //((MainWindow)Application.Current.Windows[0]).txtCode.Text.Insert
                             MainWindow.AddStatusLine("PreviewEnvironment code inserted.");
-                            ((MainWindow)Application.Current.Windows[0]).ChangesMade = true;
-                        }
+                            ((MainWindow)Application.Current.Windows[0]).ChangesMade = true;                            
+                        } */
                     }
                         
                 }
@@ -664,6 +672,8 @@ namespace TikzEdt
         /// Format:
         ///         X1,Y1,X2,Y2
         /// (For example X1 = 27.3pt)
+        /// Unfortunately, for exotic cases (e.g., \begin{tikzpicture}[overlay])  a bogus BB of 16000pt is written.
+        /// In this case, report failure
         /// </summary>
         /// <param name="job"></param>
         void ReadBBFromFile(Job job)
@@ -679,10 +689,13 @@ namespace TikzEdt
                     if (arr.Length == 4)
                     {
                         Point p1 = new Point( Double.Parse(arr[0]) / Consts.ptspertikzunit, Double.Parse(arr[1]) / Consts.ptspertikzunit);
-                        Point p2 = new Point( Double.Parse(arr[2]) / Consts.ptspertikzunit, Double.Parse(arr[3]) / Consts.ptspertikzunit);
-                        
+                        Point p2 = new Point( Double.Parse(arr[2]) / Consts.ptspertikzunit, Double.Parse(arr[3]) / Consts.ptspertikzunit);                                             
+
                         job.BB = new Rect(p1, p2);
-                        job.hasBB = true;
+                        if (job.BB.Width < 500 && job.BB.Height < 500)
+                            job.hasBB = true;
+                        else
+                            job.hasBB = false;
 
                     }
                 }

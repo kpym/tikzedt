@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g 2011-02-03 08:00:09
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g 2011-02-04 12:42:38
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 168, 219
@@ -65,6 +65,7 @@ public partial class simpletikzParser : Parser
 		"'{'", 
 		"'}'", 
 		"'='", 
+		"'+='", 
 		"','", 
 		"':'", 
 		"'/.style'", 
@@ -169,6 +170,7 @@ public partial class simpletikzParser : Parser
     public const int IM_COORD = 6;
     public const int IM_PICTURE = 10;
     public const int INT = 30;
+    public const int T__85 = 85;
     public const int T__84 = 84;
     public const int IM_NODE = 5;
     public const int IM_STYLE = 22;
@@ -381,6 +383,7 @@ public partial class simpletikzParser : Parser
             	    case 82:
             	    case 83:
             	    case 84:
+            	    case 85:
             	    	{
             	        alt1 = 1;
             	        }
@@ -450,7 +453,7 @@ public partial class simpletikzParser : Parser
             	    int alt2 = 2;
             	    int LA2_0 = input.LA(1);
 
-            	    if ( ((LA2_0 >= IM_PATH && LA2_0 <= 84)) )
+            	    if ( ((LA2_0 >= IM_PATH && LA2_0 <= 85)) )
             	    {
             	        alt2 = 1;
             	    }
@@ -658,6 +661,7 @@ public partial class simpletikzParser : Parser
             	    case 82:
             	    case 83:
             	    case 84:
+            	    case 85:
             	    	{
             	        alt3 = 1;
             	        }
@@ -1005,7 +1009,7 @@ public partial class simpletikzParser : Parser
             	root_0 = (object)adaptor.GetNilNode();
 
             	set14 = (IToken)input.LT(1);
-            	if ( (input.LA(1) >= IM_PATH && input.LA(1) <= IM_ARC) || (input.LA(1) >= ID && input.LA(1) <= SOMETHING) || (input.LA(1) >= 41 && input.LA(1) <= 84) ) 
+            	if ( (input.LA(1) >= IM_PATH && input.LA(1) <= IM_ARC) || (input.LA(1) >= ID && input.LA(1) <= SOMETHING) || (input.LA(1) >= 41 && input.LA(1) <= 85) ) 
             	{
             	    input.Consume();
             	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set14));
@@ -1125,7 +1129,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "tikz_style"
-    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:162:1: tikz_style : '\\\\tikzstyle' '{' idd '}' '=' tikz_options -> ^( IM_STYLE idd tikz_options ) ;
+    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:162:1: tikz_style : '\\\\tikzstyle' '{' idd '}' ( '=' | '+=' ) tikz_options -> ^( IM_STYLE idd tikz_options ) ;
     public simpletikzParser.tikz_style_return tikz_style() // throws RecognitionException [1]
     {   
         simpletikzParser.tikz_style_return retval = new simpletikzParser.tikz_style_return();
@@ -1137,16 +1141,19 @@ public partial class simpletikzParser : Parser
         IToken char_literal20 = null;
         IToken char_literal22 = null;
         IToken char_literal23 = null;
+        IToken string_literal24 = null;
         simpletikzParser.idd_return idd21 = default(simpletikzParser.idd_return);
 
-        simpletikzParser.tikz_options_return tikz_options24 = default(simpletikzParser.tikz_options_return);
+        simpletikzParser.tikz_options_return tikz_options25 = default(simpletikzParser.tikz_options_return);
 
 
         object string_literal19_tree=null;
         object char_literal20_tree=null;
         object char_literal22_tree=null;
         object char_literal23_tree=null;
+        object string_literal24_tree=null;
         RewriteRuleTokenStream stream_43 = new RewriteRuleTokenStream(adaptor,"token 43");
+        RewriteRuleTokenStream stream_44 = new RewriteRuleTokenStream(adaptor,"token 44");
         RewriteRuleTokenStream stream_42 = new RewriteRuleTokenStream(adaptor,"token 42");
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
         RewriteRuleTokenStream stream_39 = new RewriteRuleTokenStream(adaptor,"token 39");
@@ -1154,8 +1161,8 @@ public partial class simpletikzParser : Parser
         RewriteRuleSubtreeStream stream_tikz_options = new RewriteRuleSubtreeStream(adaptor,"rule tikz_options");
         try 
     	{
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:163:2: ( '\\\\tikzstyle' '{' idd '}' '=' tikz_options -> ^( IM_STYLE idd tikz_options ) )
-            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:163:4: '\\\\tikzstyle' '{' idd '}' '=' tikz_options
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:163:2: ( '\\\\tikzstyle' '{' idd '}' ( '=' | '+=' ) tikz_options -> ^( IM_STYLE idd tikz_options ) )
+            // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:163:4: '\\\\tikzstyle' '{' idd '}' ( '=' | '+=' ) tikz_options
             {
             	string_literal19=(IToken)Match(input,39,FOLLOW_39_in_tikz_style413); if (state.failed) return retval; 
             	if ( (state.backtracking==0) ) stream_39.Add(string_literal19);
@@ -1171,18 +1178,58 @@ public partial class simpletikzParser : Parser
             	char_literal22=(IToken)Match(input,42,FOLLOW_42_in_tikz_style419); if (state.failed) return retval; 
             	if ( (state.backtracking==0) ) stream_42.Add(char_literal22);
 
-            	char_literal23=(IToken)Match(input,43,FOLLOW_43_in_tikz_style421); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_43.Add(char_literal23);
+            	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:163:30: ( '=' | '+=' )
+            	int alt5 = 2;
+            	int LA5_0 = input.LA(1);
 
-            	PushFollow(FOLLOW_tikz_options_in_tikz_style423);
-            	tikz_options24 = tikz_options();
+            	if ( (LA5_0 == 43) )
+            	{
+            	    alt5 = 1;
+            	}
+            	else if ( (LA5_0 == 44) )
+            	{
+            	    alt5 = 2;
+            	}
+            	else 
+            	{
+            	    if ( state.backtracking > 0 ) {state.failed = true; return retval;}
+            	    NoViableAltException nvae_d5s0 =
+            	        new NoViableAltException("", 5, 0, input);
+
+            	    throw nvae_d5s0;
+            	}
+            	switch (alt5) 
+            	{
+            	    case 1 :
+            	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:163:31: '='
+            	        {
+            	        	char_literal23=(IToken)Match(input,43,FOLLOW_43_in_tikz_style422); if (state.failed) return retval; 
+            	        	if ( (state.backtracking==0) ) stream_43.Add(char_literal23);
+
+
+            	        }
+            	        break;
+            	    case 2 :
+            	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:163:37: '+='
+            	        {
+            	        	string_literal24=(IToken)Match(input,44,FOLLOW_44_in_tikz_style426); if (state.failed) return retval; 
+            	        	if ( (state.backtracking==0) ) stream_44.Add(string_literal24);
+
+
+            	        }
+            	        break;
+
+            	}
+
+            	PushFollow(FOLLOW_tikz_options_in_tikz_style429);
+            	tikz_options25 = tikz_options();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_tikz_options.Add(tikz_options24.Tree);
+            	if ( (state.backtracking==0) ) stream_tikz_options.Add(tikz_options25.Tree);
 
 
             	// AST REWRITE
-            	// elements:          idd, tikz_options
+            	// elements:          tikz_options, idd
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -1193,9 +1240,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 163:47: -> ^( IM_STYLE idd tikz_options )
+            	// 163:56: -> ^( IM_STYLE idd tikz_options )
             	{
-            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:163:50: ^( IM_STYLE idd tikz_options )
+            	    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:163:59: ^( IM_STYLE idd tikz_options )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_STYLE, "IM_STYLE"), root_1);
@@ -1247,20 +1294,20 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal27 = null;
-        IToken char_literal29 = null;
-        simpletikzParser.squarebr_start_return squarebr_start25 = default(simpletikzParser.squarebr_start_return);
+        IToken char_literal28 = null;
+        IToken char_literal30 = null;
+        simpletikzParser.squarebr_start_return squarebr_start26 = default(simpletikzParser.squarebr_start_return);
 
-        simpletikzParser.option_return option26 = default(simpletikzParser.option_return);
+        simpletikzParser.option_return option27 = default(simpletikzParser.option_return);
 
-        simpletikzParser.option_return option28 = default(simpletikzParser.option_return);
+        simpletikzParser.option_return option29 = default(simpletikzParser.option_return);
 
-        simpletikzParser.squarebr_end_return squarebr_end30 = default(simpletikzParser.squarebr_end_return);
+        simpletikzParser.squarebr_end_return squarebr_end31 = default(simpletikzParser.squarebr_end_return);
 
 
-        object char_literal27_tree=null;
-        object char_literal29_tree=null;
-        RewriteRuleTokenStream stream_44 = new RewriteRuleTokenStream(adaptor,"token 44");
+        object char_literal28_tree=null;
+        object char_literal30_tree=null;
+        RewriteRuleTokenStream stream_45 = new RewriteRuleTokenStream(adaptor,"token 45");
         RewriteRuleSubtreeStream stream_squarebr_start = new RewriteRuleSubtreeStream(adaptor,"rule squarebr_start");
         RewriteRuleSubtreeStream stream_squarebr_end = new RewriteRuleSubtreeStream(adaptor,"rule squarebr_end");
         RewriteRuleSubtreeStream stream_option = new RewriteRuleSubtreeStream(adaptor,"rule option");
@@ -1269,88 +1316,88 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:2: ( squarebr_start ( option ( ',' option )* ( ',' )? )? squarebr_end -> ^( IM_OPTIONS squarebr_start ( option )* squarebr_end ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:5: squarebr_start ( option ( ',' option )* ( ',' )? )? squarebr_end
             {
-            	PushFollow(FOLLOW_squarebr_start_in_tikz_options445);
-            	squarebr_start25 = squarebr_start();
+            	PushFollow(FOLLOW_squarebr_start_in_tikz_options451);
+            	squarebr_start26 = squarebr_start();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_squarebr_start.Add(squarebr_start25.Tree);
+            	if ( (state.backtracking==0) ) stream_squarebr_start.Add(squarebr_start26.Tree);
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:20: ( option ( ',' option )* ( ',' )? )?
-            	int alt7 = 2;
-            	int LA7_0 = input.LA(1);
+            	int alt8 = 2;
+            	int LA8_0 = input.LA(1);
 
-            	if ( ((LA7_0 >= IM_PATH && LA7_0 <= 40) || LA7_0 == 48 || (LA7_0 >= 54 && LA7_0 <= 84)) )
+            	if ( ((LA8_0 >= IM_PATH && LA8_0 <= 40) || LA8_0 == 44 || LA8_0 == 49 || (LA8_0 >= 55 && LA8_0 <= 85)) )
             	{
-            	    alt7 = 1;
+            	    alt8 = 1;
             	}
-            	switch (alt7) 
+            	switch (alt8) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:21: option ( ',' option )* ( ',' )?
             	        {
-            	        	PushFollow(FOLLOW_option_in_tikz_options448);
-            	        	option26 = option();
+            	        	PushFollow(FOLLOW_option_in_tikz_options454);
+            	        	option27 = option();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( (state.backtracking==0) ) stream_option.Add(option26.Tree);
+            	        	if ( (state.backtracking==0) ) stream_option.Add(option27.Tree);
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:28: ( ',' option )*
             	        	do 
             	        	{
-            	        	    int alt5 = 2;
-            	        	    int LA5_0 = input.LA(1);
+            	        	    int alt6 = 2;
+            	        	    int LA6_0 = input.LA(1);
 
-            	        	    if ( (LA5_0 == 44) )
+            	        	    if ( (LA6_0 == 45) )
             	        	    {
-            	        	        int LA5_1 = input.LA(2);
+            	        	        int LA6_1 = input.LA(2);
 
-            	        	        if ( ((LA5_1 >= IM_PATH && LA5_1 <= 40) || LA5_1 == 48 || (LA5_1 >= 54 && LA5_1 <= 84)) )
+            	        	        if ( ((LA6_1 >= IM_PATH && LA6_1 <= 40) || LA6_1 == 44 || LA6_1 == 49 || (LA6_1 >= 55 && LA6_1 <= 85)) )
             	        	        {
-            	        	            alt5 = 1;
+            	        	            alt6 = 1;
             	        	        }
 
 
             	        	    }
 
 
-            	        	    switch (alt5) 
+            	        	    switch (alt6) 
             	        		{
             	        			case 1 :
             	        			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:29: ',' option
             	        			    {
-            	        			    	char_literal27=(IToken)Match(input,44,FOLLOW_44_in_tikz_options451); if (state.failed) return retval; 
-            	        			    	if ( (state.backtracking==0) ) stream_44.Add(char_literal27);
+            	        			    	char_literal28=(IToken)Match(input,45,FOLLOW_45_in_tikz_options457); if (state.failed) return retval; 
+            	        			    	if ( (state.backtracking==0) ) stream_45.Add(char_literal28);
 
-            	        			    	PushFollow(FOLLOW_option_in_tikz_options453);
-            	        			    	option28 = option();
+            	        			    	PushFollow(FOLLOW_option_in_tikz_options459);
+            	        			    	option29 = option();
             	        			    	state.followingStackPointer--;
             	        			    	if (state.failed) return retval;
-            	        			    	if ( (state.backtracking==0) ) stream_option.Add(option28.Tree);
+            	        			    	if ( (state.backtracking==0) ) stream_option.Add(option29.Tree);
 
             	        			    }
             	        			    break;
 
             	        			default:
-            	        			    goto loop5;
+            	        			    goto loop6;
             	        	    }
             	        	} while (true);
 
-            	        	loop5:
-            	        		;	// Stops C# compiler whining that label 'loop5' has no statements
+            	        	loop6:
+            	        		;	// Stops C# compiler whining that label 'loop6' has no statements
 
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:42: ( ',' )?
-            	        	int alt6 = 2;
-            	        	int LA6_0 = input.LA(1);
+            	        	int alt7 = 2;
+            	        	int LA7_0 = input.LA(1);
 
-            	        	if ( (LA6_0 == 44) )
+            	        	if ( (LA7_0 == 45) )
             	        	{
-            	        	    alt6 = 1;
+            	        	    alt7 = 1;
             	        	}
-            	        	switch (alt6) 
+            	        	switch (alt7) 
             	        	{
             	        	    case 1 :
             	        	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:167:42: ','
             	        	        {
-            	        	        	char_literal29=(IToken)Match(input,44,FOLLOW_44_in_tikz_options457); if (state.failed) return retval; 
-            	        	        	if ( (state.backtracking==0) ) stream_44.Add(char_literal29);
+            	        	        	char_literal30=(IToken)Match(input,45,FOLLOW_45_in_tikz_options463); if (state.failed) return retval; 
+            	        	        	if ( (state.backtracking==0) ) stream_45.Add(char_literal30);
 
 
             	        	        }
@@ -1364,15 +1411,15 @@ public partial class simpletikzParser : Parser
 
             	}
 
-            	PushFollow(FOLLOW_squarebr_end_in_tikz_options462);
-            	squarebr_end30 = squarebr_end();
+            	PushFollow(FOLLOW_squarebr_end_in_tikz_options468);
+            	squarebr_end31 = squarebr_end();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_squarebr_end.Add(squarebr_end30.Tree);
+            	if ( (state.backtracking==0) ) stream_squarebr_end.Add(squarebr_end31.Tree);
 
 
             	// AST REWRITE
-            	// elements:          squarebr_end, squarebr_start, option
+            	// elements:          option, squarebr_start, squarebr_end
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -1444,29 +1491,29 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.option_style_return option_style31 = default(simpletikzParser.option_style_return);
+        simpletikzParser.option_style_return option_style32 = default(simpletikzParser.option_style_return);
 
-        simpletikzParser.option_kv_return option_kv32 = default(simpletikzParser.option_kv_return);
+        simpletikzParser.option_kv_return option_kv33 = default(simpletikzParser.option_kv_return);
 
 
 
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:171:2: ( option_style | option_kv )
-            int alt8 = 2;
-            alt8 = dfa8.Predict(input);
-            switch (alt8) 
+            int alt9 = 2;
+            alt9 = dfa9.Predict(input);
+            switch (alt9) 
             {
                 case 1 :
                     // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:171:4: option_style
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_option_style_in_option487);
-                    	option_style31 = option_style();
+                    	PushFollow(FOLLOW_option_style_in_option493);
+                    	option_style32 = option_style();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, option_style31.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, option_style32.Tree);
 
                     }
                     break;
@@ -1475,11 +1522,11 @@ public partial class simpletikzParser : Parser
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_option_kv_in_option496);
-                    	option_kv32 = option_kv();
+                    	PushFollow(FOLLOW_option_kv_in_option502);
+                    	option_kv33 = option_kv();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, option_kv32.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, option_kv33.Tree);
 
                     }
                     break;
@@ -1521,13 +1568,13 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal34 = null;
-        simpletikzParser.idd_return idd33 = default(simpletikzParser.idd_return);
+        IToken char_literal35 = null;
+        simpletikzParser.idd_return idd34 = default(simpletikzParser.idd_return);
 
-        simpletikzParser.iddornumberunitorstringorrange_return iddornumberunitorstringorrange35 = default(simpletikzParser.iddornumberunitorstringorrange_return);
+        simpletikzParser.iddornumberunitorstringorrange_return iddornumberunitorstringorrange36 = default(simpletikzParser.iddornumberunitorstringorrange_return);
 
 
-        object char_literal34_tree=null;
+        object char_literal35_tree=null;
         RewriteRuleTokenStream stream_43 = new RewriteRuleTokenStream(adaptor,"token 43");
         RewriteRuleSubtreeStream stream_iddornumberunitorstringorrange = new RewriteRuleSubtreeStream(adaptor,"rule iddornumberunitorstringorrange");
         RewriteRuleSubtreeStream stream_idd = new RewriteRuleSubtreeStream(adaptor,"rule idd");
@@ -1536,32 +1583,32 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:176:2: ( idd ( '=' iddornumberunitorstringorrange )? -> ^( IM_OPTION_KV idd ( iddornumberunitorstringorrange )? ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:176:4: idd ( '=' iddornumberunitorstringorrange )?
             {
-            	PushFollow(FOLLOW_idd_in_option_kv510);
-            	idd33 = idd();
+            	PushFollow(FOLLOW_idd_in_option_kv516);
+            	idd34 = idd();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_idd.Add(idd33.Tree);
+            	if ( (state.backtracking==0) ) stream_idd.Add(idd34.Tree);
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:176:8: ( '=' iddornumberunitorstringorrange )?
-            	int alt9 = 2;
-            	int LA9_0 = input.LA(1);
+            	int alt10 = 2;
+            	int LA10_0 = input.LA(1);
 
-            	if ( (LA9_0 == 43) )
+            	if ( (LA10_0 == 43) )
             	{
-            	    alt9 = 1;
+            	    alt10 = 1;
             	}
-            	switch (alt9) 
+            	switch (alt10) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:176:9: '=' iddornumberunitorstringorrange
             	        {
-            	        	char_literal34=(IToken)Match(input,43,FOLLOW_43_in_option_kv513); if (state.failed) return retval; 
-            	        	if ( (state.backtracking==0) ) stream_43.Add(char_literal34);
+            	        	char_literal35=(IToken)Match(input,43,FOLLOW_43_in_option_kv519); if (state.failed) return retval; 
+            	        	if ( (state.backtracking==0) ) stream_43.Add(char_literal35);
 
-            	        	PushFollow(FOLLOW_iddornumberunitorstringorrange_in_option_kv515);
-            	        	iddornumberunitorstringorrange35 = iddornumberunitorstringorrange();
+            	        	PushFollow(FOLLOW_iddornumberunitorstringorrange_in_option_kv521);
+            	        	iddornumberunitorstringorrange36 = iddornumberunitorstringorrange();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( (state.backtracking==0) ) stream_iddornumberunitorstringorrange.Add(iddornumberunitorstringorrange35.Tree);
+            	        	if ( (state.backtracking==0) ) stream_iddornumberunitorstringorrange.Add(iddornumberunitorstringorrange36.Tree);
 
             	        }
             	        break;
@@ -1571,7 +1618,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          idd, iddornumberunitorstringorrange
+            	// elements:          iddornumberunitorstringorrange, idd
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -1642,17 +1689,17 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal36 = null;
-        IToken char_literal40 = null;
-        simpletikzParser.no_rlbrace_return no_rlbrace37 = default(simpletikzParser.no_rlbrace_return);
+        IToken char_literal37 = null;
+        IToken char_literal41 = null;
+        simpletikzParser.no_rlbrace_return no_rlbrace38 = default(simpletikzParser.no_rlbrace_return);
 
-        simpletikzParser.tikzstring_return tikzstring38 = default(simpletikzParser.tikzstring_return);
+        simpletikzParser.tikzstring_return tikzstring39 = default(simpletikzParser.tikzstring_return);
 
-        simpletikzParser.no_rlbrace_return no_rlbrace39 = default(simpletikzParser.no_rlbrace_return);
+        simpletikzParser.no_rlbrace_return no_rlbrace40 = default(simpletikzParser.no_rlbrace_return);
 
 
-        object char_literal36_tree=null;
-        object char_literal40_tree=null;
+        object char_literal37_tree=null;
+        object char_literal41_tree=null;
         RewriteRuleTokenStream stream_42 = new RewriteRuleTokenStream(adaptor,"token 42");
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
         RewriteRuleSubtreeStream stream_tikzstring = new RewriteRuleSubtreeStream(adaptor,"rule tikzstring");
@@ -1662,113 +1709,113 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:180:2: ( '{' ( no_rlbrace )* ( tikzstring ( no_rlbrace )* )* '}' -> ^( IM_STRING '{' '}' ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:180:4: '{' ( no_rlbrace )* ( tikzstring ( no_rlbrace )* )* '}'
             {
-            	char_literal36=(IToken)Match(input,41,FOLLOW_41_in_tikzstring543); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_41.Add(char_literal36);
+            	char_literal37=(IToken)Match(input,41,FOLLOW_41_in_tikzstring549); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_41.Add(char_literal37);
 
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:180:8: ( no_rlbrace )*
             	do 
             	{
-            	    int alt10 = 2;
-            	    int LA10_0 = input.LA(1);
+            	    int alt11 = 2;
+            	    int LA11_0 = input.LA(1);
 
-            	    if ( ((LA10_0 >= IM_PATH && LA10_0 <= 40) || (LA10_0 >= 43 && LA10_0 <= 84)) )
+            	    if ( ((LA11_0 >= IM_PATH && LA11_0 <= 40) || (LA11_0 >= 43 && LA11_0 <= 85)) )
             	    {
-            	        alt10 = 1;
+            	        alt11 = 1;
             	    }
 
 
-            	    switch (alt10) 
+            	    switch (alt11) 
             		{
             			case 1 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:180:8: no_rlbrace
             			    {
-            			    	PushFollow(FOLLOW_no_rlbrace_in_tikzstring545);
-            			    	no_rlbrace37 = no_rlbrace();
+            			    	PushFollow(FOLLOW_no_rlbrace_in_tikzstring551);
+            			    	no_rlbrace38 = no_rlbrace();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
-            			    	if ( (state.backtracking==0) ) stream_no_rlbrace.Add(no_rlbrace37.Tree);
+            			    	if ( (state.backtracking==0) ) stream_no_rlbrace.Add(no_rlbrace38.Tree);
 
             			    }
             			    break;
 
             			default:
-            			    goto loop10;
+            			    goto loop11;
             	    }
             	} while (true);
 
-            	loop10:
-            		;	// Stops C# compiler whining that label 'loop10' has no statements
+            	loop11:
+            		;	// Stops C# compiler whining that label 'loop11' has no statements
 
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:180:20: ( tikzstring ( no_rlbrace )* )*
             	do 
             	{
-            	    int alt12 = 2;
-            	    int LA12_0 = input.LA(1);
+            	    int alt13 = 2;
+            	    int LA13_0 = input.LA(1);
 
-            	    if ( (LA12_0 == 41) )
+            	    if ( (LA13_0 == 41) )
             	    {
-            	        alt12 = 1;
+            	        alt13 = 1;
             	    }
 
 
-            	    switch (alt12) 
+            	    switch (alt13) 
             		{
             			case 1 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:180:21: tikzstring ( no_rlbrace )*
             			    {
-            			    	PushFollow(FOLLOW_tikzstring_in_tikzstring549);
-            			    	tikzstring38 = tikzstring();
+            			    	PushFollow(FOLLOW_tikzstring_in_tikzstring555);
+            			    	tikzstring39 = tikzstring();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
-            			    	if ( (state.backtracking==0) ) stream_tikzstring.Add(tikzstring38.Tree);
+            			    	if ( (state.backtracking==0) ) stream_tikzstring.Add(tikzstring39.Tree);
             			    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:180:32: ( no_rlbrace )*
             			    	do 
             			    	{
-            			    	    int alt11 = 2;
-            			    	    int LA11_0 = input.LA(1);
+            			    	    int alt12 = 2;
+            			    	    int LA12_0 = input.LA(1);
 
-            			    	    if ( ((LA11_0 >= IM_PATH && LA11_0 <= 40) || (LA11_0 >= 43 && LA11_0 <= 84)) )
+            			    	    if ( ((LA12_0 >= IM_PATH && LA12_0 <= 40) || (LA12_0 >= 43 && LA12_0 <= 85)) )
             			    	    {
-            			    	        alt11 = 1;
+            			    	        alt12 = 1;
             			    	    }
 
 
-            			    	    switch (alt11) 
+            			    	    switch (alt12) 
             			    		{
             			    			case 1 :
             			    			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:180:32: no_rlbrace
             			    			    {
-            			    			    	PushFollow(FOLLOW_no_rlbrace_in_tikzstring551);
-            			    			    	no_rlbrace39 = no_rlbrace();
+            			    			    	PushFollow(FOLLOW_no_rlbrace_in_tikzstring557);
+            			    			    	no_rlbrace40 = no_rlbrace();
             			    			    	state.followingStackPointer--;
             			    			    	if (state.failed) return retval;
-            			    			    	if ( (state.backtracking==0) ) stream_no_rlbrace.Add(no_rlbrace39.Tree);
+            			    			    	if ( (state.backtracking==0) ) stream_no_rlbrace.Add(no_rlbrace40.Tree);
 
             			    			    }
             			    			    break;
 
             			    			default:
-            			    			    goto loop11;
+            			    			    goto loop12;
             			    	    }
             			    	} while (true);
 
-            			    	loop11:
-            			    		;	// Stops C# compiler whining that label 'loop11' has no statements
+            			    	loop12:
+            			    		;	// Stops C# compiler whining that label 'loop12' has no statements
 
 
             			    }
             			    break;
 
             			default:
-            			    goto loop12;
+            			    goto loop13;
             	    }
             	} while (true);
 
-            	loop12:
-            		;	// Stops C# compiler whining that label 'loop12' has no statements
+            	loop13:
+            		;	// Stops C# compiler whining that label 'loop13' has no statements
 
-            	char_literal40=(IToken)Match(input,42,FOLLOW_42_in_tikzstring556); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_42.Add(char_literal40);
+            	char_literal41=(IToken)Match(input,42,FOLLOW_42_in_tikzstring562); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_42.Add(char_literal41);
 
 
 
@@ -1838,9 +1885,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken set41 = null;
+        IToken set42 = null;
 
-        object set41_tree=null;
+        object set42_tree=null;
 
         try 
     	{
@@ -1849,11 +1896,11 @@ public partial class simpletikzParser : Parser
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	set41 = (IToken)input.LT(1);
-            	if ( (input.LA(1) >= IM_PATH && input.LA(1) <= 40) || (input.LA(1) >= 43 && input.LA(1) <= 84) ) 
+            	set42 = (IToken)input.LT(1);
+            	if ( (input.LA(1) >= IM_PATH && input.LA(1) <= 40) || (input.LA(1) >= 43 && input.LA(1) <= 85) ) 
             	{
             	    input.Consume();
-            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set41));
+            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set42));
             	    state.errorRecovery = false;state.failed = false;
             	}
             	else 
@@ -1902,35 +1949,35 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.range_return range42 = default(simpletikzParser.range_return);
+        simpletikzParser.range_return range43 = default(simpletikzParser.range_return);
 
-        simpletikzParser.numberunit_return numberunit43 = default(simpletikzParser.numberunit_return);
+        simpletikzParser.numberunit_return numberunit44 = default(simpletikzParser.numberunit_return);
 
-        simpletikzParser.bracedcoord_return bracedcoord44 = default(simpletikzParser.bracedcoord_return);
+        simpletikzParser.bracedcoord_return bracedcoord45 = default(simpletikzParser.bracedcoord_return);
 
-        simpletikzParser.idd_return idd45 = default(simpletikzParser.idd_return);
+        simpletikzParser.idd_return idd46 = default(simpletikzParser.idd_return);
 
-        simpletikzParser.tikzstring_return tikzstring46 = default(simpletikzParser.tikzstring_return);
+        simpletikzParser.tikzstring_return tikzstring47 = default(simpletikzParser.tikzstring_return);
 
 
 
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:187:2: ( range | numberunit | bracedcoord | idd | tikzstring )
-            int alt13 = 5;
-            alt13 = dfa13.Predict(input);
-            switch (alt13) 
+            int alt14 = 5;
+            alt14 = dfa14.Predict(input);
+            switch (alt14) 
             {
                 case 1 :
                     // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:187:5: range
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_range_in_iddornumberunitorstringorrange597);
-                    	range42 = range();
+                    	PushFollow(FOLLOW_range_in_iddornumberunitorstringorrange603);
+                    	range43 = range();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, range42.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, range43.Tree);
 
                     }
                     break;
@@ -1939,11 +1986,11 @@ public partial class simpletikzParser : Parser
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_numberunit_in_iddornumberunitorstringorrange601);
-                    	numberunit43 = numberunit();
+                    	PushFollow(FOLLOW_numberunit_in_iddornumberunitorstringorrange607);
+                    	numberunit44 = numberunit();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, numberunit43.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, numberunit44.Tree);
 
                     }
                     break;
@@ -1952,11 +1999,11 @@ public partial class simpletikzParser : Parser
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_bracedcoord_in_iddornumberunitorstringorrange605);
-                    	bracedcoord44 = bracedcoord();
+                    	PushFollow(FOLLOW_bracedcoord_in_iddornumberunitorstringorrange611);
+                    	bracedcoord45 = bracedcoord();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, bracedcoord44.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, bracedcoord45.Tree);
 
                     }
                     break;
@@ -1965,11 +2012,11 @@ public partial class simpletikzParser : Parser
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_idd_in_iddornumberunitorstringorrange609);
-                    	idd45 = idd();
+                    	PushFollow(FOLLOW_idd_in_iddornumberunitorstringorrange615);
+                    	idd46 = idd();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, idd45.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, idd46.Tree);
 
                     }
                     break;
@@ -1978,11 +2025,11 @@ public partial class simpletikzParser : Parser
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_tikzstring_in_iddornumberunitorstringorrange613);
-                    	tikzstring46 = tikzstring();
+                    	PushFollow(FOLLOW_tikzstring_in_iddornumberunitorstringorrange619);
+                    	tikzstring47 = tikzstring();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzstring46.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzstring47.Tree);
 
                     }
                     break;
@@ -2024,13 +2071,13 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal47 = null;
-        IToken char_literal49 = null;
-        simpletikzParser.coord_return coord48 = default(simpletikzParser.coord_return);
+        IToken char_literal48 = null;
+        IToken char_literal50 = null;
+        simpletikzParser.coord_return coord49 = default(simpletikzParser.coord_return);
 
 
-        object char_literal47_tree=null;
-        object char_literal49_tree=null;
+        object char_literal48_tree=null;
+        object char_literal50_tree=null;
 
         try 
     	{
@@ -2039,13 +2086,13 @@ public partial class simpletikzParser : Parser
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	char_literal47=(IToken)Match(input,41,FOLLOW_41_in_bracedcoord626); if (state.failed) return retval;
-            	PushFollow(FOLLOW_coord_in_bracedcoord630);
-            	coord48 = coord();
+            	char_literal48=(IToken)Match(input,41,FOLLOW_41_in_bracedcoord632); if (state.failed) return retval;
+            	PushFollow(FOLLOW_coord_in_bracedcoord636);
+            	coord49 = coord();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, coord48.Tree);
-            	char_literal49=(IToken)Match(input,42,FOLLOW_42_in_bracedcoord632); if (state.failed) return retval;
+            	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, coord49.Tree);
+            	char_literal50=(IToken)Match(input,42,FOLLOW_42_in_bracedcoord638); if (state.failed) return retval;
 
             }
 
@@ -2085,37 +2132,37 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal51 = null;
-        simpletikzParser.numberunit_return numberunit50 = default(simpletikzParser.numberunit_return);
+        IToken char_literal52 = null;
+        simpletikzParser.numberunit_return numberunit51 = default(simpletikzParser.numberunit_return);
 
-        simpletikzParser.numberunit_return numberunit52 = default(simpletikzParser.numberunit_return);
+        simpletikzParser.numberunit_return numberunit53 = default(simpletikzParser.numberunit_return);
 
 
-        object char_literal51_tree=null;
-        RewriteRuleTokenStream stream_45 = new RewriteRuleTokenStream(adaptor,"token 45");
+        object char_literal52_tree=null;
+        RewriteRuleTokenStream stream_46 = new RewriteRuleTokenStream(adaptor,"token 46");
         RewriteRuleSubtreeStream stream_numberunit = new RewriteRuleSubtreeStream(adaptor,"rule numberunit");
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:193:2: ( numberunit ':' numberunit -> ^( IM_STRING numberunit ':' numberunit ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:193:4: numberunit ':' numberunit
             {
-            	PushFollow(FOLLOW_numberunit_in_range643);
-            	numberunit50 = numberunit();
+            	PushFollow(FOLLOW_numberunit_in_range649);
+            	numberunit51 = numberunit();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit50.Tree);
-            	char_literal51=(IToken)Match(input,45,FOLLOW_45_in_range645); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_45.Add(char_literal51);
+            	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit51.Tree);
+            	char_literal52=(IToken)Match(input,46,FOLLOW_46_in_range651); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_46.Add(char_literal52);
 
-            	PushFollow(FOLLOW_numberunit_in_range647);
-            	numberunit52 = numberunit();
+            	PushFollow(FOLLOW_numberunit_in_range653);
+            	numberunit53 = numberunit();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit52.Tree);
+            	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit53.Tree);
 
 
             	// AST REWRITE
-            	// elements:          numberunit, 45, numberunit
+            	// elements:          numberunit, numberunit, 46
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -2134,7 +2181,7 @@ public partial class simpletikzParser : Parser
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_STRING, "IM_STRING"), root_1);
 
             	    adaptor.AddChild(root_1, stream_numberunit.NextTree());
-            	    adaptor.AddChild(root_1, stream_45.NextNode());
+            	    adaptor.AddChild(root_1, stream_46.NextNode());
             	    adaptor.AddChild(root_1, stream_numberunit.NextTree());
 
             	    adaptor.AddChild(root_0, root_1);
@@ -2181,36 +2228,36 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal54 = null;
         IToken string_literal55 = null;
         IToken string_literal56 = null;
-        IToken char_literal57 = null;
+        IToken string_literal57 = null;
         IToken char_literal58 = null;
-        IToken char_literal60 = null;
-        IToken char_literal62 = null;
+        IToken char_literal59 = null;
+        IToken char_literal61 = null;
         IToken char_literal63 = null;
-        simpletikzParser.idd_return idd53 = default(simpletikzParser.idd_return);
+        IToken char_literal64 = null;
+        simpletikzParser.idd_return idd54 = default(simpletikzParser.idd_return);
 
-        simpletikzParser.option_kv_return option_kv59 = default(simpletikzParser.option_kv_return);
+        simpletikzParser.option_kv_return option_kv60 = default(simpletikzParser.option_kv_return);
 
-        simpletikzParser.option_kv_return option_kv61 = default(simpletikzParser.option_kv_return);
+        simpletikzParser.option_kv_return option_kv62 = default(simpletikzParser.option_kv_return);
 
 
-        object string_literal54_tree=null;
         object string_literal55_tree=null;
         object string_literal56_tree=null;
-        object char_literal57_tree=null;
+        object string_literal57_tree=null;
         object char_literal58_tree=null;
-        object char_literal60_tree=null;
-        object char_literal62_tree=null;
+        object char_literal59_tree=null;
+        object char_literal61_tree=null;
         object char_literal63_tree=null;
+        object char_literal64_tree=null;
+        RewriteRuleTokenStream stream_49 = new RewriteRuleTokenStream(adaptor,"token 49");
         RewriteRuleTokenStream stream_48 = new RewriteRuleTokenStream(adaptor,"token 48");
+        RewriteRuleTokenStream stream_45 = new RewriteRuleTokenStream(adaptor,"token 45");
         RewriteRuleTokenStream stream_43 = new RewriteRuleTokenStream(adaptor,"token 43");
-        RewriteRuleTokenStream stream_44 = new RewriteRuleTokenStream(adaptor,"token 44");
         RewriteRuleTokenStream stream_42 = new RewriteRuleTokenStream(adaptor,"token 42");
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
         RewriteRuleTokenStream stream_47 = new RewriteRuleTokenStream(adaptor,"token 47");
-        RewriteRuleTokenStream stream_46 = new RewriteRuleTokenStream(adaptor,"token 46");
         RewriteRuleSubtreeStream stream_idd = new RewriteRuleSubtreeStream(adaptor,"rule idd");
         RewriteRuleSubtreeStream stream_option_kv = new RewriteRuleSubtreeStream(adaptor,"rule option_kv");
         try 
@@ -2218,38 +2265,38 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:196:2: ( idd ( '/.style' | ( '/.append' 'style' ) ) '=' '{' ( option_kv ( ',' option_kv )* )? ( ',' )? '}' -> ^( IM_OPTION_STYLE idd ( option_kv )* ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:196:4: idd ( '/.style' | ( '/.append' 'style' ) ) '=' '{' ( option_kv ( ',' option_kv )* )? ( ',' )? '}'
             {
-            	PushFollow(FOLLOW_idd_in_option_style671);
-            	idd53 = idd();
+            	PushFollow(FOLLOW_idd_in_option_style677);
+            	idd54 = idd();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_idd.Add(idd53.Tree);
+            	if ( (state.backtracking==0) ) stream_idd.Add(idd54.Tree);
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:196:8: ( '/.style' | ( '/.append' 'style' ) )
-            	int alt14 = 2;
-            	int LA14_0 = input.LA(1);
+            	int alt15 = 2;
+            	int LA15_0 = input.LA(1);
 
-            	if ( (LA14_0 == 46) )
+            	if ( (LA15_0 == 47) )
             	{
-            	    alt14 = 1;
+            	    alt15 = 1;
             	}
-            	else if ( (LA14_0 == 47) )
+            	else if ( (LA15_0 == 48) )
             	{
-            	    alt14 = 2;
+            	    alt15 = 2;
             	}
             	else 
             	{
             	    if ( state.backtracking > 0 ) {state.failed = true; return retval;}
-            	    NoViableAltException nvae_d14s0 =
-            	        new NoViableAltException("", 14, 0, input);
+            	    NoViableAltException nvae_d15s0 =
+            	        new NoViableAltException("", 15, 0, input);
 
-            	    throw nvae_d14s0;
+            	    throw nvae_d15s0;
             	}
-            	switch (alt14) 
+            	switch (alt15) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:196:9: '/.style'
             	        {
-            	        	string_literal54=(IToken)Match(input,46,FOLLOW_46_in_option_style674); if (state.failed) return retval; 
-            	        	if ( (state.backtracking==0) ) stream_46.Add(string_literal54);
+            	        	string_literal55=(IToken)Match(input,47,FOLLOW_47_in_option_style680); if (state.failed) return retval; 
+            	        	if ( (state.backtracking==0) ) stream_47.Add(string_literal55);
 
 
             	        }
@@ -2260,11 +2307,11 @@ public partial class simpletikzParser : Parser
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:196:21: ( '/.append' 'style' )
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:196:22: '/.append' 'style'
             	        	{
-            	        		string_literal55=(IToken)Match(input,47,FOLLOW_47_in_option_style679); if (state.failed) return retval; 
-            	        		if ( (state.backtracking==0) ) stream_47.Add(string_literal55);
-
-            	        		string_literal56=(IToken)Match(input,48,FOLLOW_48_in_option_style681); if (state.failed) return retval; 
+            	        		string_literal56=(IToken)Match(input,48,FOLLOW_48_in_option_style685); if (state.failed) return retval; 
             	        		if ( (state.backtracking==0) ) stream_48.Add(string_literal56);
+
+            	        		string_literal57=(IToken)Match(input,49,FOLLOW_49_in_option_style687); if (state.failed) return retval; 
+            	        		if ( (state.backtracking==0) ) stream_49.Add(string_literal57);
 
 
             	        	}
@@ -2275,73 +2322,73 @@ public partial class simpletikzParser : Parser
 
             	}
 
-            	char_literal57=(IToken)Match(input,43,FOLLOW_43_in_option_style685); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_43.Add(char_literal57);
+            	char_literal58=(IToken)Match(input,43,FOLLOW_43_in_option_style691); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_43.Add(char_literal58);
 
-            	char_literal58=(IToken)Match(input,41,FOLLOW_41_in_option_style687); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_41.Add(char_literal58);
+            	char_literal59=(IToken)Match(input,41,FOLLOW_41_in_option_style693); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_41.Add(char_literal59);
 
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:196:51: ( option_kv ( ',' option_kv )* )?
-            	int alt16 = 2;
-            	int LA16_0 = input.LA(1);
+            	int alt17 = 2;
+            	int LA17_0 = input.LA(1);
 
-            	if ( ((LA16_0 >= IM_PATH && LA16_0 <= 40) || LA16_0 == 48 || (LA16_0 >= 54 && LA16_0 <= 84)) )
+            	if ( ((LA17_0 >= IM_PATH && LA17_0 <= 40) || LA17_0 == 44 || LA17_0 == 49 || (LA17_0 >= 55 && LA17_0 <= 85)) )
             	{
-            	    alt16 = 1;
+            	    alt17 = 1;
             	}
-            	switch (alt16) 
+            	switch (alt17) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:196:52: option_kv ( ',' option_kv )*
             	        {
-            	        	PushFollow(FOLLOW_option_kv_in_option_style690);
-            	        	option_kv59 = option_kv();
+            	        	PushFollow(FOLLOW_option_kv_in_option_style696);
+            	        	option_kv60 = option_kv();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( (state.backtracking==0) ) stream_option_kv.Add(option_kv59.Tree);
+            	        	if ( (state.backtracking==0) ) stream_option_kv.Add(option_kv60.Tree);
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:196:62: ( ',' option_kv )*
             	        	do 
             	        	{
-            	        	    int alt15 = 2;
-            	        	    int LA15_0 = input.LA(1);
+            	        	    int alt16 = 2;
+            	        	    int LA16_0 = input.LA(1);
 
-            	        	    if ( (LA15_0 == 44) )
+            	        	    if ( (LA16_0 == 45) )
             	        	    {
-            	        	        int LA15_1 = input.LA(2);
+            	        	        int LA16_1 = input.LA(2);
 
-            	        	        if ( ((LA15_1 >= IM_PATH && LA15_1 <= 40) || LA15_1 == 48 || (LA15_1 >= 54 && LA15_1 <= 84)) )
+            	        	        if ( ((LA16_1 >= IM_PATH && LA16_1 <= 40) || LA16_1 == 44 || LA16_1 == 49 || (LA16_1 >= 55 && LA16_1 <= 85)) )
             	        	        {
-            	        	            alt15 = 1;
+            	        	            alt16 = 1;
             	        	        }
 
 
             	        	    }
 
 
-            	        	    switch (alt15) 
+            	        	    switch (alt16) 
             	        		{
             	        			case 1 :
             	        			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:196:63: ',' option_kv
             	        			    {
-            	        			    	char_literal60=(IToken)Match(input,44,FOLLOW_44_in_option_style693); if (state.failed) return retval; 
-            	        			    	if ( (state.backtracking==0) ) stream_44.Add(char_literal60);
+            	        			    	char_literal61=(IToken)Match(input,45,FOLLOW_45_in_option_style699); if (state.failed) return retval; 
+            	        			    	if ( (state.backtracking==0) ) stream_45.Add(char_literal61);
 
-            	        			    	PushFollow(FOLLOW_option_kv_in_option_style695);
-            	        			    	option_kv61 = option_kv();
+            	        			    	PushFollow(FOLLOW_option_kv_in_option_style701);
+            	        			    	option_kv62 = option_kv();
             	        			    	state.followingStackPointer--;
             	        			    	if (state.failed) return retval;
-            	        			    	if ( (state.backtracking==0) ) stream_option_kv.Add(option_kv61.Tree);
+            	        			    	if ( (state.backtracking==0) ) stream_option_kv.Add(option_kv62.Tree);
 
             	        			    }
             	        			    break;
 
             	        			default:
-            	        			    goto loop15;
+            	        			    goto loop16;
             	        	    }
             	        	} while (true);
 
-            	        	loop15:
-            	        		;	// Stops C# compiler whining that label 'loop15' has no statements
+            	        	loop16:
+            	        		;	// Stops C# compiler whining that label 'loop16' has no statements
 
 
             	        }
@@ -2350,20 +2397,20 @@ public partial class simpletikzParser : Parser
             	}
 
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:196:82: ( ',' )?
-            	int alt17 = 2;
-            	int LA17_0 = input.LA(1);
+            	int alt18 = 2;
+            	int LA18_0 = input.LA(1);
 
-            	if ( (LA17_0 == 44) )
+            	if ( (LA18_0 == 45) )
             	{
-            	    alt17 = 1;
+            	    alt18 = 1;
             	}
-            	switch (alt17) 
+            	switch (alt18) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:196:82: ','
             	        {
-            	        	char_literal62=(IToken)Match(input,44,FOLLOW_44_in_option_style702); if (state.failed) return retval; 
-            	        	if ( (state.backtracking==0) ) stream_44.Add(char_literal62);
+            	        	char_literal63=(IToken)Match(input,45,FOLLOW_45_in_option_style708); if (state.failed) return retval; 
+            	        	if ( (state.backtracking==0) ) stream_45.Add(char_literal63);
 
 
             	        }
@@ -2371,8 +2418,8 @@ public partial class simpletikzParser : Parser
 
             	}
 
-            	char_literal63=(IToken)Match(input,42,FOLLOW_42_in_option_style705); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_42.Add(char_literal63);
+            	char_literal64=(IToken)Match(input,42,FOLLOW_42_in_option_style711); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_42.Add(char_literal64);
 
 
 
@@ -2448,7 +2495,7 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.idd_heavenknowswhythisisnecessary_return idd_heavenknowswhythisisnecessary64 = default(simpletikzParser.idd_heavenknowswhythisisnecessary_return);
+        simpletikzParser.idd_heavenknowswhythisisnecessary_return idd_heavenknowswhythisisnecessary65 = default(simpletikzParser.idd_heavenknowswhythisisnecessary_return);
 
 
         RewriteRuleSubtreeStream stream_idd_heavenknowswhythisisnecessary = new RewriteRuleSubtreeStream(adaptor,"rule idd_heavenknowswhythisisnecessary");
@@ -2457,11 +2504,11 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:209:2: ( idd_heavenknowswhythisisnecessary -> ^( IM_ID ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:209:4: idd_heavenknowswhythisisnecessary
             {
-            	PushFollow(FOLLOW_idd_heavenknowswhythisisnecessary_in_idd740);
-            	idd_heavenknowswhythisisnecessary64 = idd_heavenknowswhythisisnecessary();
+            	PushFollow(FOLLOW_idd_heavenknowswhythisisnecessary_in_idd746);
+            	idd_heavenknowswhythisisnecessary65 = idd_heavenknowswhythisisnecessary();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_idd_heavenknowswhythisisnecessary.Add(idd_heavenknowswhythisisnecessary64.Tree);
+            	if ( (state.backtracking==0) ) stream_idd_heavenknowswhythisisnecessary.Add(idd_heavenknowswhythisisnecessary65.Tree);
 
 
             	// AST REWRITE
@@ -2527,9 +2574,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken set65 = null;
+        IToken set66 = null;
 
-        object set65_tree=null;
+        object set66_tree=null;
 
         try 
     	{
@@ -2539,28 +2586,28 @@ public partial class simpletikzParser : Parser
             	root_0 = (object)adaptor.GetNilNode();
 
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:212:6: (~ ( '(' | ')' | '[' | ']' | '{' | '}' | ',' | '=' | ';' | ':' | '/.style' | '/.append' ) )+
-            	int cnt18 = 0;
+            	int cnt19 = 0;
             	do 
             	{
-            	    int alt18 = 2;
-            	    int LA18_0 = input.LA(1);
+            	    int alt19 = 2;
+            	    int LA19_0 = input.LA(1);
 
-            	    if ( ((LA18_0 >= IM_PATH && LA18_0 <= 40) || LA18_0 == 48 || (LA18_0 >= 54 && LA18_0 <= 84)) )
+            	    if ( ((LA19_0 >= IM_PATH && LA19_0 <= 40) || LA19_0 == 44 || LA19_0 == 49 || (LA19_0 >= 55 && LA19_0 <= 85)) )
             	    {
-            	        alt18 = 1;
+            	        alt19 = 1;
             	    }
 
 
-            	    switch (alt18) 
+            	    switch (alt19) 
             		{
             			case 1 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:212:6: ~ ( '(' | ')' | '[' | ']' | '{' | '}' | ',' | '=' | ';' | ':' | '/.style' | '/.append' )
             			    {
-            			    	set65 = (IToken)input.LT(1);
-            			    	if ( (input.LA(1) >= IM_PATH && input.LA(1) <= 40) || input.LA(1) == 48 || (input.LA(1) >= 54 && input.LA(1) <= 84) ) 
+            			    	set66 = (IToken)input.LT(1);
+            			    	if ( (input.LA(1) >= IM_PATH && input.LA(1) <= 40) || input.LA(1) == 44 || input.LA(1) == 49 || (input.LA(1) >= 55 && input.LA(1) <= 85) ) 
             			    	{
             			    	    input.Consume();
-            			    	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set65));
+            			    	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set66));
             			    	    state.errorRecovery = false;state.failed = false;
             			    	}
             			    	else 
@@ -2575,17 +2622,17 @@ public partial class simpletikzParser : Parser
             			    break;
 
             			default:
-            			    if ( cnt18 >= 1 ) goto loop18;
+            			    if ( cnt19 >= 1 ) goto loop19;
             			    if ( state.backtracking > 0 ) {state.failed = true; return retval;}
-            		            EarlyExitException eee18 =
-            		                new EarlyExitException(18, input);
-            		            throw eee18;
+            		            EarlyExitException eee19 =
+            		                new EarlyExitException(19, input);
+            		            throw eee19;
             	    }
-            	    cnt18++;
+            	    cnt19++;
             	} while (true);
 
-            	loop18:
-            		;	// Stops C# compiler whining that label 'loop18' has no statements
+            	loop19:
+            		;	// Stops C# compiler whining that label 'loop19' has no statements
 
 
             }
@@ -2626,9 +2673,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken ID66 = null;
+        IToken ID67 = null;
 
-        object ID66_tree=null;
+        object ID67_tree=null;
         RewriteRuleTokenStream stream_ID = new RewriteRuleTokenStream(adaptor,"token ID");
 
         try 
@@ -2637,42 +2684,42 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:214:4: ( ID )+
             {
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:214:4: ( ID )+
-            	int cnt19 = 0;
+            	int cnt20 = 0;
             	do 
             	{
-            	    int alt19 = 2;
-            	    int LA19_0 = input.LA(1);
+            	    int alt20 = 2;
+            	    int LA20_0 = input.LA(1);
 
-            	    if ( (LA19_0 == ID) )
+            	    if ( (LA20_0 == ID) )
             	    {
-            	        alt19 = 1;
+            	        alt20 = 1;
             	    }
 
 
-            	    switch (alt19) 
+            	    switch (alt20) 
             		{
             			case 1 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:214:4: ID
             			    {
-            			    	ID66=(IToken)Match(input,ID,FOLLOW_ID_in_idd2819); if (state.failed) return retval; 
-            			    	if ( (state.backtracking==0) ) stream_ID.Add(ID66);
+            			    	ID67=(IToken)Match(input,ID,FOLLOW_ID_in_idd2825); if (state.failed) return retval; 
+            			    	if ( (state.backtracking==0) ) stream_ID.Add(ID67);
 
 
             			    }
             			    break;
 
             			default:
-            			    if ( cnt19 >= 1 ) goto loop19;
+            			    if ( cnt20 >= 1 ) goto loop20;
             			    if ( state.backtracking > 0 ) {state.failed = true; return retval;}
-            		            EarlyExitException eee19 =
-            		                new EarlyExitException(19, input);
-            		            throw eee19;
+            		            EarlyExitException eee20 =
+            		                new EarlyExitException(20, input);
+            		            throw eee20;
             	    }
-            	    cnt19++;
+            	    cnt20++;
             	} while (true);
 
-            	loop19:
-            		;	// Stops C# compiler whining that label 'loop19' has no statements
+            	loop20:
+            		;	// Stops C# compiler whining that label 'loop20' has no statements
 
 
 
@@ -2739,9 +2786,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.number_return number67 = default(simpletikzParser.number_return);
+        simpletikzParser.number_return number68 = default(simpletikzParser.number_return);
 
-        simpletikzParser.unit_return unit68 = default(simpletikzParser.unit_return);
+        simpletikzParser.unit_return unit69 = default(simpletikzParser.unit_return);
 
 
         RewriteRuleSubtreeStream stream_unit = new RewriteRuleSubtreeStream(adaptor,"rule unit");
@@ -2751,29 +2798,29 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:219:2: ( number ( unit )? -> ^( IM_NUMBERUNIT number ( unit )? ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:219:4: number ( unit )?
             {
-            	PushFollow(FOLLOW_number_in_numberunit842);
-            	number67 = number();
+            	PushFollow(FOLLOW_number_in_numberunit848);
+            	number68 = number();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_number.Add(number67.Tree);
+            	if ( (state.backtracking==0) ) stream_number.Add(number68.Tree);
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:219:11: ( unit )?
-            	int alt20 = 2;
-            	int LA20_0 = input.LA(1);
+            	int alt21 = 2;
+            	int LA21_0 = input.LA(1);
 
-            	if ( ((LA20_0 >= 54 && LA20_0 <= 59)) )
+            	if ( ((LA21_0 >= 55 && LA21_0 <= 60)) )
             	{
-            	    alt20 = 1;
+            	    alt21 = 1;
             	}
-            	switch (alt20) 
+            	switch (alt21) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:219:11: unit
             	        {
-            	        	PushFollow(FOLLOW_unit_in_numberunit844);
-            	        	unit68 = unit();
+            	        	PushFollow(FOLLOW_unit_in_numberunit850);
+            	        	unit69 = unit();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( (state.backtracking==0) ) stream_unit.Add(unit68.Tree);
+            	        	if ( (state.backtracking==0) ) stream_unit.Add(unit69.Tree);
 
             	        }
             	        break;
@@ -2783,7 +2830,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          number, unit
+            	// elements:          unit, number
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -2854,9 +2901,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken set69 = null;
+        IToken set70 = null;
 
-        object set69_tree=null;
+        object set70_tree=null;
 
         try 
     	{
@@ -2865,11 +2912,11 @@ public partial class simpletikzParser : Parser
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	set69 = (IToken)input.LT(1);
+            	set70 = (IToken)input.LT(1);
             	if ( (input.LA(1) >= FLOAT_WO_EXP && input.LA(1) <= INT) ) 
             	{
             	    input.Consume();
-            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set69));
+            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set70));
             	    state.errorRecovery = false;state.failed = false;
             	}
             	else 
@@ -2918,9 +2965,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken set70 = null;
+        IToken set71 = null;
 
-        object set70_tree=null;
+        object set71_tree=null;
 
         try 
     	{
@@ -2929,11 +2976,11 @@ public partial class simpletikzParser : Parser
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	set70 = (IToken)input.LT(1);
-            	if ( (input.LA(1) >= 54 && input.LA(1) <= 59) ) 
+            	set71 = (IToken)input.LT(1);
+            	if ( (input.LA(1) >= 55 && input.LA(1) <= 60) ) 
             	{
             	    input.Consume();
-            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set70));
+            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set71));
             	    state.errorRecovery = false;state.failed = false;
             	}
             	else 
@@ -2982,20 +3029,20 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal73 = null;
-        IToken char_literal75 = null;
-        simpletikzParser.tikz_set_start_return tikz_set_start71 = default(simpletikzParser.tikz_set_start_return);
+        IToken char_literal74 = null;
+        IToken char_literal76 = null;
+        simpletikzParser.tikz_set_start_return tikz_set_start72 = default(simpletikzParser.tikz_set_start_return);
 
-        simpletikzParser.option_return option72 = default(simpletikzParser.option_return);
+        simpletikzParser.option_return option73 = default(simpletikzParser.option_return);
 
-        simpletikzParser.option_return option74 = default(simpletikzParser.option_return);
+        simpletikzParser.option_return option75 = default(simpletikzParser.option_return);
 
-        simpletikzParser.roundbr_end_return roundbr_end76 = default(simpletikzParser.roundbr_end_return);
+        simpletikzParser.roundbr_end_return roundbr_end77 = default(simpletikzParser.roundbr_end_return);
 
 
-        object char_literal73_tree=null;
-        object char_literal75_tree=null;
-        RewriteRuleTokenStream stream_44 = new RewriteRuleTokenStream(adaptor,"token 44");
+        object char_literal74_tree=null;
+        object char_literal76_tree=null;
+        RewriteRuleTokenStream stream_45 = new RewriteRuleTokenStream(adaptor,"token 45");
         RewriteRuleSubtreeStream stream_tikz_set_start = new RewriteRuleSubtreeStream(adaptor,"rule tikz_set_start");
         RewriteRuleSubtreeStream stream_roundbr_end = new RewriteRuleSubtreeStream(adaptor,"rule roundbr_end");
         RewriteRuleSubtreeStream stream_option = new RewriteRuleSubtreeStream(adaptor,"rule option");
@@ -3004,88 +3051,88 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:232:2: ( tikz_set_start ( option ( ',' option )* ( ',' )? )? roundbr_end -> ^( IM_TIKZSET tikz_set_start ( option )* roundbr_end ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:232:5: tikz_set_start ( option ( ',' option )* ( ',' )? )? roundbr_end
             {
-            	PushFollow(FOLLOW_tikz_set_start_in_tikz_set925);
-            	tikz_set_start71 = tikz_set_start();
+            	PushFollow(FOLLOW_tikz_set_start_in_tikz_set931);
+            	tikz_set_start72 = tikz_set_start();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_tikz_set_start.Add(tikz_set_start71.Tree);
+            	if ( (state.backtracking==0) ) stream_tikz_set_start.Add(tikz_set_start72.Tree);
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:232:20: ( option ( ',' option )* ( ',' )? )?
-            	int alt23 = 2;
-            	int LA23_0 = input.LA(1);
+            	int alt24 = 2;
+            	int LA24_0 = input.LA(1);
 
-            	if ( ((LA23_0 >= IM_PATH && LA23_0 <= 40) || LA23_0 == 48 || (LA23_0 >= 54 && LA23_0 <= 84)) )
+            	if ( ((LA24_0 >= IM_PATH && LA24_0 <= 40) || LA24_0 == 44 || LA24_0 == 49 || (LA24_0 >= 55 && LA24_0 <= 85)) )
             	{
-            	    alt23 = 1;
+            	    alt24 = 1;
             	}
-            	switch (alt23) 
+            	switch (alt24) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:232:21: option ( ',' option )* ( ',' )?
             	        {
-            	        	PushFollow(FOLLOW_option_in_tikz_set928);
-            	        	option72 = option();
+            	        	PushFollow(FOLLOW_option_in_tikz_set934);
+            	        	option73 = option();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( (state.backtracking==0) ) stream_option.Add(option72.Tree);
+            	        	if ( (state.backtracking==0) ) stream_option.Add(option73.Tree);
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:232:28: ( ',' option )*
             	        	do 
             	        	{
-            	        	    int alt21 = 2;
-            	        	    int LA21_0 = input.LA(1);
+            	        	    int alt22 = 2;
+            	        	    int LA22_0 = input.LA(1);
 
-            	        	    if ( (LA21_0 == 44) )
+            	        	    if ( (LA22_0 == 45) )
             	        	    {
-            	        	        int LA21_1 = input.LA(2);
+            	        	        int LA22_1 = input.LA(2);
 
-            	        	        if ( ((LA21_1 >= IM_PATH && LA21_1 <= 40) || LA21_1 == 48 || (LA21_1 >= 54 && LA21_1 <= 84)) )
+            	        	        if ( ((LA22_1 >= IM_PATH && LA22_1 <= 40) || LA22_1 == 44 || LA22_1 == 49 || (LA22_1 >= 55 && LA22_1 <= 85)) )
             	        	        {
-            	        	            alt21 = 1;
+            	        	            alt22 = 1;
             	        	        }
 
 
             	        	    }
 
 
-            	        	    switch (alt21) 
+            	        	    switch (alt22) 
             	        		{
             	        			case 1 :
             	        			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:232:29: ',' option
             	        			    {
-            	        			    	char_literal73=(IToken)Match(input,44,FOLLOW_44_in_tikz_set931); if (state.failed) return retval; 
-            	        			    	if ( (state.backtracking==0) ) stream_44.Add(char_literal73);
+            	        			    	char_literal74=(IToken)Match(input,45,FOLLOW_45_in_tikz_set937); if (state.failed) return retval; 
+            	        			    	if ( (state.backtracking==0) ) stream_45.Add(char_literal74);
 
-            	        			    	PushFollow(FOLLOW_option_in_tikz_set933);
-            	        			    	option74 = option();
+            	        			    	PushFollow(FOLLOW_option_in_tikz_set939);
+            	        			    	option75 = option();
             	        			    	state.followingStackPointer--;
             	        			    	if (state.failed) return retval;
-            	        			    	if ( (state.backtracking==0) ) stream_option.Add(option74.Tree);
+            	        			    	if ( (state.backtracking==0) ) stream_option.Add(option75.Tree);
 
             	        			    }
             	        			    break;
 
             	        			default:
-            	        			    goto loop21;
+            	        			    goto loop22;
             	        	    }
             	        	} while (true);
 
-            	        	loop21:
-            	        		;	// Stops C# compiler whining that label 'loop21' has no statements
+            	        	loop22:
+            	        		;	// Stops C# compiler whining that label 'loop22' has no statements
 
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:232:42: ( ',' )?
-            	        	int alt22 = 2;
-            	        	int LA22_0 = input.LA(1);
+            	        	int alt23 = 2;
+            	        	int LA23_0 = input.LA(1);
 
-            	        	if ( (LA22_0 == 44) )
+            	        	if ( (LA23_0 == 45) )
             	        	{
-            	        	    alt22 = 1;
+            	        	    alt23 = 1;
             	        	}
-            	        	switch (alt22) 
+            	        	switch (alt23) 
             	        	{
             	        	    case 1 :
             	        	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:232:42: ','
             	        	        {
-            	        	        	char_literal75=(IToken)Match(input,44,FOLLOW_44_in_tikz_set937); if (state.failed) return retval; 
-            	        	        	if ( (state.backtracking==0) ) stream_44.Add(char_literal75);
+            	        	        	char_literal76=(IToken)Match(input,45,FOLLOW_45_in_tikz_set943); if (state.failed) return retval; 
+            	        	        	if ( (state.backtracking==0) ) stream_45.Add(char_literal76);
 
 
             	        	        }
@@ -3099,15 +3146,15 @@ public partial class simpletikzParser : Parser
 
             	}
 
-            	PushFollow(FOLLOW_roundbr_end_in_tikz_set942);
-            	roundbr_end76 = roundbr_end();
+            	PushFollow(FOLLOW_roundbr_end_in_tikz_set948);
+            	roundbr_end77 = roundbr_end();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_roundbr_end.Add(roundbr_end76.Tree);
+            	if ( (state.backtracking==0) ) stream_roundbr_end.Add(roundbr_end77.Tree);
 
 
             	// AST REWRITE
-            	// elements:          tikz_set_start, roundbr_end, option
+            	// elements:          option, tikz_set_start, roundbr_end
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -3179,13 +3226,13 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.tikzpicture_start_return tikzpicture_start77 = default(simpletikzParser.tikzpicture_start_return);
+        simpletikzParser.tikzpicture_start_return tikzpicture_start78 = default(simpletikzParser.tikzpicture_start_return);
 
-        simpletikzParser.tikz_options_return tikz_options78 = default(simpletikzParser.tikz_options_return);
+        simpletikzParser.tikz_options_return tikz_options79 = default(simpletikzParser.tikz_options_return);
 
-        simpletikzParser.tikzbody_return tikzbody79 = default(simpletikzParser.tikzbody_return);
+        simpletikzParser.tikzbody_return tikzbody80 = default(simpletikzParser.tikzbody_return);
 
-        simpletikzParser.tikzpicture_end_return tikzpicture_end80 = default(simpletikzParser.tikzpicture_end_return);
+        simpletikzParser.tikzpicture_end_return tikzpicture_end81 = default(simpletikzParser.tikzpicture_end_return);
 
 
         RewriteRuleSubtreeStream stream_tikzpicture_end = new RewriteRuleSubtreeStream(adaptor,"rule tikzpicture_end");
@@ -3197,29 +3244,29 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:238:2: ( tikzpicture_start ( tikz_options )? ( tikzbody )? tikzpicture_end -> ^( IM_PICTURE tikzpicture_start ( tikz_options )? ( tikzbody )? tikzpicture_end ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:238:5: tikzpicture_start ( tikz_options )? ( tikzbody )? tikzpicture_end
             {
-            	PushFollow(FOLLOW_tikzpicture_start_in_tikzpicture970);
-            	tikzpicture_start77 = tikzpicture_start();
+            	PushFollow(FOLLOW_tikzpicture_start_in_tikzpicture976);
+            	tikzpicture_start78 = tikzpicture_start();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_tikzpicture_start.Add(tikzpicture_start77.Tree);
+            	if ( (state.backtracking==0) ) stream_tikzpicture_start.Add(tikzpicture_start78.Tree);
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:238:23: ( tikz_options )?
-            	int alt24 = 2;
-            	int LA24_0 = input.LA(1);
+            	int alt25 = 2;
+            	int LA25_0 = input.LA(1);
 
-            	if ( (LA24_0 == 51) )
+            	if ( (LA25_0 == 52) )
             	{
-            	    alt24 = 1;
+            	    alt25 = 1;
             	}
-            	switch (alt24) 
+            	switch (alt25) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:238:23: tikz_options
             	        {
-            	        	PushFollow(FOLLOW_tikz_options_in_tikzpicture972);
-            	        	tikz_options78 = tikz_options();
+            	        	PushFollow(FOLLOW_tikz_options_in_tikzpicture978);
+            	        	tikz_options79 = tikz_options();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( (state.backtracking==0) ) stream_tikz_options.Add(tikz_options78.Tree);
+            	        	if ( (state.backtracking==0) ) stream_tikz_options.Add(tikz_options79.Tree);
 
             	        }
             	        break;
@@ -3227,48 +3274,48 @@ public partial class simpletikzParser : Parser
             	}
 
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:238:37: ( tikzbody )?
-            	int alt25 = 2;
-            	int LA25_0 = input.LA(1);
+            	int alt26 = 2;
+            	int LA26_0 = input.LA(1);
 
-            	if ( ((LA25_0 >= IM_PATH && LA25_0 <= 50) || (LA25_0 >= 52 && LA25_0 <= 59) || (LA25_0 >= 61 && LA25_0 <= 84)) )
+            	if ( ((LA26_0 >= IM_PATH && LA26_0 <= 51) || (LA26_0 >= 53 && LA26_0 <= 60) || (LA26_0 >= 62 && LA26_0 <= 85)) )
             	{
-            	    alt25 = 1;
+            	    alt26 = 1;
             	}
-            	else if ( (LA25_0 == 60) )
+            	else if ( (LA26_0 == 61) )
             	{
-            	    int LA25_2 = input.LA(2);
+            	    int LA26_2 = input.LA(2);
 
-            	    if ( (LA25_2 == 41) )
+            	    if ( (LA26_2 == 41) )
             	    {
-            	        int LA25_3 = input.LA(3);
+            	        int LA26_3 = input.LA(3);
 
-            	        if ( (LA25_3 == ID) )
+            	        if ( (LA26_3 == ID) )
             	        {
-            	            alt25 = 1;
+            	            alt26 = 1;
             	        }
             	    }
             	}
-            	switch (alt25) 
+            	switch (alt26) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:238:37: tikzbody
             	        {
-            	        	PushFollow(FOLLOW_tikzbody_in_tikzpicture975);
-            	        	tikzbody79 = tikzbody();
+            	        	PushFollow(FOLLOW_tikzbody_in_tikzpicture981);
+            	        	tikzbody80 = tikzbody();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( (state.backtracking==0) ) stream_tikzbody.Add(tikzbody79.Tree);
+            	        	if ( (state.backtracking==0) ) stream_tikzbody.Add(tikzbody80.Tree);
 
             	        }
             	        break;
 
             	}
 
-            	PushFollow(FOLLOW_tikzpicture_end_in_tikzpicture978);
-            	tikzpicture_end80 = tikzpicture_end();
+            	PushFollow(FOLLOW_tikzpicture_end_in_tikzpicture984);
+            	tikzpicture_end81 = tikzpicture_end();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_tikzpicture_end.Add(tikzpicture_end80.Tree);
+            	if ( (state.backtracking==0) ) stream_tikzpicture_end.Add(tikzpicture_end81.Tree);
 
 
             	// AST REWRITE
@@ -3351,41 +3398,41 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.tikzscope_return tikzscope81 = default(simpletikzParser.tikzscope_return);
+        simpletikzParser.tikzscope_return tikzscope82 = default(simpletikzParser.tikzscope_return);
 
-        simpletikzParser.tikzpath_return tikzpath82 = default(simpletikzParser.tikzpath_return);
+        simpletikzParser.tikzpath_return tikzpath83 = default(simpletikzParser.tikzpath_return);
 
-        simpletikzParser.tikznode_ext_return tikznode_ext83 = default(simpletikzParser.tikznode_ext_return);
+        simpletikzParser.tikznode_ext_return tikznode_ext84 = default(simpletikzParser.tikznode_ext_return);
 
-        simpletikzParser.tikzcoordinate_ext_return tikzcoordinate_ext84 = default(simpletikzParser.tikzcoordinate_ext_return);
+        simpletikzParser.tikzcoordinate_ext_return tikzcoordinate_ext85 = default(simpletikzParser.tikzcoordinate_ext_return);
 
-        simpletikzParser.tikz_set_return tikz_set85 = default(simpletikzParser.tikz_set_return);
+        simpletikzParser.tikz_set_return tikz_set86 = default(simpletikzParser.tikz_set_return);
 
-        simpletikzParser.tikz_style_return tikz_style86 = default(simpletikzParser.tikz_style_return);
+        simpletikzParser.tikz_style_return tikz_style87 = default(simpletikzParser.tikz_style_return);
 
-        simpletikzParser.otherbegin_return otherbegin87 = default(simpletikzParser.otherbegin_return);
+        simpletikzParser.otherbegin_return otherbegin88 = default(simpletikzParser.otherbegin_return);
 
-        simpletikzParser.otherend_return otherend88 = default(simpletikzParser.otherend_return);
+        simpletikzParser.otherend_return otherend89 = default(simpletikzParser.otherend_return);
 
-        simpletikzParser.dontcare_body_nobr_return dontcare_body_nobr89 = default(simpletikzParser.dontcare_body_nobr_return);
+        simpletikzParser.dontcare_body_nobr_return dontcare_body_nobr90 = default(simpletikzParser.dontcare_body_nobr_return);
 
-        simpletikzParser.tikzscope_return tikzscope90 = default(simpletikzParser.tikzscope_return);
+        simpletikzParser.tikzscope_return tikzscope91 = default(simpletikzParser.tikzscope_return);
 
-        simpletikzParser.tikzpath_return tikzpath91 = default(simpletikzParser.tikzpath_return);
+        simpletikzParser.tikzpath_return tikzpath92 = default(simpletikzParser.tikzpath_return);
 
-        simpletikzParser.tikznode_ext_return tikznode_ext92 = default(simpletikzParser.tikznode_ext_return);
+        simpletikzParser.tikznode_ext_return tikznode_ext93 = default(simpletikzParser.tikznode_ext_return);
 
-        simpletikzParser.tikzcoordinate_ext_return tikzcoordinate_ext93 = default(simpletikzParser.tikzcoordinate_ext_return);
+        simpletikzParser.tikzcoordinate_ext_return tikzcoordinate_ext94 = default(simpletikzParser.tikzcoordinate_ext_return);
 
-        simpletikzParser.tikz_set_return tikz_set94 = default(simpletikzParser.tikz_set_return);
+        simpletikzParser.tikz_set_return tikz_set95 = default(simpletikzParser.tikz_set_return);
 
-        simpletikzParser.tikz_style_return tikz_style95 = default(simpletikzParser.tikz_style_return);
+        simpletikzParser.tikz_style_return tikz_style96 = default(simpletikzParser.tikz_style_return);
 
-        simpletikzParser.otherbegin_return otherbegin96 = default(simpletikzParser.otherbegin_return);
+        simpletikzParser.otherbegin_return otherbegin97 = default(simpletikzParser.otherbegin_return);
 
-        simpletikzParser.otherend_return otherend97 = default(simpletikzParser.otherend_return);
+        simpletikzParser.otherend_return otherend98 = default(simpletikzParser.otherend_return);
 
-        simpletikzParser.dontcare_body_return dontcare_body98 = default(simpletikzParser.dontcare_body_return);
+        simpletikzParser.dontcare_body_return dontcare_body99 = default(simpletikzParser.dontcare_body_return);
 
 
 
@@ -3397,81 +3444,81 @@ public partial class simpletikzParser : Parser
             	root_0 = (object)adaptor.GetNilNode();
 
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:242:4: ( tikzscope | tikzpath | tikznode_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin | otherend | dontcare_body_nobr )
-            	int alt26 = 9;
-            	alt26 = dfa26.Predict(input);
-            	switch (alt26) 
+            	int alt27 = 9;
+            	alt27 = dfa27.Predict(input);
+            	switch (alt27) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:242:6: tikzscope
             	        {
-            	        	PushFollow(FOLLOW_tikzscope_in_tikzbody1008);
-            	        	tikzscope81 = tikzscope();
+            	        	PushFollow(FOLLOW_tikzscope_in_tikzbody1014);
+            	        	tikzscope82 = tikzscope();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzscope81.Tree);
+            	        	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzscope82.Tree);
 
             	        }
             	        break;
             	    case 2 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:242:18: tikzpath
             	        {
-            	        	PushFollow(FOLLOW_tikzpath_in_tikzbody1012);
-            	        	tikzpath82 = tikzpath();
+            	        	PushFollow(FOLLOW_tikzpath_in_tikzbody1018);
+            	        	tikzpath83 = tikzpath();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzpath82.Tree);
+            	        	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzpath83.Tree);
 
             	        }
             	        break;
             	    case 3 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:242:29: tikznode_ext
             	        {
-            	        	PushFollow(FOLLOW_tikznode_ext_in_tikzbody1016);
-            	        	tikznode_ext83 = tikznode_ext();
+            	        	PushFollow(FOLLOW_tikznode_ext_in_tikzbody1022);
+            	        	tikznode_ext84 = tikznode_ext();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikznode_ext83.Tree);
+            	        	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikznode_ext84.Tree);
 
             	        }
             	        break;
             	    case 4 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:242:44: tikzcoordinate_ext
             	        {
-            	        	PushFollow(FOLLOW_tikzcoordinate_ext_in_tikzbody1020);
-            	        	tikzcoordinate_ext84 = tikzcoordinate_ext();
+            	        	PushFollow(FOLLOW_tikzcoordinate_ext_in_tikzbody1026);
+            	        	tikzcoordinate_ext85 = tikzcoordinate_ext();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzcoordinate_ext84.Tree);
+            	        	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzcoordinate_ext85.Tree);
 
             	        }
             	        break;
             	    case 5 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:242:65: tikz_set
             	        {
-            	        	PushFollow(FOLLOW_tikz_set_in_tikzbody1024);
-            	        	tikz_set85 = tikz_set();
+            	        	PushFollow(FOLLOW_tikz_set_in_tikzbody1030);
+            	        	tikz_set86 = tikz_set();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikz_set85.Tree);
+            	        	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikz_set86.Tree);
 
             	        }
             	        break;
             	    case 6 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:242:76: tikz_style
             	        {
-            	        	PushFollow(FOLLOW_tikz_style_in_tikzbody1028);
-            	        	tikz_style86 = tikz_style();
+            	        	PushFollow(FOLLOW_tikz_style_in_tikzbody1034);
+            	        	tikz_style87 = tikz_style();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikz_style86.Tree);
+            	        	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikz_style87.Tree);
 
             	        }
             	        break;
             	    case 7 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:242:89: otherbegin
             	        {
-            	        	PushFollow(FOLLOW_otherbegin_in_tikzbody1032);
-            	        	otherbegin87 = otherbegin();
+            	        	PushFollow(FOLLOW_otherbegin_in_tikzbody1038);
+            	        	otherbegin88 = otherbegin();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
 
@@ -3480,8 +3527,8 @@ public partial class simpletikzParser : Parser
             	    case 8 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:242:103: otherend
             	        {
-            	        	PushFollow(FOLLOW_otherend_in_tikzbody1037);
-            	        	otherend88 = otherend();
+            	        	PushFollow(FOLLOW_otherend_in_tikzbody1043);
+            	        	otherend89 = otherend();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
 
@@ -3490,8 +3537,8 @@ public partial class simpletikzParser : Parser
             	    case 9 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:242:115: dontcare_body_nobr
             	        {
-            	        	PushFollow(FOLLOW_dontcare_body_nobr_in_tikzbody1042);
-            	        	dontcare_body_nobr89 = dontcare_body_nobr();
+            	        	PushFollow(FOLLOW_dontcare_body_nobr_in_tikzbody1048);
+            	        	dontcare_body_nobr90 = dontcare_body_nobr();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
 
@@ -3503,81 +3550,81 @@ public partial class simpletikzParser : Parser
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:243:3: ( tikzscope | tikzpath | tikznode_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin | otherend | dontcare_body )*
             	do 
             	{
-            	    int alt27 = 10;
-            	    alt27 = dfa27.Predict(input);
-            	    switch (alt27) 
+            	    int alt28 = 10;
+            	    alt28 = dfa28.Predict(input);
+            	    switch (alt28) 
             		{
             			case 1 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:243:5: tikzscope
             			    {
-            			    	PushFollow(FOLLOW_tikzscope_in_tikzbody1053);
-            			    	tikzscope90 = tikzscope();
+            			    	PushFollow(FOLLOW_tikzscope_in_tikzbody1059);
+            			    	tikzscope91 = tikzscope();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
-            			    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzscope90.Tree);
+            			    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzscope91.Tree);
 
             			    }
             			    break;
             			case 2 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:243:17: tikzpath
             			    {
-            			    	PushFollow(FOLLOW_tikzpath_in_tikzbody1057);
-            			    	tikzpath91 = tikzpath();
+            			    	PushFollow(FOLLOW_tikzpath_in_tikzbody1063);
+            			    	tikzpath92 = tikzpath();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
-            			    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzpath91.Tree);
+            			    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzpath92.Tree);
 
             			    }
             			    break;
             			case 3 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:243:28: tikznode_ext
             			    {
-            			    	PushFollow(FOLLOW_tikznode_ext_in_tikzbody1061);
-            			    	tikznode_ext92 = tikznode_ext();
+            			    	PushFollow(FOLLOW_tikznode_ext_in_tikzbody1067);
+            			    	tikznode_ext93 = tikznode_ext();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
-            			    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikznode_ext92.Tree);
+            			    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikznode_ext93.Tree);
 
             			    }
             			    break;
             			case 4 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:243:43: tikzcoordinate_ext
             			    {
-            			    	PushFollow(FOLLOW_tikzcoordinate_ext_in_tikzbody1065);
-            			    	tikzcoordinate_ext93 = tikzcoordinate_ext();
+            			    	PushFollow(FOLLOW_tikzcoordinate_ext_in_tikzbody1071);
+            			    	tikzcoordinate_ext94 = tikzcoordinate_ext();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
-            			    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzcoordinate_ext93.Tree);
+            			    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzcoordinate_ext94.Tree);
 
             			    }
             			    break;
             			case 5 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:243:64: tikz_set
             			    {
-            			    	PushFollow(FOLLOW_tikz_set_in_tikzbody1069);
-            			    	tikz_set94 = tikz_set();
+            			    	PushFollow(FOLLOW_tikz_set_in_tikzbody1075);
+            			    	tikz_set95 = tikz_set();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
-            			    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikz_set94.Tree);
+            			    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikz_set95.Tree);
 
             			    }
             			    break;
             			case 6 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:243:75: tikz_style
             			    {
-            			    	PushFollow(FOLLOW_tikz_style_in_tikzbody1073);
-            			    	tikz_style95 = tikz_style();
+            			    	PushFollow(FOLLOW_tikz_style_in_tikzbody1079);
+            			    	tikz_style96 = tikz_style();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
-            			    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikz_style95.Tree);
+            			    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikz_style96.Tree);
 
             			    }
             			    break;
             			case 7 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:243:88: otherbegin
             			    {
-            			    	PushFollow(FOLLOW_otherbegin_in_tikzbody1077);
-            			    	otherbegin96 = otherbegin();
+            			    	PushFollow(FOLLOW_otherbegin_in_tikzbody1083);
+            			    	otherbegin97 = otherbegin();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
 
@@ -3586,8 +3633,8 @@ public partial class simpletikzParser : Parser
             			case 8 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:243:102: otherend
             			    {
-            			    	PushFollow(FOLLOW_otherend_in_tikzbody1082);
-            			    	otherend97 = otherend();
+            			    	PushFollow(FOLLOW_otherend_in_tikzbody1088);
+            			    	otherend98 = otherend();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
 
@@ -3596,8 +3643,8 @@ public partial class simpletikzParser : Parser
             			case 9 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:243:114: dontcare_body
             			    {
-            			    	PushFollow(FOLLOW_dontcare_body_in_tikzbody1087);
-            			    	dontcare_body98 = dontcare_body();
+            			    	PushFollow(FOLLOW_dontcare_body_in_tikzbody1093);
+            			    	dontcare_body99 = dontcare_body();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
 
@@ -3605,12 +3652,12 @@ public partial class simpletikzParser : Parser
             			    break;
 
             			default:
-            			    goto loop27;
+            			    goto loop28;
             	    }
             	} while (true);
 
-            	loop27:
-            		;	// Stops C# compiler whining that label 'loop27' has no statements
+            	loop28:
+            		;	// Stops C# compiler whining that label 'loop28' has no statements
 
 
             }
@@ -3651,9 +3698,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken set99 = null;
+        IToken set100 = null;
 
-        object set99_tree=null;
+        object set100_tree=null;
 
         try 
     	{
@@ -3665,11 +3712,11 @@ public partial class simpletikzParser : Parser
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:247:4: (~ ( '\\\\begin' | '\\\\end' | '\\\\node' | '\\\\coordinate' | '\\\\draw' | '\\\\path' | '\\\\fill' | '\\\\clip' | '\\\\tikzstyle' | '\\\\tikzset' | '[' ) )
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:247:5: ~ ( '\\\\begin' | '\\\\end' | '\\\\node' | '\\\\coordinate' | '\\\\draw' | '\\\\path' | '\\\\fill' | '\\\\clip' | '\\\\tikzstyle' | '\\\\tikzset' | '[' )
             	{
-            		set99 = (IToken)input.LT(1);
-            		if ( (input.LA(1) >= IM_PATH && input.LA(1) <= SOMETHING) || (input.LA(1) >= 41 && input.LA(1) <= 50) || (input.LA(1) >= 52 && input.LA(1) <= 59) || (input.LA(1) >= 67 && input.LA(1) <= 84) ) 
+            		set100 = (IToken)input.LT(1);
+            		if ( (input.LA(1) >= IM_PATH && input.LA(1) <= SOMETHING) || (input.LA(1) >= 41 && input.LA(1) <= 51) || (input.LA(1) >= 53 && input.LA(1) <= 60) || (input.LA(1) >= 68 && input.LA(1) <= 85) ) 
             		{
             		    input.Consume();
-            		    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set99));
+            		    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set100));
             		    state.errorRecovery = false;state.failed = false;
             		}
             		else 
@@ -3721,9 +3768,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken set100 = null;
+        IToken set101 = null;
 
-        object set100_tree=null;
+        object set101_tree=null;
 
         try 
     	{
@@ -3735,11 +3782,11 @@ public partial class simpletikzParser : Parser
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:250:4: (~ ( '\\\\begin' | '\\\\end' | '\\\\node' | '\\\\coordinate' | '\\\\draw' | '\\\\path' | '\\\\fill' | '\\\\clip' | '\\\\tikzstyle' | '\\\\tikzset' ) )
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:250:5: ~ ( '\\\\begin' | '\\\\end' | '\\\\node' | '\\\\coordinate' | '\\\\draw' | '\\\\path' | '\\\\fill' | '\\\\clip' | '\\\\tikzstyle' | '\\\\tikzset' )
             	{
-            		set100 = (IToken)input.LT(1);
-            		if ( (input.LA(1) >= IM_PATH && input.LA(1) <= SOMETHING) || (input.LA(1) >= 41 && input.LA(1) <= 59) || (input.LA(1) >= 67 && input.LA(1) <= 84) ) 
+            		set101 = (IToken)input.LT(1);
+            		if ( (input.LA(1) >= IM_PATH && input.LA(1) <= SOMETHING) || (input.LA(1) >= 41 && input.LA(1) <= 60) || (input.LA(1) >= 68 && input.LA(1) <= 85) ) 
             		{
             		    input.Consume();
-            		    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set100));
+            		    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set101));
             		    state.errorRecovery = false;state.failed = false;
             		}
             		else 
@@ -3791,15 +3838,15 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal101 = null;
-        IToken char_literal102 = null;
-        IToken char_literal104 = null;
-        simpletikzParser.idd2_return idd2103 = default(simpletikzParser.idd2_return);
+        IToken string_literal102 = null;
+        IToken char_literal103 = null;
+        IToken char_literal105 = null;
+        simpletikzParser.idd2_return idd2104 = default(simpletikzParser.idd2_return);
 
 
-        object string_literal101_tree=null;
-        object char_literal102_tree=null;
-        object char_literal104_tree=null;
+        object string_literal102_tree=null;
+        object char_literal103_tree=null;
+        object char_literal105_tree=null;
 
         try 
     	{
@@ -3808,25 +3855,25 @@ public partial class simpletikzParser : Parser
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	string_literal101=(IToken)Match(input,60,FOLLOW_60_in_otherend1217); if (state.failed) return retval;
+            	string_literal102=(IToken)Match(input,61,FOLLOW_61_in_otherend1223); if (state.failed) return retval;
             	if ( state.backtracking == 0 )
-            	{string_literal101_tree = (object)adaptor.Create(string_literal101);
-            		adaptor.AddChild(root_0, string_literal101_tree);
+            	{string_literal102_tree = (object)adaptor.Create(string_literal102);
+            		adaptor.AddChild(root_0, string_literal102_tree);
             	}
-            	char_literal102=(IToken)Match(input,41,FOLLOW_41_in_otherend1219); if (state.failed) return retval;
+            	char_literal103=(IToken)Match(input,41,FOLLOW_41_in_otherend1225); if (state.failed) return retval;
             	if ( state.backtracking == 0 )
-            	{char_literal102_tree = (object)adaptor.Create(char_literal102);
-            		adaptor.AddChild(root_0, char_literal102_tree);
+            	{char_literal103_tree = (object)adaptor.Create(char_literal103);
+            		adaptor.AddChild(root_0, char_literal103_tree);
             	}
-            	PushFollow(FOLLOW_idd2_in_otherend1221);
-            	idd2103 = idd2();
+            	PushFollow(FOLLOW_idd2_in_otherend1227);
+            	idd2104 = idd2();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, idd2103.Tree);
-            	char_literal104=(IToken)Match(input,42,FOLLOW_42_in_otherend1223); if (state.failed) return retval;
+            	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, idd2104.Tree);
+            	char_literal105=(IToken)Match(input,42,FOLLOW_42_in_otherend1229); if (state.failed) return retval;
             	if ( state.backtracking == 0 )
-            	{char_literal104_tree = (object)adaptor.Create(char_literal104);
-            		adaptor.AddChild(root_0, char_literal104_tree);
+            	{char_literal105_tree = (object)adaptor.Create(char_literal105);
+            		adaptor.AddChild(root_0, char_literal105_tree);
             	}
 
             }
@@ -3867,13 +3914,13 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.tikzscope_start_return tikzscope_start105 = default(simpletikzParser.tikzscope_start_return);
+        simpletikzParser.tikzscope_start_return tikzscope_start106 = default(simpletikzParser.tikzscope_start_return);
 
-        simpletikzParser.tikz_options_return tikz_options106 = default(simpletikzParser.tikz_options_return);
+        simpletikzParser.tikz_options_return tikz_options107 = default(simpletikzParser.tikz_options_return);
 
-        simpletikzParser.tikzbody_return tikzbody107 = default(simpletikzParser.tikzbody_return);
+        simpletikzParser.tikzbody_return tikzbody108 = default(simpletikzParser.tikzbody_return);
 
-        simpletikzParser.tikzscope_end_return tikzscope_end108 = default(simpletikzParser.tikzscope_end_return);
+        simpletikzParser.tikzscope_end_return tikzscope_end109 = default(simpletikzParser.tikzscope_end_return);
 
 
         RewriteRuleSubtreeStream stream_tikzscope_start = new RewriteRuleSubtreeStream(adaptor,"rule tikzscope_start");
@@ -3885,29 +3932,29 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:268:2: ( tikzscope_start ( tikz_options )? ( tikzbody )? tikzscope_end -> ^( IM_SCOPE tikzscope_start ( tikz_options )? tikzbody tikzscope_end ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:268:4: tikzscope_start ( tikz_options )? ( tikzbody )? tikzscope_end
             {
-            	PushFollow(FOLLOW_tikzscope_start_in_tikzscope1250);
-            	tikzscope_start105 = tikzscope_start();
+            	PushFollow(FOLLOW_tikzscope_start_in_tikzscope1256);
+            	tikzscope_start106 = tikzscope_start();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_tikzscope_start.Add(tikzscope_start105.Tree);
+            	if ( (state.backtracking==0) ) stream_tikzscope_start.Add(tikzscope_start106.Tree);
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:268:20: ( tikz_options )?
-            	int alt28 = 2;
-            	int LA28_0 = input.LA(1);
+            	int alt29 = 2;
+            	int LA29_0 = input.LA(1);
 
-            	if ( (LA28_0 == 51) )
+            	if ( (LA29_0 == 52) )
             	{
-            	    alt28 = 1;
+            	    alt29 = 1;
             	}
-            	switch (alt28) 
+            	switch (alt29) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:268:20: tikz_options
             	        {
-            	        	PushFollow(FOLLOW_tikz_options_in_tikzscope1252);
-            	        	tikz_options106 = tikz_options();
+            	        	PushFollow(FOLLOW_tikz_options_in_tikzscope1258);
+            	        	tikz_options107 = tikz_options();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( (state.backtracking==0) ) stream_tikz_options.Add(tikz_options106.Tree);
+            	        	if ( (state.backtracking==0) ) stream_tikz_options.Add(tikz_options107.Tree);
 
             	        }
             	        break;
@@ -3915,52 +3962,52 @@ public partial class simpletikzParser : Parser
             	}
 
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:268:34: ( tikzbody )?
-            	int alt29 = 2;
-            	int LA29_0 = input.LA(1);
+            	int alt30 = 2;
+            	int LA30_0 = input.LA(1);
 
-            	if ( ((LA29_0 >= IM_PATH && LA29_0 <= 50) || (LA29_0 >= 52 && LA29_0 <= 59) || (LA29_0 >= 61 && LA29_0 <= 84)) )
+            	if ( ((LA30_0 >= IM_PATH && LA30_0 <= 51) || (LA30_0 >= 53 && LA30_0 <= 60) || (LA30_0 >= 62 && LA30_0 <= 85)) )
             	{
-            	    alt29 = 1;
+            	    alt30 = 1;
             	}
-            	else if ( (LA29_0 == 60) )
+            	else if ( (LA30_0 == 61) )
             	{
-            	    int LA29_2 = input.LA(2);
+            	    int LA30_2 = input.LA(2);
 
-            	    if ( (LA29_2 == 41) )
+            	    if ( (LA30_2 == 41) )
             	    {
-            	        int LA29_3 = input.LA(3);
+            	        int LA30_3 = input.LA(3);
 
-            	        if ( (LA29_3 == ID) )
+            	        if ( (LA30_3 == ID) )
             	        {
-            	            alt29 = 1;
+            	            alt30 = 1;
             	        }
             	    }
             	}
-            	switch (alt29) 
+            	switch (alt30) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:268:34: tikzbody
             	        {
-            	        	PushFollow(FOLLOW_tikzbody_in_tikzscope1255);
-            	        	tikzbody107 = tikzbody();
+            	        	PushFollow(FOLLOW_tikzbody_in_tikzscope1261);
+            	        	tikzbody108 = tikzbody();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( (state.backtracking==0) ) stream_tikzbody.Add(tikzbody107.Tree);
+            	        	if ( (state.backtracking==0) ) stream_tikzbody.Add(tikzbody108.Tree);
 
             	        }
             	        break;
 
             	}
 
-            	PushFollow(FOLLOW_tikzscope_end_in_tikzscope1258);
-            	tikzscope_end108 = tikzscope_end();
+            	PushFollow(FOLLOW_tikzscope_end_in_tikzscope1264);
+            	tikzscope_end109 = tikzscope_end();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_tikzscope_end.Add(tikzscope_end108.Tree);
+            	if ( (state.backtracking==0) ) stream_tikzscope_end.Add(tikzscope_end109.Tree);
 
 
             	// AST REWRITE
-            	// elements:          tikzbody, tikz_options, tikzscope_start, tikzscope_end
+            	// elements:          tikz_options, tikzscope_start, tikzscope_end, tikzbody
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -4033,27 +4080,27 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal113 = null;
-        IToken string_literal115 = null;
-        simpletikzParser.path_start_return path_start109 = default(simpletikzParser.path_start_return);
+        IToken string_literal114 = null;
+        IToken string_literal116 = null;
+        simpletikzParser.path_start_return path_start110 = default(simpletikzParser.path_start_return);
 
-        simpletikzParser.tikzpath_element_return tikzpath_element110 = default(simpletikzParser.tikzpath_element_return);
+        simpletikzParser.tikzpath_element_return tikzpath_element111 = default(simpletikzParser.tikzpath_element_return);
 
-        simpletikzParser.semicolon_end_return semicolon_end111 = default(simpletikzParser.semicolon_end_return);
+        simpletikzParser.semicolon_end_return semicolon_end112 = default(simpletikzParser.semicolon_end_return);
 
-        simpletikzParser.path_start_return path_start112 = default(simpletikzParser.path_start_return);
+        simpletikzParser.path_start_return path_start113 = default(simpletikzParser.path_start_return);
 
-        simpletikzParser.let_assignment_return let_assignment114 = default(simpletikzParser.let_assignment_return);
+        simpletikzParser.let_assignment_return let_assignment115 = default(simpletikzParser.let_assignment_return);
 
-        simpletikzParser.tikzpath_element_return tikzpath_element116 = default(simpletikzParser.tikzpath_element_return);
+        simpletikzParser.tikzpath_element_return tikzpath_element117 = default(simpletikzParser.tikzpath_element_return);
 
-        simpletikzParser.semicolon_end_return semicolon_end117 = default(simpletikzParser.semicolon_end_return);
+        simpletikzParser.semicolon_end_return semicolon_end118 = default(simpletikzParser.semicolon_end_return);
 
 
-        object string_literal113_tree=null;
-        object string_literal115_tree=null;
-        RewriteRuleTokenStream stream_67 = new RewriteRuleTokenStream(adaptor,"token 67");
-        RewriteRuleTokenStream stream_55 = new RewriteRuleTokenStream(adaptor,"token 55");
+        object string_literal114_tree=null;
+        object string_literal116_tree=null;
+        RewriteRuleTokenStream stream_68 = new RewriteRuleTokenStream(adaptor,"token 68");
+        RewriteRuleTokenStream stream_56 = new RewriteRuleTokenStream(adaptor,"token 56");
         RewriteRuleSubtreeStream stream_tikzpath_element = new RewriteRuleSubtreeStream(adaptor,"rule tikzpath_element");
         RewriteRuleSubtreeStream stream_path_start = new RewriteRuleSubtreeStream(adaptor,"rule path_start");
         RewriteRuleSubtreeStream stream_let_assignment = new RewriteRuleSubtreeStream(adaptor,"rule let_assignment");
@@ -4061,91 +4108,91 @@ public partial class simpletikzParser : Parser
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:295:2: ( path_start ( tikzpath_element )* semicolon_end -> ^( IM_PATH path_start ( tikzpath_element )* semicolon_end ) | path_start 'let' ( let_assignment )* 'in' ( tikzpath_element )* semicolon_end -> ^( IM_PATH path_start ( tikzpath_element )* semicolon_end ) )
-            int alt33 = 2;
-            int LA33_0 = input.LA(1);
+            int alt34 = 2;
+            int LA34_0 = input.LA(1);
 
-            if ( ((LA33_0 >= 63 && LA33_0 <= 66)) )
+            if ( ((LA34_0 >= 64 && LA34_0 <= 67)) )
             {
-                int LA33_1 = input.LA(2);
+                int LA34_1 = input.LA(2);
 
-                if ( (LA33_1 == 67) )
+                if ( (LA34_1 == 68) )
                 {
-                    alt33 = 2;
+                    alt34 = 2;
                 }
-                else if ( (LA33_1 == ID || LA33_1 == 41 || LA33_1 == 49 || LA33_1 == 51 || LA33_1 == 53 || (LA33_1 >= 69 && LA33_1 <= 70) || (LA33_1 >= 72 && LA33_1 <= 81)) )
+                else if ( (LA34_1 == ID || LA34_1 == 41 || LA34_1 == 50 || LA34_1 == 52 || LA34_1 == 54 || (LA34_1 >= 70 && LA34_1 <= 71) || (LA34_1 >= 73 && LA34_1 <= 82)) )
                 {
-                    alt33 = 1;
+                    alt34 = 1;
                 }
                 else 
                 {
                     if ( state.backtracking > 0 ) {state.failed = true; return retval;}
-                    NoViableAltException nvae_d33s1 =
-                        new NoViableAltException("", 33, 1, input);
+                    NoViableAltException nvae_d34s1 =
+                        new NoViableAltException("", 34, 1, input);
 
-                    throw nvae_d33s1;
+                    throw nvae_d34s1;
                 }
             }
             else 
             {
                 if ( state.backtracking > 0 ) {state.failed = true; return retval;}
-                NoViableAltException nvae_d33s0 =
-                    new NoViableAltException("", 33, 0, input);
+                NoViableAltException nvae_d34s0 =
+                    new NoViableAltException("", 34, 0, input);
 
-                throw nvae_d33s0;
+                throw nvae_d34s0;
             }
-            switch (alt33) 
+            switch (alt34) 
             {
                 case 1 :
                     // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:295:4: path_start ( tikzpath_element )* semicolon_end
                     {
-                    	PushFollow(FOLLOW_path_start_in_tikzpath1313);
-                    	path_start109 = path_start();
+                    	PushFollow(FOLLOW_path_start_in_tikzpath1319);
+                    	path_start110 = path_start();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( (state.backtracking==0) ) stream_path_start.Add(path_start109.Tree);
+                    	if ( (state.backtracking==0) ) stream_path_start.Add(path_start110.Tree);
                     	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:295:15: ( tikzpath_element )*
                     	do 
                     	{
-                    	    int alt30 = 2;
-                    	    int LA30_0 = input.LA(1);
+                    	    int alt31 = 2;
+                    	    int LA31_0 = input.LA(1);
 
-                    	    if ( (LA30_0 == ID || LA30_0 == 41 || LA30_0 == 49 || LA30_0 == 51 || (LA30_0 >= 69 && LA30_0 <= 70) || (LA30_0 >= 72 && LA30_0 <= 81)) )
+                    	    if ( (LA31_0 == ID || LA31_0 == 41 || LA31_0 == 50 || LA31_0 == 52 || (LA31_0 >= 70 && LA31_0 <= 71) || (LA31_0 >= 73 && LA31_0 <= 82)) )
                     	    {
-                    	        alt30 = 1;
+                    	        alt31 = 1;
                     	    }
 
 
-                    	    switch (alt30) 
+                    	    switch (alt31) 
                     		{
                     			case 1 :
                     			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:295:15: tikzpath_element
                     			    {
-                    			    	PushFollow(FOLLOW_tikzpath_element_in_tikzpath1315);
-                    			    	tikzpath_element110 = tikzpath_element();
+                    			    	PushFollow(FOLLOW_tikzpath_element_in_tikzpath1321);
+                    			    	tikzpath_element111 = tikzpath_element();
                     			    	state.followingStackPointer--;
                     			    	if (state.failed) return retval;
-                    			    	if ( (state.backtracking==0) ) stream_tikzpath_element.Add(tikzpath_element110.Tree);
+                    			    	if ( (state.backtracking==0) ) stream_tikzpath_element.Add(tikzpath_element111.Tree);
 
                     			    }
                     			    break;
 
                     			default:
-                    			    goto loop30;
+                    			    goto loop31;
                     	    }
                     	} while (true);
 
-                    	loop30:
-                    		;	// Stops C# compiler whining that label 'loop30' has no statements
+                    	loop31:
+                    		;	// Stops C# compiler whining that label 'loop31' has no statements
 
-                    	PushFollow(FOLLOW_semicolon_end_in_tikzpath1318);
-                    	semicolon_end111 = semicolon_end();
+                    	PushFollow(FOLLOW_semicolon_end_in_tikzpath1324);
+                    	semicolon_end112 = semicolon_end();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( (state.backtracking==0) ) stream_semicolon_end.Add(semicolon_end111.Tree);
+                    	if ( (state.backtracking==0) ) stream_semicolon_end.Add(semicolon_end112.Tree);
 
 
                     	// AST REWRITE
-                    	// elements:          semicolon_end, path_start, tikzpath_element
+                    	// elements:          tikzpath_element, semicolon_end, path_start
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -4184,58 +4231,21 @@ public partial class simpletikzParser : Parser
                 case 2 :
                     // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:296:4: path_start 'let' ( let_assignment )* 'in' ( tikzpath_element )* semicolon_end
                     {
-                    	PushFollow(FOLLOW_path_start_in_tikzpath1337);
-                    	path_start112 = path_start();
+                    	PushFollow(FOLLOW_path_start_in_tikzpath1343);
+                    	path_start113 = path_start();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( (state.backtracking==0) ) stream_path_start.Add(path_start112.Tree);
-                    	string_literal113=(IToken)Match(input,67,FOLLOW_67_in_tikzpath1339); if (state.failed) return retval; 
-                    	if ( (state.backtracking==0) ) stream_67.Add(string_literal113);
+                    	if ( (state.backtracking==0) ) stream_path_start.Add(path_start113.Tree);
+                    	string_literal114=(IToken)Match(input,68,FOLLOW_68_in_tikzpath1345); if (state.failed) return retval; 
+                    	if ( (state.backtracking==0) ) stream_68.Add(string_literal114);
 
                     	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:296:21: ( let_assignment )*
-                    	do 
-                    	{
-                    	    int alt31 = 2;
-                    	    int LA31_0 = input.LA(1);
-
-                    	    if ( (LA31_0 == COMMAND) )
-                    	    {
-                    	        alt31 = 1;
-                    	    }
-
-
-                    	    switch (alt31) 
-                    		{
-                    			case 1 :
-                    			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:296:21: let_assignment
-                    			    {
-                    			    	PushFollow(FOLLOW_let_assignment_in_tikzpath1341);
-                    			    	let_assignment114 = let_assignment();
-                    			    	state.followingStackPointer--;
-                    			    	if (state.failed) return retval;
-                    			    	if ( (state.backtracking==0) ) stream_let_assignment.Add(let_assignment114.Tree);
-
-                    			    }
-                    			    break;
-
-                    			default:
-                    			    goto loop31;
-                    	    }
-                    	} while (true);
-
-                    	loop31:
-                    		;	// Stops C# compiler whining that label 'loop31' has no statements
-
-                    	string_literal115=(IToken)Match(input,55,FOLLOW_55_in_tikzpath1344); if (state.failed) return retval; 
-                    	if ( (state.backtracking==0) ) stream_55.Add(string_literal115);
-
-                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:296:42: ( tikzpath_element )*
                     	do 
                     	{
                     	    int alt32 = 2;
                     	    int LA32_0 = input.LA(1);
 
-                    	    if ( (LA32_0 == ID || LA32_0 == 41 || LA32_0 == 49 || LA32_0 == 51 || (LA32_0 >= 69 && LA32_0 <= 70) || (LA32_0 >= 72 && LA32_0 <= 81)) )
+                    	    if ( (LA32_0 == COMMAND) )
                     	    {
                     	        alt32 = 1;
                     	    }
@@ -4244,13 +4254,13 @@ public partial class simpletikzParser : Parser
                     	    switch (alt32) 
                     		{
                     			case 1 :
-                    			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:296:42: tikzpath_element
+                    			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:296:21: let_assignment
                     			    {
-                    			    	PushFollow(FOLLOW_tikzpath_element_in_tikzpath1346);
-                    			    	tikzpath_element116 = tikzpath_element();
+                    			    	PushFollow(FOLLOW_let_assignment_in_tikzpath1347);
+                    			    	let_assignment115 = let_assignment();
                     			    	state.followingStackPointer--;
                     			    	if (state.failed) return retval;
-                    			    	if ( (state.backtracking==0) ) stream_tikzpath_element.Add(tikzpath_element116.Tree);
+                    			    	if ( (state.backtracking==0) ) stream_let_assignment.Add(let_assignment115.Tree);
 
                     			    }
                     			    break;
@@ -4263,11 +4273,48 @@ public partial class simpletikzParser : Parser
                     	loop32:
                     		;	// Stops C# compiler whining that label 'loop32' has no statements
 
-                    	PushFollow(FOLLOW_semicolon_end_in_tikzpath1349);
-                    	semicolon_end117 = semicolon_end();
+                    	string_literal116=(IToken)Match(input,56,FOLLOW_56_in_tikzpath1350); if (state.failed) return retval; 
+                    	if ( (state.backtracking==0) ) stream_56.Add(string_literal116);
+
+                    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:296:42: ( tikzpath_element )*
+                    	do 
+                    	{
+                    	    int alt33 = 2;
+                    	    int LA33_0 = input.LA(1);
+
+                    	    if ( (LA33_0 == ID || LA33_0 == 41 || LA33_0 == 50 || LA33_0 == 52 || (LA33_0 >= 70 && LA33_0 <= 71) || (LA33_0 >= 73 && LA33_0 <= 82)) )
+                    	    {
+                    	        alt33 = 1;
+                    	    }
+
+
+                    	    switch (alt33) 
+                    		{
+                    			case 1 :
+                    			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:296:42: tikzpath_element
+                    			    {
+                    			    	PushFollow(FOLLOW_tikzpath_element_in_tikzpath1352);
+                    			    	tikzpath_element117 = tikzpath_element();
+                    			    	state.followingStackPointer--;
+                    			    	if (state.failed) return retval;
+                    			    	if ( (state.backtracking==0) ) stream_tikzpath_element.Add(tikzpath_element117.Tree);
+
+                    			    }
+                    			    break;
+
+                    			default:
+                    			    goto loop33;
+                    	    }
+                    	} while (true);
+
+                    	loop33:
+                    		;	// Stops C# compiler whining that label 'loop33' has no statements
+
+                    	PushFollow(FOLLOW_semicolon_end_in_tikzpath1355);
+                    	semicolon_end118 = semicolon_end();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( (state.backtracking==0) ) stream_semicolon_end.Add(semicolon_end117.Tree);
+                    	if ( (state.backtracking==0) ) stream_semicolon_end.Add(semicolon_end118.Tree);
 
 
                     	// AST REWRITE
@@ -4345,13 +4392,13 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken COMMAND118 = null;
-        IToken char_literal119 = null;
-        simpletikzParser.tikzpath_element_return tikzpath_element120 = default(simpletikzParser.tikzpath_element_return);
+        IToken COMMAND119 = null;
+        IToken char_literal120 = null;
+        simpletikzParser.tikzpath_element_return tikzpath_element121 = default(simpletikzParser.tikzpath_element_return);
 
 
-        object COMMAND118_tree=null;
-        object char_literal119_tree=null;
+        object COMMAND119_tree=null;
+        object char_literal120_tree=null;
 
         try 
     	{
@@ -4360,49 +4407,49 @@ public partial class simpletikzParser : Parser
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	COMMAND118=(IToken)Match(input,COMMAND,FOLLOW_COMMAND_in_let_assignment1375); if (state.failed) return retval;
+            	COMMAND119=(IToken)Match(input,COMMAND,FOLLOW_COMMAND_in_let_assignment1381); if (state.failed) return retval;
             	if ( state.backtracking == 0 )
-            	{COMMAND118_tree = (object)adaptor.Create(COMMAND118);
-            		adaptor.AddChild(root_0, COMMAND118_tree);
+            	{COMMAND119_tree = (object)adaptor.Create(COMMAND119);
+            		adaptor.AddChild(root_0, COMMAND119_tree);
             	}
-            	char_literal119=(IToken)Match(input,43,FOLLOW_43_in_let_assignment1377); if (state.failed) return retval;
+            	char_literal120=(IToken)Match(input,43,FOLLOW_43_in_let_assignment1383); if (state.failed) return retval;
             	if ( state.backtracking == 0 )
-            	{char_literal119_tree = (object)adaptor.Create(char_literal119);
-            		adaptor.AddChild(root_0, char_literal119_tree);
+            	{char_literal120_tree = (object)adaptor.Create(char_literal120);
+            		adaptor.AddChild(root_0, char_literal120_tree);
             	}
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:300:16: ( tikzpath_element )*
             	do 
             	{
-            	    int alt34 = 2;
-            	    int LA34_0 = input.LA(1);
+            	    int alt35 = 2;
+            	    int LA35_0 = input.LA(1);
 
-            	    if ( (LA34_0 == ID || LA34_0 == 41 || LA34_0 == 49 || LA34_0 == 51 || (LA34_0 >= 69 && LA34_0 <= 70) || (LA34_0 >= 72 && LA34_0 <= 81)) )
+            	    if ( (LA35_0 == ID || LA35_0 == 41 || LA35_0 == 50 || LA35_0 == 52 || (LA35_0 >= 70 && LA35_0 <= 71) || (LA35_0 >= 73 && LA35_0 <= 82)) )
             	    {
-            	        alt34 = 1;
+            	        alt35 = 1;
             	    }
 
 
-            	    switch (alt34) 
+            	    switch (alt35) 
             		{
             			case 1 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:300:16: tikzpath_element
             			    {
-            			    	PushFollow(FOLLOW_tikzpath_element_in_let_assignment1379);
-            			    	tikzpath_element120 = tikzpath_element();
+            			    	PushFollow(FOLLOW_tikzpath_element_in_let_assignment1385);
+            			    	tikzpath_element121 = tikzpath_element();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
-            			    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzpath_element120.Tree);
+            			    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzpath_element121.Tree);
 
             			    }
             			    break;
 
             			default:
-            			    goto loop34;
+            			    goto loop35;
             	    }
             	} while (true);
 
-            	loop34:
-            		;	// Stops C# compiler whining that label 'loop34' has no statements
+            	loop35:
+            		;	// Stops C# compiler whining that label 'loop35' has no statements
 
 
             }
@@ -4443,27 +4490,27 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.tikz_options_return tikz_options121 = default(simpletikzParser.tikz_options_return);
+        simpletikzParser.tikz_options_return tikz_options122 = default(simpletikzParser.tikz_options_return);
 
-        simpletikzParser.coord_return coord122 = default(simpletikzParser.coord_return);
+        simpletikzParser.coord_return coord123 = default(simpletikzParser.coord_return);
 
-        simpletikzParser.controls_return controls123 = default(simpletikzParser.controls_return);
+        simpletikzParser.controls_return controls124 = default(simpletikzParser.controls_return);
 
-        simpletikzParser.tikznode_int_return tikznode_int124 = default(simpletikzParser.tikznode_int_return);
+        simpletikzParser.tikznode_int_return tikznode_int125 = default(simpletikzParser.tikznode_int_return);
 
-        simpletikzParser.tikzcoordinate_int_return tikzcoordinate_int125 = default(simpletikzParser.tikzcoordinate_int_return);
+        simpletikzParser.tikzcoordinate_int_return tikzcoordinate_int126 = default(simpletikzParser.tikzcoordinate_int_return);
 
-        simpletikzParser.circle_return circle126 = default(simpletikzParser.circle_return);
+        simpletikzParser.circle_return circle127 = default(simpletikzParser.circle_return);
 
-        simpletikzParser.arc_return arc127 = default(simpletikzParser.arc_return);
+        simpletikzParser.arc_return arc128 = default(simpletikzParser.arc_return);
 
-        simpletikzParser.roundbr_start_return roundbr_start128 = default(simpletikzParser.roundbr_start_return);
+        simpletikzParser.roundbr_start_return roundbr_start129 = default(simpletikzParser.roundbr_start_return);
 
-        simpletikzParser.tikzpath_element_return tikzpath_element129 = default(simpletikzParser.tikzpath_element_return);
+        simpletikzParser.tikzpath_element_return tikzpath_element130 = default(simpletikzParser.tikzpath_element_return);
 
-        simpletikzParser.roundbr_end_return roundbr_end130 = default(simpletikzParser.roundbr_end_return);
+        simpletikzParser.roundbr_end_return roundbr_end131 = default(simpletikzParser.roundbr_end_return);
 
-        simpletikzParser.edgeop_return edgeop131 = default(simpletikzParser.edgeop_return);
+        simpletikzParser.edgeop_return edgeop132 = default(simpletikzParser.edgeop_return);
 
 
         RewriteRuleSubtreeStream stream_tikzpath_element = new RewriteRuleSubtreeStream(adaptor,"rule tikzpath_element");
@@ -4472,81 +4519,81 @@ public partial class simpletikzParser : Parser
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:304:2: ( tikz_options | coord | controls | tikznode_int | tikzcoordinate_int | circle | arc | roundbr_start ( tikzpath_element )* roundbr_end -> ^( IM_PATH roundbr_start ( tikzpath_element )* roundbr_end ) | edgeop )
-            int alt36 = 9;
+            int alt37 = 9;
             switch ( input.LA(1) ) 
             {
-            case 51:
+            case 52:
             	{
-                alt36 = 1;
+                alt37 = 1;
                 }
                 break;
-            case 49:
-            case 79:
+            case 50:
             case 80:
-            	{
-                alt36 = 2;
-                }
-                break;
             case 81:
             	{
-                alt36 = 3;
+                alt37 = 2;
+                }
+                break;
+            case 82:
+            	{
+                alt37 = 3;
+                }
+                break;
+            case 71:
+            	{
+                alt37 = 4;
                 }
                 break;
             case 70:
             	{
-                alt36 = 4;
+                alt37 = 5;
                 }
                 break;
-            case 69:
-            	{
-                alt36 = 5;
-                }
-                break;
-            case 72:
             case 73:
-            	{
-                alt36 = 6;
-                }
-                break;
             case 74:
             	{
-                alt36 = 7;
+                alt37 = 6;
+                }
+                break;
+            case 75:
+            	{
+                alt37 = 7;
                 }
                 break;
             case 41:
             	{
-                alt36 = 8;
+                alt37 = 8;
                 }
                 break;
             case ID:
-            case 75:
             case 76:
             case 77:
             case 78:
+            case 79:
             	{
-                alt36 = 9;
+                alt37 = 9;
                 }
                 break;
             	default:
             	    if ( state.backtracking > 0 ) {state.failed = true; return retval;}
-            	    NoViableAltException nvae_d36s0 =
-            	        new NoViableAltException("", 36, 0, input);
+            	    NoViableAltException nvae_d37s0 =
+            	        new NoViableAltException("", 37, 0, input);
 
-            	    throw nvae_d36s0;
+            	    throw nvae_d37s0;
             }
 
-            switch (alt36) 
+            switch (alt37) 
             {
                 case 1 :
                     // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:305:5: tikz_options
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_tikz_options_in_tikzpath_element1395);
-                    	tikz_options121 = tikz_options();
+                    	PushFollow(FOLLOW_tikz_options_in_tikzpath_element1401);
+                    	tikz_options122 = tikz_options();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikz_options121.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikz_options122.Tree);
 
                     }
                     break;
@@ -4555,11 +4602,11 @@ public partial class simpletikzParser : Parser
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_coord_in_tikzpath_element1402);
-                    	coord122 = coord();
+                    	PushFollow(FOLLOW_coord_in_tikzpath_element1408);
+                    	coord123 = coord();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, coord122.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, coord123.Tree);
 
                     }
                     break;
@@ -4568,11 +4615,11 @@ public partial class simpletikzParser : Parser
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_controls_in_tikzpath_element1408);
-                    	controls123 = controls();
+                    	PushFollow(FOLLOW_controls_in_tikzpath_element1414);
+                    	controls124 = controls();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, controls123.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, controls124.Tree);
 
                     }
                     break;
@@ -4581,11 +4628,11 @@ public partial class simpletikzParser : Parser
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_tikznode_int_in_tikzpath_element1414);
-                    	tikznode_int124 = tikznode_int();
+                    	PushFollow(FOLLOW_tikznode_int_in_tikzpath_element1420);
+                    	tikznode_int125 = tikznode_int();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikznode_int124.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikznode_int125.Tree);
 
                     }
                     break;
@@ -4594,11 +4641,11 @@ public partial class simpletikzParser : Parser
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_tikzcoordinate_int_in_tikzpath_element1420);
-                    	tikzcoordinate_int125 = tikzcoordinate_int();
+                    	PushFollow(FOLLOW_tikzcoordinate_int_in_tikzpath_element1426);
+                    	tikzcoordinate_int126 = tikzcoordinate_int();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzcoordinate_int125.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzcoordinate_int126.Tree);
 
                     }
                     break;
@@ -4607,8 +4654,8 @@ public partial class simpletikzParser : Parser
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_circle_in_tikzpath_element1426);
-                    	circle126 = circle();
+                    	PushFollow(FOLLOW_circle_in_tikzpath_element1432);
+                    	circle127 = circle();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
 
@@ -4619,65 +4666,65 @@ public partial class simpletikzParser : Parser
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_arc_in_tikzpath_element1433);
-                    	arc127 = arc();
+                    	PushFollow(FOLLOW_arc_in_tikzpath_element1439);
+                    	arc128 = arc();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, arc127.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, arc128.Tree);
 
                     }
                     break;
                 case 8 :
                     // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:312:5: roundbr_start ( tikzpath_element )* roundbr_end
                     {
-                    	PushFollow(FOLLOW_roundbr_start_in_tikzpath_element1439);
-                    	roundbr_start128 = roundbr_start();
+                    	PushFollow(FOLLOW_roundbr_start_in_tikzpath_element1445);
+                    	roundbr_start129 = roundbr_start();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( (state.backtracking==0) ) stream_roundbr_start.Add(roundbr_start128.Tree);
+                    	if ( (state.backtracking==0) ) stream_roundbr_start.Add(roundbr_start129.Tree);
                     	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:312:19: ( tikzpath_element )*
                     	do 
                     	{
-                    	    int alt35 = 2;
-                    	    int LA35_0 = input.LA(1);
+                    	    int alt36 = 2;
+                    	    int LA36_0 = input.LA(1);
 
-                    	    if ( (LA35_0 == ID || LA35_0 == 41 || LA35_0 == 49 || LA35_0 == 51 || (LA35_0 >= 69 && LA35_0 <= 70) || (LA35_0 >= 72 && LA35_0 <= 81)) )
+                    	    if ( (LA36_0 == ID || LA36_0 == 41 || LA36_0 == 50 || LA36_0 == 52 || (LA36_0 >= 70 && LA36_0 <= 71) || (LA36_0 >= 73 && LA36_0 <= 82)) )
                     	    {
-                    	        alt35 = 1;
+                    	        alt36 = 1;
                     	    }
 
 
-                    	    switch (alt35) 
+                    	    switch (alt36) 
                     		{
                     			case 1 :
                     			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:312:19: tikzpath_element
                     			    {
-                    			    	PushFollow(FOLLOW_tikzpath_element_in_tikzpath_element1441);
-                    			    	tikzpath_element129 = tikzpath_element();
+                    			    	PushFollow(FOLLOW_tikzpath_element_in_tikzpath_element1447);
+                    			    	tikzpath_element130 = tikzpath_element();
                     			    	state.followingStackPointer--;
                     			    	if (state.failed) return retval;
-                    			    	if ( (state.backtracking==0) ) stream_tikzpath_element.Add(tikzpath_element129.Tree);
+                    			    	if ( (state.backtracking==0) ) stream_tikzpath_element.Add(tikzpath_element130.Tree);
 
                     			    }
                     			    break;
 
                     			default:
-                    			    goto loop35;
+                    			    goto loop36;
                     	    }
                     	} while (true);
 
-                    	loop35:
-                    		;	// Stops C# compiler whining that label 'loop35' has no statements
+                    	loop36:
+                    		;	// Stops C# compiler whining that label 'loop36' has no statements
 
-                    	PushFollow(FOLLOW_roundbr_end_in_tikzpath_element1444);
-                    	roundbr_end130 = roundbr_end();
+                    	PushFollow(FOLLOW_roundbr_end_in_tikzpath_element1450);
+                    	roundbr_end131 = roundbr_end();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( (state.backtracking==0) ) stream_roundbr_end.Add(roundbr_end130.Tree);
+                    	if ( (state.backtracking==0) ) stream_roundbr_end.Add(roundbr_end131.Tree);
 
 
                     	// AST REWRITE
-                    	// elements:          roundbr_start, tikzpath_element, roundbr_end
+                    	// elements:          tikzpath_element, roundbr_end, roundbr_start
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -4718,8 +4765,8 @@ public partial class simpletikzParser : Parser
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_edgeop_in_tikzpath_element1463);
-                    	edgeop131 = edgeop();
+                    	PushFollow(FOLLOW_edgeop_in_tikzpath_element1469);
+                    	edgeop132 = edgeop();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
 
@@ -4763,18 +4810,18 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal134 = null;
-        simpletikzParser.controls_start_return controls_start132 = default(simpletikzParser.controls_start_return);
+        IToken string_literal135 = null;
+        simpletikzParser.controls_start_return controls_start133 = default(simpletikzParser.controls_start_return);
 
-        simpletikzParser.coord_return coord133 = default(simpletikzParser.coord_return);
+        simpletikzParser.coord_return coord134 = default(simpletikzParser.coord_return);
 
-        simpletikzParser.coord_return coord135 = default(simpletikzParser.coord_return);
+        simpletikzParser.coord_return coord136 = default(simpletikzParser.coord_return);
 
-        simpletikzParser.controls_end_return controls_end136 = default(simpletikzParser.controls_end_return);
+        simpletikzParser.controls_end_return controls_end137 = default(simpletikzParser.controls_end_return);
 
 
-        object string_literal134_tree=null;
-        RewriteRuleTokenStream stream_68 = new RewriteRuleTokenStream(adaptor,"token 68");
+        object string_literal135_tree=null;
+        RewriteRuleTokenStream stream_69 = new RewriteRuleTokenStream(adaptor,"token 69");
         RewriteRuleSubtreeStream stream_coord = new RewriteRuleSubtreeStream(adaptor,"rule coord");
         RewriteRuleSubtreeStream stream_controls_start = new RewriteRuleSubtreeStream(adaptor,"rule controls_start");
         RewriteRuleSubtreeStream stream_controls_end = new RewriteRuleSubtreeStream(adaptor,"rule controls_end");
@@ -4783,52 +4830,52 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:317:2: ( controls_start coord ( 'and' coord )? controls_end -> ^( IM_CONTROLS controls_start ( coord )+ controls_end ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:317:4: controls_start coord ( 'and' coord )? controls_end
             {
-            	PushFollow(FOLLOW_controls_start_in_controls1478);
-            	controls_start132 = controls_start();
+            	PushFollow(FOLLOW_controls_start_in_controls1484);
+            	controls_start133 = controls_start();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_controls_start.Add(controls_start132.Tree);
-            	PushFollow(FOLLOW_coord_in_controls1480);
-            	coord133 = coord();
+            	if ( (state.backtracking==0) ) stream_controls_start.Add(controls_start133.Tree);
+            	PushFollow(FOLLOW_coord_in_controls1486);
+            	coord134 = coord();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_coord.Add(coord133.Tree);
+            	if ( (state.backtracking==0) ) stream_coord.Add(coord134.Tree);
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:317:25: ( 'and' coord )?
-            	int alt37 = 2;
-            	int LA37_0 = input.LA(1);
+            	int alt38 = 2;
+            	int LA38_0 = input.LA(1);
 
-            	if ( (LA37_0 == 68) )
+            	if ( (LA38_0 == 69) )
             	{
-            	    alt37 = 1;
+            	    alt38 = 1;
             	}
-            	switch (alt37) 
+            	switch (alt38) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:317:26: 'and' coord
             	        {
-            	        	string_literal134=(IToken)Match(input,68,FOLLOW_68_in_controls1483); if (state.failed) return retval; 
-            	        	if ( (state.backtracking==0) ) stream_68.Add(string_literal134);
+            	        	string_literal135=(IToken)Match(input,69,FOLLOW_69_in_controls1489); if (state.failed) return retval; 
+            	        	if ( (state.backtracking==0) ) stream_69.Add(string_literal135);
 
-            	        	PushFollow(FOLLOW_coord_in_controls1485);
-            	        	coord135 = coord();
+            	        	PushFollow(FOLLOW_coord_in_controls1491);
+            	        	coord136 = coord();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( (state.backtracking==0) ) stream_coord.Add(coord135.Tree);
+            	        	if ( (state.backtracking==0) ) stream_coord.Add(coord136.Tree);
 
             	        }
             	        break;
 
             	}
 
-            	PushFollow(FOLLOW_controls_end_in_controls1489);
-            	controls_end136 = controls_end();
+            	PushFollow(FOLLOW_controls_end_in_controls1495);
+            	controls_end137 = controls_end();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_controls_end.Add(controls_end136.Tree);
+            	if ( (state.backtracking==0) ) stream_controls_end.Add(controls_end137.Tree);
 
 
             	// AST REWRITE
-            	// elements:          controls_start, controls_end, coord
+            	// elements:          controls_end, coord, controls_start
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -4902,13 +4949,13 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.node_start_return node_start137 = default(simpletikzParser.node_start_return);
+        simpletikzParser.node_start_return node_start138 = default(simpletikzParser.node_start_return);
 
-        simpletikzParser.tikznode_core_return tikznode_core138 = default(simpletikzParser.tikznode_core_return);
+        simpletikzParser.tikznode_core_return tikznode_core139 = default(simpletikzParser.tikznode_core_return);
 
-        simpletikzParser.tikzpath_element_return tikzpath_element139 = default(simpletikzParser.tikzpath_element_return);
+        simpletikzParser.tikzpath_element_return tikzpath_element140 = default(simpletikzParser.tikzpath_element_return);
 
-        simpletikzParser.semicolon_end_return semicolon_end140 = default(simpletikzParser.semicolon_end_return);
+        simpletikzParser.semicolon_end_return semicolon_end141 = default(simpletikzParser.semicolon_end_return);
 
 
         RewriteRuleSubtreeStream stream_tikzpath_element = new RewriteRuleSubtreeStream(adaptor,"rule tikzpath_element");
@@ -4920,59 +4967,59 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:321:2: ( node_start tikznode_core ( tikzpath_element )* semicolon_end -> ^( IM_PATH node_start tikznode_core ( tikzpath_element )* semicolon_end ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:321:4: node_start tikznode_core ( tikzpath_element )* semicolon_end
             {
-            	PushFollow(FOLLOW_node_start_in_tikznode_ext1515);
-            	node_start137 = node_start();
+            	PushFollow(FOLLOW_node_start_in_tikznode_ext1521);
+            	node_start138 = node_start();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_node_start.Add(node_start137.Tree);
-            	PushFollow(FOLLOW_tikznode_core_in_tikznode_ext1517);
-            	tikznode_core138 = tikznode_core();
+            	if ( (state.backtracking==0) ) stream_node_start.Add(node_start138.Tree);
+            	PushFollow(FOLLOW_tikznode_core_in_tikznode_ext1523);
+            	tikznode_core139 = tikznode_core();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_tikznode_core.Add(tikznode_core138.Tree);
+            	if ( (state.backtracking==0) ) stream_tikznode_core.Add(tikznode_core139.Tree);
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:321:29: ( tikzpath_element )*
             	do 
             	{
-            	    int alt38 = 2;
-            	    int LA38_0 = input.LA(1);
+            	    int alt39 = 2;
+            	    int LA39_0 = input.LA(1);
 
-            	    if ( (LA38_0 == ID || LA38_0 == 41 || LA38_0 == 49 || LA38_0 == 51 || (LA38_0 >= 69 && LA38_0 <= 70) || (LA38_0 >= 72 && LA38_0 <= 81)) )
+            	    if ( (LA39_0 == ID || LA39_0 == 41 || LA39_0 == 50 || LA39_0 == 52 || (LA39_0 >= 70 && LA39_0 <= 71) || (LA39_0 >= 73 && LA39_0 <= 82)) )
             	    {
-            	        alt38 = 1;
+            	        alt39 = 1;
             	    }
 
 
-            	    switch (alt38) 
+            	    switch (alt39) 
             		{
             			case 1 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:321:29: tikzpath_element
             			    {
-            			    	PushFollow(FOLLOW_tikzpath_element_in_tikznode_ext1519);
-            			    	tikzpath_element139 = tikzpath_element();
+            			    	PushFollow(FOLLOW_tikzpath_element_in_tikznode_ext1525);
+            			    	tikzpath_element140 = tikzpath_element();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
-            			    	if ( (state.backtracking==0) ) stream_tikzpath_element.Add(tikzpath_element139.Tree);
+            			    	if ( (state.backtracking==0) ) stream_tikzpath_element.Add(tikzpath_element140.Tree);
 
             			    }
             			    break;
 
             			default:
-            			    goto loop38;
+            			    goto loop39;
             	    }
             	} while (true);
 
-            	loop38:
-            		;	// Stops C# compiler whining that label 'loop38' has no statements
+            	loop39:
+            		;	// Stops C# compiler whining that label 'loop39' has no statements
 
-            	PushFollow(FOLLOW_semicolon_end_in_tikznode_ext1522);
-            	semicolon_end140 = semicolon_end();
+            	PushFollow(FOLLOW_semicolon_end_in_tikznode_ext1528);
+            	semicolon_end141 = semicolon_end();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_semicolon_end.Add(semicolon_end140.Tree);
+            	if ( (state.backtracking==0) ) stream_semicolon_end.Add(semicolon_end141.Tree);
 
 
             	// AST REWRITE
-            	// elements:          semicolon_end, tikznode_core, node_start, tikzpath_element
+            	// elements:          tikznode_core, semicolon_end, node_start, tikzpath_element
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -5045,17 +5092,17 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.coordinate_start_return coordinate_start141 = default(simpletikzParser.coordinate_start_return);
+        simpletikzParser.coordinate_start_return coordinate_start142 = default(simpletikzParser.coordinate_start_return);
 
-        simpletikzParser.tikzcoordinate_core3_return tikzcoordinate_core3142 = default(simpletikzParser.tikzcoordinate_core3_return);
+        simpletikzParser.tikzcoordinate_core3_return tikzcoordinate_core3143 = default(simpletikzParser.tikzcoordinate_core3_return);
 
-        simpletikzParser.tikzcoordinate_core2_return tikzcoordinate_core2143 = default(simpletikzParser.tikzcoordinate_core2_return);
+        simpletikzParser.tikzcoordinate_core2_return tikzcoordinate_core2144 = default(simpletikzParser.tikzcoordinate_core2_return);
 
-        simpletikzParser.tikzcoordinate_core1_return tikzcoordinate_core1144 = default(simpletikzParser.tikzcoordinate_core1_return);
+        simpletikzParser.tikzcoordinate_core1_return tikzcoordinate_core1145 = default(simpletikzParser.tikzcoordinate_core1_return);
 
-        simpletikzParser.tikzpath_element_return tikzpath_element145 = default(simpletikzParser.tikzpath_element_return);
+        simpletikzParser.tikzpath_element_return tikzpath_element146 = default(simpletikzParser.tikzpath_element_return);
 
-        simpletikzParser.semicolon_end_return semicolon_end146 = default(simpletikzParser.semicolon_end_return);
+        simpletikzParser.semicolon_end_return semicolon_end147 = default(simpletikzParser.semicolon_end_return);
 
 
         RewriteRuleSubtreeStream stream_tikzpath_element = new RewriteRuleSubtreeStream(adaptor,"rule tikzpath_element");
@@ -5069,15 +5116,15 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:326:2: ( coordinate_start ( ( ( tikzcoordinate_core3 )=> tikzcoordinate_core3 ) | ( ( tikzcoordinate_core2 )=> tikzcoordinate_core2 ) | ( ( tikzcoordinate_core1 )=> tikzcoordinate_core1 ) )? ( tikzpath_element )* semicolon_end -> ^( IM_PATH coordinate_start ( tikzcoordinate_core3 )? ( tikzcoordinate_core2 )? ( tikzcoordinate_core1 )? ( tikzpath_element )* semicolon_end ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:326:4: coordinate_start ( ( ( tikzcoordinate_core3 )=> tikzcoordinate_core3 ) | ( ( tikzcoordinate_core2 )=> tikzcoordinate_core2 ) | ( ( tikzcoordinate_core1 )=> tikzcoordinate_core1 ) )? ( tikzpath_element )* semicolon_end
             {
-            	PushFollow(FOLLOW_coordinate_start_in_tikzcoordinate_ext1550);
-            	coordinate_start141 = coordinate_start();
+            	PushFollow(FOLLOW_coordinate_start_in_tikzcoordinate_ext1556);
+            	coordinate_start142 = coordinate_start();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_coordinate_start.Add(coordinate_start141.Tree);
+            	if ( (state.backtracking==0) ) stream_coordinate_start.Add(coordinate_start142.Tree);
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:327:5: ( ( ( tikzcoordinate_core3 )=> tikzcoordinate_core3 ) | ( ( tikzcoordinate_core2 )=> tikzcoordinate_core2 ) | ( ( tikzcoordinate_core1 )=> tikzcoordinate_core1 ) )?
-            	int alt39 = 4;
-            	alt39 = dfa39.Predict(input);
-            	switch (alt39) 
+            	int alt40 = 4;
+            	alt40 = dfa40.Predict(input);
+            	switch (alt40) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:327:7: ( ( tikzcoordinate_core3 )=> tikzcoordinate_core3 )
@@ -5085,11 +5132,11 @@ public partial class simpletikzParser : Parser
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:327:7: ( ( tikzcoordinate_core3 )=> tikzcoordinate_core3 )
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:327:8: ( tikzcoordinate_core3 )=> tikzcoordinate_core3
             	        	{
-            	        		PushFollow(FOLLOW_tikzcoordinate_core3_in_tikzcoordinate_ext1565);
-            	        		tikzcoordinate_core3142 = tikzcoordinate_core3();
+            	        		PushFollow(FOLLOW_tikzcoordinate_core3_in_tikzcoordinate_ext1571);
+            	        		tikzcoordinate_core3143 = tikzcoordinate_core3();
             	        		state.followingStackPointer--;
             	        		if (state.failed) return retval;
-            	        		if ( (state.backtracking==0) ) stream_tikzcoordinate_core3.Add(tikzcoordinate_core3142.Tree);
+            	        		if ( (state.backtracking==0) ) stream_tikzcoordinate_core3.Add(tikzcoordinate_core3143.Tree);
 
             	        	}
 
@@ -5102,11 +5149,11 @@ public partial class simpletikzParser : Parser
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:328:11: ( ( tikzcoordinate_core2 )=> tikzcoordinate_core2 )
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:328:12: ( tikzcoordinate_core2 )=> tikzcoordinate_core2
             	        	{
-            	        		PushFollow(FOLLOW_tikzcoordinate_core2_in_tikzcoordinate_ext1584);
-            	        		tikzcoordinate_core2143 = tikzcoordinate_core2();
+            	        		PushFollow(FOLLOW_tikzcoordinate_core2_in_tikzcoordinate_ext1590);
+            	        		tikzcoordinate_core2144 = tikzcoordinate_core2();
             	        		state.followingStackPointer--;
             	        		if (state.failed) return retval;
-            	        		if ( (state.backtracking==0) ) stream_tikzcoordinate_core2.Add(tikzcoordinate_core2143.Tree);
+            	        		if ( (state.backtracking==0) ) stream_tikzcoordinate_core2.Add(tikzcoordinate_core2144.Tree);
 
             	        	}
 
@@ -5119,11 +5166,11 @@ public partial class simpletikzParser : Parser
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:329:11: ( ( tikzcoordinate_core1 )=> tikzcoordinate_core1 )
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:329:12: ( tikzcoordinate_core1 )=> tikzcoordinate_core1
             	        	{
-            	        		PushFollow(FOLLOW_tikzcoordinate_core1_in_tikzcoordinate_ext1604);
-            	        		tikzcoordinate_core1144 = tikzcoordinate_core1();
+            	        		PushFollow(FOLLOW_tikzcoordinate_core1_in_tikzcoordinate_ext1610);
+            	        		tikzcoordinate_core1145 = tikzcoordinate_core1();
             	        		state.followingStackPointer--;
             	        		if (state.failed) return retval;
-            	        		if ( (state.backtracking==0) ) stream_tikzcoordinate_core1.Add(tikzcoordinate_core1144.Tree);
+            	        		if ( (state.backtracking==0) ) stream_tikzcoordinate_core1.Add(tikzcoordinate_core1145.Tree);
 
             	        	}
 
@@ -5136,46 +5183,46 @@ public partial class simpletikzParser : Parser
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:330:6: ( tikzpath_element )*
             	do 
             	{
-            	    int alt40 = 2;
-            	    int LA40_0 = input.LA(1);
+            	    int alt41 = 2;
+            	    int LA41_0 = input.LA(1);
 
-            	    if ( (LA40_0 == ID || LA40_0 == 41 || LA40_0 == 49 || LA40_0 == 51 || (LA40_0 >= 69 && LA40_0 <= 70) || (LA40_0 >= 72 && LA40_0 <= 81)) )
+            	    if ( (LA41_0 == ID || LA41_0 == 41 || LA41_0 == 50 || LA41_0 == 52 || (LA41_0 >= 70 && LA41_0 <= 71) || (LA41_0 >= 73 && LA41_0 <= 82)) )
             	    {
-            	        alt40 = 1;
+            	        alt41 = 1;
             	    }
 
 
-            	    switch (alt40) 
+            	    switch (alt41) 
             		{
             			case 1 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:330:6: tikzpath_element
             			    {
-            			    	PushFollow(FOLLOW_tikzpath_element_in_tikzcoordinate_ext1615);
-            			    	tikzpath_element145 = tikzpath_element();
+            			    	PushFollow(FOLLOW_tikzpath_element_in_tikzcoordinate_ext1621);
+            			    	tikzpath_element146 = tikzpath_element();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
-            			    	if ( (state.backtracking==0) ) stream_tikzpath_element.Add(tikzpath_element145.Tree);
+            			    	if ( (state.backtracking==0) ) stream_tikzpath_element.Add(tikzpath_element146.Tree);
 
             			    }
             			    break;
 
             			default:
-            			    goto loop40;
+            			    goto loop41;
             	    }
             	} while (true);
 
-            	loop40:
-            		;	// Stops C# compiler whining that label 'loop40' has no statements
+            	loop41:
+            		;	// Stops C# compiler whining that label 'loop41' has no statements
 
-            	PushFollow(FOLLOW_semicolon_end_in_tikzcoordinate_ext1618);
-            	semicolon_end146 = semicolon_end();
+            	PushFollow(FOLLOW_semicolon_end_in_tikzcoordinate_ext1624);
+            	semicolon_end147 = semicolon_end();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_semicolon_end.Add(semicolon_end146.Tree);
+            	if ( (state.backtracking==0) ) stream_semicolon_end.Add(semicolon_end147.Tree);
 
 
             	// AST REWRITE
-            	// elements:          semicolon_end, tikzcoordinate_core2, tikzpath_element, tikzcoordinate_core1, coordinate_start, tikzcoordinate_core3
+            	// elements:          tikzpath_element, tikzcoordinate_core2, semicolon_end, tikzcoordinate_core3, tikzcoordinate_core1, coordinate_start
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -5268,15 +5315,15 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal147 = null;
-        simpletikzParser.tikzcoordinate_core3_return tikzcoordinate_core3148 = default(simpletikzParser.tikzcoordinate_core3_return);
+        IToken string_literal148 = null;
+        simpletikzParser.tikzcoordinate_core3_return tikzcoordinate_core3149 = default(simpletikzParser.tikzcoordinate_core3_return);
 
-        simpletikzParser.tikzcoordinate_core2_return tikzcoordinate_core2149 = default(simpletikzParser.tikzcoordinate_core2_return);
+        simpletikzParser.tikzcoordinate_core2_return tikzcoordinate_core2150 = default(simpletikzParser.tikzcoordinate_core2_return);
 
-        simpletikzParser.tikzcoordinate_core1_return tikzcoordinate_core1150 = default(simpletikzParser.tikzcoordinate_core1_return);
+        simpletikzParser.tikzcoordinate_core1_return tikzcoordinate_core1151 = default(simpletikzParser.tikzcoordinate_core1_return);
 
 
-        object string_literal147_tree=null;
+        object string_literal148_tree=null;
 
         try 
     	{
@@ -5285,11 +5332,11 @@ public partial class simpletikzParser : Parser
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	string_literal147=(IToken)Match(input,69,FOLLOW_69_in_tikzcoordinate_int1678); if (state.failed) return retval;
+            	string_literal148=(IToken)Match(input,70,FOLLOW_70_in_tikzcoordinate_int1684); if (state.failed) return retval;
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:338:18: ( ( ( tikzcoordinate_core3 )=> tikzcoordinate_core3 ) | ( ( tikzcoordinate_core2 )=> tikzcoordinate_core2 ) | ( ( tikzcoordinate_core1 )=> tikzcoordinate_core1 ) )?
-            	int alt41 = 4;
-            	alt41 = dfa41.Predict(input);
-            	switch (alt41) 
+            	int alt42 = 4;
+            	alt42 = dfa42.Predict(input);
+            	switch (alt42) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:338:20: ( ( tikzcoordinate_core3 )=> tikzcoordinate_core3 )
@@ -5297,11 +5344,11 @@ public partial class simpletikzParser : Parser
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:338:20: ( ( tikzcoordinate_core3 )=> tikzcoordinate_core3 )
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:338:21: ( tikzcoordinate_core3 )=> tikzcoordinate_core3
             	        	{
-            	        		PushFollow(FOLLOW_tikzcoordinate_core3_in_tikzcoordinate_int1689);
-            	        		tikzcoordinate_core3148 = tikzcoordinate_core3();
+            	        		PushFollow(FOLLOW_tikzcoordinate_core3_in_tikzcoordinate_int1695);
+            	        		tikzcoordinate_core3149 = tikzcoordinate_core3();
             	        		state.followingStackPointer--;
             	        		if (state.failed) return retval;
-            	        		if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzcoordinate_core3148.Tree);
+            	        		if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzcoordinate_core3149.Tree);
 
             	        	}
 
@@ -5314,11 +5361,11 @@ public partial class simpletikzParser : Parser
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:339:11: ( ( tikzcoordinate_core2 )=> tikzcoordinate_core2 )
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:339:12: ( tikzcoordinate_core2 )=> tikzcoordinate_core2
             	        	{
-            	        		PushFollow(FOLLOW_tikzcoordinate_core2_in_tikzcoordinate_int1708);
-            	        		tikzcoordinate_core2149 = tikzcoordinate_core2();
+            	        		PushFollow(FOLLOW_tikzcoordinate_core2_in_tikzcoordinate_int1714);
+            	        		tikzcoordinate_core2150 = tikzcoordinate_core2();
             	        		state.followingStackPointer--;
             	        		if (state.failed) return retval;
-            	        		if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzcoordinate_core2149.Tree);
+            	        		if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzcoordinate_core2150.Tree);
 
             	        	}
 
@@ -5331,11 +5378,11 @@ public partial class simpletikzParser : Parser
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:340:11: ( ( tikzcoordinate_core1 )=> tikzcoordinate_core1 )
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:340:12: ( tikzcoordinate_core1 )=> tikzcoordinate_core1
             	        	{
-            	        		PushFollow(FOLLOW_tikzcoordinate_core1_in_tikzcoordinate_int1728);
-            	        		tikzcoordinate_core1150 = tikzcoordinate_core1();
+            	        		PushFollow(FOLLOW_tikzcoordinate_core1_in_tikzcoordinate_int1734);
+            	        		tikzcoordinate_core1151 = tikzcoordinate_core1();
             	        		state.followingStackPointer--;
             	        		if (state.failed) return retval;
-            	        		if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzcoordinate_core1150.Tree);
+            	        		if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikzcoordinate_core1151.Tree);
 
             	        	}
 
@@ -5384,11 +5431,11 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal151 = null;
-        simpletikzParser.tikznode_core_return tikznode_core152 = default(simpletikzParser.tikznode_core_return);
+        IToken string_literal152 = null;
+        simpletikzParser.tikznode_core_return tikznode_core153 = default(simpletikzParser.tikznode_core_return);
 
 
-        object string_literal151_tree=null;
+        object string_literal152_tree=null;
 
         try 
     	{
@@ -5397,12 +5444,12 @@ public partial class simpletikzParser : Parser
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	string_literal151=(IToken)Match(input,70,FOLLOW_70_in_tikznode_int1744); if (state.failed) return retval;
-            	PushFollow(FOLLOW_tikznode_core_in_tikznode_int1747);
-            	tikznode_core152 = tikznode_core();
+            	string_literal152=(IToken)Match(input,71,FOLLOW_71_in_tikznode_int1750); if (state.failed) return retval;
+            	PushFollow(FOLLOW_tikznode_core_in_tikznode_int1753);
+            	tikznode_core153 = tikznode_core();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikznode_core152.Tree);
+            	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikznode_core153.Tree);
 
             }
 
@@ -5442,9 +5489,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.tikznode_decorator_return tikznode_decorator153 = default(simpletikzParser.tikznode_decorator_return);
+        simpletikzParser.tikznode_decorator_return tikznode_decorator154 = default(simpletikzParser.tikznode_decorator_return);
 
-        simpletikzParser.tikzstring_return tikzstring154 = default(simpletikzParser.tikzstring_return);
+        simpletikzParser.tikzstring_return tikzstring155 = default(simpletikzParser.tikzstring_return);
 
 
         RewriteRuleSubtreeStream stream_tikzstring = new RewriteRuleSubtreeStream(adaptor,"rule tikzstring");
@@ -5457,42 +5504,42 @@ public partial class simpletikzParser : Parser
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:346:4: ( tikznode_decorator )*
             	do 
             	{
-            	    int alt42 = 2;
-            	    int LA42_0 = input.LA(1);
+            	    int alt43 = 2;
+            	    int LA43_0 = input.LA(1);
 
-            	    if ( (LA42_0 == 49 || LA42_0 == 51 || LA42_0 == 71) )
+            	    if ( (LA43_0 == 50 || LA43_0 == 52 || LA43_0 == 72) )
             	    {
-            	        alt42 = 1;
+            	        alt43 = 1;
             	    }
 
 
-            	    switch (alt42) 
+            	    switch (alt43) 
             		{
             			case 1 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:346:4: tikznode_decorator
             			    {
-            			    	PushFollow(FOLLOW_tikznode_decorator_in_tikznode_core1757);
-            			    	tikznode_decorator153 = tikznode_decorator();
+            			    	PushFollow(FOLLOW_tikznode_decorator_in_tikznode_core1763);
+            			    	tikznode_decorator154 = tikznode_decorator();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
-            			    	if ( (state.backtracking==0) ) stream_tikznode_decorator.Add(tikznode_decorator153.Tree);
+            			    	if ( (state.backtracking==0) ) stream_tikznode_decorator.Add(tikznode_decorator154.Tree);
 
             			    }
             			    break;
 
             			default:
-            			    goto loop42;
+            			    goto loop43;
             	    }
             	} while (true);
 
-            	loop42:
-            		;	// Stops C# compiler whining that label 'loop42' has no statements
+            	loop43:
+            		;	// Stops C# compiler whining that label 'loop43' has no statements
 
-            	PushFollow(FOLLOW_tikzstring_in_tikznode_core1760);
-            	tikzstring154 = tikzstring();
+            	PushFollow(FOLLOW_tikzstring_in_tikznode_core1766);
+            	tikzstring155 = tikzstring();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_tikzstring.Add(tikzstring154.Tree);
+            	if ( (state.backtracking==0) ) stream_tikzstring.Add(tikzstring155.Tree);
 
 
             	// AST REWRITE
@@ -5567,11 +5614,11 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.tikznode_decorator_return tikznode_decorator155 = default(simpletikzParser.tikznode_decorator_return);
-
         simpletikzParser.tikznode_decorator_return tikznode_decorator156 = default(simpletikzParser.tikznode_decorator_return);
 
         simpletikzParser.tikznode_decorator_return tikznode_decorator157 = default(simpletikzParser.tikznode_decorator_return);
+
+        simpletikzParser.tikznode_decorator_return tikznode_decorator158 = default(simpletikzParser.tikznode_decorator_return);
 
 
         RewriteRuleSubtreeStream stream_tikznode_decorator = new RewriteRuleSubtreeStream(adaptor,"rule tikznode_decorator");
@@ -5580,21 +5627,21 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:350:2: ( tikznode_decorator tikznode_decorator tikznode_decorator -> ^( IM_NODE tikznode_decorator tikznode_decorator tikznode_decorator ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:350:6: tikznode_decorator tikznode_decorator tikznode_decorator
             {
-            	PushFollow(FOLLOW_tikznode_decorator_in_tikzcoordinate_core31785);
-            	tikznode_decorator155 = tikznode_decorator();
-            	state.followingStackPointer--;
-            	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_tikznode_decorator.Add(tikznode_decorator155.Tree);
-            	PushFollow(FOLLOW_tikznode_decorator_in_tikzcoordinate_core31787);
+            	PushFollow(FOLLOW_tikznode_decorator_in_tikzcoordinate_core31791);
             	tikznode_decorator156 = tikznode_decorator();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
             	if ( (state.backtracking==0) ) stream_tikznode_decorator.Add(tikznode_decorator156.Tree);
-            	PushFollow(FOLLOW_tikznode_decorator_in_tikzcoordinate_core31789);
+            	PushFollow(FOLLOW_tikznode_decorator_in_tikzcoordinate_core31793);
             	tikznode_decorator157 = tikznode_decorator();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
             	if ( (state.backtracking==0) ) stream_tikznode_decorator.Add(tikznode_decorator157.Tree);
+            	PushFollow(FOLLOW_tikznode_decorator_in_tikzcoordinate_core31795);
+            	tikznode_decorator158 = tikznode_decorator();
+            	state.followingStackPointer--;
+            	if (state.failed) return retval;
+            	if ( (state.backtracking==0) ) stream_tikznode_decorator.Add(tikznode_decorator158.Tree);
 
 
             	// AST REWRITE
@@ -5664,9 +5711,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.tikznode_decorator_return tikznode_decorator158 = default(simpletikzParser.tikznode_decorator_return);
-
         simpletikzParser.tikznode_decorator_return tikznode_decorator159 = default(simpletikzParser.tikznode_decorator_return);
+
+        simpletikzParser.tikznode_decorator_return tikznode_decorator160 = default(simpletikzParser.tikznode_decorator_return);
 
 
         RewriteRuleSubtreeStream stream_tikznode_decorator = new RewriteRuleSubtreeStream(adaptor,"rule tikznode_decorator");
@@ -5675,16 +5722,16 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:355:2: ( tikznode_decorator tikznode_decorator -> ^( IM_NODE tikznode_decorator tikznode_decorator ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:356:4: tikznode_decorator tikznode_decorator
             {
-            	PushFollow(FOLLOW_tikznode_decorator_in_tikzcoordinate_core21823);
-            	tikznode_decorator158 = tikznode_decorator();
-            	state.followingStackPointer--;
-            	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_tikznode_decorator.Add(tikznode_decorator158.Tree);
-            	PushFollow(FOLLOW_tikznode_decorator_in_tikzcoordinate_core21825);
+            	PushFollow(FOLLOW_tikznode_decorator_in_tikzcoordinate_core21829);
             	tikznode_decorator159 = tikznode_decorator();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
             	if ( (state.backtracking==0) ) stream_tikznode_decorator.Add(tikznode_decorator159.Tree);
+            	PushFollow(FOLLOW_tikznode_decorator_in_tikzcoordinate_core21831);
+            	tikznode_decorator160 = tikznode_decorator();
+            	state.followingStackPointer--;
+            	if (state.failed) return retval;
+            	if ( (state.backtracking==0) ) stream_tikznode_decorator.Add(tikznode_decorator160.Tree);
 
 
             	// AST REWRITE
@@ -5753,7 +5800,7 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.tikznode_decorator_return tikznode_decorator160 = default(simpletikzParser.tikznode_decorator_return);
+        simpletikzParser.tikznode_decorator_return tikznode_decorator161 = default(simpletikzParser.tikznode_decorator_return);
 
 
         RewriteRuleSubtreeStream stream_tikznode_decorator = new RewriteRuleSubtreeStream(adaptor,"rule tikznode_decorator");
@@ -5762,11 +5809,11 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:360:2: ( tikznode_decorator -> ^( IM_NODE tikznode_decorator ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:361:4: tikznode_decorator
             {
-            	PushFollow(FOLLOW_tikznode_decorator_in_tikzcoordinate_core11858);
-            	tikznode_decorator160 = tikznode_decorator();
+            	PushFollow(FOLLOW_tikznode_decorator_in_tikzcoordinate_core11864);
+            	tikznode_decorator161 = tikznode_decorator();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_tikznode_decorator.Add(tikznode_decorator160.Tree);
+            	if ( (state.backtracking==0) ) stream_tikznode_decorator.Add(tikznode_decorator161.Tree);
 
 
             	// AST REWRITE
@@ -5834,57 +5881,57 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal162 = null;
-        simpletikzParser.nodename_return nodename161 = default(simpletikzParser.nodename_return);
+        IToken string_literal163 = null;
+        simpletikzParser.nodename_return nodename162 = default(simpletikzParser.nodename_return);
 
-        simpletikzParser.coord_return coord163 = default(simpletikzParser.coord_return);
+        simpletikzParser.coord_return coord164 = default(simpletikzParser.coord_return);
 
-        simpletikzParser.tikz_options_dontcare_return tikz_options_dontcare164 = default(simpletikzParser.tikz_options_dontcare_return);
+        simpletikzParser.tikz_options_dontcare_return tikz_options_dontcare165 = default(simpletikzParser.tikz_options_dontcare_return);
 
 
-        object string_literal162_tree=null;
+        object string_literal163_tree=null;
 
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:369:2: ( nodename | 'at' coord | tikz_options_dontcare )
-            int alt43 = 3;
+            int alt44 = 3;
             switch ( input.LA(1) ) 
             {
-            case 49:
+            case 50:
             	{
-                alt43 = 1;
+                alt44 = 1;
                 }
                 break;
-            case 71:
+            case 72:
             	{
-                alt43 = 2;
+                alt44 = 2;
                 }
                 break;
-            case 51:
+            case 52:
             	{
-                alt43 = 3;
+                alt44 = 3;
                 }
                 break;
             	default:
             	    if ( state.backtracking > 0 ) {state.failed = true; return retval;}
-            	    NoViableAltException nvae_d43s0 =
-            	        new NoViableAltException("", 43, 0, input);
+            	    NoViableAltException nvae_d44s0 =
+            	        new NoViableAltException("", 44, 0, input);
 
-            	    throw nvae_d43s0;
+            	    throw nvae_d44s0;
             }
 
-            switch (alt43) 
+            switch (alt44) 
             {
                 case 1 :
                     // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:369:6: nodename
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_nodename_in_tikznode_decorator1895);
-                    	nodename161 = nodename();
+                    	PushFollow(FOLLOW_nodename_in_tikznode_decorator1901);
+                    	nodename162 = nodename();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, nodename161.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, nodename162.Tree);
 
                     }
                     break;
@@ -5893,12 +5940,12 @@ public partial class simpletikzParser : Parser
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	string_literal162=(IToken)Match(input,71,FOLLOW_71_in_tikznode_decorator1902); if (state.failed) return retval;
-                    	PushFollow(FOLLOW_coord_in_tikznode_decorator1905);
-                    	coord163 = coord();
+                    	string_literal163=(IToken)Match(input,72,FOLLOW_72_in_tikznode_decorator1908); if (state.failed) return retval;
+                    	PushFollow(FOLLOW_coord_in_tikznode_decorator1911);
+                    	coord164 = coord();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, coord163.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, coord164.Tree);
 
                     }
                     break;
@@ -5907,11 +5954,11 @@ public partial class simpletikzParser : Parser
                     {
                     	root_0 = (object)adaptor.GetNilNode();
 
-                    	PushFollow(FOLLOW_tikz_options_dontcare_in_tikznode_decorator1911);
-                    	tikz_options_dontcare164 = tikz_options_dontcare();
+                    	PushFollow(FOLLOW_tikz_options_dontcare_in_tikznode_decorator1917);
+                    	tikz_options_dontcare165 = tikz_options_dontcare();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikz_options_dontcare164.Tree);
+                    	if ( state.backtracking == 0 ) adaptor.AddChild(root_0, tikz_options_dontcare165.Tree);
 
                     }
                     break;
@@ -5953,19 +6000,19 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal165 = null;
-        IToken char_literal169 = null;
-        simpletikzParser.no_rlbracket_return no_rlbracket166 = default(simpletikzParser.no_rlbracket_return);
+        IToken char_literal166 = null;
+        IToken char_literal170 = null;
+        simpletikzParser.no_rlbracket_return no_rlbracket167 = default(simpletikzParser.no_rlbracket_return);
 
-        simpletikzParser.tikz_options_dontcare_return tikz_options_dontcare167 = default(simpletikzParser.tikz_options_dontcare_return);
+        simpletikzParser.tikz_options_dontcare_return tikz_options_dontcare168 = default(simpletikzParser.tikz_options_dontcare_return);
 
-        simpletikzParser.no_rlbracket_return no_rlbracket168 = default(simpletikzParser.no_rlbracket_return);
+        simpletikzParser.no_rlbracket_return no_rlbracket169 = default(simpletikzParser.no_rlbracket_return);
 
 
-        object char_literal165_tree=null;
-        object char_literal169_tree=null;
-        RewriteRuleTokenStream stream_51 = new RewriteRuleTokenStream(adaptor,"token 51");
+        object char_literal166_tree=null;
+        object char_literal170_tree=null;
         RewriteRuleTokenStream stream_52 = new RewriteRuleTokenStream(adaptor,"token 52");
+        RewriteRuleTokenStream stream_53 = new RewriteRuleTokenStream(adaptor,"token 53");
         RewriteRuleSubtreeStream stream_tikz_options_dontcare = new RewriteRuleSubtreeStream(adaptor,"rule tikz_options_dontcare");
         RewriteRuleSubtreeStream stream_no_rlbracket = new RewriteRuleSubtreeStream(adaptor,"rule no_rlbracket");
         try 
@@ -5973,113 +6020,113 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:374:2: ( '[' ( no_rlbracket )* ( tikz_options_dontcare ( no_rlbracket )* )* ']' -> ^( IM_OPTIONS ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:374:4: '[' ( no_rlbracket )* ( tikz_options_dontcare ( no_rlbracket )* )* ']'
             {
-            	char_literal165=(IToken)Match(input,51,FOLLOW_51_in_tikz_options_dontcare1921); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_51.Add(char_literal165);
+            	char_literal166=(IToken)Match(input,52,FOLLOW_52_in_tikz_options_dontcare1927); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_52.Add(char_literal166);
 
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:374:8: ( no_rlbracket )*
             	do 
             	{
-            	    int alt44 = 2;
-            	    int LA44_0 = input.LA(1);
+            	    int alt45 = 2;
+            	    int LA45_0 = input.LA(1);
 
-            	    if ( ((LA44_0 >= IM_PATH && LA44_0 <= 50) || (LA44_0 >= 53 && LA44_0 <= 84)) )
+            	    if ( ((LA45_0 >= IM_PATH && LA45_0 <= 51) || (LA45_0 >= 54 && LA45_0 <= 85)) )
             	    {
-            	        alt44 = 1;
+            	        alt45 = 1;
             	    }
 
 
-            	    switch (alt44) 
+            	    switch (alt45) 
             		{
             			case 1 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:374:8: no_rlbracket
             			    {
-            			    	PushFollow(FOLLOW_no_rlbracket_in_tikz_options_dontcare1923);
-            			    	no_rlbracket166 = no_rlbracket();
+            			    	PushFollow(FOLLOW_no_rlbracket_in_tikz_options_dontcare1929);
+            			    	no_rlbracket167 = no_rlbracket();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
-            			    	if ( (state.backtracking==0) ) stream_no_rlbracket.Add(no_rlbracket166.Tree);
+            			    	if ( (state.backtracking==0) ) stream_no_rlbracket.Add(no_rlbracket167.Tree);
 
             			    }
             			    break;
 
             			default:
-            			    goto loop44;
+            			    goto loop45;
             	    }
             	} while (true);
 
-            	loop44:
-            		;	// Stops C# compiler whining that label 'loop44' has no statements
+            	loop45:
+            		;	// Stops C# compiler whining that label 'loop45' has no statements
 
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:374:22: ( tikz_options_dontcare ( no_rlbracket )* )*
             	do 
             	{
-            	    int alt46 = 2;
-            	    int LA46_0 = input.LA(1);
+            	    int alt47 = 2;
+            	    int LA47_0 = input.LA(1);
 
-            	    if ( (LA46_0 == 51) )
+            	    if ( (LA47_0 == 52) )
             	    {
-            	        alt46 = 1;
+            	        alt47 = 1;
             	    }
 
 
-            	    switch (alt46) 
+            	    switch (alt47) 
             		{
             			case 1 :
             			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:374:23: tikz_options_dontcare ( no_rlbracket )*
             			    {
-            			    	PushFollow(FOLLOW_tikz_options_dontcare_in_tikz_options_dontcare1927);
-            			    	tikz_options_dontcare167 = tikz_options_dontcare();
+            			    	PushFollow(FOLLOW_tikz_options_dontcare_in_tikz_options_dontcare1933);
+            			    	tikz_options_dontcare168 = tikz_options_dontcare();
             			    	state.followingStackPointer--;
             			    	if (state.failed) return retval;
-            			    	if ( (state.backtracking==0) ) stream_tikz_options_dontcare.Add(tikz_options_dontcare167.Tree);
+            			    	if ( (state.backtracking==0) ) stream_tikz_options_dontcare.Add(tikz_options_dontcare168.Tree);
             			    	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:374:45: ( no_rlbracket )*
             			    	do 
             			    	{
-            			    	    int alt45 = 2;
-            			    	    int LA45_0 = input.LA(1);
+            			    	    int alt46 = 2;
+            			    	    int LA46_0 = input.LA(1);
 
-            			    	    if ( ((LA45_0 >= IM_PATH && LA45_0 <= 50) || (LA45_0 >= 53 && LA45_0 <= 84)) )
+            			    	    if ( ((LA46_0 >= IM_PATH && LA46_0 <= 51) || (LA46_0 >= 54 && LA46_0 <= 85)) )
             			    	    {
-            			    	        alt45 = 1;
+            			    	        alt46 = 1;
             			    	    }
 
 
-            			    	    switch (alt45) 
+            			    	    switch (alt46) 
             			    		{
             			    			case 1 :
             			    			    // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:374:45: no_rlbracket
             			    			    {
-            			    			    	PushFollow(FOLLOW_no_rlbracket_in_tikz_options_dontcare1929);
-            			    			    	no_rlbracket168 = no_rlbracket();
+            			    			    	PushFollow(FOLLOW_no_rlbracket_in_tikz_options_dontcare1935);
+            			    			    	no_rlbracket169 = no_rlbracket();
             			    			    	state.followingStackPointer--;
             			    			    	if (state.failed) return retval;
-            			    			    	if ( (state.backtracking==0) ) stream_no_rlbracket.Add(no_rlbracket168.Tree);
+            			    			    	if ( (state.backtracking==0) ) stream_no_rlbracket.Add(no_rlbracket169.Tree);
 
             			    			    }
             			    			    break;
 
             			    			default:
-            			    			    goto loop45;
+            			    			    goto loop46;
             			    	    }
             			    	} while (true);
 
-            			    	loop45:
-            			    		;	// Stops C# compiler whining that label 'loop45' has no statements
+            			    	loop46:
+            			    		;	// Stops C# compiler whining that label 'loop46' has no statements
 
 
             			    }
             			    break;
 
             			default:
-            			    goto loop46;
+            			    goto loop47;
             	    }
             	} while (true);
 
-            	loop46:
-            		;	// Stops C# compiler whining that label 'loop46' has no statements
+            	loop47:
+            		;	// Stops C# compiler whining that label 'loop47' has no statements
 
-            	char_literal169=(IToken)Match(input,52,FOLLOW_52_in_tikz_options_dontcare1934); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_52.Add(char_literal169);
+            	char_literal170=(IToken)Match(input,53,FOLLOW_53_in_tikz_options_dontcare1940); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_53.Add(char_literal170);
 
 
 
@@ -6146,9 +6193,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken set170 = null;
+        IToken set171 = null;
 
-        object set170_tree=null;
+        object set171_tree=null;
 
         try 
     	{
@@ -6157,11 +6204,11 @@ public partial class simpletikzParser : Parser
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	set170 = (IToken)input.LT(1);
-            	if ( (input.LA(1) >= IM_PATH && input.LA(1) <= 50) || (input.LA(1) >= 53 && input.LA(1) <= 84) ) 
+            	set171 = (IToken)input.LT(1);
+            	if ( (input.LA(1) >= IM_PATH && input.LA(1) <= 51) || (input.LA(1) >= 54 && input.LA(1) <= 85) ) 
             	{
             	    input.Consume();
-            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set170));
+            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set171));
             	    state.errorRecovery = false;state.failed = false;
             	}
             	else 
@@ -6210,14 +6257,14 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal171 = null;
-        IToken char_literal173 = null;
-        simpletikzParser.idd_return idd172 = default(simpletikzParser.idd_return);
+        IToken char_literal172 = null;
+        IToken char_literal174 = null;
+        simpletikzParser.idd_return idd173 = default(simpletikzParser.idd_return);
 
 
-        object char_literal171_tree=null;
-        object char_literal173_tree=null;
-        RewriteRuleTokenStream stream_49 = new RewriteRuleTokenStream(adaptor,"token 49");
+        object char_literal172_tree=null;
+        object char_literal174_tree=null;
+        RewriteRuleTokenStream stream_51 = new RewriteRuleTokenStream(adaptor,"token 51");
         RewriteRuleTokenStream stream_50 = new RewriteRuleTokenStream(adaptor,"token 50");
         RewriteRuleSubtreeStream stream_idd = new RewriteRuleSubtreeStream(adaptor,"rule idd");
         try 
@@ -6225,16 +6272,16 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:380:2: ( '(' idd ')' -> ^( IM_NODENAME idd ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:380:4: '(' idd ')'
             {
-            	char_literal171=(IToken)Match(input,49,FOLLOW_49_in_nodename1969); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_49.Add(char_literal171);
+            	char_literal172=(IToken)Match(input,50,FOLLOW_50_in_nodename1975); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_50.Add(char_literal172);
 
-            	PushFollow(FOLLOW_idd_in_nodename1971);
-            	idd172 = idd();
+            	PushFollow(FOLLOW_idd_in_nodename1977);
+            	idd173 = idd();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_idd.Add(idd172.Tree);
-            	char_literal173=(IToken)Match(input,50,FOLLOW_50_in_nodename1973); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_50.Add(char_literal173);
+            	if ( (state.backtracking==0) ) stream_idd.Add(idd173.Tree);
+            	char_literal174=(IToken)Match(input,51,FOLLOW_51_in_nodename1979); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_51.Add(char_literal174);
 
 
 
@@ -6303,15 +6350,15 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal174 = null;
         IToken string_literal175 = null;
-        simpletikzParser.size_return size176 = default(simpletikzParser.size_return);
+        IToken string_literal176 = null;
+        simpletikzParser.size_return size177 = default(simpletikzParser.size_return);
 
 
-        object string_literal174_tree=null;
         object string_literal175_tree=null;
-        RewriteRuleTokenStream stream_72 = new RewriteRuleTokenStream(adaptor,"token 72");
+        object string_literal176_tree=null;
         RewriteRuleTokenStream stream_73 = new RewriteRuleTokenStream(adaptor,"token 73");
+        RewriteRuleTokenStream stream_74 = new RewriteRuleTokenStream(adaptor,"token 74");
         RewriteRuleSubtreeStream stream_size = new RewriteRuleSubtreeStream(adaptor,"rule size");
         try 
     	{
@@ -6319,32 +6366,32 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:387:4: ( 'circle' | 'ellipse' ) ( ( size )=> size )?
             {
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:387:4: ( 'circle' | 'ellipse' )
-            	int alt47 = 2;
-            	int LA47_0 = input.LA(1);
+            	int alt48 = 2;
+            	int LA48_0 = input.LA(1);
 
-            	if ( (LA47_0 == 72) )
+            	if ( (LA48_0 == 73) )
             	{
-            	    alt47 = 1;
+            	    alt48 = 1;
             	}
-            	else if ( (LA47_0 == 73) )
+            	else if ( (LA48_0 == 74) )
             	{
-            	    alt47 = 2;
+            	    alt48 = 2;
             	}
             	else 
             	{
             	    if ( state.backtracking > 0 ) {state.failed = true; return retval;}
-            	    NoViableAltException nvae_d47s0 =
-            	        new NoViableAltException("", 47, 0, input);
+            	    NoViableAltException nvae_d48s0 =
+            	        new NoViableAltException("", 48, 0, input);
 
-            	    throw nvae_d47s0;
+            	    throw nvae_d48s0;
             	}
-            	switch (alt47) 
+            	switch (alt48) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:387:5: 'circle'
             	        {
-            	        	string_literal174=(IToken)Match(input,72,FOLLOW_72_in_circle1997); if (state.failed) return retval; 
-            	        	if ( (state.backtracking==0) ) stream_72.Add(string_literal174);
+            	        	string_literal175=(IToken)Match(input,73,FOLLOW_73_in_circle2003); if (state.failed) return retval; 
+            	        	if ( (state.backtracking==0) ) stream_73.Add(string_literal175);
 
 
             	        }
@@ -6352,8 +6399,8 @@ public partial class simpletikzParser : Parser
             	    case 2 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:387:16: 'ellipse'
             	        {
-            	        	string_literal175=(IToken)Match(input,73,FOLLOW_73_in_circle2001); if (state.failed) return retval; 
-            	        	if ( (state.backtracking==0) ) stream_73.Add(string_literal175);
+            	        	string_literal176=(IToken)Match(input,74,FOLLOW_74_in_circle2007); if (state.failed) return retval; 
+            	        	if ( (state.backtracking==0) ) stream_74.Add(string_literal176);
 
 
             	        }
@@ -6362,18 +6409,18 @@ public partial class simpletikzParser : Parser
             	}
 
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:387:27: ( ( size )=> size )?
-            	int alt48 = 2;
-            	alt48 = dfa48.Predict(input);
-            	switch (alt48) 
+            	int alt49 = 2;
+            	alt49 = dfa49.Predict(input);
+            	switch (alt49) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:387:28: ( size )=> size
             	        {
-            	        	PushFollow(FOLLOW_size_in_circle2010);
-            	        	size176 = size();
+            	        	PushFollow(FOLLOW_size_in_circle2016);
+            	        	size177 = size();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( (state.backtracking==0) ) stream_size.Add(size176.Tree);
+            	        	if ( (state.backtracking==0) ) stream_size.Add(size177.Tree);
 
             	        }
             	        break;
@@ -6438,31 +6485,31 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal177 = null;
-        IToken char_literal178 = null;
-        IToken char_literal180 = null;
-        IToken char_literal182 = null;
-        IToken string_literal184 = null;
-        IToken char_literal186 = null;
-        simpletikzParser.numberunit_return numberunit179 = default(simpletikzParser.numberunit_return);
+        IToken string_literal178 = null;
+        IToken char_literal179 = null;
+        IToken char_literal181 = null;
+        IToken char_literal183 = null;
+        IToken string_literal185 = null;
+        IToken char_literal187 = null;
+        simpletikzParser.numberunit_return numberunit180 = default(simpletikzParser.numberunit_return);
 
-        simpletikzParser.numberunit_return numberunit181 = default(simpletikzParser.numberunit_return);
+        simpletikzParser.numberunit_return numberunit182 = default(simpletikzParser.numberunit_return);
 
-        simpletikzParser.numberunit_return numberunit183 = default(simpletikzParser.numberunit_return);
+        simpletikzParser.numberunit_return numberunit184 = default(simpletikzParser.numberunit_return);
 
-        simpletikzParser.numberunit_return numberunit185 = default(simpletikzParser.numberunit_return);
+        simpletikzParser.numberunit_return numberunit186 = default(simpletikzParser.numberunit_return);
 
 
-        object string_literal177_tree=null;
-        object char_literal178_tree=null;
-        object char_literal180_tree=null;
-        object char_literal182_tree=null;
-        object string_literal184_tree=null;
-        object char_literal186_tree=null;
-        RewriteRuleTokenStream stream_49 = new RewriteRuleTokenStream(adaptor,"token 49");
-        RewriteRuleTokenStream stream_68 = new RewriteRuleTokenStream(adaptor,"token 68");
-        RewriteRuleTokenStream stream_45 = new RewriteRuleTokenStream(adaptor,"token 45");
-        RewriteRuleTokenStream stream_74 = new RewriteRuleTokenStream(adaptor,"token 74");
+        object string_literal178_tree=null;
+        object char_literal179_tree=null;
+        object char_literal181_tree=null;
+        object char_literal183_tree=null;
+        object string_literal185_tree=null;
+        object char_literal187_tree=null;
+        RewriteRuleTokenStream stream_69 = new RewriteRuleTokenStream(adaptor,"token 69");
+        RewriteRuleTokenStream stream_46 = new RewriteRuleTokenStream(adaptor,"token 46");
+        RewriteRuleTokenStream stream_51 = new RewriteRuleTokenStream(adaptor,"token 51");
+        RewriteRuleTokenStream stream_75 = new RewriteRuleTokenStream(adaptor,"token 75");
         RewriteRuleTokenStream stream_50 = new RewriteRuleTokenStream(adaptor,"token 50");
         RewriteRuleSubtreeStream stream_numberunit = new RewriteRuleSubtreeStream(adaptor,"rule numberunit");
         try 
@@ -6470,132 +6517,132 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:390:2: ( 'arc' ( '(' numberunit ':' numberunit ':' numberunit ( 'and' numberunit )? ')' )? -> ^( IM_ARC ( numberunit )+ ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:390:4: 'arc' ( '(' numberunit ':' numberunit ':' numberunit ( 'and' numberunit )? ')' )?
             {
-            	string_literal177=(IToken)Match(input,74,FOLLOW_74_in_arc2025); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_74.Add(string_literal177);
+            	string_literal178=(IToken)Match(input,75,FOLLOW_75_in_arc2031); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_75.Add(string_literal178);
 
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:390:10: ( '(' numberunit ':' numberunit ':' numberunit ( 'and' numberunit )? ')' )?
-            	int alt50 = 2;
-            	int LA50_0 = input.LA(1);
+            	int alt51 = 2;
+            	int LA51_0 = input.LA(1);
 
-            	if ( (LA50_0 == 49) )
+            	if ( (LA51_0 == 50) )
             	{
-            	    int LA50_1 = input.LA(2);
+            	    int LA51_1 = input.LA(2);
 
-            	    if ( ((LA50_1 >= FLOAT_WO_EXP && LA50_1 <= INT)) )
+            	    if ( ((LA51_1 >= FLOAT_WO_EXP && LA51_1 <= INT)) )
             	    {
-            	        int LA50_3 = input.LA(3);
+            	        int LA51_3 = input.LA(3);
 
-            	        if ( (LA50_3 == 45) )
+            	        if ( ((LA51_3 >= 55 && LA51_3 <= 60)) )
             	        {
-            	            int LA50_4 = input.LA(4);
+            	            int LA51_4 = input.LA(4);
 
-            	            if ( ((LA50_4 >= FLOAT_WO_EXP && LA50_4 <= INT)) )
+            	            if ( (LA51_4 == 46) )
             	            {
-            	                int LA50_6 = input.LA(5);
+            	                int LA51_5 = input.LA(5);
 
-            	                if ( ((LA50_6 >= 54 && LA50_6 <= 59)) )
+            	                if ( ((LA51_5 >= FLOAT_WO_EXP && LA51_5 <= INT)) )
             	                {
-            	                    int LA50_7 = input.LA(6);
+            	                    int LA51_6 = input.LA(6);
 
-            	                    if ( (LA50_7 == 45) )
+            	                    if ( ((LA51_6 >= 55 && LA51_6 <= 60)) )
             	                    {
-            	                        alt50 = 1;
+            	                        int LA51_7 = input.LA(7);
+
+            	                        if ( (LA51_7 == 46) )
+            	                        {
+            	                            alt51 = 1;
+            	                        }
             	                    }
-            	                }
-            	                else if ( (LA50_6 == 45) )
-            	                {
-            	                    alt50 = 1;
+            	                    else if ( (LA51_6 == 46) )
+            	                    {
+            	                        alt51 = 1;
+            	                    }
             	                }
             	            }
             	        }
-            	        else if ( ((LA50_3 >= 54 && LA50_3 <= 59)) )
+            	        else if ( (LA51_3 == 46) )
             	        {
-            	            int LA50_5 = input.LA(4);
+            	            int LA51_5 = input.LA(4);
 
-            	            if ( (LA50_5 == 45) )
+            	            if ( ((LA51_5 >= FLOAT_WO_EXP && LA51_5 <= INT)) )
             	            {
-            	                int LA50_4 = input.LA(5);
+            	                int LA51_6 = input.LA(5);
 
-            	                if ( ((LA50_4 >= FLOAT_WO_EXP && LA50_4 <= INT)) )
+            	                if ( ((LA51_6 >= 55 && LA51_6 <= 60)) )
             	                {
-            	                    int LA50_6 = input.LA(6);
+            	                    int LA51_7 = input.LA(6);
 
-            	                    if ( ((LA50_6 >= 54 && LA50_6 <= 59)) )
+            	                    if ( (LA51_7 == 46) )
             	                    {
-            	                        int LA50_7 = input.LA(7);
-
-            	                        if ( (LA50_7 == 45) )
-            	                        {
-            	                            alt50 = 1;
-            	                        }
+            	                        alt51 = 1;
             	                    }
-            	                    else if ( (LA50_6 == 45) )
-            	                    {
-            	                        alt50 = 1;
-            	                    }
+            	                }
+            	                else if ( (LA51_6 == 46) )
+            	                {
+            	                    alt51 = 1;
             	                }
             	            }
             	        }
             	    }
             	}
-            	switch (alt50) 
+            	switch (alt51) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:390:11: '(' numberunit ':' numberunit ':' numberunit ( 'and' numberunit )? ')'
             	        {
-            	        	char_literal178=(IToken)Match(input,49,FOLLOW_49_in_arc2028); if (state.failed) return retval; 
-            	        	if ( (state.backtracking==0) ) stream_49.Add(char_literal178);
+            	        	char_literal179=(IToken)Match(input,50,FOLLOW_50_in_arc2034); if (state.failed) return retval; 
+            	        	if ( (state.backtracking==0) ) stream_50.Add(char_literal179);
 
-            	        	PushFollow(FOLLOW_numberunit_in_arc2030);
-            	        	numberunit179 = numberunit();
+            	        	PushFollow(FOLLOW_numberunit_in_arc2036);
+            	        	numberunit180 = numberunit();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit179.Tree);
-            	        	char_literal180=(IToken)Match(input,45,FOLLOW_45_in_arc2032); if (state.failed) return retval; 
-            	        	if ( (state.backtracking==0) ) stream_45.Add(char_literal180);
+            	        	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit180.Tree);
+            	        	char_literal181=(IToken)Match(input,46,FOLLOW_46_in_arc2038); if (state.failed) return retval; 
+            	        	if ( (state.backtracking==0) ) stream_46.Add(char_literal181);
 
-            	        	PushFollow(FOLLOW_numberunit_in_arc2034);
-            	        	numberunit181 = numberunit();
+            	        	PushFollow(FOLLOW_numberunit_in_arc2040);
+            	        	numberunit182 = numberunit();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit181.Tree);
-            	        	char_literal182=(IToken)Match(input,45,FOLLOW_45_in_arc2036); if (state.failed) return retval; 
-            	        	if ( (state.backtracking==0) ) stream_45.Add(char_literal182);
+            	        	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit182.Tree);
+            	        	char_literal183=(IToken)Match(input,46,FOLLOW_46_in_arc2042); if (state.failed) return retval; 
+            	        	if ( (state.backtracking==0) ) stream_46.Add(char_literal183);
 
-            	        	PushFollow(FOLLOW_numberunit_in_arc2038);
-            	        	numberunit183 = numberunit();
+            	        	PushFollow(FOLLOW_numberunit_in_arc2044);
+            	        	numberunit184 = numberunit();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit183.Tree);
+            	        	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit184.Tree);
             	        	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:390:56: ( 'and' numberunit )?
-            	        	int alt49 = 2;
-            	        	int LA49_0 = input.LA(1);
+            	        	int alt50 = 2;
+            	        	int LA50_0 = input.LA(1);
 
-            	        	if ( (LA49_0 == 68) )
+            	        	if ( (LA50_0 == 69) )
             	        	{
-            	        	    alt49 = 1;
+            	        	    alt50 = 1;
             	        	}
-            	        	switch (alt49) 
+            	        	switch (alt50) 
             	        	{
             	        	    case 1 :
             	        	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:390:57: 'and' numberunit
             	        	        {
-            	        	        	string_literal184=(IToken)Match(input,68,FOLLOW_68_in_arc2041); if (state.failed) return retval; 
-            	        	        	if ( (state.backtracking==0) ) stream_68.Add(string_literal184);
+            	        	        	string_literal185=(IToken)Match(input,69,FOLLOW_69_in_arc2047); if (state.failed) return retval; 
+            	        	        	if ( (state.backtracking==0) ) stream_69.Add(string_literal185);
 
-            	        	        	PushFollow(FOLLOW_numberunit_in_arc2043);
-            	        	        	numberunit185 = numberunit();
+            	        	        	PushFollow(FOLLOW_numberunit_in_arc2049);
+            	        	        	numberunit186 = numberunit();
             	        	        	state.followingStackPointer--;
             	        	        	if (state.failed) return retval;
-            	        	        	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit185.Tree);
+            	        	        	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit186.Tree);
 
             	        	        }
             	        	        break;
 
             	        	}
 
-            	        	char_literal186=(IToken)Match(input,50,FOLLOW_50_in_arc2047); if (state.failed) return retval; 
-            	        	if ( (state.backtracking==0) ) stream_50.Add(char_literal186);
+            	        	char_literal187=(IToken)Match(input,51,FOLLOW_51_in_arc2053); if (state.failed) return retval; 
+            	        	if ( (state.backtracking==0) ) stream_51.Add(char_literal187);
 
 
             	        }
@@ -6678,19 +6725,19 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal187 = null;
-        IToken string_literal189 = null;
-        IToken char_literal191 = null;
-        simpletikzParser.numberunit_return numberunit188 = default(simpletikzParser.numberunit_return);
+        IToken char_literal188 = null;
+        IToken string_literal190 = null;
+        IToken char_literal192 = null;
+        simpletikzParser.numberunit_return numberunit189 = default(simpletikzParser.numberunit_return);
 
-        simpletikzParser.numberunit_return numberunit190 = default(simpletikzParser.numberunit_return);
+        simpletikzParser.numberunit_return numberunit191 = default(simpletikzParser.numberunit_return);
 
 
-        object char_literal187_tree=null;
-        object string_literal189_tree=null;
-        object char_literal191_tree=null;
-        RewriteRuleTokenStream stream_49 = new RewriteRuleTokenStream(adaptor,"token 49");
-        RewriteRuleTokenStream stream_68 = new RewriteRuleTokenStream(adaptor,"token 68");
+        object char_literal188_tree=null;
+        object string_literal190_tree=null;
+        object char_literal192_tree=null;
+        RewriteRuleTokenStream stream_69 = new RewriteRuleTokenStream(adaptor,"token 69");
+        RewriteRuleTokenStream stream_51 = new RewriteRuleTokenStream(adaptor,"token 51");
         RewriteRuleTokenStream stream_50 = new RewriteRuleTokenStream(adaptor,"token 50");
         RewriteRuleSubtreeStream stream_numberunit = new RewriteRuleSubtreeStream(adaptor,"rule numberunit");
         try 
@@ -6698,43 +6745,43 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:394:2: ( '(' numberunit ( 'and' numberunit )? ')' -> ^( IM_SIZE ( numberunit )* ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:394:6: '(' numberunit ( 'and' numberunit )? ')'
             {
-            	char_literal187=(IToken)Match(input,49,FOLLOW_49_in_size2072); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_49.Add(char_literal187);
+            	char_literal188=(IToken)Match(input,50,FOLLOW_50_in_size2078); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_50.Add(char_literal188);
 
-            	PushFollow(FOLLOW_numberunit_in_size2074);
-            	numberunit188 = numberunit();
+            	PushFollow(FOLLOW_numberunit_in_size2080);
+            	numberunit189 = numberunit();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit188.Tree);
+            	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit189.Tree);
             	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:394:21: ( 'and' numberunit )?
-            	int alt51 = 2;
-            	int LA51_0 = input.LA(1);
+            	int alt52 = 2;
+            	int LA52_0 = input.LA(1);
 
-            	if ( (LA51_0 == 68) )
+            	if ( (LA52_0 == 69) )
             	{
-            	    alt51 = 1;
+            	    alt52 = 1;
             	}
-            	switch (alt51) 
+            	switch (alt52) 
             	{
             	    case 1 :
             	        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:394:22: 'and' numberunit
             	        {
-            	        	string_literal189=(IToken)Match(input,68,FOLLOW_68_in_size2077); if (state.failed) return retval; 
-            	        	if ( (state.backtracking==0) ) stream_68.Add(string_literal189);
+            	        	string_literal190=(IToken)Match(input,69,FOLLOW_69_in_size2083); if (state.failed) return retval; 
+            	        	if ( (state.backtracking==0) ) stream_69.Add(string_literal190);
 
-            	        	PushFollow(FOLLOW_numberunit_in_size2079);
-            	        	numberunit190 = numberunit();
+            	        	PushFollow(FOLLOW_numberunit_in_size2085);
+            	        	numberunit191 = numberunit();
             	        	state.followingStackPointer--;
             	        	if (state.failed) return retval;
-            	        	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit190.Tree);
+            	        	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit191.Tree);
 
             	        }
             	        break;
 
             	}
 
-            	char_literal191=(IToken)Match(input,50,FOLLOW_50_in_size2083); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_50.Add(char_literal191);
+            	char_literal192=(IToken)Match(input,51,FOLLOW_51_in_size2089); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_51.Add(char_literal192);
 
 
 
@@ -6809,34 +6856,34 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal194 = null;
-        IToken char_literal198 = null;
-        IToken char_literal200 = null;
-        IToken char_literal204 = null;
-        simpletikzParser.nodename_return nodename192 = default(simpletikzParser.nodename_return);
+        IToken char_literal195 = null;
+        IToken char_literal199 = null;
+        IToken char_literal201 = null;
+        IToken char_literal205 = null;
+        simpletikzParser.nodename_return nodename193 = default(simpletikzParser.nodename_return);
 
-        simpletikzParser.coord_modifier_return coord_modifier193 = default(simpletikzParser.coord_modifier_return);
+        simpletikzParser.coord_modifier_return coord_modifier194 = default(simpletikzParser.coord_modifier_return);
 
-        simpletikzParser.numberunit_return numberunit195 = default(simpletikzParser.numberunit_return);
+        simpletikzParser.numberunit_return numberunit196 = default(simpletikzParser.numberunit_return);
 
-        simpletikzParser.coord_sep_return coord_sep196 = default(simpletikzParser.coord_sep_return);
+        simpletikzParser.coord_sep_return coord_sep197 = default(simpletikzParser.coord_sep_return);
 
-        simpletikzParser.numberunit_return numberunit197 = default(simpletikzParser.numberunit_return);
+        simpletikzParser.numberunit_return numberunit198 = default(simpletikzParser.numberunit_return);
 
-        simpletikzParser.coord_modifier_return coord_modifier199 = default(simpletikzParser.coord_modifier_return);
+        simpletikzParser.coord_modifier_return coord_modifier200 = default(simpletikzParser.coord_modifier_return);
 
-        simpletikzParser.coord_part_return coord_part201 = default(simpletikzParser.coord_part_return);
+        simpletikzParser.coord_part_return coord_part202 = default(simpletikzParser.coord_part_return);
 
-        simpletikzParser.coord_sep_return coord_sep202 = default(simpletikzParser.coord_sep_return);
+        simpletikzParser.coord_sep_return coord_sep203 = default(simpletikzParser.coord_sep_return);
 
-        simpletikzParser.coord_part_return coord_part203 = default(simpletikzParser.coord_part_return);
+        simpletikzParser.coord_part_return coord_part204 = default(simpletikzParser.coord_part_return);
 
 
-        object char_literal194_tree=null;
-        object char_literal198_tree=null;
-        object char_literal200_tree=null;
-        object char_literal204_tree=null;
-        RewriteRuleTokenStream stream_49 = new RewriteRuleTokenStream(adaptor,"token 49");
+        object char_literal195_tree=null;
+        object char_literal199_tree=null;
+        object char_literal201_tree=null;
+        object char_literal205_tree=null;
+        RewriteRuleTokenStream stream_51 = new RewriteRuleTokenStream(adaptor,"token 51");
         RewriteRuleTokenStream stream_50 = new RewriteRuleTokenStream(adaptor,"token 50");
         RewriteRuleSubtreeStream stream_numberunit = new RewriteRuleSubtreeStream(adaptor,"rule numberunit");
         RewriteRuleSubtreeStream stream_coord_part = new RewriteRuleSubtreeStream(adaptor,"rule coord_part");
@@ -6846,18 +6893,18 @@ public partial class simpletikzParser : Parser
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:402:2: ( nodename -> ^( IM_COORD nodename ) | ( ( coord_modifier )? '(' numberunit coord_sep numberunit ')' ) -> ^( IM_COORD ( coord_modifier )? ( numberunit )+ coord_sep ) | ( ( coord_modifier )? '(' coord_part coord_sep coord_part ')' ) -> ^( IM_COORD ( coord_modifier )? ( coord_part )+ coord_sep ) )
-            int alt54 = 3;
-            alt54 = dfa54.Predict(input);
-            switch (alt54) 
+            int alt55 = 3;
+            alt55 = dfa55.Predict(input);
+            switch (alt55) 
             {
                 case 1 :
                     // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:402:6: nodename
                     {
-                    	PushFollow(FOLLOW_nodename_in_coord2113);
-                    	nodename192 = nodename();
+                    	PushFollow(FOLLOW_nodename_in_coord2119);
+                    	nodename193 = nodename();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( (state.backtracking==0) ) stream_nodename.Add(nodename192.Tree);
+                    	if ( (state.backtracking==0) ) stream_nodename.Add(nodename193.Tree);
 
 
                     	// AST REWRITE
@@ -6896,49 +6943,49 @@ public partial class simpletikzParser : Parser
                     	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:403:7: ( coord_modifier )? '(' numberunit coord_sep numberunit ')'
                     	{
                     		// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:403:7: ( coord_modifier )?
-                    		int alt52 = 2;
-                    		int LA52_0 = input.LA(1);
+                    		int alt53 = 2;
+                    		int LA53_0 = input.LA(1);
 
-                    		if ( ((LA52_0 >= 79 && LA52_0 <= 80)) )
+                    		if ( ((LA53_0 >= 80 && LA53_0 <= 81)) )
                     		{
-                    		    alt52 = 1;
+                    		    alt53 = 1;
                     		}
-                    		switch (alt52) 
+                    		switch (alt53) 
                     		{
                     		    case 1 :
                     		        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:403:7: coord_modifier
                     		        {
-                    		        	PushFollow(FOLLOW_coord_modifier_in_coord2137);
-                    		        	coord_modifier193 = coord_modifier();
+                    		        	PushFollow(FOLLOW_coord_modifier_in_coord2143);
+                    		        	coord_modifier194 = coord_modifier();
                     		        	state.followingStackPointer--;
                     		        	if (state.failed) return retval;
-                    		        	if ( (state.backtracking==0) ) stream_coord_modifier.Add(coord_modifier193.Tree);
+                    		        	if ( (state.backtracking==0) ) stream_coord_modifier.Add(coord_modifier194.Tree);
 
                     		        }
                     		        break;
 
                     		}
 
-                    		char_literal194=(IToken)Match(input,49,FOLLOW_49_in_coord2140); if (state.failed) return retval; 
-                    		if ( (state.backtracking==0) ) stream_49.Add(char_literal194);
+                    		char_literal195=(IToken)Match(input,50,FOLLOW_50_in_coord2146); if (state.failed) return retval; 
+                    		if ( (state.backtracking==0) ) stream_50.Add(char_literal195);
 
-                    		PushFollow(FOLLOW_numberunit_in_coord2142);
-                    		numberunit195 = numberunit();
+                    		PushFollow(FOLLOW_numberunit_in_coord2148);
+                    		numberunit196 = numberunit();
                     		state.followingStackPointer--;
                     		if (state.failed) return retval;
-                    		if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit195.Tree);
-                    		PushFollow(FOLLOW_coord_sep_in_coord2144);
-                    		coord_sep196 = coord_sep();
+                    		if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit196.Tree);
+                    		PushFollow(FOLLOW_coord_sep_in_coord2150);
+                    		coord_sep197 = coord_sep();
                     		state.followingStackPointer--;
                     		if (state.failed) return retval;
-                    		if ( (state.backtracking==0) ) stream_coord_sep.Add(coord_sep196.Tree);
-                    		PushFollow(FOLLOW_numberunit_in_coord2146);
-                    		numberunit197 = numberunit();
+                    		if ( (state.backtracking==0) ) stream_coord_sep.Add(coord_sep197.Tree);
+                    		PushFollow(FOLLOW_numberunit_in_coord2152);
+                    		numberunit198 = numberunit();
                     		state.followingStackPointer--;
                     		if (state.failed) return retval;
-                    		if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit197.Tree);
-                    		char_literal198=(IToken)Match(input,50,FOLLOW_50_in_coord2148); if (state.failed) return retval; 
-                    		if ( (state.backtracking==0) ) stream_50.Add(char_literal198);
+                    		if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit198.Tree);
+                    		char_literal199=(IToken)Match(input,51,FOLLOW_51_in_coord2154); if (state.failed) return retval; 
+                    		if ( (state.backtracking==0) ) stream_51.Add(char_literal199);
 
 
                     	}
@@ -6997,49 +7044,49 @@ public partial class simpletikzParser : Parser
                     	// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:404:7: ( coord_modifier )? '(' coord_part coord_sep coord_part ')'
                     	{
                     		// C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:404:7: ( coord_modifier )?
-                    		int alt53 = 2;
-                    		int LA53_0 = input.LA(1);
+                    		int alt54 = 2;
+                    		int LA54_0 = input.LA(1);
 
-                    		if ( ((LA53_0 >= 79 && LA53_0 <= 80)) )
+                    		if ( ((LA54_0 >= 80 && LA54_0 <= 81)) )
                     		{
-                    		    alt53 = 1;
+                    		    alt54 = 1;
                     		}
-                    		switch (alt53) 
+                    		switch (alt54) 
                     		{
                     		    case 1 :
                     		        // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:404:7: coord_modifier
                     		        {
-                    		        	PushFollow(FOLLOW_coord_modifier_in_coord2172);
-                    		        	coord_modifier199 = coord_modifier();
+                    		        	PushFollow(FOLLOW_coord_modifier_in_coord2178);
+                    		        	coord_modifier200 = coord_modifier();
                     		        	state.followingStackPointer--;
                     		        	if (state.failed) return retval;
-                    		        	if ( (state.backtracking==0) ) stream_coord_modifier.Add(coord_modifier199.Tree);
+                    		        	if ( (state.backtracking==0) ) stream_coord_modifier.Add(coord_modifier200.Tree);
 
                     		        }
                     		        break;
 
                     		}
 
-                    		char_literal200=(IToken)Match(input,49,FOLLOW_49_in_coord2175); if (state.failed) return retval; 
-                    		if ( (state.backtracking==0) ) stream_49.Add(char_literal200);
+                    		char_literal201=(IToken)Match(input,50,FOLLOW_50_in_coord2181); if (state.failed) return retval; 
+                    		if ( (state.backtracking==0) ) stream_50.Add(char_literal201);
 
-                    		PushFollow(FOLLOW_coord_part_in_coord2177);
-                    		coord_part201 = coord_part();
+                    		PushFollow(FOLLOW_coord_part_in_coord2183);
+                    		coord_part202 = coord_part();
                     		state.followingStackPointer--;
                     		if (state.failed) return retval;
-                    		if ( (state.backtracking==0) ) stream_coord_part.Add(coord_part201.Tree);
-                    		PushFollow(FOLLOW_coord_sep_in_coord2179);
-                    		coord_sep202 = coord_sep();
+                    		if ( (state.backtracking==0) ) stream_coord_part.Add(coord_part202.Tree);
+                    		PushFollow(FOLLOW_coord_sep_in_coord2185);
+                    		coord_sep203 = coord_sep();
                     		state.followingStackPointer--;
                     		if (state.failed) return retval;
-                    		if ( (state.backtracking==0) ) stream_coord_sep.Add(coord_sep202.Tree);
-                    		PushFollow(FOLLOW_coord_part_in_coord2181);
-                    		coord_part203 = coord_part();
+                    		if ( (state.backtracking==0) ) stream_coord_sep.Add(coord_sep203.Tree);
+                    		PushFollow(FOLLOW_coord_part_in_coord2187);
+                    		coord_part204 = coord_part();
                     		state.followingStackPointer--;
                     		if (state.failed) return retval;
-                    		if ( (state.backtracking==0) ) stream_coord_part.Add(coord_part203.Tree);
-                    		char_literal204=(IToken)Match(input,50,FOLLOW_50_in_coord2183); if (state.failed) return retval; 
-                    		if ( (state.backtracking==0) ) stream_50.Add(char_literal204);
+                    		if ( (state.backtracking==0) ) stream_coord_part.Add(coord_part204.Tree);
+                    		char_literal205=(IToken)Match(input,51,FOLLOW_51_in_coord2189); if (state.failed) return retval; 
+                    		if ( (state.backtracking==0) ) stream_51.Add(char_literal205);
 
 
                     	}
@@ -7047,7 +7094,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          coord_part, coord_modifier, coord_sep
+                    	// elements:          coord_sep, coord_part, coord_modifier
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -7129,50 +7176,50 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal206 = null;
-        IToken char_literal208 = null;
-        simpletikzParser.idd_return idd205 = default(simpletikzParser.idd_return);
+        IToken char_literal207 = null;
+        IToken char_literal209 = null;
+        simpletikzParser.idd_return idd206 = default(simpletikzParser.idd_return);
 
-        simpletikzParser.idd_return idd207 = default(simpletikzParser.idd_return);
+        simpletikzParser.idd_return idd208 = default(simpletikzParser.idd_return);
 
 
-        object char_literal206_tree=null;
-        object char_literal208_tree=null;
+        object char_literal207_tree=null;
+        object char_literal209_tree=null;
         RewriteRuleTokenStream stream_42 = new RewriteRuleTokenStream(adaptor,"token 42");
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
         RewriteRuleSubtreeStream stream_idd = new RewriteRuleSubtreeStream(adaptor,"rule idd");
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:409:2: ( idd -> ^( IM_DONTCARE idd ) | '{' idd '}' -> ^( IM_DONTCARE '{' idd '}' ) )
-            int alt55 = 2;
-            int LA55_0 = input.LA(1);
+            int alt56 = 2;
+            int LA56_0 = input.LA(1);
 
-            if ( ((LA55_0 >= IM_PATH && LA55_0 <= 40) || LA55_0 == 48 || (LA55_0 >= 54 && LA55_0 <= 84)) )
+            if ( ((LA56_0 >= IM_PATH && LA56_0 <= 40) || LA56_0 == 44 || LA56_0 == 49 || (LA56_0 >= 55 && LA56_0 <= 85)) )
             {
-                alt55 = 1;
+                alt56 = 1;
             }
-            else if ( (LA55_0 == 41) )
+            else if ( (LA56_0 == 41) )
             {
-                alt55 = 2;
+                alt56 = 2;
             }
             else 
             {
                 if ( state.backtracking > 0 ) {state.failed = true; return retval;}
-                NoViableAltException nvae_d55s0 =
-                    new NoViableAltException("", 55, 0, input);
+                NoViableAltException nvae_d56s0 =
+                    new NoViableAltException("", 56, 0, input);
 
-                throw nvae_d55s0;
+                throw nvae_d56s0;
             }
-            switch (alt55) 
+            switch (alt56) 
             {
                 case 1 :
                     // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:409:4: idd
                     {
-                    	PushFollow(FOLLOW_idd_in_coord_part2211);
-                    	idd205 = idd();
+                    	PushFollow(FOLLOW_idd_in_coord_part2217);
+                    	idd206 = idd();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( (state.backtracking==0) ) stream_idd.Add(idd205.Tree);
+                    	if ( (state.backtracking==0) ) stream_idd.Add(idd206.Tree);
 
 
                     	// AST REWRITE
@@ -7207,21 +7254,21 @@ public partial class simpletikzParser : Parser
                 case 2 :
                     // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:410:4: '{' idd '}'
                     {
-                    	char_literal206=(IToken)Match(input,41,FOLLOW_41_in_coord_part2226); if (state.failed) return retval; 
-                    	if ( (state.backtracking==0) ) stream_41.Add(char_literal206);
+                    	char_literal207=(IToken)Match(input,41,FOLLOW_41_in_coord_part2232); if (state.failed) return retval; 
+                    	if ( (state.backtracking==0) ) stream_41.Add(char_literal207);
 
-                    	PushFollow(FOLLOW_idd_in_coord_part2228);
-                    	idd207 = idd();
+                    	PushFollow(FOLLOW_idd_in_coord_part2234);
+                    	idd208 = idd();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
-                    	if ( (state.backtracking==0) ) stream_idd.Add(idd207.Tree);
-                    	char_literal208=(IToken)Match(input,42,FOLLOW_42_in_coord_part2230); if (state.failed) return retval; 
-                    	if ( (state.backtracking==0) ) stream_42.Add(char_literal208);
+                    	if ( (state.backtracking==0) ) stream_idd.Add(idd208.Tree);
+                    	char_literal209=(IToken)Match(input,42,FOLLOW_42_in_coord_part2236); if (state.failed) return retval; 
+                    	if ( (state.backtracking==0) ) stream_42.Add(char_literal209);
 
 
 
                     	// AST REWRITE
-                    	// elements:          42, 41, idd
+                    	// elements:          41, idd, 42
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -7289,9 +7336,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken set209 = null;
+        IToken set210 = null;
 
-        object set209_tree=null;
+        object set210_tree=null;
 
         try 
     	{
@@ -7300,11 +7347,11 @@ public partial class simpletikzParser : Parser
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	set209 = (IToken)input.LT(1);
-            	if ( (input.LA(1) >= 44 && input.LA(1) <= 45) ) 
+            	set210 = (IToken)input.LT(1);
+            	if ( (input.LA(1) >= 45 && input.LA(1) <= 46) ) 
             	{
             	    input.Consume();
-            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set209));
+            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set210));
             	    state.errorRecovery = false;state.failed = false;
             	}
             	else 
@@ -7353,9 +7400,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken set210 = null;
+        IToken set211 = null;
 
-        object set210_tree=null;
+        object set211_tree=null;
 
         try 
     	{
@@ -7364,11 +7411,11 @@ public partial class simpletikzParser : Parser
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	set210 = (IToken)input.LT(1);
-            	if ( input.LA(1) == ID || (input.LA(1) >= 75 && input.LA(1) <= 78) ) 
+            	set211 = (IToken)input.LT(1);
+            	if ( input.LA(1) == ID || (input.LA(1) >= 76 && input.LA(1) <= 79) ) 
             	{
             	    input.Consume();
-            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set210));
+            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set211));
             	    state.errorRecovery = false;state.failed = false;
             	}
             	else 
@@ -7417,9 +7464,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken set211 = null;
+        IToken set212 = null;
 
-        object set211_tree=null;
+        object set212_tree=null;
 
         try 
     	{
@@ -7428,11 +7475,11 @@ public partial class simpletikzParser : Parser
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	set211 = (IToken)input.LT(1);
-            	if ( (input.LA(1) >= 79 && input.LA(1) <= 80) ) 
+            	set212 = (IToken)input.LT(1);
+            	if ( (input.LA(1) >= 80 && input.LA(1) <= 81) ) 
             	{
             	    input.Consume();
-            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set211));
+            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set212));
             	    state.errorRecovery = false;state.failed = false;
             	}
             	else 
@@ -7481,23 +7528,23 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal212 = null;
+        IToken char_literal213 = null;
 
-        object char_literal212_tree=null;
-        RewriteRuleTokenStream stream_51 = new RewriteRuleTokenStream(adaptor,"token 51");
+        object char_literal213_tree=null;
+        RewriteRuleTokenStream stream_52 = new RewriteRuleTokenStream(adaptor,"token 52");
 
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:466:2: ( '[' -> ^( IM_STARTTAG '[' ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:466:4: '['
             {
-            	char_literal212=(IToken)Match(input,51,FOLLOW_51_in_squarebr_start2326); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_51.Add(char_literal212);
+            	char_literal213=(IToken)Match(input,52,FOLLOW_52_in_squarebr_start2332); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_52.Add(char_literal213);
 
 
 
             	// AST REWRITE
-            	// elements:          51
+            	// elements:          52
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -7515,7 +7562,7 @@ public partial class simpletikzParser : Parser
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_STARTTAG, "IM_STARTTAG"), root_1);
 
-            	    adaptor.AddChild(root_1, stream_51.NextNode());
+            	    adaptor.AddChild(root_1, stream_52.NextNode());
 
             	    adaptor.AddChild(root_0, root_1);
             	    }
@@ -7561,23 +7608,23 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal213 = null;
+        IToken char_literal214 = null;
 
-        object char_literal213_tree=null;
-        RewriteRuleTokenStream stream_52 = new RewriteRuleTokenStream(adaptor,"token 52");
+        object char_literal214_tree=null;
+        RewriteRuleTokenStream stream_53 = new RewriteRuleTokenStream(adaptor,"token 53");
 
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:469:2: ( ']' -> ^( IM_ENDTAG ']' ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:469:4: ']'
             {
-            	char_literal213=(IToken)Match(input,52,FOLLOW_52_in_squarebr_end2344); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_52.Add(char_literal213);
+            	char_literal214=(IToken)Match(input,53,FOLLOW_53_in_squarebr_end2350); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_53.Add(char_literal214);
 
 
 
             	// AST REWRITE
-            	// elements:          52
+            	// elements:          53
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -7595,7 +7642,7 @@ public partial class simpletikzParser : Parser
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_ENDTAG, "IM_ENDTAG"), root_1);
 
-            	    adaptor.AddChild(root_1, stream_52.NextNode());
+            	    adaptor.AddChild(root_1, stream_53.NextNode());
 
             	    adaptor.AddChild(root_0, root_1);
             	    }
@@ -7641,23 +7688,23 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal214 = null;
+        IToken char_literal215 = null;
 
-        object char_literal214_tree=null;
-        RewriteRuleTokenStream stream_53 = new RewriteRuleTokenStream(adaptor,"token 53");
+        object char_literal215_tree=null;
+        RewriteRuleTokenStream stream_54 = new RewriteRuleTokenStream(adaptor,"token 54");
 
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:472:2: ( ';' -> ^( IM_ENDTAG ';' ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:472:4: ';'
             {
-            	char_literal214=(IToken)Match(input,53,FOLLOW_53_in_semicolon_end2363); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_53.Add(char_literal214);
+            	char_literal215=(IToken)Match(input,54,FOLLOW_54_in_semicolon_end2369); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_54.Add(char_literal215);
 
 
 
             	// AST REWRITE
-            	// elements:          53
+            	// elements:          54
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -7675,7 +7722,7 @@ public partial class simpletikzParser : Parser
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_ENDTAG, "IM_ENDTAG"), root_1);
 
-            	    adaptor.AddChild(root_1, stream_53.NextNode());
+            	    adaptor.AddChild(root_1, stream_54.NextNode());
 
             	    adaptor.AddChild(root_0, root_1);
             	    }
@@ -7721,9 +7768,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal215 = null;
+        IToken char_literal216 = null;
 
-        object char_literal215_tree=null;
+        object char_literal216_tree=null;
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
 
         try 
@@ -7731,8 +7778,8 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:475:2: ( '{' -> ^( IM_STARTTAG '{' ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:475:4: '{'
             {
-            	char_literal215=(IToken)Match(input,41,FOLLOW_41_in_roundbr_start2381); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_41.Add(char_literal215);
+            	char_literal216=(IToken)Match(input,41,FOLLOW_41_in_roundbr_start2387); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_41.Add(char_literal216);
 
 
 
@@ -7801,9 +7848,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal216 = null;
+        IToken char_literal217 = null;
 
-        object char_literal216_tree=null;
+        object char_literal217_tree=null;
         RewriteRuleTokenStream stream_42 = new RewriteRuleTokenStream(adaptor,"token 42");
 
         try 
@@ -7811,8 +7858,8 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:478:2: ( '}' -> ^( IM_ENDTAG '}' ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:478:4: '}'
             {
-            	char_literal216=(IToken)Match(input,42,FOLLOW_42_in_roundbr_end2399); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_42.Add(char_literal216);
+            	char_literal217=(IToken)Match(input,42,FOLLOW_42_in_roundbr_end2405); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_42.Add(char_literal217);
 
 
 
@@ -7881,29 +7928,29 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal217 = null;
         IToken string_literal218 = null;
+        IToken string_literal219 = null;
 
-        object string_literal217_tree=null;
         object string_literal218_tree=null;
+        object string_literal219_tree=null;
         RewriteRuleTokenStream stream_82 = new RewriteRuleTokenStream(adaptor,"token 82");
-        RewriteRuleTokenStream stream_81 = new RewriteRuleTokenStream(adaptor,"token 81");
+        RewriteRuleTokenStream stream_83 = new RewriteRuleTokenStream(adaptor,"token 83");
 
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:481:2: ( '..' 'controls' -> ^( IM_STARTTAG '..' ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:481:4: '..' 'controls'
             {
-            	string_literal217=(IToken)Match(input,81,FOLLOW_81_in_controls_start2417); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_81.Add(string_literal217);
-
-            	string_literal218=(IToken)Match(input,82,FOLLOW_82_in_controls_start2419); if (state.failed) return retval; 
+            	string_literal218=(IToken)Match(input,82,FOLLOW_82_in_controls_start2423); if (state.failed) return retval; 
             	if ( (state.backtracking==0) ) stream_82.Add(string_literal218);
+
+            	string_literal219=(IToken)Match(input,83,FOLLOW_83_in_controls_start2425); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_83.Add(string_literal219);
 
 
 
             	// AST REWRITE
-            	// elements:          81
+            	// elements:          82
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -7921,7 +7968,7 @@ public partial class simpletikzParser : Parser
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_STARTTAG, "IM_STARTTAG"), root_1);
 
-            	    adaptor.AddChild(root_1, stream_81.NextNode());
+            	    adaptor.AddChild(root_1, stream_82.NextNode());
 
             	    adaptor.AddChild(root_0, root_1);
             	    }
@@ -7967,23 +8014,23 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal219 = null;
+        IToken string_literal220 = null;
 
-        object string_literal219_tree=null;
-        RewriteRuleTokenStream stream_81 = new RewriteRuleTokenStream(adaptor,"token 81");
+        object string_literal220_tree=null;
+        RewriteRuleTokenStream stream_82 = new RewriteRuleTokenStream(adaptor,"token 82");
 
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:484:2: ( '..' -> ^( IM_ENDTAG '..' ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:484:4: '..'
             {
-            	string_literal219=(IToken)Match(input,81,FOLLOW_81_in_controls_end2437); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_81.Add(string_literal219);
+            	string_literal220=(IToken)Match(input,82,FOLLOW_82_in_controls_end2443); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_82.Add(string_literal220);
 
 
 
             	// AST REWRITE
-            	// elements:          81
+            	// elements:          82
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -8001,7 +8048,7 @@ public partial class simpletikzParser : Parser
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_ENDTAG, "IM_ENDTAG"), root_1);
 
-            	    adaptor.AddChild(root_1, stream_81.NextNode());
+            	    adaptor.AddChild(root_1, stream_82.NextNode());
 
             	    adaptor.AddChild(root_0, root_1);
             	    }
@@ -8047,11 +8094,11 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal220 = null;
-        IToken char_literal221 = null;
+        IToken string_literal221 = null;
+        IToken char_literal222 = null;
 
-        object string_literal220_tree=null;
-        object char_literal221_tree=null;
+        object string_literal221_tree=null;
+        object char_literal222_tree=null;
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
         RewriteRuleTokenStream stream_40 = new RewriteRuleTokenStream(adaptor,"token 40");
 
@@ -8060,11 +8107,11 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:487:2: ( '\\\\tikzset' '{' -> ^( IM_STARTTAG ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:487:4: '\\\\tikzset' '{'
             {
-            	string_literal220=(IToken)Match(input,40,FOLLOW_40_in_tikz_set_start2455); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_40.Add(string_literal220);
+            	string_literal221=(IToken)Match(input,40,FOLLOW_40_in_tikz_set_start2461); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_40.Add(string_literal221);
 
-            	char_literal221=(IToken)Match(input,41,FOLLOW_41_in_tikz_set_start2457); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_41.Add(char_literal221);
+            	char_literal222=(IToken)Match(input,41,FOLLOW_41_in_tikz_set_start2463); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_41.Add(char_literal222);
 
 
 
@@ -8131,18 +8178,18 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal222 = null;
-        IToken char_literal223 = null;
-        IToken string_literal224 = null;
-        IToken char_literal225 = null;
+        IToken string_literal223 = null;
+        IToken char_literal224 = null;
+        IToken string_literal225 = null;
+        IToken char_literal226 = null;
 
-        object string_literal222_tree=null;
-        object char_literal223_tree=null;
-        object string_literal224_tree=null;
-        object char_literal225_tree=null;
+        object string_literal223_tree=null;
+        object char_literal224_tree=null;
+        object string_literal225_tree=null;
+        object char_literal226_tree=null;
         RewriteRuleTokenStream stream_42 = new RewriteRuleTokenStream(adaptor,"token 42");
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
-        RewriteRuleTokenStream stream_83 = new RewriteRuleTokenStream(adaptor,"token 83");
+        RewriteRuleTokenStream stream_84 = new RewriteRuleTokenStream(adaptor,"token 84");
         RewriteRuleTokenStream stream_38 = new RewriteRuleTokenStream(adaptor,"token 38");
 
         try 
@@ -8150,17 +8197,17 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:490:2: ( '\\\\begin' '{' 'tikzpicture' '}' -> ^( IM_STARTTAG '\\\\begin' ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:490:4: '\\\\begin' '{' 'tikzpicture' '}'
             {
-            	string_literal222=(IToken)Match(input,38,FOLLOW_38_in_tikzpicture_start2476); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_38.Add(string_literal222);
+            	string_literal223=(IToken)Match(input,38,FOLLOW_38_in_tikzpicture_start2482); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_38.Add(string_literal223);
 
-            	char_literal223=(IToken)Match(input,41,FOLLOW_41_in_tikzpicture_start2478); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_41.Add(char_literal223);
+            	char_literal224=(IToken)Match(input,41,FOLLOW_41_in_tikzpicture_start2484); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_41.Add(char_literal224);
 
-            	string_literal224=(IToken)Match(input,83,FOLLOW_83_in_tikzpicture_start2480); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_83.Add(string_literal224);
+            	string_literal225=(IToken)Match(input,84,FOLLOW_84_in_tikzpicture_start2486); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_84.Add(string_literal225);
 
-            	char_literal225=(IToken)Match(input,42,FOLLOW_42_in_tikzpicture_start2482); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_42.Add(char_literal225);
+            	char_literal226=(IToken)Match(input,42,FOLLOW_42_in_tikzpicture_start2488); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_42.Add(char_literal226);
 
 
 
@@ -8229,41 +8276,41 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal226 = null;
-        IToken char_literal227 = null;
-        IToken string_literal228 = null;
-        IToken char_literal229 = null;
+        IToken string_literal227 = null;
+        IToken char_literal228 = null;
+        IToken string_literal229 = null;
+        IToken char_literal230 = null;
 
-        object string_literal226_tree=null;
-        object char_literal227_tree=null;
-        object string_literal228_tree=null;
-        object char_literal229_tree=null;
+        object string_literal227_tree=null;
+        object char_literal228_tree=null;
+        object string_literal229_tree=null;
+        object char_literal230_tree=null;
         RewriteRuleTokenStream stream_42 = new RewriteRuleTokenStream(adaptor,"token 42");
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
-        RewriteRuleTokenStream stream_83 = new RewriteRuleTokenStream(adaptor,"token 83");
-        RewriteRuleTokenStream stream_60 = new RewriteRuleTokenStream(adaptor,"token 60");
+        RewriteRuleTokenStream stream_61 = new RewriteRuleTokenStream(adaptor,"token 61");
+        RewriteRuleTokenStream stream_84 = new RewriteRuleTokenStream(adaptor,"token 84");
 
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:493:2: ( '\\\\end' '{' 'tikzpicture' '}' -> ^( IM_ENDTAG '\\\\end' ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:493:4: '\\\\end' '{' 'tikzpicture' '}'
             {
-            	string_literal226=(IToken)Match(input,60,FOLLOW_60_in_tikzpicture_end2500); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_60.Add(string_literal226);
+            	string_literal227=(IToken)Match(input,61,FOLLOW_61_in_tikzpicture_end2506); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_61.Add(string_literal227);
 
-            	char_literal227=(IToken)Match(input,41,FOLLOW_41_in_tikzpicture_end2502); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_41.Add(char_literal227);
+            	char_literal228=(IToken)Match(input,41,FOLLOW_41_in_tikzpicture_end2508); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_41.Add(char_literal228);
 
-            	string_literal228=(IToken)Match(input,83,FOLLOW_83_in_tikzpicture_end2504); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_83.Add(string_literal228);
+            	string_literal229=(IToken)Match(input,84,FOLLOW_84_in_tikzpicture_end2510); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_84.Add(string_literal229);
 
-            	char_literal229=(IToken)Match(input,42,FOLLOW_42_in_tikzpicture_end2506); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_42.Add(char_literal229);
+            	char_literal230=(IToken)Match(input,42,FOLLOW_42_in_tikzpicture_end2512); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_42.Add(char_literal230);
 
 
 
             	// AST REWRITE
-            	// elements:          60
+            	// elements:          61
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -8281,7 +8328,7 @@ public partial class simpletikzParser : Parser
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_ENDTAG, "IM_ENDTAG"), root_1);
 
-            	    adaptor.AddChild(root_1, stream_60.NextNode());
+            	    adaptor.AddChild(root_1, stream_61.NextNode());
 
             	    adaptor.AddChild(root_0, root_1);
             	    }
@@ -8327,36 +8374,36 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal230 = null;
-        IToken char_literal231 = null;
-        IToken string_literal232 = null;
-        IToken char_literal233 = null;
+        IToken string_literal231 = null;
+        IToken char_literal232 = null;
+        IToken string_literal233 = null;
+        IToken char_literal234 = null;
 
-        object string_literal230_tree=null;
-        object char_literal231_tree=null;
-        object string_literal232_tree=null;
-        object char_literal233_tree=null;
+        object string_literal231_tree=null;
+        object char_literal232_tree=null;
+        object string_literal233_tree=null;
+        object char_literal234_tree=null;
         RewriteRuleTokenStream stream_42 = new RewriteRuleTokenStream(adaptor,"token 42");
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
-        RewriteRuleTokenStream stream_84 = new RewriteRuleTokenStream(adaptor,"token 84");
         RewriteRuleTokenStream stream_38 = new RewriteRuleTokenStream(adaptor,"token 38");
+        RewriteRuleTokenStream stream_85 = new RewriteRuleTokenStream(adaptor,"token 85");
 
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:496:2: ( '\\\\begin' '{' 'scope' '}' -> ^( IM_STARTTAG '\\\\begin' ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:496:4: '\\\\begin' '{' 'scope' '}'
             {
-            	string_literal230=(IToken)Match(input,38,FOLLOW_38_in_tikzscope_start2524); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_38.Add(string_literal230);
+            	string_literal231=(IToken)Match(input,38,FOLLOW_38_in_tikzscope_start2530); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_38.Add(string_literal231);
 
-            	char_literal231=(IToken)Match(input,41,FOLLOW_41_in_tikzscope_start2526); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_41.Add(char_literal231);
+            	char_literal232=(IToken)Match(input,41,FOLLOW_41_in_tikzscope_start2532); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_41.Add(char_literal232);
 
-            	string_literal232=(IToken)Match(input,84,FOLLOW_84_in_tikzscope_start2528); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_84.Add(string_literal232);
+            	string_literal233=(IToken)Match(input,85,FOLLOW_85_in_tikzscope_start2534); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_85.Add(string_literal233);
 
-            	char_literal233=(IToken)Match(input,42,FOLLOW_42_in_tikzscope_start2530); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_42.Add(char_literal233);
+            	char_literal234=(IToken)Match(input,42,FOLLOW_42_in_tikzscope_start2536); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_42.Add(char_literal234);
 
 
 
@@ -8425,41 +8472,41 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal234 = null;
-        IToken char_literal235 = null;
-        IToken string_literal236 = null;
-        IToken char_literal237 = null;
+        IToken string_literal235 = null;
+        IToken char_literal236 = null;
+        IToken string_literal237 = null;
+        IToken char_literal238 = null;
 
-        object string_literal234_tree=null;
-        object char_literal235_tree=null;
-        object string_literal236_tree=null;
-        object char_literal237_tree=null;
+        object string_literal235_tree=null;
+        object char_literal236_tree=null;
+        object string_literal237_tree=null;
+        object char_literal238_tree=null;
         RewriteRuleTokenStream stream_42 = new RewriteRuleTokenStream(adaptor,"token 42");
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
-        RewriteRuleTokenStream stream_60 = new RewriteRuleTokenStream(adaptor,"token 60");
-        RewriteRuleTokenStream stream_84 = new RewriteRuleTokenStream(adaptor,"token 84");
+        RewriteRuleTokenStream stream_61 = new RewriteRuleTokenStream(adaptor,"token 61");
+        RewriteRuleTokenStream stream_85 = new RewriteRuleTokenStream(adaptor,"token 85");
 
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:499:2: ( '\\\\end' '{' 'scope' '}' -> ^( IM_ENDTAG '\\\\end' ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:499:4: '\\\\end' '{' 'scope' '}'
             {
-            	string_literal234=(IToken)Match(input,60,FOLLOW_60_in_tikzscope_end2548); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_60.Add(string_literal234);
+            	string_literal235=(IToken)Match(input,61,FOLLOW_61_in_tikzscope_end2554); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_61.Add(string_literal235);
 
-            	char_literal235=(IToken)Match(input,41,FOLLOW_41_in_tikzscope_end2550); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_41.Add(char_literal235);
+            	char_literal236=(IToken)Match(input,41,FOLLOW_41_in_tikzscope_end2556); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_41.Add(char_literal236);
 
-            	string_literal236=(IToken)Match(input,84,FOLLOW_84_in_tikzscope_end2552); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_84.Add(string_literal236);
+            	string_literal237=(IToken)Match(input,85,FOLLOW_85_in_tikzscope_end2558); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_85.Add(string_literal237);
 
-            	char_literal237=(IToken)Match(input,42,FOLLOW_42_in_tikzscope_end2554); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_42.Add(char_literal237);
+            	char_literal238=(IToken)Match(input,42,FOLLOW_42_in_tikzscope_end2560); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_42.Add(char_literal238);
 
 
 
             	// AST REWRITE
-            	// elements:          60
+            	// elements:          61
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -8477,7 +8524,7 @@ public partial class simpletikzParser : Parser
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_ENDTAG, "IM_ENDTAG"), root_1);
 
-            	    adaptor.AddChild(root_1, stream_60.NextNode());
+            	    adaptor.AddChild(root_1, stream_61.NextNode());
 
             	    adaptor.AddChild(root_0, root_1);
             	    }
@@ -8523,7 +8570,7 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.path_start_tag_return path_start_tag238 = default(simpletikzParser.path_start_tag_return);
+        simpletikzParser.path_start_tag_return path_start_tag239 = default(simpletikzParser.path_start_tag_return);
 
 
         RewriteRuleSubtreeStream stream_path_start_tag = new RewriteRuleSubtreeStream(adaptor,"rule path_start_tag");
@@ -8532,11 +8579,11 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:502:2: ( path_start_tag -> ^( IM_STARTTAG path_start_tag ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:502:4: path_start_tag
             {
-            	PushFollow(FOLLOW_path_start_tag_in_path_start2573);
-            	path_start_tag238 = path_start_tag();
+            	PushFollow(FOLLOW_path_start_tag_in_path_start2579);
+            	path_start_tag239 = path_start_tag();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_path_start_tag.Add(path_start_tag238.Tree);
+            	if ( (state.backtracking==0) ) stream_path_start_tag.Add(path_start_tag239.Tree);
 
 
             	// AST REWRITE
@@ -8604,7 +8651,7 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.node_start_tag_return node_start_tag239 = default(simpletikzParser.node_start_tag_return);
+        simpletikzParser.node_start_tag_return node_start_tag240 = default(simpletikzParser.node_start_tag_return);
 
 
         RewriteRuleSubtreeStream stream_node_start_tag = new RewriteRuleSubtreeStream(adaptor,"rule node_start_tag");
@@ -8613,11 +8660,11 @@ public partial class simpletikzParser : Parser
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:505:2: ( node_start_tag -> ^( IM_STARTTAG node_start_tag ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:505:4: node_start_tag
             {
-            	PushFollow(FOLLOW_node_start_tag_in_node_start2591);
-            	node_start_tag239 = node_start_tag();
+            	PushFollow(FOLLOW_node_start_tag_in_node_start2597);
+            	node_start_tag240 = node_start_tag();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_node_start_tag.Add(node_start_tag239.Tree);
+            	if ( (state.backtracking==0) ) stream_node_start_tag.Add(node_start_tag240.Tree);
 
 
             	// AST REWRITE
@@ -8685,9 +8732,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal240 = null;
+        IToken string_literal241 = null;
 
-        object string_literal240_tree=null;
+        object string_literal241_tree=null;
 
         try 
     	{
@@ -8696,10 +8743,10 @@ public partial class simpletikzParser : Parser
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	string_literal240=(IToken)Match(input,61,FOLLOW_61_in_node_start_tag2609); if (state.failed) return retval;
+            	string_literal241=(IToken)Match(input,62,FOLLOW_62_in_node_start_tag2615); if (state.failed) return retval;
             	if ( state.backtracking == 0 )
-            	{string_literal240_tree = (object)adaptor.Create(string_literal240);
-            		adaptor.AddChild(root_0, string_literal240_tree);
+            	{string_literal241_tree = (object)adaptor.Create(string_literal241);
+            		adaptor.AddChild(root_0, string_literal241_tree);
             	}
 
             }
@@ -8740,23 +8787,23 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal241 = null;
+        IToken string_literal242 = null;
 
-        object string_literal241_tree=null;
-        RewriteRuleTokenStream stream_62 = new RewriteRuleTokenStream(adaptor,"token 62");
+        object string_literal242_tree=null;
+        RewriteRuleTokenStream stream_63 = new RewriteRuleTokenStream(adaptor,"token 63");
 
         try 
     	{
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:511:2: ( '\\\\coordinate' -> ^( IM_STARTTAG '\\\\coordinate' ) )
             // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:511:4: '\\\\coordinate'
             {
-            	string_literal241=(IToken)Match(input,62,FOLLOW_62_in_coordinate_start2619); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_62.Add(string_literal241);
+            	string_literal242=(IToken)Match(input,63,FOLLOW_63_in_coordinate_start2625); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_63.Add(string_literal242);
 
 
 
             	// AST REWRITE
-            	// elements:          62
+            	// elements:          63
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -8774,7 +8821,7 @@ public partial class simpletikzParser : Parser
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_STARTTAG, "IM_STARTTAG"), root_1);
 
-            	    adaptor.AddChild(root_1, stream_62.NextNode());
+            	    adaptor.AddChild(root_1, stream_63.NextNode());
 
             	    adaptor.AddChild(root_0, root_1);
             	    }
@@ -8820,9 +8867,9 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken set242 = null;
+        IToken set243 = null;
 
-        object set242_tree=null;
+        object set243_tree=null;
 
         try 
     	{
@@ -8831,11 +8878,11 @@ public partial class simpletikzParser : Parser
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	set242 = (IToken)input.LT(1);
-            	if ( (input.LA(1) >= 63 && input.LA(1) <= 66) ) 
+            	set243 = (IToken)input.LT(1);
+            	if ( (input.LA(1) >= 64 && input.LA(1) <= 67) ) 
             	{
             	    input.Consume();
-            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set242));
+            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set243));
             	    state.errorRecovery = false;state.failed = false;
             	}
             	else 
@@ -8870,7 +8917,7 @@ public partial class simpletikzParser : Parser
         // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:327:8: ( tikzcoordinate_core3 )
         // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:327:9: tikzcoordinate_core3
         {
-        	PushFollow(FOLLOW_tikzcoordinate_core3_in_synpred1_simpletikz1561);
+        	PushFollow(FOLLOW_tikzcoordinate_core3_in_synpred1_simpletikz1567);
         	tikzcoordinate_core3();
         	state.followingStackPointer--;
         	if (state.failed) return ;
@@ -8884,7 +8931,7 @@ public partial class simpletikzParser : Parser
         // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:328:12: ( tikzcoordinate_core2 )
         // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:328:13: tikzcoordinate_core2
         {
-        	PushFollow(FOLLOW_tikzcoordinate_core2_in_synpred2_simpletikz1580);
+        	PushFollow(FOLLOW_tikzcoordinate_core2_in_synpred2_simpletikz1586);
         	tikzcoordinate_core2();
         	state.followingStackPointer--;
         	if (state.failed) return ;
@@ -8898,7 +8945,7 @@ public partial class simpletikzParser : Parser
         // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:329:12: ( tikzcoordinate_core1 )
         // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:329:13: tikzcoordinate_core1
         {
-        	PushFollow(FOLLOW_tikzcoordinate_core1_in_synpred3_simpletikz1600);
+        	PushFollow(FOLLOW_tikzcoordinate_core1_in_synpred3_simpletikz1606);
         	tikzcoordinate_core1();
         	state.followingStackPointer--;
         	if (state.failed) return ;
@@ -8912,7 +8959,7 @@ public partial class simpletikzParser : Parser
         // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:338:21: ( tikzcoordinate_core3 )
         // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:338:22: tikzcoordinate_core3
         {
-        	PushFollow(FOLLOW_tikzcoordinate_core3_in_synpred4_simpletikz1685);
+        	PushFollow(FOLLOW_tikzcoordinate_core3_in_synpred4_simpletikz1691);
         	tikzcoordinate_core3();
         	state.followingStackPointer--;
         	if (state.failed) return ;
@@ -8926,7 +8973,7 @@ public partial class simpletikzParser : Parser
         // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:339:12: ( tikzcoordinate_core2 )
         // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:339:13: tikzcoordinate_core2
         {
-        	PushFollow(FOLLOW_tikzcoordinate_core2_in_synpred5_simpletikz1704);
+        	PushFollow(FOLLOW_tikzcoordinate_core2_in_synpred5_simpletikz1710);
         	tikzcoordinate_core2();
         	state.followingStackPointer--;
         	if (state.failed) return ;
@@ -8940,7 +8987,7 @@ public partial class simpletikzParser : Parser
         // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:340:12: ( tikzcoordinate_core1 )
         // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:340:13: tikzcoordinate_core1
         {
-        	PushFollow(FOLLOW_tikzcoordinate_core1_in_synpred6_simpletikz1724);
+        	PushFollow(FOLLOW_tikzcoordinate_core1_in_synpred6_simpletikz1730);
         	tikzcoordinate_core1();
         	state.followingStackPointer--;
         	if (state.failed) return ;
@@ -8954,7 +9001,7 @@ public partial class simpletikzParser : Parser
         // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:387:28: ( size )
         // C:\\Users\\tw\\Documents\\Visual Studio 2010\\Projects\\TikzEdt\\TikzEdt\\simpletikz.g:387:29: size
         {
-        	PushFollow(FOLLOW_size_in_synpred7_simpletikz2006);
+        	PushFollow(FOLLOW_size_in_synpred7_simpletikz2012);
         	size();
         	state.followingStackPointer--;
         	if (state.failed) return ;
@@ -9093,70 +9140,71 @@ public partial class simpletikzParser : Parser
    	}
 
 
-   	protected DFA8 dfa8;
-   	protected DFA13 dfa13;
-   	protected DFA26 dfa26;
+   	protected DFA9 dfa9;
+   	protected DFA14 dfa14;
    	protected DFA27 dfa27;
-   	protected DFA39 dfa39;
-   	protected DFA41 dfa41;
-   	protected DFA48 dfa48;
-   	protected DFA54 dfa54;
+   	protected DFA28 dfa28;
+   	protected DFA40 dfa40;
+   	protected DFA42 dfa42;
+   	protected DFA49 dfa49;
+   	protected DFA55 dfa55;
 	private void InitializeCyclicDFAs()
 	{
-    	this.dfa8 = new DFA8(this);
-    	this.dfa13 = new DFA13(this);
-    	this.dfa26 = new DFA26(this);
+    	this.dfa9 = new DFA9(this);
+    	this.dfa14 = new DFA14(this);
     	this.dfa27 = new DFA27(this);
-    	this.dfa39 = new DFA39(this);
-    	this.dfa41 = new DFA41(this);
-    	this.dfa48 = new DFA48(this);
-    	this.dfa54 = new DFA54(this);
-	    this.dfa39.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA39_SpecialStateTransition);
-	    this.dfa41.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA41_SpecialStateTransition);
-	    this.dfa48.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA48_SpecialStateTransition);
+    	this.dfa28 = new DFA28(this);
+    	this.dfa40 = new DFA40(this);
+    	this.dfa42 = new DFA42(this);
+    	this.dfa49 = new DFA49(this);
+    	this.dfa55 = new DFA55(this);
+	    this.dfa40.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA40_SpecialStateTransition);
+	    this.dfa42.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA42_SpecialStateTransition);
+	    this.dfa49.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA49_SpecialStateTransition);
 	}
 
-    const string DFA8_eotS =
+    const string DFA9_eotS =
         "\x04\uffff";
-    const string DFA8_eofS =
+    const string DFA9_eofS =
         "\x04\uffff";
-    const string DFA8_minS =
+    const string DFA9_minS =
         "\x02\x04\x02\uffff";
-    const string DFA8_maxS =
-        "\x02\x54\x02\uffff";
-    const string DFA8_acceptS =
+    const string DFA9_maxS =
+        "\x02\x55\x02\uffff";
+    const string DFA9_acceptS =
         "\x02\uffff\x01\x01\x01\x02";
-    const string DFA8_specialS =
+    const string DFA9_specialS =
         "\x04\uffff}>";
-    static readonly string[] DFA8_transitionS = {
-            "\x25\x01\x07\uffff\x01\x01\x05\uffff\x1f\x01",
-            "\x25\x01\x01\uffff\x03\x03\x01\uffff\x02\x02\x01\x01\x03\uffff"+
-            "\x01\x03\x01\uffff\x1f\x01",
+    static readonly string[] DFA9_transitionS = {
+            "\x25\x01\x03\uffff\x01\x01\x04\uffff\x01\x01\x05\uffff\x1f"+
+            "\x01",
+            "\x25\x01\x01\uffff\x02\x03\x01\x01\x01\x03\x01\uffff\x02\x02"+
+            "\x01\x01\x03\uffff\x01\x03\x01\uffff\x1f\x01",
             "",
             ""
     };
 
-    static readonly short[] DFA8_eot = DFA.UnpackEncodedString(DFA8_eotS);
-    static readonly short[] DFA8_eof = DFA.UnpackEncodedString(DFA8_eofS);
-    static readonly char[] DFA8_min = DFA.UnpackEncodedStringToUnsignedChars(DFA8_minS);
-    static readonly char[] DFA8_max = DFA.UnpackEncodedStringToUnsignedChars(DFA8_maxS);
-    static readonly short[] DFA8_accept = DFA.UnpackEncodedString(DFA8_acceptS);
-    static readonly short[] DFA8_special = DFA.UnpackEncodedString(DFA8_specialS);
-    static readonly short[][] DFA8_transition = DFA.UnpackEncodedStringArray(DFA8_transitionS);
+    static readonly short[] DFA9_eot = DFA.UnpackEncodedString(DFA9_eotS);
+    static readonly short[] DFA9_eof = DFA.UnpackEncodedString(DFA9_eofS);
+    static readonly char[] DFA9_min = DFA.UnpackEncodedStringToUnsignedChars(DFA9_minS);
+    static readonly char[] DFA9_max = DFA.UnpackEncodedStringToUnsignedChars(DFA9_maxS);
+    static readonly short[] DFA9_accept = DFA.UnpackEncodedString(DFA9_acceptS);
+    static readonly short[] DFA9_special = DFA.UnpackEncodedString(DFA9_specialS);
+    static readonly short[][] DFA9_transition = DFA.UnpackEncodedStringArray(DFA9_transitionS);
 
-    protected class DFA8 : DFA
+    protected class DFA9 : DFA
     {
-        public DFA8(BaseRecognizer recognizer)
+        public DFA9(BaseRecognizer recognizer)
         {
             this.recognizer = recognizer;
-            this.decisionNumber = 8;
-            this.eot = DFA8_eot;
-            this.eof = DFA8_eof;
-            this.min = DFA8_min;
-            this.max = DFA8_max;
-            this.accept = DFA8_accept;
-            this.special = DFA8_special;
-            this.transition = DFA8_transition;
+            this.decisionNumber = 9;
+            this.eot = DFA9_eot;
+            this.eof = DFA9_eof;
+            this.min = DFA9_min;
+            this.max = DFA9_max;
+            this.accept = DFA9_accept;
+            this.special = DFA9_special;
+            this.transition = DFA9_transition;
 
         }
 
@@ -9167,90 +9215,99 @@ public partial class simpletikzParser : Parser
 
     }
 
-    const string DFA13_eotS =
+    const string DFA14_eotS =
         "\x23\uffff";
-    const string DFA13_eofS =
+    const string DFA14_eofS =
         "\x23\uffff";
-    const string DFA13_minS =
-        "\x01\x04\x01\x2a\x01\x04\x01\uffff\x01\x2a\x02\uffff\x01\x04\x01"+
+    const string DFA14_minS =
+        "\x01\x04\x01\x2a\x01\x04\x02\uffff\x01\x2a\x01\uffff\x01\x04\x01"+
         "\uffff\x0f\x04\x01\uffff\x0a\x04";
-    const string DFA13_maxS =
-        "\x01\x54\x01\x3b\x01\x54\x01\uffff\x01\x34\x02\uffff\x01\x54\x01"+
-        "\uffff\x0f\x54\x01\uffff\x0a\x54";
-    const string DFA13_acceptS =
-        "\x03\uffff\x01\x04\x01\uffff\x01\x02\x01\x01\x01\uffff\x01\x05"+
+    const string DFA14_maxS =
+        "\x01\x55\x01\x3c\x01\x55\x02\uffff\x01\x35\x01\uffff\x01\x55\x01"+
+        "\uffff\x0f\x55\x01\uffff\x0a\x55";
+    const string DFA14_acceptS =
+        "\x03\uffff\x01\x04\x01\x02\x01\uffff\x01\x01\x01\uffff\x01\x05"+
         "\x0f\uffff\x01\x03\x0a\uffff";
-    const string DFA13_specialS =
+    const string DFA14_specialS =
         "\x23\uffff}>";
-    static readonly string[] DFA13_transitionS = {
-            "\x19\x03\x02\x01\x0a\x03\x01\x02\x06\uffff\x01\x03\x05\uffff"+
-            "\x1f\x03",
-            "\x01\x05\x01\uffff\x01\x05\x01\x06\x06\uffff\x01\x05\x01\uffff"+
-            "\x06\x04",
-            "\x2d\x08\x01\x07\x1d\x08\x02\x09\x04\x08",
-            "",
-            "\x01\x05\x01\uffff\x01\x05\x01\x06\x06\uffff\x01\x05",
+    static readonly string[] DFA14_transitionS = {
+            "\x19\x03\x02\x01\x0a\x03\x01\x02\x02\uffff\x01\x03\x04\uffff"+
+            "\x01\x03\x05\uffff\x1f\x03",
+            "\x01\x04\x02\uffff\x01\x04\x01\x06\x06\uffff\x01\x04\x01\uffff"+
+            "\x06\x05",
+            "\x2e\x08\x01\x07\x1d\x08\x02\x09\x04\x08",
             "",
             "",
-            "\x19\x0c\x02\x0a\x0a\x0c\x01\x0b\x06\x08\x01\x0c\x05\x08\x1f"+
-            "\x0c",
+            "\x01\x04\x02\uffff\x01\x04\x01\x06\x06\uffff\x01\x04",
             "",
-            "\x2d\x08\x01\x0d\x23\x08",
-            "\x25\x0c\x03\x08\x02\x0e\x02\x08\x01\x0c\x01\x08\x01\x10\x03"+
-            "\x08\x06\x0f\x19\x0c",
-            "\x25\x11\x07\x08\x01\x11\x05\x08\x1f\x11",
-            "\x25\x0c\x03\x08\x02\x12\x02\x08\x01\x0c\x01\x08\x01\x10\x03"+
-            "\x08\x1f\x0c",
-            "\x19\x14\x02\x13\x0a\x14\x01\x0b\x06\x08\x01\x14\x05\x08\x1f"+
-            "\x14",
-            "\x19\x17\x02\x15\x0a\x17\x01\x16\x06\x08\x01\x17\x05\x08\x1f"+
+            "\x19\x0c\x02\x0a\x0a\x0c\x01\x0b\x02\x08\x01\x0c\x04\x08\x01"+
+            "\x0c\x05\x08\x1f\x0c",
+            "",
+            "\x2e\x08\x01\x0d\x23\x08",
+            "\x25\x0c\x03\x08\x01\x0c\x02\x0f\x02\x08\x01\x0c\x01\x08\x01"+
+            "\x10\x03\x08\x06\x0e\x19\x0c",
+            "\x25\x11\x03\x08\x01\x11\x04\x08\x01\x11\x05\x08\x1f\x11",
+            "\x25\x0c\x03\x08\x01\x0c\x02\x12\x02\x08\x01\x0c\x01\x08\x01"+
+            "\x10\x03\x08\x1f\x0c",
+            "\x19\x14\x02\x13\x0a\x14\x01\x0b\x02\x08\x01\x14\x04\x08\x01"+
+            "\x14\x05\x08\x1f\x14",
+            "\x25\x0c\x03\x08\x01\x0c\x02\x0f\x02\x08\x01\x0c\x01\x08\x01"+
+            "\x10\x03\x08\x1f\x0c",
+            "\x19\x17\x02\x16\x0a\x17\x01\x15\x02\x08\x01\x17\x04\x08\x01"+
+            "\x17\x05\x08\x1f\x17",
+            "\x26\x08\x01\x18\x2b\x08",
+            "\x25\x11\x01\x08\x01\x19\x01\x08\x01\x11\x04\x08\x01\x11\x05"+
+            "\x08\x1f\x11",
+            "\x25\x17\x01\x15\x02\x08\x01\x17\x04\x08\x01\x17\x05\x08\x1f"+
             "\x17",
-            "\x25\x0c\x03\x08\x02\x0e\x02\x08\x01\x0c\x01\x08\x01\x10\x03"+
-            "\x08\x1f\x0c",
-            "\x26\x08\x01\x18\x2a\x08",
-            "\x25\x11\x01\x08\x01\x19\x05\x08\x01\x11\x05\x08\x1f\x11",
-            "\x25\x17\x01\x16\x06\x08\x01\x17\x05\x08\x1f\x17",
-            "\x25\x14\x03\x08\x02\x0e\x02\x08\x01\x14\x05\x08\x06\x1a\x19"+
+            "\x25\x14\x03\x08\x01\x14\x02\x0f\x02\x08\x01\x14\x05\x08\x06"+
+            "\x1a\x19\x14",
+            "\x25\x14\x03\x08\x01\x14\x02\x12\x02\x08\x01\x14\x05\x08\x1f"+
             "\x14",
-            "\x25\x14\x03\x08\x02\x12\x02\x08\x01\x14\x05\x08\x1f\x14",
-            "\x25\x17\x07\x08\x01\x17\x01\x08\x01\x1b\x03\x08\x06\x1c\x19"+
-            "\x17",
-            "\x25\x1d\x07\x08\x01\x1d\x05\x08\x1f\x1d",
-            "\x25\x17\x07\x08\x01\x17\x01\x08\x01\x1e\x03\x08\x1f\x17",
+            "\x25\x1b\x03\x08\x01\x1b\x04\x08\x01\x1b\x05\x08\x1f\x1b",
+            "\x25\x17\x03\x08\x01\x17\x04\x08\x01\x17\x01\x08\x01\x1c\x03"+
+            "\x08\x06\x1d\x19\x17",
+            "\x25\x17\x03\x08\x01\x17\x04\x08\x01\x17\x01\x08\x01\x1e\x03"+
+            "\x08\x1f\x17",
             "",
-            "\x28\x08\x02\x1f\x27\x08",
-            "\x25\x14\x03\x08\x02\x0e\x02\x08\x01\x14\x05\x08\x1f\x14",
-            "\x26\x08\x01\x18\x2a\x08",
-            "\x25\x17\x07\x08\x01\x17\x01\x08\x01\x1b\x03\x08\x1f\x17",
-            "\x25\x1d\x01\x08\x01\x20\x05\x08\x01\x1d\x05\x08\x1f\x1d",
-            "\x26\x08\x01\x18\x2a\x08",
-            "\x25\x21\x01\x16\x06\x08\x01\x21\x05\x08\x1f\x21",
-            "\x2e\x08\x01\x22\x22\x08",
-            "\x25\x21\x07\x08\x01\x21\x01\x08\x01\x22\x03\x08\x1f\x21",
-            "\x26\x08\x01\x18\x2a\x08"
+            "\x29\x08\x02\x1f\x27\x08",
+            "\x25\x14\x03\x08\x01\x14\x02\x0f\x02\x08\x01\x14\x05\x08\x1f"+
+            "\x14",
+            "\x25\x1b\x01\x08\x01\x20\x01\x08\x01\x1b\x04\x08\x01\x1b\x05"+
+            "\x08\x1f\x1b",
+            "\x26\x08\x01\x18\x2b\x08",
+            "\x25\x17\x03\x08\x01\x17\x04\x08\x01\x17\x01\x08\x01\x1c\x03"+
+            "\x08\x1f\x17",
+            "\x26\x08\x01\x18\x2b\x08",
+            "\x25\x21\x01\x15\x02\x08\x01\x21\x04\x08\x01\x21\x05\x08\x1f"+
+            "\x21",
+            "\x2f\x08\x01\x22\x22\x08",
+            "\x25\x21\x03\x08\x01\x21\x04\x08\x01\x21\x01\x08\x01\x22\x03"+
+            "\x08\x1f\x21",
+            "\x26\x08\x01\x18\x2b\x08"
     };
 
-    static readonly short[] DFA13_eot = DFA.UnpackEncodedString(DFA13_eotS);
-    static readonly short[] DFA13_eof = DFA.UnpackEncodedString(DFA13_eofS);
-    static readonly char[] DFA13_min = DFA.UnpackEncodedStringToUnsignedChars(DFA13_minS);
-    static readonly char[] DFA13_max = DFA.UnpackEncodedStringToUnsignedChars(DFA13_maxS);
-    static readonly short[] DFA13_accept = DFA.UnpackEncodedString(DFA13_acceptS);
-    static readonly short[] DFA13_special = DFA.UnpackEncodedString(DFA13_specialS);
-    static readonly short[][] DFA13_transition = DFA.UnpackEncodedStringArray(DFA13_transitionS);
+    static readonly short[] DFA14_eot = DFA.UnpackEncodedString(DFA14_eotS);
+    static readonly short[] DFA14_eof = DFA.UnpackEncodedString(DFA14_eofS);
+    static readonly char[] DFA14_min = DFA.UnpackEncodedStringToUnsignedChars(DFA14_minS);
+    static readonly char[] DFA14_max = DFA.UnpackEncodedStringToUnsignedChars(DFA14_maxS);
+    static readonly short[] DFA14_accept = DFA.UnpackEncodedString(DFA14_acceptS);
+    static readonly short[] DFA14_special = DFA.UnpackEncodedString(DFA14_specialS);
+    static readonly short[][] DFA14_transition = DFA.UnpackEncodedStringArray(DFA14_transitionS);
 
-    protected class DFA13 : DFA
+    protected class DFA14 : DFA
     {
-        public DFA13(BaseRecognizer recognizer)
+        public DFA14(BaseRecognizer recognizer)
         {
             this.recognizer = recognizer;
-            this.decisionNumber = 13;
-            this.eot = DFA13_eot;
-            this.eof = DFA13_eof;
-            this.min = DFA13_min;
-            this.max = DFA13_max;
-            this.accept = DFA13_accept;
-            this.special = DFA13_special;
-            this.transition = DFA13_transition;
+            this.decisionNumber = 14;
+            this.eot = DFA14_eot;
+            this.eof = DFA14_eof;
+            this.min = DFA14_min;
+            this.max = DFA14_max;
+            this.accept = DFA14_accept;
+            this.special = DFA14_special;
+            this.transition = DFA14_transition;
 
         }
 
@@ -9261,21 +9318,21 @@ public partial class simpletikzParser : Parser
 
     }
 
-    const string DFA26_eotS =
+    const string DFA27_eotS =
         "\x0c\uffff";
-    const string DFA26_eofS =
+    const string DFA27_eofS =
         "\x0c\uffff";
-    const string DFA26_minS =
+    const string DFA27_minS =
         "\x01\x04\x01\x29\x07\uffff\x01\x1c\x02\uffff";
-    const string DFA26_maxS =
-        "\x01\x54\x01\x29\x07\uffff\x01\x54\x02\uffff";
-    const string DFA26_acceptS =
+    const string DFA27_maxS =
+        "\x01\x55\x01\x29\x07\uffff\x01\x55\x02\uffff";
+    const string DFA27_acceptS =
         "\x02\uffff\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\x08\x01"+
         "\x09\x01\uffff\x01\x01\x01\x07";
-    const string DFA26_specialS =
+    const string DFA27_specialS =
         "\x0c\uffff}>";
-    static readonly string[] DFA26_transitionS = {
-            "\x22\x08\x01\x01\x01\x06\x01\x05\x0a\x08\x01\uffff\x08\x08"+
+    static readonly string[] DFA27_transitionS = {
+            "\x22\x08\x01\x01\x01\x06\x01\x05\x0b\x08\x01\uffff\x08\x08"+
             "\x01\x07\x01\x03\x01\x04\x04\x02\x12\x08",
             "\x01\x09",
             "",
@@ -9285,70 +9342,7 @@ public partial class simpletikzParser : Parser
             "",
             "",
             "",
-            "\x01\x0b\x37\uffff\x01\x0a",
-            "",
-            ""
-    };
-
-    static readonly short[] DFA26_eot = DFA.UnpackEncodedString(DFA26_eotS);
-    static readonly short[] DFA26_eof = DFA.UnpackEncodedString(DFA26_eofS);
-    static readonly char[] DFA26_min = DFA.UnpackEncodedStringToUnsignedChars(DFA26_minS);
-    static readonly char[] DFA26_max = DFA.UnpackEncodedStringToUnsignedChars(DFA26_maxS);
-    static readonly short[] DFA26_accept = DFA.UnpackEncodedString(DFA26_acceptS);
-    static readonly short[] DFA26_special = DFA.UnpackEncodedString(DFA26_specialS);
-    static readonly short[][] DFA26_transition = DFA.UnpackEncodedStringArray(DFA26_transitionS);
-
-    protected class DFA26 : DFA
-    {
-        public DFA26(BaseRecognizer recognizer)
-        {
-            this.recognizer = recognizer;
-            this.decisionNumber = 26;
-            this.eot = DFA26_eot;
-            this.eof = DFA26_eof;
-            this.min = DFA26_min;
-            this.max = DFA26_max;
-            this.accept = DFA26_accept;
-            this.special = DFA26_special;
-            this.transition = DFA26_transition;
-
-        }
-
-        override public string Description
-        {
-            get { return "242:4: ( tikzscope | tikzpath | tikznode_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin | otherend | dontcare_body_nobr )"; }
-        }
-
-    }
-
-    const string DFA27_eotS =
-        "\x0f\uffff";
-    const string DFA27_eofS =
-        "\x0f\uffff";
-    const string DFA27_minS =
-        "\x01\x04\x02\x29\x06\uffff\x02\x1c\x04\uffff";
-    const string DFA27_maxS =
-        "\x01\x54\x02\x29\x06\uffff\x02\x54\x04\uffff";
-    const string DFA27_acceptS =
-        "\x03\uffff\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\x09\x02"+
-        "\uffff\x01\x0a\x01\x08\x01\x01\x01\x07";
-    const string DFA27_specialS =
-        "\x0f\uffff}>";
-    static readonly string[] DFA27_transitionS = {
-            "\x22\x08\x01\x02\x01\x07\x01\x06\x13\x08\x01\x01\x01\x04\x01"+
-            "\x05\x04\x03\x12\x08",
-            "\x01\x09",
-            "\x01\x0a",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\x01\x0c\x36\uffff\x02\x0b",
-            "\x01\x0e\x37\uffff\x01\x0d",
-            "",
-            "",
+            "\x01\x0b\x38\uffff\x01\x0a",
             "",
             ""
     };
@@ -9379,25 +9373,88 @@ public partial class simpletikzParser : Parser
 
         override public string Description
         {
+            get { return "242:4: ( tikzscope | tikzpath | tikznode_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin | otherend | dontcare_body_nobr )"; }
+        }
+
+    }
+
+    const string DFA28_eotS =
+        "\x0f\uffff";
+    const string DFA28_eofS =
+        "\x0f\uffff";
+    const string DFA28_minS =
+        "\x01\x04\x02\x29\x06\uffff\x02\x1c\x04\uffff";
+    const string DFA28_maxS =
+        "\x01\x55\x02\x29\x06\uffff\x02\x55\x04\uffff";
+    const string DFA28_acceptS =
+        "\x03\uffff\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\x09\x02"+
+        "\uffff\x01\x0a\x01\x08\x01\x01\x01\x07";
+    const string DFA28_specialS =
+        "\x0f\uffff}>";
+    static readonly string[] DFA28_transitionS = {
+            "\x22\x08\x01\x02\x01\x07\x01\x06\x14\x08\x01\x01\x01\x04\x01"+
+            "\x05\x04\x03\x12\x08",
+            "\x01\x09",
+            "\x01\x0a",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\x01\x0c\x37\uffff\x02\x0b",
+            "\x01\x0e\x38\uffff\x01\x0d",
+            "",
+            "",
+            "",
+            ""
+    };
+
+    static readonly short[] DFA28_eot = DFA.UnpackEncodedString(DFA28_eotS);
+    static readonly short[] DFA28_eof = DFA.UnpackEncodedString(DFA28_eofS);
+    static readonly char[] DFA28_min = DFA.UnpackEncodedStringToUnsignedChars(DFA28_minS);
+    static readonly char[] DFA28_max = DFA.UnpackEncodedStringToUnsignedChars(DFA28_maxS);
+    static readonly short[] DFA28_accept = DFA.UnpackEncodedString(DFA28_acceptS);
+    static readonly short[] DFA28_special = DFA.UnpackEncodedString(DFA28_specialS);
+    static readonly short[][] DFA28_transition = DFA.UnpackEncodedStringArray(DFA28_transitionS);
+
+    protected class DFA28 : DFA
+    {
+        public DFA28(BaseRecognizer recognizer)
+        {
+            this.recognizer = recognizer;
+            this.decisionNumber = 28;
+            this.eot = DFA28_eot;
+            this.eof = DFA28_eof;
+            this.min = DFA28_min;
+            this.max = DFA28_max;
+            this.accept = DFA28_accept;
+            this.special = DFA28_special;
+            this.transition = DFA28_transition;
+
+        }
+
+        override public string Description
+        {
             get { return "()* loopback of 243:3: ( tikzscope | tikzpath | tikznode_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin | otherend | dontcare_body )*"; }
         }
 
     }
 
-    const string DFA39_eotS =
+    const string DFA40_eotS =
         "\x11\uffff";
-    const string DFA39_eofS =
+    const string DFA40_eofS =
         "\x11\uffff";
-    const string DFA39_minS =
+    const string DFA40_minS =
         "\x01\x1c\x03\x00\x0d\uffff";
-    const string DFA39_maxS =
-        "\x01\x51\x03\x00\x0d\uffff";
-    const string DFA39_acceptS =
+    const string DFA40_maxS =
+        "\x01\x52\x03\x00\x0d\uffff";
+    const string DFA40_acceptS =
         "\x04\uffff\x01\x04\x09\uffff\x01\x01\x01\x02\x01\x03";
-    const string DFA39_specialS =
+    const string DFA40_specialS =
         "\x01\uffff\x01\x00\x01\x01\x01\x02\x0d\uffff}>";
-    static readonly string[] DFA39_transitionS = {
-            "\x01\x04\x0c\uffff\x01\x04\x07\uffff\x01\x01\x01\uffff\x01"+
+    static readonly string[] DFA40_transitionS = {
+            "\x01\x04\x0c\uffff\x01\x04\x08\uffff\x01\x01\x01\uffff\x01"+
             "\x03\x01\uffff\x01\x04\x0f\uffff\x02\x04\x01\x02\x0a\x04",
             "\x01\uffff",
             "\x01\uffff",
@@ -9417,27 +9474,27 @@ public partial class simpletikzParser : Parser
             ""
     };
 
-    static readonly short[] DFA39_eot = DFA.UnpackEncodedString(DFA39_eotS);
-    static readonly short[] DFA39_eof = DFA.UnpackEncodedString(DFA39_eofS);
-    static readonly char[] DFA39_min = DFA.UnpackEncodedStringToUnsignedChars(DFA39_minS);
-    static readonly char[] DFA39_max = DFA.UnpackEncodedStringToUnsignedChars(DFA39_maxS);
-    static readonly short[] DFA39_accept = DFA.UnpackEncodedString(DFA39_acceptS);
-    static readonly short[] DFA39_special = DFA.UnpackEncodedString(DFA39_specialS);
-    static readonly short[][] DFA39_transition = DFA.UnpackEncodedStringArray(DFA39_transitionS);
+    static readonly short[] DFA40_eot = DFA.UnpackEncodedString(DFA40_eotS);
+    static readonly short[] DFA40_eof = DFA.UnpackEncodedString(DFA40_eofS);
+    static readonly char[] DFA40_min = DFA.UnpackEncodedStringToUnsignedChars(DFA40_minS);
+    static readonly char[] DFA40_max = DFA.UnpackEncodedStringToUnsignedChars(DFA40_maxS);
+    static readonly short[] DFA40_accept = DFA.UnpackEncodedString(DFA40_acceptS);
+    static readonly short[] DFA40_special = DFA.UnpackEncodedString(DFA40_specialS);
+    static readonly short[][] DFA40_transition = DFA.UnpackEncodedStringArray(DFA40_transitionS);
 
-    protected class DFA39 : DFA
+    protected class DFA40 : DFA
     {
-        public DFA39(BaseRecognizer recognizer)
+        public DFA40(BaseRecognizer recognizer)
         {
             this.recognizer = recognizer;
-            this.decisionNumber = 39;
-            this.eot = DFA39_eot;
-            this.eof = DFA39_eof;
-            this.min = DFA39_min;
-            this.max = DFA39_max;
-            this.accept = DFA39_accept;
-            this.special = DFA39_special;
-            this.transition = DFA39_transition;
+            this.decisionNumber = 40;
+            this.eot = DFA40_eot;
+            this.eof = DFA40_eof;
+            this.min = DFA40_min;
+            this.max = DFA40_max;
+            this.accept = DFA40_accept;
+            this.special = DFA40_special;
+            this.transition = DFA40_transition;
 
         }
 
@@ -9449,17 +9506,17 @@ public partial class simpletikzParser : Parser
     }
 
 
-    protected internal int DFA39_SpecialStateTransition(DFA dfa, int s, IIntStream _input) //throws NoViableAltException
+    protected internal int DFA40_SpecialStateTransition(DFA dfa, int s, IIntStream _input) //throws NoViableAltException
     {
             ITokenStream input = (ITokenStream)_input;
     	int _s = s;
         switch ( s )
         {
                	case 0 : 
-                   	int LA39_1 = input.LA(1);
+                   	int LA40_1 = input.LA(1);
 
                    	 
-                   	int index39_1 = input.Index();
+                   	int index40_1 = input.Index();
                    	input.Rewind();
                    	s = -1;
                    	if ( (synpred1_simpletikz()) ) { s = 14; }
@@ -9471,14 +9528,14 @@ public partial class simpletikzParser : Parser
                    	else if ( (true) ) { s = 4; }
 
                    	 
-                   	input.Seek(index39_1);
+                   	input.Seek(index40_1);
                    	if ( s >= 0 ) return s;
                    	break;
                	case 1 : 
-                   	int LA39_2 = input.LA(1);
+                   	int LA40_2 = input.LA(1);
 
                    	 
-                   	int index39_2 = input.Index();
+                   	int index40_2 = input.Index();
                    	input.Rewind();
                    	s = -1;
                    	if ( (synpred1_simpletikz()) ) { s = 14; }
@@ -9488,14 +9545,14 @@ public partial class simpletikzParser : Parser
                    	else if ( (synpred3_simpletikz()) ) { s = 16; }
 
                    	 
-                   	input.Seek(index39_2);
+                   	input.Seek(index40_2);
                    	if ( s >= 0 ) return s;
                    	break;
                	case 2 : 
-                   	int LA39_3 = input.LA(1);
+                   	int LA40_3 = input.LA(1);
 
                    	 
-                   	int index39_3 = input.Index();
+                   	int index40_3 = input.Index();
                    	input.Rewind();
                    	s = -1;
                    	if ( (synpred1_simpletikz()) ) { s = 14; }
@@ -9507,30 +9564,30 @@ public partial class simpletikzParser : Parser
                    	else if ( (true) ) { s = 4; }
 
                    	 
-                   	input.Seek(index39_3);
+                   	input.Seek(index40_3);
                    	if ( s >= 0 ) return s;
                    	break;
         }
         if (state.backtracking > 0) {state.failed = true; return -1;}
-        NoViableAltException nvae39 =
-            new NoViableAltException(dfa.Description, 39, _s, input);
-        dfa.Error(nvae39);
-        throw nvae39;
+        NoViableAltException nvae40 =
+            new NoViableAltException(dfa.Description, 40, _s, input);
+        dfa.Error(nvae40);
+        throw nvae40;
     }
-    const string DFA41_eotS =
+    const string DFA42_eotS =
         "\x14\uffff";
-    const string DFA41_eofS =
+    const string DFA42_eofS =
         "\x14\uffff";
-    const string DFA41_minS =
+    const string DFA42_minS =
         "\x01\x1c\x03\x00\x10\uffff";
-    const string DFA41_maxS =
-        "\x01\x51\x03\x00\x10\uffff";
-    const string DFA41_acceptS =
+    const string DFA42_maxS =
+        "\x01\x52\x03\x00\x10\uffff";
+    const string DFA42_acceptS =
         "\x04\uffff\x01\x04\x0c\uffff\x01\x01\x01\x02\x01\x03";
-    const string DFA41_specialS =
+    const string DFA42_specialS =
         "\x01\uffff\x01\x00\x01\x01\x01\x02\x10\uffff}>";
-    static readonly string[] DFA41_transitionS = {
-            "\x01\x04\x02\uffff\x01\x04\x09\uffff\x02\x04\x06\uffff\x01"+
+    static readonly string[] DFA42_transitionS = {
+            "\x01\x04\x02\uffff\x01\x04\x09\uffff\x02\x04\x07\uffff\x01"+
             "\x01\x01\uffff\x01\x03\x01\uffff\x01\x04\x01\uffff\x01\x04\x0d"+
             "\uffff\x02\x04\x01\x02\x0a\x04",
             "\x01\uffff",
@@ -9554,27 +9611,27 @@ public partial class simpletikzParser : Parser
             ""
     };
 
-    static readonly short[] DFA41_eot = DFA.UnpackEncodedString(DFA41_eotS);
-    static readonly short[] DFA41_eof = DFA.UnpackEncodedString(DFA41_eofS);
-    static readonly char[] DFA41_min = DFA.UnpackEncodedStringToUnsignedChars(DFA41_minS);
-    static readonly char[] DFA41_max = DFA.UnpackEncodedStringToUnsignedChars(DFA41_maxS);
-    static readonly short[] DFA41_accept = DFA.UnpackEncodedString(DFA41_acceptS);
-    static readonly short[] DFA41_special = DFA.UnpackEncodedString(DFA41_specialS);
-    static readonly short[][] DFA41_transition = DFA.UnpackEncodedStringArray(DFA41_transitionS);
+    static readonly short[] DFA42_eot = DFA.UnpackEncodedString(DFA42_eotS);
+    static readonly short[] DFA42_eof = DFA.UnpackEncodedString(DFA42_eofS);
+    static readonly char[] DFA42_min = DFA.UnpackEncodedStringToUnsignedChars(DFA42_minS);
+    static readonly char[] DFA42_max = DFA.UnpackEncodedStringToUnsignedChars(DFA42_maxS);
+    static readonly short[] DFA42_accept = DFA.UnpackEncodedString(DFA42_acceptS);
+    static readonly short[] DFA42_special = DFA.UnpackEncodedString(DFA42_specialS);
+    static readonly short[][] DFA42_transition = DFA.UnpackEncodedStringArray(DFA42_transitionS);
 
-    protected class DFA41 : DFA
+    protected class DFA42 : DFA
     {
-        public DFA41(BaseRecognizer recognizer)
+        public DFA42(BaseRecognizer recognizer)
         {
             this.recognizer = recognizer;
-            this.decisionNumber = 41;
-            this.eot = DFA41_eot;
-            this.eof = DFA41_eof;
-            this.min = DFA41_min;
-            this.max = DFA41_max;
-            this.accept = DFA41_accept;
-            this.special = DFA41_special;
-            this.transition = DFA41_transition;
+            this.decisionNumber = 42;
+            this.eot = DFA42_eot;
+            this.eof = DFA42_eof;
+            this.min = DFA42_min;
+            this.max = DFA42_max;
+            this.accept = DFA42_accept;
+            this.special = DFA42_special;
+            this.transition = DFA42_transition;
 
         }
 
@@ -9586,17 +9643,17 @@ public partial class simpletikzParser : Parser
     }
 
 
-    protected internal int DFA41_SpecialStateTransition(DFA dfa, int s, IIntStream _input) //throws NoViableAltException
+    protected internal int DFA42_SpecialStateTransition(DFA dfa, int s, IIntStream _input) //throws NoViableAltException
     {
             ITokenStream input = (ITokenStream)_input;
     	int _s = s;
         switch ( s )
         {
                	case 0 : 
-                   	int LA41_1 = input.LA(1);
+                   	int LA42_1 = input.LA(1);
 
                    	 
-                   	int index41_1 = input.Index();
+                   	int index42_1 = input.Index();
                    	input.Rewind();
                    	s = -1;
                    	if ( (synpred4_simpletikz()) ) { s = 17; }
@@ -9608,14 +9665,14 @@ public partial class simpletikzParser : Parser
                    	else if ( (true) ) { s = 4; }
 
                    	 
-                   	input.Seek(index41_1);
+                   	input.Seek(index42_1);
                    	if ( s >= 0 ) return s;
                    	break;
                	case 1 : 
-                   	int LA41_2 = input.LA(1);
+                   	int LA42_2 = input.LA(1);
 
                    	 
-                   	int index41_2 = input.Index();
+                   	int index42_2 = input.Index();
                    	input.Rewind();
                    	s = -1;
                    	if ( (synpred4_simpletikz()) ) { s = 17; }
@@ -9625,14 +9682,14 @@ public partial class simpletikzParser : Parser
                    	else if ( (synpred6_simpletikz()) ) { s = 19; }
 
                    	 
-                   	input.Seek(index41_2);
+                   	input.Seek(index42_2);
                    	if ( s >= 0 ) return s;
                    	break;
                	case 2 : 
-                   	int LA41_3 = input.LA(1);
+                   	int LA42_3 = input.LA(1);
 
                    	 
-                   	int index41_3 = input.Index();
+                   	int index42_3 = input.Index();
                    	input.Rewind();
                    	s = -1;
                    	if ( (synpred4_simpletikz()) ) { s = 17; }
@@ -9644,71 +9701,72 @@ public partial class simpletikzParser : Parser
                    	else if ( (true) ) { s = 4; }
 
                    	 
-                   	input.Seek(index41_3);
+                   	input.Seek(index42_3);
                    	if ( s >= 0 ) return s;
                    	break;
         }
         if (state.backtracking > 0) {state.failed = true; return -1;}
-        NoViableAltException nvae41 =
-            new NoViableAltException(dfa.Description, 41, _s, input);
-        dfa.Error(nvae41);
-        throw nvae41;
+        NoViableAltException nvae42 =
+            new NoViableAltException(dfa.Description, 42, _s, input);
+        dfa.Error(nvae42);
+        throw nvae42;
     }
-    const string DFA48_eotS =
+    const string DFA49_eotS =
         "\x0a\uffff";
-    const string DFA48_eofS =
+    const string DFA49_eofS =
         "\x0a\uffff";
-    const string DFA48_minS =
-        "\x01\x1c\x01\x04\x01\uffff\x02\x04\x01\x00\x01\x04\x01\uffff\x02"+
+    const string DFA49_minS =
+        "\x01\x1c\x01\x04\x01\uffff\x03\x04\x01\x00\x01\x04\x01\uffff\x01"+
         "\x04";
-    const string DFA48_maxS =
-        "\x01\x51\x01\x54\x01\uffff\x02\x54\x01\x00\x01\x54\x01\uffff\x02"+
-        "\x54";
-    const string DFA48_acceptS =
-        "\x02\uffff\x01\x02\x04\uffff\x01\x01\x02\uffff";
-    const string DFA48_specialS =
-        "\x05\uffff\x01\x00\x04\uffff}>";
-    static readonly string[] DFA48_transitionS = {
-            "\x01\x02\x02\uffff\x01\x02\x09\uffff\x02\x02\x06\uffff\x01"+
+    const string DFA49_maxS =
+        "\x01\x52\x01\x55\x01\uffff\x03\x55\x01\x00\x01\x55\x01\uffff\x01"+
+        "\x55";
+    const string DFA49_acceptS =
+        "\x02\uffff\x01\x02\x05\uffff\x01\x01\x01\uffff";
+    const string DFA49_specialS =
+        "\x06\uffff\x01\x00\x03\uffff}>";
+    static readonly string[] DFA49_transitionS = {
+            "\x01\x02\x02\uffff\x01\x02\x09\uffff\x02\x02\x07\uffff\x01"+
             "\x01\x01\uffff\x01\x02\x01\uffff\x01\x02\x01\uffff\x01\x02\x0d"+
             "\uffff\x02\x02\x01\uffff\x0a\x02",
-            "\x19\x02\x02\x03\x0b\x02\x06\uffff\x01\x02\x05\uffff\x1f\x02",
+            "\x19\x02\x02\x03\x0b\x02\x02\uffff\x01\x02\x04\uffff\x01\x02"+
+            "\x05\uffff\x1f\x02",
             "",
-            "\x25\x02\x03\uffff\x02\x02\x02\uffff\x01\x02\x01\uffff\x01"+
-            "\x05\x03\uffff\x06\x04\x08\x02\x01\x06\x10\x02",
-            "\x25\x02\x03\uffff\x02\x02\x02\uffff\x01\x02\x01\uffff\x01"+
-            "\x05\x03\uffff\x0e\x02\x01\x06\x10\x02",
-            "\x01\uffff",
-            "\x19\x02\x02\x08\x0a\x02\x03\uffff\x02\x02\x02\uffff\x01\x02"+
+            "\x25\x02\x03\uffff\x03\x02\x02\uffff\x01\x02\x01\uffff\x01"+
+            "\x06\x03\uffff\x06\x04\x08\x02\x01\x05\x10\x02",
+            "\x25\x02\x03\uffff\x03\x02\x02\uffff\x01\x02\x01\uffff\x01"+
+            "\x06\x03\uffff\x0e\x02\x01\x05\x10\x02",
+            "\x19\x02\x02\x07\x0a\x02\x03\uffff\x03\x02\x02\uffff\x01\x02"+
             "\x01\uffff\x01\x02\x03\uffff\x1f\x02",
+            "\x01\uffff",
+            "\x25\x02\x03\uffff\x03\x02\x02\uffff\x01\x02\x01\uffff\x01"+
+            "\x06\x03\uffff\x06\x09\x19\x02",
             "",
-            "\x25\x02\x03\uffff\x02\x02\x02\uffff\x01\x02\x01\uffff\x01"+
-            "\x05\x03\uffff\x06\x09\x19\x02",
-            "\x25\x02\x03\uffff\x02\x02\x02\uffff\x01\x02\x01\uffff\x01"+
-            "\x05\x03\uffff\x1f\x02"
+            "\x25\x02\x03\uffff\x03\x02\x02\uffff\x01\x02\x01\uffff\x01"+
+            "\x06\x03\uffff\x1f\x02"
     };
 
-    static readonly short[] DFA48_eot = DFA.UnpackEncodedString(DFA48_eotS);
-    static readonly short[] DFA48_eof = DFA.UnpackEncodedString(DFA48_eofS);
-    static readonly char[] DFA48_min = DFA.UnpackEncodedStringToUnsignedChars(DFA48_minS);
-    static readonly char[] DFA48_max = DFA.UnpackEncodedStringToUnsignedChars(DFA48_maxS);
-    static readonly short[] DFA48_accept = DFA.UnpackEncodedString(DFA48_acceptS);
-    static readonly short[] DFA48_special = DFA.UnpackEncodedString(DFA48_specialS);
-    static readonly short[][] DFA48_transition = DFA.UnpackEncodedStringArray(DFA48_transitionS);
+    static readonly short[] DFA49_eot = DFA.UnpackEncodedString(DFA49_eotS);
+    static readonly short[] DFA49_eof = DFA.UnpackEncodedString(DFA49_eofS);
+    static readonly char[] DFA49_min = DFA.UnpackEncodedStringToUnsignedChars(DFA49_minS);
+    static readonly char[] DFA49_max = DFA.UnpackEncodedStringToUnsignedChars(DFA49_maxS);
+    static readonly short[] DFA49_accept = DFA.UnpackEncodedString(DFA49_acceptS);
+    static readonly short[] DFA49_special = DFA.UnpackEncodedString(DFA49_specialS);
+    static readonly short[][] DFA49_transition = DFA.UnpackEncodedStringArray(DFA49_transitionS);
 
-    protected class DFA48 : DFA
+    protected class DFA49 : DFA
     {
-        public DFA48(BaseRecognizer recognizer)
+        public DFA49(BaseRecognizer recognizer)
         {
             this.recognizer = recognizer;
-            this.decisionNumber = 48;
-            this.eot = DFA48_eot;
-            this.eof = DFA48_eof;
-            this.min = DFA48_min;
-            this.max = DFA48_max;
-            this.accept = DFA48_accept;
-            this.special = DFA48_special;
-            this.transition = DFA48_transition;
+            this.decisionNumber = 49;
+            this.eot = DFA49_eot;
+            this.eof = DFA49_eof;
+            this.min = DFA49_min;
+            this.max = DFA49_max;
+            this.accept = DFA49_accept;
+            this.special = DFA49_special;
+            this.transition = DFA49_transition;
 
         }
 
@@ -9720,95 +9778,97 @@ public partial class simpletikzParser : Parser
     }
 
 
-    protected internal int DFA48_SpecialStateTransition(DFA dfa, int s, IIntStream _input) //throws NoViableAltException
+    protected internal int DFA49_SpecialStateTransition(DFA dfa, int s, IIntStream _input) //throws NoViableAltException
     {
             ITokenStream input = (ITokenStream)_input;
     	int _s = s;
         switch ( s )
         {
                	case 0 : 
-                   	int LA48_5 = input.LA(1);
+                   	int LA49_6 = input.LA(1);
 
                    	 
-                   	int index48_5 = input.Index();
+                   	int index49_6 = input.Index();
                    	input.Rewind();
                    	s = -1;
-                   	if ( (synpred7_simpletikz()) ) { s = 7; }
+                   	if ( (synpred7_simpletikz()) ) { s = 8; }
 
                    	else if ( (true) ) { s = 2; }
 
                    	 
-                   	input.Seek(index48_5);
+                   	input.Seek(index49_6);
                    	if ( s >= 0 ) return s;
                    	break;
         }
         if (state.backtracking > 0) {state.failed = true; return -1;}
-        NoViableAltException nvae48 =
-            new NoViableAltException(dfa.Description, 48, _s, input);
-        dfa.Error(nvae48);
-        throw nvae48;
+        NoViableAltException nvae49 =
+            new NoViableAltException(dfa.Description, 49, _s, input);
+        dfa.Error(nvae49);
+        throw nvae49;
     }
-    const string DFA54_eotS =
+    const string DFA55_eotS =
         "\x0f\uffff";
-    const string DFA54_eofS =
+    const string DFA55_eofS =
         "\x0f\uffff";
-    const string DFA54_minS =
-        "\x01\x31\x01\x04\x01\x31\x01\x04\x01\uffff\x04\x04\x01\uffff\x03"+
-        "\x04\x01\uffff\x01\x04";
-    const string DFA54_maxS =
-        "\x01\x50\x01\x54\x01\x31\x01\x54\x01\uffff\x04\x54\x01\uffff\x03"+
-        "\x54\x01\uffff\x01\x54";
-    const string DFA54_acceptS =
-        "\x04\uffff\x01\x03\x04\uffff\x01\x01\x03\uffff\x01\x02\x01\uffff";
-    const string DFA54_specialS =
+    const string DFA55_minS =
+        "\x01\x32\x01\x04\x01\x32\x02\x04\x01\uffff\x03\x04\x01\uffff\x04"+
+        "\x04\x01\uffff";
+    const string DFA55_maxS =
+        "\x01\x51\x01\x55\x01\x32\x02\x55\x01\uffff\x03\x55\x01\uffff\x04"+
+        "\x55\x01\uffff";
+    const string DFA55_acceptS =
+        "\x05\uffff\x01\x03\x03\uffff\x01\x01\x04\uffff\x01\x02";
+    const string DFA55_specialS =
         "\x0f\uffff}>";
-    static readonly string[] DFA54_transitionS = {
+    static readonly string[] DFA55_transitionS = {
             "\x01\x01\x1d\uffff\x02\x02",
-            "\x19\x05\x02\x03\x0a\x05\x01\x04\x06\uffff\x01\x05\x05\uffff"+
-            "\x1f\x05",
+            "\x19\x04\x02\x03\x0a\x04\x01\x05\x02\uffff\x01\x04\x04\uffff"+
+            "\x01\x04\x05\uffff\x1f\x04",
             "\x01\x06",
-            "\x25\x05\x03\uffff\x02\x07\x02\uffff\x01\x05\x01\uffff\x01"+
-            "\x09\x03\uffff\x06\x08\x19\x05",
+            "\x25\x04\x03\uffff\x01\x04\x02\x07\x02\uffff\x01\x04\x01\uffff"+
+            "\x01\x09\x03\uffff\x06\x08\x19\x04",
+            "\x25\x04\x03\uffff\x01\x04\x02\x05\x02\uffff\x01\x04\x01\uffff"+
+            "\x01\x09\x03\uffff\x1f\x04",
             "",
-            "\x25\x05\x03\uffff\x02\x04\x02\uffff\x01\x05\x01\uffff\x01"+
-            "\x09\x03\uffff\x1f\x05",
-            "\x19\x04\x02\x0a\x0b\x04\x06\uffff\x01\x04\x05\uffff\x1f\x04",
-            "\x19\x04\x02\x0b\x0b\x04\x06\uffff\x01\x04\x05\uffff\x1f\x04",
-            "\x25\x05\x03\uffff\x02\x07\x02\uffff\x01\x05\x01\uffff\x01"+
-            "\x09\x03\uffff\x1f\x05",
+            "\x19\x05\x02\x0a\x0b\x05\x02\uffff\x01\x05\x04\uffff\x01\x05"+
+            "\x05\uffff\x1f\x05",
+            "\x19\x05\x02\x0b\x0b\x05\x02\uffff\x01\x05\x04\uffff\x01\x05"+
+            "\x05\uffff\x1f\x05",
+            "\x25\x04\x03\uffff\x01\x04\x02\x07\x02\uffff\x01\x04\x01\uffff"+
+            "\x01\x09\x03\uffff\x1f\x04",
             "",
-            "\x25\x04\x03\uffff\x02\x07\x02\uffff\x01\x04\x05\uffff\x06"+
-            "\x0c\x19\x04",
-            "\x25\x04\x07\uffff\x01\x04\x01\uffff\x01\x0d\x03\uffff\x06"+
-            "\x0e\x19\x04",
-            "\x25\x04\x03\uffff\x02\x07\x02\uffff\x01\x04\x05\uffff\x1f"+
-            "\x04",
-            "",
-            "\x25\x04\x07\uffff\x01\x04\x01\uffff\x01\x0d\x03\uffff\x1f"+
-            "\x04"
+            "\x25\x05\x03\uffff\x01\x05\x02\x07\x02\uffff\x01\x05\x05\uffff"+
+            "\x06\x0c\x19\x05",
+            "\x25\x05\x03\uffff\x01\x05\x04\uffff\x01\x05\x01\uffff\x01"+
+            "\x0e\x03\uffff\x06\x0d\x19\x05",
+            "\x25\x05\x03\uffff\x01\x05\x02\x07\x02\uffff\x01\x05\x05\uffff"+
+            "\x1f\x05",
+            "\x25\x05\x03\uffff\x01\x05\x04\uffff\x01\x05\x01\uffff\x01"+
+            "\x0e\x03\uffff\x1f\x05",
+            ""
     };
 
-    static readonly short[] DFA54_eot = DFA.UnpackEncodedString(DFA54_eotS);
-    static readonly short[] DFA54_eof = DFA.UnpackEncodedString(DFA54_eofS);
-    static readonly char[] DFA54_min = DFA.UnpackEncodedStringToUnsignedChars(DFA54_minS);
-    static readonly char[] DFA54_max = DFA.UnpackEncodedStringToUnsignedChars(DFA54_maxS);
-    static readonly short[] DFA54_accept = DFA.UnpackEncodedString(DFA54_acceptS);
-    static readonly short[] DFA54_special = DFA.UnpackEncodedString(DFA54_specialS);
-    static readonly short[][] DFA54_transition = DFA.UnpackEncodedStringArray(DFA54_transitionS);
+    static readonly short[] DFA55_eot = DFA.UnpackEncodedString(DFA55_eotS);
+    static readonly short[] DFA55_eof = DFA.UnpackEncodedString(DFA55_eofS);
+    static readonly char[] DFA55_min = DFA.UnpackEncodedStringToUnsignedChars(DFA55_minS);
+    static readonly char[] DFA55_max = DFA.UnpackEncodedStringToUnsignedChars(DFA55_maxS);
+    static readonly short[] DFA55_accept = DFA.UnpackEncodedString(DFA55_acceptS);
+    static readonly short[] DFA55_special = DFA.UnpackEncodedString(DFA55_specialS);
+    static readonly short[][] DFA55_transition = DFA.UnpackEncodedStringArray(DFA55_transitionS);
 
-    protected class DFA54 : DFA
+    protected class DFA55 : DFA
     {
-        public DFA54(BaseRecognizer recognizer)
+        public DFA55(BaseRecognizer recognizer)
         {
             this.recognizer = recognizer;
-            this.decisionNumber = 54;
-            this.eot = DFA54_eot;
-            this.eof = DFA54_eof;
-            this.min = DFA54_min;
-            this.max = DFA54_max;
-            this.accept = DFA54_accept;
-            this.special = DFA54_special;
-            this.transition = DFA54_transition;
+            this.decisionNumber = 55;
+            this.eot = DFA55_eot;
+            this.eof = DFA55_eof;
+            this.min = DFA55_min;
+            this.max = DFA55_max;
+            this.accept = DFA55_accept;
+            this.special = DFA55_special;
+            this.transition = DFA55_transition;
 
         }
 
@@ -9821,13 +9881,13 @@ public partial class simpletikzParser : Parser
 
  
 
-    public static readonly BitSet FOLLOW_dontcare_preamble_in_tikzdocument256 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikz_styleorsetorcmd_in_tikzdocument260 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_otherbegin_in_tikzdocument264 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikzpicture_in_tikzdocument269 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_dontcare_preamble_in_tikzdocument_wo_tikzpicture295 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikz_styleorsetorcmd_in_tikzdocument_wo_tikzpicture299 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_otherbegin_in_tikzdocument_wo_tikzpicture303 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
+    public static readonly BitSet FOLLOW_dontcare_preamble_in_tikzdocument256 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikz_styleorsetorcmd_in_tikzdocument260 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_otherbegin_in_tikzdocument264 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikzpicture_in_tikzdocument269 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_dontcare_preamble_in_tikzdocument_wo_tikzpicture295 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikz_styleorsetorcmd_in_tikzdocument_wo_tikzpicture299 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_otherbegin_in_tikzdocument_wo_tikzpicture303 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
     public static readonly BitSet FOLLOW_EOF_in_tikzdocument_wo_tikzpicture308 = new BitSet(new ulong[]{0x0000000000000002UL});
     public static readonly BitSet FOLLOW_TIKZEDT_CMD_COMMENT_in_tikz_cmd_comment329 = new BitSet(new ulong[]{0x0000000000000002UL});
     public static readonly BitSet FOLLOW_tikz_style_in_tikz_styleorsetorcmd351 = new BitSet(new ulong[]{0x0000000000000002UL});
@@ -9839,235 +9899,236 @@ public partial class simpletikzParser : Parser
     public static readonly BitSet FOLLOW_idd2_in_otherbegin399 = new BitSet(new ulong[]{0x0000040000000000UL});
     public static readonly BitSet FOLLOW_42_in_otherbegin401 = new BitSet(new ulong[]{0x0000000000000002UL});
     public static readonly BitSet FOLLOW_39_in_tikz_style413 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_41_in_tikz_style415 = new BitSet(new ulong[]{0xFFC101FFFFFFFFF0UL,0x00000000001FFFFFUL});
+    public static readonly BitSet FOLLOW_41_in_tikz_style415 = new BitSet(new ulong[]{0xFF8211FFFFFFFFF0UL,0x00000000003FFFFFUL});
     public static readonly BitSet FOLLOW_idd_in_tikz_style417 = new BitSet(new ulong[]{0x0000040000000000UL});
-    public static readonly BitSet FOLLOW_42_in_tikz_style419 = new BitSet(new ulong[]{0x0000080000000000UL});
-    public static readonly BitSet FOLLOW_43_in_tikz_style421 = new BitSet(new ulong[]{0x0008000000000000UL});
-    public static readonly BitSet FOLLOW_tikz_options_in_tikz_style423 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_squarebr_start_in_tikz_options445 = new BitSet(new ulong[]{0xFFD101FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_option_in_tikz_options448 = new BitSet(new ulong[]{0xFFD111FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_44_in_tikz_options451 = new BitSet(new ulong[]{0xFFC101FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_option_in_tikz_options453 = new BitSet(new ulong[]{0xFFD111FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_44_in_tikz_options457 = new BitSet(new ulong[]{0xFFD101FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_squarebr_end_in_tikz_options462 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_option_style_in_option487 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_option_kv_in_option496 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_idd_in_option_kv510 = new BitSet(new ulong[]{0x0000080000000002UL});
-    public static readonly BitSet FOLLOW_43_in_option_kv513 = new BitSet(new ulong[]{0xFFC103FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_iddornumberunitorstringorrange_in_option_kv515 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_41_in_tikzstring543 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_no_rlbrace_in_tikzstring545 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikzstring_in_tikzstring549 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_no_rlbrace_in_tikzstring551 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_42_in_tikzstring556 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_set_in_no_rlbrace579 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_range_in_iddornumberunitorstringorrange597 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_numberunit_in_iddornumberunitorstringorrange601 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_bracedcoord_in_iddornumberunitorstringorrange605 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_idd_in_iddornumberunitorstringorrange609 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikzstring_in_iddornumberunitorstringorrange613 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_41_in_bracedcoord626 = new BitSet(new ulong[]{0x0002000000000000UL,0x0000000000018000UL});
-    public static readonly BitSet FOLLOW_coord_in_bracedcoord630 = new BitSet(new ulong[]{0x0000040000000000UL});
-    public static readonly BitSet FOLLOW_42_in_bracedcoord632 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_numberunit_in_range643 = new BitSet(new ulong[]{0x0000200000000000UL});
-    public static readonly BitSet FOLLOW_45_in_range645 = new BitSet(new ulong[]{0x0000000060000000UL});
-    public static readonly BitSet FOLLOW_numberunit_in_range647 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_idd_in_option_style671 = new BitSet(new ulong[]{0x0000C00000000000UL});
-    public static readonly BitSet FOLLOW_46_in_option_style674 = new BitSet(new ulong[]{0x0000080000000000UL});
-    public static readonly BitSet FOLLOW_47_in_option_style679 = new BitSet(new ulong[]{0x0001000000000000UL});
-    public static readonly BitSet FOLLOW_48_in_option_style681 = new BitSet(new ulong[]{0x0000080000000000UL});
-    public static readonly BitSet FOLLOW_43_in_option_style685 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_41_in_option_style687 = new BitSet(new ulong[]{0xFFC115FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_option_kv_in_option_style690 = new BitSet(new ulong[]{0x0000140000000000UL});
-    public static readonly BitSet FOLLOW_44_in_option_style693 = new BitSet(new ulong[]{0xFFC101FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_option_kv_in_option_style695 = new BitSet(new ulong[]{0x0000140000000000UL});
-    public static readonly BitSet FOLLOW_44_in_option_style702 = new BitSet(new ulong[]{0x0000040000000000UL});
-    public static readonly BitSet FOLLOW_42_in_option_style705 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_idd_heavenknowswhythisisnecessary_in_idd740 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_set_in_idd_heavenknowswhythisisnecessary760 = new BitSet(new ulong[]{0xFFC101FFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_ID_in_idd2819 = new BitSet(new ulong[]{0x0000000010000002UL});
-    public static readonly BitSet FOLLOW_number_in_numberunit842 = new BitSet(new ulong[]{0x0FC0000000000002UL});
-    public static readonly BitSet FOLLOW_unit_in_numberunit844 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_set_in_number870 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_42_in_tikz_style419 = new BitSet(new ulong[]{0x0000180000000000UL});
+    public static readonly BitSet FOLLOW_43_in_tikz_style422 = new BitSet(new ulong[]{0x0010000000000000UL});
+    public static readonly BitSet FOLLOW_44_in_tikz_style426 = new BitSet(new ulong[]{0x0010000000000000UL});
+    public static readonly BitSet FOLLOW_tikz_options_in_tikz_style429 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_squarebr_start_in_tikz_options451 = new BitSet(new ulong[]{0xFFA211FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_option_in_tikz_options454 = new BitSet(new ulong[]{0xFFA231FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_45_in_tikz_options457 = new BitSet(new ulong[]{0xFF8211FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_option_in_tikz_options459 = new BitSet(new ulong[]{0xFFA231FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_45_in_tikz_options463 = new BitSet(new ulong[]{0xFFA211FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_squarebr_end_in_tikz_options468 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_option_style_in_option493 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_option_kv_in_option502 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_idd_in_option_kv516 = new BitSet(new ulong[]{0x0000080000000002UL});
+    public static readonly BitSet FOLLOW_43_in_option_kv519 = new BitSet(new ulong[]{0xFF8213FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_iddornumberunitorstringorrange_in_option_kv521 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_41_in_tikzstring549 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_no_rlbrace_in_tikzstring551 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikzstring_in_tikzstring555 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_no_rlbrace_in_tikzstring557 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_42_in_tikzstring562 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_set_in_no_rlbrace585 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_range_in_iddornumberunitorstringorrange603 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_numberunit_in_iddornumberunitorstringorrange607 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_bracedcoord_in_iddornumberunitorstringorrange611 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_idd_in_iddornumberunitorstringorrange615 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikzstring_in_iddornumberunitorstringorrange619 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_41_in_bracedcoord632 = new BitSet(new ulong[]{0x0004000000000000UL,0x0000000000030000UL});
+    public static readonly BitSet FOLLOW_coord_in_bracedcoord636 = new BitSet(new ulong[]{0x0000040000000000UL});
+    public static readonly BitSet FOLLOW_42_in_bracedcoord638 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_numberunit_in_range649 = new BitSet(new ulong[]{0x0000400000000000UL});
+    public static readonly BitSet FOLLOW_46_in_range651 = new BitSet(new ulong[]{0x0000000060000000UL});
+    public static readonly BitSet FOLLOW_numberunit_in_range653 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_idd_in_option_style677 = new BitSet(new ulong[]{0x0001800000000000UL});
+    public static readonly BitSet FOLLOW_47_in_option_style680 = new BitSet(new ulong[]{0x0000080000000000UL});
+    public static readonly BitSet FOLLOW_48_in_option_style685 = new BitSet(new ulong[]{0x0002000000000000UL});
+    public static readonly BitSet FOLLOW_49_in_option_style687 = new BitSet(new ulong[]{0x0000080000000000UL});
+    public static readonly BitSet FOLLOW_43_in_option_style691 = new BitSet(new ulong[]{0x0000020000000000UL});
+    public static readonly BitSet FOLLOW_41_in_option_style693 = new BitSet(new ulong[]{0xFF8235FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_option_kv_in_option_style696 = new BitSet(new ulong[]{0x0000240000000000UL});
+    public static readonly BitSet FOLLOW_45_in_option_style699 = new BitSet(new ulong[]{0xFF8211FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_option_kv_in_option_style701 = new BitSet(new ulong[]{0x0000240000000000UL});
+    public static readonly BitSet FOLLOW_45_in_option_style708 = new BitSet(new ulong[]{0x0000040000000000UL});
+    public static readonly BitSet FOLLOW_42_in_option_style711 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_idd_heavenknowswhythisisnecessary_in_idd746 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_set_in_idd_heavenknowswhythisisnecessary766 = new BitSet(new ulong[]{0xFF8211FFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_ID_in_idd2825 = new BitSet(new ulong[]{0x0000000010000002UL});
+    public static readonly BitSet FOLLOW_number_in_numberunit848 = new BitSet(new ulong[]{0x1F80000000000002UL});
+    public static readonly BitSet FOLLOW_unit_in_numberunit850 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_set_in_number876 = new BitSet(new ulong[]{0x0000000000000002UL});
     public static readonly BitSet FOLLOW_set_in_unit0 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikz_set_start_in_tikz_set925 = new BitSet(new ulong[]{0xFFC105FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_option_in_tikz_set928 = new BitSet(new ulong[]{0xFFC115FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_44_in_tikz_set931 = new BitSet(new ulong[]{0xFFC101FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_option_in_tikz_set933 = new BitSet(new ulong[]{0xFFC115FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_44_in_tikz_set937 = new BitSet(new ulong[]{0xFFC105FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_roundbr_end_in_tikz_set942 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikzpicture_start_in_tikzpicture970 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikz_options_in_tikzpicture972 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikzbody_in_tikzpicture975 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikzpicture_end_in_tikzpicture978 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikzscope_in_tikzbody1008 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikzpath_in_tikzbody1012 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikznode_ext_in_tikzbody1016 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikzcoordinate_ext_in_tikzbody1020 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikz_set_in_tikzbody1024 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikz_style_in_tikzbody1028 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_otherbegin_in_tikzbody1032 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_otherend_in_tikzbody1037 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_dontcare_body_nobr_in_tikzbody1042 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikzscope_in_tikzbody1053 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikzpath_in_tikzbody1057 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikznode_ext_in_tikzbody1061 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikzcoordinate_ext_in_tikzbody1065 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikz_set_in_tikzbody1069 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikz_style_in_tikzbody1073 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_otherbegin_in_tikzbody1077 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_otherend_in_tikzbody1082 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_dontcare_body_in_tikzbody1087 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_set_in_dontcare_body_nobr1104 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_set_in_dontcare_body1162 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_60_in_otherend1217 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_41_in_otherend1219 = new BitSet(new ulong[]{0x0000000010000000UL});
-    public static readonly BitSet FOLLOW_idd2_in_otherend1221 = new BitSet(new ulong[]{0x0000040000000000UL});
-    public static readonly BitSet FOLLOW_42_in_otherend1223 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikzscope_start_in_tikzscope1250 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikz_options_in_tikzscope1252 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikzbody_in_tikzscope1255 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikzscope_end_in_tikzscope1258 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_path_start_in_tikzpath1313 = new BitSet(new ulong[]{0x002A020010000000UL,0x000000000003FF60UL});
-    public static readonly BitSet FOLLOW_tikzpath_element_in_tikzpath1315 = new BitSet(new ulong[]{0x002A020010000000UL,0x000000000003FF60UL});
-    public static readonly BitSet FOLLOW_semicolon_end_in_tikzpath1318 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_path_start_in_tikzpath1337 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000000008UL});
-    public static readonly BitSet FOLLOW_67_in_tikzpath1339 = new BitSet(new ulong[]{0x0080000080000000UL});
-    public static readonly BitSet FOLLOW_let_assignment_in_tikzpath1341 = new BitSet(new ulong[]{0x0080000080000000UL});
-    public static readonly BitSet FOLLOW_55_in_tikzpath1344 = new BitSet(new ulong[]{0x002A020010000000UL,0x000000000003FF60UL});
-    public static readonly BitSet FOLLOW_tikzpath_element_in_tikzpath1346 = new BitSet(new ulong[]{0x002A020010000000UL,0x000000000003FF60UL});
-    public static readonly BitSet FOLLOW_semicolon_end_in_tikzpath1349 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_COMMAND_in_let_assignment1375 = new BitSet(new ulong[]{0x0000080000000000UL});
-    public static readonly BitSet FOLLOW_43_in_let_assignment1377 = new BitSet(new ulong[]{0x000A020010000002UL,0x000000000003FF60UL});
-    public static readonly BitSet FOLLOW_tikzpath_element_in_let_assignment1379 = new BitSet(new ulong[]{0x000A020010000002UL,0x000000000003FF60UL});
-    public static readonly BitSet FOLLOW_tikz_options_in_tikzpath_element1395 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_coord_in_tikzpath_element1402 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_controls_in_tikzpath_element1408 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikznode_int_in_tikzpath_element1414 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikzcoordinate_int_in_tikzpath_element1420 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_circle_in_tikzpath_element1426 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_arc_in_tikzpath_element1433 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_roundbr_start_in_tikzpath_element1439 = new BitSet(new ulong[]{0xFFCB07FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikzpath_element_in_tikzpath_element1441 = new BitSet(new ulong[]{0xFFCB07FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_roundbr_end_in_tikzpath_element1444 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_edgeop_in_tikzpath_element1463 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_controls_start_in_controls1478 = new BitSet(new ulong[]{0x0002000000000000UL,0x0000000000018000UL});
-    public static readonly BitSet FOLLOW_coord_in_controls1480 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000020010UL});
-    public static readonly BitSet FOLLOW_68_in_controls1483 = new BitSet(new ulong[]{0x0002000000000000UL,0x0000000000018000UL});
-    public static readonly BitSet FOLLOW_coord_in_controls1485 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000020010UL});
-    public static readonly BitSet FOLLOW_controls_end_in_controls1489 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_node_start_in_tikznode_ext1515 = new BitSet(new ulong[]{0xFFCB03FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikznode_core_in_tikznode_ext1517 = new BitSet(new ulong[]{0x002A020010000000UL,0x000000000003FF60UL});
-    public static readonly BitSet FOLLOW_tikzpath_element_in_tikznode_ext1519 = new BitSet(new ulong[]{0x002A020010000000UL,0x000000000003FF60UL});
-    public static readonly BitSet FOLLOW_semicolon_end_in_tikznode_ext1522 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_coordinate_start_in_tikzcoordinate_ext1550 = new BitSet(new ulong[]{0x002A020010000000UL,0x000000000003FFE0UL});
-    public static readonly BitSet FOLLOW_tikzcoordinate_core3_in_tikzcoordinate_ext1565 = new BitSet(new ulong[]{0x002A020010000000UL,0x000000000003FF60UL});
-    public static readonly BitSet FOLLOW_tikzcoordinate_core2_in_tikzcoordinate_ext1584 = new BitSet(new ulong[]{0x002A020010000000UL,0x000000000003FF60UL});
-    public static readonly BitSet FOLLOW_tikzcoordinate_core1_in_tikzcoordinate_ext1604 = new BitSet(new ulong[]{0x002A020010000000UL,0x000000000003FF60UL});
-    public static readonly BitSet FOLLOW_tikzpath_element_in_tikzcoordinate_ext1615 = new BitSet(new ulong[]{0x002A020010000000UL,0x000000000003FF60UL});
-    public static readonly BitSet FOLLOW_semicolon_end_in_tikzcoordinate_ext1618 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_69_in_tikzcoordinate_int1678 = new BitSet(new ulong[]{0x000A000000000002UL,0x0000000000000080UL});
-    public static readonly BitSet FOLLOW_tikzcoordinate_core3_in_tikzcoordinate_int1689 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikzcoordinate_core2_in_tikzcoordinate_int1708 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikzcoordinate_core1_in_tikzcoordinate_int1728 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_70_in_tikznode_int1744 = new BitSet(new ulong[]{0xFFCB03FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikznode_core_in_tikznode_int1747 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikznode_decorator_in_tikznode_core1757 = new BitSet(new ulong[]{0xFFCB03FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikzstring_in_tikznode_core1760 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikznode_decorator_in_tikzcoordinate_core31785 = new BitSet(new ulong[]{0x000A000000000000UL,0x0000000000000080UL});
-    public static readonly BitSet FOLLOW_tikznode_decorator_in_tikzcoordinate_core31787 = new BitSet(new ulong[]{0x000A000000000000UL,0x0000000000000080UL});
-    public static readonly BitSet FOLLOW_tikznode_decorator_in_tikzcoordinate_core31789 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikznode_decorator_in_tikzcoordinate_core21823 = new BitSet(new ulong[]{0x000A000000000000UL,0x0000000000000080UL});
-    public static readonly BitSet FOLLOW_tikznode_decorator_in_tikzcoordinate_core21825 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikznode_decorator_in_tikzcoordinate_core11858 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_nodename_in_tikznode_decorator1895 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_71_in_tikznode_decorator1902 = new BitSet(new ulong[]{0x0002000000000000UL,0x0000000000018000UL});
-    public static readonly BitSet FOLLOW_coord_in_tikznode_decorator1905 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikz_options_dontcare_in_tikznode_decorator1911 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_51_in_tikz_options_dontcare1921 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_no_rlbracket_in_tikz_options_dontcare1923 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_tikz_options_dontcare_in_tikz_options_dontcare1927 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_no_rlbracket_in_tikz_options_dontcare1929 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_52_in_tikz_options_dontcare1934 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_set_in_no_rlbracket1952 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_49_in_nodename1969 = new BitSet(new ulong[]{0xFFC101FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_idd_in_nodename1971 = new BitSet(new ulong[]{0x0004000000000000UL});
-    public static readonly BitSet FOLLOW_50_in_nodename1973 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_72_in_circle1997 = new BitSet(new ulong[]{0x0002000000000002UL});
-    public static readonly BitSet FOLLOW_73_in_circle2001 = new BitSet(new ulong[]{0x0002000000000002UL});
-    public static readonly BitSet FOLLOW_size_in_circle2010 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_74_in_arc2025 = new BitSet(new ulong[]{0x0002000000000002UL});
-    public static readonly BitSet FOLLOW_49_in_arc2028 = new BitSet(new ulong[]{0x0000000060000000UL});
-    public static readonly BitSet FOLLOW_numberunit_in_arc2030 = new BitSet(new ulong[]{0x0000200000000000UL});
-    public static readonly BitSet FOLLOW_45_in_arc2032 = new BitSet(new ulong[]{0x0000000060000000UL});
-    public static readonly BitSet FOLLOW_numberunit_in_arc2034 = new BitSet(new ulong[]{0x0000200000000000UL});
-    public static readonly BitSet FOLLOW_45_in_arc2036 = new BitSet(new ulong[]{0x0000000060000000UL});
-    public static readonly BitSet FOLLOW_numberunit_in_arc2038 = new BitSet(new ulong[]{0x0004000000000000UL,0x0000000000000010UL});
-    public static readonly BitSet FOLLOW_68_in_arc2041 = new BitSet(new ulong[]{0x0000000060000000UL});
-    public static readonly BitSet FOLLOW_numberunit_in_arc2043 = new BitSet(new ulong[]{0x0004000000000000UL});
-    public static readonly BitSet FOLLOW_50_in_arc2047 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_49_in_size2072 = new BitSet(new ulong[]{0x0000000060000000UL});
-    public static readonly BitSet FOLLOW_numberunit_in_size2074 = new BitSet(new ulong[]{0x0004000000000000UL,0x0000000000000010UL});
-    public static readonly BitSet FOLLOW_68_in_size2077 = new BitSet(new ulong[]{0x0000000060000000UL});
-    public static readonly BitSet FOLLOW_numberunit_in_size2079 = new BitSet(new ulong[]{0x0004000000000000UL});
-    public static readonly BitSet FOLLOW_50_in_size2083 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_nodename_in_coord2113 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_coord_modifier_in_coord2137 = new BitSet(new ulong[]{0x0002000000000000UL});
-    public static readonly BitSet FOLLOW_49_in_coord2140 = new BitSet(new ulong[]{0x0000000060000000UL});
-    public static readonly BitSet FOLLOW_numberunit_in_coord2142 = new BitSet(new ulong[]{0x0000300000000000UL});
-    public static readonly BitSet FOLLOW_coord_sep_in_coord2144 = new BitSet(new ulong[]{0x0000000060000000UL});
-    public static readonly BitSet FOLLOW_numberunit_in_coord2146 = new BitSet(new ulong[]{0x0004000000000000UL});
-    public static readonly BitSet FOLLOW_50_in_coord2148 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_coord_modifier_in_coord2172 = new BitSet(new ulong[]{0x0002000000000000UL});
-    public static readonly BitSet FOLLOW_49_in_coord2175 = new BitSet(new ulong[]{0xFFC103FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_coord_part_in_coord2177 = new BitSet(new ulong[]{0x0000300000000000UL});
-    public static readonly BitSet FOLLOW_coord_sep_in_coord2179 = new BitSet(new ulong[]{0xFFC103FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_coord_part_in_coord2181 = new BitSet(new ulong[]{0x0004000000000000UL});
-    public static readonly BitSet FOLLOW_50_in_coord2183 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_idd_in_coord_part2211 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_41_in_coord_part2226 = new BitSet(new ulong[]{0xFFC101FFFFFFFFF0UL,0x00000000001FFFFFUL});
-    public static readonly BitSet FOLLOW_idd_in_coord_part2228 = new BitSet(new ulong[]{0x0000040000000000UL});
-    public static readonly BitSet FOLLOW_42_in_coord_part2230 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_set_in_coord_sep2252 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikz_set_start_in_tikz_set931 = new BitSet(new ulong[]{0xFF8215FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_option_in_tikz_set934 = new BitSet(new ulong[]{0xFF8235FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_45_in_tikz_set937 = new BitSet(new ulong[]{0xFF8211FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_option_in_tikz_set939 = new BitSet(new ulong[]{0xFF8235FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_45_in_tikz_set943 = new BitSet(new ulong[]{0xFF8215FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_roundbr_end_in_tikz_set948 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikzpicture_start_in_tikzpicture976 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikz_options_in_tikzpicture978 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikzbody_in_tikzpicture981 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikzpicture_end_in_tikzpicture984 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikzscope_in_tikzbody1014 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikzpath_in_tikzbody1018 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikznode_ext_in_tikzbody1022 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikzcoordinate_ext_in_tikzbody1026 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikz_set_in_tikzbody1030 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikz_style_in_tikzbody1034 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_otherbegin_in_tikzbody1038 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_otherend_in_tikzbody1043 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_dontcare_body_nobr_in_tikzbody1048 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikzscope_in_tikzbody1059 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikzpath_in_tikzbody1063 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikznode_ext_in_tikzbody1067 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikzcoordinate_ext_in_tikzbody1071 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikz_set_in_tikzbody1075 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikz_style_in_tikzbody1079 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_otherbegin_in_tikzbody1083 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_otherend_in_tikzbody1088 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_dontcare_body_in_tikzbody1093 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF2UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_set_in_dontcare_body_nobr1110 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_set_in_dontcare_body1168 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_61_in_otherend1223 = new BitSet(new ulong[]{0x0000020000000000UL});
+    public static readonly BitSet FOLLOW_41_in_otherend1225 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_idd2_in_otherend1227 = new BitSet(new ulong[]{0x0000040000000000UL});
+    public static readonly BitSet FOLLOW_42_in_otherend1229 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikzscope_start_in_tikzscope1256 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikz_options_in_tikzscope1258 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikzbody_in_tikzscope1261 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikzscope_end_in_tikzscope1264 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_path_start_in_tikzpath1319 = new BitSet(new ulong[]{0x0054020010000000UL,0x000000000007FEC0UL});
+    public static readonly BitSet FOLLOW_tikzpath_element_in_tikzpath1321 = new BitSet(new ulong[]{0x0054020010000000UL,0x000000000007FEC0UL});
+    public static readonly BitSet FOLLOW_semicolon_end_in_tikzpath1324 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_path_start_in_tikzpath1343 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000000010UL});
+    public static readonly BitSet FOLLOW_68_in_tikzpath1345 = new BitSet(new ulong[]{0x0100000080000000UL});
+    public static readonly BitSet FOLLOW_let_assignment_in_tikzpath1347 = new BitSet(new ulong[]{0x0100000080000000UL});
+    public static readonly BitSet FOLLOW_56_in_tikzpath1350 = new BitSet(new ulong[]{0x0054020010000000UL,0x000000000007FEC0UL});
+    public static readonly BitSet FOLLOW_tikzpath_element_in_tikzpath1352 = new BitSet(new ulong[]{0x0054020010000000UL,0x000000000007FEC0UL});
+    public static readonly BitSet FOLLOW_semicolon_end_in_tikzpath1355 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_COMMAND_in_let_assignment1381 = new BitSet(new ulong[]{0x0000080000000000UL});
+    public static readonly BitSet FOLLOW_43_in_let_assignment1383 = new BitSet(new ulong[]{0x0014020010000002UL,0x000000000007FEC0UL});
+    public static readonly BitSet FOLLOW_tikzpath_element_in_let_assignment1385 = new BitSet(new ulong[]{0x0014020010000002UL,0x000000000007FEC0UL});
+    public static readonly BitSet FOLLOW_tikz_options_in_tikzpath_element1401 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_coord_in_tikzpath_element1408 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_controls_in_tikzpath_element1414 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikznode_int_in_tikzpath_element1420 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikzcoordinate_int_in_tikzpath_element1426 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_circle_in_tikzpath_element1432 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_arc_in_tikzpath_element1439 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_roundbr_start_in_tikzpath_element1445 = new BitSet(new ulong[]{0xFF9617FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikzpath_element_in_tikzpath_element1447 = new BitSet(new ulong[]{0xFF9617FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_roundbr_end_in_tikzpath_element1450 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_edgeop_in_tikzpath_element1469 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_controls_start_in_controls1484 = new BitSet(new ulong[]{0x0004000000000000UL,0x0000000000030000UL});
+    public static readonly BitSet FOLLOW_coord_in_controls1486 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000040020UL});
+    public static readonly BitSet FOLLOW_69_in_controls1489 = new BitSet(new ulong[]{0x0004000000000000UL,0x0000000000030000UL});
+    public static readonly BitSet FOLLOW_coord_in_controls1491 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000040020UL});
+    public static readonly BitSet FOLLOW_controls_end_in_controls1495 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_node_start_in_tikznode_ext1521 = new BitSet(new ulong[]{0xFF9613FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikznode_core_in_tikznode_ext1523 = new BitSet(new ulong[]{0x0054020010000000UL,0x000000000007FEC0UL});
+    public static readonly BitSet FOLLOW_tikzpath_element_in_tikznode_ext1525 = new BitSet(new ulong[]{0x0054020010000000UL,0x000000000007FEC0UL});
+    public static readonly BitSet FOLLOW_semicolon_end_in_tikznode_ext1528 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_coordinate_start_in_tikzcoordinate_ext1556 = new BitSet(new ulong[]{0x0054020010000000UL,0x000000000007FFC0UL});
+    public static readonly BitSet FOLLOW_tikzcoordinate_core3_in_tikzcoordinate_ext1571 = new BitSet(new ulong[]{0x0054020010000000UL,0x000000000007FEC0UL});
+    public static readonly BitSet FOLLOW_tikzcoordinate_core2_in_tikzcoordinate_ext1590 = new BitSet(new ulong[]{0x0054020010000000UL,0x000000000007FEC0UL});
+    public static readonly BitSet FOLLOW_tikzcoordinate_core1_in_tikzcoordinate_ext1610 = new BitSet(new ulong[]{0x0054020010000000UL,0x000000000007FEC0UL});
+    public static readonly BitSet FOLLOW_tikzpath_element_in_tikzcoordinate_ext1621 = new BitSet(new ulong[]{0x0054020010000000UL,0x000000000007FEC0UL});
+    public static readonly BitSet FOLLOW_semicolon_end_in_tikzcoordinate_ext1624 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_70_in_tikzcoordinate_int1684 = new BitSet(new ulong[]{0x0014000000000002UL,0x0000000000000100UL});
+    public static readonly BitSet FOLLOW_tikzcoordinate_core3_in_tikzcoordinate_int1695 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikzcoordinate_core2_in_tikzcoordinate_int1714 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikzcoordinate_core1_in_tikzcoordinate_int1734 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_71_in_tikznode_int1750 = new BitSet(new ulong[]{0xFF9613FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikznode_core_in_tikznode_int1753 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikznode_decorator_in_tikznode_core1763 = new BitSet(new ulong[]{0xFF9613FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikzstring_in_tikznode_core1766 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikznode_decorator_in_tikzcoordinate_core31791 = new BitSet(new ulong[]{0x0014000000000000UL,0x0000000000000100UL});
+    public static readonly BitSet FOLLOW_tikznode_decorator_in_tikzcoordinate_core31793 = new BitSet(new ulong[]{0x0014000000000000UL,0x0000000000000100UL});
+    public static readonly BitSet FOLLOW_tikznode_decorator_in_tikzcoordinate_core31795 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikznode_decorator_in_tikzcoordinate_core21829 = new BitSet(new ulong[]{0x0014000000000000UL,0x0000000000000100UL});
+    public static readonly BitSet FOLLOW_tikznode_decorator_in_tikzcoordinate_core21831 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikznode_decorator_in_tikzcoordinate_core11864 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_nodename_in_tikznode_decorator1901 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_72_in_tikznode_decorator1908 = new BitSet(new ulong[]{0x0004000000000000UL,0x0000000000030000UL});
+    public static readonly BitSet FOLLOW_coord_in_tikznode_decorator1911 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikz_options_dontcare_in_tikznode_decorator1917 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_52_in_tikz_options_dontcare1927 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_no_rlbracket_in_tikz_options_dontcare1929 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_tikz_options_dontcare_in_tikz_options_dontcare1933 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_no_rlbracket_in_tikz_options_dontcare1935 = new BitSet(new ulong[]{0xFFFFFFFFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_53_in_tikz_options_dontcare1940 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_set_in_no_rlbracket1958 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_50_in_nodename1975 = new BitSet(new ulong[]{0xFF8211FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_idd_in_nodename1977 = new BitSet(new ulong[]{0x0008000000000000UL});
+    public static readonly BitSet FOLLOW_51_in_nodename1979 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_73_in_circle2003 = new BitSet(new ulong[]{0x0004000000000002UL});
+    public static readonly BitSet FOLLOW_74_in_circle2007 = new BitSet(new ulong[]{0x0004000000000002UL});
+    public static readonly BitSet FOLLOW_size_in_circle2016 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_75_in_arc2031 = new BitSet(new ulong[]{0x0004000000000002UL});
+    public static readonly BitSet FOLLOW_50_in_arc2034 = new BitSet(new ulong[]{0x0000000060000000UL});
+    public static readonly BitSet FOLLOW_numberunit_in_arc2036 = new BitSet(new ulong[]{0x0000400000000000UL});
+    public static readonly BitSet FOLLOW_46_in_arc2038 = new BitSet(new ulong[]{0x0000000060000000UL});
+    public static readonly BitSet FOLLOW_numberunit_in_arc2040 = new BitSet(new ulong[]{0x0000400000000000UL});
+    public static readonly BitSet FOLLOW_46_in_arc2042 = new BitSet(new ulong[]{0x0000000060000000UL});
+    public static readonly BitSet FOLLOW_numberunit_in_arc2044 = new BitSet(new ulong[]{0x0008000000000000UL,0x0000000000000020UL});
+    public static readonly BitSet FOLLOW_69_in_arc2047 = new BitSet(new ulong[]{0x0000000060000000UL});
+    public static readonly BitSet FOLLOW_numberunit_in_arc2049 = new BitSet(new ulong[]{0x0008000000000000UL});
+    public static readonly BitSet FOLLOW_51_in_arc2053 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_50_in_size2078 = new BitSet(new ulong[]{0x0000000060000000UL});
+    public static readonly BitSet FOLLOW_numberunit_in_size2080 = new BitSet(new ulong[]{0x0008000000000000UL,0x0000000000000020UL});
+    public static readonly BitSet FOLLOW_69_in_size2083 = new BitSet(new ulong[]{0x0000000060000000UL});
+    public static readonly BitSet FOLLOW_numberunit_in_size2085 = new BitSet(new ulong[]{0x0008000000000000UL});
+    public static readonly BitSet FOLLOW_51_in_size2089 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_nodename_in_coord2119 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_coord_modifier_in_coord2143 = new BitSet(new ulong[]{0x0004000000000000UL});
+    public static readonly BitSet FOLLOW_50_in_coord2146 = new BitSet(new ulong[]{0x0000000060000000UL});
+    public static readonly BitSet FOLLOW_numberunit_in_coord2148 = new BitSet(new ulong[]{0x0000600000000000UL});
+    public static readonly BitSet FOLLOW_coord_sep_in_coord2150 = new BitSet(new ulong[]{0x0000000060000000UL});
+    public static readonly BitSet FOLLOW_numberunit_in_coord2152 = new BitSet(new ulong[]{0x0008000000000000UL});
+    public static readonly BitSet FOLLOW_51_in_coord2154 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_coord_modifier_in_coord2178 = new BitSet(new ulong[]{0x0004000000000000UL});
+    public static readonly BitSet FOLLOW_50_in_coord2181 = new BitSet(new ulong[]{0xFF8213FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_coord_part_in_coord2183 = new BitSet(new ulong[]{0x0000600000000000UL});
+    public static readonly BitSet FOLLOW_coord_sep_in_coord2185 = new BitSet(new ulong[]{0xFF8213FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_coord_part_in_coord2187 = new BitSet(new ulong[]{0x0008000000000000UL});
+    public static readonly BitSet FOLLOW_51_in_coord2189 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_idd_in_coord_part2217 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_41_in_coord_part2232 = new BitSet(new ulong[]{0xFF8211FFFFFFFFF0UL,0x00000000003FFFFFUL});
+    public static readonly BitSet FOLLOW_idd_in_coord_part2234 = new BitSet(new ulong[]{0x0000040000000000UL});
+    public static readonly BitSet FOLLOW_42_in_coord_part2236 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_set_in_coord_sep2258 = new BitSet(new ulong[]{0x0000000000000002UL});
     public static readonly BitSet FOLLOW_set_in_edgeop0 = new BitSet(new ulong[]{0x0000000000000002UL});
     public static readonly BitSet FOLLOW_set_in_coord_modifier0 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_51_in_squarebr_start2326 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_52_in_squarebr_end2344 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_53_in_semicolon_end2363 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_41_in_roundbr_start2381 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_42_in_roundbr_end2399 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_81_in_controls_start2417 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000040000UL});
-    public static readonly BitSet FOLLOW_82_in_controls_start2419 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_81_in_controls_end2437 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_40_in_tikz_set_start2455 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_41_in_tikz_set_start2457 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_38_in_tikzpicture_start2476 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_41_in_tikzpicture_start2478 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000080000UL});
-    public static readonly BitSet FOLLOW_83_in_tikzpicture_start2480 = new BitSet(new ulong[]{0x0000040000000000UL});
-    public static readonly BitSet FOLLOW_42_in_tikzpicture_start2482 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_60_in_tikzpicture_end2500 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_41_in_tikzpicture_end2502 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000080000UL});
-    public static readonly BitSet FOLLOW_83_in_tikzpicture_end2504 = new BitSet(new ulong[]{0x0000040000000000UL});
-    public static readonly BitSet FOLLOW_42_in_tikzpicture_end2506 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_38_in_tikzscope_start2524 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_41_in_tikzscope_start2526 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000100000UL});
-    public static readonly BitSet FOLLOW_84_in_tikzscope_start2528 = new BitSet(new ulong[]{0x0000040000000000UL});
-    public static readonly BitSet FOLLOW_42_in_tikzscope_start2530 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_60_in_tikzscope_end2548 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_41_in_tikzscope_end2550 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000100000UL});
-    public static readonly BitSet FOLLOW_84_in_tikzscope_end2552 = new BitSet(new ulong[]{0x0000040000000000UL});
-    public static readonly BitSet FOLLOW_42_in_tikzscope_end2554 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_path_start_tag_in_path_start2573 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_node_start_tag_in_node_start2591 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_61_in_node_start_tag2609 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_62_in_coordinate_start2619 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_52_in_squarebr_start2332 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_53_in_squarebr_end2350 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_54_in_semicolon_end2369 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_41_in_roundbr_start2387 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_42_in_roundbr_end2405 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_82_in_controls_start2423 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000080000UL});
+    public static readonly BitSet FOLLOW_83_in_controls_start2425 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_82_in_controls_end2443 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_40_in_tikz_set_start2461 = new BitSet(new ulong[]{0x0000020000000000UL});
+    public static readonly BitSet FOLLOW_41_in_tikz_set_start2463 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_38_in_tikzpicture_start2482 = new BitSet(new ulong[]{0x0000020000000000UL});
+    public static readonly BitSet FOLLOW_41_in_tikzpicture_start2484 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000100000UL});
+    public static readonly BitSet FOLLOW_84_in_tikzpicture_start2486 = new BitSet(new ulong[]{0x0000040000000000UL});
+    public static readonly BitSet FOLLOW_42_in_tikzpicture_start2488 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_61_in_tikzpicture_end2506 = new BitSet(new ulong[]{0x0000020000000000UL});
+    public static readonly BitSet FOLLOW_41_in_tikzpicture_end2508 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000100000UL});
+    public static readonly BitSet FOLLOW_84_in_tikzpicture_end2510 = new BitSet(new ulong[]{0x0000040000000000UL});
+    public static readonly BitSet FOLLOW_42_in_tikzpicture_end2512 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_38_in_tikzscope_start2530 = new BitSet(new ulong[]{0x0000020000000000UL});
+    public static readonly BitSet FOLLOW_41_in_tikzscope_start2532 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000200000UL});
+    public static readonly BitSet FOLLOW_85_in_tikzscope_start2534 = new BitSet(new ulong[]{0x0000040000000000UL});
+    public static readonly BitSet FOLLOW_42_in_tikzscope_start2536 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_61_in_tikzscope_end2554 = new BitSet(new ulong[]{0x0000020000000000UL});
+    public static readonly BitSet FOLLOW_41_in_tikzscope_end2556 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000200000UL});
+    public static readonly BitSet FOLLOW_85_in_tikzscope_end2558 = new BitSet(new ulong[]{0x0000040000000000UL});
+    public static readonly BitSet FOLLOW_42_in_tikzscope_end2560 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_path_start_tag_in_path_start2579 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_node_start_tag_in_node_start2597 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_62_in_node_start_tag2615 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_63_in_coordinate_start2625 = new BitSet(new ulong[]{0x0000000000000002UL});
     public static readonly BitSet FOLLOW_set_in_path_start_tag0 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikzcoordinate_core3_in_synpred1_simpletikz1561 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikzcoordinate_core2_in_synpred2_simpletikz1580 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikzcoordinate_core1_in_synpred3_simpletikz1600 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikzcoordinate_core3_in_synpred4_simpletikz1685 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikzcoordinate_core2_in_synpred5_simpletikz1704 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_tikzcoordinate_core1_in_synpred6_simpletikz1724 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_size_in_synpred7_simpletikz2006 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikzcoordinate_core3_in_synpred1_simpletikz1567 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikzcoordinate_core2_in_synpred2_simpletikz1586 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikzcoordinate_core1_in_synpred3_simpletikz1606 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikzcoordinate_core3_in_synpred4_simpletikz1691 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikzcoordinate_core2_in_synpred5_simpletikz1710 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_tikzcoordinate_core1_in_synpred6_simpletikz1730 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_size_in_synpred7_simpletikz2012 = new BitSet(new ulong[]{0x0000000000000002UL});
 
 }
