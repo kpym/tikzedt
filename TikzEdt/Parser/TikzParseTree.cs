@@ -2086,7 +2086,7 @@ namespace TikzEdt.Parser
     /// </summary>
     class Tikz_Arc : Tikz_XYItem
     {
-        Tikz_NumberUnit phi1 = null, phi2=null, r1 = null, r2 = null;
+        public Tikz_NumberUnit phi1 = null, phi2=null, r1 = null, r2 = null;
 
         /// <summary>
         /// This flag will be set when the coordinates cannot be determined, either because
@@ -2131,17 +2131,22 @@ namespace TikzEdt.Parser
             ret = new Point(0, 0);
             if (IsBroken)                       
                 return false;
+
+            if (OnlyOffset)
+            {
+                return GetArcCenterAbs(out ret);
+            }
             
             // get the offset (=starting point of arc)
             Point offset;
             if (!(parent as Tikz_Path).GetAbsOffset(out offset, this))
                 return false;
 
-            if (OnlyOffset)
-            {
-                ret = offset;
-                return true;
-            }
+            //if (OnlyOffset)
+            //{                
+            //    ret = offset;
+            //    return true;
+            //}
 
             // compute relative distance
             double R1 = r1.GetInCM(), R2=R1;
@@ -2166,12 +2171,27 @@ namespace TikzEdt.Parser
             Point pdummy;
             return GetAbsPos(out pdummy);
         }
+
+        public bool GetStartPointAbs(out Point p)
+        {
+            if (IsBroken)
+            {
+                p = new Point(0, 0);
+                return false;
+            }
+
+            return (parent as Tikz_Path).GetAbsOffset(out p, this);              
+        }
+
         public override void SetAbsPos(Point p)
         {
             if (IsBroken)
                 return;
             if (r2 != null)
                 return;     // currently unsupported
+
+            SetSecondAngleByAbsPos(p);
+            return;
 
             // compute the starting point and desired shift
             Point offset;
@@ -2210,6 +2230,103 @@ namespace TikzEdt.Parser
             phi2.SetInCM(b2 * 180 / Math.PI);
         }
 
+        /// <summary>
+        /// The center of the circle, in the local coordinate system (not abs. coordinates)
+        /// </summary>
+        bool GetArcCenter(out Point c)
+        {
+            // compute the starting point
+            c = new Point(0, 0);
+            if (IsBroken)
+                return false;
+            Point offset;
+            if (!(parent as Tikz_Path).GetAbsOffset(out offset, this))
+                return false;
+            
+            double a1 = phi1.GetInCM() * 2 * Math.PI / 360;
+            double R1 = r1.GetInCM(), R2=R1;            
+            if (r2 != null) // ellipse case
+            {
+                R2 = r2.GetInCM();
+            }
+
+            c = new Point(offset.X - R1 * Math.Cos(a1), offset.Y - R2 * Math.Sin(a1));
+            return true;
+        }
+        /// <summary>
+        /// The center of the circle, in the absolute coordinate system.
+        /// </summary>
+        public bool GetArcCenterAbs(out Point c)
+        {            
+            if (!GetArcCenter(out c))
+                return false;
+            // transform 
+            TikzMatrix M;
+            if (!parent.GetCurrentTransformAt(this, out M))
+                return false;
+            c = M.Transform(c);
+            return true;
+        }
+
+        /// <summary>
+        /// Sets the angle to the angular parameter (wrt. the arc's center) of p.
+        /// </summary>
+        /// <param name="p"></param>
+        public void SetFirstAngleByAbsPos(Point p)
+        {
+            Point c;
+            if (IsBroken || !GetArcCenter(out c))
+                return;
+
+            // convert p to local coordinate system
+            Point pp;
+            // transform
+            TikzMatrix M;
+            if (!parent.GetCurrentTransformAt(this, out M))
+                return;
+            pp = M.Inverse().Transform(p);
+            double newa = Math.Atan2(pp.Y - c.Y, pp.X-c.X);
+            phi1.SetInCM(newa * 180 / Math.PI);
+        }
+
+        public void SetRByAbsPos(Point p)
+        {
+            Point c;
+            if (IsBroken || !GetArcCenter(out c) || r2 != null) // elliptical arcs not supported yet
+                return;
+
+            // convert p to local coordinate system
+            Point pp;
+            // transform
+            TikzMatrix M;
+            if (!parent.GetCurrentTransformAt(this, out M))
+                return;
+            pp = M.Inverse().Transform(p);
+            double newR = (pp - c).Length;
+            r1.SetInCM(newR);
+        }
+        /// <summary>
+        /// Sets the angle to the angular parameter (wrt. the arc's center) of p.
+        /// </summary>
+        /// <param name="p"></param>
+        public void SetSecondAngleByAbsPos(Point p)
+        {
+            Point c;
+            if (IsBroken || !GetArcCenter(out c))
+                return;
+
+            // convert p to local coordinate system
+            Point pp;
+            // transform
+            TikzMatrix M;
+            if (!parent.GetCurrentTransformAt(this, out M))
+                return;
+            pp = M.Inverse().Transform(p);
+            double newa = Math.Atan2(pp.Y - c.Y, pp.X - c.X);
+            phi2.SetInCM(newa * 180 / Math.PI);
+        }
+
+
         public override void UpdateText()
         {
             if (!IsBroken)
@@ -2223,7 +2340,7 @@ namespace TikzEdt.Parser
 
         public override bool IsPolar()
         {
-            return false; // true;
+            return true;
         }
     }
 
