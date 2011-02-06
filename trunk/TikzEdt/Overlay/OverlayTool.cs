@@ -126,6 +126,7 @@ namespace TikzEdt
     class SelectionTool : OverlayTool
     {
         Rectangle SelectionRect = new Rectangle();
+        ArcShape PreviewArc = new ArcShape();
 
         public SelectionTool()
         {   
@@ -134,6 +135,10 @@ namespace TikzEdt
             SelectionRect.Visibility = Visibility.Collapsed;
             SelectionRect.Fill = new SolidColorBrush( Color.FromArgb( 0x23, 0x00, 0x8A, 0xCA) );
             SelectionRect.Fill.Freeze();
+            
+            PreviewArc.Stroke = Brushes.Black;
+            PreviewArc.StrokeDashArray = new DoubleCollection(new double[] { 4, 4 } );
+            PreviewArc.Visibility = Visibility.Collapsed;
         }
 
         HashSet<OverlayShape> SelectedItems = new HashSet<OverlayShape>();
@@ -151,6 +156,7 @@ namespace TikzEdt
         public override void OnActivate()
         {
             overlay.canvas.Cursor = Cursors.Arrow;
+            PreviewArc.overlay = overlay;
         }
         public override void OnDeactivate()
         {
@@ -229,6 +235,7 @@ namespace TikzEdt
             }
         }
 
+
         public override void OnLeftMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e) 
         {
             //IInputElement o = canvas1.InputHitTest(e.GetPosition(canvas1));
@@ -264,6 +271,15 @@ namespace TikzEdt
 
                 // adjust raster origin/scale/polar/cartesian
                 overlay.SetCorrectRaster(curDragged);
+
+                // for an arc, display preview
+                if (curDragged.item is Tikz_Arc)
+                {
+                    PreviewArc.AdjustPos(curDragged.item as Tikz_Arc);
+                    PreviewArc.Visibility = Visibility.Visible;
+                    if (!overlay.canvas.Children.Contains(PreviewArc))
+                        overlay.canvas.Children.Add(PreviewArc);
+                }
 
                 // capture mouse. this is important if the user drags sth. outside canvas1's bounds
                 if (curDragged != null && !overlay.canvas.IsMouseCaptured)
@@ -347,6 +363,12 @@ namespace TikzEdt
                          center_pixel.Y - Canvas.GetBottom(curDragged) - curDragged.Height / 2
                         );
                     ShiftSelItemsOnScreen(relshift_tobedone);
+
+                    // for arc, update preview
+                    if (curDragged.item is Tikz_Arc)
+                    {
+                        PreviewArc.AdjustPreviewPos(center_pixel);
+                    }
                 }
             }
         }
@@ -361,6 +383,8 @@ namespace TikzEdt
             // adjust position of dragged item (in parsetree)
             if (curDragged != null && movedenough)
             {
+                PreviewArc.Visibility = Visibility.Collapsed;
+
                 overlay.BeginUpdate();
                 // determine the relative shift
                 Point relshift = new Point(Canvas.GetLeft(curDragged) - DragOriginO.X, Canvas.GetBottom(curDragged) - DragOriginO.Y);
@@ -388,7 +412,7 @@ namespace TikzEdt
                 foreach (OverlayShape o in overlay.TopLevelItems)
                     o.AdjustPosition(overlay.Resolution);
 
-                curDragged = null;
+                curDragged = null;                
 
                 overlay.EndUpdate();
             }
@@ -515,7 +539,104 @@ namespace TikzEdt
              }
 
              //throw new NotImplementedException();
-         }*/
+         }*/       
+
+        class ArcShape : Shape
+        {
+            double X {get; set; }
+            double Y {get; set; }
+            double phi1 {get; set; }
+            double phi2 {get; set; }
+            double r { get; set; }
+
+            public OverlayInterface overlay;
+
+            /// <summary>
+            /// Sets the parameters according to the Tikz_Arc's parameters
+            /// </summary>
+            /// <param name="arc"></param>
+            public void AdjustPos(Tikz_Arc arc)
+            {
+                Point p;
+                if (!arc.GetStartPointAbs(out p))
+                    throw new Exception("Broken Arc.");
+
+                p = overlay.TikzToScreen(p);
+
+                X = p.X;
+                Y = p.Y;
+                phi1 = Math.PI * arc.phi1.GetInCM() / 180;
+                phi2 = Math.PI * arc.phi2.GetInCM() / 180;
+
+                Point c;
+                arc.GetArcCenterAbs(out c);
+                c = overlay.TikzToScreen(c);
+                r = (c - p).Length;
+
+                InvalidateVisual();
+            }
+
+            public Point center
+            {
+                get
+                {                    
+                    return  new Point(X - r * Math.Cos(phi1), Y - r * Math.Sin(phi1));                    
+                }
+            }
+            public void AdjustPreviewPos(Point p)
+            {
+                double newa = Math.Atan2(p.Y - center.Y, p.X - center.X);
+                phi2 = newa;
+                InvalidateVisual();
+            }
+
+            /// <summary>
+            /// In pixel coordinates, not upside down!
+            /// </summary>
+            Point EndPoint
+            {
+                get
+                {
+                    return new Point(X + r * Math.Cos(phi2) - r * Math.Cos(phi1), overlay.Height - (Y + r * Math.Sin(phi2) - r * Math.Sin(phi1)));
+                }
+            }
+
+            protected override Geometry DefiningGeometry
+            {
+                get
+                {
+                    // Create a StreamGeometry for describing the shape
+                    StreamGeometry geometry = new StreamGeometry();
+                    geometry.FillRule = FillRule.EvenOdd;
+
+                    using (StreamGeometryContext context = geometry.Open())
+                    {
+                        InternalDrawNodeGeometry(context);
+                    }
+
+                    // Freeze the geometry for performance benefits
+                    //geometry.Freeze();
+
+                    return geometry;
+                }
+            }
+
+            /// <summary>
+            /// Draw an arc
+            /// </summary>
+            /// <param name="context"></param>
+            private void InternalDrawNodeGeometry(StreamGeometryContext context)
+            {
+                context.BeginFigure(new Point(X, overlay.Height-Y), false, false);
+                SweepDirection sd = SweepDirection.Counterclockwise;
+                if (phi2<phi1)
+                    sd = SweepDirection.Clockwise;
+                context.ArcTo(EndPoint, new Size(r, r), 0, false, sd, true, false);
+
+            }
+
+        }
+
     }
 
 

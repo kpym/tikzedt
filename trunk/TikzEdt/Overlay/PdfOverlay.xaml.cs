@@ -669,7 +669,8 @@ namespace TikzEdt
                 {
                     TikzMatrix M;
                     if (!t.parent.GetCurrentTransformAt(t, out M)) //.CloneIt();
-                        M = new TikzMatrix();
+                        M = new TikzMatrix();                    
+
                     M.m[0, 2] = offset.X;
                     M.m[1, 2] = offset.Y;
                     //rasterizer.RasterScale = M.m[1, 1];

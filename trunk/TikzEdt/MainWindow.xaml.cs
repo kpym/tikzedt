@@ -704,7 +704,7 @@ namespace TikzEdt
 
             codeCompleter.LoadCompletions(Helper.GetSettingsPath() + Consts.cCompletionsFile);            
 
-            isLoaded = true;
+            isLoaded = true;    // indicates that all components are loaded and can be safely accessed (.. is almost obsolete)
             //txtRadialOffset.Text = txtRadialOffset.Text;
             //txtRadialSteps.Text = txtRadialSteps.Text;
 
@@ -1258,6 +1258,12 @@ namespace TikzEdt
             AddStatusLine("Working directory is now: " + Helper.GetCurrentWorkingDir());
 
             CleanupForNewFile();
+            
+            // start with std code
+            txtCode.Document.BeginUpdate();
+            txtCode.Document.Insert(0, "\\begin{tikzpicture}" + Environment.NewLine + Environment.NewLine + "\\end{tikzpicture}");
+            txtCode.Document.EndUpdate();
+            ChangesMade = false;
 
             ShowFilesOfCurrentDirectory(); 
 
@@ -1282,11 +1288,6 @@ namespace TikzEdt
 
             // Set new document ID
             CurDocumentID = DateTime.Now.Ticks;
-
-            // start with std code
-            txtCode.Document.BeginUpdate();
-            txtCode.Document.Insert(0,"\\begin{tikzpicture}"+Environment.NewLine+Environment.NewLine+"\\end{tikzpicture}");
-            txtCode.Document.EndUpdate();
         }
 
         private void CompileCommandHandler(object sender, ExecutedRoutedEventArgs e)
