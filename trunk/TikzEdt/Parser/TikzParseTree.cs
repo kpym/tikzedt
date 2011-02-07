@@ -2095,6 +2095,50 @@ namespace TikzEdt.Parser
         bool IsBroken = false;
 
         /// <summary>
+        /// Creates an arc from three points. Two are provided as parameters, one is the current offset.
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="p2"></param>
+        public void SetFromPoints(Point center, Point p2, bool IsLargeArc)
+        {
+            phi1 = new Tikz_NumberUnit();
+            phi2 = new Tikz_NumberUnit();
+            r1 = new Tikz_NumberUnit();
+            Point p1;
+            if (!GetStartPointAbs(out p1))
+            {
+                IsBroken = true;
+                return;
+            }
+
+            TikzMatrix M;
+            if (!(parent as Tikz_Path).GetCurrentTransformAt(this, out M))
+            {
+                IsBroken = true;
+                return;
+            }
+            p1 = M.Inverse().Transform(p1);
+            p2 = M.Inverse().Transform(p2);
+            Point c = M.Inverse().Transform(center);
+
+            Vector v1 = p1 - c, v2 = p2 - c;
+            double R = v1.Length;
+            double nphi1 = Math.Atan2(v1.Y, v1.X);
+            double nphi2 = Math.Atan2(v2.Y, v2.X);
+
+            // account for large arc/small arc
+            if ( (Math.Abs(nphi1-nphi2)>Math.PI) != IsLargeArc )
+            {
+                nphi2 += 2 * Math.PI * Math.Sign(nphi1 - nphi2);
+            }
+
+            r1.SetInCM(R);
+            phi1.SetInCM(nphi1 * 180 / Math.PI);
+            phi2.SetInCM(nphi2 * 180 / Math.PI);         
+
+        }
+
+        /// <summary>
         /// The Treenode t must have either 3 or four children
         /// </summary>
         /// <param name="t"></param>
@@ -2181,6 +2225,23 @@ namespace TikzEdt.Parser
             }
 
             return (parent as Tikz_Path).GetAbsOffset(out p, this);              
+        }
+        bool GetStartPoint(out Point p)
+        {
+            if (IsBroken)
+            {
+                p = new Point(0, 0);
+                return false;
+            }
+
+            if (!(parent as Tikz_Path).GetAbsOffset(out p, this))
+                return false;
+            // transform 
+            TikzMatrix M;
+            if (!parent.GetCurrentTransformAt(this, out M))
+                return false;
+            p = M.Inverse().Transform(p);
+            return true;
         }
 
         public override void SetAbsPos(Point p)

@@ -87,6 +87,22 @@ namespace TikzEdt
             }
             set { _GridWidth = value; DrawRaster(); }
         }
+
+        double _ForceRadiusTo = -1;
+        /// <summary>
+        /// Determines whether the radius of the rasterized point is fixed to ForceRadiusTo.
+        /// This is used for situations (arc editing) where the radius is fixed and only the angular parameter 
+        /// can vary. Is ignored if negative, of is IsCartesian = true.
+        /// 
+        /// Note: the radius is in the transformed coordinate system, not absolute !!
+        /// (Otherwise it wouldn't make sense, say, with anisotropic scaling.)
+        /// </summary>
+        public double ForceRadiusTo
+        {
+            get { return _ForceRadiusTo; }
+            set { _ForceRadiusTo = value; }
+        }
+
         uint _RadialSteps = Properties.Settings.Default.Raster_RadSteps;
         public uint RadialSteps
         {
@@ -170,8 +186,9 @@ namespace TikzEdt
         /// </summary>
         public void ResetRaster()
         {
+            ForceRadiusTo = -1;
             IsCartesian = true;
-            CoordinateTransform = new Parser.TikzMatrix(); // unit matrix
+            CoordinateTransform = new Parser.TikzMatrix(); // unit matrix            
         }
 
         // the scaled GridWidth
@@ -441,6 +458,8 @@ namespace TikzEdt
                 polar = new Point( Math.Round(polar.X / GridWidth)  * GridWidth,
                                    Math.Round((polar.Y - RadialOffset) / (2 * Math.PI / RadialSteps)) * (2 * Math.PI / RadialSteps) + RadialOffset 
                                    );
+                if (ForceRadiusTo >= 0)
+                    polar = new Point(ForceRadiusTo, polar.Y);
                 pstd_rast = PolToCart(polar);
             }
             return CoordinateTransform.Transform(pstd_rast, IsRelative);

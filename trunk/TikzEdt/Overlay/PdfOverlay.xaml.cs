@@ -234,7 +234,7 @@ namespace TikzEdt
         {
             get
             {
-                switch (tool)
+                /*switch (tool)
                 {
                     case ToolType.move:
                         return selectionTool;
@@ -256,11 +256,25 @@ namespace TikzEdt
                         return gridTool;
                     default:
                         throw new Exception("Unknown tool type... please make sure all tool types are handled in PdfOverlay.CurrentTool."); // should not come here
-                }
+                }*/
+                return ToolList[(int) tool];
             }
         }
 
-        public enum ToolType { move, addvert, addedge, addpath, rectangle, ellipse, smooth, bezier, grid }
+        // Member variables for the tools
+        SelectionTool selectionTool = new SelectionTool();
+        EdgeTool edgeTool = new EdgeTool();
+        PathTool pathTool = new PathTool();
+        NodeTool nodeTool = new NodeTool();
+        SmoothCurveTool smoothCurveTool = new SmoothCurveTool();
+        BezierTool bezierTool = new BezierTool(); 
+        GridTool gridTool = new GridTool();
+        RectangleTool rectangleTool = new RectangleTool();
+        EllipseTool ellipseTool = new EllipseTool();
+        ArcTool arcTool = new ArcTool();
+
+        public enum ToolType { move, addvert, addedge, addpath, smooth, bezier, rectangle, ellipse, grid , arc}        
+        OverlayTool[] ToolList;
         ToolType _tool = ToolType.move;
         public ToolType tool
         {
@@ -275,18 +289,6 @@ namespace TikzEdt
                     ToolChanged(this);
             }
         }
-
-        // Member variables for the tools
-        SelectionTool selectionTool = new SelectionTool();
-        EdgeTool edgeTool = new EdgeTool();
-        PathTool pathTool = new PathTool();
-        NodeTool nodeTool = new NodeTool();
-        SmoothCurveTool smoothCurveTool = new SmoothCurveTool();
-        BezierTool bezierTool = new BezierTool(); 
-        GridTool gridTool = new GridTool();
-        RectangleTool rectangleTool = new RectangleTool();
-        EllipseTool ellipseTool = new EllipseTool();
-
 
         #endregion
 
@@ -389,15 +391,10 @@ namespace TikzEdt
             InitializeComponent();
 
             // initialize tools
-            selectionTool.overlay = this;
-            edgeTool.overlay = this;
-            nodeTool.overlay = this;
-            pathTool.overlay = this;
-            rectangleTool.overlay = this;
-            ellipseTool.overlay = this;
-            smoothCurveTool.overlay = this;
-            bezierTool.overlay = this;
-            gridTool.overlay = this;
+            // must be in the order of ToolType
+            ToolList = new OverlayTool[] { selectionTool, nodeTool, edgeTool, pathTool, smoothCurveTool, bezierTool, rectangleTool, ellipseTool, gridTool, arcTool};
+            foreach (OverlayTool t in ToolList)
+                t.overlay = this;
 
             // allow to gain keyboard focus
             canvas.Focusable = true;

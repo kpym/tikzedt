@@ -1502,6 +1502,8 @@ namespace TikzEdt
                 pdfOverlay1.tool = PdfOverlay.ToolType.bezier;
             else if (sender == rbToolSmooth)
                 pdfOverlay1.tool = PdfOverlay.ToolType.smooth;
+            else if (sender == rbToolArc)
+                pdfOverlay1.tool = PdfOverlay.ToolType.arc;
             else if (sender == rbToolGrid)
                 pdfOverlay1.tool = PdfOverlay.ToolType.grid;
         }
