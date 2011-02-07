@@ -161,6 +161,7 @@ namespace TikzEdt
         public override void OnDeactivate()
         {
             Clear();
+            PreviewArc.Visibility = Visibility.Collapsed;
         } 
 
         /// <summary>
@@ -539,7 +540,21 @@ namespace TikzEdt
              }
 
              //throw new NotImplementedException();
-         }*/       
+         }*/
+
+        public override void KeyDown(KeyEventArgs e)
+        {
+            base.KeyDown(e);
+            if (PreviewArc.Visibility == Visibility.Visible)
+                PreviewArc.AdjustPreviewPos();
+        }
+        public override void KeyUp(KeyEventArgs e)
+        {
+            base.KeyUp(e);
+
+            if (PreviewArc.Visibility == Visibility.Visible)
+                PreviewArc.AdjustPreviewPos();
+        }
 
         class ArcShape : Shape
         {
@@ -583,11 +598,22 @@ namespace TikzEdt
                     return  new Point(X - r * Math.Cos(phi1), Y - r * Math.Sin(phi1));                    
                 }
             }
-            public void AdjustPreviewPos(Point p)
+            /// <summary>
+            /// Adjusts whether to display larger/smaller arc
+            /// </summary>
+            public void AdjustPreviewPos()
             {
+                double d = phi2 - phi1;
+                if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) != (Math.Abs(d) > Math.PI))
+                    d -= 2 * Math.PI * Math.Sign(d);
+                phi2 = phi1 + d;
+                InvalidateVisual();
+            }
+            public void AdjustPreviewPos(Point p)
+            {                
                 double newa = Math.Atan2(p.Y - center.Y, p.X - center.X);
                 phi2 = newa;
-                InvalidateVisual();
+                AdjustPreviewPos();                
             }
 
             /// <summary>
@@ -620,6 +646,7 @@ namespace TikzEdt
                     return geometry;
                 }
             }
+            
 
             /// <summary>
             /// Draw an arc
@@ -628,10 +655,12 @@ namespace TikzEdt
             private void InternalDrawNodeGeometry(StreamGeometryContext context)
             {
                 context.BeginFigure(new Point(X, overlay.Height-Y), false, false);
+                bool largearc = Math.Abs(phi2-phi1) > Math.PI;
                 SweepDirection sd = SweepDirection.Counterclockwise;
-                if (phi2<phi1)
+                if (phi2 < phi1 )
                     sd = SweepDirection.Clockwise;
-                context.ArcTo(EndPoint, new Size(r, r), 0, false, sd, true, false);
+                
+                context.ArcTo(EndPoint, new Size(r, r), 0, largearc, sd, true, false);
 
             }
 

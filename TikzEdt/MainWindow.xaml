@@ -387,6 +387,17 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
+                <RadioButton HorizontalAlignment="Left" Name="rbToolArc" VerticalAlignment="Top" Checked="rb1_Checked">
+                    <Image Source="/TikzEdt;component/Images/arc.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <RadioButton.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="Arc/Pie tool" FontWeight="Bold"></TextBlock>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                Creates an arc. Press CTRL to create a pie segment instead. SHIFT switches between the larger and smaller arc segments.
+                            </TextBlock>
+                        </StackPanel>
+                    </RadioButton.ToolTip>
+                </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolGrid" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/Grid.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
