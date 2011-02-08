@@ -432,7 +432,7 @@ namespace TikzEdt.Parser
             // if parent is a node or coordinate, and this item is the first, do not print node again
             if (parent is Tikz_Path)
             {
-                if (parent.starttag.Trim() == @"\node" || parent.starttag.Trim() == @"\coordinate")
+                if (parent.starttag.Trim() == @"\node" || parent.starttag.Trim() == @"\coordinate" || parent.starttag.Trim() == @"\matrix")
                 {
                     // todo: check for first.... 
                     //int i = parent.Children.IndexOf(this);
