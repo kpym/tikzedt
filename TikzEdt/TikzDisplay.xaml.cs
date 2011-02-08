@@ -275,7 +275,7 @@ namespace TikzEdt
         /// <summary>
         /// Holds the pdflibnet PdfWrapper, which does the conversion.
         /// </summary>
-        PDFWrapper mypdfDoc;
+        PDFWrapper mypdfDoc=null;
         
 
         public bool LoadPdf(string cfile)
@@ -308,6 +308,7 @@ namespace TikzEdt
         {
             if (mypdfDoc != null)
             {
+                //MessageBox.Show("UnloadPDF");
                 mypdfDoc.Dispose();
                 mypdfDoc = null;
                 return true;
