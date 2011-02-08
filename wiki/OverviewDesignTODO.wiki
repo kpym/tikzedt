@@ -53,6 +53,7 @@
 === TexCompiler ===
 *TODO*
   * timeout vs package download....?
+  * kill hidden running pdflatex instance(s) on exit
 
 == Deployment ==
 *TODO*
