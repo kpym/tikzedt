@@ -49,6 +49,7 @@
 *TODO*
   * Change snippet baseclass to list
   * use SnippetList class for Snippet List ?
+  * motify (raise event) when list cleared
 
 === TexCompiler ===
 *TODO*
