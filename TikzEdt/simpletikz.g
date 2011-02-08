@@ -239,15 +239,15 @@ tikzpicture
 	;
 
 tikzbody
-	:	( tikzscope | tikzpath | tikznode_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body_nobr! )  // necessary to prevent conflict with options
-		( tikzscope | tikzpath | tikznode_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body! )*
+	:	( tikzscope | tikzpath | tikznode_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body_nobr! )  // necessary to prevent conflict with options
+		( tikzscope | tikzpath | tikznode_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body! )*
 	;
 	
 dontcare_body_nobr
-	:	(~ ('\\begin' | '\\end' | '\\node' | '\\coordinate' | '\\draw' | '\\path' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '['))	// necessary to prevent conflict with options
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '['))	// necessary to prevent conflict with options
 	;	
 dontcare_body
-	:	(~ ('\\begin' | '\\end' | '\\node' | '\\coordinate' | '\\draw' | '\\path' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' ))   
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' ))   
 	;
 otherend
 	:	'\\end' '{' idd2 '}'
@@ -319,6 +319,10 @@ controls		// for bezier path, e.g.,  .. (1,1) and (2,2) ..
 	
 tikznode_ext
 	:	node_start tikznode_core tikzpath_element* semicolon_end	-> ^(IM_PATH node_start tikznode_core tikzpath_element* semicolon_end)
+	;
+	
+tikzmatrix_ext
+	:	matrix_start tikznode_core tikzpath_element* semicolon_end	-> ^(IM_PATH matrix_start tikznode_core tikzpath_element* semicolon_end)
 	;
 	
 // the coordinate business is a hack
@@ -504,8 +508,14 @@ path_start
 node_start
 	:	node_start_tag -> ^(IM_STARTTAG node_start_tag)
 	;
+matrix_start
+	:	matrix_start_tag -> ^(IM_STARTTAG matrix_start_tag)
+	;
 node_start_tag
 	:	'\\node'
+	;
+matrix_start_tag
+	:	'\\matrix'
 	;
 coordinate_start
 	:	'\\coordinate' -> ^(IM_STARTTAG '\\coordinate')
