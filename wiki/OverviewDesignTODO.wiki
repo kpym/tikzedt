@@ -9,15 +9,22 @@
   * look good 
 
 *TODO:*
+  * Use and adapt AvalonDock
+  * Use FileList again
+  * don't open open dialog in temp folder (rather save last location)  
+  * add multiple document support  
+    * refactor document related code into document class
+  * export as jpg/tiff/bmp
   
 === Code editor (avalonedit) ===
 *TODO:*
-  * complete code completion
+  
 
 == TikzDisplay ==
 *TODO*
   * pdflatex hangs sometimes
-  * Memory leak in PdfLibNet (fixed Jan 23, 2011)
+  * editing tool for arcs
+  * crisp toolbar bitmaps (no aliasing)
 
 == Rasterizer ==
 *TODO*
@@ -25,23 +32,42 @@
 == TikzParser ==
 *TODO*
   * !TIKZEDT ignore command
+  * Support \foreach (..at least ignor properly)
+  * check math expresions in arc are handled correctly
+  * arc followed by bezier handled correctly??
 
 === Tikz ParseTree ===
   * check again whether missing nodenames are treated right
   * Use Length property
 
 == PdfOverlay ==
-
 *TODO*
+  * Automatically indent inserted Code properly
+  * ellipse & rectangle -tool: supported rotated coordinate system
 
 === Snippetmanager ===
 *TODO*
   * Change snippet baseclass to list
+  * use SnippetList class for Snippet List ?
 
 === TexCompiler ===
 *TODO*
+  * timeout vs package download....?
+
+== Deployment ==
+*TODO*
+  * Check for PdfLatex in place
+  * Include VC++ redistributables
+  * Check that necessary tex packages are there
+  * Welcome screen as Tikzpicture on first load :-) ?
+
 
 === Misc ===
 *TODO*
-  * Deployment
   * Improve documentation
+  * Ensure MRU stored in same folder as rest of config files...
+  * Support Tikz 3D commands
+  * outsorce find dialog as separate lib
+  * outsorce code completions as separate lib
+  * support multiple tikzpictures
+  * support tikzpictures anywhere on page (using http://tex.stackexchange.com/questions/10343/determining-the-position-of-a-box-e-g-on-a-page)
