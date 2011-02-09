@@ -322,7 +322,10 @@ namespace TikzEdt
             {
                 return;
             }
-            
+
+            //get current timeout value from settings
+            TheCompiler.Instance.timeout = Properties.Settings.Default.Timeout_pdflatex;
+
             SetValue(CompilingPropertyKey, true);
 
             Job job;
@@ -472,8 +475,24 @@ namespace TikzEdt
 
         void timer_Tick(object sender, EventArgs e)
         {
-            MainWindow.AddStatusLine("Timeout. Compilation aborted", true);
-            AbortCompilation();
+            bool InstallingPacket = false;
+            foreach (ProcessModule pm in texProcess.Modules)
+            {
+                if (pm.ModuleName.Contains("packagemanager"))
+                {                    
+                    InstallingPacket = true;
+                }
+            }
+
+            if (InstallingPacket == false)
+            {
+                MainWindow.AddStatusLine("Timeout. Compilation aborted", true);
+                AbortCompilation();
+            }
+            else 
+            {
+                MainWindow.AddStatusLine("Please wait. pdflatex seems to be installing some required package.");
+            }
         }
         /// <summary>
         /// Adds a rectangle to the Tikzcode in the size specified by BB. 
