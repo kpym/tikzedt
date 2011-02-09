@@ -2099,7 +2099,7 @@ namespace TikzEdt.Parser
         /// </summary>
         /// <param name="center"></param>
         /// <param name="p2"></param>
-        public void SetFromPoints(Point center, Point p2, bool IsLargeArc)
+        public void SetFromPoints(Point center, Point p2, bool tIsLargeArc)
         {
             phi1 = new Tikz_NumberUnit();
             phi2 = new Tikz_NumberUnit();
@@ -2127,7 +2127,7 @@ namespace TikzEdt.Parser
             double nphi2 = Math.Atan2(v2.Y, v2.X);
 
             // account for large arc/small arc
-            if ( (Math.Abs(nphi1-nphi2)>Math.PI) != IsLargeArc )
+            if ( (Math.Abs(nphi1-nphi2)>Math.PI) != tIsLargeArc )
             {
                 nphi2 += 2 * Math.PI * Math.Sign(nphi1 - nphi2);
             }
@@ -2251,8 +2251,10 @@ namespace TikzEdt.Parser
             if (r2 != null)
                 return;     // currently unsupported
 
-            SetSecondAngleByAbsPos(p);
-            return;
+            //SetSecondAngleByAbsPos(p);
+            //return;
+            SetAbsPosConstR(p);
+            /*
 
             // compute the starting point and desired shift
             Point offset;
@@ -2289,7 +2291,104 @@ namespace TikzEdt.Parser
             r1.SetInCM(R);
             phi1.SetInCM(b1 * 180 / Math.PI);
             phi2.SetInCM(b2 * 180 / Math.PI);
+             */
         }
+
+        bool IsLargeArc
+        {
+            get { return Math.Abs(phi1.GetInCM() - phi2.GetInCM()) > 180; }
+        }
+
+        /// <summary>
+        /// Sets the position of the node to p, while trying to keep the radius constant.
+        /// Note that this is not always possible. In this case the radius is increased.
+        /// 
+        /// There is a twofold ambiguity in choosing the new center. We resolve by picking the one closer to the old center.
+        /// Also note that there is a twofold ambiguitiy as to whether we pick the small or large arc.
+        /// We keep this as it was. (Note that this is often not what the user desires... more control is
+        /// provided through the arcedit tool.)
+        /// </summary>
+        /// <param name="p">Target point.</param>
+        void SetAbsPosConstR(Point p)
+        {
+            if (IsBroken)
+                return;
+            if (r2 != null)
+                return;     // currently unsupported
+
+            // store the old center (in local coordinates)
+            Point oldcenter;
+            if (!GetArcCenter(out oldcenter))
+                return;            
+
+            // compute the starting point (=offset) and desired shift, in local coordinates
+            Point offset;
+            if (!GetStartPoint(out offset))
+                return;
+            // transform p into local coordinates
+            TikzMatrix M;
+            if (!parent.GetCurrentTransformAt(this, out M))
+                return;
+            Point ploc = M.Inverse().Transform(p);
+            Vector relp = ploc - offset;    // this is, in local coordinates, the vector from start- to desired endpoint.
+
+            // compute the new parameters          
+            //double a1 = phi1.GetInCM() * 2 * Math.PI / 360, a2 = phi2.GetInCM() * 2 * Math.PI / 360, a = a2 - a1;  // angles in radians
+
+            //double R = Math.Abs(.5 * relp.Length / Math.Sin(a / 2));
+            //if (!(R < 50))
+            //    return;
+
+            // the new center lies on the line midpoint + lambda * normal
+            Point midpoint = offset + relp / 2;
+            Vector normal = new Vector(relp.Y, -relp.X);
+            normal.Normalize();                        
+            double alpha = Math.Atan2(relp.Y, relp.X);  // inclination of line offset -> p
+
+            // the target parameters
+            double R;
+            double a1, a2;
+
+            // check whether we can keep R constant
+            if (relp.Length <= 2 * r1.GetInCM())
+            {
+                // Yes
+                R = r1.GetInCM();                
+                double d = Math.Sqrt(R * R - relp.LengthSquared / 4);
+                // two center candidates
+                Point c1 = midpoint + d * normal, c2 = midpoint - d * normal, c;
+                // pick the one closer to old center                
+                if ((oldcenter - c1).Length < (oldcenter - c2).Length)
+                    c = c1;
+                else
+                    c = c2;
+
+                // compute angles
+                Vector v1 = offset - c, v2 = ploc - c;
+                
+                a1 = Math.Atan2(v1.Y, v1.X);
+                a2 = Math.Atan2(v2.Y, v2.X);
+
+                // account for large arc/small arc
+                if ((Math.Abs(a1 - a2) > Math.PI) != IsLargeArc)
+                {
+                    a2 += 2 * Math.PI * Math.Sign(a1 - a2);
+                }
+
+            }
+            else
+            {
+                // No -> adjust radius
+                R = relp.Length / 2;                
+                a1 = Math.PI + alpha;
+                a2 = alpha;
+            }
+            
+            r1.SetInCM(R);
+            phi1.SetInCM(a1 * 180 / Math.PI);
+            phi2.SetInCM(a2 * 180 / Math.PI);
+        }
+
 
         /// <summary>
         /// The center of the circle, in the local coordinate system (not abs. coordinates)
@@ -2301,10 +2400,10 @@ namespace TikzEdt.Parser
             if (IsBroken)
                 return false;
             Point offset;
-            if (!(parent as Tikz_Path).GetAbsOffset(out offset, this))
+            if (!GetStartPoint(out offset))
                 return false;
-            
-            double a1 = phi1.GetInCM() * 2 * Math.PI / 360;
+
+            double a1 = phi1.GetInCM() * Math.PI / 180;
             double R1 = r1.GetInCM(), R2=R1;            
             if (r2 != null) // ellipse case
             {

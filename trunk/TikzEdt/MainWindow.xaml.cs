@@ -2210,5 +2210,10 @@ namespace TikzEdt
                 mousepos_whenmenuopened = -1;
         }
 
+        private void AbortSnippetCompilationClick(object sender, RoutedEventArgs e)
+        {
+            TikzToBMPFactory.Instance.AbortCompilation();
+        }
+
     }
 }

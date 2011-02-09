@@ -514,13 +514,25 @@ namespace TikzEdt.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10000")]
-        public ulong Timeout_pdflatex {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Compiler_Timeout {
             get {
-                return ((ulong)(this["Timeout_pdflatex"]));
+                return ((int)(this["Compiler_Timeout"]));
             }
             set {
-                this["Timeout_pdflatex"] = value;
+                this["Compiler_Timeout"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Compiler_SnippetTimeout {
+            get {
+                return ((int)(this["Compiler_SnippetTimeout"]));
+            }
+            set {
+                this["Compiler_SnippetTimeout"] = value;
             }
         }
     }

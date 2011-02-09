@@ -192,6 +192,8 @@
                 <MenuItem Header="Compile" Command="{x:Static custom:MainWindow.CompileCommand}" InputGestureText="F5"/>
                 <MenuItem Name="mnuAbort" Header="Abort" Click="AbortCompilationClick"
                           IsEnabled="{Binding Source={x:Static my:TheCompiler.Instance}, Path=Compiling, Mode=OneWay}"/>
+                <MenuItem Name="mnuAbortSnippet" Header="Abort current snippet compilation" Click="AbortSnippetCompilationClick"
+                          IsEnabled="{Binding Source={x:Static my:TikzToBMPFactory.Instance}, Path=Compiling, Mode=OneWay}"/>
                 <Separator/>
                 <MenuItem Header="(Re-)Generate precompiled headers" Click="GenerateHeadersClick"/>
             </MenuItem>

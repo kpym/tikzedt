@@ -131,8 +131,11 @@
     <Setting Name="Overlay_ScopeColor" Type="System.Windows.Media.Color" Scope="User">
       <Value Profile="(Default)">#7000FF00</Value>
     </Setting>
-    <Setting Name="Timeout_pdflatex" Type="System.UInt64" Scope="User">
-      <Value Profile="(Default)">10000</Value>
+    <Setting Name="Compiler_Timeout" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Compiler_SnippetTimeout" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>
