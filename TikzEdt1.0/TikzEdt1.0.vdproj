@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_13DDDE9E99F44CB79A792D4B606B3E6D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_1442BC6D23F54DCCB1B9B5B75FC294F0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -63,8 +69,20 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_7D62627EB4234509AB1C05DE00796385"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_9A586DF615D568BE937A17C61C16258A"
         "OwnerKey" = "8:_EBBFF048A6924948AF5804468F2D8470"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A3FF131CF8474E8D84F1743CFBD68A90"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -106,6 +124,12 @@
         "Entry"
         {
         "MsmKey" = "8:_EBBFF048A6924948AF5804468F2D8470"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED3FAEFD02914B369BEB4D191CF532EA"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -268,6 +292,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_13DDDE9E99F44CB79A792D4B606B3E6D"
+            {
+            "SourcePath" = "8:..\\lib\\advapi32.dll"
+            "TargetName" = "8:advapi32.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_28E6D9ABA23B4F7EB6F4788CDA3B4683"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1442BC6D23F54DCCB1B9B5B75FC294F0"
             {
             "SourcePath" = "8:..\\TikzEdt\\bin\\Debug\\Editor\\TheSnippets.xml"
@@ -405,7 +449,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:PDFLibNet, Version=1.0.6.7, Culture=neutral, PublicKeyToken=26d87f7d66fb2aee, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:PDFLibNet, Version=1.0.6.6, Culture=neutral, PublicKeyToken=26d87f7d66fb2aee, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_7C5A00EC3F07F2E3465FF7077D88F3E5"
@@ -430,6 +474,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7D62627EB4234509AB1C05DE00796385"
+            {
+            "SourcePath" = "8:..\\lib\\mscoree.dll"
+            "TargetName" = "8:mscoree.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_28E6D9ABA23B4F7EB6F4788CDA3B4683"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9A586DF615D568BE937A17C61C16258A"
@@ -461,6 +525,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A3FF131CF8474E8D84F1743CFBD68A90"
+            {
+            "SourcePath" = "8:..\\lib\\msvcp100.dll"
+            "TargetName" = "8:msvcp100.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_28E6D9ABA23B4F7EB6F4788CDA3B4683"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A56E11FC2058A1E4DAF0527BCC2D5FBE"
@@ -594,6 +678,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ED3FAEFD02914B369BEB4D191CF532EA"
+            {
+            "SourcePath" = "8:..\\lib\\msvcr100.dll"
+            "TargetName" = "8:msvcr100.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_28E6D9ABA23B4F7EB6F4788CDA3B4683"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
         }

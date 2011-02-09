@@ -88,7 +88,7 @@
     <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\lib\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
-    <Reference Include="PDFLibNet, Version=1.0.6.6, Culture=neutral, PublicKeyToken=26d87f7d66fb2aee, processorArchitecture=x86">
+    <Reference Include="PDFLibNet, Version=1.0.6.8, Culture=neutral, PublicKeyToken=26d87f7d66fb2aee, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\PDFLibNet.dll</HintPath>
     </Reference>
@@ -123,6 +123,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Overlay\ArcEditTool.cs" />
     <Compile Include="Overlay\ArcTool.cs" />
     <Compile Include="Overlay\BezierTool.cs" />
     <Compile Include="CmdLineArgumentParser.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="output\simpletikzLexer.cs" />
     <Compile Include="output\simpletikzParser.cs" />
     <Compile Include="Overlay\OverlayTool.cs" />
+    <Compile Include="Overlay\SelectionTool.cs" />
     <Compile Include="Parser\ANTLRErrorMsg.cs" />
     <Compile Include="Overlay\Rect_and_EllipseTools.cs" />
     <Compile Include="Overlay\SmoothCurveTool.cs" />

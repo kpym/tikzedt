@@ -66,6 +66,12 @@ namespace TikzEdt
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            // remove focus from current control, so that pending data is written to settings
+            lstNav.Focus();
+
+            TheCompiler.Instance.timeout = Properties.Settings.Default.Compiler_Timeout;
+            TikzToBMPFactory.Instance.timeout = Properties.Settings.Default.Compiler_SnippetTimeout;
+
             if (txtPreamble.Text != Properties.Settings.Default.Tex_Preamble)
             {
                 // todo: do some checks

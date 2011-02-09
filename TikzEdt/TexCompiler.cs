@@ -323,8 +323,8 @@ namespace TikzEdt
                 return;
             }
 
-            //get current timeout value from settings
-            TheCompiler.Instance.timeout = Properties.Settings.Default.Timeout_pdflatex;
+            //get current timeout value from settings -> is set using property
+            //TheCompiler.Instance.timeout = Properties.Settings.Default.Timeout_pdflatex;
 
             SetValue(CompilingPropertyKey, true);
 
@@ -662,6 +662,8 @@ namespace TikzEdt
                     todo_tex.Clear();
                     if (OnCompileEvent != null)
                         OnCompileEvent(this, "Compilation of pre-compiled header failed with exit code " + texProcess.ExitCode +". Compilation of main document stopped. Check under settings code of pre-compiled header!", CompileEventType.Error);
+                    if (JobNumberChanged != null)
+                        JobNumberChanged(this);
                 }
                 else
                 {
@@ -872,7 +874,7 @@ namespace TikzEdt
         static TikzToBMPFactory()
         {
             Instance.JobFailed += new JobEventHandler(OnJobFailed);
-            Instance.timeout = 5000;
+            Instance.timeout = Properties.Settings.Default.Compiler_SnippetTimeout;
         }
 
         public static void OnJobFailed(object sender, Job job)
@@ -895,6 +897,11 @@ namespace TikzEdt
         {
             get { return _Instance; }
             set { }
+        }
+
+        static TheCompiler()
+        {
+            Instance.timeout = Properties.Settings.Default.Compiler_Timeout;
         }
 
         public static void GeneratePrecompiledHeaders()

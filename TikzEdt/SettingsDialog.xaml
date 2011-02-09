@@ -81,10 +81,16 @@
                             Leave empty to use the default application for opening pdf's.
                         </TextBox.ToolTip>
                     </TextBox>
-                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="2" Text="Timeout for PdfLatex" Grid.ColumnSpan="2"></TextBlock>
-                    <TextBox Margin="3" Grid.Column="1" Grid.Row="2" Text="{Binding Source={x:Static p:Settings.Default}, Path=Timeout_pdflatex, Mode=TwoWay}">
+                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="2" Text="Compiler Timeout" Grid.ColumnSpan="2"></TextBlock>
+                    <TextBox Margin="3" Grid.Column="1" Grid.Row="2" Text="{Binding Source={x:Static p:Settings.Default}, Path=Compiler_Timeout, Mode=TwoWay}">
                         <TextBox.ToolTip>
-                            Specify timeout in milliseconds for stopping PdfLatex. Set to 0 to disable.
+                            Timeout for the main compiler, i.e., the time in milliseconds after which pdflatex is killed. (0 = no timeout)                            
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="3" Text="Snippet C. Timeout" Grid.ColumnSpan="2"></TextBlock>
+                    <TextBox Margin="3" Grid.Column="1" Grid.Row="3" Text="{Binding Source={x:Static p:Settings.Default}, Path=Compiler_SnippetTimeout, Mode=TwoWay}">
+                        <TextBox.ToolTip>
+                            Timeout for the snippet compiler, i.e., the time in milliseconds after which pdflatex is killed. (0 = no timeout)
                         </TextBox.ToolTip>
                     </TextBox>
                 </Grid>
