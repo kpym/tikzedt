@@ -66,7 +66,7 @@ namespace TikzEdt
             set { }
         }
 
-        public double timeout = 0; // in milliseconds, 0 = no timeout
+        public double timeout = 0; // in milliseconds, 0 = no timeout. Note overwritten in doCompile()
         public double Resolution = 50;
         public class Job
         {
@@ -475,6 +475,9 @@ namespace TikzEdt
 
         void timer_Tick(object sender, EventArgs e)
         {
+            //if a timeout of pdflatex occured, check whether pdflatex has the packagemanager library loaded.
+            //if it has, pdflatex is most probably loading a required package from the Internet.
+            //in this case do not kill pdflatex (if pdflatex crashes now ... bad luck!)
             bool InstallingPacket = false;
             foreach (ProcessModule pm in texProcess.Modules)
             {
@@ -611,6 +614,7 @@ namespace TikzEdt
                 if (JobSucceeded != null)
                     JobSucceeded(this, job);
 
+                //for thumbnail generation
                 if (job.CreateBMP && !job.GeneratePrecompiledHeaders)
                 {
                     string pathnoext = Helper.RemoveFileExtension(job.path);
