@@ -1,0 +1,138 @@
+% Rectangle node with diagonal fill
+% Author: Mark Wibrow
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{verbatim}
+\usepackage[active, tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+
+\begin{comment}
+:Title: Rectangle node with diagonal fill
+:Tags: Nodes and shapes, Customization
+
+An example on how to customize node shapes. Creating new shapes is not trivial, and
+requires careful reading of the PGF and TikZ manual. It is also very helpful to look at
+the PGF source code to see how existing shapes are implemented. You can usually "borrow" 
+most of the boiler plate code from the library. 
+
+:Author: Mark Wibrow
+:Source: The PGF and TikZ `SF help forum`_
+
+.. _SF help forum: http://sourceforge.net/forum/forum.php?thread_id=1652136&forum_id=477363
+\end{comment}
+
+\begin{document}
+
+\makeatletter
+
+% Shape 'rectangle with diagonal fill'
+%
+% Inherits everything from rectangle except the behind background path.
+%
+\pgfdeclareshape{rectangle with diagonal fill}
+{
+    % This bit from \pgflibarayshapes.code.tex
+    \inheritsavedanchors[from=rectangle]
+    \inheritanchorborder[from=rectangle]
+    \inheritanchor[from=rectangle]{north}
+    \inheritanchor[from=rectangle]{north west}
+    \inheritanchor[from=rectangle]{north east}
+    \inheritanchor[from=rectangle]{center}
+    \inheritanchor[from=rectangle]{west}
+    \inheritanchor[from=rectangle]{east}
+    \inheritanchor[from=rectangle]{mid}
+    \inheritanchor[from=rectangle]{mid west}
+    \inheritanchor[from=rectangle]{mid east}
+    \inheritanchor[from=rectangle]{base}
+    \inheritanchor[from=rectangle]{base west}
+    \inheritanchor[from=rectangle]{base east}
+    \inheritanchor[from=rectangle]{south}
+    \inheritanchor[from=rectangle]{south west}
+    \inheritanchor[from=rectangle]{south east}
+
+    \inheritbackgroundpath[from=rectangle]
+    \inheritbeforebackgroundpath[from=rectangle]
+    \inheritbehindforegroundpath[from=rectangle]
+    \inheritforegroundpath[from=rectangle]
+    \inheritbeforeforegroundpath[from=rectangle]
+
+   % Now do the background filling.
+    \behindbackgroundpath{%
+        % \southwest and \northeast defined by rectangle, but
+        % (somewhat annoyingly) not \southeast and \northwest
+        % so use this workaround.
+        \pgfextractx{\pgf@xa}{\southwest}%
+        \pgfextracty{\pgf@ya}{\southwest}%
+        \pgfextractx{\pgf@xb}{\northeast}%
+        \pgfextracty{\pgf@yb}{\northeast}%
+        \ifpgf@diagonal@lefttoright
+            \def\pgf@diagonal@point@a{\pgfpoint{\pgf@xa}{\pgf@yb}}%
+            \def\pgf@diagonal@point@b{\pgfpoint{\pgf@xb}{\pgf@ya}}%
+        \else
+            \def\pgf@diagonal@point@a{\southwest}%
+            \def\pgf@diagonal@point@b{\northeast}%
+        \fi
+        \pgfpathmoveto{\pgf@diagonal@point@a}%
+        \pgfpathlineto{\northeast}%
+        \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@ya}}%
+        \pgfpathclose
+        \ifpgf@diagonal@lefttoright
+            \color{\pgf@diagonal@top@color}%
+        \else
+            \color{\pgf@diagonal@bottom@color}%
+        \fi
+        \pgfusepath{fill}%
+        \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@yb}}%
+        \pgfpathlineto{\southwest}%
+        \pgfpathlineto{\pgf@diagonal@point@b}%
+        \pgfpathclose
+        \ifpgf@diagonal@lefttoright
+            \color{\pgf@diagonal@bottom@color}%
+        \else
+            \color{\pgf@diagonal@top@color}%
+        \fi
+        \pgfusepath{fill}%
+    }
+}
+
+\newif\ifpgf@diagonal@lefttoright
+\def\pgf@diagonal@top@color{white}
+\def\pgf@diagonal@bottom@color{gray!30}
+
+% Use these with PGF
+\def\pgfsetdiagonaltopcolor#1{\def\pgf@diagonal@top@color{#1}}%
+\def\pgfsetdiagonalbottomcolor#1{\def\pgf@diagonal@bottom@color{#1}}%
+\def\pgfsetdiagonallefttoright{\pgf@diagonal@lefttorighttrue}%
+\def\pgfsetdiagonalrighttoleft{\pgf@diagonal@lefttorightfalse}%
+
+% Use these with TikZ
+\tikzoption{diagonal top color}{\pgfsetdiagonaltopcolor{#1}}
+\tikzoption{diagonal bottom color}{\pgfsetdiagonalbottomcolor{#1}}
+\tikzoption{diagonal from left to right}[]{\pgfsetdiagonallefttoright}
+\tikzoption{diagonal from right to left}[]{\pgfsetdiagonalrighttoleft}
+\makeatother
+
+\begin{tikzpicture}[inner sep=6pt,scale=2]
+    \node[shape=rectangle with diagonal fill, diagonal from right to left, 
+          draw] at (1,1) {\Large 1};
+    \node[rectangle with diagonal fill,
+        diagonal top color=red!50,
+        diagonal bottom color=blue!30,
+        diagonal from left to right,
+        draw] at (0,0)
+        {\Large\bf 2};
+    \node[rectangle with diagonal fill,
+        diagonal top color=yellow!50,
+        draw] 
+        at (0,1) {\Large\bf 3};
+    \node[rectangle with diagonal fill,
+        diagonal top color=green!50,
+        diagonal bottom color=black!30,
+        diagonal from left to right,
+        draw] at (1,0)
+        {\Large\bf 4};    
+        
+\end{tikzpicture}
+
+
+\end{document}

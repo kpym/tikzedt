@@ -1,0 +1,83 @@
+Index: libAFPDFLib/AFPDFLib-2008.vcxproj
+===================================================================
+--- libAFPDFLib/AFPDFLib-2008.vcxproj	(revision 65)
++++ libAFPDFLib/AFPDFLib-2008.vcxproj	(working copy)
+@@ -573,7 +573,9 @@
+   </ItemDefinitionGroup>
+   <ItemGroup>
+     <ClCompile Include="AFPDFDoc.cpp" />
+-    <ClCompile Include="AFPDFDocInterop.cpp" />
++    <ClCompile Include="AFPDFDocInterop.cpp">
++      <DeploymentContent>true</DeploymentContent>
++    </ClCompile>
+     <ClCompile Include="AnnotInterop.cpp" />
+     <ClCompile Include="AuxOutputDev.cpp" />
+     <ClCompile Include="DynArray.cpp" />
+@@ -600,7 +602,9 @@
+   </ItemGroup>
+   <ItemGroup>
+     <ClInclude Include="AFPDFDoc.h" />
+-    <ClInclude Include="AFPDFDocInterop.h" />
++    <ClInclude Include="AFPDFDocInterop.h">
++      <DeploymentContent>true</DeploymentContent>
++    </ClInclude>
+     <ClInclude Include="AnnotInterop.h" />
+     <ClInclude Include="AuxOutputDev.h" />
+     <ClInclude Include="CRect.h" />
+Index: PDFLibNet/PDFLibNet-2008.vcxproj
+===================================================================
+--- PDFLibNet/PDFLibNet-2008.vcxproj	(revision 65)
++++ PDFLibNet/PDFLibNet-2008.vcxproj	(working copy)
+@@ -19,7 +19,7 @@
+     </ProjectConfiguration>
+   </ItemGroup>
+   <PropertyGroup Label="Globals">
+-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
++    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+     <ProjectName>PDFLibNet</ProjectName>
+     <ProjectGuid>{4DB564DB-6FE1-4543-89BC-6EE87815C064}</ProjectGuid>
+     <RootNamespace>PDFLibNet</RootNamespace>
+@@ -325,10 +325,10 @@
+   <ItemGroup>
+     <ProjectReference Include="..\libAFPDFLib\AFPDFLib-2008.vcxproj">
+       <Project>{8bde8e0a-4f7c-4671-af23-2b077a385afd}</Project>
+-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+       <Private>true</Private>
+-      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
++      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
++      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
++      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+     </ProjectReference>
+   </ItemGroup>
+Index: PDFViewer/PDFViewer-2010.csproj
+===================================================================
+--- PDFViewer/PDFViewer-2010.csproj	(revision 65)
++++ PDFViewer/PDFViewer-2010.csproj	(working copy)
+@@ -45,7 +45,7 @@
+     <ManifestKeyFile>PDFViewer-2008_TemporaryKey.pfx</ManifestKeyFile>
+     <GenerateManifests>true</GenerateManifests>
+     <SignManifests>false</SignManifests>
+-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
++    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+     <PublishUrl>publish\</PublishUrl>
+     <Install>true</Install>
+     <InstallFrom>Disk</InstallFrom>
+@@ -115,13 +115,13 @@
+     <Reference Include="PDFLibNet">
+       <HintPath>..\bin\PDFLibNet.dll</HintPath>
+     </Reference>
+-    <Reference Include="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
++    <Reference Include="System" />
+     <Reference Include="System.configuration" />
+     <Reference Include="System.Data" />
+     <Reference Include="System.Deployment" />
+-    <Reference Include="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
++    <Reference Include="System.Drawing" />
+     <Reference Include="System.Management" />
+-    <Reference Include="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
++    <Reference Include="System.Windows.Forms" />
+     <Reference Include="System.Xml" />
+   </ItemGroup>
+   <ItemGroup>
