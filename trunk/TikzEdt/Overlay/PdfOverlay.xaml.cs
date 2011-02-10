@@ -272,8 +272,9 @@ namespace TikzEdt
         RectangleTool rectangleTool = new RectangleTool();
         EllipseTool ellipseTool = new EllipseTool();
         ArcTool arcTool = new ArcTool();
+        ArcEditTool arcEditTool = new ArcEditTool();
 
-        public enum ToolType { move, addvert, addedge, addpath, smooth, bezier, rectangle, ellipse, grid , arc}        
+        public enum ToolType { move, addvert, addedge, addpath, smooth, bezier, rectangle, ellipse, grid , arc, arcedit}        
         OverlayTool[] ToolList;
         ToolType _tool = ToolType.move;
         public ToolType tool
@@ -392,7 +393,7 @@ namespace TikzEdt
 
             // initialize tools
             // must be in the order of ToolType
-            ToolList = new OverlayTool[] { selectionTool, nodeTool, edgeTool, pathTool, smoothCurveTool, bezierTool, rectangleTool, ellipseTool, gridTool, arcTool};
+            ToolList = new OverlayTool[] { selectionTool, nodeTool, edgeTool, pathTool, smoothCurveTool, bezierTool, rectangleTool, ellipseTool, gridTool, arcTool, arcEditTool};
             foreach (OverlayTool t in ToolList)
                 t.overlay = this;
 

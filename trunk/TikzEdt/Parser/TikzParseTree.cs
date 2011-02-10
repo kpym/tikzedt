@@ -165,6 +165,11 @@ namespace TikzEdt.Parser
         }
 
         /// <summary>
+        /// Indicates whether the current item can change the current position.
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool ChangesCurPoint() { return true; }
+        /// <summary>
         /// Gets the position, in the document, of the current node.
         /// (Position= index of the first character in the string produced by tikzdocument.ToString(), that belongs to this node)
         /// </summary>
@@ -241,6 +246,10 @@ namespace TikzEdt.Parser
         }
         public Tikz_Something()
         {
+        }
+        public override bool  ChangesCurPoint()
+        {
+ 	         return false;
         }
     }
     public class Tikz_EdtCommand : TikzParseItem
@@ -417,6 +426,11 @@ namespace TikzEdt.Parser
                 coord.SetAbsPos(p, this);
         }
 
+        public override bool  ChangesCurPoint()
+        {
+ 	         return false;
+        }
+
         public Tikz_Coord coord;
         public string name = "";
         public string options = "";
@@ -487,6 +501,11 @@ namespace TikzEdt.Parser
         /// All attempts to get the position of the coordinate will fail.
         /// </summary>
         public bool IsBroken { get { return type == Tikz_CoordType.Invalid; } }
+
+        public override bool  ChangesCurPoint()
+        {
+ 	         return deco == "" || deco == "++";
+        }
 
         public override bool HasEditableCoordinate()
         {
@@ -2170,6 +2189,19 @@ namespace TikzEdt.Parser
             return ta;
         }
 
+        /// <summary>
+        /// Sets R and phi1 so that the start point is 
+        /// </summary>
+        /// <param name="p"></param>
+        public void SetAbsPosRandPhi1(Point p)
+        {
+
+        }
+        public void SetAbsPosRandPhi2(Point p)
+        {
+
+        }
+
         public override bool GetAbsPos(out Point ret, bool OnlyOffset = false)
         {
             ret = new Point(0, 0);
@@ -2294,7 +2326,7 @@ namespace TikzEdt.Parser
              */
         }
 
-        bool IsLargeArc
+        public bool IsLargeArc
         {
             get { return Math.Abs(phi1.GetInCM() - phi2.GetInCM()) > 180; }
         }

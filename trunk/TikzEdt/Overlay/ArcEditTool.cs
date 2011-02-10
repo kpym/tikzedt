@@ -37,7 +37,13 @@ namespace TikzEdt
     /// </summary>
     class ArcEditTool : OverlayAdderTool
     {
-        ArcShape PreviewArc = new ArcShape();
+        FanShape PreviewArc = new FanShape();
+        /// <summary>
+        /// This list holds the nodes along the currently edited arc.
+        /// </summary>
+        List<Tikz_XYItem> nodesOnArc = new List<Tikz_XYItem>();
+        int curDraggedInd;      // the index of the currently dragged item in nodesOnArc
+
         // all these points are in bottom left centered coordinates (as in LaTeX)
         OverlayShape curDragged;
         Point DragOrigin; // relative to the currently dragged object
@@ -45,6 +51,8 @@ namespace TikzEdt
         Point DragOriginO; // bottom left of dragged object
         bool movedenough = false;   // is set to true when mouse moved more than xx pixels. This is to prevent accidental dragging
 
+        // in absolute tikz coordinates
+        Point center_tikz;
 
         public ArcEditTool()
         {
@@ -55,8 +63,7 @@ namespace TikzEdt
 
         public override void OnActivate()
         {
-            overlay.canvas.Cursor = Cursors.Arrow;
-            PreviewArc.overlay = overlay;
+            overlay.canvas.Cursor = Cursors.Arrow;            
         }
         public override void OnDeactivate()
         {
@@ -68,7 +75,7 @@ namespace TikzEdt
         {
             //IInputElement o = canvas1.InputHitTest(e.GetPosition(canvas1));
 
-            if (item is OverlayShape)
+            if (item != null)
             {
                 // initiate a drag/drop operation
                 curDragged = (OverlayShape)item;
@@ -97,13 +104,14 @@ namespace TikzEdt
                 overlay.SetCorrectRaster(curDragged);
 
                 // for an arc, display preview
-                if (curDragged.item is Tikz_Arc)
-                {
-                    PreviewArc.AdjustPos(curDragged.item as Tikz_Arc);
+                //if (curDragged.item is Tikz_Arc)
+                //{
+                    FillNodesOnArc();
+                    AdjustPreviewPos(p);
                     PreviewArc.Visibility = Visibility.Visible;
                     if (!overlay.canvas.Children.Contains(PreviewArc))
                         overlay.canvas.Children.Add(PreviewArc);
-                }
+                //}
 
                 // capture mouse. this is important if the user drags sth. outside canvas1's bounds
                 if (curDragged != null && !overlay.canvas.IsMouseCaptured)
@@ -128,16 +136,6 @@ namespace TikzEdt
             {
                 if (curDragged is OverlayScope)
                 {
-                    // total shift
-                    Point relshift_pixel = new Point(p.X - DragOriginC.X, p.Y - DragOriginC.Y);
-                    relshift_pixel = overlay.Rasterizer.RasterizePixelRelative(relshift_pixel);
-                    // shift yet to be done
-                    Point relshift_tobedone = new Point(
-                         DragOriginO.X + relshift_pixel.X - Canvas.GetLeft(curDragged),
-                         DragOriginO.Y + relshift_pixel.Y - Canvas.GetBottom(curDragged)
-                        );
-
-                    //ShiftSelItemsOnScreen(relshift_tobedone);
                 }
                 else if (curDragged is OverlayNode)
                 {
@@ -154,27 +152,59 @@ namespace TikzEdt
                         );
                     //ShiftSelItemsOnScreen(relshift_tobedone);
 
-                    // for arc, update preview
-                    if (curDragged.item is Tikz_Arc)
-                    {
-                        PreviewArc.AdjustPreviewPos(center_pixel);
-                    }
+                    Canvas.SetLeft(curDragged, center_pixel.X - curDragged.Width / 2);
+                    Canvas.SetBottom(curDragged, center_pixel.Y - curDragged.Height / 2);
+
+                    AdjustPreviewPos(center_pixel);
+                    
                 }
             }
         }
 
         public override void OnLeftMouseButtonUp(MouseButtonEventArgs e, Point p)
         {
-
+            PreviewArc.Visibility = Visibility.Collapsed;
             // adjust position of dragged item (in parsetree)
-            if (curDragged != null && movedenough)
-            {
-                PreviewArc.Visibility = Visibility.Collapsed;
+            if (curDragged != null && movedenough && curDragged.item is Tikz_XYItem)
+            {                
 
                 overlay.BeginUpdate();
                 // determine the relative shift
-                Point relshift = new Point(Canvas.GetLeft(curDragged) - DragOriginO.X, Canvas.GetBottom(curDragged) - DragOriginO.Y);
-                Point relshift_tikz = new Point(relshift.X / overlay.Resolution, relshift.Y / overlay.Resolution);
+                Vector relshift = new Vector(Canvas.GetLeft(curDragged) - DragOriginO.X, Canvas.GetBottom(curDragged) - DragOriginO.Y);
+                Vector relshift_tikz = relshift / overlay.Resolution;
+
+                // compute new radius 
+                Point pold;
+                (curDragged.item as Tikz_XYItem).GetAbsPos(out pold);
+                Point pnew = pold + relshift_tikz;
+                double Rnew = (pnew - center_tikz).Length;
+
+                // adjust all position accordingly...                
+                for (int i=0;i<nodesOnArc.Count;i++)
+                {
+                    Point newp = center_tikz + Rnew * (new Vector(Math.Cos(PreviewArc.Spokes[i]), Math.Sin(PreviewArc.Spokes[i])));
+
+                    if (nodesOnArc[i] is Tikz_Arc)
+                    {
+                        //if (nodesOnArc[i] == curDragged.item)
+                        //(nodesOnArc[i] as Tikz_Arc).SetAbsPosRandPhi2(newp);
+                        (nodesOnArc[i] as Tikz_Arc).SetFromPoints(center_tikz, newp, (nodesOnArc[i] as Tikz_Arc).IsLargeArc);
+                        //else
+                        //    (nodesOnArc[i] as Tikz_Arc).SetAbsPosOnlyR(newp);
+                    }
+                    else
+                        nodesOnArc[i].SetAbsPos(newp);
+
+                    nodesOnArc[i].UpdateText();
+                   
+                }
+
+                // set first angle of arc segment directly after curDragged
+                //if (curDraggedInd + 1 < nodesOnArc.Count)
+                //{
+                //    (nodesOnArc[curDraggedInd + 1] as Tikz_Arc).SetAbsPosRandPhi1(pnew);
+                //}
+
                // ShiftSelItemsInParseTree(relshift_tikz, overlay.TopLevelItems);
                 /*
                 Point pp = new Point(Canvas.GetLeft(curDragged) + curDragged.Width / 2, Canvas.GetBottom(curDragged) + curDragged.Height / 2);
@@ -209,35 +239,176 @@ namespace TikzEdt
         {
             base.KeyDown(e);
             if (PreviewArc.Visibility == Visibility.Visible)
-                PreviewArc.AdjustPreviewPos();
+                AdjustPreviewPos();
         }
         public override void KeyUp(KeyEventArgs e)
         {
             base.KeyUp(e);
 
             if (PreviewArc.Visibility == Visibility.Visible)
-                PreviewArc.AdjustPreviewPos();
+                AdjustPreviewPos();
+        }
+
+        bool FillNodesOnArc()
+        {
+            TikzContainerParseItem pa = curDragged.item.parent;
+            if (!(curDragged.item is Tikz_XYItem))
+                return false;
+            Tikz_XYItem cur = curDragged.item as Tikz_XYItem;
+                       
+            nodesOnArc.Clear();
+            nodesOnArc.Add(cur);
+            // find all arcs to the right
+            for (int i = pa.Children.IndexOf(cur) + 1; i < pa.Children.Count; i++)
+            {
+                if (pa.Children[i] is Tikz_Arc)
+                    nodesOnArc.Add(pa.Children[i] as Tikz_Arc);
+                else if (pa.Children[i].ChangesCurPoint())
+                    break;
+            }
+
+            // find all arcs to left, including startpoint
+            if (cur is Tikz_Arc)
+            {
+                for (int i = pa.Children.IndexOf(cur) - 1; i >=0; i--)
+                {
+                    if (pa.Children[i] is Tikz_Arc)
+                        nodesOnArc.Insert(0,pa.Children[i] as Tikz_Arc);
+                    else if (pa.Children[i].ChangesCurPoint())
+                    {
+                        if (pa.Children[i] is Tikz_XYItem)
+                            nodesOnArc.Insert(0, pa.Children[i] as Tikz_XYItem);
+                        break;
+                    }
+                }
+            }
+
+            // todo: no startpoint present...
+            if (nodesOnArc.First() is Tikz_Arc)
+            {
+
+            }
+
+            // compute radius and center
+            // in absolute tikz coordinates
+            Point center, p;
+            double R;
+            Tikz_Arc ta;
+            if (cur is Tikz_Arc)
+                ta = cur as Tikz_Arc;
+            else if (nodesOnArc.Count > 1 && nodesOnArc[1] is Tikz_Arc)
+                ta = nodesOnArc[1] as Tikz_Arc;
+            else return false;
+
+            if (!ta.GetArcCenterAbs(out center) || !ta.GetAbsPos(out p))
+                throw new Exception("ArcEditTool: Invalid coordinate discovered.");
+
+            R = (p - center).Length;
+            
+            // throw out all items with non-fitting parameters
+            for (int i = nodesOnArc.Count - 1; i >= 0; i--)
+            {
+                if (nodesOnArc[i] is Tikz_Arc)
+                {
+                    Point cc, pp;
+                    double RR;
+                    if (!(nodesOnArc[i] as Tikz_Arc).GetArcCenterAbs(out cc) || !nodesOnArc[i].GetAbsPos(out pp))
+                        throw new Exception("ArcEditTool: Invalid coordinate discovered.");
+                    RR = (cc - pp).Length;
+                    if ((cc - center).Length > 1e-3 || Math.Abs(RR - R) > 1e-3)
+                        nodesOnArc.RemoveAt(i);
+                }
+                else  // other Tikz_XYItem, namely startpoint
+                {
+                    Point pp;
+                    if (!nodesOnArc[i].GetAbsPos(out pp))
+                        throw new Exception("ArcEditTool: Invalid coordinate discovered.");
+                    // check if pooint lies on circle
+                    if (Math.Abs(R - (pp-center).Length) > 1e-3)
+                        nodesOnArc.RemoveAt(i);
+                }
+            }
+            curDraggedInd = nodesOnArc.IndexOf(cur);
+            PreviewArc.Center = overlay.TikzToScreen(center, true);
+            center_tikz = center;
+
+            // Fill the PreviewArcs Spokes array            
+            List<double> spokes = new List<double>();
+            for (int i = 0; i < nodesOnArc.Count; i++)
+            {
+                if (nodesOnArc[i] is Tikz_Arc)
+                {
+                    Tikz_Arc tia = nodesOnArc[i] as Tikz_Arc;
+                    double a1 = tia.phi1.GetInCM() * Math.PI / 180, a2 = tia.phi2.GetInCM() * Math.PI / 180;
+
+                    //if (!(spokes.Count > 0 && spokes.Last() == a1))
+                    //    spokes.Add(a1);
+                    spokes.Add(a2);
+
+                    //Point pp;
+                    //if (!nodesOnArc[i].GetAbsPos(out pp))
+                    //    throw new Exception("ArcEditTool: Invalid coordinate discovered.");
+                    //Vector v = pp - center;
+
+                }
+                else
+                {
+                    // should go here at most for the first item in list
+                    double a1 = (nodesOnArc[1] as Tikz_Arc).phi1.GetInCM() * Math.PI / 180;
+                    spokes.Add(a1);
+                }
+            }
+            PreviewArc.Spokes = spokes;
+            
+            return true;
+        }
+
+        /// <summary>
+        /// Adjust small/large arc of the currently dragged node to state of Shift key
+        /// </summary>
+        public void AdjustPreviewPos()
+        {
+            //double d = phi2 - phi1;
+            //if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) != (Math.Abs(d) > Math.PI))
+            //    d -= 2 * Math.PI * Math.Sign(d);
+            //phi2 = phi1 + d;
+            PreviewArc.InvalidateVisual();
+        } 
+        /// <summary>
+        /// Adjusts the radius of the preview to arc to the current mouse position.        
+        /// </summary>
+        /// <param name="p">The rasterized position of the mouse cursor, in upside down coordinates</param>
+        public void AdjustPreviewPos(Point p)
+        {
+            Point pp = new Point(p.X, overlay.Height - p.Y);
+            Vector v = (pp - PreviewArc.Center);
+            
+            PreviewArc.R = v.Length;
+            double a = Math.Atan2(v.Y, v.X);
+            PreviewArc.Spokes[curDraggedInd] = -a;
+            AdjustPreviewPos();
         }
 
 
 
-
-
-        class ArcShape : Shape
+        /// <summary>
+        /// Describes a fan, i.e., a pie segment with multiple "spokes"
+        /// 
+        /// It describe by a center point Center, a Radius and the various spokes
+        /// </summary>
+        class FanShape : Shape
         {
-            double X { get; set; }
-            double Y { get; set; }
-            double phi1 { get; set; }
-            double phi2 { get; set; }
-            double r { get; set; }
+            public double R { get; set; }
+            public Point Center { get; set; }
+            public List<double> Spokes { get; set; }    // the angles of the spokes, in radians
 
-            public OverlayInterface overlay;
+            //public OverlayInterface overlay;
 
             /// <summary>
             /// Sets the parameters according to the Tikz_Arc's parameters
             /// </summary>
             /// <param name="arc"></param>
-            public void AdjustPos(Tikz_Arc arc)
+            /*public void AdjustPos(Tikz_Arc arc)
             {
                 Point p;
                 if (!arc.GetStartPointAbs(out p))
@@ -256,43 +427,43 @@ namespace TikzEdt
                 r = (c - p).Length;
 
                 InvalidateVisual();
-            }
+            } */
 
-            public Point center
+            /* public Point center
             {
                 get
                 {
                     return new Point(X - r * Math.Cos(phi1), Y - r * Math.Sin(phi1));
                 }
-            }
+            } */
             /// <summary>
             /// Adjusts whether to display larger/smaller arc
             /// </summary>
-            public void AdjustPreviewPos()
+            /*public void AdjustPreviewPos()
             {
                 double d = phi2 - phi1;
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) != (Math.Abs(d) > Math.PI))
                     d -= 2 * Math.PI * Math.Sign(d);
                 phi2 = phi1 + d;
                 InvalidateVisual();
-            }
-            public void AdjustPreviewPos(Point p)
+            } */
+            /*public void AdjustPreviewPos(Point p)
             {
                 double newa = Math.Atan2(p.Y - center.Y, p.X - center.X);
                 phi2 = newa;
                 AdjustPreviewPos();
-            }
+            }*/
 
             /// <summary>
             /// In pixel coordinates, not upside down!
             /// </summary>
-            Point EndPoint
+            /*Point EndPoint
             {
                 get
                 {
                     return new Point(X + r * Math.Cos(phi2) - r * Math.Cos(phi1), overlay.Height - (Y + r * Math.Sin(phi2) - r * Math.Sin(phi1)));
                 }
-            }
+            } */
 
             protected override Geometry DefiningGeometry
             {
@@ -315,19 +486,37 @@ namespace TikzEdt
             }
 
 
+            Point spokep(int i)
+            {
+                return Center + R*(new Vector(Math.Cos(Spokes[i]), -Math.Sin(Spokes[i])));
+            }
+
             /// <summary>
             /// Draw an arc
             /// </summary>
             /// <param name="context"></param>
             private void InternalDrawNodeGeometry(StreamGeometryContext context)
             {
-                context.BeginFigure(new Point(X, overlay.Height - Y), false, false);
-                bool largearc = Math.Abs(phi2 - phi1) > Math.PI;
-                SweepDirection sd = SweepDirection.Counterclockwise;
-                if (phi2 < phi1)
-                    sd = SweepDirection.Clockwise;
+                if (R == 0 || Spokes == null || Spokes.Count() < 2)
+                    return;
 
-                context.ArcTo(EndPoint, new Size(r, r), 0, largearc, sd, true, false);
+                context.BeginFigure(Center, false, false);
+
+                context.LineTo(spokep(0), true, false);
+
+                for (int i = 1; i < Spokes.Count(); i++)
+                {
+
+                    bool largearc = Math.Abs(Spokes[i] - Spokes[i-1]) > Math.PI;
+                    SweepDirection sd = SweepDirection.Counterclockwise;
+                    if (Spokes[i] < Spokes[i-1])
+                        sd = SweepDirection.Clockwise;
+
+                    context.ArcTo(spokep(i), new Size(R, R), 0, largearc, sd, true, false);
+
+                    context.BeginFigure(Center, false, false);
+                    context.LineTo(spokep(i), true, false);
+                }
 
             }
 
