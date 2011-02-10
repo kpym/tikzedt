@@ -1611,10 +1611,55 @@ namespace TikzEdt
             {
                 if (d > 2 && d < 6000)
                 {
+                    //determine cursor position relative to PreviewScrollViewer
+                    Point RelativeCursor = Mouse.GetPosition(PreviewScrollViewer);
+                    //if mouse is not over PreviewScrollViewer, pretend mouse being at center of PreviewScrollViewer.
+                    if (RelativeCursor.X < 0 || RelativeCursor.Y < 0 || RelativeCursor.X > PreviewScrollViewer.ViewportWidth || RelativeCursor.Y > PreviewScrollViewer.ViewportHeight)
+                    {
+                        RelativeCursor.X = PreviewScrollViewer.ViewportWidth / 2;
+                        RelativeCursor.Y = PreviewScrollViewer.ViewportHeight / 2;
+                    }
+                    Point AbsoluteCursor = PreviewScrollViewer.PointToScreen(RelativeCursor);
+
+                    Point CursorPosBeforeZoom = new Point(0, 0);
+                    Point CursorPosBeforeZoomNormalized = new Point(0, 0);
+                    try
+                    {
+                        //This is where the mouse is pointing to before zooming in.
+                        CursorPosBeforeZoom = rasterControl1.PointFromScreen(AbsoluteCursor);
+                        CursorPosBeforeZoomNormalized = new Point(CursorPosBeforeZoom.X / pdfOverlay1.Resolution, CursorPosBeforeZoom.Y / pdfOverlay1.Resolution);
+                    }
+                    catch (Exception) { 
+                        //raises exception if run before rasterControl1 is connected to PresentationSource
+                    }
+
+                    //do the actual zooming
                     double res = d / 100 * Consts.ptspertikzunit;
                     tikzDisplay1.Resolution = res;
                     rasterControl1.Resolution = res;
                     pdfOverlay1.Resolution = res;
+
+                    Point CursorPosAfterZoom = new Point(0, 0);
+                    Point CursorPosAfterZoomNormalized = new Point(0, 0);
+                    try
+                    {
+                        //This is where the mouse is pointing to after zooming in.
+                        CursorPosAfterZoom = rasterControl1.PointFromScreen(AbsoluteCursor);
+                        CursorPosAfterZoomNormalized = new Point(CursorPosAfterZoom.X / pdfOverlay1.Resolution, CursorPosAfterZoom.Y / pdfOverlay1.Resolution);
+                    }
+                    catch (Exception)
+                    {
+                        //raises exception if run before rasterControl1 is connected to PresentationSource
+                    }
+
+                    //calculate offset between Before and After position.
+                    double DeltaX = (CursorPosBeforeZoomNormalized.X - CursorPosAfterZoomNormalized.X) * res;
+                    double DeltaY = (CursorPosBeforeZoomNormalized.Y - CursorPosAfterZoomNormalized.Y) * res;
+
+                    //correct offset.
+                    PreviewScrollViewer.ScrollToHorizontalOffset(PreviewScrollViewer.HorizontalOffset + DeltaX);
+                    PreviewScrollViewer.ScrollToVerticalOffset(PreviewScrollViewer.VerticalOffset + DeltaY);
+                    
                 }
             }
         }
