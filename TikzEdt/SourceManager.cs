@@ -62,7 +62,7 @@ namespace TikzEdt
         /// <param name="e"></param>
         static public void SourceCode_TextChanged(object sender, EventArgs e)
         { 
-            //int asd = 3;
+            int asd = 3;
         }
 
 

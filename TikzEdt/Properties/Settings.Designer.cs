@@ -97,7 +97,7 @@ namespace TikzEdt.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("6")]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public double BB_Margin {
             get {
                 return ((double)(this["BB_Margin"]));
@@ -109,16 +109,9 @@ namespace TikzEdt.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"\documentclass{article}
-\usepackage{tikz,amsmath, amssymb,bm,color}
-\usepackage[margin=0cm,nohead]{geometry}
-\usepackage[active,tightpage]{preview}
-\usetikzlibrary{shapes,arrows}
-% needed for BB
-\usetikzlibrary{calc}
-
-\PreviewEnvironment{tikzpicture}
-")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\documentclass[tight]{article}\r\n\\usepackage{tikz,amsmath, amssymb,bm,color}\r\n\\use" +
+            "package[margin=0cm,nohead]{geometry}\r\n\\usepackage[active,tightpage]{preview}\r\n\r\n" +
+            "\\PreviewEnvironment{tikzpicture}\r\n")]
         public string Tex_Preamble {
             get {
                 return ((string)(this["Tex_Preamble"]));
@@ -329,210 +322,6 @@ namespace TikzEdt.Properties {
             }
             set {
                 this["Snippets_ShowThumbs"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("50")]
-        public global::System.Windows.GridLength LeftMenuColWidthSetting {
-            get {
-                return ((global::System.Windows.GridLength)(this["LeftMenuColWidthSetting"]));
-            }
-            set {
-                this["LeftMenuColWidthSetting"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("151")]
-        public global::System.Windows.GridLength LeftToolsColWidthSetting {
-            get {
-                return ((global::System.Windows.GridLength)(this["LeftToolsColWidthSetting"]));
-            }
-            set {
-                this["LeftToolsColWidthSetting"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("*")]
-        public global::System.Windows.GridLength OverlayCanvasColWidthSetting {
-            get {
-                return ((global::System.Windows.GridLength)(this["OverlayCanvasColWidthSetting"]));
-            }
-            set {
-                this["OverlayCanvasColWidthSetting"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("*")]
-        public global::System.Windows.GridLength OverlayCanvasCol2WidthSetting {
-            get {
-                return ((global::System.Windows.GridLength)(this["OverlayCanvasCol2WidthSetting"]));
-            }
-            set {
-                this["OverlayCanvasCol2WidthSetting"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("80")]
-        public global::System.Windows.GridLength StatusFieldRowHeightSetting {
-            get {
-                return ((global::System.Windows.GridLength)(this["StatusFieldRowHeightSetting"]));
-            }
-            set {
-                this["StatusFieldRowHeightSetting"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("500")]
-        public int MessageColWidth {
-            get {
-                return ((int)(this["MessageColWidth"]));
-            }
-            set {
-                this["MessageColWidth"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("25")]
-        public int LineColWidth {
-            get {
-                return ((int)(this["LineColWidth"]));
-            }
-            set {
-                this["LineColWidth"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("25")]
-        public int PosColWidth {
-            get {
-                return ((int)(this["PosColWidth"]));
-            }
-            set {
-                this["PosColWidth"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("75")]
-        public int SourceColWidth {
-            get {
-                return ((int)(this["SourceColWidth"]));
-            }
-            set {
-                this["SourceColWidth"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool LeftToolsColVisible {
-            get {
-                return ((bool)(this["LeftToolsColVisible"]));
-            }
-            set {
-                this["LeftToolsColVisible"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3")]
-        public global::System.Windows.GridLength SplitterColWidthSetting {
-            get {
-                return ((global::System.Windows.GridLength)(this["SplitterColWidthSetting"]));
-            }
-            set {
-                this["SplitterColWidthSetting"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("#FFADFF2F")]
-        public global::System.Windows.Media.Color Overlay_CoordSelColor {
-            get {
-                return ((global::System.Windows.Media.Color)(this["Overlay_CoordSelColor"]));
-            }
-            set {
-                this["Overlay_CoordSelColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("#FFFF0000")]
-        public global::System.Windows.Media.Color Overlay_CoordColor {
-            get {
-                return ((global::System.Windows.Media.Color)(this["Overlay_CoordColor"]));
-            }
-            set {
-                this["Overlay_CoordColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("#70FF0000")]
-        public global::System.Windows.Media.Color Overlay_ScopeSelColor {
-            get {
-                return ((global::System.Windows.Media.Color)(this["Overlay_ScopeSelColor"]));
-            }
-            set {
-                this["Overlay_ScopeSelColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("#7000FF00")]
-        public global::System.Windows.Media.Color Overlay_ScopeColor {
-            get {
-                return ((global::System.Windows.Media.Color)(this["Overlay_ScopeColor"]));
-            }
-            set {
-                this["Overlay_ScopeColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int Compiler_Timeout {
-            get {
-                return ((int)(this["Compiler_Timeout"]));
-            }
-            set {
-                this["Compiler_Timeout"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int Compiler_SnippetTimeout {
-            get {
-                return ((int)(this["Compiler_SnippetTimeout"]));
-            }
-            set {
-                this["Compiler_SnippetTimeout"] = value;
             }
         }
     }

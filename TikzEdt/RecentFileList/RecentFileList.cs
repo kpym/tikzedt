@@ -64,14 +64,8 @@ namespace Common
 			MenuItemFormatOneToNine = "_{0}:  {2}";
 			MenuItemFormatTenPlus = "{0}:  {2}";
 
-            this.Loaded += new RoutedEventHandler(RecentFileList_Loaded);
-			//this.Loaded += ( s, e ) => HookFileMenu();
+			this.Loaded += ( s, e ) => HookFileMenu();
 		}
-
-        void RecentFileList_Loaded(object sender, RoutedEventArgs e)
-        {
-            HookFileMenu();
-        }
 
 		void HookFileMenu()
 		{
@@ -89,12 +83,11 @@ namespace Common
 		public List<string> RecentFiles { get { return Persister.RecentFiles( MaxNumberOfFiles ); } }
         public void RemoveFile(string filepath) { Persister.RemoveFile(filepath, MaxNumberOfFiles); _itemsUpToDate = false; }
         public void InsertFile(string filepath) { Persister.InsertFile(filepath, MaxNumberOfFiles); _itemsUpToDate = false; }
-        
 
 		void _FileMenu_SubmenuOpened( object sender, RoutedEventArgs e )
 		{
             if (_itemsUpToDate) return;
-            SetMenuItems(true);
+            SetMenuItems();
             _itemsUpToDate = true;
 		}
 
@@ -106,71 +99,6 @@ namespace Common
 
 			InsertMenuItems();
 		}
-
-        bool FirstTime = false;
-        void SetMenuItems(bool fast)
-        {
-            //once call SetMenuItems which creates all required menu items
-            if (FirstTime == false) SetMenuItems();
-            else UpdateMenuItems();
-            FirstTime = true;
-        }
-
-        void UpdateMenuItems()
-        {
-            if (_RecentFiles == null) return;
-            if (_RecentFiles.Count == 0) return;
-
-            int iMenuItem = FileMenu.Items.IndexOf(this);
-            
-            //RecentFiles contains the correct and current recent files.
-            //_RecentFiles holds the menu entries.
-            //Change size of _RecentFiles if necessary.
-            if (_RecentFiles.Count < RecentFiles.Count)
-            {
-                for (int i = RecentFiles.Count - _RecentFiles.Count; i > 0; i--)
-                    _RecentFiles.Add(null);
-            }
-            else if (_RecentFiles.Count > RecentFiles.Count)
-            {
-                List<RecentFile> RemovedItems = new List<RecentFile>();
-                
-                //find all menu items that are not in recent file list.
-                foreach (RecentFile r in _RecentFiles)
-                    if (!RecentFiles.Contains(r.Filepath))
-                    {
-                        FileMenu.Items.Remove(r.MenuItem);
-                        RemovedItems.Add(r);
-                    }
-
-                foreach (RecentFile r in RemovedItems)
-                    _RecentFiles.Remove(r);
-
-            }
-
-            for(int i=0;i<_RecentFiles.Count;i++)            
-            {
-                //this is a new entry initialize it!
-                if (_RecentFiles[i] == null)
-                {                    
-                    _RecentFiles[i] = new RecentFile(i, RecentFiles[i]);
-                    _RecentFiles[i].MenuItem = new MenuItem { Header = ShortenPathname(RecentFiles[i], MaxPathLength) };
-                    // add a tooltip if path was shortened
-                    if (RecentFiles[i].Length > MaxPathLength + Path.GetExtension(RecentFiles[i]).Length )
-                    {
-                        _RecentFiles[i].MenuItem.ToolTip = RecentFiles[i];
-                    }
-                    _RecentFiles[i].Filepath = RecentFiles[i];
-                    _RecentFiles[i].MenuItem.Click += MenuItem_Click;
-                    FileMenu.Items.Insert(iMenuItem + i + 1, _RecentFiles[i].MenuItem);
-                }
-                else //update entry
-                {
-                    _RecentFiles[i].MenuItem.Header = ShortenPathname(RecentFiles[i], MaxPathLength);
-                    _RecentFiles[i].Filepath = RecentFiles[i];
-                }                              
-            }            
-        }
 
 		void RemoveMenuItems()
 		{
@@ -190,23 +118,15 @@ namespace Common
 			if ( _RecentFiles == null ) return;
 			if ( _RecentFiles.Count == 0 ) return;
 
-            
-
 			int iMenuItem = FileMenu.Items.IndexOf( this );
 			foreach ( RecentFile r in _RecentFiles )
 			{
 				string header = GetMenuItemText( r.Number + 1, r.Filepath, r.DisplayPath );
 
 				r.MenuItem = new MenuItem { Header = header };
-                // add a tooltip if path was shortened (a bit a hack)
-                if (r.Filepath.Length > MaxPathLength + Path.GetExtension(r.Filepath).Length )
-                {
-                    r.MenuItem.ToolTip = r.Filepath;
-                }
 				r.MenuItem.Click += MenuItem_Click;
 
 				FileMenu.Items.Insert( ++iMenuItem, r.MenuItem );
-            
 			}
 
 			_Separator = new Separator();
@@ -228,7 +148,7 @@ namespace Common
 		// This method is taken from Joe Woodbury's article at: http://www.codeproject.com/KB/cs/mrutoolstripmenu.aspx
 
 		/// <summary>
-		/// Shortens a pathname for display purposes and replaces one underscore by two (for menu entries ).
+		/// Shortens a pathname for display purposes.
 		/// </summary>
 		/// <param labelName="pathname">The pathname to shorten.</param>
 		/// <param labelName="maxLength">The maximum number of characters to be displayed.</param>
@@ -244,16 +164,8 @@ namespace Common
 		/// <returns></returns>
 		static public string ShortenPathname( string pathname, int maxLength )
 		{
-            //the actual work does ShortenPathname2()
-            //here we just replace one underscore by two.
-            //this is meant for menu entries in C#
-            //(with just one underscore the following letter will be underscored and becomes a shortcut)
-            return ShortenPathname2(  pathname,  maxLength ).Replace("_", "__");            
-        }
-         static public string ShortenPathname2( string pathname, int maxLength )
-		{
-             if (pathname.Length <= maxLength)
-                return pathname;
+			if ( pathname.Length <= maxLength )
+				return pathname;
 
 			string root = Path.GetPathRoot( pathname );
 			if ( root.Length > 3 )
@@ -348,7 +260,7 @@ namespace Common
 
 				return root + elements[ filenameIndex ];
 			}
-            return pathname;
+			return pathname;
 		}
 
 		void LoadRecentFiles()
@@ -421,7 +333,7 @@ namespace Common
 
 		string GetFilepath( MenuItem menuItem )
 		{
-            foreach ( RecentFile r in _RecentFiles )
+			foreach ( RecentFile r in _RecentFiles )
 				if ( r.MenuItem == menuItem )
 					return r.Filepath;
 

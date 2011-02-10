@@ -1,19 +1,4 @@
-﻿/*This file is part of TikzEdt.
- 
-TikzEdt is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
- 
-TikzEdt is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
- 
-You should have received a copy of the GNU General Public License
-along with TikzEdt.  If not, see <http://www.gnu.org/licenses/>.*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,27 +18,6 @@ namespace TikzEdt.Parser
     {
         //static public string TIKZEDT_CMD_COMMENT = "";
 
-        public static Tikz_ParseTree ParseInputFile(string code)
-        {
-            //if code is empty to bother ANTLR (it will raise an exception)
-            if (code.Trim() == "")
-                return null;
-            simpletikzLexer lex = new simpletikzLexer(new ANTLRStringStream(code));
-            CommonTokenStream tokens = new CommonTokenStream(lex);
-            simpletikzParser parser = new simpletikzParser(tokens);
-            simpletikzParser.tikzdocument_wo_tikzpicture_return ret = parser.tikzdocument_wo_tikzpicture();
-            CommonTree t = (CommonTree)ret.Tree;
-            Tikz_ParseTree root = new Tikz_ParseTree();
-            bool success = FillItem(root, t, tokens);
-            if (success)
-            {
-                root.RegisterNodeAndStyleRefs(); // make a list with all node names for later reference                
-                return root;
-            }
-            else
-                return null;
-        }
-        
         public static Tikz_ParseTree Parse(string code)
         {
             //if code is empty to bother ANTLR (it will raise an exception)
@@ -163,11 +127,7 @@ namespace TikzEdt.Parser
                         tc.text = getTokensString(tokens, childt);
                         item.AddChild(tc);
                         break;
-                    case simpletikzParser.IM_ARC:
-                        Tikz_Arc ta = Tikz_Arc.FromCommonTree(childt, tokens);
-                        ta.text = getTokensString(tokens, childt);
-                        item.AddChild(ta);
-                        break;
+                    
                     case simpletikzParser.IM_NODE:
                         Tikz_Node tn = Tikz_Node.FromCommonTree(childt, tokens);
                         tn.text = getTokensString(tokens, childt);
@@ -176,10 +136,7 @@ namespace TikzEdt.Parser
                     case simpletikzParser.IM_OPTION_KV:
                     case simpletikzParser.IM_OPTION_STYLE:
                         Tikz_Option topt = Tikz_Option.FromCommonTree(childt, tokens);
-                        if (topt == null) break;
-                        //topt.text = getTokensString(tokens, childt);
-                        String s = getTokensString(tokens, childt);
-                        topt.text = s;
+                        topt.text = getTokensString(tokens, childt);
                         item.AddChild(topt);
                         break;
                     case simpletikzParser.IM_OPTIONS:
@@ -190,17 +147,7 @@ namespace TikzEdt.Parser
                         //to.text = getTokensString(tokens, childt);
                         //item.AddChild(tn);
                         if (item.options == null)
-                        {
-                            // determine whether option belongs to the item (e.g. \draw [this belongs to draw] blabla [thisnot])
-                            // i.e., the scope of the options is the whole item's body
-                            // this is hacky
-                            if (item.Children.Count == 1 ||
-                                (item.Children.Count == 2 && (item.Children[0] is Tikz_Something)
-                                 && item.Children[0].ToString().Trim() == ""))
-                            {
-                                item.options = to;
-                            }
-                        }
+                            item.options = to;
                         break;
                     case simpletikzParser.IM_TIKZSET:
                         Tikz_Options to2 = new Tikz_Options();
@@ -212,12 +159,7 @@ namespace TikzEdt.Parser
                         //FillItem(to2, childt, tokens);
                         topt2.text = getTokensString(tokens, childt);
                         item.AddChild(topt2);
-                        break;
-                    case simpletikzParser.IM_CONTROLS:
-                        Tikz_Controls tcontrols = new Tikz_Controls();
-                        FillItem(tcontrols, childt, tokens);
-                        item.AddChild(tcontrols);
-                        break;
+                        break;                    
                     case simpletikzParser.IM_SIZE:
                         Tikz_Size tsize = Tikz_Size.FromCommonTree(childt, tokens);
                         tsize.text = getTokensString(tokens, childt);
@@ -234,11 +176,9 @@ namespace TikzEdt.Parser
                         Tikz_EdtCommand cmd = new Tikz_EdtCommand(getTokensString(tokens, childt));
                         item.AddChild(cmd);
                         break;
-                    case simpletikzParser.IM_DONTCARE:
-                        break;
                     default:
                         // getting here is an error
-                        throw new Exception(" childt.Type not handled! " + childt.Type.ToString());
+                        throw new Exception("childt.Type not handled! " + childt.Type.ToString());
                         //break;
 
                 }
