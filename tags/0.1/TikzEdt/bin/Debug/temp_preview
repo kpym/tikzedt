@@ -1,4 +1,0 @@
-\documentclass[fleqn]{article}
-\usepackage{tikz,amsmath, amssymb,bm,color}
-\usepackage[margin=0cm,nohead]{geometry}
-
