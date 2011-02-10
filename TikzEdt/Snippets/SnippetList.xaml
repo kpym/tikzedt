@@ -9,7 +9,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="boolToVis" />
         <mySnippets:SnippetsDataSet x:Key="snippetsDataSet" />
         <CollectionViewSource x:Key="snippetsTableViewSource" Source="{Binding Path=SnippetsTable, Source={StaticResource snippetsDataSet}}" >
             <CollectionViewSource.GroupDescriptions>
@@ -37,13 +36,13 @@
                         <Expander IsExpanded="False">
                             <Expander.Header>
                                 <Border HorizontalAlignment="Stretch">
-                                    <TextBlock Text="{Binding Name}" Foreground="Black"/>
+                                    <TextBlock Text="{Binding Name}"/>
                                 </Border>
                             </Expander.Header>
                              <Expander.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                    <GradientStop Color="Gainsboro"  Offset="0.263"/>
-                                    <GradientStop Color="WhiteSmoke" Offset="0.942"/>
+                                    <GradientStop Color="LightBlue"  Offset="0.263"/>
+                                    <GradientStop Color="LightBlue" Offset="0.942"/>
                                 </LinearGradientBrush>
                             </Expander.Background> 
                             <Grid Background="White">
@@ -96,9 +95,7 @@
                             </StackPanel>
                             </DockPanel.ToolTip>
                         
-                        <Image DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10" Height="Auto" Width="40" 
-                               Source="{Binding Path=ID, Converter={StaticResource ImgConverter}}" HorizontalAlignment="Center" 
-                               Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=mySnippets:SnippetList, AncestorLevel=1}, Path=ShowThumbnails, Converter={StaticResource boolToVis}}" />
+                        <Image DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10" Height="Auto" Width="40" Source="{Binding Path=ID, Converter={StaticResource ImgConverter}}" HorizontalAlignment="Center"/>
                         <TextBlock VerticalAlignment="Center" FontSize="12" TextWrapping="Wrap">                          
                           <TextBlock.Text>
                             <Binding Path="Name"/>                            

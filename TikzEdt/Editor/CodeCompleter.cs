@@ -57,8 +57,7 @@ namespace TikzEdt.Editor
             }
         }
     
-        // this is a list of environments, each of which stores a list of snippets that
-        // may be inserted in that environment
+  
         List<CodeEnvironment> envs = new List<CodeEnvironment>();
 
 
@@ -79,6 +78,7 @@ namespace TikzEdt.Editor
                     }
                 }
             }
+    
 
             //data.Add(new MyCompletionData("draw"));
             //data.Add(new MyCompletionData("fill"));
@@ -106,12 +106,6 @@ namespace TikzEdt.Editor
                         descr = sr.Description;                    
                     snippets.Add(new MyCompletionData(sr.Text, descr));
                 }
-
-                // sort alphabetically
-                snippets.Sort(delegate(MyCompletionData c1, MyCompletionData c2)
-                  {
-                      return String.Compare(c1.Text, c2.Text);
-                  });
             }
 
             public bool MatchEnv(string pre)

@@ -21,17 +21,15 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="BB_Margin" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">6</Value>
+      <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="Tex_Preamble" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\documentclass{article}
+      <Value Profile="(Default)">\documentclass[tight]{article}
 \usepackage{tikz,amsmath, amssymb,bm,color}
 \usepackage[margin=0cm,nohead]{geometry}
 \usepackage[active,tightpage]{preview}
-\usetikzlibrary{shapes,arrows}
-% needed for BB
-\usetikzlibrary{calc}
 
+\begin{document}
 \PreviewEnvironment{tikzpicture}
 </Value>
     </Setting>
@@ -82,60 +80,6 @@
     </Setting>
     <Setting Name="Editor_CompleteBegins" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="Snippets_ShowThumbs" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="LeftMenuColWidthSetting" Type="System.Windows.GridLength" Scope="User">
-      <Value Profile="(Default)">50</Value>
-    </Setting>
-    <Setting Name="LeftToolsColWidthSetting" Type="System.Windows.GridLength" Scope="User">
-      <Value Profile="(Default)">151</Value>
-    </Setting>
-    <Setting Name="OverlayCanvasColWidthSetting" Type="System.Windows.GridLength" Scope="User">
-      <Value Profile="(Default)">*</Value>
-    </Setting>
-    <Setting Name="OverlayCanvasCol2WidthSetting" Type="System.Windows.GridLength" Scope="User">
-      <Value Profile="(Default)">*</Value>
-    </Setting>
-    <Setting Name="StatusFieldRowHeightSetting" Type="System.Windows.GridLength" Scope="User">
-      <Value Profile="(Default)">80</Value>
-    </Setting>
-    <Setting Name="MessageColWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">500</Value>
-    </Setting>
-    <Setting Name="LineColWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">25</Value>
-    </Setting>
-    <Setting Name="PosColWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">25</Value>
-    </Setting>
-    <Setting Name="SourceColWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">75</Value>
-    </Setting>
-    <Setting Name="LeftToolsColVisible" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="SplitterColWidthSetting" Type="System.Windows.GridLength" Scope="User">
-      <Value Profile="(Default)">3</Value>
-    </Setting>
-    <Setting Name="Overlay_CoordSelColor" Type="System.Windows.Media.Color" Scope="User">
-      <Value Profile="(Default)">#FFADFF2F</Value>
-    </Setting>
-    <Setting Name="Overlay_CoordColor" Type="System.Windows.Media.Color" Scope="User">
-      <Value Profile="(Default)">#FFFF0000</Value>
-    </Setting>
-    <Setting Name="Overlay_ScopeSelColor" Type="System.Windows.Media.Color" Scope="User">
-      <Value Profile="(Default)">#70FF0000</Value>
-    </Setting>
-    <Setting Name="Overlay_ScopeColor" Type="System.Windows.Media.Color" Scope="User">
-      <Value Profile="(Default)">#7000FF00</Value>
-    </Setting>
-    <Setting Name="Compiler_Timeout" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="Compiler_SnippetTimeout" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

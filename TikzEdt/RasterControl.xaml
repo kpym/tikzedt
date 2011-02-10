@@ -6,8 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <!-- <Canvas HorizontalAlignment="Stretch" Name="canvas1" VerticalAlignment="Stretch" ClipToBounds="True" />
-        <Image Name="imgRaster" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ></Image>
-        Background="White" -->
+        <Canvas HorizontalAlignment="Stretch" Name="canvas1" VerticalAlignment="Stretch" Background="White" ClipToBounds="True" />
     </Grid>
 </UserControl>

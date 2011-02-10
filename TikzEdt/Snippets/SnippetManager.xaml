@@ -39,8 +39,8 @@
                                 </Expander.Header>
                             <Expander.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                    <GradientStop Color="Gainsboro"  Offset="0.263"/>
-                                    <GradientStop Color="WhiteSmoke" Offset="0.942"/>
+                                    <GradientStop Color="LightBlue" Offset="0.263"/>
+                                    <GradientStop Color="LightBlue" Offset="0.942"/>
                                 </LinearGradientBrush>
                             </Expander.Background>
                             <Grid Background="White">
@@ -90,7 +90,7 @@
             <TextBlock FontSize="18" FontWeight="Bold" Margin="10" HorizontalAlignment="Center" DockPanel.Dock="Top">Code Snippets</TextBlock>
             <ToolBar Height="32" DockPanel.Dock="Top" ToolBarTray.IsLocked="True" Name ="tlbNewDelete">
             <Button Click="cmdAddClick">
-                <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png" ImageFailed="Image_ImageFailed"></Image>
+                <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png"></Image>
                     <Button.ToolTip>New Snippet</Button.ToolTip>
                 </Button>
             <Button Click="cmdDeleteClick">
@@ -160,12 +160,10 @@
 
                     <TextBlock Margin="3" Grid.Row="3" Grid.Column="0">Snippet Code:</TextBlock>
                     <!-- <local:TextEditorWithBinding x:Name="SnippetCodeDTKey" Grid.Row="3" Grid.Column="1" BindableText="{Binding Path=SnippetCode}" Height="150"/>-->
-                    <avalonedit:TextEditor Margin="3" Name="txtSnippetCode" Grid.Row="3" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged" 
-                                           BorderBrush="Black" BorderThickness="1"/>
+                    <avalonedit:TextEditor Margin="3" Name="txtSnippetCode" Grid.Row="3" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged" BorderThickness="1" />
                     
                     <TextBlock Grid.Row="4" Grid.Column="0" Margin="3">Sample Code:</TextBlock>
-                    <avalonedit:TextEditor Name="txtSampleCode" Grid.Row="4" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged"
-                                           BorderBrush="Black" BorderThickness="1" />
+                    <avalonedit:TextEditor Name="txtSampleCode" Grid.Row="4" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged" BorderThickness="1" />
 
                     <TextBlock Grid.Row="5" Grid.Column="0" Margin="3">Dependencies</TextBlock>
                     <TextBox Margin="3" Name="DependenciesDTKey" AcceptsReturn="True" Grid.Row="5" Grid.Column="1" Text="{Binding Path=Dependencies}"/>

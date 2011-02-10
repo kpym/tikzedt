@@ -1,19 +1,4 @@
-﻿/*This file is part of TikzEdt.
- 
-TikzEdt is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
- 
-TikzEdt is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
- 
-You should have received a copy of the GNU General Public License
-along with TikzEdt.  If not, see <http://www.gnu.org/licenses/>.*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,53 +22,40 @@ namespace TikzEdt.Editor
     /// </summary>
     public partial class FindReplaceDialog : Window
     {
-        public FindReplaceDialog(TextEditor EditorToSearchWithin)
+        public FindReplaceDialog()
         {
-            InitializeComponent();
+            InitializeComponent();         
 
-            txtCode = EditorToSearchWithin;
         }
 
-        /// <summary>
-        /// Shows this instance of FindReplaceDialog, with the Find page active
-        /// </summary>
-        public void ShowAsFind()
-        {
-            tabMain.SelectedIndex = 0;
-            Show();
-            Activate();
-            txtFind.Focus();
-        }
-        /// <summary>
-        /// Shows this instance of FindReplaceDialog, with the Replace page active
-        /// </summary>
-        public void ShowAsReplace()
-        {
-            tabMain.SelectedIndex = 1;
-            Show();
-            Activate();
-            txtFind2.Focus();
-        }
+        //public static readonly DependencyProperty TextToFindProperty = DependencyProperty.Register(
+        //    "TextToFind", typeof(string), typeof(PdfOverlay), new PropertyMetadata(""));
+        //public string TextToFind
+        //{
+        //    get { return (string)GetValue(TextToFindProperty); }
+        //    set { }
+        //}
 
-        TextEditor txtCode;
+
+        public TextEditor txtCode;
 
         public Regex GetRegEx(bool ForceLeftToRight = false)
         {
             Regex r;
             RegexOptions o = RegexOptions.None;
-            if (FindReplacePersist.Instance.SearchUp && !ForceLeftToRight)
+            if (FindReplacePersist.SearchUp && !ForceLeftToRight)
                 o = o | RegexOptions.RightToLeft;
-            if (!FindReplacePersist.Instance.CaseSensitive)
+            if (!FindReplacePersist.CaseSensitive)
                 o = o | RegexOptions.IgnoreCase;
 
-            if (FindReplacePersist.Instance.UseRegEx)
-                r = new Regex(FindReplacePersist.Instance.TextToFind, o);
+            if (FindReplacePersist.UseRegExp)
+                r = new Regex(FindReplacePersist.TextToFind, o);
             else
             {
-                string s = Regex.Escape(FindReplacePersist.Instance.TextToFind);
-                if (FindReplacePersist.Instance.UseWildcards)
+                string s = Regex.Escape(FindReplacePersist.TextToFind);
+                if (FindReplacePersist.UseWildcards)
                     s = s.Replace("\\*", ".*");
-                if (FindReplacePersist.Instance.WholeWord)
+                if (FindReplacePersist.WholeWord)
                     s = "\\W" + s + "\\W";
                 r = new Regex(s, o);
             }
@@ -91,34 +63,20 @@ namespace TikzEdt.Editor
             return r;
         }
 
-        public void FindNext(bool InvertLeftRight=false)
+        public void FindNext()
         {
-            Regex r;
-            if (InvertLeftRight)
-            {
-                FindReplacePersist.Instance.SearchUp = !FindReplacePersist.Instance.SearchUp;
-                r = GetRegEx();
-                FindReplacePersist.Instance.SearchUp = !FindReplacePersist.Instance.SearchUp;
-            }
-            else
-                r = GetRegEx();
+            Regex r = GetRegEx();
 
             Match m = r.Match(txtCode.Text, txtCode.CaretOffset);
             if (m.Success)
             {
                 txtCode.Select(m.Index, m.Length);
-                if (r.Options.HasFlag(RegexOptions.RightToLeft))
-                    txtCode.CaretOffset = m.Index;
                 TextLocation loc = txtCode.Document.GetLocation(m.Index);
                 txtCode.ScrollTo(loc.Line, loc.Column);
             }
             else
             {
-                // start again from the beginning/end
-                if (r.Options.HasFlag(RegexOptions.RightToLeft))
-                    m = r.Match(txtCode.Text, txtCode.Text.Length - 1);
-                else
-                    m = r.Match(txtCode.Text, 0);
+                m = r.Match(txtCode.Text, 0);
                 if (m.Success)
                 {
                     txtCode.Select(m.Index, m.Length);
@@ -133,9 +91,14 @@ namespace TikzEdt.Editor
             }
         }
 
-        public void FindPrevious()
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            FindNext(true);
+            /* // Keep the window open (hide only)
+            if (!MainWindow.isClosing)
+            {
+                this.Visibility = Visibility.Hidden;
+                e.Cancel = true;
+            } */
         }
 
         private void FindNextClick(object sender, RoutedEventArgs e)
@@ -144,10 +107,6 @@ namespace TikzEdt.Editor
         }
 
         private void ReplaceClick(object sender, RoutedEventArgs e)
-        {
-            Replace();
-        }
-        public void Replace()
         {
             // if currently selected text matches -> replace; anyways, find the next match
             Regex r = GetRegEx();
@@ -163,11 +122,7 @@ namespace TikzEdt.Editor
 
         private void ReplaceAllClick(object sender, RoutedEventArgs e)
         {
-            ReplaceAll();
-        }
-        public void ReplaceAll(bool AskBefore = true )
-        {
-            if (!AskBefore || MessageBox.Show("Do you really want to replace all occurences of '" + FindReplacePersist.Instance.TextToFind + "' with '" + txtReplace.Text + "'?",
+            if (MessageBox.Show("Do you really want to replace all occurences of '" + FindReplacePersist.TextToFind + "' with '" + txtReplace.Text + "'?",
                 "Replace all", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
             {
 
@@ -176,13 +131,56 @@ namespace TikzEdt.Editor
                 txtCode.BeginChange();
                 foreach (Match m in r.Matches(txtCode.Text))
                 {                
-                    txtCode.Document.Replace(offset+m.Index, m.Length, txtReplace.Text);
+                    txtCode.Document.Replace(offset+m.Index, offset+m.Length, txtReplace.Text);
                     offset += txtReplace.Text.Length - m.Length;
                 }
                 txtCode.EndChange();
             }
         }
-  
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //object o = FindName("txtFind");
+            /*try
+            {
+                DataTemplate myTemplate = tabFind.ContentTemplate;//FindResource("FindPageTemplate") as DataTemplate;  
+                ContentPresenter c = FindVisualChild<ContentPresenter>(tabFind);
+                object ctl = myTemplate.FindName("txtFind", c);
+                (ctl as FrameworkElement).Focus();
+            }
+            catch
+            {
+                // focus something else if the template/item wasn't found?
+            }
+            */
+            //DependencyObject o = FindVisualChild<TextBox>(tabFind);
+            //if (o != null)
+            //    (o as FrameworkElement).Focus();
+            //object o = FindResource("FindPageTemplate");
+            //if (o != null)
+            //{
+            //    object o = 
+            //if (o is TextBox)
+            //    (o as TextBox).Focus();
+        }
+        private childItem FindVisualChild<childItem>(DependencyObject obj)
+    where childItem : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is childItem)
+                    return (childItem)child;
+                else
+                {
+                    childItem childOfChild = FindVisualChild<childItem>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+            return null;
+        }
+
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
@@ -194,38 +192,53 @@ namespace TikzEdt.Editor
 
     /// <summary>
     /// This class ensures that the settings and text to be found is preserved when the find/replace dialog is closed
-    /// 
-    /// We need two-way binding, otherwise we could just make all properties static properties of the window
+    /// (Yes, you could declare all those properties as static properties of the window, but for some unknown reason wpf
+    /// refuses to let the form class live in the resources... hence databinding is impossible)
     /// </summary>
-    public class FindReplacePersist : DependencyObject
+    public class FindReplacePersist
     {
-        // singleton pattern
-        public static FindReplacePersist Instance { get; private set; }
-        static FindReplacePersist()
-        {
-            Instance = new FindReplacePersist();
-        }
-        private FindReplacePersist() 
-        {
-            ReplacementText = "";
-            CaseSensitive = SearchUp = UseWildcards = UseRegEx = WholeWord = false;
-        }
 
-        public static readonly DependencyProperty TextToFindProperty =
-        DependencyProperty.Register("TextToFind", typeof(string),
-        typeof(FindReplacePersist), new UIPropertyMetadata(""));
-        public string TextToFind
+        public static string _TextToFind = "";
+        public static string TextToFind
         {
-            get { return (string)GetValue(TextToFindProperty); }
-            set { SetValue(TextToFindProperty, value); }
+            get { return _TextToFind; }
+            set { _TextToFind = value; }
         }
-        
-        public string ReplacementText { get; set; }
-        public bool CaseSensitive { get; set; }
-        public bool SearchUp { get; set; }
-        public bool UseWildcards { get; set; }
-        public bool UseRegEx { get; set; }
-        public bool WholeWord { get; set; }
-
+        public static string _ReplacementText = "";
+        public static string ReplacementText
+        {
+            get { return _ReplacementText; }
+            set { _ReplacementText = value; }
+        }
+        public static bool _CaseSensitive = false;
+        public static bool CaseSensitive
+        {
+            get { return _CaseSensitive; }
+            set { _CaseSensitive = value; }
+        }
+        public static bool _SearchUp = false;
+        public static bool SearchUp
+        {
+            get { return _SearchUp; }
+            set { _SearchUp = value; }
+        }
+        public static bool _UseWildcards = false;
+        public static bool UseWildcards
+        {
+            get { return _UseWildcards; }
+            set { _UseWildcards = value; }
+        }
+        public static bool _UseRegExp = false;
+        public static bool UseRegExp
+        {
+            get { return _UseRegExp; }
+            set { _UseRegExp = value; }
+        }
+        public static bool _WholeWord = false;
+        public static bool WholeWord
+        {
+            get { return _WholeWord; }
+            set { _WholeWord = value; }
+        }
     }           
 }

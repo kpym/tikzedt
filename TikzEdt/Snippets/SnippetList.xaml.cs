@@ -1,19 +1,4 @@
-﻿/*This file is part of TikzEdt.
- 
-TikzEdt is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
- 
-TikzEdt is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
- 
-You should have received a copy of the GNU General Public License
-along with TikzEdt.  If not, see <http://www.gnu.org/licenses/>.*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,14 +25,6 @@ namespace TikzEdt.Snippets
         public delegate void InsertEventHandler(string code, string dependencies);
         public event InsertEventHandler OnInsert;
 
-        readonly public static DependencyProperty ShowThumbnailsProperty = DependencyProperty.Register(
-         "ShowThumbnails", typeof(bool), typeof(SnippetList), new PropertyMetadata(false));
-        public bool ShowThumbnails
-        {
-            get { return (bool)GetValue(ShowThumbnailsProperty); }
-            set { SetValue(ShowThumbnailsProperty, value); }
-        }
-
         public SnippetList()
         {
             InitializeComponent();
@@ -57,38 +34,21 @@ namespace TikzEdt.Snippets
         CollectionViewSource snippetsTableViewSource;
         SnippetsDataSet.SnippetsTableDataTable snippetsTable;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {            
+        {
+
             snippetsDataSet = ((SnippetsDataSet)(this.FindResource("snippetsDataSet")));
             snippetsTable = snippetsDataSet.Tables["SnippetsTable"] as SnippetsDataSet.SnippetsTableDataTable;
             snippetsTableViewSource = (CollectionViewSource)this.FindResource("snippetsTableViewSource");
 
-            Reload();
-
-            // Do Thumbnails exist? -> Recompile
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))  // we don't want this to happen in the vs designer
-            if (!Directory.Exists(Helper.GetSnippetsPath()))
-            {
-                if (MessageBox.Show("The Snippet Thumbnails do not seem to exist. Do you want them to be created now?\r\nIt may take some time, but it will happen in the background. You can also recompile them later from the Snippet Manager.", "Compile Thumbnails", MessageBoxButton.YesNoCancel, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                {
-                    // Compile
-                    foreach (SnippetsDataSet.SnippetsTableRow r in snippetsTable.Rows)
-                    {
-                        if (!r.IsNull(snippetsTable.SampleCodeColumn))
-                        {
-                            string cFile = Helper.GetSnippetsPath() + r.ID;
-                            TikzToBMPFactory.Instance.AddJob(r.SampleCode, cFile + ".tex", new Rect(0, 0, 0, 0), r.Name, true);
-                        }
-                    }
-                }
-            }            
+            Reload();      
         }
 
         public void Reload()
         {
-            if (File.Exists(Helper.GetSettingsPath() + Consts.cSnippetsFile))
+            if (File.Exists(Consts.cSnippetsFile))
             {
                 snippetsDataSet.Clear();
-                snippetsDataSet.ReadXml(Helper.GetSettingsPath() + Consts.cSnippetsFile);
+                snippetsDataSet.ReadXml(Consts.cSnippetsFile);
                 snippetsTableViewSource.View.Refresh();
                 //snippetsTableViewSource.SortDescriptions.Clear();
                 //snippetsTableViewSource.SortDescriptions.Add(new System.ComponentModel.SortDescription("Category", System.ComponentModel.ListSortDirection.Ascending));

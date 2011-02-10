@@ -1,19 +1,4 @@
-﻿/*This file is part of TikzEdt.
- 
-TikzEdt is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
- 
-TikzEdt is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
- 
-You should have received a copy of the GNU General Public License
-along with TikzEdt.  If not, see <http://www.gnu.org/licenses/>.*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,7 +30,7 @@ namespace TikzEdt.Snippets
     /// </summary>
     public partial class SnippetManager : Window
     {
-        public TikzToBMPFactory fact;
+        public TikzToBMPFactory fact = new TikzToBMPFactory();
         public bool isSuccessfullyLoaded = false;
         System.Threading.Mutex myMutex;
 
@@ -70,7 +55,6 @@ namespace TikzEdt.Snippets
             else
                 isSuccessfullyLoaded = true;
 
-            fact = TikzToBMPFactory.Instance;
             fact.BitmapGenerated += new TikzToBMPFactory.NoArgsEventHandler(fact_BitmapGenerated);
 
             //string appPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
@@ -80,19 +64,19 @@ namespace TikzEdt.Snippets
         /// <summary>
         /// This method is called (in a different thread) when the Bitmap Factory has succesfully compiled a Thumbnail
         /// </summary>
-        void fact_BitmapGenerated(object sender)
+        void fact_BitmapGenerated()
         {
-            //Dispatcher.Invoke(new Action(
-            //                delegate()
-            //                {
+            Dispatcher.Invoke(new Action(
+                            delegate()
+                            {
                                 // refresh currently selected item
                                 if (lstSnippets.SelectedItem != null)
                                 {
                                     SnippetsDataSet.SnippetsTableRow curr = ((DataRowView)(lstSnippets.SelectedItem)).Row as SnippetsDataSet.SnippetsTableRow;
                                     curr.ID = curr.ID;
                                 }
-            //                }
-            //                ));
+                            }
+                            ));
         }
 
 
@@ -100,10 +84,8 @@ namespace TikzEdt.Snippets
         {
             //string source = xmldp.Source.LocalPath;
             //xmldp.Document.Save(source);
-            // remove focus from current control, so that pending data is written to dataset
-            lstSnippets.Focus();
             if (isSuccessfullyLoaded)
-                snippetsDataSet.WriteXml(Helper.GetSettingsPath() + Consts.cSnippetsFile);
+                snippetsDataSet.WriteXml(Consts.cSnippetsFile);
             
         }
 
@@ -139,7 +121,7 @@ namespace TikzEdt.Snippets
   
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
+
             FrameworkElement overflowGrid = tlbNewDelete.Template.FindName("OverflowGrid", tlbNewDelete) as FrameworkElement;
             if (overflowGrid != null)
             {
@@ -151,13 +133,13 @@ namespace TikzEdt.Snippets
                 overflowGrid.Visibility = Visibility.Collapsed;
             }
 
-            if (!File.Exists(Helper.GetSettingsPath() + Consts.cSyntaxFile))
+            if (!File.Exists(Consts.cSyntaxFile))
             {
                 MessageBox.Show("Syntax definitions not found");
             }
             else
             {
-                XmlReader r = new XmlTextReader(Helper.GetSettingsPath() + Consts.cSyntaxFile);
+                XmlReader r = new XmlTextReader(Consts.cSyntaxFile);
                 txtSnippetCode.SyntaxHighlighting = HighlightingLoader.Load(r, null);  //HighlightingManager.Instance..GetDefinition("C#");
                 txtSampleCode.SyntaxHighlighting = txtSnippetCode.SyntaxHighlighting;  //HighlightingManager.Instance..GetDefinition("C#");
                 r.Close();
@@ -166,24 +148,18 @@ namespace TikzEdt.Snippets
             snippetsDataSet = ((SnippetsDataSet)(this.FindResource("snippetsDataSet")));
             snippetsTable = snippetsDataSet.Tables["SnippetsTable"] as SnippetsDataSet.SnippetsTableDataTable;
             snippetsTableViewSource = (CollectionViewSource)this.FindResource("snippetsTableViewSource");
-            if (File.Exists(Helper.GetSettingsPath() + Consts.cSnippetsFile))
+            if (File.Exists(Consts.cSnippetsFile))
             {
-                snippetsDataSet.ReadXml(Helper.GetSettingsPath() + Consts.cSnippetsFile);         // TODO: Program stops here...very strange ... due to images???
+                snippetsDataSet.ReadXml(Consts.cSnippetsFile);         // TODO: Program stops here...very strange ... due to images???
                 snippetsTableViewSource.View.Refresh();
             }
         }
 
         private void cmdCompile_Click(object sender, RoutedEventArgs e)
         {
-            if (lstSnippets.SelectedItem == null)
-            {
-                MessageBox.Show("Select an item from snippet table on the left!");
-                return;
-            }
-
             SnippetsDataSet.SnippetsTableRow r = ((DataRowView)lstSnippets.SelectedItem).Row as SnippetsDataSet.SnippetsTableRow;
             if (!r.IsNull(snippetsTable.SampleCodeColumn))
-                fact.AddJob(r.SampleCode, Helper.GetSnippetsPath() + r.ID + Helper.GetSnippetsExt(), new Rect(0, 0, 0, 0), r.Name, true);
+                fact.AddJob(r.SampleCode, Helper.GetAppDir() + "\\img\\" + r.ID, new Rect(0, 0, 0, 0));
         }
 
         /// <summary>
@@ -247,12 +223,11 @@ namespace TikzEdt.Snippets
         private void cmdSaveClick(object sender, RoutedEventArgs e)
         {
             if (isSuccessfullyLoaded)
-                snippetsDataSet.WriteXml(Helper.GetSettingsPath() + Consts.cSnippetsFile);
+                snippetsDataSet.WriteXml(Consts.cSnippetsFile);
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            fact.BitmapGenerated -= new TikzToBMPFactory.NoArgsEventHandler(fact_BitmapGenerated);
             // release mutex
             if (myMutex != null && isSuccessfullyLoaded)
                 myMutex.ReleaseMutex();
@@ -269,17 +244,12 @@ namespace TikzEdt.Snippets
                 {
                     if (!r.IsNull(snippetsTable.SampleCodeColumn))
                     {
-                        string cFile =  Helper.GetSnippetsPath() + r.ID;
+                        string cFile =  Helper.GetAppDir() + "\\img\\" + r.ID;
                         if (mbres == MessageBoxResult.Yes || !File.Exists(cFile+".bmp"))
-                            fact.AddJob(r.SampleCode, cFile + Helper.GetSnippetsExt(), new Rect(0, 0, 0, 0), r.Name, true);
+                            fact.AddJob(r.SampleCode, cFile, new Rect(0, 0, 0, 0));
                     }
                 }
             }
-        }
-
-        private void Image_ImageFailed(object sender, ExceptionRoutedEventArgs e)
-        {
-
         }
     }
 
@@ -290,15 +260,15 @@ namespace TikzEdt.Snippets
         {
             try
             {
-                string appPath = Helper.GetAppDir(); //System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
-                string fullpath = Helper.GetSnippetsPath() + value.ToString() +".bmp";
+                string appPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
+                string fullpath = appPath + "\\img\\" + value.ToString() +".bmp";
                 //string fullpath2 = fullpath.Substring(;
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
                 if (File.Exists((new Uri(fullpath)).LocalPath))
                     bi.UriSource = new Uri(fullpath);
-                else if (File.Exists(appPath+"unavailable.png"))
-                    bi.UriSource = new Uri(appPath+"unavailable.png");
+                else if (File.Exists("unavailable.png"))
+                    bi.UriSource = new Uri(appPath+"\\unavailable.png");
                 else return null;
                 bi.CacheOption = BitmapCacheOption.OnLoad;
                 bi.CreateOptions = BitmapCreateOptions.IgnoreImageCache;

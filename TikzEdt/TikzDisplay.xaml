@@ -14,9 +14,6 @@
             <wf:Panel x:Name="panel1" Height="300" Width="300" Left="0" Top="0" BackColor="Green"></wf:Panel>
         </WindowsFormsHost>
         -->
-        <Image Grid.Row="0" HorizontalAlignment="Stretch" Name="image1" Stretch="None" VerticalAlignment="Stretch" 
-               SnapsToDevicePixels="True"/>
-        <TextBox Text="&lt;unavailable&gt;" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"
-                 FontWeight="Bold" Foreground="Silver" Name="lblUnavailable" BorderThickness="0" />
+        <Image Grid.Row="0" HorizontalAlignment="Stretch" Name="image1" Stretch="None" VerticalAlignment="Stretch" SizeChanged="image1_SizeChanged" />
     </Grid>
 </UserControl>
