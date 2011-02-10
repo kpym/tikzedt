@@ -1,0 +1,149 @@
+﻿<Window x:Class="TikzEdt.SettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:p="clr-namespace:TikzEdt.Properties"
+        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        Title="Settings" Height="346" Width="438" Loaded="Window_Loaded" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico" KeyDown="Window_KeyDown">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox Grid.Column="0" Name="lstNav" Padding="0" Margin="5" Width="Auto">           
+            <ListBox.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="DodgerBlue"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="DodgerBlue"/>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Resources>
+
+            <ListBoxItem HorizontalContentAlignment="Stretch">
+                <StackPanel HorizontalAlignment="Center">
+                    <Image HorizontalAlignment="Center" Source="/TikzEdt;component/Images/settings_48.png" />
+                    <TextBlock HorizontalAlignment="Center" Text="General"></TextBlock>
+                </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem HorizontalContentAlignment="Stretch">
+                <StackPanel>
+                    <Image HorizontalAlignment="Center" Source="/TikzEdt;component/Images/pencil_32.png" />
+                    <TextBlock HorizontalAlignment="Center" Text="Editor"></TextBlock>
+                </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem HorizontalContentAlignment="Stretch">
+                <StackPanel>
+                    <Image HorizontalAlignment="Center" Source="/TikzEdt;component/Images/batfile.png" Stretch="None" />
+                    <TextBlock HorizontalAlignment="Center" Text="Compiler"></TextBlock>
+                </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem HorizontalContentAlignment="Stretch">
+                <StackPanel>
+                    <Image HorizontalAlignment="Center" Source="/TikzEdt;component/Images/XML_Schema.png" />
+                    <TextBlock HorizontalAlignment="Center" Text="Parser"></TextBlock>
+                    <TextBlock HorizontalAlignment="Center" Text="and Overlay"></TextBlock>
+                </StackPanel>
+            </ListBoxItem>
+        </ListBox>
+        <TabControl Grid.Column="1" SelectedIndex="{Binding ElementName=lstNav, Path=SelectedIndex}" Background="White">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="{x:Type TabItem}">                    
+                      <Setter Property="Visibility" Value="Collapsed"/>                    
+                </Style>
+            </TabControl.ItemContainerStyle>
+
+            <TabItem> 
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Margin="3" Text="Path to PdfLatex" Grid.Column="0" Grid.Row="0"></TextBlock>
+                    <TextBox Margin="3" Grid.Column="1" Grid.Row="0" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_pdflatex, Mode=TwoWay}"/>
+                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="1" Text="Path to Pdf Viewer" Grid.ColumnSpan="2"></TextBlock>
+                    <TextBox Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_externalviewer, Mode=TwoWay}"/>
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <CheckBox Margin="3" Grid.Row="0" Grid.Column="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=Editor_ShowLineNumbers}">Show Line Numbers</CheckBox>
+                    <CheckBox Margin="3" Grid.Row="1" Grid.Column="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=Editor_WordWrap}">Word Wrap</CheckBox>
+                    <CheckBox Grid.Row="2" Margin="3"  Grid.Column="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=Editor_CodeCompletion}"
+                              >Code Completion</CheckBox>
+                    <CheckBox Grid.Row="3" Margin="3"  Grid.Column="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=Editor_CompleteBegins}"
+                              >\begin{} Completion</CheckBox>
+                    <TextBlock Margin="3" Grid.Row="4" Grid.ColumnSpan="2" TextWrapping="Wrap">If you don't like the colors used for syntax highlighting, please edit the file "TikzSyntax.xshd" in a text or xml editor and reload TikzEdt.</TextBlock>
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <!-- <TextBlock Text="Compiler"></TextBlock>   -->
+                    <TextBlock Margin="3" Text="Code preappended:" Grid.Row="0" ></TextBlock>
+                    <TextBlock  Grid.Row="1"  Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!"></TextBlock>
+                    <avalonedit:TextEditor  Grid.Row="2"  Margin="3" Name="txtPreamble"  VerticalAlignment="Stretch" BorderThickness="1" />
+                    <TextBlock  Grid.Row="3"  Margin="3" Text="Code appended:" ></TextBlock>
+                    <TextBlock  Grid.Row="4"  Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!" ></TextBlock>
+                    <avalonedit:TextEditor Grid.Row="5" Margin="3" Name="txtPostamble" VerticalAlignment="Stretch" BorderThickness="1" />
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <!-- <TextBlock Grid.Row="0" Text="Parser and Overlay"></TextBlock> -->
+                    <TextBlock Margin="3" Text="Margin for Auto B. Box" Grid.Column="0" Grid.Row="1"></TextBlock>
+                    <TextBox Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Margin, Mode=TwoWay}"/>
+                    <TextBlock Margin="3" Text="Default Bounding Box" Grid.Column="0" Grid.Row="2"></TextBlock>
+                    <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">                        
+                        <TextBlock Margin="3" Text="X"/>
+                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std_X, Mode=TwoWay}"/>
+                        <TextBlock Margin="3" Text="Y"/>
+                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std_Y, Mode=TwoWay}"/>
+                        <TextBlock Margin="3" Text="W"/>
+                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std_W, Mode=TwoWay}"/>
+                        <TextBlock Margin="3" Text="H"/>
+                        <TextBox Width="30" Text="{Binding Source={x:Static p:Settings.Default}, Path=BB_Std_H, Mode=TwoWay}"/>
+                    </StackPanel>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
