@@ -1,19 +1,4 @@
-﻿/*This file is part of TikzEdt.
- 
-TikzEdt is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
- 
-TikzEdt is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
- 
-You should have received a copy of the GNU General Public License
-along with TikzEdt.  If not, see <http://www.gnu.org/licenses/>.*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -74,11 +59,6 @@ namespace TikzEdt.Parser
             }
 
             return pp;
-        }
-        public Vector Transform(Vector v)
-        {
-            Point p = Transform(new Point(v.X, v.Y), true);
-            return new Vector(p.X, p.Y);
         }
         public double Det() { return m[0, 0] * m[1, 1] - m[0, 1] * m[1, 0]; }
         public TikzMatrix Inverse()
@@ -165,11 +145,6 @@ namespace TikzEdt.Parser
         }
 
         /// <summary>
-        /// Indicates whether the current item can change the current position.
-        /// </summary>
-        /// <returns></returns>
-        public virtual bool ChangesCurPoint() { return true; }
-        /// <summary>
         /// Gets the position, in the document, of the current node.
         /// (Position= index of the first character in the string produced by tikzdocument.ToString(), that belongs to this node)
         /// </summary>
@@ -246,10 +221,6 @@ namespace TikzEdt.Parser
         }
         public Tikz_Something()
         {
-        }
-        public override bool  ChangesCurPoint()
-        {
- 	         return false;
         }
     }
     public class Tikz_EdtCommand : TikzParseItem
@@ -426,11 +397,6 @@ namespace TikzEdt.Parser
                 coord.SetAbsPos(p, this);
         }
 
-        public override bool  ChangesCurPoint()
-        {
- 	         return false;
-        }
-
         public Tikz_Coord coord;
         public string name = "";
         public string options = "";
@@ -446,7 +412,7 @@ namespace TikzEdt.Parser
             // if parent is a node or coordinate, and this item is the first, do not print node again
             if (parent is Tikz_Path)
             {
-                if (parent.starttag.Trim() == @"\node" || parent.starttag.Trim() == @"\coordinate" || parent.starttag.Trim() == @"\matrix")
+                if (parent.starttag.Trim() == @"\node" || parent.starttag.Trim() == @"\coordinate")
                 {
                     // todo: check for first.... 
                     //int i = parent.Children.IndexOf(this);
@@ -501,11 +467,6 @@ namespace TikzEdt.Parser
         /// All attempts to get the position of the coordinate will fail.
         /// </summary>
         public bool IsBroken { get { return type == Tikz_CoordType.Invalid; } }
-
-        public override bool  ChangesCurPoint()
-        {
- 	         return deco == "" || deco == "++";
-        }
 
         public override bool HasEditableCoordinate()
         {
@@ -596,20 +557,7 @@ namespace TikzEdt.Parser
                 if (deco == "+" || deco == "++")
                 {
                     Point offset;
-                    if (relto.parent is Tikz_Controls)
-                    {
-                        Tikz_Controls par = relto.parent as Tikz_Controls;
-                        Tikz_XYItem offc = null;
-                        if (relto == par.FirstCP)
-                            offc = par.CoordBefore;
-                        else if (relto == par.LastCP)
-                            offc = par.CoordAfter;
-                        if (offc == null || !offc.GetAbsPos(out offset))
-                            return;
-                        relp = new Point(p.X - offset.X, p.Y - offset.Y);   // the desired shift, in absolute coordinates
-                        relp = MM.Transform(relp, true);
-                    }
-                    else if ((relto.parent as Tikz_Path).GetAbsOffset(out offset, relto))
+                    if ((relto.parent as Tikz_Path).GetAbsOffset(out offset, relto))
                     {
                         relp = new Point(p.X - offset.X, p.Y - offset.Y);   // the desired shift, in absolute coordinates
                         relp = MM.Transform(relp, true);
@@ -685,24 +633,6 @@ namespace TikzEdt.Parser
                         ret = new Point(0, 0);
                         return false;
                     }
-                }
-                else if (relto.parent is Tikz_Controls)
-                {
-                    Tikz_Controls par = relto.parent as Tikz_Controls;
-                    Tikz_XYItem offc = null;
-                    if (relto == par.FirstCP)
-                        offc = par.CoordBefore;
-                    else if (relto == par.LastCP)
-                        offc = par.CoordAfter;
-                    if (offc == null || !offc.GetAbsPos(out offset))
-                    {
-                        ret = new Point(0, 0);
-                        return false;
-                    }
-                } else
-                {
-                    // not supported
-
                 }
 
                 Point relpos = new Point(uX.GetInCM(), uY.GetInCM());
@@ -1170,76 +1100,6 @@ namespace TikzEdt.Parser
     }
 
     /// <summary>
-    /// This is a container for the control points used to define bezier curves.
-    /// There can be either one or two
-    /// </summary>
-    public class Tikz_Controls : TikzContainerParseItem
-    {
-        /// <summary>
-        /// The start point of the Bezier curve
-        /// </summary>
-        public Tikz_XYItem CoordBefore
-        {
-            get
-            {
-                for (int i = parent.Children.IndexOf(this) - 1; i >= 0; i--)
-                {
-                    if (parent.Children[i] is Tikz_Coord || parent.Children[i] is Tikz_Arc)
-                        return parent.Children[i] as Tikz_XYItem;
-                    if (!(parent.Children[i] is Tikz_Something))
-                        break;
-                }
-                return null;
-            }
-        }
-        /// <summary>
-        /// The endpoint of the Bezier curve
-        /// </summary>
-        public Tikz_XYItem CoordAfter
-        {
-            get
-            {
-                for (int i = parent.Children.IndexOf(this) + 1; i < parent.Children.Count; i++)
-                {
-                    if (parent.Children[i] is Tikz_Coord || parent.Children[i] is Tikz_Arc)
-                        return parent.Children[i] as Tikz_XYItem;
-                    if (!(parent.Children[i] is Tikz_Something))
-                        break;
-                }
-                return null;
-            }
-        }
-
-        public Tikz_XYItem CoordByCP(Tikz_Coord ControlPoint)
-        {
-            if (ControlPoint == FirstCP)
-                return CoordBefore;
-            else if (ControlPoint == LastCP)
-                return CoordAfter;
-            else
-                return null;
-        }
-
-        public IEnumerable<Tikz_Coord> ControlPoints
-        {
-            get 
-            {
-                return Children.Where(tpi => (tpi is Tikz_Coord)).Cast<Tikz_Coord>();
-            }
-        }
-
-        public Tikz_Coord FirstCP
-        {
-            get { return Children.First(tpi => (tpi is Tikz_Coord)) as Tikz_Coord; }
-        }
-        public Tikz_Coord LastCP
-        {
-            get { return Children.Last(tpi => (tpi is Tikz_Coord)) as Tikz_Coord; }
-        }
-
-    }
-
-    /// <summary>
     /// This class represents the root of the parse tree.
     /// This class raises events when the text of some child obeject changes.
     /// Furthermore, it maintains a list of Tikz-styles.
@@ -1352,7 +1212,7 @@ namespace TikzEdt.Parser
         /// <returns>True, if offset could be determined, false otherwise.</returns>
         public bool GetAbsOffset(out Point ret, TikzParseItem tpi)
         {
-            Tikz_XYItem tcret;
+            Tikz_Coord tcret;
             if (GetLastDrawnItem(tpi, out tcret))
             {
                 // last drawn item exists
@@ -1408,14 +1268,7 @@ namespace TikzEdt.Parser
                             return previous.GetAbsPos(); */
         }
 
-        /// <summary>
-        /// Get the last item that changes the "current position" in a tikz path.
-        /// This implememntation is not yet entirely accurate at present.... for example  ... edge (v) .. does not change the current position.
-        /// </summary>
-        /// <param name="before">The item before which we should search.</param>
-        /// <param name="ret">The last item that changed the current position.</param>
-        /// <returns></returns>
-        bool GetLastDrawnItem(TikzParseItem before, out Tikz_XYItem ret)
+        bool GetLastDrawnItem(TikzParseItem before, out Tikz_Coord ret)
         {
             int ind;
             if (before == null)
@@ -1436,11 +1289,6 @@ namespace TikzEdt.Parser
                         return true;
                     }
                 }
-                else if (Children[i] is Tikz_Arc)
-                {
-                    ret = Children[i] as Tikz_Arc;
-                    return true;
-                }
                 //else if (Children[i] is Tikz_Options)
                 //{
                 //    CoordTrafoInBetween = (Children[i] as Tikz_Options).GetTransform() * CoordTrafoInBetween;
@@ -1448,7 +1296,7 @@ namespace TikzEdt.Parser
                 else if (Children[i] is Tikz_Path)
                 {
                     Tikz_Path tp = (Children[i] as Tikz_Path);
-                    Tikz_XYItem tpi;
+                    Tikz_Coord tpi;
                     //TikzMatrix M; // not used here
                     bool lret = tp.GetLastDrawnItem(null, out tpi);
                     if (lret)
@@ -1463,7 +1311,7 @@ namespace TikzEdt.Parser
             if (this.parent is Tikz_Path)
             {
                 Tikz_Path tparent = parent as Tikz_Path;
-                Tikz_XYItem tpi;
+                Tikz_Coord tpi;
                 if (tparent.GetLastDrawnItem(this, out tpi))
                 {
                     ret = tpi;
@@ -1687,10 +1535,7 @@ namespace TikzEdt.Parser
         }
 
         /// <summary>
-        /// Returns the coordinate transfor corresponding to an option, if possible.
-        /// If the option is not relevant for coordinate tranformation (or not supported), true is returned 
-        /// and newTrafo = oldTrafo. If the option is recognized, but the value cannot be determined,
-        /// false is returned and newTrafo shouldn't be used.
+        /// 
         /// </summary>
         /// <param name="to"></param>
         /// <param name="oldTrafo"></param>
@@ -1702,32 +1547,24 @@ namespace TikzEdt.Parser
             newTrafo = ret;
             if (to.type == Tikz_OptionType.keyval)
             {
+                if (to.numval == null && to.coordval == null)
+                    return false;
                 switch (to.key.Trim())
                 {
                     case "xscale":
-                        if (to.numval == null)
-                            return false;
                         ret.m[0, 0] = to.numval.GetInCM();
                         break;
                     case "yscale":
-                        if (to.numval == null)
-                            return false;
                         ret.m[1, 1] = to.numval.GetInCM();
                         break;
                     case "scale":
-                        if (to.numval == null)
-                            return false;
                         ret.m[0, 0] = to.numval.GetInCM();
                         ret.m[1, 1] = ret.m[0, 0];
                         break;
                     case "xshift":
-                        if (to.numval == null)
-                            return false;
                         ret.m[0, 2] = to.numval.GetInCM("pt");
                         break;
                     case "yshift":
-                        if (to.numval == null)
-                            return false;
                         ret.m[1, 2] = to.numval.GetInCM("pt");
                         break;
                     case "shift":
@@ -1765,21 +1602,14 @@ namespace TikzEdt.Parser
                         }                        
                         break;
                     case "rotate":
-                        if (to.numval == null)
-                            return false;
                         double angle = to.numval.GetInCM() * 2* Math.PI / 360;
                         ret.m[0, 0] = Math.Cos(angle);
                         ret.m[1, 0] = Math.Sin(angle);
                         ret.m[0, 1] = -Math.Sin(angle);
                         ret.m[1, 1] = Math.Cos(angle);
                         break;
-                    default:
-                        // option not relevant for coordinate computation (or not supported) -> ignore
-                        newTrafo = oldTrafo;
-                        return true;
                 }
             }
-            // if we get here, the option was recognized as relevant for coordinate transf., and the value could be read
             newTrafo = oldTrafo * ret;
             return true;
         }
@@ -2048,24 +1878,6 @@ namespace TikzEdt.Parser
             return ret;
         }
 
-        public Tikz_Option AddOption(string key)
-        {
-            Tikz_Option to = new Tikz_Option();
-            to.type = Tikz_OptionType.key;
-            to.key = key;
-            AddOption(to);
-            return to;
-        }
-        public Tikz_Option AddOption(string key, string value)
-        {
-            Tikz_Option to = new Tikz_Option();
-            to.type = Tikz_OptionType.keyval;
-            to.key = key;
-            to.val = value;
-            AddOption(to);
-            return to;
-        }
-
         public void AddOption(Tikz_Option o)
         {
             if (OptionsCount() > 0)
@@ -2099,441 +1911,4 @@ namespace TikzEdt.Parser
         //    text = "[" + String.Join(", ", opts) + "]";
         //}
     }
-
-    /// <summary>
-    /// The class for path elements of the form "arc (30:60:2)" or arc "arc (30:60:2 and 4)"
-    /// </summary>
-    class Tikz_Arc : Tikz_XYItem
-    {
-        public Tikz_NumberUnit phi1 = null, phi2=null, r1 = null, r2 = null;
-
-        /// <summary>
-        /// This flag will be set when the coordinates cannot be determined, either because
-        /// of erroneous Tikz code or unsupported operations (math expressions, macros etc.)
-        /// </summary>
-        bool IsBroken = false;
-
-        /// <summary>
-        /// Creates an arc from three points. Two are provided as parameters, one is the current offset.
-        /// </summary>
-        /// <param name="center"></param>
-        /// <param name="p2"></param>
-        public void SetFromPoints(Point center, Point p2, bool tIsLargeArc)
-        {
-            phi1 = new Tikz_NumberUnit();
-            phi2 = new Tikz_NumberUnit();
-            r1 = new Tikz_NumberUnit();
-            Point p1;
-            if (!GetStartPointAbs(out p1))
-            {
-                IsBroken = true;
-                return;
-            }
-
-            TikzMatrix M;
-            if (!(parent as Tikz_Path).GetCurrentTransformAt(this, out M))
-            {
-                IsBroken = true;
-                return;
-            }
-            p1 = M.Inverse().Transform(p1);
-            p2 = M.Inverse().Transform(p2);
-            Point c = M.Inverse().Transform(center);
-
-            Vector v1 = p1 - c, v2 = p2 - c;
-            double R = v1.Length;
-            double nphi1 = Math.Atan2(v1.Y, v1.X);
-            double nphi2 = Math.Atan2(v2.Y, v2.X);
-
-            // account for large arc/small arc
-            if ( (Math.Abs(nphi1-nphi2)>Math.PI) != tIsLargeArc )
-            {
-                nphi2 += 2 * Math.PI * Math.Sign(nphi1 - nphi2);
-            }
-
-            r1.SetInCM(R);
-            phi1.SetInCM(nphi1 * 180 / Math.PI);
-            phi2.SetInCM(nphi2 * 180 / Math.PI);         
-
-        }
-
-        /// <summary>
-        /// The Treenode t must have either 3 or four children
-        /// </summary>
-        /// <param name="t"></param>
-        /// <param name="tokens"></param>
-        /// <returns></returns>
-        public static Tikz_Arc FromCommonTree(ITree t, CommonTokenStream tokens)
-        {
-            Tikz_Arc ta = new Tikz_Arc();
-            if (t.ChildCount != 3 && t.ChildCount != 4)
-            {
-                throw new Exception("Parser returned invalid IM_ARC node.");
-            }
-
-            // if one of the children is not of type numberunit (i.e., math expression etc.), then the present arc will be marked invalid
-            for (int i = 0; i < t.ChildCount; i++)
-                if (t.GetChild(i).Type != simpletikzParser.IM_NUMBERUNIT)
-                    ta.IsBroken = true;
-
-            if (!ta.IsBroken)
-            {
-                ta.phi1 = new Tikz_NumberUnit(t.GetChild(0));
-                ta.phi2 = new Tikz_NumberUnit(t.GetChild(1));
-                ta.r1 = new Tikz_NumberUnit(t.GetChild(2));
-                if (t.ChildCount == 4)
-                {
-                    ta.r2 = new Tikz_NumberUnit(t.GetChild(3));
-                }
-            }
-            return ta;
-        }
-
-        /// <summary>
-        /// Sets R and phi1 so that the start point is 
-        /// </summary>
-        /// <param name="p"></param>
-        public void SetAbsPosRandPhi1(Point p)
-        {
-
-        }
-        public void SetAbsPosRandPhi2(Point p)
-        {
-
-        }
-
-        public override bool GetAbsPos(out Point ret, bool OnlyOffset = false)
-        {
-            ret = new Point(0, 0);
-            if (IsBroken)                       
-                return false;
-
-            if (OnlyOffset)
-            {
-                return GetArcCenterAbs(out ret);
-            }
-            
-            // get the offset (=starting point of arc)
-            Point offset;
-            if (!(parent as Tikz_Path).GetAbsOffset(out offset, this))
-                return false;
-
-            //if (OnlyOffset)
-            //{                
-            //    ret = offset;
-            //    return true;
-            //}
-
-            // compute relative distance
-            double R1 = r1.GetInCM(), R2=R1;
-            double a1 = phi1.GetInCM()*2*Math.PI/360, a2 = phi2.GetInCM()*2*Math.PI/360;  // angles in radians
-            if (r2 != null) // ellipse case
-            {
-                R2 = r2.GetInCM();
-            }
-            Point relp = new Point((Math.Cos(a2) - Math.Cos(a1)) * R1, (Math.Sin(a2) - Math.Sin(a1)) * R2);
-
-            // Transform
-            TikzMatrix M;
-            if (!parent.GetCurrentTransformAt(this, out M))
-                return false;
-            relp = M.Transform(relp, true);
-
-            ret = new Point(offset.X + relp.X, offset.Y + relp.Y);
-            return true;
-        }
-        public override bool HasEditableCoordinate()
-        {
-            Point pdummy;
-            return GetAbsPos(out pdummy);
-        }
-
-        public bool GetStartPointAbs(out Point p)
-        {
-            if (IsBroken)
-            {
-                p = new Point(0, 0);
-                return false;
-            }
-
-            return (parent as Tikz_Path).GetAbsOffset(out p, this);              
-        }
-        bool GetStartPoint(out Point p)
-        {
-            if (IsBroken)
-            {
-                p = new Point(0, 0);
-                return false;
-            }
-
-            if (!(parent as Tikz_Path).GetAbsOffset(out p, this))
-                return false;
-            // transform 
-            TikzMatrix M;
-            if (!parent.GetCurrentTransformAt(this, out M))
-                return false;
-            p = M.Inverse().Transform(p);
-            return true;
-        }
-
-        public override void SetAbsPos(Point p)
-        {
-            if (IsBroken)
-                return;
-            if (r2 != null)
-                return;     // currently unsupported
-
-            //SetSecondAngleByAbsPos(p);
-            //return;
-            SetAbsPosConstR(p);
-            /*
-
-            // compute the starting point and desired shift
-            Point offset;
-            if (!(parent as Tikz_Path).GetAbsOffset(out offset, this))
-                return;
-            //Point relp = new Point(p.X-offset.X, p.Y-offset.Y);
-            Vector relp = p - offset;
-            // transform
-            TikzMatrix M;
-            if (!parent.GetCurrentTransformAt(this, out M))
-                return;
-            relp = M.Inverse().Transform(relp);
-            
-            // compute the new parameters
-            // Note that there is some ambiguity since one would could change both radii and both angles
-            // We keep the difference of angles the same, and change the radius
-            // still there is a twofold ambiguity ...            
-            double a1 = phi1.GetInCM() * 2 * Math.PI / 360, a2 = phi2.GetInCM() * 2 * Math.PI / 360, a=a2-a1;  // angles in radians
-
-            double R = Math.Abs( .5 * relp.Length / Math.Sin(a / 2) );
-            if (! (R < 50))
-                return;
-
-            Vector mid = relp / 2;
-            Vector normal = new Vector(relp.Y, -relp.X);
-            normal.Normalize();
-
-            Vector c = mid + normal * Math.Cos(a/2) * R; // the new center
-
-            // new angles
-            double b1 = Math.Atan2((-c).Y, (-c).X), b2 = Math.Atan2((relp-c).Y, (relp-c).X);
-            if (b2 - b1 > Math.PI)
-                b2 = b2 - 2 * Math.PI;
-            r1.SetInCM(R);
-            phi1.SetInCM(b1 * 180 / Math.PI);
-            phi2.SetInCM(b2 * 180 / Math.PI);
-             */
-        }
-
-        public bool IsLargeArc
-        {
-            get { return Math.Abs(phi1.GetInCM() - phi2.GetInCM()) > 180; }
-        }
-
-        /// <summary>
-        /// Sets the position of the node to p, while trying to keep the radius constant.
-        /// Note that this is not always possible. In this case the radius is increased.
-        /// 
-        /// There is a twofold ambiguity in choosing the new center. We resolve by picking the one closer to the old center.
-        /// Also note that there is a twofold ambiguitiy as to whether we pick the small or large arc.
-        /// We keep this as it was. (Note that this is often not what the user desires... more control is
-        /// provided through the arcedit tool.)
-        /// </summary>
-        /// <param name="p">Target point.</param>
-        void SetAbsPosConstR(Point p)
-        {
-            if (IsBroken)
-                return;
-            if (r2 != null)
-                return;     // currently unsupported
-
-            // store the old center (in local coordinates)
-            Point oldcenter;
-            if (!GetArcCenter(out oldcenter))
-                return;            
-
-            // compute the starting point (=offset) and desired shift, in local coordinates
-            Point offset;
-            if (!GetStartPoint(out offset))
-                return;
-            // transform p into local coordinates
-            TikzMatrix M;
-            if (!parent.GetCurrentTransformAt(this, out M))
-                return;
-            Point ploc = M.Inverse().Transform(p);
-            Vector relp = ploc - offset;    // this is, in local coordinates, the vector from start- to desired endpoint.
-
-            // compute the new parameters          
-            //double a1 = phi1.GetInCM() * 2 * Math.PI / 360, a2 = phi2.GetInCM() * 2 * Math.PI / 360, a = a2 - a1;  // angles in radians
-
-            //double R = Math.Abs(.5 * relp.Length / Math.Sin(a / 2));
-            //if (!(R < 50))
-            //    return;
-
-            // the new center lies on the line midpoint + lambda * normal
-            Point midpoint = offset + relp / 2;
-            Vector normal = new Vector(relp.Y, -relp.X);
-            normal.Normalize();                        
-            double alpha = Math.Atan2(relp.Y, relp.X);  // inclination of line offset -> p
-
-            // the target parameters
-            double R;
-            double a1, a2;
-
-            // check whether we can keep R constant
-            if (relp.Length <= 2 * r1.GetInCM())
-            {
-                // Yes
-                R = r1.GetInCM();                
-                double d = Math.Sqrt(R * R - relp.LengthSquared / 4);
-                // two center candidates
-                Point c1 = midpoint + d * normal, c2 = midpoint - d * normal, c;
-                // pick the one closer to old center                
-                if ((oldcenter - c1).Length < (oldcenter - c2).Length)
-                    c = c1;
-                else
-                    c = c2;
-
-                // compute angles
-                Vector v1 = offset - c, v2 = ploc - c;
-                
-                a1 = Math.Atan2(v1.Y, v1.X);
-                a2 = Math.Atan2(v2.Y, v2.X);
-
-                // account for large arc/small arc
-                if ((Math.Abs(a1 - a2) > Math.PI) != IsLargeArc)
-                {
-                    a2 += 2 * Math.PI * Math.Sign(a1 - a2);
-                }
-
-            }
-            else
-            {
-                // No -> adjust radius
-                R = relp.Length / 2;                
-                a1 = Math.PI + alpha;
-                a2 = alpha;
-            }
-            
-            r1.SetInCM(R);
-            phi1.SetInCM(a1 * 180 / Math.PI);
-            phi2.SetInCM(a2 * 180 / Math.PI);
-        }
-
-
-        /// <summary>
-        /// The center of the circle, in the local coordinate system (not abs. coordinates)
-        /// </summary>
-        bool GetArcCenter(out Point c)
-        {
-            // compute the starting point
-            c = new Point(0, 0);
-            if (IsBroken)
-                return false;
-            Point offset;
-            if (!GetStartPoint(out offset))
-                return false;
-
-            double a1 = phi1.GetInCM() * Math.PI / 180;
-            double R1 = r1.GetInCM(), R2=R1;            
-            if (r2 != null) // ellipse case
-            {
-                R2 = r2.GetInCM();
-            }
-
-            c = new Point(offset.X - R1 * Math.Cos(a1), offset.Y - R2 * Math.Sin(a1));
-            return true;
-        }
-        /// <summary>
-        /// The center of the circle, in the absolute coordinate system.
-        /// </summary>
-        public bool GetArcCenterAbs(out Point c)
-        {            
-            if (!GetArcCenter(out c))
-                return false;
-            // transform 
-            TikzMatrix M;
-            if (!parent.GetCurrentTransformAt(this, out M))
-                return false;
-            c = M.Transform(c);
-            return true;
-        }
-
-        /// <summary>
-        /// Sets the angle to the angular parameter (wrt. the arc's center) of p.
-        /// </summary>
-        /// <param name="p"></param>
-        public void SetFirstAngleByAbsPos(Point p)
-        {
-            Point c;
-            if (IsBroken || !GetArcCenter(out c))
-                return;
-
-            // convert p to local coordinate system
-            Point pp;
-            // transform
-            TikzMatrix M;
-            if (!parent.GetCurrentTransformAt(this, out M))
-                return;
-            pp = M.Inverse().Transform(p);
-            double newa = Math.Atan2(pp.Y - c.Y, pp.X-c.X);
-            phi1.SetInCM(newa * 180 / Math.PI);
-        }
-
-        public void SetRByAbsPos(Point p)
-        {
-            Point c;
-            if (IsBroken || !GetArcCenter(out c) || r2 != null) // elliptical arcs not supported yet
-                return;
-
-            // convert p to local coordinate system
-            Point pp;
-            // transform
-            TikzMatrix M;
-            if (!parent.GetCurrentTransformAt(this, out M))
-                return;
-            pp = M.Inverse().Transform(p);
-            double newR = (pp - c).Length;
-            r1.SetInCM(newR);
-        }
-        /// <summary>
-        /// Sets the angle to the angular parameter (wrt. the arc's center) of p.
-        /// </summary>
-        /// <param name="p"></param>
-        public void SetSecondAngleByAbsPos(Point p)
-        {
-            Point c;
-            if (IsBroken || !GetArcCenter(out c))
-                return;
-
-            // convert p to local coordinate system
-            Point pp;
-            // transform
-            TikzMatrix M;
-            if (!parent.GetCurrentTransformAt(this, out M))
-                return;
-            pp = M.Inverse().Transform(p);
-            double newa = Math.Atan2(pp.Y - c.Y, pp.X - c.X);
-            phi2.SetInCM(newa * 180 / Math.PI);
-        }
-
-
-        public override void UpdateText()
-        {
-            if (!IsBroken)
-            {
-                string newtext = "arc (" + phi1.GetInCM() + ":" + phi2.GetInCM() + ":" + r1.GetInCM();
-                if (r2 != null)
-                    newtext += " and " + r2.GetInCM();
-                text = newtext + ")";   // there should only be one update to newtext since updates generate events
-            }
-        }
-
-        public override bool IsPolar()
-        {
-            return true;
-        }
-    }
-
 }

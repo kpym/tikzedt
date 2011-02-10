@@ -1,19 +1,4 @@
-﻿/*This file is part of TikzEdt.
- 
-TikzEdt is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
- 
-TikzEdt is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
- 
-You should have received a copy of the GNU General Public License
-along with TikzEdt.  If not, see <http://www.gnu.org/licenses/>.*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,7 +17,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using PDFLibNet;
-using System.ComponentModel;
 
 namespace TikzEdt
 {
@@ -48,7 +32,7 @@ namespace TikzEdt
                     new PropertyMetadata(true, OnRenderTransparentChanged));
         static void OnRenderTransparentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as TikzDisplay).RedrawBMP(false);
+            (d as TikzDisplay).RedrawBMP();
         }
         /// <summary>
         /// Indicates whether the pdf background should be rendered transparent
@@ -68,29 +52,15 @@ namespace TikzEdt
                 {
                     _Resolution = value;
                     //RecalcSize();
-                    RedrawBMP(false);
+                    RedrawBMP();
                 }
             }
         }
 
         private string _PdfPath = "";
-        /// <summary>
-        /// Set this property to "" to set the control to an unavailable state. 
-        /// </summary>
         public string PdfPath
         {
-            set { 
-                _PdfPath = value;
-                if (_PdfPath == "")
-                {
-                    lblUnavailable.Visibility = Visibility.Visible;
-                    image1.Visibility = Visibility.Collapsed;
-                    NextBmpJob = null; // if manually set to unavailable-> clear pending bmp jobs
-                    myPdfBmpDoc.UnloadPdf();
-                }
-                else
-                    RedrawBMP(true);
-            }
+            set { _PdfPath = value; RefreshPDF(_PdfPath); }
             get { return _PdfPath; }
         }
 
@@ -107,82 +77,11 @@ namespace TikzEdt
             //}
         //}
 
-        PdfToBmp myPdfBmpDoc;
-
-        BackgroundWorker AsyncBmpGenerator = new BackgroundWorker();
-        class AsyncBmpData
-        {
-            public double Resolution;
-            public bool RenderTransparent, Reload;
-            public string File;
-            
-
-            public BitmapSource bmp; // this contains the bmp after return
-        }
-        private AsyncBmpData _NextBmpJob = null;
-        AsyncBmpData NextBmpJob
-        {
-            get { return _NextBmpJob; }
-            set
-            {
-                _NextBmpJob = value;
-                if (_NextBmpJob != null && !AsyncBmpGenerator.IsBusy)
-                {
-                    AsyncBmpGenerator.RunWorkerAsync(NextBmpJob);
-                    _NextBmpJob = null;
-                }
-            }
-        }
+        PdfToBmp myPdfBmpDoc = new PdfToBmp();
 
         public TikzDisplay()
         {
             InitializeComponent();
-
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
-            {
-                myPdfBmpDoc = new PdfToBmp();
-                AsyncBmpGenerator.DoWork += new DoWorkEventHandler(AsyncBmpGenerator_DoWork);
-                AsyncBmpGenerator.RunWorkerCompleted += new RunWorkerCompletedEventHandler(AsyncBmpGenerator_RunWorkerCompleted);
-            }
-        }
-
-        void AsyncBmpGenerator_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            AsyncBmpData data = e.Result as AsyncBmpData;
-            // if filename has changed while the bmp was generated-> don't display
-            if (data.File == PdfPath)
-            {                
-                // if returned bitmap null or error -> set unavailable
-                if (e.Error == null && data.bmp != null)
-                {
-                    image1.Source = data.bmp;
-                    image1.Visibility = Visibility.Visible;
-                    lblUnavailable.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    image1.Source = null;
-                    image1.Visibility = Visibility.Collapsed;
-                    lblUnavailable.Visibility = Visibility.Visible;
-                }
-            }
-            // restart compilation if job pending
-            NextBmpJob = NextBmpJob;
-        }
-
-        void AsyncBmpGenerator_DoWork(object sender, DoWorkEventArgs e)
-        {
-            AsyncBmpData data = e.Argument as AsyncBmpData;
-            if (data.File != null)
-            {
-                myPdfBmpDoc.LoadPdf(data.File);
-            }
-            // this is not optimal since the pdf might be changing when called.... pass PdfWrapper instead to remedy....
-            data.bmp = myPdfBmpDoc.GetBitmapSource(data.Resolution, data.RenderTransparent);
-            //data.bmp = myPdfBmpDoc.GetBitmapSourceOld(data.Resolution, data.RenderTransparent);
-            if (data.bmp != null)
-                data.bmp.Freeze();  // this is important because we want to access it in a different thread
-            e.Result = data;
         }
 
         /// <summary>
@@ -190,7 +89,7 @@ namespace TikzEdt
         /// It is not called, for example, when the pdf just needs to be redrawn, e.g., due to 
         /// a changed display size.
         /// </summary>
-       /* void RefreshPDF(string cFile)
+        void RefreshPDF(string cFile)
         {
             //mypdfDoc.LoadPdf(Consts.cTempFile + ".pdf");
             if (cFile == "")
@@ -206,10 +105,12 @@ namespace TikzEdt
             }
             RedrawBMP();
             //RecalcSize();            
-        } */
+        }
         public void SetUnavailable()
         {
-            PdfPath = "";            
+            RefreshPDF("");
+
+            myPdfBmpDoc.UnloadPdf();
             //here it would be nice to release the handle to the pdf document
             //so it can be deleted. but how?
         }
@@ -220,22 +121,13 @@ namespace TikzEdt
         /// It is called, e.g., when the size of the TikzDisplay control changes
         /// Warning: It does _not_ reload the Pdf. 
         /// </summary>
-        public void RedrawBMP(bool ReloadFile)
+        public void RedrawBMP()
         {
             
             if (myPdfBmpDoc != null)
             {
-                AsyncBmpData data = new AsyncBmpData();
-                data.Resolution = Resolution;
-                data.RenderTransparent = RenderTransparent;
-                data.File = PdfPath;
-                data.Reload = ReloadFile;
-
-                NextBmpJob = data;
-
-                return;
-
-        /*        //check version of PDFLibNet, if the old 1.0.6.6 use old GetBitmap
+                
+                //check version of PDFLibNet, if the old 1.0.6.6 use old GetBitmap
                 System.Reflection.Assembly a = System.Reflection.Assembly.GetAssembly(typeof(PDFWrapper));
                 if(a.GetName().Version.Major == 1)
                     if(a.GetName().Version.Minor == 0)
@@ -252,8 +144,7 @@ namespace TikzEdt
                 
                 image1.Source = null;
                 //myPdfBmpDoc.GetBitmap2(Resolution, currentBB.Width * currentBB.Height > 0); ;
-                //image1.Source = myPdfBmpDoc.GetBitmapSource(Resolution, RenderTransparent); ;   
-                image1.Source = myPdfBmpDoc.GetBitmapSourceOld(Resolution, RenderTransparent); ;        */        
+                image1.Source = myPdfBmpDoc.GetBitmapSource(Resolution, RenderTransparent); ;                
             }
 
         }
@@ -275,7 +166,7 @@ namespace TikzEdt
         /// <summary>
         /// Holds the pdflibnet PdfWrapper, which does the conversion.
         /// </summary>
-        PDFWrapper mypdfDoc=null;
+        PDFWrapper mypdfDoc;
         
 
         public bool LoadPdf(string cfile)
@@ -296,11 +187,7 @@ namespace TikzEdt
                 return false;
             //this line creates a handle
             //it can be closed with Dispose()
-            Stopwatch s = new Stopwatch();
-            //s.Start();
-             bool ret = mypdfDoc.LoadPDF(cfile);
-            // s.Stop();
-            // MainWindow.AddStatusLine("LoadPDF took " + s.ElapsedMilliseconds + " ms");
+             bool ret = mypdfDoc.LoadPDF(cfile);             
              return ret;
         }
 
@@ -308,7 +195,6 @@ namespace TikzEdt
         {
             if (mypdfDoc != null)
             {
-                //MessageBox.Show("UnloadPDF");
                 mypdfDoc.Dispose();
                 mypdfDoc = null;
                 return true;
@@ -323,7 +209,7 @@ namespace TikzEdt
         /// <param name="Resolution">Resolution of the Bitmap</param>
         /// <param name="Transparent">Makes white areas in Bitmap transparent</param>
         /// <returns></returns>
-        private Bitmap GetBitmapViaFile(double Resolution, bool Transparent = true)
+        private Bitmap GetBitmap(double Resolution, bool Transparent = true)
         {
             if (mypdfDoc != null && mypdfDoc.PageCount > 0)
             {
@@ -334,94 +220,24 @@ namespace TikzEdt
                 int width = Convert.ToInt32(pwidth*dpi/254);
 		        int height= Convert.ToInt32(pheight*dpi/254);
                 int safetymargin = 0; // >0 => hack to prevent cropping near boundary
-		        
-                // if we'd need too much memory -> don't proceed
-                if (width * height > 20e6)
+
+
+                const double MAX_SIZE = 20e6;
+                MainWindow.AddStatusLine("Debug: Width: " + width + " Height: " + height + " Size: " + (width * height).ToString() + " MAX_SIZE: " + MAX_SIZE);
+                    
+                // if we'd need too much memory -> don't proceed                
+                if (width * height > MAX_SIZE)
                 {
                     MainWindow.AddStatusLine("Pdf rendering aborted: it's too big!", true);
                     return null;
                 }
-
-
+                
+                
                 mypdfDoc.RenderDPI = 72 * Resolution / Consts.ptspertikzunit;
 
                 //System.Windows.Forms.PictureBox pic = new System.Windows.Forms.PictureBox();
                 mypdfDoc.CurrentPage = 1;
                 
-                /*Added since 1.0.6.2*/
-                mypdfDoc.CurrentX = 0;
-                mypdfDoc.CurrentY = 0;
-                mypdfDoc.ClientBounds = new System.Drawing.Rectangle(0, 0, width + safetymargin, height + safetymargin);//new Rectangle(0, 0, mypdfDoc.PageWidth, mypdfDoc.PageHeight);
-
-                string cFile = @"C:\temp\temp.jpg";
-
-                //Stopwatch s = new Stopwatch();
-                //s.Start();
-
-                mypdfDoc.ExportJpg(cFile, 1, 1, mypdfDoc.RenderDPI, 100, -1);
-
-                //s.Stop();
-                //MainWindow.AddStatusLine("ExportJpg took " + s.ElapsedMilliseconds + " ms");
-                //s.Reset();
-                
-                // load file 
-                //System.Drawing.Image imgjpg = System.Drawing.Image.FromFile(cFile);
-                //System.Drawing.Bitmap imgbmp = new System.Drawing.Bitmap(cFile);
-                
-                //Bitmap bbb = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit, false);                
-                //System.Drawing.Image I = mypdfDoc.Pages[1].GetImage(1);
-                //System.Drawing.Image I2 = mypdfDoc.Pages[1].GetImage(0);
-
-                //if (mypdfDoc.PageWidth * mypdfDoc.PageHeight == 0)
-                if (height * width == 0)
-                    return null;
-                //s.Start();
-                Bitmap _backbuffer = new System.Drawing.Bitmap(cFile);
-                
-                if (Transparent)
-                {
-                    _backbuffer.MakeTransparent(System.Drawing.Color.White);
-                    _backbuffer.MakeTransparent(System.Drawing.Color.FromArgb(255, 253, 253, 253));
-                    _backbuffer.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
-                }
-                //s.Stop();
-                //MainWindow.AddStatusLine("Bitmap generation took " + s.ElapsedMilliseconds + " ms");
-                // test
-                //_backbuffer.Save(@"C:\temp\temp.bmp");
-                //mypdfDoc.ExportJpg(@"C:\temp\temp.jpg",1,1,75,100,9000);
-                
-                return _backbuffer;
-            }
-            else return null;
-        }
-
-        private Bitmap GetBitmap(double Resolution, bool Transparent = true)
-        {
-            if (mypdfDoc != null && mypdfDoc.PageCount > 0)
-            {
-                double dpi = 72 * Resolution / Consts.ptspertikzunit;
-                PDFPage p = mypdfDoc.Pages[1];
-                double pwidth = p.Width, pheight = p.Height;
-                // the following lines are as in the PDFPage.GetBitmap() function
-                int width = Convert.ToInt32(pwidth * dpi / 254);
-                int height = Convert.ToInt32(pheight * dpi / 254);
-                int safetymargin = 0; // >0 => hack to prevent cropping near boundary
-
-                // if we'd need too much memory -> don't proceed
-                if (width * height > 20e6)
-                {
-                    MainWindow.AddStatusLine("Pdf rendering aborted: it's too big!", true);
-                    return null;
-                }
-
-                //Stopwatch s = new Stopwatch();
-                //s.Start();
-
-                mypdfDoc.RenderDPI = 72 * Resolution / Consts.ptspertikzunit;
-
-                //System.Windows.Forms.PictureBox pic = new System.Windows.Forms.PictureBox();
-                mypdfDoc.CurrentPage = 1;
-
                 /*Added since 1.0.6.2*/
                 mypdfDoc.CurrentX = 0;
                 mypdfDoc.CurrentY = 0;
@@ -430,7 +246,7 @@ namespace TikzEdt
                 mypdfDoc.RenderPage(IntPtr.Zero, true); ///pic.Handle); // it works with zero, very strange!!!
 
 
-                //Bitmap bbb = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit, false);
+                Bitmap bbb = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit, false);                
                 //System.Drawing.Image I = mypdfDoc.Pages[1].GetImage(1);
                 //System.Drawing.Image I2 = mypdfDoc.Pages[1].GetImage(0);
 
@@ -444,12 +260,8 @@ namespace TikzEdt
                     mypdfDoc.DrawPageHDC(g.GetHdc());
                     g.ReleaseHdc();
                 }
-
-                //s.Stop();
-                //MainWindow.AddStatusLine("DrawpageHdc took " + s.ElapsedMilliseconds + " ms");
-               
                 //pic.Dispose();
-
+                
                 if (Transparent)
                 {
                     _backbuffer.MakeTransparent(System.Drawing.Color.White);
@@ -459,8 +271,8 @@ namespace TikzEdt
 
                 // test
                 //_backbuffer.Save(@"C:\temp\temp.bmp");
-                //mypdfDoc.ExportJpg(@"C:\temp\temp.jpg",1,1,75,100,9000);
-
+                //mypdfDoc.ExportJpg(@"C:\temp\temp.jpg",1,1,75,100,1000);
+                
                 return _backbuffer;
             }
             else return null;
@@ -468,23 +280,15 @@ namespace TikzEdt
 
         public BitmapSource GetBitmapSource(double Resolution, bool Transparent = true)
         {
-            Bitmap _backbuffer = GetBitmap(Resolution, Transparent); // change to GetBitmap once it is working
+            Bitmap _backbuffer = GetBitmap(Resolution, Transparent);
             if (_backbuffer != null)
             {
-                //Stopwatch s = new Stopwatch();
-                //s.Start();
-
-                BitmapSource ret = getBitmapSourceFromBitmap(_backbuffer);                
-                _backbuffer.Dispose();
-
-                //s.Stop();
-                //MainWindow.AddStatusLine("Bitmap conversion took " + s.ElapsedMilliseconds + " ms");
-                
+                BitmapSource ret = getBitmapSourceFromBitmap(_backbuffer);
+                _backbuffer.Dispose();                
                 return ret;
             }
             else return null;
         }
-
 
         /// <summary>
         /// Use this function to obtain Bitmap from mypdfDoc if using Pdflibnet 1.0.6.6.
@@ -502,28 +306,8 @@ namespace TikzEdt
                 try
                 {
                     //this line returns null if called with Pdflibnet > 1.0.6.6.
-                    //Stopwatch s = new Stopwatch();
-                    //s.Start();
-                    // if we'd need too much memory -> don't proceed
-                    if (mypdfDoc != null && mypdfDoc.PageCount > 0)
-                    {
-                        double dpi = 72 * Resolution / Consts.ptspertikzunit;
-                        PDFPage p = mypdfDoc.Pages[1];
-                        double pwidth = p.Width, pheight = p.Height;
-                        // the following lines are as in the PDFPage.GetBitmap() function
-                        int width = Convert.ToInt32(pwidth * dpi / 254);
-                        int height = Convert.ToInt32(pheight * dpi / 254);
-
-                        if (width * height > 20e6)
-                        {
-                            MainWindow.AddStatusLine("Pdf rendering aborted: it's too big!", true);
-                            return null;
-                        }
-                        b = p.GetBitmap(72 * Resolution / Consts.ptspertikzunit);
-                    }
-                    else return null;
-                    //s.Stop();
-                    //MainWindow.AddStatusLine("GetBitmap took " + s.ElapsedMilliseconds +" ms");
+                    b = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit);                    
+                    
                 }
                 catch (ArgumentException)
                 {//this can happen if node position is very "big", like (500,500)
@@ -541,7 +325,6 @@ namespace TikzEdt
                         b.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
                     }
                     ret = getBitmapSourceFromBitmap(b);
-                    b.Save(@"C:\temp\temp.bmp");
                     b.Dispose();
                 }                
                 

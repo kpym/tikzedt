@@ -3,19 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:my="clr-namespace:TikzEdt"
         xmlns:myEditor="clr-namespace:TikzEdt.Editor"
-        Title="Find And Replace" Height="Auto" Width="300" ResizeMode="NoResize" SizeToContent="Height" KeyDown="Window_KeyDown">
-    <Window.Resources>        
+        Title="Find And Replace" Height="Auto" Width="300" ResizeMode="NoResize" SizeToContent="Height" Closing="Window_Closing" Loaded="Window_Loaded" KeyDown="Window_KeyDown">
+    <Window.Resources>
+        <myEditor:FindReplacePersist x:Key="findrepd"/>
         <DataTemplate x:Key="FindPageTemplate">
             <StackPanel>
                 <TextBlock Margin="3">Text to Find:</TextBlock>                
-                <ContentPresenter Content="{Binding}" />
+                <ContentPresenter Content="{Binding}" />                
                 <Expander Header="Options" IsExpanded="False">
                     <StackPanel>
-                        <CheckBox Margin="1" Name="chkCaseSensitive" IsChecked="{Binding  Source={x:Static myEditor:FindReplacePersist.Instance}, Path=CaseSensitive, Mode=TwoWay}">Case Sensitive</CheckBox>
-                        <CheckBox Margin="1" Name="chkSearchUp" IsChecked="{Binding  Source={x:Static myEditor:FindReplacePersist.Instance}, Path=SearchUp, Mode=TwoWay}">Search up</CheckBox>
-                        <CheckBox Margin="1" Name="chkWholeWord" IsChecked="{Binding  Source={x:Static myEditor:FindReplacePersist.Instance}, Path=WholeWord, Mode=TwoWay}">Match whole Word</CheckBox>
-                        <CheckBox Margin="1" Name="chkRegex" IsChecked="{Binding  Source={x:Static myEditor:FindReplacePersist.Instance}, Path=UseRegEx, Mode=TwoWay}">Regular Expression</CheckBox>
-                        <CheckBox Margin="1" Name="chkWildcards" IsChecked="{Binding  Source={x:Static myEditor:FindReplacePersist.Instance}, Path=UseWildcards, Mode=TwoWay}">Wildcards</CheckBox>
+                        <CheckBox Margin="1" Name="chkCaseSensitive" IsChecked="{Binding  Source={StaticResource findrepd}, Path=CaseSensitive}">Case Sensitive</CheckBox>
+                        <CheckBox Margin="1" Name="chkSearchUp" IsChecked="{Binding  Source={StaticResource findrepd}, Path=SearchUp}">Search up</CheckBox>
+                        <CheckBox Margin="1" Name="chkWholeWord" IsChecked="{Binding  Source={StaticResource findrepd}, Path=WholeWord}">Match whole Word</CheckBox>
+                        <CheckBox Margin="1" Name="chkRegex" IsChecked="{Binding  Source={StaticResource findrepd}, Path=UseRegex}">Regular Expression</CheckBox>
+                        <CheckBox Margin="1" Name="chkWildcards" IsChecked="{Binding  Source={StaticResource findrepd}, Path=UseWildCards}">Wildcards</CheckBox>
                     </StackPanel>
                 </Expander>
             </StackPanel>
@@ -25,15 +26,17 @@
         <TabControl Name="tabMain" Height="Auto">
             <TabItem Header="Find" Name="tabFind"  ContentTemplate="{StaticResource FindPageTemplate}">
                 <StackPanel>
-                    <TextBox Margin="3" Name="txtFind" AcceptsReturn="True" Text="{Binding Source={x:Static myEditor:FindReplacePersist.Instance}, Path=TextToFind, Mode=TwoWay}"/>
-                    <Button Margin="3" HorizontalAlignment="Right" Width="65" Click="FindNextClick">Find Next</Button>
+                <TextBox Margin="3" Name="txtFind" AcceptsReturn="True" Text="{Binding Source={StaticResource findrepd}, Path=TextToFind}">
+                </TextBox>
+                <Button Margin="3" HorizontalAlignment="Right" Width="65" Click="FindNextClick">Find Next</Button>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Replace" Name="tabReplace"  ContentTemplate="{StaticResource FindPageTemplate}">
-                <StackPanel>                    
-                    <TextBox Margin="3" Name="txtFind2" AcceptsReturn="True" Text="{Binding Source={x:Static myEditor:FindReplacePersist.Instance}, Path=TextToFind, Mode=TwoWay}"/>
+                <StackPanel>
+                    <TextBox Margin="3" Name="txtFind2" AcceptsReturn="True" Text="{Binding Source={StaticResource findrepd}, Path=TextToFind}">
+                    </TextBox>
                     <TextBlock Margin="3">Replace with:</TextBlock>
-                    <TextBox Margin="3" Name="txtReplace" AcceptsReturn="True" Text="{Binding Source={x:Static myEditor:FindReplacePersist.Instance}, Path=ReplacementText, Mode=TwoWay}"></TextBox>
+                    <TextBox Margin="3" Name="txtReplace" AcceptsReturn="True" Text="{Binding Source={StaticResource findrepd}, Path=ReplacementText}"></TextBox>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Margin="3" HorizontalAlignment="Right" Width="65" Click="FindNextClick">Find Next</Button>
                         <Button Margin="3" HorizontalAlignment="Right" Width="65" Click="ReplaceClick">Replace</Button>

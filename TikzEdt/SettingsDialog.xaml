@@ -69,30 +69,9 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <TextBlock Margin="3" Text="Path to PdfLatex" Grid.Column="0" Grid.Row="0"></TextBlock>
-                    <TextBox Margin="3" Grid.Column="1" Grid.Row="0" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_pdflatex, Mode=TwoWay}">
-                        <TextBox.ToolTip>
-                            Usually the path to pdflatex should be included in the %PATH% environment variable.
-                            So you don't need the fully qualified path.
-                        </TextBox.ToolTip>
-                    </TextBox>
-                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="1" Text="External Pdf Viewer" Grid.ColumnSpan="2"> </TextBlock>
-                    <TextBox Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_externalviewer, Mode=TwoWay}">
-                        <TextBox.ToolTip>
-                            Leave empty to use the default application for opening pdf's.
-                        </TextBox.ToolTip>
-                    </TextBox>
-                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="2" Text="Compiler Timeout" Grid.ColumnSpan="2"></TextBlock>
-                    <TextBox Margin="3" Grid.Column="1" Grid.Row="2" Text="{Binding Source={x:Static p:Settings.Default}, Path=Compiler_Timeout, Mode=TwoWay}">
-                        <TextBox.ToolTip>
-                            Timeout for the main compiler, i.e., the time in milliseconds after which pdflatex is killed. (0 = no timeout)                            
-                        </TextBox.ToolTip>
-                    </TextBox>
-                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="3" Text="Snippet C. Timeout" Grid.ColumnSpan="2"></TextBlock>
-                    <TextBox Margin="3" Grid.Column="1" Grid.Row="3" Text="{Binding Source={x:Static p:Settings.Default}, Path=Compiler_SnippetTimeout, Mode=TwoWay}">
-                        <TextBox.ToolTip>
-                            Timeout for the snippet compiler, i.e., the time in milliseconds after which pdflatex is killed. (0 = no timeout)
-                        </TextBox.ToolTip>
-                    </TextBox>
+                    <TextBox Margin="3" Grid.Column="1" Grid.Row="0" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_pdflatex, Mode=TwoWay}"/>
+                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="1" Text="Path to Pdf Viewer" Grid.ColumnSpan="2"></TextBlock>
+                    <TextBox Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_externalviewer, Mode=TwoWay}"/>
                 </Grid>
             </TabItem>
             <TabItem>
@@ -130,11 +109,10 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="105*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="89"></RowDefinition>
-                        <RowDefinition Height="16" />
+                        <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <!-- <TextBlock Text="Compiler"></TextBlock>   -->
                     <TextBlock Margin="3" Text="Code prepended:" Grid.Row="0" ></TextBlock>
@@ -142,7 +120,7 @@
                     <avalonedit:TextEditor  Grid.Row="2"  Margin="3" Name="txtPreamble"  VerticalAlignment="Stretch" BorderThickness="1" />
                     <TextBlock  Grid.Row="3"  Margin="3" Text="Code appended:" ></TextBlock>
                     <TextBlock  Grid.Row="4"  Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!" ></TextBlock>
-                    <avalonedit:TextEditor Grid.Row="5" Margin="3" Name="txtPostamble" VerticalAlignment="Stretch" BorderThickness="1" Grid.RowSpan="2" />
+                    <avalonedit:TextEditor Grid.Row="5" Margin="3" Name="txtPostamble" VerticalAlignment="Stretch" BorderThickness="1" />
                 </Grid>
             </TabItem>
             <TabItem>

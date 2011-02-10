@@ -1,19 +1,4 @@
-﻿/*This file is part of TikzEdt.
- 
-TikzEdt is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
- 
-TikzEdt is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
- 
-You should have received a copy of the GNU General Public License
-along with TikzEdt.  If not, see <http://www.gnu.org/licenses/>.*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,8 +17,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Threading;
 using System.Runtime.InteropServices;
-using System.Security.Permissions;
-using System.Security;
 
 //using System.Drawing;
 
@@ -106,13 +89,12 @@ namespace TikzEdt
         ///  Tikz outputs a very large bounding box if the tikzpicture is empty.  
         /// </summary> 
         public const string CodeToWriteBB =
-@"
+@"%add border to avoid cropping by pdflibnet
+\foreach \border in {0.1}
+  \useasboundingbox (current bounding box.south west)+(-\border,-\border) rectangle (current bounding box.north east)+(\border,\border);
 \usetikzlibrary{calc}
 \pgftransformreset
 \node[inner sep=0pt,outer sep=0pt,minimum size=0pt,line width=0pt,text width=0pt,text height=0pt] at (current bounding box) {};
-%add border to avoid cropping by pdflibnet
-\foreach \border in {0.1}
-  \useasboundingbox (current bounding box.south west)+(-\border,-\border) rectangle (current bounding box.north east)+(\border,\border);
 \newwrite\metadatafile
 \immediate\openout\metadatafile=\jobname_BB.txt
 \path
@@ -210,44 +192,6 @@ namespace TikzEdt
 
         public static bool HasWritePermissionOnDir(string path)
         {
-            //**** This is still not  working well on my machine *******
-
-            // stupid method: try to write to a file 
-            string cFile = System.IO.Path.Combine(path, "TikzEdt_temp_todelete" + ".txt"); // DateTime.Now.Ticks.ToString()+
-            //string cFile2 = System.IO.Path.Combine(path, "TikzEdt_temp_todelete" + ".txt"); // DateTime.Now.Ticks.ToString()+
-            StreamWriter sw = null;
-            StreamReader sr = null;
-            string secret = DateTime.Now.Ticks.ToString();
-            try
-            {
-                sw = new StreamWriter(cFile);
-                sw.WriteLine(secret);
-                sw.Close();
-
-                sr = new StreamReader(cFile);
-                string s = sr.ReadLine();
-                sr.Close();
-                
-                //MainWindow.AddStatusLine("Testen " + cFile);
-                File.Delete(cFile);
-
-                if (secret == s)
-                    return true;                
-            }
-            catch (Exception)
-            {
-
-            }
-            finally
-            {
-                if (sw != null)
-                    sw.Close();
-                if (sr != null)
-                    sr.Close();
-            }
-            return false;
-
-            // this doesn't seem to work on my machine
             var writeAllow = false;
             var writeDeny = false;
             var accessControlList = Directory.GetAccessControl(path);
@@ -315,11 +259,7 @@ namespace TikzEdt
         //this is where the .fmt is created.
         public static string GetPrecompiledHeaderPath()
         {
-            string s = GetAppdataPath();
-            if (s.EndsWith("\\"))
-                return s;
-            else
-                return s + "\\";
+            return GetAppdataPath() + "\\";
         }
         public static string GetPrecompiledHeaderFilename()
         {

@@ -1,19 +1,4 @@
-﻿/*This file is part of TikzEdt.
- 
-TikzEdt is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
- 
-TikzEdt is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
- 
-You should have received a copy of the GNU General Public License
-along with TikzEdt.  If not, see <http://www.gnu.org/licenses/>.*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,7 +51,7 @@ namespace TikzEdt
             set { }
         }
 
-        public double timeout = 0; // in milliseconds, 0 = no timeout. Note overwritten in doCompile()
+        public double timeout = 0; // in milliseconds, 0 = no timeout
         public double Resolution = 50;
         public class Job
         {
@@ -322,10 +307,7 @@ namespace TikzEdt
             {
                 return;
             }
-
-            //get current timeout value from settings -> is set using property
-            //TheCompiler.Instance.timeout = Properties.Settings.Default.Timeout_pdflatex;
-
+            
             SetValue(CompilingPropertyKey, true);
 
             Job job;
@@ -377,19 +359,11 @@ namespace TikzEdt
                     //\usepackage[active,tightpage]{preview}
                     //\PreviewEnvironment{tikzpicture}
                     //and insert if required
-                    if (ContainsPreviewEnvironment(job.code) == false && ContainsDoNotInsertPreviewEnvironment(job.code) == false && !job.GeneratePrecompiledHeaders)
+                    if (ContainsPreviewEnvironment(job.code) == false && ContainsDoNotInsertPreviewEnvironment(job.code) == false)
                     {
-
-                        // Inserting code in the editor is not so good since it breaks some tex files, e.g., testcase 29.
-                        // Also, in production mode, preview env. code is not necessary
-                        // just display a warning
-
-
                         string PreviewEnvCode = Environment.NewLine + @"\usepackage[active,tightpage]{preview}" + Environment.NewLine
-                                                + @"\PreviewEnvironment{tikzpicture}";// +Environment.NewLine + Environment.NewLine;
-                        MainWindow.AddStatusLine("Warning: No PreviewEnvironment code found, overlay might be misaligned. Insert:"
-                              + PreviewEnvCode);
-                        /*int PosBeginDoc = ((MainWindow)Application.Current.Windows[0]).txtCode.Text.IndexOf(@"\begin{document}");
+                                                + @"\PreviewEnvironment{tikzpicture}" + Environment.NewLine + Environment.NewLine;
+                        int PosBeginDoc = ((MainWindow)Application.Current.Windows[0]).txtCode.Text.IndexOf(@"\begin{document}");
                         
                         //int PosBeginDoc = job.code.IndexOf(@"\begin{document}");
                         if (PosBeginDoc == -1)
@@ -402,8 +376,8 @@ namespace TikzEdt
                             ((MainWindow)Application.Current.Windows[0]).txtCode.Document.Insert(PosBeginDoc, PreviewEnvCode);
                             //((MainWindow)Application.Current.Windows[0]).txtCode.Text.Insert
                             MainWindow.AddStatusLine("PreviewEnvironment code inserted.");
-                            ((MainWindow)Application.Current.Windows[0]).ChangesMade = true;                            
-                        } */
+                            ((MainWindow)Application.Current.Windows[0]).ChangesMade = true;
+                        }
                     }
                         
                 }
@@ -427,7 +401,7 @@ namespace TikzEdt
             if (job.GeneratePrecompiledHeaders)
             {
                 texProcess.StartInfo.Arguments = "-ini -job-name=\"" + job.name
-                    + "\" \"&pdflatex " + System.IO.Path.GetFileName(job.path) + "\\dump\"";                
+                    + "\" \"&pdflatex " + System.IO.Path.GetFileName(job.path) + "\\dump\"";
             }
             else
             {
@@ -475,27 +449,8 @@ namespace TikzEdt
 
         void timer_Tick(object sender, EventArgs e)
         {
-            //if a timeout of pdflatex occured, check whether pdflatex has the packagemanager library loaded.
-            //if it has, pdflatex is most probably loading a required package from the Internet.
-            //in this case do not kill pdflatex (if pdflatex crashes now ... bad luck!)
-            bool InstallingPacket = false;
-            foreach (ProcessModule pm in texProcess.Modules)
-            {
-                if (pm.ModuleName.Contains("packagemanager"))
-                {                    
-                    InstallingPacket = true;
-                }
-            }
-
-            if (InstallingPacket == false)
-            {
-                MainWindow.AddStatusLine("Timeout. Compilation aborted", true);
-                AbortCompilation();
-            }
-            else 
-            {
-                MainWindow.AddStatusLine("Please wait. pdflatex seems to be installing some required package.");
-            }
+            MainWindow.AddStatusLine("Timeout. Compilation aborted", true);
+            AbortCompilation();
         }
         /// <summary>
         /// Adds a rectangle to the Tikzcode in the size specified by BB. 
@@ -547,7 +502,7 @@ namespace TikzEdt
 
             //texProcess.EnableRaisingEvents = true;
             //texProcess.StartInfo.Arguments = "-quiet -halt-on-error " + Consts.cTempFile + ".tex";
-            texProcess.StartInfo.FileName = Properties.Settings.Default.Path_pdflatex;//"pdflatex";
+            texProcess.StartInfo.FileName = "pdflatex";
             texProcess.StartInfo.CreateNoWindow = true;
             texProcess.StartInfo.UseShellExecute = false;
             texProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -614,7 +569,6 @@ namespace TikzEdt
                 if (JobSucceeded != null)
                     JobSucceeded(this, job);
 
-                //for thumbnail generation
                 if (job.CreateBMP && !job.GeneratePrecompiledHeaders)
                 {
                     string pathnoext = Helper.RemoveFileExtension(job.path);
@@ -662,8 +616,6 @@ namespace TikzEdt
                     todo_tex.Clear();
                     if (OnCompileEvent != null)
                         OnCompileEvent(this, "Compilation of pre-compiled header failed with exit code " + texProcess.ExitCode +". Compilation of main document stopped. Check under settings code of pre-compiled header!", CompileEventType.Error);
-                    if (JobNumberChanged != null)
-                        JobNumberChanged(this);
                 }
                 else
                 {
@@ -697,8 +649,6 @@ namespace TikzEdt
         /// Format:
         ///         X1,Y1,X2,Y2
         /// (For example X1 = 27.3pt)
-        /// Unfortunately, for exotic cases (e.g., \begin{tikzpicture}[overlay])  a bogus BB of 16000pt is written.
-        /// In this case, report failure
         /// </summary>
         /// <param name="job"></param>
         void ReadBBFromFile(Job job)
@@ -714,13 +664,10 @@ namespace TikzEdt
                     if (arr.Length == 4)
                     {
                         Point p1 = new Point( Double.Parse(arr[0]) / Consts.ptspertikzunit, Double.Parse(arr[1]) / Consts.ptspertikzunit);
-                        Point p2 = new Point( Double.Parse(arr[2]) / Consts.ptspertikzunit, Double.Parse(arr[3]) / Consts.ptspertikzunit);                                             
-
+                        Point p2 = new Point( Double.Parse(arr[2]) / Consts.ptspertikzunit, Double.Parse(arr[3]) / Consts.ptspertikzunit);
+                        
                         job.BB = new Rect(p1, p2);
-                        if (job.BB.Width < 500 && job.BB.Height < 500)
-                            job.hasBB = true;
-                        else
-                            job.hasBB = false;
+                        job.hasBB = true;
 
                     }
                 }
@@ -874,7 +821,7 @@ namespace TikzEdt
         static TikzToBMPFactory()
         {
             Instance.JobFailed += new JobEventHandler(OnJobFailed);
-            Instance.timeout = Properties.Settings.Default.Compiler_SnippetTimeout;
+            Instance.timeout = 5000;
         }
 
         public static void OnJobFailed(object sender, Job job)
@@ -897,11 +844,6 @@ namespace TikzEdt
         {
             get { return _Instance; }
             set { }
-        }
-
-        static TheCompiler()
-        {
-            Instance.timeout = Properties.Settings.Default.Compiler_Timeout;
         }
 
         public static void GeneratePrecompiledHeaders()

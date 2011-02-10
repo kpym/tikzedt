@@ -85,10 +85,8 @@ IM_TIKZSET;
 IM_USETIKZLIB;
 IM_STRING;
 IM_STYLE;
-IM_CONTROLS;	
 IM_TIKZEDT_CMD;
 IM_DONTCARE;
-IM_ARC;
 }
 
 @parser::members {
@@ -160,7 +158,7 @@ otherbegin
 	;
 
 tikz_style
-	:	'\\tikzstyle' '{' idd '}' ('=' | '+=') tikz_options -> ^(IM_STYLE idd tikz_options)
+	:	'\\tikzstyle' '{' idd '}' '=' tikz_options -> ^(IM_STYLE idd tikz_options)
 	;
 
 tikz_options
@@ -193,7 +191,7 @@ range
 	: numberunit ':' numberunit	->	^(IM_STRING numberunit ':' numberunit )
 	;	
 option_style
-	:	idd ('/.style' | ('/.append' 'style')) '=' '{' (option_kv (',' option_kv)*)?  ','? '}'  -> ^(IM_OPTION_STYLE idd option_kv*)  // '{' option '}' todo: optional ,
+	:	idd '/.style' '=' '{' (option_kv (',' option_kv)*)?  ','? '}'  -> ^(IM_OPTION_STYLE idd option_kv*)  // '{' option '}' todo: optional ,
 	;
 
 
@@ -209,7 +207,7 @@ idd
 	:	idd_heavenknowswhythisisnecessary  -> ^(IM_ID )
 	;
 idd_heavenknowswhythisisnecessary
- 	:	 ~( '(' | ')' | '[' |	']' | '{' | '}' | ',' | '='	| ';'	| ':' | '/.style' | '/.append' )+ ;
+ 	:	 ~( '(' | ')' | '[' |	']' | '{' | '}' | ',' | '='	| ';'	| ':' | '/.style')+ ;
 idd2
 	:	ID+ -> ^(IM_ID )
 	;
@@ -229,7 +227,7 @@ unit
 	;
 			
 tikz_set
-	:	 tikz_set_start (option (',' option)* ','?)? roundbr_end -> ^(IM_TIKZSET tikz_set_start option* roundbr_end)
+	:	 tikz_set_start (option (',' option)*)? roundbr_end -> ^(IM_TIKZSET tikz_set_start option* roundbr_end)
 	;
 
 // *** Things that go within the picture ****
@@ -239,15 +237,15 @@ tikzpicture
 	;
 
 tikzbody
-	:	( tikzscope | tikzpath | tikznode_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body_nobr! )  // necessary to prevent conflict with options
-		( tikzscope | tikzpath | tikznode_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body! )*
+	:	( tikzscope | tikzpath | tikznode_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body_nobr! )  // necessary to prevent conflict with options
+		( tikzscope | tikzpath | tikznode_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body! )*
 	;
 	
 dontcare_body_nobr
-	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '['))	// necessary to prevent conflict with options
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\coordinate' | '\\draw' | '\\path' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '['))	// necessary to prevent conflict with options
 	;	
 dontcare_body
-	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' ))   
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\coordinate' | '\\draw' | '\\path' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' ))   
 	;
 otherend
 	:	'\\end' '{' idd2 '}'
@@ -304,25 +302,15 @@ tikzpath_element
 	:
 		  tikz_options 
 		| coord
-		| controls
 		| tikznode_int
 		| tikzcoordinate_int
 		| circle!
-		| arc
+		| arc!
 		| roundbr_start tikzpath_element* roundbr_end -> ^(IM_PATH roundbr_start tikzpath_element* roundbr_end)
 		| edgeop!
 	;
-	
-controls		// for bezier path, e.g.,  .. (1,1) and (2,2) ..
-	:	controls_start coord ('and' coord)? controls_end -> ^(IM_CONTROLS controls_start coord+ controls_end)
-	;	
-	
 tikznode_ext
 	:	node_start tikznode_core tikzpath_element* semicolon_end	-> ^(IM_PATH node_start tikznode_core tikzpath_element* semicolon_end)
-	;
-	
-tikzmatrix_ext
-	:	matrix_start tikznode_core tikzpath_element* semicolon_end	-> ^(IM_PATH matrix_start tikznode_core tikzpath_element* semicolon_end)
 	;
 	
 // the coordinate business is a hack
@@ -391,7 +379,7 @@ circle
 	:	('circle' | 'ellipse') ((size)=> size)?	->	// note: options not allowed in between
 	;
 arc
-	:	'arc' ('(' numberunit ':' numberunit ':' numberunit ('and' numberunit)? ')')? -> ^(IM_ARC numberunit+)
+	:	'arc' ('(' numberunit ':' numberunit ':' numberunit ')')? ->
 	;
 	
 size
@@ -481,12 +469,6 @@ roundbr_start
 roundbr_end
 	:	'}'	-> ^(IM_ENDTAG '}')
 	;
-controls_start
-	:	'..' 'controls'	-> ^(IM_STARTTAG '..')
-	;
-controls_end
-	:	'..' -> ^(IM_ENDTAG '..')
-	;
 tikz_set_start
 	:	'\\tikzset' '{'		-> ^(IM_STARTTAG ) // todo: check if suffices
 	;
@@ -508,14 +490,8 @@ path_start
 node_start
 	:	node_start_tag -> ^(IM_STARTTAG node_start_tag)
 	;
-matrix_start
-	:	matrix_start_tag -> ^(IM_STARTTAG matrix_start_tag)
-	;
 node_start_tag
 	:	'\\node'
-	;
-matrix_start_tag
-	:	'\\matrix'
 	;
 coordinate_start
 	:	'\\coordinate' -> ^(IM_STARTTAG '\\coordinate')

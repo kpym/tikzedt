@@ -1,19 +1,4 @@
-﻿/*This file is part of TikzEdt.
- 
-TikzEdt is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
- 
-TikzEdt is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
- 
-You should have received a copy of the GNU General Public License
-along with TikzEdt.  If not, see <http://www.gnu.org/licenses/>.*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -163,11 +148,7 @@ namespace TikzEdt.Parser
                         tc.text = getTokensString(tokens, childt);
                         item.AddChild(tc);
                         break;
-                    case simpletikzParser.IM_ARC:
-                        Tikz_Arc ta = Tikz_Arc.FromCommonTree(childt, tokens);
-                        ta.text = getTokensString(tokens, childt);
-                        item.AddChild(ta);
-                        break;
+                    
                     case simpletikzParser.IM_NODE:
                         Tikz_Node tn = Tikz_Node.FromCommonTree(childt, tokens);
                         tn.text = getTokensString(tokens, childt);
@@ -212,12 +193,7 @@ namespace TikzEdt.Parser
                         //FillItem(to2, childt, tokens);
                         topt2.text = getTokensString(tokens, childt);
                         item.AddChild(topt2);
-                        break;
-                    case simpletikzParser.IM_CONTROLS:
-                        Tikz_Controls tcontrols = new Tikz_Controls();
-                        FillItem(tcontrols, childt, tokens);
-                        item.AddChild(tcontrols);
-                        break;
+                        break;                    
                     case simpletikzParser.IM_SIZE:
                         Tikz_Size tsize = Tikz_Size.FromCommonTree(childt, tokens);
                         tsize.text = getTokensString(tokens, childt);

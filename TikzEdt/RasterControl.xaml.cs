@@ -1,19 +1,4 @@
-﻿/*This file is part of TikzEdt.
- 
-TikzEdt is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
- 
-TikzEdt is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
- 
-You should have received a copy of the GNU General Public License
-along with TikzEdt.  If not, see <http://www.gnu.org/licenses/>.*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -58,61 +43,17 @@ namespace TikzEdt
             }
         }
 
-        bool _OverrideWithZeroGridWidth = false;
-        // use this to set GridWidth to zero temporarily (e.g., on ALT pressed)
-        public bool OverrideWithZeroGridWidth
-        {
-            set { _OverrideWithZeroGridWidth = value; DrawRaster(); }
-            get { return _OverrideWithZeroGridWidth; }
-        }
-
-        bool _OverrideWithHalfGridWidth = false;
-        // use this to set GridWidth to zero temporarily (e.g., on ALT pressed)
-        public bool OverrideWithHalfGridWidth
-        {
-            set { _OverrideWithHalfGridWidth = value; DrawRaster(); }
-            get { return _OverrideWithHalfGridWidth; }
-        }
-
         double _GridWidth = Properties.Settings.Default.Raster_GridWidth;
         public double GridWidth
         {
-            get {
-                if (OverrideWithZeroGridWidth)
-                    return 0;
-                else if (OverrideWithHalfGridWidth)
-                    return _GridWidth / 2;
-                else
-                    return _GridWidth;
-            }
+            get { return _GridWidth; }
             set { _GridWidth = value; DrawRaster(); }
         }
-
-        double _ForceRadiusTo = -1;
-        /// <summary>
-        /// Determines whether the radius of the rasterized point is fixed to ForceRadiusTo.
-        /// This is used for situations (arc editing) where the radius is fixed and only the angular parameter 
-        /// can vary. Is ignored if negative, of is IsCartesian = true.
-        /// 
-        /// Note: the radius is in the transformed coordinate system, not absolute !!
-        /// (Otherwise it wouldn't make sense, say, with anisotropic scaling.)
-        /// </summary>
-        public double ForceRadiusTo
-        {
-            get { return _ForceRadiusTo; }
-            set { _ForceRadiusTo = value; }
-        }
-
         uint _RadialSteps = Properties.Settings.Default.Raster_RadSteps;
         public uint RadialSteps
         {
             //get { return Properties.Settings.Default.Raster_RadSteps; }
-            get {
-                if (OverrideWithHalfGridWidth)
-                    return 2 * _RadialSteps;
-                else
-                    return _RadialSteps;
-            }
+            get { return _RadialSteps; }
             set 
             { 
                 _RadialSteps = value; 
@@ -186,9 +127,8 @@ namespace TikzEdt
         /// </summary>
         public void ResetRaster()
         {
-            ForceRadiusTo = -1;
             IsCartesian = true;
-            CoordinateTransform = new Parser.TikzMatrix(); // unit matrix            
+            CoordinateTransform = new Parser.TikzMatrix(); // unit matrix
         }
 
         // the scaled GridWidth
@@ -458,8 +398,6 @@ namespace TikzEdt
                 polar = new Point( Math.Round(polar.X / GridWidth)  * GridWidth,
                                    Math.Round((polar.Y - RadialOffset) / (2 * Math.PI / RadialSteps)) * (2 * Math.PI / RadialSteps) + RadialOffset 
                                    );
-                if (ForceRadiusTo >= 0)
-                    polar = new Point(ForceRadiusTo, polar.Y);
                 pstd_rast = PolToCart(polar);
             }
             return CoordinateTransform.Transform(pstd_rast, IsRelative);

@@ -97,7 +97,7 @@ namespace TikzEdt.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("6")]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public double BB_Margin {
             get {
                 return ((double)(this["BB_Margin"]));
@@ -509,30 +509,6 @@ namespace TikzEdt.Properties {
             }
             set {
                 this["Overlay_ScopeColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int Compiler_Timeout {
-            get {
-                return ((int)(this["Compiler_Timeout"]));
-            }
-            set {
-                this["Compiler_Timeout"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int Compiler_SnippetTimeout {
-            get {
-                return ((int)(this["Compiler_SnippetTimeout"]));
-            }
-            set {
-                this["Compiler_SnippetTimeout"] = value;
             }
         }
     }
