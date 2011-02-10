@@ -28,42 +28,36 @@ namespace TikzEdt
         {
             //do whatever you need to do with the exception
             //e.Exception
-            if (System.Diagnostics.Debugger.IsAttached)
+
+            System.Windows.Forms.DialogResult result = System.Windows.Forms.DialogResult.Cancel;
+            try
             {
-                // in debug mode, let the debugger handle the exception
+                result = this.ShowThreadExceptionDialog(e.Exception);
             }
-            else
+            catch
             {
-                System.Windows.Forms.DialogResult result = System.Windows.Forms.DialogResult.Cancel;
                 try
                 {
-                    result = this.ShowThreadExceptionDialog(e.Exception);
+                    MessageBox.Show("Fatal Error", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Stop);
                 }
-                catch
-                {
-                    try
-                    {
-                        MessageBox.Show("Fatal Error", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Stop);
-                    }
-                    finally
-                    {
-                        System.Environment.Exit(1);
-                        Application.Current.MainWindow.Close();
-                    }
-                }
-
-                // Exits the program when the user clicks Abort.
-                if (result == System.Windows.Forms.DialogResult.Yes)
+                finally
                 {
                     System.Environment.Exit(1);
-                }
-                else if (result == System.Windows.Forms.DialogResult.No)
-                {
                     Application.Current.MainWindow.Close();
                 }
-
-                e.Handled = true;
             }
+
+            // Exits the program when the user clicks Abort.
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
+                System.Environment.Exit(1);                
+            }
+            else if (result == System.Windows.Forms.DialogResult.No)
+            {                
+                Application.Current.MainWindow.Close();                
+            }
+
+            e.Handled = true;
         }
 
         // Creates the error message, displays and logs it.

@@ -7,9 +7,10 @@
     <!-- This is the main ruleset. -->
     <RuleSet>
         <Span color="Comment" begin="%" />
-      <!--<Span color="Comment" multiline="true" 
-           begin="/\*" end="\*/" />-->
-        <Span color="MathString" multiline="true" begin="\$" end="\$"> 
+        <Span color="Comment" multiline="true" 
+           begin="/\*" end="\*/" />
+        <Span color="MathString" multiline="true"
+           begin="/\*" end="\*/">
           <RuleSet>
             <!-- nested span for escape sequences -->
             <Span begin="\\" end="." />

@@ -29,8 +29,8 @@
     <InstallUrl>http://www.willwacher.de/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>0.1.2.0</ApplicationVersion>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>0.1.0.2</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -88,7 +88,7 @@
     <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\lib\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
-    <Reference Include="PDFLibNet, Version=1.0.6.8, Culture=neutral, PublicKeyToken=26d87f7d66fb2aee, processorArchitecture=x86">
+    <Reference Include="PDFLibNet, Version=1.0.6.6, Culture=neutral, PublicKeyToken=26d87f7d66fb2aee, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\PDFLibNet.dll</HintPath>
     </Reference>
@@ -123,9 +123,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Overlay\ArcEditTool.cs" />
-    <Compile Include="Overlay\ArcTool.cs" />
-    <Compile Include="Overlay\BezierTool.cs" />
     <Compile Include="CmdLineArgumentParser.cs" />
     <Compile Include="Editor\CodeCompleter.cs" />
     <Compile Include="Data\CompletionDS.cs">
@@ -143,13 +140,11 @@
     <Compile Include="MyCompletionData.cs" />
     <Compile Include="output\simpletikzLexer.cs" />
     <Compile Include="output\simpletikzParser.cs" />
-    <Compile Include="Overlay\OverlayTool.cs" />
-    <Compile Include="Overlay\SelectionTool.cs" />
+    <Compile Include="OverlayTool.cs" />
     <Compile Include="Parser\ANTLRErrorMsg.cs" />
-    <Compile Include="Overlay\Rect_and_EllipseTools.cs" />
-    <Compile Include="Overlay\SmoothCurveTool.cs" />
+    <Compile Include="Rect_and_EllipseTools.cs" />
     <Compile Include="TexOutputParser.cs" />
-    <Compile Include="Overlay\PdfOverlay.xaml.cs">
+    <Compile Include="PdfOverlay.xaml.cs">
       <DependentUpon>PdfOverlay.xaml</DependentUpon>
     </Compile>
     <Compile Include="RasterControl.xaml.cs">
@@ -201,7 +196,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Overlay\PdfOverlay.xaml">
+    <Page Include="PdfOverlay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -478,17 +473,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Ellipse.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Bezier.png" />
-    <Resource Include="Images\grid.png" />
-    <Resource Include="Images\Smooth.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\arc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\arcedit.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

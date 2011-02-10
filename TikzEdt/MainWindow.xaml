@@ -192,8 +192,6 @@
                 <MenuItem Header="Compile" Command="{x:Static custom:MainWindow.CompileCommand}" InputGestureText="F5"/>
                 <MenuItem Name="mnuAbort" Header="Abort" Click="AbortCompilationClick"
                           IsEnabled="{Binding Source={x:Static my:TheCompiler.Instance}, Path=Compiling, Mode=OneWay}"/>
-                <MenuItem Name="mnuAbortSnippet" Header="Abort current snippet compilation" Click="AbortSnippetCompilationClick"
-                          IsEnabled="{Binding Source={x:Static my:TikzToBMPFactory.Instance}, Path=Compiling, Mode=OneWay}"/>
                 <Separator/>
                 <MenuItem Header="(Re-)Generate precompiled headers" Click="GenerateHeadersClick"/>
             </MenuItem>
@@ -302,126 +300,21 @@
             <ToolBar Name="tlbTools"  Height="28" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}" Band="1">
                 <RadioButton HorizontalAlignment="Left" Name="rbToolMove" VerticalAlignment="Top" IsChecked="True" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/base_cursor.png" Style="{StaticResource toolbarImageStyle}" Stretch="Fill" Height="16" Width="16"/>
-                    <RadioButton.ToolTip>
-                        <StackPanel>
-                            <TextBlock Text="Select and move tool" FontWeight="Bold"></TextBlock>
-                            <TextBlock Width="200" TextWrapping="Wrap">
-                                Use this tool to select and move things. The coordinate raster is automatically adjusted to the 
-                                coordinate system (Polar/Cartesian) at the object moved. Coordinate transformations are respected.
-                            </TextBlock>
-                        </StackPanel>
-                    </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolAddVert" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/bmpvert.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
-                    <RadioButton.ToolTip>
-                        <StackPanel>
-                            <TextBlock Text="Node tool" FontWeight="Bold"></TextBlock>
-                            <TextBlock Width="200" TextWrapping="Wrap">
-                                A simple tool to create nodes. Choose the style you want to apply in the "Node style" dropdown on the right.
-                            </TextBlock>
-                        </StackPanel>
-                    </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolAddEdge" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/edge.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
-                    <RadioButton.ToolTip>
-                        <StackPanel>
-                            <TextBlock Text="Edge tool" FontWeight="Bold"></TextBlock>
-                            <TextBlock Width="200" TextWrapping="Wrap">
-                                Connect things by edges. If the things are unnamed nodes, unique node names are inserted. If the things are coordinates, a node tag is inserted.
-                            </TextBlock>
-                        </StackPanel>
-                    </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolAddPath" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/path.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
-                    <RadioButton.ToolTip>
-                        <StackPanel>
-                            <TextBlock Text="Path tool" FontWeight="Bold"></TextBlock>
-                            <TextBlock Width="200" TextWrapping="Wrap">
-                                Create a path of straight lines. To close the path, double click when you want to close. If you don't want to close the path, use right button to stop drawnig.
-                            </TextBlock>
-                        </StackPanel>
-                    </RadioButton.ToolTip>
-                </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolSmooth" VerticalAlignment="Top" Checked="rb1_Checked">
-                    <Image Source="/TikzEdt;component/Images/Smooth.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
-                    <RadioButton.ToolTip>
-                        <StackPanel>
-                            <TextBlock Text="Smooth curve tool" FontWeight="Bold"></TextBlock>
-                            <TextBlock Width="200" TextWrapping="Wrap">
-                                Draw a smooth curve. Doubleclick closes the curve. Right click to not close the curve.
-                            </TextBlock>
-                        </StackPanel>
-                    </RadioButton.ToolTip>
-                </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolBezier" VerticalAlignment="Top" Checked="rb1_Checked">
-                    <Image Source="/TikzEdt;component/Images/Bezier.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
-                    <RadioButton.ToolTip>
-                        <StackPanel>
-                            <TextBlock Text="Bezier tool" FontWeight="Bold"></TextBlock>
-                            <TextBlock Width="200" TextWrapping="Wrap">
-                                Creates an path of Bezier curves.
-                            </TextBlock>
-                        </StackPanel>
-                    </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolRectangle" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/Rectangle.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
-                    <RadioButton.ToolTip>
-                        <StackPanel>
-                            <TextBlock Text="Rectangle tool" FontWeight="Bold"></TextBlock>
-                            <TextBlock Width="200" TextWrapping="Wrap">
-                                Creates a rectangle. Press CTRL for square.
-                            </TextBlock>
-                        </StackPanel>
-                    </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolEllipse" VerticalAlignment="Top" Checked="rb1_Checked">
                     <Image Source="/TikzEdt;component/Images/Ellipse.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
-                    <RadioButton.ToolTip>
-                        <StackPanel>
-                            <TextBlock Text="Ellipse tool" FontWeight="Bold"></TextBlock>
-                            <TextBlock Width="200" TextWrapping="Wrap">
-                                Creates an ellipse. Press CTRL for circle.
-                            </TextBlock>
-                        </StackPanel>
-                    </RadioButton.ToolTip>
-                </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolArc" VerticalAlignment="Top" Checked="rb1_Checked">
-                    <Image Source="/TikzEdt;component/Images/arc.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
-                    <RadioButton.ToolTip>
-                        <StackPanel>
-                            <TextBlock Text="Arc/Pie tool" FontWeight="Bold"></TextBlock>
-                            <TextBlock Width="200" TextWrapping="Wrap">
-                                Creates an arc. Press CTRL to create a pie segment instead. SHIFT switches between the larger and smaller arc segments.
-                            </TextBlock>
-                        </StackPanel>
-                    </RadioButton.ToolTip>
-                </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolArcEdit" VerticalAlignment="Top" Checked="rb1_Checked" Visibility="Collapsed">
-                    <Image Source="/TikzEdt;component/Images/arcedit.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
-                    <RadioButton.ToolTip>
-                        <StackPanel>
-                            <TextBlock Text="Arc/Pie editing tool" FontWeight="Bold"></TextBlock>
-                            <TextBlock Width="200" TextWrapping="Wrap">
-                                Sometimes the usual Move tool will not do what you want with arcs/pies.
-                                This tool is a bit more clever.
-                            </TextBlock>
-                        </StackPanel>
-                    </RadioButton.ToolTip>
-                </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolGrid" VerticalAlignment="Top" Checked="rb1_Checked">
-                    <Image Source="/TikzEdt;component/Images/Grid.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
-                    <RadioButton.ToolTip>
-                        <StackPanel>
-                            <TextBlock Text="Grid tool" FontWeight="Bold"></TextBlock>
-                            <TextBlock Width="200" TextWrapping="Wrap">
-                                Draws a grid. The grid spacing should be edited in the code.
-                            </TextBlock>
-                        </StackPanel>
-                    </RadioButton.ToolTip>
                 </RadioButton>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Node style:</TextBlock>
                 <ComboBox Name="cmbNodeStyles" Width="80" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"></ComboBox>
@@ -650,7 +543,7 @@
                 </avalonedit:TextEditor>
             </Grid>
             <GridSplitter Background="Gray" Grid.Column="4" Grid.Row="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="5" Name="PreviewScrollViewer">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="5">
                 <!-- 
                 <Button Grid.Row="0" Grid.Column="0">Hallo Welt</Button> <my:PdfOverlay  HorizontalAlignment="Stretch" x:Name="pdfOverlay1" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" />
                 -->

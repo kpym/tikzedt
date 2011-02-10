@@ -1,19 +1,4 @@
-﻿/*This file is part of TikzEdt.
- 
-TikzEdt is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
- 
-TikzEdt is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
- 
-You should have received a copy of the GNU General Public License
-along with TikzEdt.  If not, see <http://www.gnu.org/licenses/>.*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -153,12 +138,6 @@ namespace TikzEdt
                 rasterControl1.BB = bigger;
             }
         }
-        /// <summary>
-        /// Indicates whether the current BB is valid for the pdf currently displayed.
-        /// It can be invalid upon failure to determine the bounding box.
-        /// In this case, the bounding box (in wysiwyg mode at least) should be determined from the pdf's size.
-        /// </summary>
-        bool BBvalid = true;
 
         bool _ParseNeeded = false;
         bool ParseNeeded
@@ -273,13 +252,12 @@ namespace TikzEdt
             {
                 if (!job.GeneratePrecompiledHeaders)
                 {
-                    // set the currrent BB, if the BB could be determined.
-                    // if not, and we are in preview mode, we have a problem
-                    if (job.hasBB)
+                    // set the currrent BB
+                    if (job.hasBB && !job.GeneratePrecompiledHeaders)
                     {
                         currentBB = job.BB;
                     }
-                    BBvalid = job.hasBB;
+
                     // (re-)load the pdf to display                
                     string pdfpath = Helper.RemoveFileExtension(job.path) + ".pdf";
                     tikzDisplay1.PdfPath = pdfpath;
@@ -302,7 +280,7 @@ namespace TikzEdt
         {
             AsyncParserResultType Result = e.Result as AsyncParserResultType;
             if (Result == null)
-                throw new Exception("AsyncParser_RunWorkerCompleted() can only handle e.Result  of type AsyncParserResultType!");
+                throw new Exception("AsyncParser_RunWorkerCompleted() can only handle e.Result  from type AsyncParserResultType!");
 
             // in case of outdated parse -> ignore
             if (Result.DocumentID != CurDocumentID)
@@ -428,9 +406,9 @@ namespace TikzEdt
             try
             {
                 AsyncParserJob job = e.Argument as AsyncParserJob;
-                Result.DocumentID = job.DocumentID;
                 Tikz_ParseTree tp = TikzParser.Parse(job.code);
-                Result.ParseTree = tp;                
+                Result.ParseTree = tp;
+                Result.DocumentID = job.DocumentID;
 
                 //include any styles from include files via \input cmd
                 string inputfile = "";
@@ -704,7 +682,7 @@ namespace TikzEdt
 
             codeCompleter.LoadCompletions(Helper.GetSettingsPath() + Consts.cCompletionsFile);            
 
-            isLoaded = true;    // indicates that all components are loaded and can be safely accessed (.. is almost obsolete)
+            isLoaded = true;
             //txtRadialOffset.Text = txtRadialOffset.Text;
             //txtRadialSteps.Text = txtRadialSteps.Text;
 
@@ -1252,21 +1230,18 @@ namespace TikzEdt
         {
             if (!TryDisposeFile())
                 return;
-            
+
+            isLoaded = false;
+
             //all temporary files should be saved in the temporary folder.
             Helper.SetCurrentWorkingDir(Helper.WorkingDirOptions.TempDir);
             AddStatusLine("Working directory is now: " + Helper.GetCurrentWorkingDir());
 
             CleanupForNewFile();
-            
-            // start with std code
-            txtCode.Document.BeginUpdate();
-            txtCode.Document.Insert(0, "\\begin{tikzpicture}" + Environment.NewLine + Environment.NewLine + "\\end{tikzpicture}");
-            txtCode.Document.EndUpdate();
-            ChangesMade = false;
 
             ShowFilesOfCurrentDirectory(); 
 
+            isLoaded = true;
         }
         private void CleanupForNewFile()
         {
@@ -1282,12 +1257,12 @@ namespace TikzEdt
             //DetermineBB(null);
             rasterControl1.ResetRaster();
             pdfOverlay1.SetParseTree(null, currentBB);
-            pdfOverlay1.AllowEditing = true;
             currentBB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);
             ClearStyleLists();
 
             // Set new document ID
             CurDocumentID = DateTime.Now.Ticks;
+            //isLoaded = true;
         }
 
         private void CompileCommandHandler(object sender, ExecutedRoutedEventArgs e)
@@ -1498,16 +1473,6 @@ namespace TikzEdt
                 pdfOverlay1.tool = PdfOverlay.ToolType.rectangle;
             else if (sender == rbToolEllipse)
                 pdfOverlay1.tool = PdfOverlay.ToolType.ellipse;
-            else if (sender == rbToolBezier)
-                pdfOverlay1.tool = PdfOverlay.ToolType.bezier;
-            else if (sender == rbToolSmooth)
-                pdfOverlay1.tool = PdfOverlay.ToolType.smooth;
-            else if (sender == rbToolArc)
-                pdfOverlay1.tool = PdfOverlay.ToolType.arc;
-            else if (sender == rbToolGrid)
-                pdfOverlay1.tool = PdfOverlay.ToolType.grid;
-            else if (sender == rbToolArcEdit)
-                pdfOverlay1.tool = PdfOverlay.ToolType.arcedit;
         }
 
         private void SnippetMenuClick(object sender, RoutedEventArgs e)
@@ -1611,55 +1576,10 @@ namespace TikzEdt
             {
                 if (d > 2 && d < 6000)
                 {
-                    //determine cursor position relative to PreviewScrollViewer
-                    Point RelativeCursor = Mouse.GetPosition(PreviewScrollViewer);
-                    //if mouse is not over PreviewScrollViewer, pretend mouse being at center of PreviewScrollViewer.
-                    if (RelativeCursor.X < 0 || RelativeCursor.Y < 0 || RelativeCursor.X > PreviewScrollViewer.ViewportWidth || RelativeCursor.Y > PreviewScrollViewer.ViewportHeight)
-                    {
-                        RelativeCursor.X = PreviewScrollViewer.ViewportWidth / 2;
-                        RelativeCursor.Y = PreviewScrollViewer.ViewportHeight / 2;
-                    }
-                    Point AbsoluteCursor = PreviewScrollViewer.PointToScreen(RelativeCursor);
-
-                    Point CursorPosBeforeZoom = new Point(0, 0);
-                    Point CursorPosBeforeZoomNormalized = new Point(0, 0);
-                    try
-                    {
-                        //This is where the mouse is pointing to before zooming in.
-                        CursorPosBeforeZoom = rasterControl1.PointFromScreen(AbsoluteCursor);
-                        CursorPosBeforeZoomNormalized = new Point(CursorPosBeforeZoom.X / pdfOverlay1.Resolution, CursorPosBeforeZoom.Y / pdfOverlay1.Resolution);
-                    }
-                    catch (Exception) { 
-                        //raises exception if run before rasterControl1 is connected to PresentationSource
-                    }
-
-                    //do the actual zooming
                     double res = d / 100 * Consts.ptspertikzunit;
                     tikzDisplay1.Resolution = res;
                     rasterControl1.Resolution = res;
                     pdfOverlay1.Resolution = res;
-
-                    Point CursorPosAfterZoom = new Point(0, 0);
-                    Point CursorPosAfterZoomNormalized = new Point(0, 0);
-                    try
-                    {
-                        //This is where the mouse is pointing to after zooming in.
-                        CursorPosAfterZoom = rasterControl1.PointFromScreen(AbsoluteCursor);
-                        CursorPosAfterZoomNormalized = new Point(CursorPosAfterZoom.X / pdfOverlay1.Resolution, CursorPosAfterZoom.Y / pdfOverlay1.Resolution);
-                    }
-                    catch (Exception)
-                    {
-                        //raises exception if run before rasterControl1 is connected to PresentationSource
-                    }
-
-                    //calculate offset between Before and After position.
-                    double DeltaX = (CursorPosBeforeZoomNormalized.X - CursorPosAfterZoomNormalized.X) * res;
-                    double DeltaY = (CursorPosBeforeZoomNormalized.Y - CursorPosAfterZoomNormalized.Y) * res;
-
-                    //correct offset.
-                    PreviewScrollViewer.ScrollToHorizontalOffset(PreviewScrollViewer.HorizontalOffset + DeltaX);
-                    PreviewScrollViewer.ScrollToVerticalOffset(PreviewScrollViewer.VerticalOffset + DeltaY);
-                    
                 }
             }
         }
@@ -1734,7 +1654,13 @@ namespace TikzEdt
         {
             TheCompiler.GeneratePrecompiledHeaders();
         }
-       
+
+        private void chkAutoBB_Checked(object sender, RoutedEventArgs e)
+        {
+            if (isLoaded)
+                Recompile();
+        }
+
         private void chkFancyMode_Checked(object sender, RoutedEventArgs e)
         {
             if (isLoaded)
@@ -1787,7 +1713,6 @@ namespace TikzEdt
                 AddStatusLine("Trying to jump to position " + spos + " but document only has " + txtCode.Text.Length + " characters. Please correct any parser errors or restart TikzEdt.", true);
                 return;
             }
-            txtCode.SelectionLength = 0; //deselect first
             txtCode.CaretOffset = spos;
             txtCode.SelectionStart = spos;
             txtCode.SelectionLength = tpi.ToString().Length;
@@ -1822,13 +1747,22 @@ namespace TikzEdt
         private void FindCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             EnsureFindDialogExists();
-            FindDialog.ShowAsFind();
+            FindDialog.tabMain.SelectedIndex = 0;
+            FindDialog.Show();
+            FindDialog.Activate();
+            FindDialog.txtFind.Focus();
+            //FindDialog.txtCode.Focus();
         }
 
         private void ReplaceCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             EnsureFindDialogExists();
-            FindDialog.ShowAsReplace();
+            FindDialog.tabMain.SelectedIndex = 1;
+            FindDialog.Show();
+            //FindDialog.Focus();
+            FindDialog.Activate();
+            FindDialog.txtFind2.Focus();
+            //FindDialog..Focus();
         }
 
         private void HelpCommandHandler(object sender, ExecutedRoutedEventArgs e)
@@ -1852,9 +1786,15 @@ namespace TikzEdt
         {
             if (FindDialog == null)
             {
-                FindDialog = new Editor.FindReplaceDialog(txtCode);
-                FindDialog.Closed += delegate { FindDialog = null; }; 
+                FindDialog = new Editor.FindReplaceDialog();
+                FindDialog.txtCode = txtCode;
+                FindDialog.Closed += new EventHandler(FindDialog_Closed); ;
             }
+        }
+
+        void FindDialog_Closed(object sender, EventArgs e)
+        {
+            FindDialog = null;
         }
 
         private void FindNextCommandHandler(object sender, ExecutedRoutedEventArgs e)
@@ -1872,7 +1812,7 @@ namespace TikzEdt
 
         private void ShowCodeCompletionsCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            // Open code completion window
+            // Open code completion after the user has pressed dot:
             completionWindow = new CompletionWindow(txtCode.TextArea);
             IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
             codeCompleter.GetCompletions(txtCode.Document, txtCode.CaretOffset, data);
@@ -2255,11 +2195,6 @@ namespace TikzEdt
             }
             else
                 mousepos_whenmenuopened = -1;
-        }
-
-        private void AbortSnippetCompilationClick(object sender, RoutedEventArgs e)
-        {
-            TikzToBMPFactory.Instance.AbortCompilation();
         }
 
     }

@@ -21,7 +21,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="BB_Margin" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">6</Value>
+      <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="Tex_Preamble" Type="System.String" Scope="User">
       <Value Profile="(Default)">\documentclass{article}
@@ -130,12 +130,6 @@
     </Setting>
     <Setting Name="Overlay_ScopeColor" Type="System.Windows.Media.Color" Scope="User">
       <Value Profile="(Default)">#7000FF00</Value>
-    </Setting>
-    <Setting Name="Compiler_Timeout" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="Compiler_SnippetTimeout" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>
