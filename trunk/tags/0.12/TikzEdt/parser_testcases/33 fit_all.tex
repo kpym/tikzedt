@@ -1,0 +1,21 @@
+\documentclass{article}
+
+\usepackage{tikz}
+\usetikzlibrary{fit}
+
+
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+
+\begin{document}
+
+\begin{tikzpicture}
+
+   \node (polarizer) at (0,1) [draw,rectangle,minimum width=1cm]{};
+   \node (quarter wave) at (0,2) [draw,rectangle,minimum width=3cm]{};
+   \node (box) [draw,rectangle,dotted, inner sep=2mm,fit = (polarizer) (quarter wave)]{};
+
+\end{tikzpicture}
+
+\end{document}
+

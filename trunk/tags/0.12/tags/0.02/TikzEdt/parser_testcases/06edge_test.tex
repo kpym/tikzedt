@@ -1,0 +1,24 @@
+\tikzstyle{default_edge} = [draw=orange!55, line width=2]
+\begin{tikzpicture}[ other_edge/.style={ draw=green!55, line width=5 }]
+ 
+\node (v1) at (-3,0) {?};
+\node (v2) at (-1,2) {?};
+\draw (v1) edge (v2);
+
+\node (v4) at (1,-2) {?};
+\node (v5) at (-3,-2) {?};
+\draw[default_edge] (v4) edge (v5);
+
+\node (v6) at (-2,3) {?};
+\node (v3) at (-5,3) {?};
+\draw (v3) edge (v6);
+\node (asdf) at (-6,-2) {?};
+\node (v8) at (-6,0) {?};
+\draw[other_edge] (asdf) edge (v8);
+  
+\node (v7) at (-5,-4) {?};
+\node (v9) at (-2,-4) {?}; 
+
+\draw (v7) edge (asdf) (v7) edge (v9);
+
+\end{tikzpicture}
