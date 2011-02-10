@@ -1506,6 +1506,8 @@ namespace TikzEdt
                 pdfOverlay1.tool = PdfOverlay.ToolType.arc;
             else if (sender == rbToolGrid)
                 pdfOverlay1.tool = PdfOverlay.ToolType.grid;
+            else if (sender == rbToolArcEdit)
+                pdfOverlay1.tool = PdfOverlay.ToolType.arcedit;
         }
 
         private void SnippetMenuClick(object sender, RoutedEventArgs e)
