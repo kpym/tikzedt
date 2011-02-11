@@ -102,8 +102,10 @@ namespace TikzEdt
                 int Offset = 0;
                 foreach(System.Collections.Generic.KeyValuePair<int, int> entry in LineOffsetDict)
                 {
-                    if (LineInTempFile >= entry.Key)
+                    if (LineInTempFile > entry.Key && LineInTempFile >= entry.Key + entry.Value)
                         Offset = entry.Value;
+                    else if (LineInTempFile > entry.Key && LineInTempFile < entry.Key + entry.Value)
+                        Offset = entry.Key + entry.Value - LineInTempFile;
                     else
                         break;               
                 }
@@ -120,18 +122,26 @@ namespace TikzEdt
             {
                 LineOffsetDict.Add(PositionOfAddedLine, NumberOfAddedLines);
 
-                //if there are offset are the just inserted one, that all have to be adapted accordingly.
+                //if there are offsets below the just inserted one, then all lower offsets have to be shifted down accordingly.
                 System.Collections.Generic.SortedDictionary<int, int> TempDict = new SortedDictionary<int, int>();
+                List<int> DeleteKeyList = new List<int>();
                 foreach (System.Collections.Generic.KeyValuePair<int, int> entry in LineOffsetDict)
                 {
                     if (PositionOfAddedLine < entry.Key)
-                        TempDict[entry.Key] = LineOffsetDict[entry.Key] + NumberOfAddedLines;
+                    {
+                        TempDict[entry.Key + NumberOfAddedLines] = LineOffsetDict[entry.Key] + NumberOfAddedLines;
+                        DeleteKeyList.Add(entry.Key);
+                    }
                     else if (PositionOfAddedLine > entry.Key)
                         break;
                 }
                 foreach (System.Collections.Generic.KeyValuePair<int, int> entry in TempDict)
                 {
                     LineOffsetDict[entry.Key] = TempDict[entry.Key];
+                }
+                foreach (int key in DeleteKeyList)
+                {
+                    LineOffsetDict.Remove(key);                  
                 }
             }
             public void OffsetClear()
