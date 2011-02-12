@@ -61,9 +61,17 @@ namespace TikzEdt
             PreviewArc.Visibility = Visibility.Collapsed;
         }
 
+        public void SetCursorDefault()
+        {
+            overlay.canvas.Cursor = Cursors.Arrow;
+        }
+        public void SetCursorNo()
+        {
+            overlay.canvas.Cursor = Cursors.No;
+        }
         public override void OnActivate()
         {
-            overlay.canvas.Cursor = Cursors.Arrow;            
+            SetCursorDefault();
         }
         public override void OnDeactivate()
         {
@@ -107,6 +115,13 @@ namespace TikzEdt
                 //if (curDragged.item is Tikz_Arc)
                 //{
                     FillNodesOnArc();
+                    //check whether starting moving arc was successful
+                    if (PreviewArc.Spokes == null)
+                    {
+                        SetCursorNo();
+                        curDragged = null;
+                        return;
+                    }
                     AdjustPreviewPos(p);
                     PreviewArc.Visibility = Visibility.Visible;
                     if (!overlay.canvas.Children.Contains(PreviewArc))
@@ -163,6 +178,12 @@ namespace TikzEdt
 
         public override void OnLeftMouseButtonUp(MouseButtonEventArgs e, Point p)
         {
+            if (PreviewArc.Spokes == null)
+            {
+                SetCursorDefault();
+                return;
+            }
+
             PreviewArc.Visibility = Visibility.Collapsed;
             // adjust position of dragged item (in parsetree)
             if (curDragged != null && movedenough && curDragged.item is Tikz_XYItem)
@@ -234,8 +255,14 @@ namespace TikzEdt
                     o.AdjustPosition(overlay.Resolution);
 
                 curDragged = null;
+                PreviewArc.Spokes = null;
 
                 overlay.EndUpdate();
+            }
+            else if (curDragged != null && curDragged.item is Tikz_XYItem)
+            { //if not movedenough, reset all "moving variables" anyways
+                curDragged = null;
+                PreviewArc.Spokes = null;
             }
         }
 
