@@ -55,6 +55,7 @@ namespace TikzEdt
         public static RoutedCommand SavePdfCommand = new RoutedCommand();
         public static RoutedCommand SavePdfAsCommand = new RoutedCommand();
         public static RoutedCommand ShowPdfCommand = new RoutedCommand();
+        public static RoutedCommand ExportFileCommand = new RoutedCommand();
         
 
         System.ComponentModel.BackgroundWorker AsyncParser = new System.ComponentModel.BackgroundWorker();
@@ -204,8 +205,8 @@ namespace TikzEdt
             CommandBinding CompileCommandBinding = new CommandBinding(CompileCommand, CompileCommandHandler, AlwaysTrue);
             CommandBinding SavePdfCommandBinding = new CommandBinding(SavePdfCommand, SavePdfHandler, AlwaysTrue);
             CommandBinding SavePdfAsCommandBinding = new CommandBinding(SavePdfAsCommand, SavePdfAsHandler, AlwaysTrue);
-            CommandBinding ShowPdfCommandBinding = new CommandBinding(ShowPdfCommand, ShowPdfHandler, AlwaysTrue);     
-            
+            CommandBinding ShowPdfCommandBinding = new CommandBinding(ShowPdfCommand, ShowPdfHandler, AlwaysTrue);
+            CommandBinding ExportFileCommandBinding = new CommandBinding(ExportFileCommand, ExportFileHandler, AlwaysTrue); 
 
             pdfOverlay1.Rasterizer = rasterControl1;
             EnsureFindDialogExists();
@@ -2035,7 +2036,80 @@ namespace TikzEdt
             AddStatusLine("Preview PDF file saved as " + PdfFilePath);
             return PdfFilePath;
         }
+        /// <summary>
+        /// Displays an Export As dialog and, if successful, exports the current tikzpicture 
+        /// as either bmp, jpeg, tiff or png.
+        /// </summary>
+        private void ExportFileHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (CurFileNeverSaved)
+            {
+                AddStatusLine("Please save document first", true);
+                return;
+            }
 
+            string s = Helper.GetCurrentWorkingDir();
+            string t = Helper.GetPreviewFilename();
+            string PreviewPdfFilePath = s + "\\" + CurFile + t + ".pdf";
+            string FilePath = s + "\\" + Helper.RemoveFileExtension(CurFile) + ".pdf";
+
+                SaveFileDialog sfd = new SaveFileDialog();
+
+                sfd.Filter = "Jpeg Files|*.jpg|Portable Network Graphics|*.png|Bitmap Files|*.bmp|Tiff Files|*.tif";
+                sfd.OverwritePrompt = true;
+                sfd.ValidateNames = true;
+
+                sfd.FileName = System.IO.Path.GetFileName(CurFile);
+                // change file extension to .pdf
+                sfd.FileName = Helper.RemoveFileExtension(sfd.FileName) + ".jpg";
+                sfd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
+                if (sfd.ShowDialog() != true)
+                    return;
+                FilePath = sfd.FileName;
+
+            try
+            {
+                BitmapEncoder benc;
+                bool Transparent = true;
+                switch (System.IO.Path.GetExtension(FilePath).ToLower())
+                {
+                    case ".jpg":
+                        benc = new JpegBitmapEncoder();
+                        Transparent = false;
+                        break;
+                    case ".bmp":
+                        benc = new BmpBitmapEncoder();
+                        Transparent = false;
+                        break;
+                    case ".tif":
+                        benc = new TiffBitmapEncoder();
+                        break;                        
+                    case ".png":
+                        benc = new PngBitmapEncoder();
+                        break;
+                    default:
+                        AddStatusLine("Could not export file: Unknown file extension.", true);
+                        return;
+                }
+
+                PdfToBmp p2b = new PdfToBmp();
+                
+                p2b.LoadPdf(PreviewPdfFilePath);
+                BitmapSource bs = p2b.GetBitmapSource(Consts.ptspertikzunit, Transparent);
+
+                FileStream fs = new FileStream(FilePath, FileMode.Create);
+                benc.Frames.Add(BitmapFrame.Create(bs));
+                benc.Save(fs);
+                fs.Close();
+            }
+            catch (Exception Ex)
+            {
+                AddStatusLine("Could not export file. " + Ex.Message, true);
+                return;
+            }
+
+            AddStatusLine("File exported as " + FilePath);            
+        }
         
         private void chkStatus_Checked(object sender, RoutedEventArgs e)
         {
