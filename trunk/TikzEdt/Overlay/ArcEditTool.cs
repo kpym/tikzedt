@@ -552,16 +552,43 @@ namespace TikzEdt
 
                 for (int i = 1; i < Spokes.Count(); i++)
                 {
+                    if (Math.Abs(Spokes[i] - Spokes[i - 1]) > 2 * Math.PI - .001)
+                    {
+                        // Display a circle
+                        double ControlPointRatio = (Math.Sqrt(2) - 1) * 4 / 3;
 
-                    bool largearc = Math.Abs(Spokes[i] - Spokes[i-1]) > Math.PI;
-                    SweepDirection sd = SweepDirection.Counterclockwise;
-                    if (Spokes[i] < Spokes[i-1])
-                        sd = SweepDirection.Clockwise;
-                    
-                    context.ArcTo(spokep(i), new Size(R, R), 0, largearc, sd, true, false);
+                        var x0 = Center.X - R;
+                        var x1 = Center.X - R * ControlPointRatio;
+                        var x2 = Center.X;
+                        var x3 = Center.X + R * ControlPointRatio;
+                        var x4 = Center.X + R;
+
+                        var y0 = Center.Y - R;
+                        var y1 = Center.Y - R * ControlPointRatio;
+                        var y2 = Center.Y;
+                        var y3 = Center.Y + R * ControlPointRatio;
+                        var y4 = Center.Y + R;
+
+                        context.BeginFigure(new Point(x2, y0), true, true);
+                        context.BezierTo(new Point(x3, y0), new Point(x4, y1), new Point(x4, y2), true, true);
+                        context.BezierTo(new Point(x4, y3), new Point(x3, y4), new Point(x2, y4), true, true);
+                        context.BezierTo(new Point(x1, y4), new Point(x0, y3), new Point(x0, y2), true, true);
+                        context.BezierTo(new Point(x0, y1), new Point(x1, y0), new Point(x2, y0), true, true);
+
+                    }
+                    else
+                    {
+                        bool largearc = Math.Abs(Spokes[i] - Spokes[i - 1]) > Math.PI;
+                        SweepDirection sd = SweepDirection.Counterclockwise;
+                        if (Spokes[i] < Spokes[i - 1])
+                            sd = SweepDirection.Clockwise;
+
+                        context.ArcTo(spokep(i), new Size(R, R), 0, largearc, sd, true, false);
+                    }
 
                     context.BeginFigure(Center, false, false);
                     context.LineTo(spokep(i), true, false);
+                    
                 }
 
             }
