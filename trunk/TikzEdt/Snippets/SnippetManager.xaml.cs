@@ -111,10 +111,49 @@ namespace TikzEdt.Snippets
         {
             if (lstSnippets.SelectedIndex >= 0)
             {
-                if (MessageBox.Show("Do you really want to delete this entry?", "Really????", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
+                SnippetsDataSet.SnippetsTableRow curr = ((DataRowView)(lstSnippets.SelectedItem)).Row as SnippetsDataSet.SnippetsTableRow;
+                if (MessageBox.Show("Do you really want to delete entry \"" + curr.Name + "\" from category \"" + curr.Category + "\"?", "Delete \"" + curr.Name + "\" from \"" + curr.Category + "\"?", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
                     ((DataRowView)(lstSnippets.SelectedItem)).Delete();
                 //snippetsDataSet.Tables["SnippetsTable"].Rows.Remove(lstSnippets.SelectedIndex);
             }
+        }
+
+        public static childItem FindVisualChild<childItem>(DependencyObject obj)
+                where childItem : DependencyObject
+        {
+            // Search immediate children
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+
+                if (child is childItem)
+                    return (childItem)child;
+
+                else
+                {
+                    childItem childOfChild = FindVisualChild<childItem>(child);
+
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+
+            return null;
+        }
+
+        public Expander GetExpander(object ItemOfLstSnippet)
+        {
+            if (ItemOfLstSnippet as DataRowView == null) return null;
+            foreach (CollectionViewGroup Group in lstSnippets.Items.Groups)
+            {
+                if (Group.Items.Contains(ItemOfLstSnippet))
+                {
+                    DependencyObject obj2 = lstSnippets.ItemContainerGenerator.ContainerFromItem(Group);
+                    Expander obj22 = FindVisualChild<Expander>(obj2);
+                    return obj22;
+                }
+            }
+            return null;
         }
 
 
@@ -133,7 +172,24 @@ namespace TikzEdt.Snippets
             r.SnippetCode = "draw";
             r.Dependencies = "";
 
-            snippetsTable.Rows.Add(r);         
+            snippetsTable.Rows.Add(r);
+            //make sure lstsnippets is update to date (i.e. just added r is shown)
+            lstSnippets.UpdateLayout();
+            //now find entry in lstsnippets that corresponds to the just added row r
+            foreach(DataRowView lstEntry in lstSnippets.Items)
+                if (lstEntry.Row == r)
+                {
+                    //get the expander of this entry in order to expand it.
+                    Expander eee = GetExpander(lstEntry);
+                    if (eee != null)
+                        eee.IsExpanded = true;
+                    else
+                        eee = GetExpander(lstEntry);
+                    //also select the just added entey.
+                    lstSnippets.SelectedItem = lstEntry;
+                    break;
+                }
+
         }
 
   
