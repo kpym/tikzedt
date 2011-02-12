@@ -555,16 +555,20 @@ namespace TikzEdt
                 return true;
             return false;
         }
+
         public void SaveBmp(string cFile, double Resolution)
         {
-            Bitmap b = GetBitmap(Resolution, true);
-            if(b != null)
-            {
-                b.Save(cFile);
-                b.Dispose();            
-            }            
+            SaveBmp(cFile, Resolution, true, System.Drawing.Imaging.ImageFormat.Bmp);
         }
-
+        public void SaveBmp(string cFile, double Resolution, bool Transparent, System.Drawing.Imaging.ImageFormat imgFormat)
+        {
+            Bitmap b = GetBitmap(Resolution, Transparent);
+            if (b != null)
+            {
+                b.Save(cFile, imgFormat);
+                b.Dispose();
+            } 
+        }
 
         [DllImport("gdi32")]
         static extern int DeleteObject(IntPtr o);

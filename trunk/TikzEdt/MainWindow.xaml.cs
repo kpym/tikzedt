@@ -2055,7 +2055,7 @@ namespace TikzEdt
 
                 SaveFileDialog sfd = new SaveFileDialog();
 
-                sfd.Filter = "Jpeg Files|*.jpg|Portable Network Graphics|*.png|Bitmap Files|*.bmp|Tiff Files|*.tif";
+                sfd.Filter = "Jpeg Files|*.jpg|Portable Network Graphics|*.png|Bitmap Files|*.bmp|Tiff Files|*.tif|Graphics Interchange Format|*.gif|Extended Meta File|*.emf|Windows Meta File|*.wmf";
                 sfd.OverwritePrompt = true;
                 sfd.ValidateNames = true;
 
@@ -2069,38 +2069,42 @@ namespace TikzEdt
 
             try
             {
-                BitmapEncoder benc;
+                System.Drawing.Imaging.ImageFormat imgFormat;
                 bool Transparent = true;
                 switch (System.IO.Path.GetExtension(FilePath).ToLower())
                 {
                     case ".jpg":
-                        benc = new JpegBitmapEncoder();
+                        imgFormat = System.Drawing.Imaging.ImageFormat.Jpeg;
                         Transparent = false;
                         break;
                     case ".bmp":
-                        benc = new BmpBitmapEncoder();
+                        imgFormat = System.Drawing.Imaging.ImageFormat.Bmp;
                         Transparent = false;
                         break;
+                    case ".gif":
+                        imgFormat = System.Drawing.Imaging.ImageFormat.Gif;
+                        Transparent = false;
+                        break;
+                    case ".emf":
+                        imgFormat = System.Drawing.Imaging.ImageFormat.Emf;
+                        break;
+                    case ".wmf":
+                        imgFormat = System.Drawing.Imaging.ImageFormat.Wmf;
+                        break;
                     case ".tif":
-                        benc = new TiffBitmapEncoder();
+                        imgFormat = System.Drawing.Imaging.ImageFormat.Tiff;
                         break;                        
                     case ".png":
-                        benc = new PngBitmapEncoder();
+                        imgFormat = System.Drawing.Imaging.ImageFormat.Png;
                         break;
                     default:
                         AddStatusLine("Could not export file: Unknown file extension.", true);
                         return;
                 }
 
-                PdfToBmp p2b = new PdfToBmp();
-                
+                PdfToBmp p2b = new PdfToBmp();                
                 p2b.LoadPdf(PreviewPdfFilePath);
-                BitmapSource bs = p2b.GetBitmapSource(Consts.ptspertikzunit, Transparent);
-
-                FileStream fs = new FileStream(FilePath, FileMode.Create);
-                benc.Frames.Add(BitmapFrame.Create(bs));
-                benc.Save(fs);
-                fs.Close();
+                p2b.SaveBmp(FilePath, Consts.ptspertikzunit, Transparent, imgFormat);
             }
             catch (Exception Ex)
             {
