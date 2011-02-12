@@ -1723,6 +1723,8 @@ namespace TikzEdt
         {
             txtCode.Document.EndUpdate();
             ProgrammaticTextChange = false;
+            // refresh style list since styles may have changed (but: not necessary to fully reparse)
+            UpdateStyleLists(pdfOverlay1.ParseTree);
         }
 
         private void TestUpdClick(object sender, RoutedEventArgs e)

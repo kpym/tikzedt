@@ -184,20 +184,25 @@ namespace TikzEdt
                 {
                     Point newp = center_tikz + Rnew * (new Vector(Math.Cos(PreviewArc.Spokes[i]), Math.Sin(PreviewArc.Spokes[i])));
 
-                    if (nodesOnArc[i] is Tikz_Arc)
+                    if (i == 0)
                     {
-                        //if (nodesOnArc[i] == curDragged.item)
-                        //(nodesOnArc[i] as Tikz_Arc).SetAbsPosRandPhi2(newp);
-                        (nodesOnArc[i] as Tikz_Arc).SetFromPoints(center_tikz, newp, (nodesOnArc[i] as Tikz_Arc).IsLargeArc);
-                        //else
-                        //    (nodesOnArc[i] as Tikz_Arc).SetAbsPosOnlyR(newp);
+                        nodesOnArc[i].SetAbsPos(newp);
                     }
                     else
-                        nodesOnArc[i].SetAbsPos(newp);
+                    {
+                        //if (nodesOnArc[i] == curDragged.item)
+                        //(nodesOnArc[i] as Tikz_Arc).SetAbsPosRandPhi2(Rnew, PreviewArc.Spokes[i]);
+                        (nodesOnArc[i] as Tikz_Arc).SetFromPoints(center_tikz, newp, PreviewArc.Spokes[i-1], PreviewArc.Spokes[i]);
+                        //else
+                        //    (nodesOnArc[i] as Tikz_Arc).SetAbsPosOnlyR(newp);
+                        
+                    }                        
 
                     nodesOnArc[i].UpdateText();
                    
                 }
+
+                
 
                 // set first angle of arc segment directly after curDragged
                 //if (curDraggedInd + 1 < nodesOnArc.Count)
@@ -238,15 +243,15 @@ namespace TikzEdt
         public override void KeyDown(KeyEventArgs e)
         {
             base.KeyDown(e);
-            if (PreviewArc.Visibility == Visibility.Visible)
-                AdjustPreviewPos();
+           // if (PreviewArc.Visibility == Visibility.Visible)
+           //     AdjustPreviewPos();
         }
         public override void KeyUp(KeyEventArgs e)
         {
             base.KeyUp(e);
 
-            if (PreviewArc.Visibility == Visibility.Visible)
-                AdjustPreviewPos();
+           // if (PreviewArc.Visibility == Visibility.Visible)
+           //     AdjustPreviewPos();
         }
 
         bool FillNodesOnArc()
@@ -372,6 +377,38 @@ namespace TikzEdt
             //if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) != (Math.Abs(d) > Math.PI))
             //    d -= 2 * Math.PI * Math.Sign(d);
             //phi2 = phi1 + d;
+
+            // ensure the currently edited angle is "sensible", i.e., it does not overlap with other things along the arc            
+            /*if (nodesOnArc.Count == 2)
+            {
+                // Case 1: We are editing a single arc segment,... switch larger/smaller angle by shift
+                double editedPhi = PreviewArc.Spokes[curDraggedInd], otherPhi = PreviewArc.Spokes[(curDraggedInd + 1) % 2];
+                if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) != (Math.Abs(editedPhi - otherPhi) > Math.PI))
+                    editedPhi -= 2 * Math.PI * Math.Sign(editedPhi - otherPhi);
+
+                PreviewArc.Spokes[curDraggedInd] = editedPhi;
+            }
+            else
+            {
+                // Case 2: We are editing multiple arc segments -> try to put arc st. it does not intersect the other segments
+                if (curDraggedInd == 0)
+                {
+                    double mid = -(PreviewArc.Spokes[1] - PreviewArc.Spokes[nodesOnArc.Count]);
+                    PreviewArc.Spokes[curDraggedInd] = ClosestPt(PreviewArc.Spokes[curDraggedInd], mid);
+                }
+                else if (curDraggedInd + 1 == nodesOnArc.Count)
+                {
+                    double mid = PreviewArc.Spokes[curDraggedInd + 1] - PreviewArc.Spokes[curDraggedInd - 1];
+                    PreviewArc.Spokes[curDraggedInd] = ClosestPt(PreviewArc.Spokes[curDraggedInd], mid);
+                }
+                else
+                {
+                    double mid = PreviewArc.Spokes[curDraggedInd + 1] - PreviewArc.Spokes[curDraggedInd - 1];
+                    PreviewArc.Spokes[curDraggedInd] = ClosestPt(PreviewArc.Spokes[curDraggedInd], mid);
+                }
+            }*/
+
+
             PreviewArc.InvalidateVisual();
         } 
         /// <summary>
@@ -384,13 +421,22 @@ namespace TikzEdt
             Vector v = (pp - PreviewArc.Center);
             
             PreviewArc.R = v.Length;
-            double a = Math.Atan2(v.Y, v.X);
-            PreviewArc.Spokes[curDraggedInd] = -a;
+            double olda = PreviewArc.Spokes[curDraggedInd], a = -Math.Atan2(v.Y, v.X);
+            PreviewArc.Spokes[curDraggedInd] = Helper.ClosestPt(a, olda);
             AdjustPreviewPos();
         }
 
 
-
+        double ClosestPtGt(double angle, double closeto)
+        {
+            double diff = angle - closeto;
+            return angle - Math.Floor(diff / (2 * Math.PI)) * 2 * Math.PI;
+        }
+        double ClosestPtSm(double angle, double closeto)
+        {
+            double diff = angle - closeto;
+            return angle - Math.Floor(diff / (2 * Math.PI)) * 2 * Math.PI;
+        }
         /// <summary>
         /// Describes a fan, i.e., a pie segment with multiple "spokes"
         /// 
@@ -511,7 +557,7 @@ namespace TikzEdt
                     SweepDirection sd = SweepDirection.Counterclockwise;
                     if (Spokes[i] < Spokes[i-1])
                         sd = SweepDirection.Clockwise;
-
+                    
                     context.ArcTo(spokep(i), new Size(R, R), 0, largearc, sd, true, false);
 
                     context.BeginFigure(Center, false, false);

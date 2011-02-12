@@ -431,6 +431,23 @@ namespace TikzEdt
         }
 
         /// <summary>
+        /// Finds the point in (angle + 2 Pi \Z) closest to (closeto)
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <param name="closeto"></param>
+        /// <returns></returns>
+        public static double ClosestPt(double angle, double closeto)
+        {
+            double diff = angle - closeto;
+            return angle - Math.Round(diff / (2 * Math.PI)) * 2 * Math.PI;
+        }
+        public static double ClosestPtDeg(double angle, double closeto)
+        {
+            double diff = angle - closeto;
+            return angle - Math.Round(diff / (360)) * 360;
+        }
+
+        /// <summary>
         /// Count occurrences of strings.
         /// </summary>
         public static int CountStringOccurrences(string text, string pattern)

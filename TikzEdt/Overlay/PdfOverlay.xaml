@@ -42,6 +42,12 @@
                 <ContextMenu>
                     <MenuItem Header="Jump To Source" Name="mnuJumpSource"  Click="contextmenuClick"/>
                     <MenuItem Header="Edit this Scope" Name="mnuEdit"  Click="contextmenuClick"/>
+                    <MenuItem Header="Assign Style">
+                        <MenuItem Name ="mnuAssignCurrentNodeStyle" Header="Assign current node style" Click="mnuAssignStyle_Click"/>
+                        <MenuItem Name ="mnuAssignNewStyle" Header="Assign new style..." Click="mnuAssignStyle_Click"/>
+                        <MenuItem Name ="mnuChangeToCurrentNodeStyle" Header="Change style to current node style" Click="mnuAssignStyle_Click"/>
+                        <MenuItem Name ="mnuChangeToNewStyle" Header="Change style to new style..." Click="mnuAssignStyle_Click"/>
+                    </MenuItem>
                     <Separator/>
                     <MenuItem Header="Move" Name="mnuMove" Click="contextmenuClick">
                         <MenuItem.Icon>
@@ -81,6 +87,16 @@
                     <MenuItem Header="Ellipse" Name="mnuEllipse" Click="contextmenuClick">
                         <MenuItem.Icon>
                             <Image Source="/TikzEdt;component/Images/Ellipse.png" Stretch="Fill" Height="16" Width="16"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Arc" Name="mnuArc" Click="contextmenuClick">
+                        <MenuItem.Icon>
+                            <Image Source="/TikzEdt;component/Images/arc.png" Stretch="Fill" Height="16" Width="16"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Edit Arc" Name="mnuArcEdit" Click="contextmenuClick">
+                        <MenuItem.Icon>
+                            <Image Source="/TikzEdt;component/Images/arcedit.png" Stretch="Fill" Height="16" Width="16"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Grid" Name="mnuGrid" Click="contextmenuClick">

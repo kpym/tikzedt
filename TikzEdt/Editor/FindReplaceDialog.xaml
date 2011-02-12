@@ -26,7 +26,7 @@
             <TabItem Header="Find" Name="tabFind"  ContentTemplate="{StaticResource FindPageTemplate}">
                 <StackPanel>
                     <TextBox Margin="3" Name="txtFind" AcceptsReturn="True" Text="{Binding Source={x:Static myEditor:FindReplacePersist.Instance}, Path=TextToFind, Mode=TwoWay}"/>
-                    <Button Margin="3" HorizontalAlignment="Right" Width="65" Click="FindNextClick">Find Next</Button>
+                    <Button Margin="3" IsDefault="True" HorizontalAlignment="Right" Width="65" Click="FindNextClick">Find Next</Button>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Replace" Name="tabReplace"  ContentTemplate="{StaticResource FindPageTemplate}">
@@ -35,7 +35,7 @@
                     <TextBlock Margin="3">Replace with:</TextBlock>
                     <TextBox Margin="3" Name="txtReplace" AcceptsReturn="True" Text="{Binding Source={x:Static myEditor:FindReplacePersist.Instance}, Path=ReplacementText, Mode=TwoWay}"></TextBox>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Margin="3" HorizontalAlignment="Right" Width="65" Click="FindNextClick">Find Next</Button>
+                        <Button IsDefault="True" Margin="3" HorizontalAlignment="Right" Width="65" Click="FindNextClick">Find Next</Button>
                         <Button Margin="3" HorizontalAlignment="Right" Width="65" Click="ReplaceClick">Replace</Button>
                         <Button Margin="3" HorizontalAlignment="Right" Width="65" Click="ReplaceAllClick">Replace all</Button>
                     </StackPanel>

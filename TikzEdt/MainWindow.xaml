@@ -400,7 +400,7 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolArcEdit" VerticalAlignment="Top" Checked="rb1_Checked" Visibility="Collapsed">
+                <RadioButton HorizontalAlignment="Left" Name="rbToolArcEdit" VerticalAlignment="Top" Checked="rb1_Checked" Visibility="Visible" >
                     <Image Source="/TikzEdt;component/Images/arcedit.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
