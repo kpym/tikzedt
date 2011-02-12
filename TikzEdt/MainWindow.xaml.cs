@@ -84,7 +84,12 @@ namespace TikzEdt
                 else
                     AbsoluteCurFilePath = _CurFile;
 
-                Title = "TikzEdt: " + AbsoluteCurFilePath;
+                Title = "TikzEdt: ";
+                if (Properties.Settings.Default.ShowFullPathInTitle)
+                    Title += AbsoluteCurFilePath;
+                else
+                    Title += System.IO.Path.GetFileName(AbsoluteCurFilePath);
+
                 if (ChangesMade)
                     Title += "*";
                 // Add to MRU
