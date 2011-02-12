@@ -67,6 +67,7 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <TextBlock Margin="3" Text="Path to PdfLatex" Grid.Column="0" Grid.Row="0"></TextBlock>
                     <TextBox Margin="3" Grid.Column="1" Grid.Row="0" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_pdflatex, Mode=TwoWay}">
@@ -93,6 +94,7 @@
                             Timeout for the snippet compiler, i.e., the time in milliseconds after which pdflatex is killed. (0 = no timeout)
                         </TextBox.ToolTip>
                     </TextBox>
+                    <CheckBox Margin="3" Grid.Row="4" Grid.Column="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ShowFullPathInTitle}">Show Full Path in Title </CheckBox>
                 </Grid>
             </TabItem>
             <TabItem>
