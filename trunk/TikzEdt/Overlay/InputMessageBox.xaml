@@ -1,0 +1,32 @@
+﻿<Window x:Class="TikzEdt.Overlay.InputMessageBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="InputMessageBox" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" SizeToContent="WidthAndHeight" Loaded="Window_Loaded">
+   <!--  <Window.Style>
+    <Style TargetType="{x:Type Window}">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Window}">
+                    <Grid>
+                        <AdornerDecorator>
+                            <ContentPresenter/>
+                        </AdornerDecorator>
+                        
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</Window.Style>-->
+    <Grid>
+        <StackPanel>
+            <TextBlock Name="tbMessage"  Text="Please enter text:"/>
+            <TextBox Name="txtText" Width="280"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Width="60" IsDefault="True" Margin="0 5 5 0" Click="Button_Click">OK</Button>
+                <Button Width="60" IsCancel="True" Margin="5 5 0 0">Cancel</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

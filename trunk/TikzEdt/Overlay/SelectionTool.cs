@@ -15,6 +15,7 @@ along with TikzEdt.  If not, see <http://www.gnu.org/licenses/>.*/
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -51,6 +52,11 @@ namespace TikzEdt
 
         HashSet<OverlayShape> SelectedItems = new HashSet<OverlayShape>();
         HashSet<OverlayShape> SelectedItemsBak;
+
+        public IEnumerable<OverlayShape> SelItems
+        {
+            get { return SelectedItems.AsEnumerable(); }
+        }
 
         Point SelectionRectOrigin;
 

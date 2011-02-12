@@ -781,6 +781,10 @@ namespace TikzEdt
                 tool = ToolType.smooth;
             else if (sender == mnuBezier)
                 tool = ToolType.bezier;
+            else if (sender == mnuArc)
+                tool = ToolType.arc;
+            else if (sender == mnuArcEdit)
+                tool = ToolType.arcedit;
             else if (sender == mnuJumpSource)
             {
                 JumpToSourceDoIt(sender, e);
@@ -887,6 +891,83 @@ namespace TikzEdt
             // turn on raster on Alt released
             Rasterizer.OverrideWithZeroGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
             Rasterizer.OverrideWithHalfGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
+        }
+
+        private void mnuAssignStyle_Click(object sender, RoutedEventArgs e)
+        {
+            string cStyle = NodeStyle;
+            Tikz_Picture tp = ParseTree.GetTikzPicture();
+            if (tp == null)
+                return;
+            if (tool != ToolType.move)
+                return;     // context menu should actually only open with move tool,... but to be safe against later changes...
+
+            if (sender == mnuAssignNewStyle || sender == mnuChangeToNewStyle)
+            {
+                if (Overlay.InputMessageBox.ShowInputDialog("New style...", "Please enter a unique style name", out cStyle) != MessageBoxResult.OK)
+                    return;
+                cStyle = cStyle.Trim();
+                // check if style name is valid and unique
+                if (ParseTree == null || cStyle == "")
+                    return;
+                if (ParseTree.styles.ContainsKey(cStyle))
+                {
+                    MessageBox.Show("Error: Style name '" + cStyle + "' already exists.", "Style exists", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                
+                // add new style, immediately before \begin{tikzpicture}[...]
+                BeginUpdate();
+                Tikz_Option to = new Tikz_Option();
+                to.type = Tikz_OptionType.style;
+                to.key = cStyle;
+                to.val = "";
+                to.text = "\\tikzstyle{" + cStyle + "}=[];";
+
+                int index = ParseTree.Children.IndexOf(tp);
+                if (index >= 0)
+                {
+                    ParseTree.InsertChildAt(to, index);
+                    to.RegisterNodeAndStyleRefs();
+                    ParseTree.InsertChildAt(new Tikz_Something(Environment.NewLine), index + 1);
+                }
+            }
+            else
+            {
+
+                if (cStyle.Trim() == "")
+                    return;
+
+
+                BeginUpdate();
+            }
+
+            // loop through selected items and set styles
+            foreach (OverlayShape ols in selectionTool.SelItems)
+            {
+                // currently only node styles can be set
+                if (ols.item is Tikz_Node)
+                {
+                    Tikz_Node tn = ols.item as Tikz_Node;
+                    if (tn.options == "" || sender == mnuChangeToCurrentNodeStyle || sender == mnuChangeToNewStyle)
+                    {                        
+                        tn.options = "["  + cStyle + "]";
+                    }
+                    else // just add option
+                    {
+                        string o = tn.options.Trim();
+                        if (o.EndsWith("]"))
+                        {
+                            o = o.Substring(0, o.Length - 1);
+                            o = o + ", " + cStyle + "]";
+                        } // otherwise, do nothing (error)
+                        tn.options = o;                        
+                    }
+                    tn.UpdateText();
+                }
+            }
+
+            EndUpdate();        // Make sure EndUpdate() is always called (..if Beginupdate() was)!
         }
 
     }

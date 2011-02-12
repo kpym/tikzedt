@@ -143,6 +143,9 @@
     <Compile Include="MyCompletionData.cs" />
     <Compile Include="output\simpletikzLexer.cs" />
     <Compile Include="output\simpletikzParser.cs" />
+    <Compile Include="Overlay\InputMessageBox.xaml.cs">
+      <DependentUpon>InputMessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Overlay\OverlayTool.cs" />
     <Compile Include="Overlay\SelectionTool.cs" />
     <Compile Include="Parser\ANTLRErrorMsg.cs" />
@@ -201,6 +204,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Overlay\InputMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Overlay\PdfOverlay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

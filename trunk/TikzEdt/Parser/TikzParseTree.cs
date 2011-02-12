@@ -2156,6 +2156,19 @@ namespace TikzEdt.Parser
             phi2.SetInCM(nphi2 * 180 / Math.PI);         
 
         }
+        /// <summary>
+        /// Creates an arc from three points. Two are provided as parameters, one is the current offset.
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="p2"></param>
+        public void SetFromPoints(Point center, Point p2, double phi1closeto, double phi2closeto)
+        {
+            SetFromPoints(center, p2, false); // last parameter doesn't matter here
+            // set angles
+            phi1.SetInCM(Helper.ClosestPtDeg(phi1.GetInCM(), phi1closeto * 180 / Math.PI));
+            phi2.SetInCM(Helper.ClosestPtDeg(phi2.GetInCM(), phi2closeto * 180 / Math.PI));
+        }
+
 
         /// <summary>
         /// The Treenode t must have either 3 or four children
@@ -2190,14 +2203,14 @@ namespace TikzEdt.Parser
         }
 
         /// <summary>
-        /// Sets R and phi1 so that the start point is 
+        /// Sets R and phi1. Note that, due to 
         /// </summary>
         /// <param name="p"></param>
-        public void SetAbsPosRandPhi1(Point p)
+        public void SetAbsPosRandPhi1(double newR, double newPhi1)
         {
 
         }
-        public void SetAbsPosRandPhi2(Point p)
+        public void SetAbsPosRandPhi2(double newR, double newPhi1)
         {
 
         }
