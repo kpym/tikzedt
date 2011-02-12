@@ -129,6 +129,9 @@
         <CommandBinding Command="{x:Static custom:MainWindow.ShowPdfCommand}" 
                     Executed="ShowPdfHandler" 
                     CanExecute="AlwaysTrue" />
+        <CommandBinding Command="{x:Static custom:MainWindow.ExportFileCommand}" 
+                    Executed="ExportFileHandler" 
+                    CanExecute="AlwaysTrue" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="{x:Static custom:MainWindow.CommentCommand}" Key="D" Modifiers="Ctrl"/>
@@ -157,6 +160,7 @@
                 <Separator/>
                 <MenuItem Header="Save Pdf" Command="{x:Static custom:MainWindow.SavePdfCommand}" InputGestureText="Ctrtl+Shift+S"/>
                 <MenuItem Header="Save Pdf As..." Command="{x:Static custom:MainWindow.SavePdfAsCommand}"/>
+                <MenuItem Header="Export File As..." Command="{x:Static custom:MainWindow.ExportFileCommand}"/>
                 <common:RecentFileList x:Name="RecentFileList"/>
                 <MenuItem Header="Quit" Command="ApplicationCommands.Close"  />
             </MenuItem>
