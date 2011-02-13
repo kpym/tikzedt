@@ -46,6 +46,7 @@
 *TODO*
   * Change snippet baseclass to list
   * use SnippetList class for Snippet List ?
+  * delete snippet on DEL
 
 === TexCompiler ===
 *TODO*
