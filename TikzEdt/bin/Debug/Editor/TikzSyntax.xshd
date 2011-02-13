@@ -36,6 +36,7 @@
             <Word>\matrix</Word>
             <Word>\tikzset</Word>
             <Word>\tikzstyle</Word>
+            <Word>\definecolor</Word>
             <!-- ... -->
         </Keywords>
 

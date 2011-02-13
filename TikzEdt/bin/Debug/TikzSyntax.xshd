@@ -7,10 +7,9 @@
     <!-- This is the main ruleset. -->
     <RuleSet>
         <Span color="Comment" begin="%" />
-        <Span color="Comment" multiline="true" 
-           begin="/\*" end="\*/" />
-        <Span color="MathString" multiline="true"
-           begin="/\*" end="\*/">
+      <!--<Span color="Comment" multiline="true" 
+           begin="/\*" end="\*/" />-->
+        <Span color="MathString" multiline="true" begin="\$" end="\$"> 
           <RuleSet>
             <!-- nested span for escape sequences -->
             <Span begin="\\" end="." />
@@ -30,12 +29,14 @@
             <Word>\begin</Word>
             <Word>\end</Word>
             <Word>\node</Word>
+            <Word>\coordinate</Word>
             <Word>\draw</Word>
             <Word>\fill</Word>
             <Word>\path</Word>
             <Word>\matrix</Word>
             <Word>\tikzset</Word>
             <Word>\tikzstyle</Word>
+            <Word>\definecolor</Word>
             <!-- ... -->
         </Keywords>
 
@@ -45,6 +46,7 @@
         <Word>circle</Word>
         <Word>grid</Word>
         <Word>rectangle</Word>
+        <Word>ellipse</Word>
         <Word>edge</Word>
         <Word>at</Word>
         <Word>--</Word>
