@@ -2347,5 +2347,22 @@ namespace TikzEdt
             TikzToBMPFactory.Instance.AbortCompilation();
         }
 
+        private void ColorPicker1_OnInsert(object sender, RoutedEventArgs e)
+        {
+            if (pdfOverlay1.ParseTree == null) return;
+            string colorName = "";
+            if (Overlay.InputMessageBox.ShowInputDialog("New color...", "Please enter a unique color name", out colorName) != MessageBoxResult.OK)
+                return;
+            string colordef = @"\definecolor{"+colorName+"}{HTML}{" + ColorPicker1.CurrentColor.ToString().Substring(3) + "}" + Environment.NewLine;
+            Tikz_Picture tp = pdfOverlay1.ParseTree.GetTikzPicture();
+            int index = pdfOverlay1.ParseTree.Children.IndexOf(tp);
+            if (index >= 0)
+                txtCode.Document.Insert(pdfOverlay1.ParseTree.Children[index].StartPosition(), colordef);
+            else
+                txtCode.Document.Insert(txtCode.CaretOffset, colordef);
+        }
+
+        
+
     }
 }
