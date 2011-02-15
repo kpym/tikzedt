@@ -120,14 +120,13 @@ namespace TikzEdt
             /// <param name="LineCount">indicates how many line are added at that location</param>
             public void AddOffset(int PositionOfAddedLine, int NumberOfAddedLines)
             {
-                LineOffsetDict.Add(PositionOfAddedLine, NumberOfAddedLines);
-
+                
                 //if there are offsets below the just inserted one, then all lower offsets have to be shifted down accordingly.
                 System.Collections.Generic.SortedDictionary<int, int> TempDict = new SortedDictionary<int, int>();
                 List<int> DeleteKeyList = new List<int>();
                 foreach (System.Collections.Generic.KeyValuePair<int, int> entry in LineOffsetDict)
                 {
-                    if (PositionOfAddedLine < entry.Key)
+                    if (PositionOfAddedLine <= entry.Key)
                     {
                         TempDict[entry.Key + NumberOfAddedLines] = LineOffsetDict[entry.Key] + NumberOfAddedLines;
                         DeleteKeyList.Add(entry.Key);
@@ -135,14 +134,18 @@ namespace TikzEdt
                     else if (PositionOfAddedLine > entry.Key)
                         break;
                 }
-                foreach (System.Collections.Generic.KeyValuePair<int, int> entry in TempDict)
-                {
-                    LineOffsetDict[entry.Key] = TempDict[entry.Key];
-                }
+                
                 foreach (int key in DeleteKeyList)
                 {
                     LineOffsetDict.Remove(key);                  
                 }
+                foreach (System.Collections.Generic.KeyValuePair<int, int> entry in TempDict)
+                {
+                    LineOffsetDict[entry.Key] = TempDict[entry.Key];
+                }
+
+                LineOffsetDict.Add(PositionOfAddedLine, NumberOfAddedLines);
+
             }
             public void OffsetClear()
             {
@@ -538,8 +541,8 @@ namespace TikzEdt
             succeeded = (tok.Length == 3 );
             if (succeeded)
             {
-
-                PositionOfAddedLine = Helper.CountStringOccurrences(tok[0], System.Environment.NewLine) + 1 /*start counting at 1*/;
+                //if a document contains "\n" as line break, Environment.Newline will not do. Use "\n" therefore.
+                PositionOfAddedLine = Helper.CountStringOccurrences(tok[0], "\n") + 1 /*start counting at 1*/;
                 NumberOfAddedLines = Helper.CountStringOccurrences(Consts.CodeToWriteBB, System.Environment.NewLine);
                 return tok[0] + Consts.CodeToWriteBB + tok[1] + tok[2];
             }
