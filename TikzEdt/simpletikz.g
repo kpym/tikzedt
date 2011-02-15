@@ -293,7 +293,8 @@ tikzscope
 // ****** The path commands ********
 tikzpath 
 	:	path_start tikzpath_element* semicolon_end	-> ^(IM_PATH path_start tikzpath_element* semicolon_end )
-	|	path_start 'let' let_assignment* 'in' tikzpath_element* semicolon_end	-> ^(IM_PATH path_start tikzpath_element* semicolon_end )
+	|	path_start 'let' let_assignment* 'in' (COMMAND tikzstring)? tikzpath_element* semicolon_end	-> ^(IM_PATH path_start tikzpath_element* semicolon_end )
+
 	;
 	
 let_assignment
@@ -314,6 +315,7 @@ tikzpath_element_single
 		| circle!
 		| arc
 		| roundbr_start tikzpath_element* roundbr_end -> ^(IM_PATH roundbr_start tikzpath_element* roundbr_end)
+		|	 '(' tikzpath_element* ')' -> ^(IM_PATH '(' tikzpath_element* ')')
 		| edgeop!
 	;
 	

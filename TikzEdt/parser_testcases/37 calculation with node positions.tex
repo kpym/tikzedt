@@ -1,0 +1,86 @@
+\documentclass[]{article}
+
+\usepackage{layouts}
+\usepackage{tikz}
+
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+
+\usetikzlibrary{calc}
+
+\begin{document}
+
+\tikzstyle{every node}= [font=\Huge]
+
+
+
+\begin{tikzpicture}
+	
+	\node at (0,3) {textwidth in cm: \printinunitsof{cm}\prntlen{\textwidth}};
+	
+
+\node(v1) at (7,0) {?};
+\node(v2) at (7,1) {?};
+
+\path
+  let
+    \p1=(v1),
+    \p2=(v2)
+  in {
+  node at (7,-1) { \x1,  \y1}
+  node at (7,-2) { \x2,  \y2}
+  };
+
+
+\node(v3) at (-2,-1) {$\frac{\\x+\\y}{2}=$};
+
+\draw
+  let
+    \p1=(v3)
+  in
+  \pgfextra
+  {
+  	\pgfmathparse{0.5* ( \y1/28.4527 + \x1/28.4527 )}
+  	\pgfmathresult pt
+  }
+    (1,-1) 
+    node[right] {  \pgfmathresult pt };
+    
+    \draw
+  let
+    \p1=(v1)
+  in
+  \pgfextra
+  {
+  	\pgfmathparse{0.5* ( \y1/28.4527 + \x1/28.4527 )}
+  	
+  }
+    (-1,\pgfmathresult pt) 
+    node[right] {  \pgfmathresult pt };
+    
+    
+   \foreach \x in {5,10,...,35}
+    \draw (-9 cm,\x mm) -- (-6 cm,\x mm) 
+    node at (-6.5 cm,\x mm) {\pgfmathparse{4*\x}\pgfmathprintnumber{\pgfmathresult}};
+
+
+\node(v11) at (3,-7) {};
+\path
+  let
+    \p1=(v11)  
+  in {
+  node at (v11)
+	  {
+	  	\pgfmathparse{(\x1/28.4527)}
+	  	\global\let\xpos\pgfmathresult
+	  	\pgfmathparse{(\y1/28.4527)}
+	  	\global\let\ypos\pgfmathresult
+	  	This node is at \pgfmathprintnumber{\xpos}; \pgfmathprintnumber{\ypos}
+	  }
+  };
+
+  
+\node at (-5,-5) {?};
+\end{tikzpicture}
+
+\end{document}
