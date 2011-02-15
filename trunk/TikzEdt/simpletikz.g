@@ -301,6 +301,10 @@ let_assignment
 	;
 
 tikzpath_element
+	: tikzpath_element_single ','?
+	;
+	
+tikzpath_element_single
 	:
 		  tikz_options 
 		| coord

@@ -1089,7 +1089,10 @@ namespace TikzEdt
             }
             catch (Exception Ex)
             {
+
+                
                 string d = Ex.Message;
+                AddStatusLine(d, true);
                 MessageBox.Show("Error: Could not load " + cFile + ". Is it in the correct format?",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
