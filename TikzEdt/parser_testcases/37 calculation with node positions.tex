@@ -3,6 +3,9 @@
 \usepackage{layouts}
 \usepackage{tikz}
 
+%for environment aligned
+\usepackage{amsmath}
+
 \usepackage[active,tightpage]{preview}
 \PreviewEnvironment{tikzpicture}
 
@@ -10,77 +13,65 @@
 
 \begin{document}
 
-\tikzstyle{every node}= [font=\Huge]
 
 
+%note: align= is needed to print nodes with several lines
+\tikzstyle{every node}= [font=\Huge, align=center]
+%\tikzstyle{every node}= [font=\Huge, draw=black,                     minimum width=2cm, thick]
 
 \begin{tikzpicture}
 	
-	\node at (0,3) {textwidth in cm: \printinunitsof{cm}\prntlen{\textwidth}};
+\pgfmathparse{28.4527}
+\global\let\tikzconst\pgfmathresult
 	
+%\node at (1,4) {textwidth in cm: \printinunitsof{cm}\prntlen{\textwidth}};
+\node (v13) at (1,7) {Multilines \\ test};
 
-\node(v1) at (7,0) {?};
-\node(v2) at (7,1) {?};
-
-\path
-  let
-    \p1=(v1),
-    \p2=(v2)
-  in {
-  node at (7,-1) { \x1,  \y1}
-  node at (7,-2) { \x2,  \y2}
-  };
-
-
-\node(v3) at (-2,-1) {$\frac{\\x+\\y}{2}=$};
-
-\draw
-  let
-    \p1=(v3)
-  in
-  \pgfextra
-  {
-  	\pgfmathparse{0.5* ( \y1/28.4527 + \x1/28.4527 )}
-  	\pgfmathresult pt
-  }
-    (1,-1) 
-    node[right] {  \pgfmathresult pt };
-    
-    \draw
-  let
-    \p1=(v1)
-  in
-  \pgfextra
-  {
-  	\pgfmathparse{0.5* ( \y1/28.4527 + \x1/28.4527 )}
-  	
-  }
-    (-1,\pgfmathresult pt) 
-    node[right] {  \pgfmathresult pt };
-    
-    
-   \foreach \x in {5,10,...,35}
-    \draw (-9 cm,\x mm) -- (-6 cm,\x mm) 
-    node at (-6.5 cm,\x mm) {\pgfmathparse{4*\x}\pgfmathprintnumber{\pgfmathresult}};
-
-
-\node(v11) at (3,-7) {};
+\node(v11) at (1,2) {};
 \path
   let
     \p1=(v11)  
   in {
   node at (v11)
 	  {
-	  	\pgfmathparse{(\x1/28.4527)}
+	  	\pgfmathparse{(\x1/\tikzconst)}
 	  	\global\let\xpos\pgfmathresult
-	  	\pgfmathparse{(\y1/28.4527)}
+	  	\pgfmathparse{(\y1/\tikzconst)}
 	  	\global\let\ypos\pgfmathresult
 	  	This node is at \pgfmathprintnumber{\xpos}; \pgfmathprintnumber{\ypos}
 	  }
   };
 
-  
-\node at (-5,-5) {?};
+
+\node(v1) at (1,0) {$x=\pgfmathprintnumber{\xpos}; y=\pgfmathprintnumber{\ypos}$};
+
+\node[left] (v3) at (1,-2) {$\frac{x+y}{2}=$};
+    
+\node[right] at (1,-2) {
+		\pgfmathparse{0.5* ( \ypos + \xpos)}
+  		\global\let\tempvar\pgfmathresult
+		$\tempvar pt$
+	};
+
+
+
+\node at (5,-9) {Example:} 
+  child {node {
+  $\begin{aligned} \\ 
+    \frac{x+y}{d}&=\pi\\
+     a+b &= d +1
+  \end{aligned}$}};
+   
+\node[] at (-2,-9) {Example: \\ 
+  $\begin{aligned}
+     a &= bx + c\\
+     a+b &= d +1
+  \end{aligned}$};
+
+
+
+
+
 \end{tikzpicture}
 
 \end{document}

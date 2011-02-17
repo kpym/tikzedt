@@ -333,18 +333,12 @@ namespace TikzEdt
                 ClearStyleLists();
                 
             }
-            else if (Result.Error != null && Result.Error is Exception)
+            else if (Result.Error != null)
             {
-                string errmsg = ((Exception)Result.Error).Message;
+                string errmsg = Result.Error.GetType().ToString();
+                if(Result.Error is Exception)
+                    errmsg += ":" + ((Exception)Result.Error).Message;
                 AddStatusLine("Couldn't parse code. " + errmsg, true);
-                pdfOverlay1.SetParseTree(null, currentBB);
-                ClearStyleLists();
-            }
-            else if (e.Error != null)
-            {
-                //not sure when Error != null, but anyways...
-                //how do you actually write something to Error? would be nice, wouldn't it?
-                AddStatusLine("Couldn't parse code. " + e.Error.Message + ". Please report to authors: How did this happen?", true);
                 pdfOverlay1.SetParseTree(null, currentBB);
                 ClearStyleLists();
             }
@@ -489,7 +483,7 @@ namespace TikzEdt
                 }
             }
             catch (Exception ex)
-            {
+            {                
                 //never set e.Cancel = true;
                 //if you do, you cannot access e.Result from AsyncParser_RunWorkerCompleted.
                 Result.Error = ex;

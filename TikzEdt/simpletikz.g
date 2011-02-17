@@ -213,10 +213,14 @@ idd_heavenknowswhythisisnecessary
 idd2
 	:	ID+ -> ^(IM_ID )
 	;
-		
+
+numberunitorvariable
+	:	numberunit
+	|	COMMAND	//numberunit can often also be a variable which looks just like a command!
+	;
 	
 numberunit
-	:	number unit? -> ^(IM_NUMBERUNIT number unit?) /// check
+	:	number unit? -> ^(IM_NUMBERUNIT number unit?) /// check       
 	;
 	
 //float exponent interfers with units starting with 'e'
@@ -397,7 +401,7 @@ circle
 	:	('circle' | 'ellipse') ((size)=> size)?	->	// note: options not allowed in between
 	;
 arc
-	:	'arc' ('(' numberunit ':' numberunit ':' numberunit ('and' numberunit)? ')')? -> ^(IM_ARC numberunit+)
+	:	'arc' ('(' numberunitorvariable ':' numberunitorvariable ':' numberunitorvariable ('and' numberunit)? ')')? -> ^(IM_ARC numberunitorvariable+)
 	;
 	
 size
