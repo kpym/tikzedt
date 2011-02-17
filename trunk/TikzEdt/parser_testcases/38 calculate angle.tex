@@ -1,0 +1,124 @@
+\documentclass[]{article}
+
+\usepackage{layouts}
+\usepackage{tikz}
+
+
+
+%for environment aligned
+\usepackage{amsmath}
+\usepackage{ifthen}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+
+\begin{document}
+
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+%note: align= is needed to print nodes with several lines
+\tikzstyle{every node}= [font=\Huge, align=center]
+%\tikzstyle{every node}= [font=\Huge, draw=black,                     minimum width=2cm, thick]
+
+
+ \tikzstyle{green_arrow_edge} = [->, draw=green!55, line width=5]
+
+
+\begin{tikzpicture}
+	
+\pgfmathparse{28.4527}
+\global\let\tikzconst\pgfmathresult
+	
+\clip (-24,4) rectangle (-5,-15);
+	
+\pgfmathparse{-8.0}
+\global\let\nooverlay\pgfmathresult
+\node (c1) at (-16,\nooverlay) {c1};
+\node (c2) at (-18,-3) {c2};
+\node (c3) at (-10,\nooverlay) {c3};
+
+\path
+  let
+    \p1=(c1)  
+  in {
+  node
+	  {
+	  	\pgfmathparse{(\x1/\tikzconst)}
+	  	\global\let\conex\pgfmathresult
+	  	\pgfmathparse{(\y1/\tikzconst)}
+	  	\global\let\coney\pgfmathresult
+	  }
+  };
+\path
+  let
+    \p1=(c2)  
+  in {
+  node {
+	  	\pgfmathparse{(\x1/\tikzconst)}
+	  	\global\let\ctwox\pgfmathresult
+	  	\pgfmathparse{(\y1/\tikzconst)}
+	  	\global\let\ctwoy\pgfmathresult
+	  }
+  };
+  \path
+  let
+    \p1=(c3)  
+  in {
+  node
+	  {
+	  	\pgfmathparse{(\x1/\tikzconst)}
+	  	\global\let\cthreex\pgfmathresult
+	  	\pgfmathparse{(\y1/\tikzconst)}
+	  	\global\let\cthreey\pgfmathresult
+	  }
+  };
+  
+
+  \node
+	  {
+	  	%calculate distances c1 - c3
+	  	\pgfmathparse{(\cthreex - \conex)}
+	  	\global\let\distxonethree\pgfmathresult
+	  	\pgfmathparse{(\cthreey - \coney)}
+	  	\global\let\distyonethree\pgfmathresult
+	  	%calculate start angle c1 - c3 -perpendicular
+	  	\pgfmathparse{acos(\distxonethree / sqrt(\distxonethree*\distxonethree+\distyonethree*\distyonethree) )}
+	  	\global\let\startangle\pgfmathresult	 	  	
+	  	%calc start direction
+	  	\pgfmathparse{\conex*\cthreey < \coney*\cthreex ? 90-\startangle : \startangle}
+	  	\global\let\startangle\pgfmathresult	 
+	  	%calculate angle c3 - c1 - c2
+	  	%helper variables
+	  	\pgfmathparse{sqrt(pow(\conex - \ctwox,2) + pow(\coney - \ctwoy,2))}
+	  	\let\varb\pgfmathresult
+	  	\pgfmathparse{sqrt(pow(\cthreex - \conex,2) + pow(\cthreey - \coney,2))}
+	  	\let\vara\pgfmathresult
+	  	\pgfmathparse{sqrt(pow(\cthreex - \ctwox,2) + pow(\cthreey - \ctwoy,2))}
+	  	\let\varc\pgfmathresult
+	  	%%now calculate the angle
+	  	\pgfmathparse{((\vara*\vara) + (\varb*\varb) - (\varc*\varc)) / (2 * \vara * \varb)}
+	  	\pgfmathparse{acos(\pgfmathresult)}
+	  	\global\let\angle\pgfmathresult	  	
+	  	%%	check direction of given three coordiantes
+	  	\pgfmathparse{\conex*\ctwoy < \coney*\ctwox ? \angle : 360-\angle}
+	  	\global\let\angle\pgfmathresult						
+	  };
+
+ 
+
+
+
+\draw[green_arrow_edge] (c1) edge (c3);
+\draw[green_arrow_edge] (c1) edge (c2);
+
+%\draw[green_arrow_edge, bend right=35] (c3) edge (c2);
+\draw[green_arrow_edge] (c3) arc (\startangle:\angle:\distxonethree);
+
+\node at (-14,-5) {\angle \degree};
+\node at (-14,1) {Move node c2 but not too far \\ (math behind is not perfect)};
+
+\end{tikzpicture}
+
+\end{document}
