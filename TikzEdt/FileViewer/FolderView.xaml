@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="WpfApplication6.FolderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:my="clr-namespace:WpfApplication6"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <Style x:Key="FlatButtonStyle" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
+            <Setter Property="Focusable" Value="False" />
+        </Style>
+        <my:IntToBoolConverter x:Key="intToBoolConverter"/>
+        <Style TargetType="{x:Type Image}" x:Key="toolbarImageStyle">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}, AncestorLevel=1}, Path=IsEnabled}" Value="False">
+                    <Setter Property="Opacity" Value="0.50"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <DockPanel>        
+        <DockPanel DockPanel.Dock="Top" LastChildFill="True">
+            <Button Name="cmdBack" Click="cmdBack_Click" DockPanel.Dock="Left" Style="{StaticResource FlatButtonStyle}" 
+                    IsEnabled="{Binding RecentFolders.Count, Converter={StaticResource intToBoolConverter}, ConverterParameter=1}">
+                <Image Source="/WpfApplication6;component/Images/Back.png" Width="16" Height="16" Style="{StaticResource toolbarImageStyle}"></Image>
+            </Button>
+            <Button Name="cmdForward" Click="cmdForward_Click" DockPanel.Dock="Left" Style="{StaticResource FlatButtonStyle}" 
+                     IsEnabled="{Binding FutureFolders.Count, Converter={StaticResource intToBoolConverter}, ConverterParameter=0}">
+                <Image Source="/WpfApplication6;component/Images/forward.png" Width="16" Height="16" Style="{StaticResource toolbarImageStyle}"></Image>
+            </Button>
+            <Button Name="cmdUp" Click="cmdUp_Click" DockPanel.Dock="Left" Style="{StaticResource FlatButtonStyle}">
+                <Image Source="/WpfApplication6;component/Images/075b_UpFolder_16x16_72.png" Width="16" Height="16" ></Image>
+            </Button>
+            <my:FolderComboBox x:Name="cmbFolder" CurrentFolder="{Binding CurrentFolder, Mode=TwoWay}"/>
+            <!-- <TextBlock Text="{Binding CurrentFolder}"/> -->
+        </DockPanel>
+        <ListView Name="lstFiles" ItemsSource="{Binding CurrentItems}" SnapsToDevicePixels="True">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Path=DisplayIcon}" SnapsToDevicePixels="True" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Filename" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayName}" Foreground="Black" SnapsToDevicePixels="True" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView> 
+            </ListView.View>
+        </ListView>
+    </DockPanel>
+</UserControl>
