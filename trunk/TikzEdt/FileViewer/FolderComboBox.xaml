@@ -1,0 +1,25 @@
+﻿<ComboBox x:Class="WpfApplication6.FolderComboBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"                    
+             d:DesignHeight="300" d:DesignWidth="300" SelectionChanged="ComboBox_SelectionChanged"
+          IsEditable="True" IsTextSearchEnabled="False" KeyDown="ComboBox_KeyDown">
+    <ComboBox.ItemTemplate>
+        <DataTemplate>
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding Indentation}"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Grid.Column="1" Source="{Binding Path=DisplayIcon}" Width="16" Height="16"/>
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding DisplayName}" />
+            </Grid>
+        </DataTemplate>
+    </ComboBox.ItemTemplate>
+</ComboBox>
