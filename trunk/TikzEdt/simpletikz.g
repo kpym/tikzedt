@@ -419,9 +419,15 @@ coord
 	;
 //note: idd includes numberunit
 //note: '{' idd '}' is for some calculatation, like in  (\x,{5.5 - 1.5 * \x})
+//note: there also exist long forms of coordinates:
+//(canvas polar cs:angle=30,radius=1cm);
+//(xyz polar cs:angle=90,radius=1);
+//(xy polar cs:angle=90,radius=1);
+//  TODO: interpret them correctly. for now: just accept them.
 coord_part
 	:	idd		-> ^(IM_DONTCARE idd )
 	|	'{' idd '}'	-> ^(IM_DONTCARE '{' idd '}')
+	|	(idd '=' numberunit ','?)+	-> ^(IM_DONTCARE ( idd '=' numberunit ','?)+)
 	;
 coord_sep
 	:	( ',' | ':' )	

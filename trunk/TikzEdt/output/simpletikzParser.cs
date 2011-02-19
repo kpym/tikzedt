@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g 2011-02-16 23:50:31
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g 2011-02-19 11:30:03
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 168, 219
@@ -1423,7 +1423,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          squarebr_end, option, squarebr_start
+            	// elements:          squarebr_end, squarebr_start, option
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -1622,7 +1622,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          iddornumberunitorstringorrange, idd
+            	// elements:          idd, iddornumberunitorstringorrange
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -2166,7 +2166,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          46, numberunit, numberunit
+            	// elements:          numberunit, numberunit, 46
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -3252,7 +3252,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          tikz_set_start, option, roundbr_end
+            	// elements:          option, roundbr_end, tikz_set_start
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -3417,7 +3417,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          tikzpicture_end, tikzbody, tikz_options, tikzpicture_start
+            	// elements:          tikzpicture_end, tikzpicture_start, tikz_options, tikzbody
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -4131,7 +4131,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          tikz_options, tikzscope_start, tikzscope_end, tikzbody
+            	// elements:          tikz_options, tikzbody, tikzscope_start, tikzscope_end
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -4245,13 +4245,13 @@ public partial class simpletikzParser : Parser
             {
                 int LA36_1 = input.LA(2);
 
-                if ( (LA36_1 == 69) )
-                {
-                    alt36 = 2;
-                }
-                else if ( (LA36_1 == ID || LA36_1 == 41 || LA36_1 == 50 || LA36_1 == 52 || LA36_1 == 54 || (LA36_1 >= 71 && LA36_1 <= 72) || (LA36_1 >= 74 && LA36_1 <= 83)) )
+                if ( (LA36_1 == ID || LA36_1 == 41 || LA36_1 == 50 || LA36_1 == 52 || LA36_1 == 54 || (LA36_1 >= 71 && LA36_1 <= 72) || (LA36_1 >= 74 && LA36_1 <= 83)) )
                 {
                     alt36 = 1;
+                }
+                else if ( (LA36_1 == 69) )
+                {
+                    alt36 = 2;
                 }
                 else 
                 {
@@ -4475,7 +4475,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          path_start, tikzpath_element, semicolon_end
+                    	// elements:          semicolon_end, path_start, tikzpath_element
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -4909,7 +4909,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          roundbr_end, tikzpath_element, roundbr_start
+                    	// elements:          tikzpath_element, roundbr_end, roundbr_start
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -4991,7 +4991,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          51, 50, tikzpath_element
+                    	// elements:          51, tikzpath_element, 50
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -5142,7 +5142,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          controls_end, coord, controls_start
+            	// elements:          controls_end, controls_start, coord
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -5286,7 +5286,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          tikznode_core, node_start, tikzpath_element, semicolon_end
+            	// elements:          node_start, tikznode_core, tikzpath_element, semicolon_end
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -5429,7 +5429,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          tikzpath_element, tikznode_core, semicolon_end, matrix_start
+            	// elements:          matrix_start, semicolon_end, tikzpath_element, tikznode_core
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -5632,7 +5632,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          tikzcoordinate_core2, tikzcoordinate_core3, semicolon_end, coordinate_start, tikzpath_element, tikzcoordinate_core1
+            	// elements:          tikzpath_element, tikzcoordinate_core3, coordinate_start, tikzcoordinate_core1, semicolon_end, tikzcoordinate_core2
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -5953,7 +5953,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          tikzstring, tikznode_decorator
+            	// elements:          tikznode_decorator, tikzstring
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -7342,7 +7342,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          coord_modifier, coord_sep, numberunit
+                    	// elements:          coord_sep, numberunit, coord_modifier
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -7443,7 +7443,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          coord_modifier, coord_part, coord_sep
+                    	// elements:          coord_sep, coord_modifier, coord_part
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -7517,7 +7517,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "coord_part"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:422:1: coord_part : ( idd -> ^( IM_DONTCARE idd ) | '{' idd '}' -> ^( IM_DONTCARE '{' idd '}' ) );
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:427:1: coord_part : ( idd -> ^( IM_DONTCARE idd ) | '{' idd '}' -> ^( IM_DONTCARE '{' idd '}' ) | ( idd '=' numberunit ( ',' )? )+ -> ^( IM_DONTCARE ( idd '=' numberunit ( ',' )? )+ ) );
     public simpletikzParser.coord_part_return coord_part() // throws RecognitionException [1]
     {   
         simpletikzParser.coord_part_return retval = new simpletikzParser.coord_part_return();
@@ -7527,44 +7527,38 @@ public partial class simpletikzParser : Parser
 
         IToken char_literal222 = null;
         IToken char_literal224 = null;
+        IToken char_literal226 = null;
+        IToken char_literal228 = null;
         simpletikzParser.idd_return idd221 = default(simpletikzParser.idd_return);
 
         simpletikzParser.idd_return idd223 = default(simpletikzParser.idd_return);
 
+        simpletikzParser.idd_return idd225 = default(simpletikzParser.idd_return);
+
+        simpletikzParser.numberunit_return numberunit227 = default(simpletikzParser.numberunit_return);
+
 
         object char_literal222_tree=null;
         object char_literal224_tree=null;
+        object char_literal226_tree=null;
+        object char_literal228_tree=null;
+        RewriteRuleTokenStream stream_45 = new RewriteRuleTokenStream(adaptor,"token 45");
+        RewriteRuleTokenStream stream_43 = new RewriteRuleTokenStream(adaptor,"token 43");
         RewriteRuleTokenStream stream_42 = new RewriteRuleTokenStream(adaptor,"token 42");
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
+        RewriteRuleSubtreeStream stream_numberunit = new RewriteRuleSubtreeStream(adaptor,"rule numberunit");
         RewriteRuleSubtreeStream stream_idd = new RewriteRuleSubtreeStream(adaptor,"rule idd");
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:423:2: ( idd -> ^( IM_DONTCARE idd ) | '{' idd '}' -> ^( IM_DONTCARE '{' idd '}' ) )
-            int alt61 = 2;
-            int LA61_0 = input.LA(1);
-
-            if ( ((LA61_0 >= IM_PATH && LA61_0 <= 40) || LA61_0 == 44 || LA61_0 == 49 || (LA61_0 >= 55 && LA61_0 <= 86)) )
-            {
-                alt61 = 1;
-            }
-            else if ( (LA61_0 == 41) )
-            {
-                alt61 = 2;
-            }
-            else 
-            {
-                if ( state.backtracking > 0 ) {state.failed = true; return retval;}
-                NoViableAltException nvae_d61s0 =
-                    new NoViableAltException("", 61, 0, input);
-
-                throw nvae_d61s0;
-            }
-            switch (alt61) 
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:428:2: ( idd -> ^( IM_DONTCARE idd ) | '{' idd '}' -> ^( IM_DONTCARE '{' idd '}' ) | ( idd '=' numberunit ( ',' )? )+ -> ^( IM_DONTCARE ( idd '=' numberunit ( ',' )? )+ ) )
+            int alt63 = 3;
+            alt63 = dfa63.Predict(input);
+            switch (alt63) 
             {
                 case 1 :
-                    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:423:4: idd
+                    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:428:4: idd
                     {
-                    	PushFollow(FOLLOW_idd_in_coord_part2329);
+                    	PushFollow(FOLLOW_idd_in_coord_part2334);
                     	idd221 = idd();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
@@ -7583,9 +7577,9 @@ public partial class simpletikzParser : Parser
                     	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
                     	root_0 = (object)adaptor.GetNilNode();
-                    	// 423:9: -> ^( IM_DONTCARE idd )
+                    	// 428:9: -> ^( IM_DONTCARE idd )
                     	{
-                    	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:423:12: ^( IM_DONTCARE idd )
+                    	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:428:12: ^( IM_DONTCARE idd )
                     	    {
                     	    object root_1 = (object)adaptor.GetNilNode();
                     	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_DONTCARE, "IM_DONTCARE"), root_1);
@@ -7601,23 +7595,23 @@ public partial class simpletikzParser : Parser
                     }
                     break;
                 case 2 :
-                    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:424:4: '{' idd '}'
+                    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:429:4: '{' idd '}'
                     {
-                    	char_literal222=(IToken)Match(input,41,FOLLOW_41_in_coord_part2344); if (state.failed) return retval; 
+                    	char_literal222=(IToken)Match(input,41,FOLLOW_41_in_coord_part2349); if (state.failed) return retval; 
                     	if ( (state.backtracking==0) ) stream_41.Add(char_literal222);
 
-                    	PushFollow(FOLLOW_idd_in_coord_part2346);
+                    	PushFollow(FOLLOW_idd_in_coord_part2351);
                     	idd223 = idd();
                     	state.followingStackPointer--;
                     	if (state.failed) return retval;
                     	if ( (state.backtracking==0) ) stream_idd.Add(idd223.Tree);
-                    	char_literal224=(IToken)Match(input,42,FOLLOW_42_in_coord_part2348); if (state.failed) return retval; 
+                    	char_literal224=(IToken)Match(input,42,FOLLOW_42_in_coord_part2353); if (state.failed) return retval; 
                     	if ( (state.backtracking==0) ) stream_42.Add(char_literal224);
 
 
 
                     	// AST REWRITE
-                    	// elements:          idd, 42, 41
+                    	// elements:          idd, 41, 42
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -7628,9 +7622,9 @@ public partial class simpletikzParser : Parser
                     	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
                     	root_0 = (object)adaptor.GetNilNode();
-                    	// 424:16: -> ^( IM_DONTCARE '{' idd '}' )
+                    	// 429:16: -> ^( IM_DONTCARE '{' idd '}' )
                     	{
-                    	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:424:19: ^( IM_DONTCARE '{' idd '}' )
+                    	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:429:19: ^( IM_DONTCARE '{' idd '}' )
                     	    {
                     	    object root_1 = (object)adaptor.GetNilNode();
                     	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_DONTCARE, "IM_DONTCARE"), root_1);
@@ -7638,6 +7632,129 @@ public partial class simpletikzParser : Parser
                     	    adaptor.AddChild(root_1, stream_41.NextNode());
                     	    adaptor.AddChild(root_1, stream_idd.NextTree());
                     	    adaptor.AddChild(root_1, stream_42.NextNode());
+
+                    	    adaptor.AddChild(root_0, root_1);
+                    	    }
+
+                    	}
+
+                    	retval.Tree = root_0;retval.Tree = root_0;}
+                    }
+                    break;
+                case 3 :
+                    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:430:4: ( idd '=' numberunit ( ',' )? )+
+                    {
+                    	// C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:430:4: ( idd '=' numberunit ( ',' )? )+
+                    	int cnt62 = 0;
+                    	do 
+                    	{
+                    	    int alt62 = 2;
+                    	    int LA62_0 = input.LA(1);
+
+                    	    if ( ((LA62_0 >= IM_PATH && LA62_0 <= 40) || LA62_0 == 44 || LA62_0 == 49 || (LA62_0 >= 55 && LA62_0 <= 86)) )
+                    	    {
+                    	        alt62 = 1;
+                    	    }
+
+
+                    	    switch (alt62) 
+                    		{
+                    			case 1 :
+                    			    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:430:5: idd '=' numberunit ( ',' )?
+                    			    {
+                    			    	PushFollow(FOLLOW_idd_in_coord_part2371);
+                    			    	idd225 = idd();
+                    			    	state.followingStackPointer--;
+                    			    	if (state.failed) return retval;
+                    			    	if ( (state.backtracking==0) ) stream_idd.Add(idd225.Tree);
+                    			    	char_literal226=(IToken)Match(input,43,FOLLOW_43_in_coord_part2373); if (state.failed) return retval; 
+                    			    	if ( (state.backtracking==0) ) stream_43.Add(char_literal226);
+
+                    			    	PushFollow(FOLLOW_numberunit_in_coord_part2375);
+                    			    	numberunit227 = numberunit();
+                    			    	state.followingStackPointer--;
+                    			    	if (state.failed) return retval;
+                    			    	if ( (state.backtracking==0) ) stream_numberunit.Add(numberunit227.Tree);
+                    			    	// C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:430:24: ( ',' )?
+                    			    	int alt61 = 2;
+                    			    	int LA61_0 = input.LA(1);
+
+                    			    	if ( (LA61_0 == 45) )
+                    			    	{
+                    			    	    alt61 = 1;
+                    			    	}
+                    			    	switch (alt61) 
+                    			    	{
+                    			    	    case 1 :
+                    			    	        // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:430:24: ','
+                    			    	        {
+                    			    	        	char_literal228=(IToken)Match(input,45,FOLLOW_45_in_coord_part2377); if (state.failed) return retval; 
+                    			    	        	if ( (state.backtracking==0) ) stream_45.Add(char_literal228);
+
+
+                    			    	        }
+                    			    	        break;
+
+                    			    	}
+
+
+                    			    }
+                    			    break;
+
+                    			default:
+                    			    if ( cnt62 >= 1 ) goto loop62;
+                    			    if ( state.backtracking > 0 ) {state.failed = true; return retval;}
+                    		            EarlyExitException eee62 =
+                    		                new EarlyExitException(62, input);
+                    		            throw eee62;
+                    	    }
+                    	    cnt62++;
+                    	} while (true);
+
+                    	loop62:
+                    		;	// Stops C# compiler whining that label 'loop62' has no statements
+
+
+
+                    	// AST REWRITE
+                    	// elements:          numberunit, 43, idd, 45
+                    	// token labels:      
+                    	// rule labels:       retval
+                    	// token list labels: 
+                    	// rule list labels:  
+                    	// wildcard labels: 
+                    	if ( (state.backtracking==0) ) {
+                    	retval.Tree = root_0;
+                    	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
+
+                    	root_0 = (object)adaptor.GetNilNode();
+                    	// 430:31: -> ^( IM_DONTCARE ( idd '=' numberunit ( ',' )? )+ )
+                    	{
+                    	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:430:34: ^( IM_DONTCARE ( idd '=' numberunit ( ',' )? )+ )
+                    	    {
+                    	    object root_1 = (object)adaptor.GetNilNode();
+                    	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_DONTCARE, "IM_DONTCARE"), root_1);
+
+                    	    if ( !(stream_numberunit.HasNext() || stream_43.HasNext() || stream_idd.HasNext()) ) {
+                    	        throw new RewriteEarlyExitException();
+                    	    }
+                    	    while ( stream_numberunit.HasNext() || stream_43.HasNext() || stream_idd.HasNext() )
+                    	    {
+                    	        adaptor.AddChild(root_1, stream_idd.NextTree());
+                    	        adaptor.AddChild(root_1, stream_43.NextNode());
+                    	        adaptor.AddChild(root_1, stream_numberunit.NextTree());
+                    	        // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:430:69: ( ',' )?
+                    	        if ( stream_45.HasNext() )
+                    	        {
+                    	            adaptor.AddChild(root_1, stream_45.NextNode());
+
+                    	        }
+                    	        stream_45.Reset();
+
+                    	    }
+                    	    stream_numberunit.Reset();
+                    	    stream_43.Reset();
+                    	    stream_idd.Reset();
 
                     	    adaptor.AddChild(root_0, root_1);
                     	    }
@@ -7677,7 +7794,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "coord_sep"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:426:1: coord_sep : ( ',' | ':' ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:432:1: coord_sep : ( ',' | ':' ) ;
     public simpletikzParser.coord_sep_return coord_sep() // throws RecognitionException [1]
     {   
         simpletikzParser.coord_sep_return retval = new simpletikzParser.coord_sep_return();
@@ -7685,22 +7802,22 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken set225 = null;
+        IToken set229 = null;
 
-        object set225_tree=null;
+        object set229_tree=null;
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:427:2: ( ( ',' | ':' ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:427:4: ( ',' | ':' )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:433:2: ( ( ',' | ':' ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:433:4: ( ',' | ':' )
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	set225 = (IToken)input.LT(1);
+            	set229 = (IToken)input.LT(1);
             	if ( (input.LA(1) >= 45 && input.LA(1) <= 46) ) 
             	{
             	    input.Consume();
-            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set225));
+            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set229));
             	    state.errorRecovery = false;state.failed = false;
             	}
             	else 
@@ -7741,7 +7858,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "edgeop"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:431:1: edgeop : ( '--' | '->' | '|-' | '-|' | ID );
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:437:1: edgeop : ( '--' | '->' | '|-' | '-|' | ID );
     public simpletikzParser.edgeop_return edgeop() // throws RecognitionException [1]
     {   
         simpletikzParser.edgeop_return retval = new simpletikzParser.edgeop_return();
@@ -7749,22 +7866,22 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken set226 = null;
+        IToken set230 = null;
 
-        object set226_tree=null;
+        object set230_tree=null;
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:432:2: ( '--' | '->' | '|-' | '-|' | ID )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:438:2: ( '--' | '->' | '|-' | '-|' | ID )
             // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	set226 = (IToken)input.LT(1);
+            	set230 = (IToken)input.LT(1);
             	if ( input.LA(1) == ID || (input.LA(1) >= 77 && input.LA(1) <= 80) ) 
             	{
             	    input.Consume();
-            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set226));
+            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set230));
             	    state.errorRecovery = false;state.failed = false;
             	}
             	else 
@@ -7805,7 +7922,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "coord_modifier"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:436:1: coord_modifier : ( '+' | '++' );
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:442:1: coord_modifier : ( '+' | '++' );
     public simpletikzParser.coord_modifier_return coord_modifier() // throws RecognitionException [1]
     {   
         simpletikzParser.coord_modifier_return retval = new simpletikzParser.coord_modifier_return();
@@ -7813,22 +7930,22 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken set227 = null;
+        IToken set231 = null;
 
-        object set227_tree=null;
+        object set231_tree=null;
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:437:2: ( '+' | '++' )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:443:2: ( '+' | '++' )
             // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	set227 = (IToken)input.LT(1);
+            	set231 = (IToken)input.LT(1);
             	if ( (input.LA(1) >= 81 && input.LA(1) <= 82) ) 
             	{
             	    input.Consume();
-            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set227));
+            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set231));
             	    state.errorRecovery = false;state.failed = false;
             	}
             	else 
@@ -7869,7 +7986,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "squarebr_start"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:479:1: squarebr_start : '[' -> ^( IM_STARTTAG '[' ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:485:1: squarebr_start : '[' -> ^( IM_STARTTAG '[' ) ;
     public simpletikzParser.squarebr_start_return squarebr_start() // throws RecognitionException [1]
     {   
         simpletikzParser.squarebr_start_return retval = new simpletikzParser.squarebr_start_return();
@@ -7877,18 +7994,18 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal228 = null;
+        IToken char_literal232 = null;
 
-        object char_literal228_tree=null;
+        object char_literal232_tree=null;
         RewriteRuleTokenStream stream_52 = new RewriteRuleTokenStream(adaptor,"token 52");
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:480:2: ( '[' -> ^( IM_STARTTAG '[' ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:480:4: '['
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:486:2: ( '[' -> ^( IM_STARTTAG '[' ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:486:4: '['
             {
-            	char_literal228=(IToken)Match(input,52,FOLLOW_52_in_squarebr_start2444); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_52.Add(char_literal228);
+            	char_literal232=(IToken)Match(input,52,FOLLOW_52_in_squarebr_start2483); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_52.Add(char_literal232);
 
 
 
@@ -7904,9 +8021,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 480:8: -> ^( IM_STARTTAG '[' )
+            	// 486:8: -> ^( IM_STARTTAG '[' )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:480:11: ^( IM_STARTTAG '[' )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:486:11: ^( IM_STARTTAG '[' )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_STARTTAG, "IM_STARTTAG"), root_1);
@@ -7949,7 +8066,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "squarebr_end"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:482:1: squarebr_end : ']' -> ^( IM_ENDTAG ']' ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:488:1: squarebr_end : ']' -> ^( IM_ENDTAG ']' ) ;
     public simpletikzParser.squarebr_end_return squarebr_end() // throws RecognitionException [1]
     {   
         simpletikzParser.squarebr_end_return retval = new simpletikzParser.squarebr_end_return();
@@ -7957,18 +8074,18 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal229 = null;
+        IToken char_literal233 = null;
 
-        object char_literal229_tree=null;
+        object char_literal233_tree=null;
         RewriteRuleTokenStream stream_53 = new RewriteRuleTokenStream(adaptor,"token 53");
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:483:2: ( ']' -> ^( IM_ENDTAG ']' ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:483:4: ']'
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:489:2: ( ']' -> ^( IM_ENDTAG ']' ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:489:4: ']'
             {
-            	char_literal229=(IToken)Match(input,53,FOLLOW_53_in_squarebr_end2462); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_53.Add(char_literal229);
+            	char_literal233=(IToken)Match(input,53,FOLLOW_53_in_squarebr_end2501); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_53.Add(char_literal233);
 
 
 
@@ -7984,9 +8101,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 483:8: -> ^( IM_ENDTAG ']' )
+            	// 489:8: -> ^( IM_ENDTAG ']' )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:483:11: ^( IM_ENDTAG ']' )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:489:11: ^( IM_ENDTAG ']' )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_ENDTAG, "IM_ENDTAG"), root_1);
@@ -8029,7 +8146,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "semicolon_end"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:485:1: semicolon_end : ';' -> ^( IM_ENDTAG ';' ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:491:1: semicolon_end : ';' -> ^( IM_ENDTAG ';' ) ;
     public simpletikzParser.semicolon_end_return semicolon_end() // throws RecognitionException [1]
     {   
         simpletikzParser.semicolon_end_return retval = new simpletikzParser.semicolon_end_return();
@@ -8037,18 +8154,18 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal230 = null;
+        IToken char_literal234 = null;
 
-        object char_literal230_tree=null;
+        object char_literal234_tree=null;
         RewriteRuleTokenStream stream_54 = new RewriteRuleTokenStream(adaptor,"token 54");
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:486:2: ( ';' -> ^( IM_ENDTAG ';' ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:486:4: ';'
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:492:2: ( ';' -> ^( IM_ENDTAG ';' ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:492:4: ';'
             {
-            	char_literal230=(IToken)Match(input,54,FOLLOW_54_in_semicolon_end2481); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_54.Add(char_literal230);
+            	char_literal234=(IToken)Match(input,54,FOLLOW_54_in_semicolon_end2520); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_54.Add(char_literal234);
 
 
 
@@ -8064,9 +8181,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 486:8: -> ^( IM_ENDTAG ';' )
+            	// 492:8: -> ^( IM_ENDTAG ';' )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:486:11: ^( IM_ENDTAG ';' )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:492:11: ^( IM_ENDTAG ';' )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_ENDTAG, "IM_ENDTAG"), root_1);
@@ -8109,7 +8226,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "roundbr_start"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:488:1: roundbr_start : '{' -> ^( IM_STARTTAG '{' ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:494:1: roundbr_start : '{' -> ^( IM_STARTTAG '{' ) ;
     public simpletikzParser.roundbr_start_return roundbr_start() // throws RecognitionException [1]
     {   
         simpletikzParser.roundbr_start_return retval = new simpletikzParser.roundbr_start_return();
@@ -8117,18 +8234,18 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal231 = null;
+        IToken char_literal235 = null;
 
-        object char_literal231_tree=null;
+        object char_literal235_tree=null;
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:489:2: ( '{' -> ^( IM_STARTTAG '{' ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:489:4: '{'
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:495:2: ( '{' -> ^( IM_STARTTAG '{' ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:495:4: '{'
             {
-            	char_literal231=(IToken)Match(input,41,FOLLOW_41_in_roundbr_start2499); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_41.Add(char_literal231);
+            	char_literal235=(IToken)Match(input,41,FOLLOW_41_in_roundbr_start2538); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_41.Add(char_literal235);
 
 
 
@@ -8144,9 +8261,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 489:8: -> ^( IM_STARTTAG '{' )
+            	// 495:8: -> ^( IM_STARTTAG '{' )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:489:11: ^( IM_STARTTAG '{' )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:495:11: ^( IM_STARTTAG '{' )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_STARTTAG, "IM_STARTTAG"), root_1);
@@ -8189,7 +8306,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "roundbr_end"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:491:1: roundbr_end : '}' -> ^( IM_ENDTAG '}' ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:497:1: roundbr_end : '}' -> ^( IM_ENDTAG '}' ) ;
     public simpletikzParser.roundbr_end_return roundbr_end() // throws RecognitionException [1]
     {   
         simpletikzParser.roundbr_end_return retval = new simpletikzParser.roundbr_end_return();
@@ -8197,18 +8314,18 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken char_literal232 = null;
+        IToken char_literal236 = null;
 
-        object char_literal232_tree=null;
+        object char_literal236_tree=null;
         RewriteRuleTokenStream stream_42 = new RewriteRuleTokenStream(adaptor,"token 42");
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:492:2: ( '}' -> ^( IM_ENDTAG '}' ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:492:4: '}'
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:498:2: ( '}' -> ^( IM_ENDTAG '}' ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:498:4: '}'
             {
-            	char_literal232=(IToken)Match(input,42,FOLLOW_42_in_roundbr_end2517); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_42.Add(char_literal232);
+            	char_literal236=(IToken)Match(input,42,FOLLOW_42_in_roundbr_end2556); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_42.Add(char_literal236);
 
 
 
@@ -8224,9 +8341,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 492:8: -> ^( IM_ENDTAG '}' )
+            	// 498:8: -> ^( IM_ENDTAG '}' )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:492:11: ^( IM_ENDTAG '}' )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:498:11: ^( IM_ENDTAG '}' )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_ENDTAG, "IM_ENDTAG"), root_1);
@@ -8269,7 +8386,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "controls_start"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:494:1: controls_start : '..' 'controls' -> ^( IM_STARTTAG '..' ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:500:1: controls_start : '..' 'controls' -> ^( IM_STARTTAG '..' ) ;
     public simpletikzParser.controls_start_return controls_start() // throws RecognitionException [1]
     {   
         simpletikzParser.controls_start_return retval = new simpletikzParser.controls_start_return();
@@ -8277,24 +8394,24 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal233 = null;
-        IToken string_literal234 = null;
+        IToken string_literal237 = null;
+        IToken string_literal238 = null;
 
-        object string_literal233_tree=null;
-        object string_literal234_tree=null;
+        object string_literal237_tree=null;
+        object string_literal238_tree=null;
         RewriteRuleTokenStream stream_83 = new RewriteRuleTokenStream(adaptor,"token 83");
         RewriteRuleTokenStream stream_84 = new RewriteRuleTokenStream(adaptor,"token 84");
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:495:2: ( '..' 'controls' -> ^( IM_STARTTAG '..' ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:495:4: '..' 'controls'
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:501:2: ( '..' 'controls' -> ^( IM_STARTTAG '..' ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:501:4: '..' 'controls'
             {
-            	string_literal233=(IToken)Match(input,83,FOLLOW_83_in_controls_start2535); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_83.Add(string_literal233);
+            	string_literal237=(IToken)Match(input,83,FOLLOW_83_in_controls_start2574); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_83.Add(string_literal237);
 
-            	string_literal234=(IToken)Match(input,84,FOLLOW_84_in_controls_start2537); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_84.Add(string_literal234);
+            	string_literal238=(IToken)Match(input,84,FOLLOW_84_in_controls_start2576); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_84.Add(string_literal238);
 
 
 
@@ -8310,9 +8427,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 495:20: -> ^( IM_STARTTAG '..' )
+            	// 501:20: -> ^( IM_STARTTAG '..' )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:495:23: ^( IM_STARTTAG '..' )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:501:23: ^( IM_STARTTAG '..' )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_STARTTAG, "IM_STARTTAG"), root_1);
@@ -8355,7 +8472,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "controls_end"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:497:1: controls_end : '..' -> ^( IM_ENDTAG '..' ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:503:1: controls_end : '..' -> ^( IM_ENDTAG '..' ) ;
     public simpletikzParser.controls_end_return controls_end() // throws RecognitionException [1]
     {   
         simpletikzParser.controls_end_return retval = new simpletikzParser.controls_end_return();
@@ -8363,18 +8480,18 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal235 = null;
+        IToken string_literal239 = null;
 
-        object string_literal235_tree=null;
+        object string_literal239_tree=null;
         RewriteRuleTokenStream stream_83 = new RewriteRuleTokenStream(adaptor,"token 83");
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:498:2: ( '..' -> ^( IM_ENDTAG '..' ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:498:4: '..'
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:504:2: ( '..' -> ^( IM_ENDTAG '..' ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:504:4: '..'
             {
-            	string_literal235=(IToken)Match(input,83,FOLLOW_83_in_controls_end2555); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_83.Add(string_literal235);
+            	string_literal239=(IToken)Match(input,83,FOLLOW_83_in_controls_end2594); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_83.Add(string_literal239);
 
 
 
@@ -8390,9 +8507,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 498:9: -> ^( IM_ENDTAG '..' )
+            	// 504:9: -> ^( IM_ENDTAG '..' )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:498:12: ^( IM_ENDTAG '..' )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:504:12: ^( IM_ENDTAG '..' )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_ENDTAG, "IM_ENDTAG"), root_1);
@@ -8435,7 +8552,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "tikz_set_start"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:500:1: tikz_set_start : '\\\\tikzset' '{' -> ^( IM_STARTTAG ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:506:1: tikz_set_start : '\\\\tikzset' '{' -> ^( IM_STARTTAG ) ;
     public simpletikzParser.tikz_set_start_return tikz_set_start() // throws RecognitionException [1]
     {   
         simpletikzParser.tikz_set_start_return retval = new simpletikzParser.tikz_set_start_return();
@@ -8443,24 +8560,24 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal236 = null;
-        IToken char_literal237 = null;
+        IToken string_literal240 = null;
+        IToken char_literal241 = null;
 
-        object string_literal236_tree=null;
-        object char_literal237_tree=null;
+        object string_literal240_tree=null;
+        object char_literal241_tree=null;
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
         RewriteRuleTokenStream stream_40 = new RewriteRuleTokenStream(adaptor,"token 40");
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:501:2: ( '\\\\tikzset' '{' -> ^( IM_STARTTAG ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:501:4: '\\\\tikzset' '{'
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:507:2: ( '\\\\tikzset' '{' -> ^( IM_STARTTAG ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:507:4: '\\\\tikzset' '{'
             {
-            	string_literal236=(IToken)Match(input,40,FOLLOW_40_in_tikz_set_start2573); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_40.Add(string_literal236);
+            	string_literal240=(IToken)Match(input,40,FOLLOW_40_in_tikz_set_start2612); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_40.Add(string_literal240);
 
-            	char_literal237=(IToken)Match(input,41,FOLLOW_41_in_tikz_set_start2575); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_41.Add(char_literal237);
+            	char_literal241=(IToken)Match(input,41,FOLLOW_41_in_tikz_set_start2614); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_41.Add(char_literal241);
 
 
 
@@ -8476,9 +8593,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 501:21: -> ^( IM_STARTTAG )
+            	// 507:21: -> ^( IM_STARTTAG )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:501:24: ^( IM_STARTTAG )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:507:24: ^( IM_STARTTAG )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_STARTTAG, "IM_STARTTAG"), root_1);
@@ -8519,7 +8636,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "tikzpicture_start"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:503:1: tikzpicture_start : '\\\\begin' '{' 'tikzpicture' '}' -> ^( IM_STARTTAG '\\\\begin' ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:509:1: tikzpicture_start : '\\\\begin' '{' 'tikzpicture' '}' -> ^( IM_STARTTAG '\\\\begin' ) ;
     public simpletikzParser.tikzpicture_start_return tikzpicture_start() // throws RecognitionException [1]
     {   
         simpletikzParser.tikzpicture_start_return retval = new simpletikzParser.tikzpicture_start_return();
@@ -8527,15 +8644,15 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal238 = null;
-        IToken char_literal239 = null;
-        IToken string_literal240 = null;
-        IToken char_literal241 = null;
+        IToken string_literal242 = null;
+        IToken char_literal243 = null;
+        IToken string_literal244 = null;
+        IToken char_literal245 = null;
 
-        object string_literal238_tree=null;
-        object char_literal239_tree=null;
-        object string_literal240_tree=null;
-        object char_literal241_tree=null;
+        object string_literal242_tree=null;
+        object char_literal243_tree=null;
+        object string_literal244_tree=null;
+        object char_literal245_tree=null;
         RewriteRuleTokenStream stream_42 = new RewriteRuleTokenStream(adaptor,"token 42");
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
         RewriteRuleTokenStream stream_85 = new RewriteRuleTokenStream(adaptor,"token 85");
@@ -8543,20 +8660,20 @@ public partial class simpletikzParser : Parser
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:504:2: ( '\\\\begin' '{' 'tikzpicture' '}' -> ^( IM_STARTTAG '\\\\begin' ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:504:4: '\\\\begin' '{' 'tikzpicture' '}'
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:510:2: ( '\\\\begin' '{' 'tikzpicture' '}' -> ^( IM_STARTTAG '\\\\begin' ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:510:4: '\\\\begin' '{' 'tikzpicture' '}'
             {
-            	string_literal238=(IToken)Match(input,38,FOLLOW_38_in_tikzpicture_start2594); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_38.Add(string_literal238);
+            	string_literal242=(IToken)Match(input,38,FOLLOW_38_in_tikzpicture_start2633); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_38.Add(string_literal242);
 
-            	char_literal239=(IToken)Match(input,41,FOLLOW_41_in_tikzpicture_start2596); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_41.Add(char_literal239);
+            	char_literal243=(IToken)Match(input,41,FOLLOW_41_in_tikzpicture_start2635); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_41.Add(char_literal243);
 
-            	string_literal240=(IToken)Match(input,85,FOLLOW_85_in_tikzpicture_start2598); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_85.Add(string_literal240);
+            	string_literal244=(IToken)Match(input,85,FOLLOW_85_in_tikzpicture_start2637); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_85.Add(string_literal244);
 
-            	char_literal241=(IToken)Match(input,42,FOLLOW_42_in_tikzpicture_start2600); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_42.Add(char_literal241);
+            	char_literal245=(IToken)Match(input,42,FOLLOW_42_in_tikzpicture_start2639); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_42.Add(char_literal245);
 
 
 
@@ -8572,9 +8689,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 504:36: -> ^( IM_STARTTAG '\\\\begin' )
+            	// 510:36: -> ^( IM_STARTTAG '\\\\begin' )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:504:39: ^( IM_STARTTAG '\\\\begin' )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:510:39: ^( IM_STARTTAG '\\\\begin' )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_STARTTAG, "IM_STARTTAG"), root_1);
@@ -8617,7 +8734,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "tikzpicture_end"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:506:1: tikzpicture_end : '\\\\end' '{' 'tikzpicture' '}' -> ^( IM_ENDTAG '\\\\end' ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:512:1: tikzpicture_end : '\\\\end' '{' 'tikzpicture' '}' -> ^( IM_ENDTAG '\\\\end' ) ;
     public simpletikzParser.tikzpicture_end_return tikzpicture_end() // throws RecognitionException [1]
     {   
         simpletikzParser.tikzpicture_end_return retval = new simpletikzParser.tikzpicture_end_return();
@@ -8625,15 +8742,15 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal242 = null;
-        IToken char_literal243 = null;
-        IToken string_literal244 = null;
-        IToken char_literal245 = null;
+        IToken string_literal246 = null;
+        IToken char_literal247 = null;
+        IToken string_literal248 = null;
+        IToken char_literal249 = null;
 
-        object string_literal242_tree=null;
-        object char_literal243_tree=null;
-        object string_literal244_tree=null;
-        object char_literal245_tree=null;
+        object string_literal246_tree=null;
+        object char_literal247_tree=null;
+        object string_literal248_tree=null;
+        object char_literal249_tree=null;
         RewriteRuleTokenStream stream_42 = new RewriteRuleTokenStream(adaptor,"token 42");
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
         RewriteRuleTokenStream stream_61 = new RewriteRuleTokenStream(adaptor,"token 61");
@@ -8641,20 +8758,20 @@ public partial class simpletikzParser : Parser
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:507:2: ( '\\\\end' '{' 'tikzpicture' '}' -> ^( IM_ENDTAG '\\\\end' ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:507:4: '\\\\end' '{' 'tikzpicture' '}'
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:513:2: ( '\\\\end' '{' 'tikzpicture' '}' -> ^( IM_ENDTAG '\\\\end' ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:513:4: '\\\\end' '{' 'tikzpicture' '}'
             {
-            	string_literal242=(IToken)Match(input,61,FOLLOW_61_in_tikzpicture_end2618); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_61.Add(string_literal242);
+            	string_literal246=(IToken)Match(input,61,FOLLOW_61_in_tikzpicture_end2657); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_61.Add(string_literal246);
 
-            	char_literal243=(IToken)Match(input,41,FOLLOW_41_in_tikzpicture_end2620); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_41.Add(char_literal243);
+            	char_literal247=(IToken)Match(input,41,FOLLOW_41_in_tikzpicture_end2659); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_41.Add(char_literal247);
 
-            	string_literal244=(IToken)Match(input,85,FOLLOW_85_in_tikzpicture_end2622); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_85.Add(string_literal244);
+            	string_literal248=(IToken)Match(input,85,FOLLOW_85_in_tikzpicture_end2661); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_85.Add(string_literal248);
 
-            	char_literal245=(IToken)Match(input,42,FOLLOW_42_in_tikzpicture_end2624); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_42.Add(char_literal245);
+            	char_literal249=(IToken)Match(input,42,FOLLOW_42_in_tikzpicture_end2663); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_42.Add(char_literal249);
 
 
 
@@ -8670,9 +8787,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 507:34: -> ^( IM_ENDTAG '\\\\end' )
+            	// 513:34: -> ^( IM_ENDTAG '\\\\end' )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:507:37: ^( IM_ENDTAG '\\\\end' )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:513:37: ^( IM_ENDTAG '\\\\end' )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_ENDTAG, "IM_ENDTAG"), root_1);
@@ -8715,7 +8832,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "tikzscope_start"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:509:1: tikzscope_start : '\\\\begin' '{' 'scope' '}' -> ^( IM_STARTTAG '\\\\begin' ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:515:1: tikzscope_start : '\\\\begin' '{' 'scope' '}' -> ^( IM_STARTTAG '\\\\begin' ) ;
     public simpletikzParser.tikzscope_start_return tikzscope_start() // throws RecognitionException [1]
     {   
         simpletikzParser.tikzscope_start_return retval = new simpletikzParser.tikzscope_start_return();
@@ -8723,15 +8840,15 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal246 = null;
-        IToken char_literal247 = null;
-        IToken string_literal248 = null;
-        IToken char_literal249 = null;
+        IToken string_literal250 = null;
+        IToken char_literal251 = null;
+        IToken string_literal252 = null;
+        IToken char_literal253 = null;
 
-        object string_literal246_tree=null;
-        object char_literal247_tree=null;
-        object string_literal248_tree=null;
-        object char_literal249_tree=null;
+        object string_literal250_tree=null;
+        object char_literal251_tree=null;
+        object string_literal252_tree=null;
+        object char_literal253_tree=null;
         RewriteRuleTokenStream stream_42 = new RewriteRuleTokenStream(adaptor,"token 42");
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
         RewriteRuleTokenStream stream_86 = new RewriteRuleTokenStream(adaptor,"token 86");
@@ -8739,20 +8856,20 @@ public partial class simpletikzParser : Parser
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:510:2: ( '\\\\begin' '{' 'scope' '}' -> ^( IM_STARTTAG '\\\\begin' ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:510:4: '\\\\begin' '{' 'scope' '}'
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:516:2: ( '\\\\begin' '{' 'scope' '}' -> ^( IM_STARTTAG '\\\\begin' ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:516:4: '\\\\begin' '{' 'scope' '}'
             {
-            	string_literal246=(IToken)Match(input,38,FOLLOW_38_in_tikzscope_start2642); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_38.Add(string_literal246);
+            	string_literal250=(IToken)Match(input,38,FOLLOW_38_in_tikzscope_start2681); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_38.Add(string_literal250);
 
-            	char_literal247=(IToken)Match(input,41,FOLLOW_41_in_tikzscope_start2644); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_41.Add(char_literal247);
+            	char_literal251=(IToken)Match(input,41,FOLLOW_41_in_tikzscope_start2683); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_41.Add(char_literal251);
 
-            	string_literal248=(IToken)Match(input,86,FOLLOW_86_in_tikzscope_start2646); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_86.Add(string_literal248);
+            	string_literal252=(IToken)Match(input,86,FOLLOW_86_in_tikzscope_start2685); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_86.Add(string_literal252);
 
-            	char_literal249=(IToken)Match(input,42,FOLLOW_42_in_tikzscope_start2648); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_42.Add(char_literal249);
+            	char_literal253=(IToken)Match(input,42,FOLLOW_42_in_tikzscope_start2687); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_42.Add(char_literal253);
 
 
 
@@ -8768,9 +8885,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 510:30: -> ^( IM_STARTTAG '\\\\begin' )
+            	// 516:30: -> ^( IM_STARTTAG '\\\\begin' )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:510:33: ^( IM_STARTTAG '\\\\begin' )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:516:33: ^( IM_STARTTAG '\\\\begin' )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_STARTTAG, "IM_STARTTAG"), root_1);
@@ -8813,7 +8930,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "tikzscope_end"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:512:1: tikzscope_end : '\\\\end' '{' 'scope' '}' -> ^( IM_ENDTAG '\\\\end' ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:518:1: tikzscope_end : '\\\\end' '{' 'scope' '}' -> ^( IM_ENDTAG '\\\\end' ) ;
     public simpletikzParser.tikzscope_end_return tikzscope_end() // throws RecognitionException [1]
     {   
         simpletikzParser.tikzscope_end_return retval = new simpletikzParser.tikzscope_end_return();
@@ -8821,15 +8938,15 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal250 = null;
-        IToken char_literal251 = null;
-        IToken string_literal252 = null;
-        IToken char_literal253 = null;
+        IToken string_literal254 = null;
+        IToken char_literal255 = null;
+        IToken string_literal256 = null;
+        IToken char_literal257 = null;
 
-        object string_literal250_tree=null;
-        object char_literal251_tree=null;
-        object string_literal252_tree=null;
-        object char_literal253_tree=null;
+        object string_literal254_tree=null;
+        object char_literal255_tree=null;
+        object string_literal256_tree=null;
+        object char_literal257_tree=null;
         RewriteRuleTokenStream stream_42 = new RewriteRuleTokenStream(adaptor,"token 42");
         RewriteRuleTokenStream stream_41 = new RewriteRuleTokenStream(adaptor,"token 41");
         RewriteRuleTokenStream stream_86 = new RewriteRuleTokenStream(adaptor,"token 86");
@@ -8837,20 +8954,20 @@ public partial class simpletikzParser : Parser
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:513:2: ( '\\\\end' '{' 'scope' '}' -> ^( IM_ENDTAG '\\\\end' ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:513:4: '\\\\end' '{' 'scope' '}'
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:519:2: ( '\\\\end' '{' 'scope' '}' -> ^( IM_ENDTAG '\\\\end' ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:519:4: '\\\\end' '{' 'scope' '}'
             {
-            	string_literal250=(IToken)Match(input,61,FOLLOW_61_in_tikzscope_end2666); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_61.Add(string_literal250);
+            	string_literal254=(IToken)Match(input,61,FOLLOW_61_in_tikzscope_end2705); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_61.Add(string_literal254);
 
-            	char_literal251=(IToken)Match(input,41,FOLLOW_41_in_tikzscope_end2668); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_41.Add(char_literal251);
+            	char_literal255=(IToken)Match(input,41,FOLLOW_41_in_tikzscope_end2707); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_41.Add(char_literal255);
 
-            	string_literal252=(IToken)Match(input,86,FOLLOW_86_in_tikzscope_end2670); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_86.Add(string_literal252);
+            	string_literal256=(IToken)Match(input,86,FOLLOW_86_in_tikzscope_end2709); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_86.Add(string_literal256);
 
-            	char_literal253=(IToken)Match(input,42,FOLLOW_42_in_tikzscope_end2672); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_42.Add(char_literal253);
+            	char_literal257=(IToken)Match(input,42,FOLLOW_42_in_tikzscope_end2711); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_42.Add(char_literal257);
 
 
 
@@ -8866,9 +8983,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 513:28: -> ^( IM_ENDTAG '\\\\end' )
+            	// 519:28: -> ^( IM_ENDTAG '\\\\end' )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:513:31: ^( IM_ENDTAG '\\\\end' )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:519:31: ^( IM_ENDTAG '\\\\end' )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_ENDTAG, "IM_ENDTAG"), root_1);
@@ -8911,7 +9028,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "path_start"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:515:1: path_start : path_start_tag -> ^( IM_STARTTAG path_start_tag ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:521:1: path_start : path_start_tag -> ^( IM_STARTTAG path_start_tag ) ;
     public simpletikzParser.path_start_return path_start() // throws RecognitionException [1]
     {   
         simpletikzParser.path_start_return retval = new simpletikzParser.path_start_return();
@@ -8919,20 +9036,20 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.path_start_tag_return path_start_tag254 = default(simpletikzParser.path_start_tag_return);
+        simpletikzParser.path_start_tag_return path_start_tag258 = default(simpletikzParser.path_start_tag_return);
 
 
         RewriteRuleSubtreeStream stream_path_start_tag = new RewriteRuleSubtreeStream(adaptor,"rule path_start_tag");
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:516:2: ( path_start_tag -> ^( IM_STARTTAG path_start_tag ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:516:4: path_start_tag
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:522:2: ( path_start_tag -> ^( IM_STARTTAG path_start_tag ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:522:4: path_start_tag
             {
-            	PushFollow(FOLLOW_path_start_tag_in_path_start2691);
-            	path_start_tag254 = path_start_tag();
+            	PushFollow(FOLLOW_path_start_tag_in_path_start2730);
+            	path_start_tag258 = path_start_tag();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_path_start_tag.Add(path_start_tag254.Tree);
+            	if ( (state.backtracking==0) ) stream_path_start_tag.Add(path_start_tag258.Tree);
 
 
             	// AST REWRITE
@@ -8947,9 +9064,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 516:19: -> ^( IM_STARTTAG path_start_tag )
+            	// 522:19: -> ^( IM_STARTTAG path_start_tag )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:516:22: ^( IM_STARTTAG path_start_tag )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:522:22: ^( IM_STARTTAG path_start_tag )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_STARTTAG, "IM_STARTTAG"), root_1);
@@ -8992,7 +9109,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "node_start"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:518:1: node_start : node_start_tag -> ^( IM_STARTTAG node_start_tag ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:524:1: node_start : node_start_tag -> ^( IM_STARTTAG node_start_tag ) ;
     public simpletikzParser.node_start_return node_start() // throws RecognitionException [1]
     {   
         simpletikzParser.node_start_return retval = new simpletikzParser.node_start_return();
@@ -9000,20 +9117,20 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.node_start_tag_return node_start_tag255 = default(simpletikzParser.node_start_tag_return);
+        simpletikzParser.node_start_tag_return node_start_tag259 = default(simpletikzParser.node_start_tag_return);
 
 
         RewriteRuleSubtreeStream stream_node_start_tag = new RewriteRuleSubtreeStream(adaptor,"rule node_start_tag");
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:519:2: ( node_start_tag -> ^( IM_STARTTAG node_start_tag ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:519:4: node_start_tag
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:525:2: ( node_start_tag -> ^( IM_STARTTAG node_start_tag ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:525:4: node_start_tag
             {
-            	PushFollow(FOLLOW_node_start_tag_in_node_start2709);
-            	node_start_tag255 = node_start_tag();
+            	PushFollow(FOLLOW_node_start_tag_in_node_start2748);
+            	node_start_tag259 = node_start_tag();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_node_start_tag.Add(node_start_tag255.Tree);
+            	if ( (state.backtracking==0) ) stream_node_start_tag.Add(node_start_tag259.Tree);
 
 
             	// AST REWRITE
@@ -9028,9 +9145,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 519:19: -> ^( IM_STARTTAG node_start_tag )
+            	// 525:19: -> ^( IM_STARTTAG node_start_tag )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:519:22: ^( IM_STARTTAG node_start_tag )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:525:22: ^( IM_STARTTAG node_start_tag )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_STARTTAG, "IM_STARTTAG"), root_1);
@@ -9073,7 +9190,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "matrix_start"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:521:1: matrix_start : matrix_start_tag -> ^( IM_STARTTAG matrix_start_tag ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:527:1: matrix_start : matrix_start_tag -> ^( IM_STARTTAG matrix_start_tag ) ;
     public simpletikzParser.matrix_start_return matrix_start() // throws RecognitionException [1]
     {   
         simpletikzParser.matrix_start_return retval = new simpletikzParser.matrix_start_return();
@@ -9081,20 +9198,20 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        simpletikzParser.matrix_start_tag_return matrix_start_tag256 = default(simpletikzParser.matrix_start_tag_return);
+        simpletikzParser.matrix_start_tag_return matrix_start_tag260 = default(simpletikzParser.matrix_start_tag_return);
 
 
         RewriteRuleSubtreeStream stream_matrix_start_tag = new RewriteRuleSubtreeStream(adaptor,"rule matrix_start_tag");
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:522:2: ( matrix_start_tag -> ^( IM_STARTTAG matrix_start_tag ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:522:4: matrix_start_tag
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:528:2: ( matrix_start_tag -> ^( IM_STARTTAG matrix_start_tag ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:528:4: matrix_start_tag
             {
-            	PushFollow(FOLLOW_matrix_start_tag_in_matrix_start2727);
-            	matrix_start_tag256 = matrix_start_tag();
+            	PushFollow(FOLLOW_matrix_start_tag_in_matrix_start2766);
+            	matrix_start_tag260 = matrix_start_tag();
             	state.followingStackPointer--;
             	if (state.failed) return retval;
-            	if ( (state.backtracking==0) ) stream_matrix_start_tag.Add(matrix_start_tag256.Tree);
+            	if ( (state.backtracking==0) ) stream_matrix_start_tag.Add(matrix_start_tag260.Tree);
 
 
             	// AST REWRITE
@@ -9109,9 +9226,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 522:21: -> ^( IM_STARTTAG matrix_start_tag )
+            	// 528:21: -> ^( IM_STARTTAG matrix_start_tag )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:522:24: ^( IM_STARTTAG matrix_start_tag )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:528:24: ^( IM_STARTTAG matrix_start_tag )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_STARTTAG, "IM_STARTTAG"), root_1);
@@ -9154,7 +9271,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "node_start_tag"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:524:1: node_start_tag : '\\\\node' ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:530:1: node_start_tag : '\\\\node' ;
     public simpletikzParser.node_start_tag_return node_start_tag() // throws RecognitionException [1]
     {   
         simpletikzParser.node_start_tag_return retval = new simpletikzParser.node_start_tag_return();
@@ -9162,21 +9279,21 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal257 = null;
+        IToken string_literal261 = null;
 
-        object string_literal257_tree=null;
+        object string_literal261_tree=null;
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:525:2: ( '\\\\node' )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:525:4: '\\\\node'
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:531:2: ( '\\\\node' )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:531:4: '\\\\node'
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	string_literal257=(IToken)Match(input,62,FOLLOW_62_in_node_start_tag2745); if (state.failed) return retval;
+            	string_literal261=(IToken)Match(input,62,FOLLOW_62_in_node_start_tag2784); if (state.failed) return retval;
             	if ( state.backtracking == 0 )
-            	{string_literal257_tree = (object)adaptor.Create(string_literal257);
-            		adaptor.AddChild(root_0, string_literal257_tree);
+            	{string_literal261_tree = (object)adaptor.Create(string_literal261);
+            		adaptor.AddChild(root_0, string_literal261_tree);
             	}
 
             }
@@ -9209,7 +9326,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "matrix_start_tag"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:527:1: matrix_start_tag : '\\\\matrix' ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:533:1: matrix_start_tag : '\\\\matrix' ;
     public simpletikzParser.matrix_start_tag_return matrix_start_tag() // throws RecognitionException [1]
     {   
         simpletikzParser.matrix_start_tag_return retval = new simpletikzParser.matrix_start_tag_return();
@@ -9217,21 +9334,21 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal258 = null;
+        IToken string_literal262 = null;
 
-        object string_literal258_tree=null;
+        object string_literal262_tree=null;
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:528:2: ( '\\\\matrix' )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:528:4: '\\\\matrix'
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:534:2: ( '\\\\matrix' )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:534:4: '\\\\matrix'
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	string_literal258=(IToken)Match(input,63,FOLLOW_63_in_matrix_start_tag2755); if (state.failed) return retval;
+            	string_literal262=(IToken)Match(input,63,FOLLOW_63_in_matrix_start_tag2794); if (state.failed) return retval;
             	if ( state.backtracking == 0 )
-            	{string_literal258_tree = (object)adaptor.Create(string_literal258);
-            		adaptor.AddChild(root_0, string_literal258_tree);
+            	{string_literal262_tree = (object)adaptor.Create(string_literal262);
+            		adaptor.AddChild(root_0, string_literal262_tree);
             	}
 
             }
@@ -9264,7 +9381,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "coordinate_start"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:530:1: coordinate_start : '\\\\coordinate' -> ^( IM_STARTTAG '\\\\coordinate' ) ;
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:536:1: coordinate_start : '\\\\coordinate' -> ^( IM_STARTTAG '\\\\coordinate' ) ;
     public simpletikzParser.coordinate_start_return coordinate_start() // throws RecognitionException [1]
     {   
         simpletikzParser.coordinate_start_return retval = new simpletikzParser.coordinate_start_return();
@@ -9272,18 +9389,18 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken string_literal259 = null;
+        IToken string_literal263 = null;
 
-        object string_literal259_tree=null;
+        object string_literal263_tree=null;
         RewriteRuleTokenStream stream_64 = new RewriteRuleTokenStream(adaptor,"token 64");
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:531:2: ( '\\\\coordinate' -> ^( IM_STARTTAG '\\\\coordinate' ) )
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:531:4: '\\\\coordinate'
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:537:2: ( '\\\\coordinate' -> ^( IM_STARTTAG '\\\\coordinate' ) )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:537:4: '\\\\coordinate'
             {
-            	string_literal259=(IToken)Match(input,64,FOLLOW_64_in_coordinate_start2765); if (state.failed) return retval; 
-            	if ( (state.backtracking==0) ) stream_64.Add(string_literal259);
+            	string_literal263=(IToken)Match(input,64,FOLLOW_64_in_coordinate_start2804); if (state.failed) return retval; 
+            	if ( (state.backtracking==0) ) stream_64.Add(string_literal263);
 
 
 
@@ -9299,9 +9416,9 @@ public partial class simpletikzParser : Parser
             	RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(adaptor, "rule retval", retval!=null ? retval.Tree : null);
 
             	root_0 = (object)adaptor.GetNilNode();
-            	// 531:19: -> ^( IM_STARTTAG '\\\\coordinate' )
+            	// 537:19: -> ^( IM_STARTTAG '\\\\coordinate' )
             	{
-            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:531:22: ^( IM_STARTTAG '\\\\coordinate' )
+            	    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:537:22: ^( IM_STARTTAG '\\\\coordinate' )
             	    {
             	    object root_1 = (object)adaptor.GetNilNode();
             	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_STARTTAG, "IM_STARTTAG"), root_1);
@@ -9344,7 +9461,7 @@ public partial class simpletikzParser : Parser
     };
 
     // $ANTLR start "path_start_tag"
-    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:533:1: path_start_tag : ( '\\\\draw' | '\\\\fill' | '\\\\path' | '\\\\clip' );
+    // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:539:1: path_start_tag : ( '\\\\draw' | '\\\\fill' | '\\\\path' | '\\\\clip' );
     public simpletikzParser.path_start_tag_return path_start_tag() // throws RecognitionException [1]
     {   
         simpletikzParser.path_start_tag_return retval = new simpletikzParser.path_start_tag_return();
@@ -9352,22 +9469,22 @@ public partial class simpletikzParser : Parser
 
         object root_0 = null;
 
-        IToken set260 = null;
+        IToken set264 = null;
 
-        object set260_tree=null;
+        object set264_tree=null;
 
         try 
     	{
-            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:534:2: ( '\\\\draw' | '\\\\fill' | '\\\\path' | '\\\\clip' )
+            // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:540:2: ( '\\\\draw' | '\\\\fill' | '\\\\path' | '\\\\clip' )
             // C:\\Eigene Dateien\\Eigene Programme\\C#\\tikzedt\\TikzEdt\\simpletikz.g:
             {
             	root_0 = (object)adaptor.GetNilNode();
 
-            	set260 = (IToken)input.LT(1);
+            	set264 = (IToken)input.LT(1);
             	if ( (input.LA(1) >= 65 && input.LA(1) <= 68) ) 
             	{
             	    input.Consume();
-            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set260));
+            	    if ( state.backtracking == 0 ) adaptor.AddChild(root_0, (object)adaptor.Create(set264));
             	    state.errorRecovery = false;state.failed = false;
             	}
             	else 
@@ -9635,6 +9752,7 @@ public partial class simpletikzParser : Parser
    	protected DFA54 dfa54;
    	protected DFA56 dfa56;
    	protected DFA60 dfa60;
+   	protected DFA63 dfa63;
 	private void InitializeCyclicDFAs()
 	{
     	this.dfa9 = new DFA9(this);
@@ -9647,6 +9765,7 @@ public partial class simpletikzParser : Parser
     	this.dfa54 = new DFA54(this);
     	this.dfa56 = new DFA56(this);
     	this.dfa60 = new DFA60(this);
+    	this.dfa63 = new DFA63(this);
 	    this.dfa45.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA45_SpecialStateTransition);
 	    this.dfa47.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA47_SpecialStateTransition);
 	    this.dfa54.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA54_SpecialStateTransition);
@@ -9705,20 +9824,20 @@ public partial class simpletikzParser : Parser
     }
 
     const string DFA14_eotS =
-        "\x23\uffff";
+        "\x38\uffff";
     const string DFA14_eofS =
-        "\x23\uffff";
+        "\x38\uffff";
     const string DFA14_minS =
         "\x01\x04\x01\x2a\x01\x04\x02\uffff\x01\x2a\x01\uffff\x02\x04\x01"+
-        "\uffff\x0e\x04\x01\uffff\x0a\x04";
+        "\uffff\x0f\x04\x01\uffff\x1e\x04";
     const string DFA14_maxS =
         "\x01\x56\x01\x3c\x01\x56\x02\uffff\x01\x35\x01\uffff\x02\x56\x01"+
-        "\uffff\x0e\x56\x01\uffff\x0a\x56";
+        "\uffff\x0f\x56\x01\uffff\x1e\x56";
     const string DFA14_acceptS =
         "\x03\uffff\x01\x04\x01\x02\x01\uffff\x01\x01\x02\uffff\x01\x05"+
-        "\x0e\uffff\x01\x03\x0a\uffff";
+        "\x0f\uffff\x01\x03\x1e\uffff";
     const string DFA14_specialS =
-        "\x23\uffff}>";
+        "\x38\uffff}>";
     static readonly string[] DFA14_transitionS = {
             "\x1a\x03\x02\x01\x09\x03\x01\x02\x02\uffff\x01\x03\x04\uffff"+
             "\x01\x03\x05\uffff\x20\x03",
@@ -9733,47 +9852,85 @@ public partial class simpletikzParser : Parser
             "\x0c\x05\x09\x20\x0c",
             "\x2e\x09\x01\x0d\x24\x09",
             "",
-            "\x25\x0c\x03\x09\x01\x0c\x02\x0f\x02\x09\x01\x0c\x01\x09\x01"+
-            "\x10\x03\x09\x06\x0e\x1a\x0c",
-            "\x25\x11\x03\x09\x01\x11\x04\x09\x01\x11\x05\x09\x20\x11",
-            "\x25\x0c\x03\x09\x01\x0c\x02\x12\x02\x09\x01\x0c\x01\x09\x01"+
-            "\x10\x03\x09\x20\x0c",
-            "\x1a\x14\x02\x13\x09\x14\x01\x0b\x02\x09\x01\x14\x04\x09\x01"+
-            "\x14\x05\x09\x20\x14",
-            "\x25\x0c\x03\x09\x01\x0c\x02\x0f\x02\x09\x01\x0c\x01\x09\x01"+
-            "\x10\x03\x09\x20\x0c",
-            "\x1a\x17\x02\x16\x09\x17\x01\x15\x02\x09\x01\x17\x04\x09\x01"+
-            "\x17\x05\x09\x20\x17",
-            "\x26\x09\x01\x18\x2c\x09",
-            "\x25\x11\x01\x09\x01\x19\x01\x09\x01\x11\x04\x09\x01\x11\x05"+
-            "\x09\x20\x11",
-            "\x25\x17\x01\x15\x02\x09\x01\x17\x04\x09\x01\x17\x05\x09\x20"+
-            "\x17",
-            "\x25\x14\x03\x09\x01\x14\x02\x0f\x02\x09\x01\x14\x05\x09\x06"+
-            "\x1a\x1a\x14",
-            "\x25\x14\x03\x09\x01\x14\x02\x12\x02\x09\x01\x14\x05\x09\x20"+
-            "\x14",
-            "\x25\x1b\x03\x09\x01\x1b\x04\x09\x01\x1b\x05\x09\x20\x1b",
-            "\x25\x17\x03\x09\x01\x17\x04\x09\x01\x17\x01\x09\x01\x1c\x03"+
-            "\x09\x06\x1d\x1a\x17",
-            "\x25\x17\x03\x09\x01\x17\x04\x09\x01\x17\x01\x09\x01\x1e\x03"+
-            "\x09\x20\x17",
+            "\x25\x0c\x02\x09\x01\x11\x01\x0c\x02\x0f\x02\x09\x01\x0c\x01"+
+            "\x09\x01\x10\x03\x09\x06\x0e\x1a\x0c",
+            "\x25\x12\x03\x09\x01\x12\x04\x09\x01\x12\x05\x09\x20\x12",
+            "\x25\x0c\x02\x09\x01\x11\x01\x0c\x02\x13\x02\x09\x01\x0c\x01"+
+            "\x09\x01\x10\x03\x09\x20\x0c",
+            "\x1a\x15\x02\x14\x09\x15\x01\x0b\x02\x09\x01\x15\x04\x09\x01"+
+            "\x15\x05\x09\x20\x15",
+            "\x25\x0c\x02\x09\x01\x11\x01\x0c\x02\x0f\x02\x09\x01\x0c\x01"+
+            "\x09\x01\x10\x03\x09\x20\x0c",
+            "\x1a\x18\x02\x17\x09\x18\x01\x16\x02\x09\x01\x18\x04\x09\x01"+
+            "\x18\x05\x09\x20\x18",
+            "\x26\x09\x01\x19\x2c\x09",
+            "\x1a\x09\x02\x1a\x37\x09",
+            "\x25\x12\x01\x09\x01\x1b\x01\x09\x01\x12\x04\x09\x01\x12\x05"+
+            "\x09\x20\x12",
+            "\x25\x18\x01\x16\x02\x09\x01\x18\x04\x09\x01\x18\x05\x09\x20"+
+            "\x18",
+            "\x25\x15\x02\x09\x01\x11\x01\x15\x02\x0f\x02\x09\x01\x15\x05"+
+            "\x09\x06\x1c\x1a\x15",
+            "\x25\x15\x02\x09\x01\x11\x01\x15\x02\x13\x02\x09\x01\x15\x05"+
+            "\x09\x20\x15",
+            "\x25\x1d\x03\x09\x01\x1d\x04\x09\x01\x1d\x05\x09\x20\x1d",
+            "\x25\x18\x02\x09\x01\x20\x01\x18\x04\x09\x01\x18\x01\x09\x01"+
+            "\x1e\x03\x09\x06\x1f\x1a\x18",
+            "\x25\x18\x02\x09\x01\x20\x01\x18\x04\x09\x01\x18\x01\x09\x01"+
+            "\x21\x03\x09\x20\x18",
             "",
-            "\x29\x09\x02\x1f\x28\x09",
-            "\x25\x14\x03\x09\x01\x14\x02\x0f\x02\x09\x01\x14\x05\x09\x20"+
-            "\x14",
-            "\x25\x1b\x01\x09\x01\x20\x01\x09\x01\x1b\x04\x09\x01\x1b\x05"+
-            "\x09\x20\x1b",
-            "\x26\x09\x01\x18\x2c\x09",
-            "\x25\x17\x03\x09\x01\x17\x04\x09\x01\x17\x01\x09\x01\x1c\x03"+
-            "\x09\x20\x17",
-            "\x26\x09\x01\x18\x2c\x09",
-            "\x25\x21\x01\x15\x02\x09\x01\x21\x04\x09\x01\x21\x05\x09\x20"+
-            "\x21",
-            "\x2f\x09\x01\x22\x23\x09",
-            "\x25\x21\x03\x09\x01\x21\x04\x09\x01\x21\x01\x09\x01\x22\x03"+
-            "\x09\x20\x21",
-            "\x26\x09\x01\x18\x2c\x09"
+            "\x25\x24\x03\x09\x01\x24\x01\x23\x01\x13\x02\x09\x01\x24\x05"+
+            "\x09\x06\x22\x1a\x24",
+            "\x29\x09\x02\x25\x28\x09",
+            "\x25\x15\x02\x09\x01\x11\x01\x15\x02\x0f\x02\x09\x01\x15\x05"+
+            "\x09\x20\x15",
+            "\x25\x1d\x01\x09\x01\x26\x01\x09\x01\x1d\x04\x09\x01\x1d\x05"+
+            "\x09\x20\x1d",
+            "\x26\x09\x01\x19\x2c\x09",
+            "\x25\x18\x02\x09\x01\x20\x01\x18\x04\x09\x01\x18\x01\x09\x01"+
+            "\x1e\x03\x09\x20\x18",
+            "\x1a\x09\x02\x27\x37\x09",
+            "\x26\x09\x01\x19\x2c\x09",
+            "\x25\x24\x02\x09\x01\x11\x01\x24\x01\x23\x01\x13\x02\x09\x01"+
+            "\x24\x05\x09\x20\x24",
+            "\x25\x28\x01\x16\x02\x09\x01\x28\x02\x13\x02\x09\x01\x28\x05"+
+            "\x09\x20\x28",
+            "\x25\x24\x02\x09\x01\x11\x01\x24\x04\x09\x01\x24\x05\x09\x20"+
+            "\x24",
+            "\x25\x29\x01\x16\x02\x09\x01\x29\x04\x09\x01\x29\x05\x09\x20"+
+            "\x29",
+            "\x2f\x09\x01\x2a\x23\x09",
+            "\x25\x2d\x03\x09\x01\x2d\x01\x2c\x03\x09\x01\x2d\x01\x09\x01"+
+            "\x21\x03\x09\x06\x2b\x1a\x2d",
+            "\x25\x28\x02\x09\x01\x2e\x01\x28\x04\x09\x01\x28\x01\x09\x01"+
+            "\x21\x03\x09\x20\x28",
+            "\x25\x29\x02\x09\x01\x2f\x01\x29\x04\x09\x01\x29\x01\x09\x01"+
+            "\x2a\x03\x09\x20\x29",
+            "\x26\x09\x01\x19\x2c\x09",
+            "\x25\x2d\x02\x09\x01\x20\x01\x2d\x01\x2c\x03\x09\x01\x2d\x01"+
+            "\x09\x01\x21\x03\x09\x20\x2d",
+            "\x25\x2d\x03\x09\x01\x2d\x04\x09\x01\x2d\x01\x09\x01\x21\x03"+
+            "\x09\x20\x2d",
+            "\x25\x2d\x02\x09\x01\x20\x01\x2d\x04\x09\x01\x2d\x05\x09\x20"+
+            "\x2d",
+            "\x1a\x09\x02\x30\x37\x09",
+            "\x1a\x09\x02\x31\x37\x09",
+            "\x25\x34\x03\x09\x01\x34\x01\x33\x01\x13\x02\x09\x01\x34\x01"+
+            "\x09\x01\x21\x03\x09\x06\x32\x1a\x34",
+            "\x25\x37\x03\x09\x01\x37\x01\x36\x03\x09\x01\x37\x01\x09\x01"+
+            "\x2a\x03\x09\x06\x35\x1a\x37",
+            "\x25\x34\x02\x09\x01\x2e\x01\x34\x01\x33\x01\x13\x02\x09\x01"+
+            "\x34\x01\x09\x01\x21\x03\x09\x20\x34",
+            "\x25\x28\x01\x16\x02\x09\x01\x28\x02\x13\x02\x09\x01\x28\x01"+
+            "\x09\x01\x21\x03\x09\x20\x28",
+            "\x25\x34\x02\x09\x01\x2e\x01\x34\x04\x09\x01\x34\x05\x09\x20"+
+            "\x34",
+            "\x25\x37\x02\x09\x01\x2f\x01\x37\x01\x36\x03\x09\x01\x37\x01"+
+            "\x09\x01\x2a\x03\x09\x20\x37",
+            "\x25\x37\x03\x09\x01\x37\x04\x09\x01\x37\x01\x09\x01\x2a\x03"+
+            "\x09\x20\x37",
+            "\x25\x37\x02\x09\x01\x2f\x01\x37\x04\x09\x01\x37\x05\x09\x20"+
+            "\x37"
     };
 
     static readonly short[] DFA14_eot = DFA.UnpackEncodedString(DFA14_eotS);
@@ -9938,16 +10095,16 @@ public partial class simpletikzParser : Parser
         "\x4b\uffff";
     const string DFA41_minS =
         "\x01\x1c\x01\uffff\x01\x04\x08\uffff\x01\x04\x01\uffff\x0c\x04"+
-        "\x01\uffff\x16\x04\x01\x1c\x04\x04\x01\uffff\x10\x04\x01\x1c\x04"+
+        "\x01\uffff\x16\x04\x01\x1c\x0c\x04\x01\uffff\x05\x04\x01\x1c\x07"+
         "\x04";
     const string DFA41_maxS =
         "\x01\x53\x01\uffff\x01\x56\x08\uffff\x01\x56\x01\uffff\x0c\x56"+
-        "\x01\uffff\x16\x56\x01\x53\x04\x56\x01\uffff\x10\x56\x01\x53\x04"+
+        "\x01\uffff\x16\x56\x01\x53\x0c\x56\x01\uffff\x05\x56\x01\x53\x07"+
         "\x56";
     const string DFA41_acceptS =
         "\x01\uffff\x01\x01\x01\uffff\x01\x02\x01\x03\x01\x04\x01\x05\x01"+
         "\x06\x01\x07\x01\x08\x01\x0a\x01\uffff\x01\x09\x0c\uffff\x01\x02"+
-        "\x1b\uffff\x01\x02\x15\uffff";
+        "\x23\uffff\x01\x02\x0d\uffff";
     const string DFA41_specialS =
         "\x4b\uffff}>";
     static readonly string[] DFA41_transitionS = {
@@ -9966,30 +10123,30 @@ public partial class simpletikzParser : Parser
             "",
             "",
             "",
-            "\x25\x03\x03\uffff\x03\x03\x02\uffff\x01\x03\x01\x0c\x01\x03"+
+            "\x25\x03\x02\uffff\x04\x03\x02\uffff\x01\x03\x01\x0c\x01\x03"+
             "\x03\uffff\x20\x03",
             "",
-            "\x25\x03\x03\uffff\x03\x03\x02\uffff\x01\x03\x01\uffff\x01"+
+            "\x25\x03\x02\uffff\x04\x03\x02\uffff\x01\x03\x01\uffff\x01"+
             "\x03\x03\uffff\x1d\x03\x01\x15\x02\x03",
-            "\x25\x03\x01\x0c\x02\uffff\x03\x03\x02\uffff\x01\x03\x01\x0c"+
+            "\x25\x03\x01\x0c\x01\uffff\x04\x03\x02\uffff\x01\x03\x01\x0c"+
             "\x01\x03\x01\x0c\x02\uffff\x12\x03\x01\x16\x0d\x03",
-            "\x18\x19\x01\x13\x0c\x19\x01\x0c\x02\uffff\x01\x19\x01\x17"+
-            "\x01\x03\x02\uffff\x01\x19\x01\x0c\x01\x19\x01\x0c\x02\uffff"+
-            "\x10\x19\x01\x0f\x01\x0e\x01\x18\x01\x10\x01\x11\x01\x12\x04"+
-            "\x13\x02\x0b\x01\x0d\x03\x19",
-            "\x18\x19\x01\x13\x0c\x19\x01\x0c\x02\uffff\x01\x19\x01\x17"+
+            "\x18\x19\x01\x13\x0c\x19\x01\x0c\x01\uffff\x01\x03\x01\x19"+
+            "\x01\x18\x01\x03\x02\uffff\x01\x19\x01\x0c\x01\x19\x01\x0c\x02"+
+            "\uffff\x10\x19\x01\x0f\x01\x0e\x01\x17\x01\x10\x01\x11\x01\x12"+
+            "\x04\x13\x02\x0b\x01\x0d\x03\x19",
+            "\x18\x19\x01\x13\x0c\x19\x01\x0c\x01\uffff\x02\x19\x01\x18"+
             "\x01\x19\x02\uffff\x01\x19\x01\x0c\x01\x19\x01\x0c\x02\uffff"+
             "\x10\x19\x01\x0f\x01\x0e\x01\x19\x01\x10\x01\x11\x01\x12\x04"+
             "\x13\x02\x0b\x01\x0d\x03\x19",
-            "\x18\x19\x01\x13\x0c\x19\x01\x0c\x02\uffff\x01\x19\x01\x17"+
+            "\x18\x19\x01\x13\x0c\x19\x01\x0c\x01\uffff\x02\x19\x01\x18"+
             "\x01\x19\x02\uffff\x01\x19\x01\x0c\x01\x19\x01\x0c\x02\uffff"+
             "\x10\x19\x01\x0f\x01\x0e\x01\x19\x01\x10\x01\x11\x01\x12\x04"+
             "\x13\x02\x0b\x01\x0d\x03\x19",
-            "\x18\x19\x01\x13\x0c\x19\x01\x0c\x02\uffff\x01\x19\x01\x17"+
+            "\x18\x19\x01\x13\x0c\x19\x01\x0c\x01\uffff\x02\x19\x01\x18"+
             "\x01\x19\x02\uffff\x01\x19\x01\x0c\x01\x19\x01\x0c\x02\uffff"+
             "\x10\x19\x01\x0f\x01\x0e\x01\x19\x01\x10\x01\x11\x01\x12\x04"+
             "\x13\x02\x0b\x01\x0d\x03\x19",
-            "\x18\x19\x01\x13\x0c\x19\x01\x0c\x02\uffff\x01\x19\x01\x17"+
+            "\x18\x19\x01\x13\x0c\x19\x01\x0c\x01\uffff\x02\x19\x01\x18"+
             "\x01\x19\x02\uffff\x01\x19\x01\x0c\x01\x19\x01\x0c\x02\uffff"+
             "\x10\x19\x01\x0f\x01\x0e\x01\x19\x01\x10\x01\x11\x01\x12\x04"+
             "\x13\x02\x0b\x01\x0d\x03\x19",
@@ -9997,15 +10154,15 @@ public partial class simpletikzParser : Parser
             "\x01\x19\x01\x0c\x01\uffff\x01\x0c\x02\uffff\x10\x19\x01\x1d"+
             "\x01\x1c\x01\x19\x01\x1e\x01\x1f\x01\x20\x04\x21\x02\x1a\x01"+
             "\x1b\x03\x19",
-            "\x25\x19\x03\uffff\x03\x19\x02\uffff\x01\x19\x01\x0c\x01\x19"+
+            "\x25\x19\x02\uffff\x04\x19\x02\uffff\x01\x19\x01\x0c\x01\x19"+
             "\x03\uffff\x1a\x19\x02\x22\x04\x19",
-            "\x25\x19\x03\uffff\x03\x19\x02\uffff\x01\x19\x01\x0c\x01\x19"+
+            "\x25\x19\x02\uffff\x04\x19\x02\uffff\x01\x19\x01\x0c\x01\x19"+
             "\x03\uffff\x1a\x19\x02\x23\x04\x19",
-            "\x18\x19\x01\x2c\x0c\x19\x01\x2b\x02\uffff\x01\x19\x04\uffff"+
-            "\x01\x19\x03\x0c\x02\uffff\x10\x19\x01\x27\x01\x26\x01\x19\x01"+
-            "\x28\x01\x29\x01\x2a\x04\x2c\x02\x24\x01\x25\x03\x19",
-            "\x25\x19\x03\uffff\x03\x19\x02\uffff\x01\x19\x01\x0c\x01\x19"+
-            "\x03\uffff\x1a\x19\x02\x2d\x04\x19",
+            "\x25\x19\x02\uffff\x04\x19\x02\uffff\x01\x19\x01\x0c\x01\x19"+
+            "\x03\uffff\x1a\x19\x02\x24\x04\x19",
+            "\x18\x19\x01\x2d\x0c\x19\x01\x26\x02\uffff\x01\x19\x04\uffff"+
+            "\x01\x19\x03\x0c\x02\uffff\x10\x19\x01\x29\x01\x28\x01\x19\x01"+
+            "\x2a\x01\x2b\x01\x2c\x04\x2d\x02\x25\x01\x27\x03\x19",
             "",
             "\x25\x19\x01\uffff\x01\x19\x01\uffff\x01\x19\x04\uffff\x01"+
             "\x19\x01\x0c\x04\uffff\x20\x19",
@@ -10033,109 +10190,109 @@ public partial class simpletikzParser : Parser
             "\x01\x0c\x03\uffff\x01\x19\x01\x0c\x01\uffff\x01\x0c\x02\uffff"+
             "\x10\x19\x01\x1d\x01\x1c\x01\x19\x01\x1e\x01\x1f\x01\x20\x04"+
             "\x21\x02\x1a\x01\x1b\x03\x19",
-            "\x25\x19\x03\uffff\x03\x19\x02\uffff\x01\x19\x01\x0c\x01\x19"+
+            "\x25\x19\x02\uffff\x04\x19\x02\uffff\x01\x19\x01\x0c\x01\x19"+
             "\x03\uffff\x20\x19",
-            "\x25\x19\x03\uffff\x03\x19\x02\uffff\x01\x19\x01\x0c\x01\x19"+
+            "\x25\x19\x02\uffff\x04\x19\x02\uffff\x01\x19\x01\x0c\x01\x19"+
             "\x03\uffff\x20\x19",
-            "\x25\x19\x03\uffff\x01\x19\x04\uffff\x01\x19\x01\x0c\x01\x19"+
+            "\x25\x19\x02\uffff\x04\x19\x02\uffff\x01\x19\x01\x0c\x01\x19"+
             "\x03\uffff\x20\x19",
-            "\x25\x19\x03\uffff\x01\x19\x04\uffff\x01\x19\x01\uffff\x01"+
-            "\x19\x03\uffff\x1d\x19\x01\x32\x02\x19",
-            "\x25\x19\x01\x0c\x02\uffff\x01\x19\x04\uffff\x01\x19\x01\x0c"+
-            "\x01\x19\x01\x0c\x02\uffff\x12\x19\x01\x33\x0d\x19",
-            "\x18\x35\x01\x2c\x0c\x35\x01\x0c\x02\uffff\x01\x35\x01\x0c"+
-            "\x03\uffff\x01\x35\x01\x0c\x01\x35\x01\x0c\x02\uffff\x10\x35"+
-            "\x01\x27\x01\x26\x01\x34\x01\x28\x01\x29\x01\x2a\x04\x2c\x02"+
-            "\x24\x01\x25\x03\x35",
-            "\x18\x35\x01\x2c\x0c\x35\x01\x0c\x02\uffff\x01\x35\x01\x0c"+
-            "\x03\uffff\x01\x35\x01\x0c\x01\x35\x01\x0c\x02\uffff\x10\x35"+
-            "\x01\x27\x01\x26\x01\x35\x01\x28\x01\x29\x01\x2a\x04\x2c\x02"+
-            "\x24\x01\x25\x03\x35",
-            "\x18\x35\x01\x2c\x0c\x35\x01\x0c\x02\uffff\x01\x35\x01\x0c"+
-            "\x03\uffff\x01\x35\x01\x0c\x01\x35\x01\x0c\x02\uffff\x10\x35"+
-            "\x01\x27\x01\x26\x01\x35\x01\x28\x01\x29\x01\x2a\x04\x2c\x02"+
-            "\x24\x01\x25\x03\x35",
-            "\x18\x35\x01\x2c\x0c\x35\x01\x0c\x02\uffff\x01\x35\x01\x0c"+
-            "\x03\uffff\x01\x35\x01\x0c\x01\x35\x01\x0c\x02\uffff\x10\x35"+
-            "\x01\x27\x01\x26\x01\x35\x01\x28\x01\x29\x01\x2a\x04\x2c\x02"+
-            "\x24\x01\x25\x03\x35",
-            "\x18\x35\x01\x3d\x0c\x35\x02\x0c\x01\uffff\x01\x35\x04\uffff"+
-            "\x01\x35\x01\x0c\x01\uffff\x01\x0c\x02\uffff\x10\x35\x01\x39"+
-            "\x01\x38\x01\x35\x01\x3a\x01\x3b\x01\x3c\x04\x3d\x02\x36\x01"+
-            "\x37\x03\x35",
-            "\x18\x35\x01\x2c\x0c\x35\x01\x0c\x02\uffff\x01\x35\x01\x0c"+
-            "\x03\uffff\x01\x35\x01\x0c\x01\x35\x01\x0c\x02\uffff\x10\x35"+
-            "\x01\x27\x01\x26\x01\x35\x01\x28\x01\x29\x01\x2a\x04\x2c\x02"+
-            "\x24\x01\x25\x03\x35",
-            "\x25\x35\x03\uffff\x03\x35\x02\uffff\x01\x35\x01\x0c\x01\x35"+
-            "\x03\uffff\x20\x35",
-            "\x25\x35\x01\uffff\x01\x35\x01\uffff\x01\x35\x04\uffff\x01"+
-            "\x35\x01\x0c\x04\uffff\x1a\x35\x02\x3e\x04\x35",
-            "\x25\x35\x01\uffff\x01\x35\x01\uffff\x01\x35\x04\uffff\x01"+
-            "\x35\x01\x0c\x04\uffff\x1a\x35\x02\x3f\x04\x35",
-            "\x01\x0c\x0c\uffff\x01\x0c\x03\uffff\x01\x17\x01\x35\x03\uffff"+
+            "\x25\x19\x02\uffff\x02\x19\x04\uffff\x01\x19\x01\x0c\x01\x19"+
+            "\x03\uffff\x20\x19",
+            "\x18\x19\x01\x39\x0c\x19\x02\x0c\x01\uffff\x01\x19\x04\uffff"+
+            "\x01\x19\x01\x0c\x01\uffff\x01\x0c\x02\uffff\x10\x19\x01\x35"+
+            "\x01\x34\x01\x19\x01\x36\x01\x37\x01\x38\x04\x39\x02\x32\x01"+
+            "\x33\x03\x19",
+            "\x25\x19\x02\uffff\x02\x19\x04\uffff\x01\x19\x01\uffff\x01"+
+            "\x19\x03\uffff\x1d\x19\x01\x3a\x02\x19",
+            "\x25\x19\x01\x0c\x01\uffff\x02\x19\x04\uffff\x01\x19\x01\x0c"+
+            "\x01\x19\x01\x0c\x02\uffff\x12\x19\x01\x3b\x0d\x19",
+            "\x18\x3d\x01\x2d\x0c\x3d\x01\x0c\x01\uffff\x01\x19\x01\x3d"+
+            "\x01\x0c\x03\uffff\x01\x3d\x01\x0c\x01\x3d\x01\x0c\x02\uffff"+
+            "\x10\x3d\x01\x29\x01\x28\x01\x3c\x01\x2a\x01\x2b\x01\x2c\x04"+
+            "\x2d\x02\x25\x01\x27\x03\x3d",
+            "\x18\x3d\x01\x2d\x0c\x3d\x01\x0c\x01\uffff\x02\x3d\x01\x0c"+
+            "\x03\uffff\x01\x3d\x01\x0c\x01\x3d\x01\x0c\x02\uffff\x10\x3d"+
+            "\x01\x29\x01\x28\x01\x3d\x01\x2a\x01\x2b\x01\x2c\x04\x2d\x02"+
+            "\x25\x01\x27\x03\x3d",
+            "\x18\x3d\x01\x2d\x0c\x3d\x01\x0c\x01\uffff\x02\x3d\x01\x0c"+
+            "\x03\uffff\x01\x3d\x01\x0c\x01\x3d\x01\x0c\x02\uffff\x10\x3d"+
+            "\x01\x29\x01\x28\x01\x3d\x01\x2a\x01\x2b\x01\x2c\x04\x2d\x02"+
+            "\x25\x01\x27\x03\x3d",
+            "\x18\x3d\x01\x2d\x0c\x3d\x01\x0c\x01\uffff\x02\x3d\x01\x0c"+
+            "\x03\uffff\x01\x3d\x01\x0c\x01\x3d\x01\x0c\x02\uffff\x10\x3d"+
+            "\x01\x29\x01\x28\x01\x3d\x01\x2a\x01\x2b\x01\x2c\x04\x2d\x02"+
+            "\x25\x01\x27\x03\x3d",
+            "\x18\x3d\x01\x2d\x0c\x3d\x01\x0c\x01\uffff\x02\x3d\x01\x0c"+
+            "\x03\uffff\x01\x3d\x01\x0c\x01\x3d\x01\x0c\x02\uffff\x10\x3d"+
+            "\x01\x29\x01\x28\x01\x3d\x01\x2a\x01\x2b\x01\x2c\x04\x2d\x02"+
+            "\x25\x01\x27\x03\x3d",
+            "\x25\x3d\x01\uffff\x01\x3d\x01\uffff\x01\x3d\x04\uffff\x01"+
+            "\x3d\x01\x0c\x04\uffff\x1a\x3d\x02\x3e\x04\x3d",
+            "\x25\x3d\x01\uffff\x01\x3d\x01\uffff\x01\x3d\x04\uffff\x01"+
+            "\x3d\x01\x0c\x04\uffff\x1a\x3d\x02\x3f\x04\x3d",
+            "\x01\x0c\x0c\uffff\x01\x0c\x03\uffff\x01\x18\x01\x3d\x03\uffff"+
             "\x03\x0c\x12\uffff\x02\x0c\x01\uffff\x0a\x0c",
-            "\x25\x35\x01\uffff\x01\x35\x01\uffff\x01\x35\x04\uffff\x01"+
-            "\x35\x01\x0c\x04\uffff\x1a\x35\x02\x40\x04\x35",
-            "\x25\x35\x03\uffff\x01\x35\x04\uffff\x01\x35\x01\x0c\x01\x35"+
-            "\x03\uffff\x1a\x35\x02\x41\x04\x35",
-            "\x25\x35\x03\uffff\x01\x35\x04\uffff\x01\x35\x01\x0c\x01\x35"+
-            "\x03\uffff\x1a\x35\x02\x42\x04\x35",
-            "\x25\x35\x03\uffff\x01\x35\x04\uffff\x01\x35\x01\x0c\x01\x35"+
-            "\x03\uffff\x1a\x35\x02\x43\x04\x35",
+            "\x25\x3d\x01\uffff\x01\x3d\x01\uffff\x01\x3d\x04\uffff\x01"+
+            "\x3d\x01\x0c\x04\uffff\x1a\x3d\x02\x40\x04\x3d",
+            "\x25\x3d\x01\uffff\x01\x3d\x01\uffff\x01\x3d\x04\uffff\x01"+
+            "\x3d\x01\x0c\x04\uffff\x20\x3d",
+            "\x25\x3d\x01\uffff\x01\x3d\x01\uffff\x01\x3d\x04\uffff\x01"+
+            "\x3d\x05\uffff\x1d\x3d\x01\x41\x02\x3d",
+            "\x25\x3d\x01\x0c\x01\x3d\x01\uffff\x01\x3d\x04\uffff\x01\x3d"+
+            "\x01\x0c\x01\uffff\x01\x0c\x02\uffff\x12\x3d\x01\x42\x0d\x3d",
+            "\x18\x3d\x01\x39\x0c\x3d\x01\x0c\x01\x43\x01\uffff\x01\x3d"+
+            "\x01\x0c\x03\uffff\x01\x3d\x01\x0c\x01\uffff\x01\x0c\x02\uffff"+
+            "\x10\x3d\x01\x35\x01\x34\x01\x44\x01\x36\x01\x37\x01\x38\x04"+
+            "\x39\x02\x32\x01\x33\x03\x3d",
+            "\x18\x3d\x01\x39\x0c\x3d\x01\x0c\x01\x43\x01\uffff\x01\x3d"+
+            "\x01\x0c\x03\uffff\x01\x3d\x01\x0c\x01\uffff\x01\x0c\x02\uffff"+
+            "\x10\x3d\x01\x35\x01\x34\x01\x3d\x01\x36\x01\x37\x01\x38\x04"+
+            "\x39\x02\x32\x01\x33\x03\x3d",
+            "\x18\x3d\x01\x39\x0c\x3d\x01\x0c\x01\x43\x01\uffff\x01\x3d"+
+            "\x01\x0c\x03\uffff\x01\x3d\x01\x0c\x01\uffff\x01\x0c\x02\uffff"+
+            "\x10\x3d\x01\x35\x01\x34\x01\x3d\x01\x36\x01\x37\x01\x38\x04"+
+            "\x39\x02\x32\x01\x33\x03\x3d",
+            "\x18\x3d\x01\x39\x0c\x3d\x01\x0c\x01\x43\x01\uffff\x01\x3d"+
+            "\x01\x0c\x03\uffff\x01\x3d\x01\x0c\x01\uffff\x01\x0c\x02\uffff"+
+            "\x10\x3d\x01\x35\x01\x34\x01\x3d\x01\x36\x01\x37\x01\x38\x04"+
+            "\x39\x02\x32\x01\x33\x03\x3d",
+            "\x18\x3d\x01\x39\x0c\x3d\x01\x0c\x01\x43\x01\uffff\x01\x3d"+
+            "\x01\x0c\x03\uffff\x01\x3d\x01\x0c\x01\uffff\x01\x0c\x02\uffff"+
+            "\x10\x3d\x01\x35\x01\x34\x01\x3d\x01\x36\x01\x37\x01\x38\x04"+
+            "\x39\x02\x32\x01\x33\x03\x3d",
+            "\x25\x3d\x02\uffff\x02\x3d\x04\uffff\x01\x3d\x01\x0c\x01\x3d"+
+            "\x03\uffff\x1a\x3d\x02\x45\x04\x3d",
+            "\x25\x3d\x02\uffff\x02\x3d\x04\uffff\x01\x3d\x01\x0c\x01\x3d"+
+            "\x03\uffff\x1a\x3d\x02\x46\x04\x3d",
+            "\x25\x3d\x02\uffff\x02\x3d\x04\uffff\x01\x3d\x01\x0c\x01\x3d"+
+            "\x03\uffff\x1a\x3d\x02\x47\x04\x3d",
             "",
-            "\x25\x35\x01\uffff\x01\x35\x01\uffff\x01\x35\x04\uffff\x01"+
-            "\x35\x01\x0c\x04\uffff\x20\x35",
-            "\x25\x35\x01\uffff\x01\x35\x01\uffff\x01\x35\x04\uffff\x01"+
-            "\x35\x05\uffff\x1d\x35\x01\x44\x02\x35",
-            "\x25\x35\x01\x0c\x01\x35\x01\uffff\x01\x35\x04\uffff\x01\x35"+
-            "\x01\x0c\x01\uffff\x01\x0c\x02\uffff\x12\x35\x01\x45\x0d\x35",
-            "\x18\x35\x01\x3d\x0c\x35\x01\x0c\x01\x46\x01\uffff\x01\x35"+
-            "\x01\x0c\x03\uffff\x01\x35\x01\x0c\x01\uffff\x01\x0c\x02\uffff"+
-            "\x10\x35\x01\x39\x01\x38\x01\x47\x01\x3a\x01\x3b\x01\x3c\x04"+
-            "\x3d\x02\x36\x01\x37\x03\x35",
-            "\x18\x35\x01\x3d\x0c\x35\x01\x0c\x01\x46\x01\uffff\x01\x35"+
-            "\x01\x0c\x03\uffff\x01\x35\x01\x0c\x01\uffff\x01\x0c\x02\uffff"+
-            "\x10\x35\x01\x39\x01\x38\x01\x35\x01\x3a\x01\x3b\x01\x3c\x04"+
-            "\x3d\x02\x36\x01\x37\x03\x35",
-            "\x18\x35\x01\x3d\x0c\x35\x01\x0c\x01\x46\x01\uffff\x01\x35"+
-            "\x01\x0c\x03\uffff\x01\x35\x01\x0c\x01\uffff\x01\x0c\x02\uffff"+
-            "\x10\x35\x01\x39\x01\x38\x01\x35\x01\x3a\x01\x3b\x01\x3c\x04"+
-            "\x3d\x02\x36\x01\x37\x03\x35",
-            "\x18\x35\x01\x3d\x0c\x35\x01\x0c\x01\x46\x01\uffff\x01\x35"+
-            "\x01\x0c\x03\uffff\x01\x35\x01\x0c\x01\uffff\x01\x0c\x02\uffff"+
-            "\x10\x35\x01\x39\x01\x38\x01\x35\x01\x3a\x01\x3b\x01\x3c\x04"+
-            "\x3d\x02\x36\x01\x37\x03\x35",
-            "\x18\x35\x01\x3d\x0c\x35\x01\x0c\x01\x46\x01\uffff\x01\x35"+
-            "\x01\x0c\x03\uffff\x01\x35\x01\x0c\x01\uffff\x01\x0c\x02\uffff"+
-            "\x10\x35\x01\x39\x01\x38\x01\x35\x01\x3a\x01\x3b\x01\x3c\x04"+
-            "\x3d\x02\x36\x01\x37\x03\x35",
-            "\x25\x35\x01\uffff\x01\x35\x01\uffff\x01\x35\x04\uffff\x01"+
-            "\x35\x01\x0c\x04\uffff\x20\x35",
-            "\x25\x35\x01\uffff\x01\x35\x01\uffff\x01\x35\x04\uffff\x01"+
-            "\x35\x01\x0c\x04\uffff\x20\x35",
-            "\x25\x35\x01\uffff\x01\x35\x01\uffff\x01\x35\x04\uffff\x01"+
-            "\x35\x01\x0c\x04\uffff\x20\x35",
-            "\x25\x35\x03\uffff\x01\x35\x04\uffff\x01\x35\x01\x0c\x01\x35"+
-            "\x03\uffff\x20\x35",
-            "\x25\x35\x03\uffff\x01\x35\x04\uffff\x01\x35\x01\x0c\x01\x35"+
-            "\x03\uffff\x20\x35",
-            "\x25\x35\x03\uffff\x01\x35\x04\uffff\x01\x35\x01\x0c\x01\x35"+
-            "\x03\uffff\x20\x35",
-            "\x25\x35\x01\uffff\x01\x35\x01\uffff\x01\x35\x04\uffff\x01"+
-            "\x35\x01\x0c\x04\uffff\x1a\x35\x02\x48\x04\x35",
-            "\x25\x35\x01\uffff\x01\x35\x01\uffff\x01\x35\x04\uffff\x01"+
-            "\x35\x01\x0c\x04\uffff\x1a\x35\x02\x49\x04\x35",
+            "\x25\x3d\x01\uffff\x01\x3d\x01\uffff\x01\x3d\x04\uffff\x01"+
+            "\x3d\x01\x0c\x04\uffff\x20\x3d",
+            "\x25\x3d\x01\uffff\x01\x3d\x01\uffff\x01\x3d\x04\uffff\x01"+
+            "\x3d\x01\x0c\x04\uffff\x20\x3d",
+            "\x25\x3d\x01\uffff\x01\x3d\x01\uffff\x01\x3d\x04\uffff\x01"+
+            "\x3d\x01\x0c\x04\uffff\x20\x3d",
+            "\x25\x3d\x01\uffff\x01\x3d\x01\uffff\x01\x3d\x04\uffff\x01"+
+            "\x3d\x01\x0c\x04\uffff\x1a\x3d\x02\x48\x04\x3d",
+            "\x25\x3d\x01\uffff\x01\x3d\x01\uffff\x01\x3d\x04\uffff\x01"+
+            "\x3d\x01\x0c\x04\uffff\x1a\x3d\x02\x49\x04\x3d",
             "\x01\x0c\x0c\uffff\x01\x0c\x03\uffff\x01\x0c\x04\uffff\x01"+
-            "\x0c\x01\x35\x01\x0c\x12\uffff\x02\x0c\x01\uffff\x0a\x0c",
-            "\x25\x35\x01\uffff\x01\x35\x01\uffff\x01\x35\x04\uffff\x01"+
-            "\x35\x01\x0c\x04\uffff\x1a\x35\x02\x4a\x04\x35",
-            "\x25\x35\x01\uffff\x01\x35\x01\uffff\x01\x35\x04\uffff\x01"+
-            "\x35\x01\x0c\x04\uffff\x20\x35",
-            "\x25\x35\x01\uffff\x01\x35\x01\uffff\x01\x35\x04\uffff\x01"+
-            "\x35\x01\x0c\x04\uffff\x20\x35",
-            "\x25\x35\x01\uffff\x01\x35\x01\uffff\x01\x35\x04\uffff\x01"+
-            "\x35\x01\x0c\x04\uffff\x20\x35"
+            "\x0c\x01\x3d\x01\x0c\x12\uffff\x02\x0c\x01\uffff\x0a\x0c",
+            "\x25\x3d\x01\uffff\x01\x3d\x01\uffff\x01\x3d\x04\uffff\x01"+
+            "\x3d\x01\x0c\x04\uffff\x1a\x3d\x02\x4a\x04\x3d",
+            "\x25\x3d\x02\uffff\x02\x3d\x04\uffff\x01\x3d\x01\x0c\x01\x3d"+
+            "\x03\uffff\x20\x3d",
+            "\x25\x3d\x02\uffff\x02\x3d\x04\uffff\x01\x3d\x01\x0c\x01\x3d"+
+            "\x03\uffff\x20\x3d",
+            "\x25\x3d\x02\uffff\x02\x3d\x04\uffff\x01\x3d\x01\x0c\x01\x3d"+
+            "\x03\uffff\x20\x3d",
+            "\x25\x3d\x01\uffff\x01\x3d\x01\uffff\x01\x3d\x04\uffff\x01"+
+            "\x3d\x01\x0c\x04\uffff\x20\x3d",
+            "\x25\x3d\x01\uffff\x01\x3d\x01\uffff\x01\x3d\x04\uffff\x01"+
+            "\x3d\x01\x0c\x04\uffff\x20\x3d",
+            "\x25\x3d\x01\uffff\x01\x3d\x01\uffff\x01\x3d\x04\uffff\x01"+
+            "\x3d\x01\x0c\x04\uffff\x20\x3d"
     };
 
     static readonly short[] DFA41_eot = DFA.UnpackEncodedString(DFA41_eotS);
@@ -10446,15 +10603,15 @@ public partial class simpletikzParser : Parser
     const string DFA54_eofS =
         "\x0a\uffff";
     const string DFA54_minS =
-        "\x01\x1c\x01\x04\x01\uffff\x01\x04\x01\x00\x02\x04\x01\uffff\x02"+
+        "\x01\x1c\x01\x04\x01\uffff\x02\x04\x01\x00\x01\x04\x01\uffff\x02"+
         "\x04";
     const string DFA54_maxS =
-        "\x01\x53\x01\x56\x01\uffff\x01\x56\x01\x00\x02\x56\x01\uffff\x02"+
+        "\x01\x53\x01\x56\x01\uffff\x02\x56\x01\x00\x01\x56\x01\uffff\x02"+
         "\x56";
     const string DFA54_acceptS =
         "\x02\uffff\x01\x02\x04\uffff\x01\x01\x02\uffff";
     const string DFA54_specialS =
-        "\x04\uffff\x01\x00\x05\uffff}>";
+        "\x05\uffff\x01\x00\x04\uffff}>";
     static readonly string[] DFA54_transitionS = {
             "\x02\x02\x0b\uffff\x02\x02\x02\uffff\x01\x02\x04\uffff\x01"+
             "\x01\x02\x02\x01\uffff\x01\x02\x01\uffff\x01\x02\x0e\uffff\x02"+
@@ -10462,18 +10619,18 @@ public partial class simpletikzParser : Parser
             "\x1a\x02\x02\x03\x0a\x02\x02\uffff\x01\x02\x04\uffff\x04\x02"+
             "\x02\uffff\x20\x02",
             "",
-            "\x25\x02\x03\uffff\x03\x02\x02\uffff\x01\x02\x01\uffff\x01"+
-            "\x04\x03\uffff\x06\x05\x09\x02\x01\x06\x10\x02",
+            "\x25\x02\x02\uffff\x04\x02\x02\uffff\x01\x02\x01\uffff\x01"+
+            "\x05\x03\uffff\x06\x04\x09\x02\x01\x06\x10\x02",
+            "\x25\x02\x02\uffff\x04\x02\x02\uffff\x01\x02\x01\uffff\x01"+
+            "\x05\x03\uffff\x0f\x02\x01\x06\x10\x02",
             "\x01\uffff",
-            "\x25\x02\x03\uffff\x03\x02\x02\uffff\x01\x02\x01\uffff\x01"+
-            "\x04\x03\uffff\x0f\x02\x01\x06\x10\x02",
-            "\x1a\x02\x02\x08\x09\x02\x03\uffff\x03\x02\x02\uffff\x01\x02"+
+            "\x1a\x02\x02\x08\x09\x02\x02\uffff\x04\x02\x02\uffff\x01\x02"+
             "\x01\uffff\x01\x02\x03\uffff\x20\x02",
             "",
-            "\x25\x02\x03\uffff\x03\x02\x02\uffff\x01\x02\x01\uffff\x01"+
-            "\x04\x03\uffff\x06\x09\x1a\x02",
-            "\x25\x02\x03\uffff\x03\x02\x02\uffff\x01\x02\x01\uffff\x01"+
-            "\x04\x03\uffff\x20\x02"
+            "\x25\x02\x02\uffff\x04\x02\x02\uffff\x01\x02\x01\uffff\x01"+
+            "\x05\x03\uffff\x06\x09\x1a\x02",
+            "\x25\x02\x02\uffff\x04\x02\x02\uffff\x01\x02\x01\uffff\x01"+
+            "\x05\x03\uffff\x20\x02"
     };
 
     static readonly short[] DFA54_eot = DFA.UnpackEncodedString(DFA54_eotS);
@@ -10515,10 +10672,10 @@ public partial class simpletikzParser : Parser
         switch ( s )
         {
                	case 0 : 
-                   	int LA54_4 = input.LA(1);
+                   	int LA54_5 = input.LA(1);
 
                    	 
-                   	int index54_4 = input.Index();
+                   	int index54_5 = input.Index();
                    	input.Rewind();
                    	s = -1;
                    	if ( (synpred7_simpletikz()) ) { s = 7; }
@@ -10526,7 +10683,7 @@ public partial class simpletikzParser : Parser
                    	else if ( (true) ) { s = 2; }
 
                    	 
-                   	input.Seek(index54_4);
+                   	input.Seek(index54_5);
                    	if ( s >= 0 ) return s;
                    	break;
         }
@@ -10555,26 +10712,26 @@ public partial class simpletikzParser : Parser
             "\x19\x02\x01\x04\x02\x03\x0a\x02\x02\uffff\x01\x02\x04\uffff"+
             "\x04\x02\x02\uffff\x20\x02",
             "",
-            "\x25\x02\x03\uffff\x02\x02\x01\x06\x02\uffff\x01\x02\x01\uffff"+
+            "\x25\x02\x02\uffff\x03\x02\x01\x06\x02\uffff\x01\x02\x01\uffff"+
             "\x01\x02\x03\uffff\x06\x05\x1a\x02",
-            "\x25\x02\x03\uffff\x02\x02\x01\x07\x02\uffff\x01\x02\x01\uffff"+
+            "\x25\x02\x02\uffff\x03\x02\x01\x07\x02\uffff\x01\x02\x01\uffff"+
             "\x01\x02\x03\uffff\x20\x02",
-            "\x25\x02\x03\uffff\x02\x02\x01\x06\x02\uffff\x01\x02\x01\uffff"+
+            "\x25\x02\x02\uffff\x03\x02\x01\x06\x02\uffff\x01\x02\x01\uffff"+
             "\x01\x02\x03\uffff\x20\x02",
             "\x19\x02\x01\x09\x02\x08\x0a\x02\x02\uffff\x01\x02\x04\uffff"+
             "\x01\x02\x05\uffff\x20\x02",
             "\x19\x02\x01\x09\x02\x0a\x0a\x02\x02\uffff\x01\x02\x04\uffff"+
             "\x01\x02\x05\uffff\x20\x02",
-            "\x25\x02\x03\uffff\x01\x02\x01\uffff\x01\x0c\x02\uffff\x01"+
+            "\x25\x02\x02\uffff\x02\x02\x01\uffff\x01\x0c\x02\uffff\x01"+
             "\x02\x01\uffff\x01\x02\x03\uffff\x06\x0b\x1a\x02",
-            "\x25\x02\x03\uffff\x01\x02\x01\uffff\x01\x0c\x02\uffff\x01"+
+            "\x25\x02\x02\uffff\x02\x02\x01\uffff\x01\x0c\x02\uffff\x01"+
             "\x02\x01\uffff\x01\x02\x03\uffff\x20\x02",
-            "\x25\x02\x03\uffff\x01\x02\x01\uffff\x01\x0c\x02\uffff\x01"+
+            "\x25\x02\x02\uffff\x02\x02\x01\uffff\x01\x0c\x02\uffff\x01"+
             "\x02\x01\uffff\x01\x02\x03\uffff\x06\x0d\x1a\x02",
-            "\x25\x02\x03\uffff\x01\x02\x01\uffff\x01\x0c\x02\uffff\x01"+
+            "\x25\x02\x02\uffff\x02\x02\x01\uffff\x01\x0c\x02\uffff\x01"+
             "\x02\x01\uffff\x01\x02\x03\uffff\x20\x02",
             "",
-            "\x25\x02\x03\uffff\x01\x02\x01\uffff\x01\x0c\x02\uffff\x01"+
+            "\x25\x02\x02\uffff\x02\x02\x01\uffff\x01\x0c\x02\uffff\x01"+
             "\x02\x01\uffff\x01\x02\x03\uffff\x20\x02"
     };
 
@@ -10628,25 +10785,25 @@ public partial class simpletikzParser : Parser
             "\x1a\x04\x02\x03\x09\x04\x01\x05\x02\uffff\x01\x04\x04\uffff"+
             "\x01\x04\x05\uffff\x20\x04",
             "\x01\x06",
-            "\x25\x04\x03\uffff\x01\x04\x02\x09\x02\uffff\x01\x04\x01\uffff"+
-            "\x01\x07\x03\uffff\x06\x08\x1a\x04",
-            "\x25\x04\x03\uffff\x01\x04\x02\x05\x02\uffff\x01\x04\x01\uffff"+
-            "\x01\x07\x03\uffff\x20\x04",
+            "\x25\x04\x02\uffff\x01\x05\x01\x04\x02\x09\x02\uffff\x01\x04"+
+            "\x01\uffff\x01\x07\x03\uffff\x06\x08\x1a\x04",
+            "\x25\x04\x02\uffff\x01\x05\x01\x04\x02\x05\x02\uffff\x01\x04"+
+            "\x01\uffff\x01\x07\x03\uffff\x20\x04",
             "",
             "\x1a\x05\x02\x0a\x0a\x05\x02\uffff\x01\x05\x04\uffff\x01\x05"+
             "\x05\uffff\x20\x05",
             "",
-            "\x25\x04\x03\uffff\x01\x04\x02\x09\x02\uffff\x01\x04\x01\uffff"+
-            "\x01\x07\x03\uffff\x20\x04",
+            "\x25\x04\x02\uffff\x01\x05\x01\x04\x02\x09\x02\uffff\x01\x04"+
+            "\x01\uffff\x01\x07\x03\uffff\x20\x04",
             "\x1a\x05\x02\x0b\x0a\x05\x02\uffff\x01\x05\x04\uffff\x01\x05"+
             "\x05\uffff\x20\x05",
-            "\x25\x05\x03\uffff\x01\x05\x02\x09\x02\uffff\x01\x05\x05\uffff"+
+            "\x25\x05\x02\uffff\x02\x05\x02\x09\x02\uffff\x01\x05\x05\uffff"+
             "\x06\x0c\x1a\x05",
-            "\x25\x05\x03\uffff\x01\x05\x04\uffff\x01\x05\x01\uffff\x01"+
+            "\x25\x05\x02\uffff\x02\x05\x04\uffff\x01\x05\x01\uffff\x01"+
             "\x0e\x03\uffff\x06\x0d\x1a\x05",
-            "\x25\x05\x03\uffff\x01\x05\x02\x09\x02\uffff\x01\x05\x05\uffff"+
+            "\x25\x05\x02\uffff\x02\x05\x02\x09\x02\uffff\x01\x05\x05\uffff"+
             "\x20\x05",
-            "\x25\x05\x03\uffff\x01\x05\x04\uffff\x01\x05\x01\uffff\x01"+
+            "\x25\x05\x02\uffff\x02\x05\x04\uffff\x01\x05\x01\uffff\x01"+
             "\x0e\x03\uffff\x20\x05",
             ""
     };
@@ -10678,6 +10835,59 @@ public partial class simpletikzParser : Parser
         override public string Description
         {
             get { return "415:1: coord : ( nodename -> ^( IM_COORD nodename ) | ( ( coord_modifier )? '(' numberunit coord_sep numberunit ')' ) -> ^( IM_COORD ( coord_modifier )? ( numberunit )+ coord_sep ) | ( ( coord_modifier )? '(' coord_part coord_sep coord_part ')' ) -> ^( IM_COORD ( coord_modifier )? ( coord_part )+ coord_sep ) );"; }
+        }
+
+    }
+
+    const string DFA63_eotS =
+        "\x05\uffff";
+    const string DFA63_eofS =
+        "\x05\uffff";
+    const string DFA63_minS =
+        "\x02\x04\x03\uffff";
+    const string DFA63_maxS =
+        "\x02\x56\x03\uffff";
+    const string DFA63_acceptS =
+        "\x02\uffff\x01\x02\x01\x03\x01\x01";
+    const string DFA63_specialS =
+        "\x05\uffff}>";
+    static readonly string[] DFA63_transitionS = {
+            "\x25\x01\x01\x02\x02\uffff\x01\x01\x04\uffff\x01\x01\x05\uffff"+
+            "\x20\x01",
+            "\x25\x01\x02\uffff\x01\x03\x01\x01\x02\x04\x02\uffff\x01\x01"+
+            "\x01\uffff\x01\x04\x03\uffff\x20\x01",
+            "",
+            "",
+            ""
+    };
+
+    static readonly short[] DFA63_eot = DFA.UnpackEncodedString(DFA63_eotS);
+    static readonly short[] DFA63_eof = DFA.UnpackEncodedString(DFA63_eofS);
+    static readonly char[] DFA63_min = DFA.UnpackEncodedStringToUnsignedChars(DFA63_minS);
+    static readonly char[] DFA63_max = DFA.UnpackEncodedStringToUnsignedChars(DFA63_maxS);
+    static readonly short[] DFA63_accept = DFA.UnpackEncodedString(DFA63_acceptS);
+    static readonly short[] DFA63_special = DFA.UnpackEncodedString(DFA63_specialS);
+    static readonly short[][] DFA63_transition = DFA.UnpackEncodedStringArray(DFA63_transitionS);
+
+    protected class DFA63 : DFA
+    {
+        public DFA63(BaseRecognizer recognizer)
+        {
+            this.recognizer = recognizer;
+            this.decisionNumber = 63;
+            this.eot = DFA63_eot;
+            this.eof = DFA63_eof;
+            this.min = DFA63_min;
+            this.max = DFA63_max;
+            this.accept = DFA63_accept;
+            this.special = DFA63_special;
+            this.transition = DFA63_transition;
+
+        }
+
+        override public string Description
+        {
+            get { return "427:1: coord_part : ( idd -> ^( IM_DONTCARE idd ) | '{' idd '}' -> ^( IM_DONTCARE '{' idd '}' ) | ( idd '=' numberunit ( ',' )? )+ -> ^( IM_DONTCARE ( idd '=' numberunit ( ',' )? )+ ) );"; }
         }
 
     }
@@ -10903,45 +11113,49 @@ public partial class simpletikzParser : Parser
     public static readonly BitSet FOLLOW_coord_sep_in_coord2297 = new BitSet(new ulong[]{0xFF8213FFFFFFFFF0UL,0x00000000007FFFFFUL});
     public static readonly BitSet FOLLOW_coord_part_in_coord2299 = new BitSet(new ulong[]{0x0008000000000000UL});
     public static readonly BitSet FOLLOW_51_in_coord2301 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_idd_in_coord_part2329 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_41_in_coord_part2344 = new BitSet(new ulong[]{0xFF8211FFFFFFFFF0UL,0x00000000007FFFFFUL});
-    public static readonly BitSet FOLLOW_idd_in_coord_part2346 = new BitSet(new ulong[]{0x0000040000000000UL});
-    public static readonly BitSet FOLLOW_42_in_coord_part2348 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_set_in_coord_sep2370 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_idd_in_coord_part2334 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_41_in_coord_part2349 = new BitSet(new ulong[]{0xFF8211FFFFFFFFF0UL,0x00000000007FFFFFUL});
+    public static readonly BitSet FOLLOW_idd_in_coord_part2351 = new BitSet(new ulong[]{0x0000040000000000UL});
+    public static readonly BitSet FOLLOW_42_in_coord_part2353 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_idd_in_coord_part2371 = new BitSet(new ulong[]{0x0000080000000000UL});
+    public static readonly BitSet FOLLOW_43_in_coord_part2373 = new BitSet(new ulong[]{0x00000000C0000000UL});
+    public static readonly BitSet FOLLOW_numberunit_in_coord_part2375 = new BitSet(new ulong[]{0xFF8231FFFFFFFFF2UL,0x00000000007FFFFFUL});
+    public static readonly BitSet FOLLOW_45_in_coord_part2377 = new BitSet(new ulong[]{0xFF8211FFFFFFFFF2UL,0x00000000007FFFFFUL});
+    public static readonly BitSet FOLLOW_set_in_coord_sep2409 = new BitSet(new ulong[]{0x0000000000000002UL});
     public static readonly BitSet FOLLOW_set_in_edgeop0 = new BitSet(new ulong[]{0x0000000000000002UL});
     public static readonly BitSet FOLLOW_set_in_coord_modifier0 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_52_in_squarebr_start2444 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_53_in_squarebr_end2462 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_54_in_semicolon_end2481 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_41_in_roundbr_start2499 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_42_in_roundbr_end2517 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_83_in_controls_start2535 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000100000UL});
-    public static readonly BitSet FOLLOW_84_in_controls_start2537 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_83_in_controls_end2555 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_40_in_tikz_set_start2573 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_41_in_tikz_set_start2575 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_38_in_tikzpicture_start2594 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_41_in_tikzpicture_start2596 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000200000UL});
-    public static readonly BitSet FOLLOW_85_in_tikzpicture_start2598 = new BitSet(new ulong[]{0x0000040000000000UL});
-    public static readonly BitSet FOLLOW_42_in_tikzpicture_start2600 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_61_in_tikzpicture_end2618 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_41_in_tikzpicture_end2620 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000200000UL});
-    public static readonly BitSet FOLLOW_85_in_tikzpicture_end2622 = new BitSet(new ulong[]{0x0000040000000000UL});
-    public static readonly BitSet FOLLOW_42_in_tikzpicture_end2624 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_38_in_tikzscope_start2642 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_41_in_tikzscope_start2644 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000400000UL});
-    public static readonly BitSet FOLLOW_86_in_tikzscope_start2646 = new BitSet(new ulong[]{0x0000040000000000UL});
-    public static readonly BitSet FOLLOW_42_in_tikzscope_start2648 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_61_in_tikzscope_end2666 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_41_in_tikzscope_end2668 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000400000UL});
-    public static readonly BitSet FOLLOW_86_in_tikzscope_end2670 = new BitSet(new ulong[]{0x0000040000000000UL});
-    public static readonly BitSet FOLLOW_42_in_tikzscope_end2672 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_path_start_tag_in_path_start2691 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_node_start_tag_in_node_start2709 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_matrix_start_tag_in_matrix_start2727 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_62_in_node_start_tag2745 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_63_in_matrix_start_tag2755 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_64_in_coordinate_start2765 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_52_in_squarebr_start2483 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_53_in_squarebr_end2501 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_54_in_semicolon_end2520 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_41_in_roundbr_start2538 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_42_in_roundbr_end2556 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_83_in_controls_start2574 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000100000UL});
+    public static readonly BitSet FOLLOW_84_in_controls_start2576 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_83_in_controls_end2594 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_40_in_tikz_set_start2612 = new BitSet(new ulong[]{0x0000020000000000UL});
+    public static readonly BitSet FOLLOW_41_in_tikz_set_start2614 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_38_in_tikzpicture_start2633 = new BitSet(new ulong[]{0x0000020000000000UL});
+    public static readonly BitSet FOLLOW_41_in_tikzpicture_start2635 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000200000UL});
+    public static readonly BitSet FOLLOW_85_in_tikzpicture_start2637 = new BitSet(new ulong[]{0x0000040000000000UL});
+    public static readonly BitSet FOLLOW_42_in_tikzpicture_start2639 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_61_in_tikzpicture_end2657 = new BitSet(new ulong[]{0x0000020000000000UL});
+    public static readonly BitSet FOLLOW_41_in_tikzpicture_end2659 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000200000UL});
+    public static readonly BitSet FOLLOW_85_in_tikzpicture_end2661 = new BitSet(new ulong[]{0x0000040000000000UL});
+    public static readonly BitSet FOLLOW_42_in_tikzpicture_end2663 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_38_in_tikzscope_start2681 = new BitSet(new ulong[]{0x0000020000000000UL});
+    public static readonly BitSet FOLLOW_41_in_tikzscope_start2683 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000400000UL});
+    public static readonly BitSet FOLLOW_86_in_tikzscope_start2685 = new BitSet(new ulong[]{0x0000040000000000UL});
+    public static readonly BitSet FOLLOW_42_in_tikzscope_start2687 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_61_in_tikzscope_end2705 = new BitSet(new ulong[]{0x0000020000000000UL});
+    public static readonly BitSet FOLLOW_41_in_tikzscope_end2707 = new BitSet(new ulong[]{0x0000000000000000UL,0x0000000000400000UL});
+    public static readonly BitSet FOLLOW_86_in_tikzscope_end2709 = new BitSet(new ulong[]{0x0000040000000000UL});
+    public static readonly BitSet FOLLOW_42_in_tikzscope_end2711 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_path_start_tag_in_path_start2730 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_node_start_tag_in_node_start2748 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_matrix_start_tag_in_matrix_start2766 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_62_in_node_start_tag2784 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_63_in_matrix_start_tag2794 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_64_in_coordinate_start2804 = new BitSet(new ulong[]{0x0000000000000002UL});
     public static readonly BitSet FOLLOW_set_in_path_start_tag0 = new BitSet(new ulong[]{0x0000000000000002UL});
     public static readonly BitSet FOLLOW_tikzcoordinate_core3_in_synpred1_simpletikz1679 = new BitSet(new ulong[]{0x0000000000000002UL});
     public static readonly BitSet FOLLOW_tikzcoordinate_core2_in_synpred2_simpletikz1698 = new BitSet(new ulong[]{0x0000000000000002UL});
