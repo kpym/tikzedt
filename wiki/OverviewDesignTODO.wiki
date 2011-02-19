@@ -32,6 +32,7 @@
   * Support \foreach (..at least ignor properly)
   * check math expresions in arc are handled correctly
   * arc followed by bezier handled correctly??
+  * better error recovery: if error on \path is detected-> just drop this path instead of stopping parsing of whole file.
 
 === Tikz ParseTree ===
   * check again whether missing nodenames are treated right
