@@ -38,6 +38,7 @@ using System.Text.RegularExpressions;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using TikzEdt.Parser;
+using FileDownloaderApp;
 
 namespace TikzEdt
 {
@@ -56,6 +57,7 @@ namespace TikzEdt
         public static RoutedCommand SavePdfAsCommand = new RoutedCommand();
         public static RoutedCommand ShowPdfCommand = new RoutedCommand();
         public static RoutedCommand ExportFileCommand = new RoutedCommand();
+        public static RoutedCommand OpenPgfManualCommand = new RoutedCommand();
         
 
         System.ComponentModel.BackgroundWorker AsyncParser = new System.ComponentModel.BackgroundWorker();
@@ -211,8 +213,9 @@ namespace TikzEdt
             CommandBinding SavePdfCommandBinding = new CommandBinding(SavePdfCommand, SavePdfHandler, AlwaysTrue);
             CommandBinding SavePdfAsCommandBinding = new CommandBinding(SavePdfAsCommand, SavePdfAsHandler, AlwaysTrue);
             CommandBinding ShowPdfCommandBinding = new CommandBinding(ShowPdfCommand, ShowPdfHandler, AlwaysTrue);
-            CommandBinding ExportFileCommandBinding = new CommandBinding(ExportFileCommand, ExportFileHandler, AlwaysTrue); 
-
+            CommandBinding ExportFileCommandBinding = new CommandBinding(ExportFileCommand, ExportFileHandler, AlwaysTrue);
+            CommandBinding OpenPgfManualBinding = new CommandBinding(OpenPgfManualCommand, OpenPgfManualHandler, AlwaysTrue); 
+            
             pdfOverlay1.Rasterizer = rasterControl1;
             EnsureFindDialogExists();
 
@@ -2038,6 +2041,52 @@ namespace TikzEdt
             AddStatusLine("Preview PDF file saved as " + PdfFilePath);
             return PdfFilePath;
         }
+
+        private FileDownloader downloader;
+        private void OpenPgfManualHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            String pgfmanualurl = @"http://www.ctan.org/tex-archive/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf";
+            
+            //open file if it exists and downloader is not busy downloading it (then file is not complete)
+            if (File.Exists(Helper.GetAppdataPath() + "\\" + "pgfmanual.pdf")
+                && (downloader==null || (downloader != null && !downloader.IsBusy && downloader.CurrentFile.Path == pgfmanualurl)))
+                System.Diagnostics.Process.Start(Helper.GetAppdataPath() + "\\" + "pgfmanual.pdf");
+            else
+            {
+                // Creating a new instance of a FileDownloader
+                if (downloader == null)
+                {
+                    downloader = new FileDownloader();
+                    downloader.LocalDirectory = Helper.GetAppdataPath();
+                }
+
+                //if downloader is downloading file show status.
+                if (downloader.IsBusy)
+                {
+                    String msg = String.Format("Downloaded {0} of {1} ({2}%)",
+                           FileDownloader.FormatSizeBinary(downloader.CurrentFileProgress),
+                           FileDownloader.FormatSizeBinary(downloader.CurrentFileSize),
+                           downloader.CurrentFilePercentage()) + String.Format(" - {0}/s",
+                           FileDownloader.FormatSizeBinary(downloader.DownloadSpeed));
+                    if (MessageBoxResult.Cancel == MessageBox.Show(msg + Environment.NewLine + "Press cancel to abort download.", "Download in progress", MessageBoxButton.OKCancel, MessageBoxImage.Information, MessageBoxResult.OK))
+                        downloader.Stop();
+                }
+                //else ask user to download file
+                else
+                {
+                    FileDownloader.FileInfo loadfile = new FileDownloader.FileInfo(pgfmanualurl);
+            
+                    String msg = "Pdf manual not found. Do you want to download it now?";
+                    if (MessageBoxResult.Yes == MessageBox.Show(msg, "Start download?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes))
+                    {
+                        if (!downloader.Files.Contains(loadfile))
+                            downloader.Files.Add(loadfile);
+                        downloader.Start();
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Displays an Export As dialog and, if successful, exports the current tikzpicture 
         /// as either bmp, jpeg, tiff or png.

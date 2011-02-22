@@ -133,6 +133,9 @@
         <CommandBinding Command="{x:Static custom:MainWindow.ExportFileCommand}" 
                     Executed="ExportFileHandler" 
                     CanExecute="AlwaysTrue" />
+        <CommandBinding Command="{x:Static custom:MainWindow.OpenPgfManualCommand}" 
+                    Executed="OpenPgfManualHandler" 
+                    CanExecute="AlwaysTrue" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="{x:Static custom:MainWindow.CommentCommand}" Key="D" Modifiers="Ctrl"/>
@@ -143,6 +146,8 @@
         <KeyBinding Command="{x:Static custom:MainWindow.CompileCommand}" Key="F5"/>
         <KeyBinding Command="{x:Static custom:MainWindow.ShowPdfCommand}" Key="F6"/>
         <KeyBinding Command="{x:Static custom:MainWindow.SavePdfCommand}" Key="S" Modifiers="Ctrl+Shift"/>
+        <KeyBinding Command="{x:Static custom:MainWindow.OpenPgfManualCommand}" Key="F2"/>
+    
     </Window.InputBindings>
     <Grid>
             <Grid.RowDefinitions>
@@ -211,6 +216,7 @@
             </MenuItem>
             <MenuItem Header="?">
                 <MenuItem Header="Help..." Command="ApplicationCommands.Help"/>
+                <MenuItem Header="Open PGF manual..." Command="{x:Static custom:MainWindow.OpenPgfManualCommand}" InputGestureText="F2"/>
                 <MenuItem Header="About..." Click="AboutClick"/>
             </MenuItem>
         </Menu>
@@ -823,7 +829,7 @@
                 <TextBlock Name="textCompileInfo" Width="Auto"/>
             </StatusBarItem>
             <StatusBarItem>
-                <ProgressBar Name="progressCompile" Visibility="Collapsed" Width="80" Height="10"/>
+                <ProgressBar Name="progressCompile" Visibility="Collapsed" Width="80" Height="10" IsIndeterminate="False" />
             </StatusBarItem>
             
             <StatusBarItem Name="CoordinateStatusBarItem" Content="(0,0)" DockPanel.Dock="Right" HorizontalAlignment="Right" />
