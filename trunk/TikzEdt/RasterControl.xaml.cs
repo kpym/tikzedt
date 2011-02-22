@@ -297,7 +297,9 @@ namespace TikzEdt
                 Math.Max(Math.Abs(p2.X), Math.Max(Math.Abs(p2.Y),
                 Math.Max(Math.Abs(p3.X), Math.Max(Math.Abs(p3.Y),
                 Math.Max(Math.Abs(p4.X), Math.Abs(p4.Y))))))));
-            return Convert.ToInt32(2 * maxcoord / GridWidth);
+            if (maxcoord > 0) //if scale=0 maxcoord==NaN just return 0 then.
+                return Convert.ToInt32(2 * maxcoord / GridWidth);
+            return 0;
         }
         /*GeometryGroup DrawRasterGeometry(int rasterwidth)
         {
