@@ -20,6 +20,7 @@ namespace TikzEdt
     {
         // point where the rectangle originates, in screen coordinates
         Point origin;
+        OverlayShape originRef = null;  // the reference to the coordinate at origin... if there is one.
 
         /// <summary>
         /// If this flag is set, the first coordinate is bottom left, the second is top right.
@@ -55,7 +56,12 @@ namespace TikzEdt
             // initiate drawing process
             Point mousep = overlay.Rasterizer.RasterizePixel(p);
             origin = new Point(mousep.X, overlay.Height - mousep.Y);
-            
+
+            if (IsReferenceable(item))
+                originRef = item;
+            else
+                originRef = null;
+
             Canvas.SetLeft(PreviewRect, origin.X);
             Canvas.SetTop(PreviewRect, origin.Y);
             PreviewRect.Width = PreviewRect.Height = 0;
@@ -108,8 +114,27 @@ namespace TikzEdt
                     curAddTo.AddChild(new Parser.Tikz_Something(codeToInsert));
                     curAddTo.AddChild(tc2);
 
-                    tc1.SetAbsPos(firstpoint);
-                    tc2.SetAbsPos(secondpoint);
+                    if (originRef == null)
+                    {
+                        tc1.SetAbsPos(firstpoint);
+                    }
+                    else
+                    {
+                        Tikz_Node tn = MakeReferenceableNode((originRef as OverlayNode).tikzitem);
+                        tc1.type = Tikz_CoordType.Named;
+                        tc1.nameref = tn.name;
+                    }
+
+                    object hit = overlay.canvas.InputHitTest(e.GetPosition(overlay.canvas));
+                    if ((hit is OverlayNode) && IsReferenceable(hit as OverlayNode))
+                    {
+                        Tikz_Node tn = MakeReferenceableNode((hit as OverlayNode).tikzitem);
+                        tc2.type = Tikz_CoordType.Named;
+                        tc2.nameref = tn.name;
+                    } else
+                    {            
+                        tc2.SetAbsPos(secondpoint);
+                    }
                     
                     overlay.AddToDisplayTree(tc1);
                     overlay.AddToDisplayTree(tc2);
@@ -180,6 +205,7 @@ namespace TikzEdt
     {
         // point where the rectangle originates, in screen coordinates
         Point origin;
+        OverlayShape originRef = null;  // the reference to the coordinate at origin... if there is one.
 
         // the rectangle to be shown on drawing
         Ellipse PreviewEllipse = new Ellipse();
@@ -208,6 +234,10 @@ namespace TikzEdt
             Point mousep = overlay.Rasterizer.RasterizePixel(p);
             origin = new Point(mousep.X, overlay.Height - mousep.Y);
 
+            if (IsReferenceable(item))
+                originRef = item;
+            else
+                originRef = null;
 
             Canvas.SetLeft(PreviewEllipse, origin.X);
             Canvas.SetTop(PreviewEllipse, origin.Y);
@@ -268,8 +298,17 @@ namespace TikzEdt
                     else
                         curAddTo.AddChild(new Parser.Tikz_Something(" ellipse (" + width + " and " + height + ")"));
 
-                    tc1.SetAbsPos(center);
-
+                    if (originRef == null)
+                    {
+                        tc1.SetAbsPos(center);
+                    }
+                    else
+                    {
+                        Tikz_Node tn = MakeReferenceableNode((originRef as OverlayNode).tikzitem);
+                        tc1.type = Tikz_CoordType.Named;
+                        tc1.nameref = tn.name;
+                    }
+                    
                     overlay.AddToDisplayTree(tc1);
 
                     curAddTo.UpdateText();
