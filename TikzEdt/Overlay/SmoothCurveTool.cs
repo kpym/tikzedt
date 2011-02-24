@@ -112,9 +112,17 @@ namespace TikzEdt
                     // create new coordinate
                     Parser.Tikz_Coord tc = new Parser.Tikz_Coord();
                     curAddTo.AddChild(tc);
-
-                    // do it here since the coordinate calculation needs the parents' coord. transform
-                    tc.SetAbsPos(new Point(p.X, p.Y)); //hack
+                    if (item is OverlayNode && IsReferenceable(item))
+                    {
+                        Tikz_Node tn = MakeReferenceableNode((item as OverlayNode).tikzitem);
+                        tc.type = Tikz_CoordType.Named;
+                        tc.nameref = tn.name;
+                    }
+                    else
+                    {
+                        // do it here since the coordinate calculation needs the parents' coord. transform
+                        tc.SetAbsPos(new Point(p.X, p.Y)); 
+                    }
 
                     //tn.UpdateText();
                     curAddTo.UpdateText();

@@ -170,13 +170,20 @@ namespace TikzEdt
                         curAddTo.AddChild(new Parser.Tikz_Something(" -- "));
                     }
 
-                    // create new coordinate
-                    Parser.Tikz_Coord tc = new Parser.Tikz_Coord();
+                    // create new coordinate. If some node was clicked, set a reference to that node. Otherwise, just make new coordinates
+                    Tikz_Coord tc = new Tikz_Coord();
                     curAddTo.AddChild(tc);
-
-                    // do it here since the coordinate calculation needs the parents' coord. transform
-                    tc.SetAbsPos(new Point(p.X, p.Y)); //hack
-
+                    if (item is OverlayNode && IsReferenceable(item))
+                    {
+                        Tikz_Node tn = MakeReferenceableNode((item as OverlayNode).tikzitem);
+                        tc.type = Tikz_CoordType.Named;
+                        tc.nameref = tn.name;
+                    }
+                    else
+                    {                        
+                        // do it here since the coordinate calculation needs the parents' coord. transform
+                        tc.SetAbsPos(new Point(p.X, p.Y)); //hack
+                    }
                     //tn.UpdateText();
                     curAddTo.UpdateText();
                     //tpict.UpdateText();
@@ -284,67 +291,6 @@ namespace TikzEdt
             curSel = null;
         }
 
-        /// <summary>
-        /// Takes an XYItem (like (2,2) or a node) and tries to make it into a referenceable node
-        /// (i.e, one with a name)
-        /// 
-        /// Concretely, the routine does the following:
-        ///     - if item is a named node, return item.
-        ///     - if item is an unnamed node, give it a unique name and return item.
-        ///     - if item is a coordinate, see if there is a node at this coordinate
-        ///         (algorithm: see if next non-tikz_something item is a node)
-        ///         - if yes, start anew with item=this node
-        ///         - if no, add a named node at the specified coordinate
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        Tikz_Node MakeReferenceableNode(Tikz_XYItem item)
-        {
-            Tikz_Picture tpict = overlay.ParseTree.GetTikzPicture();
-
-            if (item is Tikz_Node)
-            {
-                Tikz_Node n = item as Tikz_Node;
-                if (n.name == "")
-                {
-                    n.SetName(tpict.GetUniqueName());
-                    n.UpdateText();
-                }
-                return n;
-            }
-            else if (item is Tikz_Coord)
-            {
-                // find the next node
-                for (int i = item.parent.Children.IndexOf(item) + 1; i < item.parent.Children.Count; i++)
-                {
-                    if (item.parent.Children[i] is Tikz_Node)
-                    {
-                        // check if the node is really at the same position as the coordinate item
-                        if ((item.parent.Children[i] as Tikz_Node).coord == null)
-                            return MakeReferenceableNode(item.parent.Children[i] as Tikz_Node);
-                        else
-                            break;
-                    }
-                    
-                    if (! (item.parent.Children[i] is Tikz_Something) )
-                        break;
-                }
-
-                // if we get here, nothing was found => add a new node
-                Tikz_Something ws = new Tikz_Something(" ");
-                Tikz_Node n = new Tikz_Node();
-                n.coord = null;
-
-                item.parent.InsertChildAt(ws, item.parent.Children.IndexOf(item)+1);
-                item.parent.InsertChildAt(n, item.parent.Children.IndexOf(item)+2);
-                n.SetName(tpict.GetUniqueName());
-                n.UpdateText();
-
-                return n;
-            }
-            else
-                throw new NotImplementedException("MakeReferenceableNode not implemented for this type");
-        }
 
         public override void OnLeftMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e) 
         {
@@ -356,6 +302,13 @@ namespace TikzEdt
                 return;
             }
             OverlayNode n = item as OverlayNode;
+
+            // make sure a referenceable item is selected... otherwise we cannot add an edge
+            if (!IsReferenceable(item))
+            {
+                MainWindow.AddStatusLine("Only items that are referenceable (=can be given names) can be connected with the edge tool.");
+                return;
+            }
 
             if (curSel == null)
             {
@@ -532,6 +485,101 @@ namespace TikzEdt
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Takes an XYItem (like (2,2) or a node) and tries to make it into a referenceable node
+        /// (i.e, one with a name)
+        /// 
+        /// Concretely, the routine does the following:
+        ///     - if item is a named node, return item.
+        ///     - if item is an unnamed node, give it a unique name and return item.
+        ///     - if item is a coordinate, see if there is a node at this coordinate
+        ///         (algorithm: see if next non-tikz_something item is a node)
+        ///         - if yes, start anew with item=this node
+        ///         - if no, add a named node at the specified coordinate
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        protected Tikz_Node MakeReferenceableNode(Tikz_XYItem item)
+        {
+            Tikz_Picture tpict = overlay.ParseTree.GetTikzPicture();
+
+            if (item is Tikz_Node)
+            {
+                Tikz_Node n = item as Tikz_Node;
+                if (n.name == "")
+                {
+                    n.SetName(tpict.GetUniqueName());
+                    n.UpdateText();
+                }
+                return n;
+            }
+            else if (item is Tikz_Coord)
+            {
+                // find the next node
+                for (int i = item.parent.Children.IndexOf(item) + 1; i < item.parent.Children.Count; i++)
+                {
+                    if (item.parent.Children[i] is Tikz_Node)
+                    {
+                        // check if the node is really at the same position as the coordinate item
+                        if ((item.parent.Children[i] as Tikz_Node).coord == null)
+                            return MakeReferenceableNode(item.parent.Children[i] as Tikz_Node);
+                        else
+                            break;
+                    }
+
+                    if (!(item.parent.Children[i] is Tikz_Something))
+                        break;
+                }
+
+                // if we get here, nothing was found => add a new node
+                Tikz_Something ws = new Tikz_Something(" ");
+                Tikz_Node n = new Tikz_Node();
+                n.coord = null;
+
+                item.parent.InsertChildAt(ws, item.parent.Children.IndexOf(item) + 1);
+                item.parent.InsertChildAt(n, item.parent.Children.IndexOf(item) + 2);
+                n.SetName(tpict.GetUniqueName());
+                n.UpdateText();
+
+                return n;
+            }
+            else
+                throw new NotImplementedException("MakeReferenceableNode not implemented for this type");
+        }
+
+        /// <summary>
+        /// Determines whether the object represented by the OverlayShape item can be 
+        /// given a reference to. This is the case, e.g., for standard coordinates. It is
+        /// however not the case for the coordinates in a smooth curve.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        protected bool IsReferenceable(OverlayShape item)
+        {
+            if (!(item is OverlayNode))
+                return false;
+
+            Tikz_XYItem it = (item as OverlayNode).tikzitem;
+
+            // check whether item occurs in smooth curve 
+            // we check whether the parent's parent has the word "coordinates" preceding the parent (this is a bit of a hack)
+            if (it is Tikz_Coord && (it.parent.parent is Tikz_Path))
+            {
+                Tikz_Path grandpa = it.parent.parent as Tikz_Path;
+                for (int i = grandpa.Children.IndexOf(it.parent) - 1; i > 0; i--)
+                {
+                    if (!(grandpa.Children[i] is Tikz_Something))
+                        break;
+                    if (grandpa.Children[i].text.ToLower().Contains("coordinates"))
+                        return false;
+                }
+
+            }
+
+            return true;
+
         }
 
         protected bool ContinueWithBigImage(Point p)
