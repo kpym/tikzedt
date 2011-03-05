@@ -43,6 +43,10 @@ namespace TikzEdt.Snippets
         public class UseStylesEventArgs : EventArgs
         {
             public string nodestyle="", edgestyle="", dependencies="";
+            /// <summary>
+            /// Indicates whether the style should be used in addition to the ones present
+            /// </summary>
+            public bool InAddition = false;
         }        
         public event EventHandler<UseStylesEventArgs> OnUseStyles;
 
@@ -166,8 +170,8 @@ namespace TikzEdt.Snippets
                 if (!r.IsNull(snippetsTable.DependenciesColumn))
                     d = r.Dependencies;
 
-                if (OnInsert != null)
-                    OnInsert(d, d);
+                if (OnInsert != null && d.Trim()!="")
+                    OnInsert(@"\usetikzlibrary{"+d+"}"+Environment.NewLine, d);
             }
         }
 
@@ -185,6 +189,7 @@ namespace TikzEdt.Snippets
                     args.edgestyle = r.EdgeStyle;
                 if (!r.IsNull(snippetsTable.DependenciesColumn))
                     args.dependencies = r.Dependencies;
+                args.InAddition = Keyboard.Modifiers.HasFlag(ModifierKeys.Control);
 
                 if (OnUseStyles != null)
                     OnUseStyles(this,  args);

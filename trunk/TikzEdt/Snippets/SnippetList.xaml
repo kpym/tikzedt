@@ -100,7 +100,7 @@
                         <Image DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10" Height="Auto" Width="40" 
                                Source="{Binding Path=ID, Converter={StaticResource ImgConverter}}" HorizontalAlignment="Center" 
                                Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=mySnippets:SnippetList, AncestorLevel=1}, Path=ShowThumbnails, Converter={StaticResource boolToVis}}" />
-                        <Button DockPanel.Dock="Right" ToolTip="Use this style with WYSIWYG tools" Click="UseStyleButton_Click" >
+                        <Button DockPanel.Dock="Right" ToolTip="Use this style with WYSIWYG tools&#xa;CTRL to add the style to the current one (instead of replace)" Click="UseStyleButton_Click" >
                             <Button.Style>
                                 <Style BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
                                     <Setter Property="Focusable" Value="False" />
@@ -112,7 +112,7 @@
                                     <Binding Path="NodeStyle" />
                                 </MultiBinding>
                             </Button.Visibility>
-                            <Image Source="/TikzEdt;component/Images/RightPlay.png" SnapsToDevicePixels="True" Width="16" Height="16"/>
+                            <Image Source="/TikzEdt;component/Images/RightPlay.png" SnapsToDevicePixels="True" Width="10" Height="16"/>
                         </Button>
                         <TextBlock VerticalAlignment="Center" FontSize="12" TextWrapping="Wrap">                          
                           <TextBlock.Text>
