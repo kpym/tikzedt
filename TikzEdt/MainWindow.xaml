@@ -42,6 +42,7 @@
         <BooleanToVisibilityConverter x:Key="boolToVis" />
         <my:InverseNullableBooleanConverter x:Key="NBoolInverter" />
         <my:BooleanToWidthConverter x:Key="BoolToWidth" />
+        <my:CompareConverter x:Key="compareConverter"/>
 
         <CollectionViewSource x:Key="TexErrorsSource" Source="{Binding Source={x:Static my:MainWindow.TexErrors}}">
             <CollectionViewSource.SortDescriptions>
@@ -498,8 +499,16 @@
                 </RadioButton>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Node style:</TextBlock>
                 <ComboBox Name="cmbNodeStyles" Width="150" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"></ComboBox>
+                <Button Name="cmdClearNStyle" Click="cmdClear_Click" ToolTip="Clear Node Style"
+                        IsEnabled="{Binding ElementName=cmbNodeStyles, Path=Text, Converter={StaticResource compareConverter}, ConverterParameter=''}">
+                    <Image Source="/TikzEdt;component/Images/BuilderDialog_remove.png" Style="{StaticResource toolbarImageStyle}"/>
+                </Button>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Edge style:</TextBlock>
                 <ComboBox Name="cmbEdgeStyles" Width="150" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"></ComboBox>
+                <Button Name="cmdClearEStyle" Click="cmdClear_Click" ToolTip="Clear Edge Style" 
+                        IsEnabled="{Binding ElementName=cmbEdgeStyles, Path=Text, Converter={StaticResource compareConverter}, ConverterParameter=''}">
+                    <Image Source="/TikzEdt;component/Images/BuilderDialog_remove.png" Style="{StaticResource toolbarImageStyle}"/>
+                </Button>
             </ToolBar>
             <ToolBar Band="1">
                 <ToolBar.ToolTip>
