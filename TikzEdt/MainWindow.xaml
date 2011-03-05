@@ -497,9 +497,9 @@
                     </RadioButton.ToolTip>
                 </RadioButton>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Node style:</TextBlock>
-                <ComboBox Name="cmbNodeStyles" Width="80" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"></ComboBox>
+                <ComboBox Name="cmbNodeStyles" Width="150" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"></ComboBox>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Edge style:</TextBlock>
-                <ComboBox Name="cmbEdgeStyles" Width="80" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"></ComboBox>
+                <ComboBox Name="cmbEdgeStyles" Width="150" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"></ComboBox>
             </ToolBar>
             <ToolBar Band="1">
                 <ToolBar.ToolTip>
