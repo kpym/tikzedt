@@ -589,7 +589,8 @@
             <mySnippets:SnippetList x:Name="snippetlist1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                     Grid.Column="1" Grid.Row="0" OnInsert="snippetlist1_OnInsert" 
                                     ShowThumbnails="{Binding Source={x:Static p:Settings.Default}, Path=Snippets_ShowThumbs}" 
-                                    Visibility="{Binding ElementName=cmdSnippets, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
+                                    Visibility="{Binding ElementName=cmdSnippets, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                    OnUseStyles="snippetlist1_OnUseStyles"/>
             <ListView Grid.Column="1" Grid.Row="0" Name="lstFiles" MouseRightButtonUp="lstFile_MouseRightButtonUp" MouseDoubleClick="lstFiles_MouseDoubleClick"
                       Visibility="{Binding ElementName=cmdFiles, Path=IsChecked, Converter={StaticResource boolToVis}}">
                 <ListView.ToolTip>

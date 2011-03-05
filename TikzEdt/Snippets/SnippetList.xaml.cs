@@ -40,6 +40,12 @@ namespace TikzEdt.Snippets
         public delegate void InsertEventHandler(string code, string dependencies);
         public event InsertEventHandler OnInsert;
 
+        public class UseStylesEventArgs : EventArgs
+        {
+            public string nodestyle="", edgestyle="", dependencies="";
+        }        
+        public event EventHandler<UseStylesEventArgs> OnUseStyles;
+
         readonly public static DependencyProperty ShowThumbnailsProperty = DependencyProperty.Register(
          "ShowThumbnails", typeof(bool), typeof(SnippetList), new PropertyMetadata(false));
         public bool ShowThumbnails
@@ -163,6 +169,48 @@ namespace TikzEdt.Snippets
                 if (OnInsert != null)
                     OnInsert(d, d);
             }
+        }
+
+        private void UseStyleButton_Click(object sender, RoutedEventArgs e)
+        {
+            // find row corresponding to clicked button
+            object curItem = ((ListBoxItem)lstSnippets.ContainerFromElement((Button)sender)).Content;
+            if (curItem != null)
+            {
+                UseStylesEventArgs args = new UseStylesEventArgs();
+                SnippetsDataSet.SnippetsTableRow r = (curItem as DataRowView).Row as SnippetsDataSet.SnippetsTableRow;
+                if (!r.IsNull(snippetsTable.NodeStyleColumn))
+                    args.nodestyle = r.NodeStyle;
+                if (!r.IsNull(snippetsTable.EdgeStyleColumn))
+                    args.edgestyle = r.EdgeStyle;
+                if (!r.IsNull(snippetsTable.DependenciesColumn))
+                    args.dependencies = r.Dependencies;
+
+                if (OnUseStyles != null)
+                    OnUseStyles(this,  args);
+            }
+            
+        }
+    }
+
+    /// <summary>
+    /// Returns visible iff one of the strings is nonempty (and non-null)
+    /// </summary>
+    public class StringToVisibilityConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType,
+                              object parameter, System.Globalization.CultureInfo culture)
+        {
+            if ((values[0] is string && values[0].ToString().Trim() != "") || (values[1] is string && values[1].ToString().Trim() != ""))
+                return Visibility.Visible;
+            else
+                return Visibility.Collapsed;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetType,
+                                  object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

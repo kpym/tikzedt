@@ -277,7 +277,7 @@ namespace TikzEdt.Snippets {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class SnippetsTableDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
+        public partial class SnippetsTableDataTable : global::System.Data.TypedTableBase<SnippetsTableRow> {
             
             private global::System.Data.DataColumn columnID;
             
@@ -292,6 +292,10 @@ namespace TikzEdt.Snippets {
             private global::System.Data.DataColumn columnSampleCode;
             
             private global::System.Data.DataColumn columnDependencies;
+            
+            private global::System.Data.DataColumn columnEdgeStyle;
+            
+            private global::System.Data.DataColumn columnNodeStyle;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -384,6 +388,22 @@ namespace TikzEdt.Snippets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn EdgeStyleColumn {
+                get {
+                    return this.columnEdgeStyle;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn NodeStyleColumn {
+                get {
+                    return this.columnNodeStyle;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -419,7 +439,7 @@ namespace TikzEdt.Snippets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public SnippetsTableRow AddSnippetsTableRow(string Name, string Category, string Description, string SnippetCode, string SampleCode, string Dependencies) {
+            public SnippetsTableRow AddSnippetsTableRow(string Name, string Category, string Description, string SnippetCode, string SampleCode, string Dependencies, string EdgeStyle, string NodeStyle) {
                 SnippetsTableRow rowSnippetsTableRow = ((SnippetsTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -428,16 +448,12 @@ namespace TikzEdt.Snippets {
                         Description,
                         SnippetCode,
                         SampleCode,
-                        Dependencies};
+                        Dependencies,
+                        EdgeStyle,
+                        NodeStyle};
                 rowSnippetsTableRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowSnippetsTableRow);
                 return rowSnippetsTableRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public virtual global::System.Collections.IEnumerator GetEnumerator() {
-                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -464,6 +480,8 @@ namespace TikzEdt.Snippets {
                 this.columnSnippetCode = base.Columns["SnippetCode"];
                 this.columnSampleCode = base.Columns["SampleCode"];
                 this.columnDependencies = base.Columns["Dependencies"];
+                this.columnEdgeStyle = base.Columns["EdgeStyle"];
+                this.columnNodeStyle = base.Columns["NodeStyle"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -483,6 +501,10 @@ namespace TikzEdt.Snippets {
                 base.Columns.Add(this.columnSampleCode);
                 this.columnDependencies = new global::System.Data.DataColumn("Dependencies", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDependencies);
+                this.columnEdgeStyle = new global::System.Data.DataColumn("EdgeStyle", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEdgeStyle);
+                this.columnNodeStyle = new global::System.Data.DataColumn("NodeStyle", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNodeStyle);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID}, false));
                 this.columnID.AutoIncrement = true;
@@ -709,6 +731,62 @@ namespace TikzEdt.Snippets {
                 set {
                     this[this.tableSnippetsTable.DependenciesColumn] = value;
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string EdgeStyle {
+                get {
+                    try {
+                        return ((string)(this[this.tableSnippetsTable.EdgeStyleColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EdgeStyle\' in table \'SnippetsTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSnippetsTable.EdgeStyleColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string NodeStyle {
+                get {
+                    try {
+                        return ((string)(this[this.tableSnippetsTable.NodeStyleColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NodeStyle\' in table \'SnippetsTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSnippetsTable.NodeStyleColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsEdgeStyleNull() {
+                return this.IsNull(this.tableSnippetsTable.EdgeStyleColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetEdgeStyleNull() {
+                this[this.tableSnippetsTable.EdgeStyleColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsNodeStyleNull() {
+                return this.IsNull(this.tableSnippetsTable.NodeStyleColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetNodeStyleNull() {
+                this[this.tableSnippetsTable.NodeStyleColumn] = global::System.Convert.DBNull;
             }
         }
         

@@ -5,7 +5,7 @@
         xmlns:mySnippets="clr-namespace:TikzEdt.Snippets"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
-        Title="SnippetManager" Height="595" Width="698" Closing="Window_Closing" xmlns:my="clr-namespace:TikzEdt" Loaded="Window_Loaded" Closed="Window_Closed" Icon="/TikzEdt;component/Images/tikzedt48.ico">
+        Title="SnippetManager" Height="610" Width="698" Closing="Window_Closing" xmlns:my="clr-namespace:TikzEdt" Loaded="Window_Loaded" Closed="Window_Closed" Icon="/TikzEdt;component/Images/tikzedt48.ico">
     <Window.Resources>
         <mySnippets:SnippetsDataSet x:Key="snippetsDataSet" />
         <CollectionViewSource x:Key="snippetsTableViewSource" Source="{Binding Path=SnippetsTable, Source={StaticResource snippetsDataSet}}">
@@ -143,7 +143,8 @@
                         <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
-                    </Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="113"/>
                         <ColumnDefinition Width="*"/>
@@ -170,17 +171,23 @@
                     <TextBlock Grid.Row="5" Grid.Column="0" Margin="3">Dependencies</TextBlock>
                     <TextBox Margin="3" Name="DependenciesDTKey" AcceptsReturn="True" Grid.Row="5" Grid.Column="1" Text="{Binding Path=Dependencies}"/>
 
-                    <TextBlock Grid.Row="6" Grid.Column="0" Margin="3">Preview Image</TextBlock>
+                        <TextBlock Grid.Row="6" Grid.Column="0" Margin="3">Node Style</TextBlock>
+                        <TextBox Margin="3" Name="NodeStyleDTKey" AcceptsReturn="True" Grid.Row="6" Grid.Column="1" Text="{Binding Path=NodeStyle}"/>
+
+                        <TextBlock Grid.Row="7" Grid.Column="0" Margin="3">Edge Style</TextBlock>
+                        <TextBox Margin="3" Name="EdgeStyleDTKey" AcceptsReturn="True" Grid.Row="7" Grid.Column="1" Text="{Binding Path=EdgeStyle}"/>
+
+                        <TextBlock Grid.Row="9" Grid.Column="0" Margin="3">Preview Image</TextBlock>
                     <!-- <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Path=ID, StringFormat=img\\{0}.bmp}"/> -->
-                    <DockPanel Margin="3" Grid.Row="6" Grid.Column="1">             
-                        <Image Margin="10" Height="100" Width="100" Source="{Binding Path=ID, Converter={StaticResource ImgConverter}}" HorizontalAlignment="Center" Name="imgThumb"/>
+                    <DockPanel Margin="3" Grid.Row="8" Grid.Column="1">             
+                        <Image Margin="10" Height="50" Width="100" Source="{Binding Path=ID, Converter={StaticResource ImgConverter}}" HorizontalAlignment="Center" Name="imgThumb"/>
                         <ToolBarTray  Width="78" Orientation="Vertical" DockPanel.Dock="Right" Background="White">
                             <ToolBar ToolBarTray.IsLocked="True" Name="tlbCompile">
                                 <Button Click="cmdCompile_Click" Tag="0">Compile </Button>
                                 </ToolBar>
                        </ToolBarTray>
                     </DockPanel>
-                    <TextBlock Grid.Column="0" Grid.Row="6" VerticalAlignment="Bottom" Text="{Binding Path=ID}"/>
+                    <TextBlock Grid.Column="0" Grid.Row="8" VerticalAlignment="Bottom" Text="{Binding Path=ID}"/>
                     <!-- "{Binding Path=Name, Converter={StaticResource ImgConverter}}"-->
                 </Grid>
             </ContentControl>
