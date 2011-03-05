@@ -2408,6 +2408,15 @@ namespace TikzEdt
                 txtCode.Document.Insert(txtCode.CaretOffset, colordef);
         }
 
+        private void snippetlist1_OnUseStyles(object sender, Snippets.SnippetList.UseStylesEventArgs e)
+        {
+            // todo: insert usetikzlibrary
+
+            cmbEdgeStyles.Text = e.edgestyle;
+            cmbNodeStyles.Text = e.nodestyle;
+
+        }
+
         
 
     }

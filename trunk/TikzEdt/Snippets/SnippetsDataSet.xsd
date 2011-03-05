@@ -22,6 +22,8 @@
               <xs:element name="SnippetCode" msprop:Generator_ColumnVarNameInTable="columnSnippetCode" msprop:Generator_ColumnPropNameInRow="SnippetCode" msprop:Generator_ColumnPropNameInTable="SnippetCodeColumn" msprop:Generator_UserColumnName="SnippetCode" type="xs:string" />
               <xs:element name="SampleCode" msprop:Generator_ColumnVarNameInTable="columnSampleCode" msprop:Generator_ColumnPropNameInRow="SampleCode" msprop:Generator_ColumnPropNameInTable="SampleCodeColumn" msprop:Generator_UserColumnName="SampleCode" type="xs:string" />
               <xs:element name="Dependencies" msprop:Generator_ColumnVarNameInTable="columnDependencies" msprop:Generator_ColumnPropNameInRow="Dependencies" msprop:Generator_ColumnPropNameInTable="DependenciesColumn" msprop:Generator_UserColumnName="Dependencies" type="xs:string" />
+              <xs:element name="EdgeStyle" msprop:Generator_ColumnVarNameInTable="columnEdgeStyle" msprop:Generator_ColumnPropNameInRow="EdgeStyle" msprop:Generator_ColumnPropNameInTable="EdgeStyleColumn" msprop:Generator_UserColumnName="EdgeStyle" type="xs:string" minOccurs="0" />
+              <xs:element name="NodeStyle" msprop:Generator_ColumnVarNameInTable="columnNodeStyle" msprop:Generator_ColumnPropNameInRow="NodeStyle" msprop:Generator_ColumnPropNameInTable="NodeStyleColumn" msprop:Generator_UserColumnName="NodeStyle" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
