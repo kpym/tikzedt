@@ -2509,6 +2509,20 @@ namespace TikzEdt
 
         }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cmdClear_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender == cmdClearEStyle)
+                cmbEdgeStyles.Text = "";
+            if (sender == cmdClearNStyle)
+                cmbNodeStyles.Text = "";
+
+        }
+
         
 
     }
