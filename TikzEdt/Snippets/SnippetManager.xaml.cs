@@ -326,7 +326,7 @@ namespace TikzEdt.Snippets
                     if (!r.IsNull(snippetsTable.SampleCodeColumn))
                     {
                         string cFile =  Helper.GetSnippetsPath() + r.ID;
-                        if (mbres == MessageBoxResult.Yes || !File.Exists(cFile+".bmp"))
+                        if (mbres == MessageBoxResult.Yes || !File.Exists(cFile+".png"))
                             fact.AddJob(r.SampleCode, cFile + Helper.GetSnippetsExt(), new Rect(0, 0, 0, 0), r.Name, true);
                     }
                 }
@@ -347,7 +347,7 @@ namespace TikzEdt.Snippets
             try
             {
                 string appPath = Helper.GetAppDir(); //System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
-                string fullpath = Helper.GetSnippetsPath() + value.ToString() +".bmp";
+                string fullpath = Helper.GetSnippetsPath() + value.ToString() +".png";
                 //string fullpath2 = fullpath.Substring(;
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();

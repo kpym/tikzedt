@@ -2058,6 +2058,9 @@ namespace TikzEdt
                 {
                     downloader = new FileDownloader();
                     downloader.LocalDirectory = Helper.GetAppdataPath();
+                    downloader.FileDownloadStarted += ((s, args) => AddStatusLine("Download of Tikz/Pgf manual started. Please be patient."));
+                    downloader.FileDownloadSucceeded += ((s, args) => AddStatusLine("Download of Tikz/Pgf manual succeeded."));
+                    downloader.FileDownloadFailed += ((s, args) => AddStatusLine("Download of Tikz/Pgf manual failed.", true));
                 }
 
                 //if downloader is downloading file show status.
@@ -2076,12 +2079,13 @@ namespace TikzEdt
                 {
                     FileDownloader.FileInfo loadfile = new FileDownloader.FileInfo(pgfmanualurl);
             
-                    String msg = "Pdf manual not found. Do you want to download it now?";
+                    String msg = "Tikz/Pgf manual not found. Do you want to download it now?";
                     if (MessageBoxResult.Yes == MessageBox.Show(msg, "Start download?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes))
                     {
                         if (!downloader.Files.Contains(loadfile))
                             downloader.Files.Add(loadfile);
-                        downloader.Start();
+                        AddStatusLine("Starting download of Pgf manual from " + pgfmanualurl + " ...  (F2 for status)");
+                        downloader.Start();                        
                     }
                 }
             }

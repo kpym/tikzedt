@@ -642,7 +642,8 @@ namespace TikzEdt
                     }
                     else
                     {
-                        mypdfDoc.SaveBmp(pathnoext + ".bmp", Resolution);
+                        //mypdfDoc.SaveBmp(pathnoext + ".bmp", Resolution);
+                        mypdfDoc.SaveBmp(pathnoext + ".png", Resolution, true, System.Drawing.Imaging.ImageFormat.Png);
                         if (BitmapGenerated != null)
                             BitmapGenerated(this);
                     }
