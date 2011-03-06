@@ -559,7 +559,7 @@
                 <ColumnDefinition Width="Auto" Name="LeftMenuCol"></ColumnDefinition>
                 <ColumnDefinition Name="LeftToolsCol">
                     <ColumnDefinition.Width>
-                        <MultiBinding Converter="{StaticResource BoolToWidth}" Mode="OneWay" >
+                        <MultiBinding Converter="{StaticResource BoolToWidth}" Mode="TwoWay" >
                             <Binding Path="LeftToolsColWidthSetting" Source="{x:Static p:Settings.Default}" />
                             <Binding Path="LeftToolsColVisible" Source="{x:Static p:Settings.Default}" />
                         </MultiBinding>

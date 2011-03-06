@@ -643,7 +643,7 @@ namespace TikzEdt
         public object[] ConvertBack(object value, Type[] targetType,
                                   object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return new object[] { value, DependencyProperty.UnsetValue };
         }
     }
 
