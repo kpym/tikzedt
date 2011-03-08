@@ -372,9 +372,6 @@
     <Resource Include="Images\path.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\radial.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\base_cursor.png" />
   </ItemGroup>
   <ItemGroup>
@@ -523,6 +520,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\BuilderDialog_remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\radial.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

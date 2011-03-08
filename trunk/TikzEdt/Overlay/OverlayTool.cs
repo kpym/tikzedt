@@ -54,6 +54,11 @@ namespace TikzEdt
         public virtual void OnDeactivate() { }
 
         /// <summary>
+        /// This is called by the overlay when the tool should update the raster, (usually because the UsePolar... setting has changed) 
+        /// </summary>
+        public virtual void UpdateRaster() { }
+
+        /// <summary>
         /// This method is called when the tool is active and the appropriate mouse event occurs.
         /// 
         /// </summary>
@@ -97,6 +102,7 @@ namespace TikzEdt
         void EndUpdate();
 
         void SetCorrectRaster(OverlayShape o, bool IsParent=false);
+        void SetCorrectRaster(TikzParseItem tpi, bool IsParent = false);
 
         /// <summary>
         /// De-activates the current tool, and activates the default tool (select/move)
@@ -121,6 +127,12 @@ namespace TikzEdt
 
         double Height { get; }
         double Width { get; }
+
+        /// <summary>
+        /// Determines whether to use absolute "", or relative "+" or "++" coordinates
+        /// </summary>
+        string NewNodeModifier { get; }
+        bool UsePolarCoordinates { get; }
     }
 
   
@@ -145,8 +157,8 @@ namespace TikzEdt
 
             overlay.BeginUpdate();
 
-            overlay.SetCorrectRaster(overlay.CurEditing, true);
-
+            //overlay.SetCorrectRaster(overlay.CurEditing, true);
+            UpdateRaster();
             //Point p = new Point(e.GetPosition(canvas1).X, Height - e.GetPosition(canvas1).Y);
 
 
@@ -159,15 +171,21 @@ namespace TikzEdt
                 {
                     if (!lcreated)
                     {
-                        curAddTo.AddChild(new Parser.Tikz_Something(" -- cycle"));
+                        //if (!Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+                            curAddTo.AddChild(new Parser.Tikz_Something(" -- cycle"));
+                        //else
+                        //    curAddTo.AddChild(new Parser.Tikz_Something(" cycle"));
                     }
                 }
                 else
                 {
                     if (!lcreated)
                     {
-                        // add an edge
-                        curAddTo.AddChild(new Parser.Tikz_Something(" -- "));
+                        if (!Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+                            // add an edge
+                            curAddTo.AddChild(new Parser.Tikz_Something(" -- "));
+                        else
+                            curAddTo.AddChild(new Parser.Tikz_Something(" "));
                     }
 
                     // create new coordinate. If some node was clicked, set a reference to that node. Otherwise, just make new coordinates
@@ -182,7 +200,23 @@ namespace TikzEdt
                     else
                     {                        
                         // do it here since the coordinate calculation needs the parents' coord. transform
+                        tc.type = overlay.UsePolarCoordinates ? Tikz_CoordType.Polar : Tikz_CoordType.Cartesian;
+                        if (!lcreated) 
+                            tc.deco = overlay.NewNodeModifier;  // first node should always be in absolute coordinates
                         tc.SetAbsPos(new Point(p.X, p.Y)); //hack
+
+                        // if a nonempty node style is selected, also add a node with that style
+                        if (overlay.NodeStyle.Trim() != "")
+                        {
+                            Tikz_Node tn = new Tikz_Node()
+                            {
+                                options = "["+overlay.NodeStyle+"]",
+                                coord = null,
+                                text = ""
+                            };
+                            curAddTo.AddChild(new Tikz_Something(" "));
+                            curAddTo.AddChild(tn);
+                        }
                     }
                     //tn.UpdateText();
                     curAddTo.UpdateText();
@@ -194,6 +228,7 @@ namespace TikzEdt
             }
 
             overlay.EndUpdate();
+            UpdateRaster();
 
             // doubleclick also stops path drawing
             if (e.ClickCount == 2)
@@ -429,6 +464,15 @@ namespace TikzEdt
         {
             base.OnDeactivate();
             curAddTo = null;
+        }
+
+        public override void UpdateRaster()
+        {
+            base.UpdateRaster();
+            if (curAddTo != null)
+                overlay.SetCorrectRaster(curAddTo, true);
+            else
+                overlay.SetCorrectRaster(overlay.CurEditing, true);
         }
 
         //create a new CurAddTo (even though their already might be one)
