@@ -414,7 +414,7 @@
                         <StackPanel>
                             <TextBlock Text="Path tool" FontWeight="Bold"></TextBlock>
                             <TextBlock Width="200" TextWrapping="Wrap">
-                                Create a path of straight lines. To close the path, double click when you want to close. If you don't want to close the path, use right button to stop drawnig.
+                                Create a path of straight lines. To close the path, double click when you want to close. If you don't want to close the path, use right button to stop drawnig. Use CTRL to draw nodes w/o drawing edges.
                             </TextBlock>
                         </StackPanel>
                     </RadioButton.ToolTip>
@@ -509,6 +509,23 @@
                         IsEnabled="{Binding ElementName=cmbEdgeStyles, Path=Text, Converter={StaticResource compareConverter}, ConverterParameter=''}">
                     <Image Source="/TikzEdt;component/Images/BuilderDialog_remove.png" Style="{StaticResource toolbarImageStyle}"/>
                 </Button>
+                <Separator/>
+                <ToggleButton ToolTip="Use Polar coordinates for newly placed nodes" Name="chkPolar">
+                    <Image Source="/TikzEdt;component/Images/radial.png" />
+                </ToggleButton>
+                <ComboBox Name="cmbModifier" Width="35" IsEditable="False">
+                    <ComboBox.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="Determines whether to use absolute or relative coordinates for newly placed nodes." />
+                            <TextBlock Text="empty: absolute coordinates" />
+                            <TextBlock Text="+: relative,not changing current point"/>
+                            <TextBlock Text="++: relative, changing current point" />
+                        </StackPanel>
+                    </ComboBox.ToolTip>
+                        <ComboBoxItem Content="" />
+                    <ComboBoxItem Content="+" />
+                    <ComboBoxItem Content="++" />
+                </ComboBox>
             </ToolBar>
             <ToolBar Band="1">
                 <ToolBar.ToolTip>
@@ -706,7 +723,9 @@
                                     OnModified="pdfOverlay1_OnModified" BeginModify="pdfOverlay1_BeginModify" EndModify="pdfOverlay1_EndModify" 
                                     NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text,Mode=OneWay}" EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}"
                                     Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"   
-                                    JumpToSource="pdfOverlay1_JumpToSource" ToolChanged="pdfOverlay1_ToolChanged" MouseWheel="pdfOverlay1_MouseWheel"/>
+                                    JumpToSource="pdfOverlay1_JumpToSource" ToolChanged="pdfOverlay1_ToolChanged" MouseWheel="pdfOverlay1_MouseWheel"
+                                    NewNodeModifier="{Binding ElementName=cmbModifier, Path=Text}"
+                                    UsePolarCoordinates="{Binding ElementName=chkPolar, Path=IsChecked}"/>
                 </Grid>
             </ScrollViewer>
 

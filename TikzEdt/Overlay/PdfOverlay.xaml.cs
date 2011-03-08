@@ -31,6 +31,7 @@ using System.Windows.Shapes;
 using TikzEdt.Parser;
 
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace TikzEdt
 {
@@ -120,6 +121,26 @@ namespace TikzEdt
             get { return (string)GetValue(EdgeStyleProperty); }
             set { }
         }
+
+        public static readonly DependencyProperty NewNodeModifierProperty = DependencyProperty.Register(
+            "NewNodeModifier", typeof(string), typeof(PdfOverlay), new PropertyMetadata(""));
+        public string NewNodeModifier
+        {
+            get { return (string)GetValue(NewNodeModifierProperty); }
+            set { SetValue(NewNodeModifierProperty, value); }
+        }
+        public static readonly DependencyProperty UsePolarCoordinatesProperty = DependencyProperty.Register(
+            "UsePolarCoordinates", typeof(bool), typeof(PdfOverlay), new PropertyMetadata(false, OnUsePolarCoordinatesChange));
+        static void OnUsePolarCoordinatesChange(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            (sender as PdfOverlay).CurrentTool.UpdateRaster();
+        }
+        public bool UsePolarCoordinates
+        {
+            get { return (bool)GetValue(UsePolarCoordinatesProperty); }
+            set { SetValue(UsePolarCoordinatesProperty, value); }
+        }
+
 
         private bool _AllowEditing=true;
         /// <summary>
@@ -471,7 +492,7 @@ namespace TikzEdt
             {
                 DrawObject(ParseTree, TopLevelItems);
                 BindControlPointsToOrigins();
-                SetCorrectRaster(null);
+                SetCorrectRaster((TikzParseItem)null);
             }
             catch (Exception e)
             {
@@ -618,29 +639,33 @@ namespace TikzEdt
         ///                              In this case the relevant transf. is that at the end of o, since new items are inserted at the end.
         /// </summary>
         /// <param name="o">The object. If null, it is taken to be the tikzpicture.</param>
-        /// <param name="IsParent">Indicates whether object is to be moved itself, or children added.</param>
+        /// <param name="IsParent">Indicates whether object is to be moved itself, or children added.</param>        
         public void SetCorrectRaster(OverlayShape o, bool IsParent=false)
+        {
+            SetCorrectRaster(o==null?null:o.item, IsParent);
+        }
+        public void SetCorrectRaster(TikzParseItem tpi, bool IsParent=false)
         {
             if (ParseTree == null)
                 return;
-            if (o == null)
+            if (tpi == null)
             {
                 Tikz_Picture tp = ParseTree.GetTikzPicture();
                 if (tp != null)
                 {
                     TikzMatrix M;
                     if (!tp.GetCurrentTransformAt(null, out M))
-                       Rasterizer.CoordinateTransform = new TikzMatrix();   // if the program gets here, the global coord. transformation could not be understood->ovelay should display nothing
+                        Rasterizer.CoordinateTransform = new TikzMatrix();   // if the program gets here, the global coord. transformation could not be understood->ovelay should display nothing
                     else
                         Rasterizer.CoordinateTransform = M;
                     //rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
                     //rasterizer.RasterScale = M.m[1, 1];
-                    Rasterizer.IsCartesian = true;
+                    Rasterizer.IsCartesian = !UsePolarCoordinates;
                 }
             }
-            if (o is OverlayScope)
+            else if (tpi is Tikz_Scope)
             {
-                Tikz_Scope ts = (o as OverlayScope).tikzitem;
+                Tikz_Scope ts = tpi as Tikz_Scope;
                 TikzMatrix M;
                 if (IsParent)
                 {
@@ -657,17 +682,17 @@ namespace TikzEdt
                 Rasterizer.CoordinateTransform = M;
                 //rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
                 //rasterizer.RasterScale = M.m[1, 1];
-                Rasterizer.IsCartesian = true;
+                Rasterizer.IsCartesian = !IsParent || !UsePolarCoordinates;
             }
-            else if (o is OverlayNode)
+            else if (tpi is Tikz_XYItem)
             {
-                Tikz_XYItem t = (o as OverlayNode).tikzitem;
+                Tikz_XYItem t = tpi as Tikz_XYItem;
                 Point offset;
                 if (t.GetAbsPos(out offset, true))
                 {
                     TikzMatrix M;
                     if (!t.parent.GetCurrentTransformAt(t, out M)) //.CloneIt();
-                        M = new TikzMatrix();                    
+                        M = new TikzMatrix();
 
                     M.m[0, 2] = offset.X;
                     M.m[1, 2] = offset.Y;
@@ -677,8 +702,35 @@ namespace TikzEdt
                 }
                 else throw new Exception("In PdfOverlay: Encountered drawn item without valid coordinates");
             }
+            else if (tpi is Tikz_Path)
+            {
+                Tikz_Path ts = tpi as Tikz_Path;
+                TikzMatrix M;
+                if (IsParent)
+                {
+                    Point curPointAtEnd;
+                    if (!ts.GetCurrentTransformAt(null, out M))  // todo
+                        M = new TikzMatrix(); // broken coords-> take unity as backup
+                    if (ts.GetAbsOffset(out curPointAtEnd, null))
+                    {
+                        M.m[0, 2] = curPointAtEnd.X;
+                        M.m[1, 2] = curPointAtEnd.Y;
+                    }
+                }
+                else
+                {
+                    if (!ts.parent.GetCurrentTransformAt(ts, out M))
+                        M = new TikzMatrix();
+                    //if (!ts.GetRasterTransform(out M))
+                    //    M = new TikzMatrix();
+                }
+                Rasterizer.CoordinateTransform = M;
+                //rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
+                //rasterizer.RasterScale = M.m[1, 1];
+                Rasterizer.IsCartesian = !IsParent || !UsePolarCoordinates;
+            }
             else
-                Rasterizer.IsCartesian = true;  // should not get here
+                Debug.WriteLine("Error in SetCorrectRaster: unsupported type");//Rasterizer.IsCartesian = true;  // should not get here
         }
 
         /// <summary>
