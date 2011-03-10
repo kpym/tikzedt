@@ -1530,7 +1530,7 @@ namespace TikzEdt
         //GridLength oldwidth;
         private void cmdSnippets_Checked(object sender, RoutedEventArgs e)
         {
-            if (LeftSplitterCol != null && cmdSnippets != null && cmdFiles != null && snippetlist1 != null)
+            if (cmdSnippets != null && cmdFiles != null && snippetlist1 != null)
             {
                 if (sender == cmdFiles)
                 {
