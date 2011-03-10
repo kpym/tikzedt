@@ -2005,8 +2005,10 @@ namespace TikzEdt
 
             string s = Helper.GetCurrentWorkingDir();
             string t = Helper.GetPreviewFilename();
-            string PreviewPdfFilePath = s + "\\" + CurFile + t + ".pdf";
-            string PdfFilePath = s + "\\" + Helper.RemoveFileExtension(CurFile) + ".pdf";
+            string PreviewPdfFilePath =  System.IO.Path.GetFullPath(CurFile) + t + ".pdf";
+            string PdfFilePath = Helper.RemoveFileExtension(System.IO.Path.GetFullPath(CurFile)) + ".pdf";
+//            string PreviewPdfFilePath = s + "\\" + CurFile + t + ".pdf";
+//            string PdfFilePath = s + "\\" + Helper.RemoveFileExtension(CurFile) + ".pdf";
 
             if (SaveAs == true)
             {
@@ -2025,9 +2027,7 @@ namespace TikzEdt
                     return "";
                 PdfFilePath = sfd.FileName;
             }
-        
-
-            
+                  
             try
             {
                 File.Copy(PreviewPdfFilePath, PdfFilePath, true);

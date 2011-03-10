@@ -4,13 +4,14 @@
         xmlns:p="clr-namespace:TikzEdt.Properties"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-        Title="Settings" Height="346" Width="438" Loaded="Window_Loaded" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico" KeyDown="Window_KeyDown">
+        Title="Settings" Height="346" Width="438" Loaded="Window_Loaded" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico" 
+        KeyDown="Window_KeyDown" UseLayoutRounding="True">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListBox Grid.Column="0" Name="lstNav" Padding="0" Margin="5" Width="Auto">           
+        <ListBox Grid.Column="0" Name="lstNav" Padding="0" Margin="5" Width="Auto" Background="Gray" Foreground="White">           
             <ListBox.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="DodgerBlue"/>
                 <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="DodgerBlue"/>
@@ -25,7 +26,7 @@
 
             <ListBoxItem HorizontalContentAlignment="Stretch">
                 <StackPanel HorizontalAlignment="Center">
-                    <Image HorizontalAlignment="Center" Source="/TikzEdt;component/Images/settings_48.png" />
+                    <Image HorizontalAlignment="Center" Source="/TikzEdt;component/Images/settings_48.png" SnapsToDevicePixels="True"/>
                     <TextBlock HorizontalAlignment="Center" Text="General"></TextBlock>
                 </StackPanel>
             </ListBoxItem>
@@ -37,13 +38,13 @@
             </ListBoxItem>
             <ListBoxItem HorizontalContentAlignment="Stretch">
                 <StackPanel>
-                    <Image HorizontalAlignment="Center" Source="/TikzEdt;component/Images/batfile.png" Stretch="None" />
+                    <Image HorizontalAlignment="Center" Source="/TikzEdt;component/Images/batfile.png" Stretch="None" SnapsToDevicePixels="True"/>
                     <TextBlock HorizontalAlignment="Center" Text="Compiler"></TextBlock>
                 </StackPanel>
             </ListBoxItem>
             <ListBoxItem HorizontalContentAlignment="Stretch">
                 <StackPanel>
-                    <Image HorizontalAlignment="Center" Source="/TikzEdt;component/Images/XML_Schema.png" />
+                    <Image HorizontalAlignment="Center" Source="/TikzEdt;component/Images/XML_Schema.png" SnapsToDevicePixels="True" />
                     <TextBlock HorizontalAlignment="Center" Text="Parser"></TextBlock>
                     <TextBlock HorizontalAlignment="Center" Text="and Overlay"></TextBlock>
                 </StackPanel>

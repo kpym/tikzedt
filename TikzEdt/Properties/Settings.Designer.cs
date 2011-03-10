@@ -370,7 +370,7 @@ namespace TikzEdt.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        [global::System.Configuration.DefaultSettingValueAttribute("300")]
         public int OverlayCanvasCol2WidthSetting {
             get {
                 return ((int)(this["OverlayCanvasCol2WidthSetting"]));

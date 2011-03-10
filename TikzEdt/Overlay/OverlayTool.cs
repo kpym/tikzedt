@@ -262,7 +262,7 @@ namespace TikzEdt
             if (tpict != null)
             {
                 Parser.Tikz_Node tn = new Parser.Tikz_Node();
-                tn.label = "?";
+                tn.label = "";
                 tn.coord = new Parser.Tikz_Coord();
                 if (overlay.NodeStyle != "")
                     tn.options = "[" + overlay.NodeStyle + "]";
