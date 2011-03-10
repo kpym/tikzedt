@@ -88,6 +88,10 @@
     <Reference Include="CustomWPFColorPicker">
       <HintPath>..\lib\CustomWPFColorPicker.dll</HintPath>
     </Reference>
+    <Reference Include="DockPanelSplitter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\DockPanelSplitter.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\lib\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
@@ -523,6 +527,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\radial.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
