@@ -17,7 +17,8 @@
         Width="{Binding Source={x:Static p:Settings.Default}, Path=Window_Width, Mode=TwoWay}" 
         Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico"
         xmlns:settings="clr-namespace:LogicaCMG.Settings"
-        settings:WindowSettings.Save="True">
+        settings:WindowSettings.Save="True"
+        UseLayoutRounding="True">
     <Window.Resources>
         <ItemsPanelTemplate x:Key="Virtualized">
             <VirtualizingStackPanel IsItemsHost="True"/>
@@ -222,8 +223,8 @@
                 <MenuItem Header="About..." Click="AboutClick"/>
             </MenuItem>
         </Menu>
-        <ToolBarTray Grid.Row="1">
-            <ToolBar Height="28" Name="tlbMain" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Converter={StaticResource boolToVis}}">
+        <ToolBarTray Grid.Row="1" Background="Silver">
+            <ToolBar  Height="28" Name="tlbMain" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Converter={StaticResource boolToVis}}">
                 <Button Command="ApplicationCommands.New">
                     <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png" Stretch="Fill" Height="16" Width="16"/>
                 </Button>
@@ -250,7 +251,7 @@
                         Compile the file (F5)
                     </Button.ToolTip>
                 </Button>
-                <Button Name="cmdAbortCompilation" Click="AbortCompilationClick" 
+                <Button Name="cmdAbortCompilation" Click="AbortCompilationClick" ToolTipService.ShowOnDisabled="True"
                         IsEnabled="{Binding Source={x:Static my:TheCompiler.Instance}, Path=Compiling, Mode=OneWay}">
                     <Image Source="/TikzEdt;component/Images/error.png" Style="{StaticResource toolbarImageStyle}" Stretch="Fill" Height="16" Width="16"/>
                     <Button.ToolTip>Abort compilation in case something goes wrong</Button.ToolTip>
@@ -313,9 +314,13 @@
             </ToolBar>
             <ToolBar  Band="0" Height="28" Name="tlbMode"
                       Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowMode, Converter={StaticResource boolToVis}}">
+                <ToolBar.Resources>
+                    <Style TargetType="{x:Type RadioButton}" x:Key="flatbstyle"  BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" >
+                    </Style>
+                </ToolBar.Resources>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Mode:</TextBlock>
                 <RadioButton IsChecked="True" Name="chkFancyMode" Checked="chkFancyMode_Checked"
-                             Style="{StaticResource {x:Type ToggleButton}}" Focusable="False"
+                             Style="{StaticResource flatbstyle}" Focusable="False"
                              ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="20000">
                     <DockPanel>
                         <Image Source="/TikzEdt;component/Images/base_star_32.png" Height="16" Width="16" Stretch="Fill"></Image>
@@ -332,7 +337,7 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
-                <RadioButton Name="chkStandardMode" Style="{StaticResource {x:Type ToggleButton}}" Focusable="False" Checked="chkFancyMode_Checked"
+                <RadioButton Name="chkStandardMode" Style="{StaticResource flatbstyle}" Focusable="False" Checked="chkFancyMode_Checked"
                              ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="20000">
                     <DockPanel>
                         <!-- <Image Source="/TikzEdt;component/Images/base_star_32.png"></Image>-->
@@ -353,7 +358,7 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
-                <RadioButton Name="chkProductionMode" Style="{StaticResource {x:Type ToggleButton}}"  Focusable="False" Checked="chkFancyMode_Checked"
+                <RadioButton Name="chkProductionMode" Style="{StaticResource flatbstyle}"  Focusable="False" Checked="chkFancyMode_Checked"
                              ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="20000">
                     <DockPanel>
                         <!-- <Image Source="/TikzEdt;component/Images/base_star_32.png"></Image>-->

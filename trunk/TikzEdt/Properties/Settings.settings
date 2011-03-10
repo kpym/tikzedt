@@ -96,7 +96,7 @@
       <Value Profile="(Default)">*</Value>
     </Setting>
     <Setting Name="OverlayCanvasCol2WidthSetting" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">500</Value>
+      <Value Profile="(Default)">300</Value>
     </Setting>
     <Setting Name="StatusFieldRowHeightSetting" Type="System.Windows.GridLength" Scope="User">
       <Value Profile="(Default)">80</Value>
