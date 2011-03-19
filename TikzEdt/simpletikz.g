@@ -248,10 +248,10 @@ tikzbody
 	;
 	
 dontcare_body_nobr
-	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '['))	// necessary to prevent conflict with options
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '['))	// necessary to prevent conflict with options
 	;	
 dontcare_body
-	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' ))   
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' ))   
 	;
 otherend
 	:	'\\end' '{' idd2 '}'
@@ -269,7 +269,7 @@ otherend
 //	 coordornode (coordornode | tikz_options? edgeop! coordornode )* 
 		
 tikzscope
-	:	tikzscope_start tikz_options? tikzbody? tikzscope_end		-> ^(IM_SCOPE tikzscope_start tikz_options? tikzbody tikzscope_end)
+	:	tikzscope_start tikz_options? tikzbody? tikzscope_end		-> ^(IM_SCOPE tikzscope_start tikz_options? tikzbody? tikzscope_end)
 	;
 
 //for "circle" we need size instead of a coordinate
@@ -537,7 +537,7 @@ coordinate_start
 	:	'\\coordinate' -> ^(IM_STARTTAG '\\coordinate')
 	;
 path_start_tag
-	:	'\\draw' | '\\fill' | '\\path' | '\\clip'
+	:	'\\draw' | '\\fill' | '\\path' | '\\clip' | '\\filldraw'
 	;
 
 ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'.'|'!')*
