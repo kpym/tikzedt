@@ -45,7 +45,7 @@ namespace TikzEdt
     static class Consts
     {
         public const double cmperin = 2.54;
-        public const double ptspertikzunit = 72.0 / cmperin; // 28.3464567
+        public const double ptspertikzunit = 28.45;//72.0 / cmperin; // 28.3464567
         public const double cmperem = 10 / Consts.ptspertikzunit;   // this is a hack
         public const double cmperex = 4.3 / Consts.ptspertikzunit;  // this too
         public const double TikzDefaultLinewidth = 0;
