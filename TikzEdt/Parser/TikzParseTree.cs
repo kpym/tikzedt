@@ -412,7 +412,15 @@ namespace TikzEdt.Parser
         {
             if (coord == null)// later possibly: todo: return correct value if OnlyOffset 
             {
-                return (parent as Tikz_Path).GetAbsOffset(out ret, this);
+                
+                //return (parent as Tikz_Path).GetAbsOffset(out ret, this);
+                if ((parent as Tikz_Path) != null)
+                    return (parent as Tikz_Path).GetAbsOffset(out ret, this);
+                else
+                {
+                    ret = new Point();
+                    return false;
+                }
                 //return new Point(0, 0);
             }
             else
