@@ -297,13 +297,14 @@ tikzscope
 // ****** The path commands ********
 tikzpath 
 	:	path_start tikzpath_element* semicolon_end	-> ^(IM_PATH path_start tikzpath_element* semicolon_end )
-	|	path_start 'let' let_assignment* 'in' (COMMAND tikzstring)? tikzpath_element* semicolon_end	-> ^(IM_PATH path_start tikzpath_element* semicolon_end )
-
 	;
+	//|	path_start 'let' let_assignment* 'in' (COMMAND tikzstring)? tikzpath_element* semicolon_end	-> ^(IM_PATH path_start tikzpath_element* semicolon_end )
 	
-let_assignment
-	:	COMMAND '=' tikzpath_element*
+	
+let_cmd_parts
+	:	'let' | 'in' | '=' | COMMAND  
 	;
+
 
 tikzpath_element
 	: tikzpath_element_single ','?
@@ -312,6 +313,7 @@ tikzpath_element
 tikzpath_element_single
 	:
 		  tikz_options 
+		  | let_cmd_parts -> ^(IM_TIKZEDT_CMD let_cmd_parts+)
 		| coord
 		| controls
 		| tikznode_int
@@ -401,7 +403,7 @@ circle
 	:	('circle' | 'ellipse') ((size)=> size)?	->	// note: options not allowed in between
 	;
 arc
-	:	'arc' ('(' numberunitorvariable ':' numberunitorvariable ':' numberunitorvariable ('and' numberunit)? ')')? -> ^(IM_ARC numberunitorvariable+)
+	:	'arc' ('(' numberunitorvariable ':' numberunitorvariable ':' numberunitorvariable ('and' numberunit)? ')')? -> ^(IM_ARC numberunitorvariable+ numberunit?)
 	;
 	
 size
