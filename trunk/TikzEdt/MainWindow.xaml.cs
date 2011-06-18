@@ -227,6 +227,8 @@ namespace TikzEdt
             //fileWatcher.NotifyFilter = NotifyFilters.LastWrite;
             fileWatcher.Changed += new FileSystemEventHandler(fileWatcher_Changed);
 
+            this.KeyDown += new KeyEventHandler(MainWindow_KeyDown);
+
             // Register events with the global compiler
             TheCompiler.Instance.OnCompileEvent += new TexCompiler.CompileEventHandler(TexCompiler_OnCompileEvent);
             TheCompiler.Instance.JobSucceeded += new TexCompiler.JobEventHandler(TheCompiler_JobSucceeded);
@@ -253,6 +255,17 @@ namespace TikzEdt
             RecentFileList.MenuClick += (s, e) => { if (TryDisposeFile()) LoadFile(e.Filepath); };            
 
             //cmbGrid.SelectedIndex = 4;
+        }
+
+        void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Properties.Settings.Default.CompileOnCTRLPressRadioButton)
+            {
+                if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
+                {
+                    Recompile();
+                }
+            }
         }
 
         void fileWatcher_Changed(object sender, FileSystemEventArgs e)
@@ -724,6 +737,8 @@ namespace TikzEdt
             //open file specified via command line parameter.            
             if (CmdLine[""] != null)
                 LoadFile(CmdLine[""]);
+
+            Recompile();
         }
 
         /// <summary>
@@ -1008,18 +1023,23 @@ namespace TikzEdt
 
         public void txtCode_TextChanged(object sender, EventArgs e)
         {
-
+            
             if (isLoaded)
             {
-                //doc.Text = "asdf";
-                //txtCode.Document = doc;
-                //SourceManager.Instance.SourceCode.Text = txtCode.Document.Text;
+                //only compile on keypress if code change option enabled.
+                if (Properties.Settings.Default.CompileOnCodeChangeRadioButton == false)
+                    return;
+
+                if (txtCode.IsModified == false)
+                    return;
                 
                 ChangesMade = true;
 
                 // no auto-compilation in Production Mode (no Auto saving)
-                if (chkProductionMode.IsChecked == false)
-                    Recompile();
+                if (chkProductionMode.IsChecked == true)
+                    return;
+
+                Recompile();
             }
         }
 
@@ -1080,9 +1100,14 @@ namespace TikzEdt
                 ChangesMade = false;  // set here since txtCode sets ChangesMade on Text change
 
                 // start watching for external changes
-             fileWatcher.Path = Directory.GetCurrentDirectory();
-            fileWatcher.Filter = CurFile;
-            fileWatcher.EnableRaisingEvents = true;
+                fileWatcher.Path = Directory.GetCurrentDirectory();
+                fileWatcher.Filter = CurFile;
+                fileWatcher.EnableRaisingEvents = true;
+
+                //if compiling only on CTRL, compile after loading file
+                //(otherwise loaded file is compiled because txtCode was changed)
+                if (Properties.Settings.Default.CompileOnCTRLPressRadioButton)
+                    Recompile();
             }
             catch (Exception Ex)
             {

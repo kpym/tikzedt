@@ -535,7 +535,12 @@
             </ToolBar>
             <ToolBar Band="1">
                 <ToolBar.ToolTip>
-                    <TextBlock Text="Create color definition" FontWeight="Bold"></TextBlock>
+                    <StackPanel>
+                        <TextBlock Text="Create color definition" FontWeight="Bold"></TextBlock>
+                        <TextBlock Width="200" TextWrapping="Wrap">
+                                Note: Use [draw=COLORNAME] to use color.
+                        </TextBlock>
+                    </StackPanel>
                 </ToolBar.ToolTip>
                 <CustomWPFColorPicker:ColorPickerControlView x:Name="ColorPicker1"  Height="16" Width="16" />
                 <Button HorizontalAlignment="Left" Name="bColorPicker1Insert" VerticalAlignment="Top" Visibility="Visible" 
