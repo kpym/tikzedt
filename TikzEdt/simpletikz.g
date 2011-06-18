@@ -319,6 +319,7 @@ tikzpath_element_single
 		| tikznode_int
 		| tikzcoordinate_int
 		| circle!
+		| arc_ignore
 		| arc
 		| roundbr_start tikzpath_element* roundbr_end -> ^(IM_PATH roundbr_start tikzpath_element* roundbr_end)
 		|	 '(' tikzpath_element* ')' -> ^(IM_PATH '(' tikzpath_element* ')')
@@ -383,6 +384,7 @@ tikzcoordinate_core1
 //	;
 tikznode_decorator
 	:	  nodename 
+		| 'at'! COMMAND
 		| 'at'! coord
 		| tikz_options_dontcare
 	;
@@ -403,7 +405,11 @@ circle
 	:	('circle' | 'ellipse') ((size)=> size)?	->	// note: options not allowed in between
 	;
 arc
-	:	'arc' ('(' numberunitorvariable ':' numberunitorvariable ':' numberunitorvariable ('and' numberunit)? ')')? -> ^(IM_ARC numberunitorvariable+ numberunit?)
+	:	'arc' ('(' numberunitorvariable ':' numberunitorvariable ':' numberunitorvariable ('and' numberunit)? ')') -> ^(IM_ARC numberunitorvariable+ numberunit?)
+	;
+	
+arc_ignore
+	: 	'arc' tikz_options -> ^(IM_DONTCARE)
 	;
 	
 size
