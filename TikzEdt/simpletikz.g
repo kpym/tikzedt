@@ -406,6 +406,7 @@ circle
 	;
 arc
 	:	'arc' ('(' numberunitorvariable ':' numberunitorvariable ':' numberunitorvariable ('and' numberunit)? ')') -> ^(IM_ARC numberunitorvariable+ numberunit?)
+	|	'arc' ('(' coord_part ':' coord_part ':' coord_part ('and' numberunit)? ')') -> ^(IM_ARC coord_part+ numberunit?)
 	;
 	
 arc_ignore
