@@ -320,8 +320,16 @@ namespace TikzEdt
         /// </summary>
         public void AbortCompilation()
         {
-            if (!texProcess.HasExited)
-                texProcess.Kill();
+            try
+            {
+
+                if (!texProcess.HasExited)
+                    texProcess.Kill();
+            }
+            catch (InvalidOperationException)
+            {
+                SetValue(CompilingPropertyKey, false);
+            }
             
         }
 
@@ -476,13 +484,31 @@ namespace TikzEdt
                     OnCompileEvent(this, "Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, CompileEventType.Start);
             }
             job.cmdline =  texProcess.StartInfo.WorkingDirectory +">"+ texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments;
-            texProcess.Start();
+            try
+            {
+                texProcess.Start();
 
-            // start asynchronous reading of the process output
-            //texProcess.BeginOutputReadLine();
-            //texProcess.BeginErrorReadLine(); // needed e.g. when %& "temp_preview_header" invalid.
-            //myPdflatexOutputParser.Clear();
-            AsyncReaderWorker.RunWorkerAsync();
+                // start asynchronous reading of the process output
+                //texProcess.BeginOutputReadLine();
+                //texProcess.BeginErrorReadLine(); // needed e.g. when %& "temp_preview_header" invalid.
+                //myPdflatexOutputParser.Clear();
+                AsyncReaderWorker.RunWorkerAsync();
+            }
+            catch (System.ComponentModel.Win32Exception ex)
+            { 
+                //texprocess_Exited("", "Cannot find pdf compiler pdflatex.");
+                //ex.NativeErrorCode == 2
+
+                timer.Stop();
+                SetValue(CompilingPropertyKey, false);
+                OnCompileEvent(this, "Cannot find pdf compiler pdflatex. Please install and/or add to PATH variable.", CompileEventType.Error);
+                
+
+                if (JobFailed != null)
+                {
+                    JobFailed(this, job);
+                }
+            }
             
         }
 

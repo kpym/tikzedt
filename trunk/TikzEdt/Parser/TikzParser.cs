@@ -235,10 +235,13 @@ namespace TikzEdt.Parser
                         item.AddChild(cmd);
                         break;
                     case simpletikzParser.IM_DONTCARE:
+                        Tikz_Something st = new Tikz_Something(getTokensString(tokens, childt));
+                        item.AddChild(st);
                         break;
+                        
                     default:
                         // getting here is an error
-                        throw new Exception(" childt.Type not handled! " + childt.Type.ToString());
+                        throw new Exception(" childt.Type not handled! " + childt.Type.ToString() + " (\"" + getTokensString(tokens, childt) + "\")");
                         //break;
 
                 }
