@@ -33,6 +33,10 @@
       <Text>circle=</Text>
       <environment>1</environment>
     </Snippets>
+     <Snippets>
+      <Text>line width=</Text>
+      <environment>1</environment>
+    </Snippets>
     <Snippets>
       <Text>outer sep=</Text>
       <environment>1</environment>

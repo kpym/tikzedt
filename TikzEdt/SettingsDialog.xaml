@@ -69,6 +69,7 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <TextBlock Margin="3" Text="Path to PdfLatex" Grid.Column="0" Grid.Row="0"></TextBlock>
                     <TextBox Margin="3" Grid.Column="1" Grid.Row="0" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_pdflatex, Mode=TwoWay}">
@@ -96,6 +97,17 @@
                         </TextBox.ToolTip>
                     </TextBox>
                     <CheckBox Margin="3" Grid.Row="4" Grid.Column="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ShowFullPathInTitle}">Show Full Path in Title </CheckBox>
+                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="5" Text="Compile on" Grid.ColumnSpan="2"></TextBlock>
+                    <Grid HorizontalAlignment="Stretch"  Grid.Column="1" Grid.Row="5" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="128*" />
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Margin="3" Content="code change" Grid.Column="1" Grid.Row="1" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=CompileOnCodeChangeRadioButton}" />
+                        <RadioButton Margin="3" Content="CTRL press" Grid.Column="2" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=CompileOnCTRLPressRadioButton}"/>
+                    </Grid>
+                    
                 </Grid>
             </TabItem>
             <TabItem>
