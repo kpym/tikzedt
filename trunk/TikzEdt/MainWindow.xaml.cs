@@ -1026,6 +1026,8 @@ namespace TikzEdt
             
             if (isLoaded)
             {
+                ChangesMade = true;
+
                 //only compile on keypress if code change option enabled.
                 if (Properties.Settings.Default.CompileOnCodeChangeRadioButton == false)
                     return;
@@ -1033,8 +1035,6 @@ namespace TikzEdt
                 if (txtCode.IsModified == false)
                     return;
                 
-                ChangesMade = true;
-
                 // no auto-compilation in Production Mode (no Auto saving)
                 if (chkProductionMode.IsChecked == true)
                     return;
