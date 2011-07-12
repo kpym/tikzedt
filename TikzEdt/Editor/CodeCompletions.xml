@@ -30,6 +30,10 @@
       <environment>1</environment>
     </Snippets>
     <Snippets>
+      <Text>anchor=</Text>
+      <environment>1</environment>
+    </Snippets>
+    <Snippets>
       <Text>circle=</Text>
       <environment>1</environment>
     </Snippets>
@@ -63,7 +67,16 @@
       <Description></Description>
     </Snippets>
     <Snippets>
+      <Text>align=</Text>
+      <environment>1</environment>
+      <Description></Description>
+    </Snippets><Snippets>
       <Text>text=</Text>
+      <environment>1</environment>
+      <Description></Description>
+    </Snippets>
+	<Snippets>
+      <Text>text width=</Text>
       <environment>1</environment>
       <Description></Description>
     </Snippets>
@@ -379,6 +392,82 @@
       <Text>\tiny</Text>
       <environment>5</environment>
     </Snippets>
+  </Environments>
+  
+  <Environments>
+    <StartTag>anchor=</StartTag>
+    <EndTag>(,|\])</EndTag>
+    <ID>6</ID>
+	<Snippets>
+      <Text>north</Text>
+      <environment>6</environment>
+    </Snippets>
+	<Snippets>
+      <Text>north east</Text>
+      <environment>6</environment>
+    </Snippets>
+	<Snippets>
+      <Text>north west</Text>
+      <environment>6</environment>
+    </Snippets><Snippets>
+      <Text>south</Text>
+      <environment>6</environment>
+    </Snippets>
+	<Snippets>
+      <Text>south east</Text>
+      <environment>6</environment>
+    </Snippets>
+	<Snippets>
+      <Text>south west</Text>
+      <environment>6</environment>
+    </Snippets>
+	<Snippets>
+      <Text>west</Text>
+      <environment>6</environment>
+    </Snippets>
+	<Snippets>
+      <Text>east</Text>
+      <environment>6</environment>
+    </Snippets>
+  </Environments>
+  
+  <Environments>
+    <StartTag>align=</StartTag>
+    <EndTag>(,|\])</EndTag>
+    <ID>7</ID>
+	<Snippets>
+      <Text>center</Text>
+      <environment>7</environment>
+    </Snippets>
+	<Snippets>
+      <Text>left</Text>
+      <environment>7</environment>
+    </Snippets>
+	<Snippets>
+      <Text>right</Text>
+      <environment>7</environment>
+    </Snippets>
+	<Snippets>
+      <Text>justify</Text>
+      <environment>7</environment>
+    </Snippets>
+	<Snippets>
+      <Text>flush center</Text>
+      <environment>7</environment>
+    </Snippets>
+	<Snippets>
+      <Text>flush left</Text>
+      <environment>7</environment>
+    </Snippets>
+	<Snippets>
+      <Text>flush right</Text>
+      <environment>7</environment>
+    </Snippets>
+	<Snippets>
+      <Text>none</Text>
+      <environment>7</environment>
+    </Snippets>
+	
   </Environments>
     
   <Triggers>
