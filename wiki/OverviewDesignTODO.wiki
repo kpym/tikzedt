@@ -15,6 +15,7 @@
   * add multiple document support  
     * refactor document related code into document class
   * hedged border around edited scope does not vanish when overlay turned off
+  * Knoten im Radialsystem setzen?
   
 === Code editor (avalonedit) ===
 *TODO:*
