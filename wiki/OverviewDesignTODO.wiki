@@ -14,6 +14,7 @@
   * don't open open dialog in temp folder (rather save last location)  
   * add multiple document support  
     * refactor document related code into document class
+  * hedged border around edited scope does not vanish when overlay turned off
   
 === Code editor (avalonedit) ===
 *TODO:*
