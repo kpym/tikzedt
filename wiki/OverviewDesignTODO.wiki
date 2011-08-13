@@ -16,6 +16,7 @@
     * refactor document related code into document class
   * hedged border around edited scope does not vanish when overlay turned off
   * Knoten im Radialsystem setzen?
+  * Open in new instance menu item/toolbar button
   
 === Code editor (avalonedit) ===
 *TODO:*
