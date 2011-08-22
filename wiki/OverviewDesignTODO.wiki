@@ -17,6 +17,7 @@
   * hedged border around edited scope does not vanish when overlay turned off
   * Knoten im Radialsystem setzen?
   * Open in new instance menu item/toolbar button
+  * Copy to clipboard with figure environment+caption etc.
   
 === Code editor (avalonedit) ===
 *TODO:*
