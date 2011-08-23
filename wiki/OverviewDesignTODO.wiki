@@ -79,6 +79,7 @@
 
 === Misc ===
 *TODO*
+  * edge node to itself -> loop
   * tooltips (esp. on snippets) open for longer time
   * Improve documentation
   * Ensure MRU stored in same folder as rest of config files...
