@@ -67,6 +67,7 @@
 
 == Usability ==
 *TODO*
+  * jump to source on dbl click
   * Texlive test+error
   * tikz extension (+associate)
   * other errors
