@@ -79,6 +79,7 @@
 
 === Misc ===
 *TODO*
+  * download of tikz manual-> display status bar+speed
   * edge node to itself -> loop
   * tooltips (esp. on snippets) open for longer time
   * Improve documentation
