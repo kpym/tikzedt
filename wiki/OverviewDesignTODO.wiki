@@ -80,6 +80,7 @@
 
 === Misc ===
 *TODO*
+  * file for which parsing failed is not taken into mru list after save!
   * download of tikz manual-> display status bar+speed
   * edge node to itself -> loop
   * tooltips (esp. on snippets) open for longer time
