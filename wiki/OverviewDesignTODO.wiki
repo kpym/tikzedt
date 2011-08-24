@@ -80,6 +80,8 @@
 
 === Misc ===
 *TODO*
+  * wysiwyg delete, wysiwyg enscope+copy
+  * immediately type text after inserting or selecting nodes (or jump to position with double click)
   * reposition selected items with cursors
   * sometimes raster vanishes after parse error. Raster not redrawn after focus regained(ALT+TAB)
   * MRU list: somtimes files are not added
