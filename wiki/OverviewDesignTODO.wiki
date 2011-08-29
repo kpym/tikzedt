@@ -80,6 +80,7 @@
 
 === Misc ===
 *TODO*
+  * Scrolling also if overlay is off (with Ctrl+wheel)
   * wysiwyg delete, wysiwyg enscope+copy
   * immediately type text after inserting or selecting nodes (or jump to position with double click)
   * reposition selected items with cursors
