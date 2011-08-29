@@ -97,4 +97,5 @@
   * outsorce code completions as separate lib
   * support multiple tikzpictures
   * start folder for file save/open dialogs
+  * allow for no pictures in snippets and add some commands. maybe allow to switch between picture and no picture view more easily
   * support tikzpictures anywhere on page (using http://tex.stackexchange.com/questions/10343/determining-the-position-of-a-box-e-g-on-a-page)
