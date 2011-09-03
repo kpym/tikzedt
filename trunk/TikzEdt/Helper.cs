@@ -100,6 +100,13 @@ namespace TikzEdt
 ";
 
         /// <summary>
+        /// The starting code for a new File 
+        /// </summary>
+        public const string DefaultTikzCode =
+@"\begin{tikzpicture}
+
+\end{tikzpicture}";
+        /// <summary>
         ///  The tikz code that is inserted before \end{tikzpicture}.
         ///  It writes the bounding box to the auxiliary file ..._BB.txt.
         ///  The "unnecessary" invisible node at the beginning is inserted since for some strange reason
@@ -129,7 +136,9 @@ namespace TikzEdt
         //public const string precompilation_args = "-ini -job-name=\"" + cTempFile + "\" \"&pdflatex " + cTempFile + "pre.tex\\dump\"";
         //public const string precompilation_args_img = "-ini -job-name=\"" + cTempImgFile + "\" \"&latex " + cTempImgFile + "pre.tex\\dump\"";
 
-
+        //Todo: the following creates a problem on first load
+        public static string SystaxFileFullPath { get { return System.Windows.Forms.Application.UserAppDataPath + "\\" + Consts.cSettingsDir + "\\" + Consts.cSyntaxFile; } }
+        public static string CompletionsFileFullPath { get { return System.Windows.Forms.Application.UserAppDataPath + "\\" + Consts.cSettingsDir + "\\" + Consts.cCompletionsFile; } }
     }
 
     /// <summary>

@@ -39,6 +39,7 @@ using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using TikzEdt.Parser;
 using FileDownloaderApp;
+using TikzEdt.ViewModels;
 
 namespace TikzEdt
 {
@@ -47,6 +48,9 @@ namespace TikzEdt
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static MainWindowVM TheVM { get; set; }
+        public static Common.RecentFileList recentFileList;
+
         public static RoutedCommand CompileCommand = new RoutedCommand();
         public static RoutedCommand FindNextCommand = new RoutedCommand();
         public static RoutedCommand FindPreviousCommand = new RoutedCommand();
@@ -1518,27 +1522,27 @@ namespace TikzEdt
             if (pdfOverlay1 == null)
                 return;
             if (sender == rbToolMove)
-                pdfOverlay1.tool = PdfOverlay.ToolType.move;
+                pdfOverlay1.Tool = OverlayToolType.move;
             else if (sender == rbToolAddVert)
-                pdfOverlay1.tool = PdfOverlay.ToolType.addvert;
+                pdfOverlay1.Tool = OverlayToolType.addvert;
             else if (sender == rbToolAddEdge)
-                pdfOverlay1.tool = PdfOverlay.ToolType.addedge;
+                pdfOverlay1.Tool = OverlayToolType.addedge;
             else if (sender == rbToolAddPath)
-                pdfOverlay1.tool = PdfOverlay.ToolType.addpath;
+                pdfOverlay1.Tool = OverlayToolType.addpath;
             else if (sender == rbToolRectangle)
-                pdfOverlay1.tool = PdfOverlay.ToolType.rectangle;
+                pdfOverlay1.Tool = OverlayToolType.rectangle;
             else if (sender == rbToolEllipse)
-                pdfOverlay1.tool = PdfOverlay.ToolType.ellipse;
+                pdfOverlay1.Tool = OverlayToolType.ellipse;
             else if (sender == rbToolBezier)
-                pdfOverlay1.tool = PdfOverlay.ToolType.bezier;
+                pdfOverlay1.Tool = OverlayToolType.bezier;
             else if (sender == rbToolSmooth)
-                pdfOverlay1.tool = PdfOverlay.ToolType.smooth;
+                pdfOverlay1.Tool = OverlayToolType.smooth;
             else if (sender == rbToolArc)
-                pdfOverlay1.tool = PdfOverlay.ToolType.arc;
+                pdfOverlay1.Tool = OverlayToolType.arc;
             else if (sender == rbToolGrid)
-                pdfOverlay1.tool = PdfOverlay.ToolType.grid;
+                pdfOverlay1.Tool = OverlayToolType.grid;
             else if (sender == rbToolArcEdit)
-                pdfOverlay1.tool = PdfOverlay.ToolType.arcedit;
+                pdfOverlay1.Tool = OverlayToolType.arcedit;
         }
 
         private void SnippetMenuClick(object sender, RoutedEventArgs e)
@@ -1830,10 +1834,10 @@ namespace TikzEdt
 
         private void pdfOverlay1_ToolChanged(object sender)
         {
-            rbToolMove.IsChecked = (pdfOverlay1.tool == PdfOverlay.ToolType.move);
-            rbToolAddVert.IsChecked = (pdfOverlay1.tool == PdfOverlay.ToolType.addvert);
-            rbToolAddEdge.IsChecked = (pdfOverlay1.tool == PdfOverlay.ToolType.addedge);
-            rbToolAddPath.IsChecked = (pdfOverlay1.tool == PdfOverlay.ToolType.addpath);
+            rbToolMove.IsChecked = (pdfOverlay1.Tool == OverlayToolType.move);
+            rbToolAddVert.IsChecked = (pdfOverlay1.Tool == OverlayToolType.addvert);
+            rbToolAddEdge.IsChecked = (pdfOverlay1.Tool == OverlayToolType.addedge);
+            rbToolAddPath.IsChecked = (pdfOverlay1.Tool == OverlayToolType.addpath);
         }
 
         private void cmbZoom_LostFocus(object sender, RoutedEventArgs e)

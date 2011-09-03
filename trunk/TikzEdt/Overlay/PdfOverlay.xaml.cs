@@ -162,49 +162,61 @@ namespace TikzEdt
             }
         }
 
-        Tikz_ParseTree _parsetree;
+        
+        readonly public static DependencyProperty ParseTreeProperty = DependencyProperty.Register(
+                "ParseTree", typeof(Tikz_ParseTree), typeof(PdfOverlay), new PropertyMetadata(null, OnParseTreeChanged));
+        static void OnParseTreeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            PdfOverlay po = d as PdfOverlay;
+            if (e.OldValue != null)
+                (e.OldValue as Tikz_ParseTree).TextChanged -= new Tikz_ParseTree.TextChangedHandler(po._parsetree_TextChanged);
+            if (po.ParseTree != null)
+                po.ParseTree.TextChanged += new Tikz_ParseTree.TextChangedHandler(po._parsetree_TextChanged);
+            po.RedrawObjects();
+        }
         /// <summary>
         /// The Parse tree currently being displayed is stored in this property.
         /// </summary>
         public Tikz_ParseTree ParseTree
         {
-            get { return _parsetree; }
-            set 
-            {
-                if (_parsetree != null)
-                    _parsetree.TextChanged -= new Tikz_ParseTree.TextChangedHandler(_parsetree_TextChanged);
-                _parsetree = value;
-                //curAddTo = null;
-                if (_parsetree != null)
-                    _parsetree.TextChanged += new Tikz_ParseTree.TextChangedHandler(_parsetree_TextChanged);
-            }
+            get { return (Tikz_ParseTree)GetValue(ParseTreeProperty); }
+            set { SetValue(ParseTreeProperty, value); }
         }
 
-        private double _Resolution = Consts.ptspertikzunit;
+        void AdjustSize()
+        {
+            Width = BB.Width * Resolution;
+            Height = BB.Height * Resolution;
+            AdjustPositions();
+        }
+
+        readonly public static DependencyProperty ResolutionProperty = DependencyProperty.Register(
+                "Resolution", typeof(double), typeof(PdfOverlay), new PropertyMetadata(Consts.ptspertikzunit,
+                    new PropertyChangedCallback(OnBBChanged)));
+        /// <summary>
+        /// The current bounding box.
+        /// </summary>
         public double Resolution
         {
-            get { return _Resolution; }
-            set
-            {
-                if (value > 0)
-                {
-                    _Resolution = value;
-                    Width = BB.Width * Resolution;
-                    Height = BB.Height * Resolution;
-                    AdjustPositions();
-                }
-            }
+            get { return (double)GetValue(ResolutionProperty); }
+            set { SetValue(ResolutionProperty, value); }
         }
 
-        private Rect _BB = new Rect(0,0,10,10);
+        readonly public static DependencyProperty BBProperty = DependencyProperty.Register(
+            "BB", typeof(Rect), typeof(PdfOverlay), new PropertyMetadata(new Rect(0,0,10,10), 
+                new PropertyChangedCallback( OnBBChanged )));
+        static void OnBBChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            PdfOverlay po = d as PdfOverlay;
+            po.AdjustSize();
+        }
+        /// <summary>
+        /// The current bounding box.
+        /// </summary>
         public Rect BB
         {
-            get { return _BB; }
-            set 
-            { 
-                _BB = value;
-                Resolution = Resolution; // to redraw
-            }
+            get { return (Rect)GetValue(BBProperty); }
+            set { SetValue(BBProperty, value); }
         }
 
         private List<OverlayShape> _TopLevelItems;
@@ -255,30 +267,7 @@ namespace TikzEdt
         {
             get
             {
-                /*switch (tool)
-                {
-                    case ToolType.move:
-                        return selectionTool;
-                    case ToolType.addedge:
-                        return edgeTool;
-                    case ToolType.addpath:
-                        return pathTool;
-                    case ToolType.addvert:
-                        return nodeTool;
-                    case ToolType.rectangle:
-                        return rectangleTool;
-                    case ToolType.ellipse:
-                        return ellipseTool;
-                    case ToolType.smooth:
-                        return smoothCurveTool;
-                    case ToolType.bezier:
-                        return bezierTool;
-                    case ToolType.grid:
-                        return gridTool;
-                    default:
-                        throw new Exception("Unknown tool type... please make sure all tool types are handled in PdfOverlay.CurrentTool."); // should not come here
-                }*/
-                return ToolList[(int) tool];
+                return ToolList[(int) Tool];
             }
         }
 
@@ -295,21 +284,19 @@ namespace TikzEdt
         ArcTool arcTool = new ArcTool();
         ArcEditTool arcEditTool = new ArcEditTool();
 
-        public enum ToolType { move, addvert, addedge, addpath, smooth, bezier, rectangle, ellipse, grid , arc, arcedit}        
         OverlayTool[] ToolList;
-        ToolType _tool = ToolType.move;
-        public ToolType tool
+        public static readonly DependencyProperty toolProperty = DependencyProperty.Register("Tool", typeof(OverlayToolType), typeof(PdfOverlay),
+                            new PropertyMetadata(OverlayToolType.move, new PropertyChangedCallback(OnToolChanged)));
+        static void OnToolChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            get { return _tool; }
-            set
-            {
-                ToolType old = _tool;
-                CurrentTool.OnDeactivate();
-                _tool = value;
-                CurrentTool.OnActivate();
-                if (old != _tool && ToolChanged != null)
-                    ToolChanged(this);
-            }
+            PdfOverlay po = sender as PdfOverlay;
+            po.ToolList[(int) e.OldValue].OnDeactivate();
+            po.CurrentTool.OnActivate();
+        }
+        public OverlayToolType Tool
+        {
+            get { return (OverlayToolType)GetValue(toolProperty); }
+            set { SetValue(toolProperty, value); }
         }
 
         #endregion
@@ -400,7 +387,7 @@ namespace TikzEdt
         // resets tool to standard (= the move tool)
         public void ActivateDefaultTool()
         {
-            tool = ToolType.move;
+            Tool = OverlayToolType.move;
         }
         
         //List<Control> objects = new List<Control>();
@@ -470,7 +457,7 @@ namespace TikzEdt
             canvas1.Children.Clear();
             CurEditing = null;
             ParseTree = null;
-            tool = tool;    // this deactivates + reactivates the current tool to reset its status... e.g., it might contain links to some selected objects etc.
+            Tool = Tool;    // this deactivates + reactivates the current tool to reset its status... e.g., it might contain links to some selected objects etc.
             TopLevelItems = new List<OverlayShape>();
             Rasterizer.ResetRaster();
         }
@@ -479,7 +466,7 @@ namespace TikzEdt
             canvas1.Children.Clear();
             //curSel = null;
             CurEditing = null;
-            tool = tool;    // this deactivates + reactivates the current tool to reset its status
+            Tool = Tool;    // this deactivates + reactivates the current tool to reset its status
             TopLevelItems = new List<OverlayShape>();
 
             if (ParseTree == null)
@@ -623,8 +610,8 @@ namespace TikzEdt
             // display the current mouse position
             p.Y /= Resolution;
             p.X /= Resolution;
-            p.X += _BB.X;
-            p.Y += _BB.Y;
+            p.X += BB.X;
+            p.Y += BB.Y;
                    
             String s = "(" + String.Format("{0:f1}", p.X) + "; "+ String.Format("{0:f1}", p.Y) + ")";
             ((MainWindow)Application.Current.Windows[0]).AddStatusBarCoordinate(s);
@@ -816,27 +803,27 @@ namespace TikzEdt
         private void contextmenuClick(object sender, RoutedEventArgs e)
         {
             if (sender == mnuMove)
-                tool = ToolType.move;
+                Tool = OverlayToolType.move;
             else if (sender == mnuAddNode)
-                tool = ToolType.addvert;
+                Tool = OverlayToolType.addvert;
             else if (sender == mnuAddEdge)
-                tool = ToolType.addedge;
+                Tool = OverlayToolType.addedge;
             else if (sender == mnuAddPath)
-                tool = ToolType.addpath;
+                Tool = OverlayToolType.addpath;
             else if (sender == mnuRectangle)
-                tool = ToolType.rectangle;
+                Tool = OverlayToolType.rectangle;
             else if (sender == mnuEllipse)
-                tool = ToolType.ellipse;
+                Tool = OverlayToolType.ellipse;
             else if (sender == mnuGrid)
-                tool = ToolType.grid;
+                Tool = OverlayToolType.grid;
             else if (sender == mnuSmooth)
-                tool = ToolType.smooth;
+                Tool = OverlayToolType.smooth;
             else if (sender == mnuBezier)
-                tool = ToolType.bezier;
+                Tool = OverlayToolType.bezier;
             else if (sender == mnuArc)
-                tool = ToolType.arc;
+                Tool = OverlayToolType.arc;
             else if (sender == mnuArcEdit)
-                tool = ToolType.arcedit;
+                Tool = OverlayToolType.arcedit;
             else if (sender == mnuJumpSource)
             {
                 JumpToSourceDoIt(sender, e);
@@ -857,10 +844,10 @@ namespace TikzEdt
                 return;
             }
 
-            mnuMove.IsChecked = (tool == ToolType.move);
-            mnuAddNode.IsChecked = (tool == ToolType.addvert);
-            mnuAddEdge.IsChecked = (tool == ToolType.addedge);
-            mnuAddPath.IsChecked = (tool == ToolType.addpath);
+            mnuMove.IsChecked = (Tool == OverlayToolType.move);
+            mnuAddNode.IsChecked = (Tool == OverlayToolType.addvert);
+            mnuAddEdge.IsChecked = (Tool == OverlayToolType.addedge);
+            mnuAddPath.IsChecked = (Tool == OverlayToolType.addpath);
 
             
             IInputElement o = canvas1.InputHitTest(Mouse.GetPosition(canvas1));
@@ -897,7 +884,7 @@ namespace TikzEdt
             // if the tool didn't use the click-> proceed with standard handling
             if (!e.Handled)
             {
-                if (tool == ToolType.move)
+                if (Tool == OverlayToolType.move)
                 {
                     //canvas1.ContextMenu.IsEnabled = true;
                     if (CurEditing != null)
@@ -908,7 +895,7 @@ namespace TikzEdt
                 }
                 else
                 {
-                    tool = ToolType.move;
+                    Tool = OverlayToolType.move;
                     PreventContextMenuOpening = true;
                 }
             }
@@ -951,7 +938,7 @@ namespace TikzEdt
             Tikz_Picture tp = ParseTree.GetTikzPicture();
             if (tp == null)
                 return;
-            if (tool != ToolType.move)
+            if (Tool != OverlayToolType.move)
                 return;     // context menu should actually only open with move tool,... but to be safe against later changes...
 
             if (sender == mnuAssignNewStyle || sender == mnuChangeToNewStyle)

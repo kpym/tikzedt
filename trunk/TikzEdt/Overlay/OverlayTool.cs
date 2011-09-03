@@ -26,6 +26,8 @@ using TikzEdt.Parser;
 
 namespace TikzEdt
 {
+    public enum OverlayToolType { move, addvert, addedge, addpath, smooth, bezier, rectangle, ellipse, grid, arc, arcedit } 
+
     /// <summary>
     /// This is the abstract base class of tools for the PdfOverlay.
     /// 
@@ -36,7 +38,8 @@ namespace TikzEdt
     ///     
     /// </summary>
     class OverlayTool
-    {
+    {       
+
         /// <summary>
         /// Access to the PdfOverlay. It will be set before the first call to OnActivate().
         /// </summary>
