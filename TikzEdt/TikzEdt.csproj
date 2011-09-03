@@ -130,6 +130,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Editor\TextEditorEx.cs" />
     <Compile Include="FileDownloader.cs" />
     <Compile Include="Overlay\ArcEditTool.cs" />
     <Compile Include="Overlay\ArcTool.cs" />
@@ -155,14 +156,15 @@
       <DependentUpon>InputMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Overlay\OverlayTool.cs" />
+    <Compile Include="Overlay\PdfOverlay.xaml.cs">
+      <DependentUpon>PdfOverlay.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Overlay\SelectionTool.cs" />
     <Compile Include="Parser\ANTLRErrorMsg.cs" />
     <Compile Include="Overlay\Rect_and_EllipseTools.cs" />
     <Compile Include="Overlay\SmoothCurveTool.cs" />
     <Compile Include="TexOutputParser.cs" />
-    <Compile Include="Overlay\PdfOverlay.xaml.cs">
-      <DependentUpon>PdfOverlay.xaml</DependentUpon>
-    </Compile>
     <Compile Include="RasterControl.xaml.cs">
       <DependentUpon>RasterControl.xaml</DependentUpon>
     </Compile>
@@ -192,7 +194,11 @@
     <Compile Include="Parser\TikzParser.cs" />
     <Compile Include="Parser\TikzParseTree.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
+    <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\TEDocument.cs" />
+    <Compile Include="Views\DocumentView.xaml.cs">
+      <DependentUpon>DocumentView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowSetting.cs" />
     <Page Include="Editor\FindReplaceDialog.xaml">
       <SubType>Designer</SubType>
@@ -249,6 +255,10 @@
     <Page Include="TikzEdtAbout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DocumentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

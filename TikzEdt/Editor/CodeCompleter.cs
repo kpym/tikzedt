@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace TikzEdt.Editor
 {
-    class CodeCompleter
+    public class CodeCompleter
     {
         public string CompletionTriggers = "[.";
 
