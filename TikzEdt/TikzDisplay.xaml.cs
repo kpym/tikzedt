@@ -59,40 +59,75 @@ namespace TikzEdt
             set { SetValue(RenderTransparentProperty, value); }
         }
 
-        private double _Resolution = Consts.ptspertikzunit;
+
+        readonly public static DependencyProperty ResolutionProperty = DependencyProperty.Register(
+         "Resolution", typeof(double), typeof(TikzDisplay), new PropertyMetadata(Consts.ptspertikzunit,
+             new PropertyChangedCallback(OnResolutionChanged)));
+       
+        
+        /// <summary>
+        /// The current bounding box.
+        /// </summary>
         public double Resolution
         {
-            get { return _Resolution; }
-            set {
-                if (value > 0)
-                {
-                    _Resolution = value;
-                    //RecalcSize();
-                    RedrawBMP(false);
-                }
-            }
+            get { return (double)GetValue(ResolutionProperty); }
+            set { SetValue(ResolutionProperty, value); }
+        }
+        static void OnResolutionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            TikzDisplay td = d as TikzDisplay;
+            td.RedrawBMP(false);
         }
 
-        private string _PdfPath = "";
+        readonly public static DependencyProperty PdfPathProperty = DependencyProperty.Register(
+            "PdfPath", typeof(string), typeof(TikzDisplay),
+            new PropertyMetadata("", OnPdfPathChanged, new CoerceValueCallback(OnPdfPathCoerce)));
+        static void OnPdfPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            TikzDisplay td = d as TikzDisplay;
+            if (td.PdfPath == "")
+            {
+                td.lblUnavailable.Visibility = Visibility.Visible;
+                td.image1.Visibility = Visibility.Collapsed;
+                td.NextBmpJob = null; // if manually set to unavailable-> clear pending bmp jobs
+                td.myPdfBmpDoc.UnloadPdf();
+            }
+            else
+                td.RedrawBMP(true);
+        }
+        static object OnPdfPathCoerce(DependencyObject d, object o)
+        {
+            return o;
+        }
+
         /// <summary>
         /// Set this property to "" to set the control to an unavailable state. 
         /// </summary>
         public string PdfPath
         {
-            set { 
-                _PdfPath = value;
-                if (_PdfPath == "")
-                {
-                    lblUnavailable.Visibility = Visibility.Visible;
-                    image1.Visibility = Visibility.Collapsed;
-                    NextBmpJob = null; // if manually set to unavailable-> clear pending bmp jobs
-                    myPdfBmpDoc.UnloadPdf();
-                }
-                else
-                    RedrawBMP(true);
-            }
-            get { return _PdfPath; }
+            get { return (string)GetValue(PdfPathProperty); }
+            set { SetValue(PdfPathProperty, value); }
         }
+
+
+
+        /// <summary>
+        /// This dependency property is a hack to eneble signalling of a pdf reload from the viewmodel to this control.
+        /// Whenever the value changes, the pdf is reloaded.
+        /// </summary>
+        public int ReloadPdf
+        {
+            get { return (int)GetValue(ReloadPdfProperty); }
+            set { SetValue(ReloadPdfProperty, value); }
+        }        
+        public static readonly DependencyProperty ReloadPdfProperty =
+            DependencyProperty.Register("ReloadPdf", typeof(int), typeof(TikzDisplay), new UIPropertyMetadata(0, OnReloadChanged));
+        static void OnReloadChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            TikzDisplay td = d as TikzDisplay;
+            td.RedrawBMP(true);
+        }
+        
 
         //protected Process texProcess = new Process();
         //protected String nextToCompile = "";

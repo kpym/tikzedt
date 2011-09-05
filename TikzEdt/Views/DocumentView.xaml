@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="TikzEdt.Views.TEDocumentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" 
+             xmlns:diagnostics="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+            xmlns:my="clr-namespace:TikzEdt"
+            xmlns:myVM="clr-namespace:TikzEdt.ViewModels"
+            xmlns:mySnippets="clr-namespace:TikzEdt.Snippets"
+            xmlns:myEditor="clr-namespace:TikzEdt.Editor"
+            xmlns:p="clr-namespace:TikzEdt.Properties"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="900">
+    <UserControl.Resources>
+        <ResourceDictionary Source="../Resources/ResourceDict.xaml"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="600"></ColumnDefinition>
+            <ColumnDefinition Width="3"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+    
+        <myEditor:TextEditorEx Grid.Column="0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="txtCode"
+                                       ShowLineNumbers="{Binding Source={x:Static p:Settings.Default}, Path=Editor_ShowLineNumbers}"
+                                       WordWrap="{Binding Source={x:Static p:Settings.Default}, Path=Editor_WordWrap}" Drop="txtCode_Drop" DragEnter="txtCode_DragEnter"
+                                       ContextMenuOpening="txtCodeContextMenu_ContextMenuOpening"                                       
+                                       Document2="{Binding Document}"
+                           HDFile="{x:Static my:Consts.SystaxFileFullPath}"
+                           CompletionsFile="{x:Static my:Consts.CompletionsFileFullPath}">
+        <myEditor:TextEditorEx.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
+                <MenuItem Header="Cut" Command="ApplicationCommands.Cut"/>
+                <MenuItem Header="Paste" Command="ApplicationCommands.Paste"/>
+                <Separator />
+                <MenuItem Header="Comment" Command="{Binding CommentCommand}"/>
+                <MenuItem Header="Uncomment" Command="{Binding UnCommentCommand}"/>
+                <MenuItem Header="En-Scope" Click="Enscope_Click"/>
+                <Separator/>
+                <MenuItem Header="Mark item in Overlay (if possible)" Click="MarkAtOffsetClick" />
+            </ContextMenu>
+        </myEditor:TextEditorEx.ContextMenu>
+    </myEditor:TextEditorEx>
+        <GridSplitter Grid.Column="1"  Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <ScrollViewer Grid.Column="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Name="PreviewScrollViewer">
+            <!-- 
+                <Button Grid.Row="0" Grid.Column="0">Hallo Welt</Button> <my:PdfOverlay  HorizontalAlignment="Stretch" x:Name="pdfOverlay1" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" />
+                -->
+            <Grid Background="#303030">
+                <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" 
+                                  VerticalAlignment="Center" Resolution="{Binding Resolution}"
+                                       Visibility="{Binding Source={x:Static my:MainWindow.TheVM}, Path=EditorMode, 
+                                         Converter={StaticResource EnumToVis}, ConverterParameter={x:Static myVM:TEMode.Wysiwyg}}" 
+                                        BB="{Binding CurrentBB}"/>
+                <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1"  
+                                    RenderTransparent="{Binding Source={x:Static my:MainWindow.TheVM}, Path=EditorMode, 
+                                    Converter={StaticResource EnumToBool}, ConverterParameter={x:Static myVM:TEMode.Wysiwyg}}"
+                                    VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" 
+                                    PdfPath="{Binding PdfPath}" Resolution="{Binding Resolution}"/>
+                <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" 
+                                Grid.Row="0" Grid.Column="0" Resolution="{Binding Resolution}"                                    
+                                    NodeStyle="{Binding NodeStyle}" EdgeStyle="{Binding EdgeStyle}"
+                                    Visibility="{Binding Source={x:Static my:MainWindow.TheVM}, Path=EditorMode, 
+                                    Converter={StaticResource EnumToVis}, ConverterParameter={x:Static myVM:TEMode.Wysiwyg}}"   
+                                    JumpToSource="pdfOverlay1_JumpToSource" MouseWheel="pdfOverlay1_MouseWheel"
+                                    Tool="{Binding Source={x:Static my:MainWindow.TheVM}, Path=CurrentTool, Mode=TwoWay}"
+                                    ParseTree="{Binding ParseTree}" BB="{Binding CurrentBB}"/>
+            </Grid>
+        </ScrollViewer>
+
+    </Grid>
+</UserControl>

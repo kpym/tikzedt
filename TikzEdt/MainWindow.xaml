@@ -11,7 +11,10 @@
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
         xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
         xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
+        xmlns:myEditor="clr-namespace:TikzEdt.Editor"
         xmlns:CustomWPFColorPicker="clr-namespace:CustomWPFColorPicker;assembly=CustomWPFColorPicker"
+        xmlns:myVM="clr-namespace:TikzEdt.ViewModels"
+        xmlns:FLV="clr-namespace:FileListView;assembly=FileListView"
         Title="TikzEdt" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
         Width="{Binding Source={x:Static p:Settings.Default}, Path=Window_Width, Mode=TwoWay}" 
@@ -20,26 +23,33 @@
         settings:WindowSettings.Save="True"
         UseLayoutRounding="True">
     <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary 
+                  Source="Resources/ResourceDict.xaml">
+                </ResourceDictionary>
+                <ResourceDictionary 
+                  Source="Resources/MainWindowResources.xaml">
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+  <!--  <Window.Resources>
         <ItemsPanelTemplate x:Key="Virtualized">
             <VirtualizingStackPanel IsItemsHost="True"/>
-        </ItemsPanelTemplate>
-        <!--  <my:TheCompiler x:Key="TheCompiler2"/> -->
-        <!-- El Cheapo hack to make images within disabled toolbar buttons appear 'grayed out'.  This doesn't
-    gray them at all, but lowers their opacity so the (usually gray) background of the button shows through.
-    If WPF had a built-in facility for grayscaling images in disabled buttons, this kind of icky kludgery wouldn't
-    be necessary -->
+        </ItemsPanelTemplate>        
         <Style TargetType="{x:Type Image}" x:Key="toolbarImageStyle">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}, AncestorLevel=1}, Path=IsEnabled}" Value="False">
                     <Setter Property="Opacity" Value="0.50"></Setter>
                 </DataTrigger>
             </Style.Triggers>
-        </Style>
+        </Style> -->
         <!-- Note: If VS2010 tells you something like:
         "type my:InverseBooleanConverter was not found. verify that you are not missing an assembly"
         delete your obj directory within this project, then click the build button (F6) 
         (or Build->Clean, then Rebuild worked for me) -->
-        <my:InverseBooleanConverter x:Key="BoolInverter" />
+ <!--       <my:InverseBooleanConverter x:Key="BoolInverter" />
         <my:SeverityImageConverter x:Key="SeverityToImg"/>
         <BooleanToVisibilityConverter x:Key="boolToVis" />
         <my:InverseNullableBooleanConverter x:Key="NBoolInverter" />
@@ -53,7 +63,7 @@
                 <scm:SortDescription Direction="Ascending" PropertyName="Line"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
-    </Window.Resources>
+    </Window.Resources>  -->
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Undo"
                     Executed="UndoCommandHandler"
@@ -63,10 +73,10 @@
                     Executed="RedoCommandHandler"
                     CanExecute="RedoCanExecute"                       
                     />
-        <CommandBinding Command="ApplicationCommands.Open"
+        <!--      <CommandBinding Command="ApplicationCommands.Open"
                     Executed="OpenCommandHandler"
                     CanExecute="AlwaysTrue"                       
-                    />
+                    /> -->
         <CommandBinding Command="ApplicationCommands.Save"
                     Executed="SaveCommandHandler"
                     CanExecute="AlwaysTrue"
@@ -75,10 +85,10 @@
                     Executed="SaveAsCommandHandler"
                     CanExecute="AlwaysTrue"
                     />
-        <CommandBinding Command="ApplicationCommands.New"
+        <!--     <CommandBinding Command="ApplicationCommands.New"
                     Executed="NewCommandHandler"
                     CanExecute="AlwaysTrue"
-                    />
+                    />-->
         <CommandBinding Command="ApplicationCommands.Close"
                     Executed="ExitCommandHandler"
                     CanExecute="AlwaysTrue"
@@ -228,8 +238,14 @@
                 <Button Command="ApplicationCommands.New">
                     <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png" Stretch="Fill" Height="16" Width="16"/>
                 </Button>
-                <Button Command="ApplicationCommands.Open">
+                <Button Command="ApplicationCommands.New" CommandParameter="true" ToolTip="Create a new file in a new Instance of TikzEdt">
+                    <Image Source="/TikzEdt;component/Images/NewDocument_32x32newwin.png" Stretch="Fill" Height="16" Width="16"/>
+                </Button>
+                <Button Command="ApplicationCommands.Open" >
                     <Image Source="/TikzEdt;component/Images/openfolderHS.png"  Stretch="Fill" Height="16" Width="16"/>
+                </Button>
+                <Button Command="ApplicationCommands.Open" CommandParameter="true" ToolTip="Open a file in a new Instance of TikzEdt">
+                    <Image Source="/TikzEdt;component/Images/openfolderHSnewwin.png"  Stretch="Fill" Height="16" Width="16"/>
                 </Button>
                 <Button Command="ApplicationCommands.Save">
                     <Image Source="/TikzEdt;component/Images/saveHS.png"  Stretch="Fill" Height="16" Width="16" />
@@ -257,7 +273,8 @@
                     <Button.ToolTip>Abort compilation in case something goes wrong</Button.ToolTip>
                 </Button>
                 <Separator/>
-                <CheckBox HorizontalAlignment="Center" IsChecked="True" Checked="CheckBox_Checked" IsEnabled="{Binding ElementName=chkFancyMode, Path=IsChecked}" Name="chkOverlay" Unchecked="chkOverlay_Unchecked">
+                <CheckBox HorizontalAlignment="Center" IsChecked="{Binding ShowOverlay}" IsEnabled="{Binding EditorMode, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myVM:TEMode.Wysiwyg}}"
+                          Checked="CheckBox_Checked" Name="chkOverlay" Unchecked="chkOverlay_Unchecked">
                     Overlay
                     <CheckBox.ToolTip>Switch the overlay displaying on top of the preview on/off</CheckBox.ToolTip>
                 </CheckBox>
@@ -294,7 +311,7 @@
             <ToolBar Height="28" Name="tlbGrid">
                 <TextBlock VerticalAlignment="Center" Margin="0 0 3 0">Grid:</TextBlock>
                 <ComboBox Name="cmbGrid"  Width="40" ItemsSource="{Binding}" SelectedIndex="4" IsEditable="True"
-                          Text="{Binding Source={x:Static p:Settings.Default}, Path=Raster_GridWidth, Mode=TwoWay}">
+                          Text="{Binding RasterWidth}">
                     <ComboBox.Style>
                         <Style>
                             <EventSetter Event="TextBox.TextChanged" Handler="cmbGridTextChanged" />
@@ -307,9 +324,9 @@
                     <ComboBoxItem Content="1"/>
                 </ComboBox>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center" ToolTip="The number of coordinate lines of constant angular parameter shown in polar coordinate mode">RS:</TextBlock>
-                <TextBox Width ="30" Name="txtRadialSteps" Text="{Binding Source={x:Static p:Settings.Default}, Path=Raster_RadSteps, Mode=TwoWay}" TextChanged="txtRadialSteps_TextChanged" />                
+                <TextBox Width ="30" Name="txtRadialSteps" Text="{Binding RasterRadialSteps}" />                
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center" ToolTip="The offset (in degrees) of the first coordinate line of constant angular parameter shown in polar coordinate mode">RO:</TextBlock>
-                <TextBox Width ="30" Name="txtRadialOffset" Text="{Binding Source={x:Static p:Settings.Default}, Path=Raster_RadialOffset, Mode=TwoWay}" TextChanged="txtRadialOffset_TextChanged" />
+                <TextBox Width ="30" Name="txtRadialOffset" Text="{Binding RasterRadialOffset}"  />
                 <!-- <extToolkit:NumericUpDown Increment="1" Maximum="360" Minimum="-360" Width="50"/> -->
             </ToolBar>
             <ToolBar  Band="0" Height="28" Name="tlbMode"
@@ -319,9 +336,10 @@
                     </Style>
                 </ToolBar.Resources>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Mode:</TextBlock>
-                <RadioButton IsChecked="True" Name="chkFancyMode" Checked="chkFancyMode_Checked"
+                <RadioButton Name="chkFancyMode" Checked="chkFancyMode_Checked"
                              Style="{StaticResource flatbstyle}" Focusable="False"
-                             ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="20000">
+                             ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="20000"
+                             IsChecked="{Binding EditorMode, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myVM:TEMode.Wysiwyg}}">
                     <DockPanel>
                         <Image Source="/TikzEdt;component/Images/base_star_32.png" Height="16" Width="16" Stretch="Fill"></Image>
                         <TextBlock>Wysiwyg</TextBlock>
@@ -338,7 +356,8 @@
                     </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton Name="chkStandardMode" Style="{StaticResource flatbstyle}" Focusable="False" Checked="chkFancyMode_Checked"
-                             ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="20000">
+                             ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="20000"
+                             IsChecked="{Binding EditorMode, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myVM:TEMode.Preview}}">
                     <DockPanel>
                         <!-- <Image Source="/TikzEdt;component/Images/base_star_32.png"></Image>-->
                         <TextBlock>Preview</TextBlock>
@@ -359,7 +378,8 @@
                     </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton Name="chkProductionMode" Style="{StaticResource flatbstyle}"  Focusable="False" Checked="chkFancyMode_Checked"
-                             ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="20000">
+                             ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="20000"
+                             IsChecked="{Binding EditorMode, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myVM:TEMode.Production}}">
                     <DockPanel>
                         <!-- <Image Source="/TikzEdt;component/Images/base_star_32.png"></Image>-->
                         <TextBlock>Production</TextBlock>
@@ -380,7 +400,8 @@
                 </RadioButton>
             </ToolBar>
             <ToolBar Name="tlbTools"  Height="28" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}" Band="1">
-                <RadioButton HorizontalAlignment="Left" Name="rbToolMove" VerticalAlignment="Top" IsChecked="True" Checked="rb1_Checked">
+                <RadioButton HorizontalAlignment="Left" Name="rbToolMove" VerticalAlignment="Top" Checked="rb1_Checked"
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.move}}">
                     <Image Source="/TikzEdt;component/Images/base_cursor.png" Style="{StaticResource toolbarImageStyle}" Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -392,7 +413,8 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolAddVert" VerticalAlignment="Top" Checked="rb1_Checked">
+                <RadioButton HorizontalAlignment="Left" Name="rbToolAddVert" VerticalAlignment="Top" 
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.addvert}}">
                     <Image Source="/TikzEdt;component/Images/bmpvert.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -403,7 +425,8 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolAddEdge" VerticalAlignment="Top" Checked="rb1_Checked">
+                <RadioButton HorizontalAlignment="Left" Name="rbToolAddEdge" VerticalAlignment="Top" Checked="rb1_Checked"
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.addedge}}">
                     <Image Source="/TikzEdt;component/Images/edge.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -414,7 +437,8 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolAddPath" VerticalAlignment="Top" Checked="rb1_Checked">
+                <RadioButton HorizontalAlignment="Left" Name="rbToolAddPath" VerticalAlignment="Top" Checked="rb1_Checked"
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.addpath}}">
                     <Image Source="/TikzEdt;component/Images/path.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -425,7 +449,8 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolSmooth" VerticalAlignment="Top" Checked="rb1_Checked">
+                <RadioButton HorizontalAlignment="Left" Name="rbToolSmooth" VerticalAlignment="Top" Checked="rb1_Checked"
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.smooth}}">
                     <Image Source="/TikzEdt;component/Images/Smooth.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -436,7 +461,8 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolBezier" VerticalAlignment="Top" Checked="rb1_Checked">
+                <RadioButton HorizontalAlignment="Left" Name="rbToolBezier" VerticalAlignment="Top" Checked="rb1_Checked"
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.bezier}}">
                     <Image Source="/TikzEdt;component/Images/Bezier.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -447,7 +473,8 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolRectangle" VerticalAlignment="Top" Checked="rb1_Checked">
+                <RadioButton HorizontalAlignment="Left" Name="rbToolRectangle" VerticalAlignment="Top" Checked="rb1_Checked"
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.rectangle}}">
                     <Image Source="/TikzEdt;component/Images/Rectangle.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -458,7 +485,8 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolEllipse" VerticalAlignment="Top" Checked="rb1_Checked">
+                <RadioButton HorizontalAlignment="Left" Name="rbToolEllipse" VerticalAlignment="Top" Checked="rb1_Checked"
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.ellipse}}">
                     <Image Source="/TikzEdt;component/Images/Ellipse.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -469,7 +497,8 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolArc" VerticalAlignment="Top" Checked="rb1_Checked">
+                <RadioButton HorizontalAlignment="Left" Name="rbToolArc" VerticalAlignment="Top" Checked="rb1_Checked"
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.arc}}">
                     <Image Source="/TikzEdt;component/Images/arc.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -480,7 +509,8 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolArcEdit" VerticalAlignment="Top" Checked="rb1_Checked" Visibility="Visible" >
+                <RadioButton HorizontalAlignment="Left" Name="rbToolArcEdit" VerticalAlignment="Top" Checked="rb1_Checked" Visibility="Visible"
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.arcedit}}">
                     <Image Source="/TikzEdt;component/Images/arcedit.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -492,7 +522,8 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
-                <RadioButton HorizontalAlignment="Left" Name="rbToolGrid" VerticalAlignment="Top" Checked="rb1_Checked">
+                <RadioButton HorizontalAlignment="Left" Name="rbToolGrid" VerticalAlignment="Top" Checked="rb1_Checked"
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.grid}}">
                     <Image Source="/TikzEdt;component/Images/Grid.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -504,13 +535,15 @@
                     </RadioButton.ToolTip>
                 </RadioButton>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Node style:</TextBlock>
-                <ComboBox Name="cmbNodeStyles" Width="150" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"></ComboBox>
+                <ComboBox Name="cmbNodeStyles" Width="150" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"
+                          Text="{Binding TheDocument.NodeStyle}" ItemsSource="{Binding TheDocument.TikzStyles}"/>
                 <Button Name="cmdClearNStyle" Click="cmdClear_Click" ToolTip="Clear Node Style"
                         IsEnabled="{Binding ElementName=cmbNodeStyles, Path=Text, Converter={StaticResource compareConverter}, ConverterParameter=''}">
                     <Image Source="/TikzEdt;component/Images/BuilderDialog_remove.png" Style="{StaticResource toolbarImageStyle}"/>
                 </Button>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Edge style:</TextBlock>
-                <ComboBox Name="cmbEdgeStyles" Width="150" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"></ComboBox>
+                <ComboBox Name="cmbEdgeStyles" Width="150" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"
+                          Text="{Binding TheDocument.EdgeStyle}" ItemsSource="{Binding ActiveVM.TikzStyles}"/>
                 <Button Name="cmdClearEStyle" Click="cmdClear_Click" ToolTip="Clear Edge Style" 
                         IsEnabled="{Binding ElementName=cmbEdgeStyles, Path=Text, Converter={StaticResource compareConverter}, ConverterParameter=''}">
                     <Image Source="/TikzEdt;component/Images/BuilderDialog_remove.png" Style="{StaticResource toolbarImageStyle}"/>
@@ -609,7 +642,7 @@
             
             <StackPanel DockPanel.Dock="Left" Background="Gray">
                 <ToggleButton Width="60" Name="cmdFiles" Checked="cmdSnippets_Checked" Unchecked="cmdSnippets_Unchecked" 
-                              Visibility="Collapsed" Focusable="False">
+                              Focusable="False">
                     <ToggleButton.LayoutTransform>
                         <RotateTransform Angle="-90"/>
                     </ToggleButton.LayoutTransform>
@@ -637,6 +670,11 @@
                     TeX-files in current working directory
                 </ListView.ToolTip>
             </ListView>
+                <FLV:FolderView x:Name="folderView" Grid.Column="1" Grid.Row="0"
+                            Visibility="{Binding ElementName=cmdFiles, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                            Filter="*.tex|*.*" FilterIndex="0" OnFileOpen="folderView_OnFileOpen"
+                            RecentLocations="{Binding ElementName=RecentFileList,Path=BindableRecentFiles}"
+                            />
             </Grid>
             <osc:DockPanelSplitter DockPanel.Dock="Left" Width="5" Background="Gray"
                                    Visibility="{Binding Path=LeftToolsColVisible, Source={x:Static p:Settings.Default},Converter={StaticResource boolToVis}}"/>
@@ -646,18 +684,31 @@
                 <Button Grid.Row="0" Grid.Column="0">Hallo Welt</Button> <my:PdfOverlay  HorizontalAlignment="Stretch" x:Name="pdfOverlay1" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" />
                 -->
                 <Grid Background="#303030">
-                    <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center"
-                                       Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"  />
+                    <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center"                                       
+                                      Resolution="{Binding TheDocument.Resolution}"
+                                      Visibility="{Binding ElementName=pdfOverlay1, Path=Visibility}" 
+                                      BB="{Binding TheDocument.CurrentBB}" />
                     <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" 
-                                    RenderTransparent="{Binding ElementName=chkFancyMode, Path=IsChecked}"
-                                    VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" />
-                    <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" 
-                                    OnModified="pdfOverlay1_OnModified" BeginModify="pdfOverlay1_BeginModify" EndModify="pdfOverlay1_EndModify" 
-                                    NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text,Mode=OneWay}" EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}"
-                                    Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"   
+                                    RenderTransparent="{Binding EditorMode, Converter={StaticResource EnumToBool}, ConverterParameter={x:Static myVM:TEMode.Wysiwyg}}"
+                                    PdfPath="{Binding TheDocument.PdfPath}" Resolution="{Binding TheDocument.Resolution}"
+                                    VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" 
+                                    ReloadPdf="{Binding TheDocument.ReloadPdf}"/>
+                    <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0"                                      
+                                    NodeStyle="{Binding NodeStyle}" EdgeStyle="{Binding EdgeStyle}"                                                                          
                                     JumpToSource="pdfOverlay1_JumpToSource" ToolChanged="pdfOverlay1_ToolChanged" MouseWheel="pdfOverlay1_MouseWheel"
                                     NewNodeModifier="{Binding ElementName=cmbModifier, Path=Text}"
-                                    UsePolarCoordinates="{Binding ElementName=chkPolar, Path=IsChecked}"/>
+                                    UsePolarCoordinates="{Binding ElementName=chkPolar, Path=IsChecked}"
+                                    Tool="{Binding CurrentTool, Mode=TwoWay}"
+                                    ParseTree="{Binding TheDocument.ParseTree}" BB="{Binding TheDocument.CurrentBB}">
+                        <my:PdfOverlay.Visibility>
+                            <MultiBinding Converter="{StaticResource EnumBoolToVis}" ConverterParameter="{x:Static myVM:TEMode.Wysiwyg}">
+                                <Binding Path="EditorMode" />
+                                <Binding Path="ShowOverlay" />
+                            </MultiBinding>
+                        </my:PdfOverlay.Visibility>
+                    </my:PdfOverlay>
+                    <!-- NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text,Mode=OneWay}" EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}"
+                                    Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}" -->
                 </Grid>
             </ScrollViewer>
             <osc:DockPanelSplitter DockPanel.Dock="Right" Width="5" Background="Gray"/>
@@ -726,11 +777,14 @@
 
                     </Grid>
                 </DockPanel>                
-                <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" 
+                <myEditor:TextEditorEx HorizontalAlignment="Stretch" x:Name="txtCode" VerticalAlignment="Stretch" 
                                        ShowLineNumbers="{Binding Source={x:Static p:Settings.Default}, Path=Editor_ShowLineNumbers}"
                                        WordWrap="{Binding Source={x:Static p:Settings.Default}, Path=Editor_WordWrap}" Drop="txtCode_Drop" DragEnter="txtCode_DragEnter"
-                                       ContextMenuOpening="txtCodeContextMenu_ContextMenuOpening">
-                    <avalonedit:TextEditor.ContextMenu>
+                                       ContextMenuOpening="txtCodeContextMenu_ContextMenuOpening"
+                                       HDFile="{x:Static my:Consts.SystaxFileFullPath}"
+                                       CompletionsFile="{x:Static my:Consts.CompletionsFileFullPath}"
+                                       Document2="{Binding TheDocument.Document}">
+                    <myEditor:TextEditorEx.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
                             <MenuItem Header="Cut" Command="ApplicationCommands.Cut"/>
@@ -742,8 +796,8 @@
                             <Separator/>
                             <MenuItem Header="Mark item in Overlay (if possible)" Click="MarkAtOffsetClick" />
                         </ContextMenu>
-                    </avalonedit:TextEditor.ContextMenu>
-                </avalonedit:TextEditor>
+                    </myEditor:TextEditorEx.ContextMenu>
+                </myEditor:TextEditorEx>
             </Grid>
 
             <!-- <GridSplitter Background="Gray" Grid.Column="4" Grid.Row="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />-->

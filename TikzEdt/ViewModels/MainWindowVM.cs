@@ -9,12 +9,13 @@ using System.Windows;
 using Microsoft.Win32;
 using TikzEdt.Views;
 using System.Windows.Threading;
+using System.IO;
 
 namespace TikzEdt.ViewModels
 {
     public class MainWindowVM : ViewModelBase
     {
-        public ObservableCollection<TEDocumentView> Documents { get; private set; }
+      /*  public ObservableCollection<TEDocumentView> Documents { get; private set; }
 
         private TEDocumentView _ActiveView = null;
         public TEDocumentView ActiveView
@@ -29,15 +30,15 @@ namespace TikzEdt.ViewModels
                     NotifyPropertyChanged("ActiveVM");
                 }
             }
-        }
-        public TEDocumentVM ActiveVM
+        } */
+        private TEDocumentVM _TheDocument; // = new TEDocumentVM();
+        public TEDocumentVM TheDocument
         {
-            get
+            get {return _TheDocument; }
+            private set 
             {
-                if (_ActiveView != null)
-                    return ActiveView.TheVM;
-                else
-                    return null;
+                _TheDocument = value;
+                NotifyPropertyChanged("TheDocument");
             }
         }
 
@@ -135,7 +136,7 @@ namespace TikzEdt.ViewModels
 
         public MainWindowVM()
         {
-            Documents = new ObservableCollection<TEDocumentView>();
+            //Documents = new ObservableCollection<TEDocumentView>();
             // create one document to start with
             //AddDocument();
 
@@ -158,20 +159,23 @@ namespace TikzEdt.ViewModels
         /// <returns>True if successful, false if some file(s) could not be closed.</returns>
         public bool TryCloseAll()
         {
-            for (int i = Documents.Count - 1; i >= 0; i--)
+      /*      for (int i = Documents.Count - 1; i >= 0; i--)
             {
                 Documents[i].TheVM.CloseCommand.Execute(this);
                 if (Documents.Count > i)
                     return false;
-            }
+            }*/
             return true;
         }
 
-        public RelayCommand NewFileCommand
+        public CommandBinding NewCommandBinding
         {
-            get { return new RelayCommand((object sender) => AddDocument()); }
+            get { return new CommandBinding(ApplicationCommands.New, NewCommandHandler); }
         }
-
+        public CommandBinding OpenCommandBinding
+        {
+            get { return new CommandBinding(ApplicationCommands.Open, OpenCommandHandler); }
+        }
 
         /// <summary>
         /// Adds a new document. If cFile != null, it is loaded from file.
@@ -186,8 +190,8 @@ namespace TikzEdt.ViewModels
                 doc.OnClose += new EventHandler(doc_OnClose);
                 TEDocumentView view = new TEDocumentView(doc);
                 doc.OnSaved += ((s, e) => MainWindow.recentFileList.InsertFile((s as TEDocumentVM).FilePath));
-                Documents.Insert(0, view);
-                ActiveView = view;
+                //Documents.Insert(0, view);
+                //ActiveView = view;
                 if (cFile != null)
                     MainWindow.recentFileList.InsertFile(cFile);
             }
@@ -200,11 +204,57 @@ namespace TikzEdt.ViewModels
             }
         }
 
+        /// <summary>
+        /// Tries to create a new file. Is the command parameter is not null, then a new instance of TikzEdt is opened.
+        /// If the current file is unsaved, the user has to be asked to save.
+        /// </summary>
+        private void NewCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Parameter != null)
+            {
+                // open a new instance (TODO: in the same folder...)
+                System.Diagnostics.Process.Start( System.Reflection.Assembly.GetExecutingAssembly().Location );
+            }
+            else
+            {
+                if (TheDocument == null || TheDocument.TryDisposeFile())
+                    TheDocument = new TEDocumentVM();
+            }
+
+        }
+
+        /// <summary>
+        /// Tries to create a new file. Is the command parameter is true, then a new instance of TikzEdt is opened.
+        /// If the current file is unsaved, the user has to be asked to save.
+        /// </summary>
+        private void OpenCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            //if (TheDocument != null)
+            //    ofd.InitialDirectory = System.IO.Path.GetDirectoryName(TheDocument.FilePath);
+            ofd.InitialDirectory = Directory.GetCurrentDirectory();
+            //ofd.FileName = System.IO.Path.GetFileName(CurFile);
+            if (e.Parameter != null)
+            {
+                if (ofd.ShowDialog() == true)
+                {
+                    // open a new instance
+                    System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location, "\""+ofd.FileName+"\"");
+                }
+            }
+            else
+            {
+                if (TheDocument == null || TheDocument.TryDisposeFile())
+                    if (ofd.ShowDialog() == true)
+                        TheDocument = new TEDocumentVM(ofd.FileName);
+            }
+        }
+
         public void OpenFile()
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            if (ActiveVM != null)
-                ofd.InitialDirectory = System.IO.Path.GetDirectoryName(ActiveVM.FilePath);
+         //   if (ActiveVM != null)
+         //       ofd.InitialDirectory = System.IO.Path.GetDirectoryName(ActiveVM.FilePath);
             //ofd.InitialDirectory = Directory.GetCurrentDirectory();
             //ofd.FileName = System.IO.Path.GetFileName(CurFile);
             if (ofd.ShowDialog() == true)
@@ -219,13 +269,14 @@ namespace TikzEdt.ViewModels
             if (view != null)
             {
                 (sender as TEDocumentVM).OnClose -= new EventHandler(doc_OnClose);
-                Documents.Remove(view);
+                //Documents.Remove(view);
             }
         }
 
         TEDocumentView ViewFromVM(TEDocumentVM vm)
         {
-            return Documents.FirstOrDefault(view => (view.TheVM == vm));
+           // return Documents.FirstOrDefault(view => (view.TheVM == vm));
+            return null;
         }
     }
 

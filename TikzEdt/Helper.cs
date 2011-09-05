@@ -656,6 +656,70 @@ namespace TikzEdt
         }
     }
 
+    public class EnumToBooleanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value.Equals(parameter);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value.Equals(false))
+                return Binding.DoNothing;
+            else
+                return parameter;
+        }
+    }
+
+    public class EnumToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value.Equals(parameter))
+                return Visibility.Visible;
+            else
+                return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class EnumAndBooleanToVisibilityConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType,
+                              object parameter, System.Globalization.CultureInfo culture)
+        {                        
+            bool visible = (values[1] is bool)? (bool)(values[1]) : true;
+            if (visible && values[0].Equals(parameter))
+                return Visibility.Visible;
+            else
+                return Visibility.Collapsed;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetType,
+                                  object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    class NoopConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value;
+        }
+    }
+
     public class CompareConverter : IValueConverter
     {
         #region IValueConverter Members
@@ -673,5 +737,35 @@ namespace TikzEdt
         }
 
         #endregion
+    }
+
+
+    /// <summary>
+    /// Converts from a string like 100 or 100 % to points/cm
+    /// </summary>
+    class ZoomToResolutionConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            double d = (double)value;
+            return Math.Round(d / Consts.ptspertikzunit * 100).ToString() + " %";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            string s = value as string;
+            s = s.Trim();
+            if (s.EndsWith("%"))
+                s = s.Remove(s.Length - 1);
+            double d;
+            if (Double.TryParse(s, out d))
+            {
+                if (d > 2 && d < 6000)
+                {
+                    return d / 100 * Consts.ptspertikzunit;
+                }
+            }
+            return Binding.DoNothing;
+        }
     }
 }

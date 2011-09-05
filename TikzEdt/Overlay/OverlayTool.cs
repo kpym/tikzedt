@@ -489,7 +489,7 @@ namespace TikzEdt
 
 
             Parser.Tikz_Path tp = new Parser.Tikz_Path();
-            tp.starttag = @"\draw";
+            tp.starttag = @"\draw ";
             tp.endtag = ";";
             if (overlay.EdgeStyle != "")
             {

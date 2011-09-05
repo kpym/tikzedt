@@ -1247,6 +1247,19 @@ namespace TikzEdt.Parser
 
     }
 
+    public class ParseTreeTextChangedEventArgs : EventArgs
+    {
+        /// <summary>
+        /// The node whose text has changed.
+        /// This can be null.
+        /// </summary>
+        public TikzParseItem ChangedItem; 
+        /// <summary>
+        /// The old text of the node.
+        /// </summary>
+        public string OldText;
+    }
+
     /// <summary>
     /// This class represents the root of the parse tree.
     /// This class raises events when the text of some child obeject changes.
@@ -1255,23 +1268,39 @@ namespace TikzEdt.Parser
     public class Tikz_ParseTree : TikzContainerParseItem
     {
         public Dictionary<string, Tikz_Option> styles = new Dictionary<string,Tikz_Option>();
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender">The node whose text has changed.</param>
-        /// <param name="oldtext">The old text of the node.</param>
-        public delegate void TextChangedHandler(TikzParseItem sender, string oldtext);
+
+        public Tikz_ParseTree()
+        {
+            MoreChangesToCome = false;
+        }
+
         /// <summary>
         /// This event is called whenever the text of any node in this parsetree changes.
         /// </summary>
-        public event TextChangedHandler TextChanged;
-
+        public event EventHandler<ParseTreeTextChangedEventArgs> TextChanged;
         public override void RaiseTextChanged(TikzParseItem sender, string oldtext)
         {
             if (TextChanged != null)
-                TextChanged(sender, oldtext);
+                TextChanged(this, new ParseTreeTextChangedEventArgs() { ChangedItem=sender, OldText=oldtext });
             //base.RaiseTextChanged(sender, oldtext);
         }
+
+        public event EventHandler OnBeginModify;
+        public event EventHandler OnEndModify;
+        public bool MoreChangesToCome { get; private set; }
+        public void BeginModify()
+        {
+            MoreChangesToCome = true;
+            if (OnBeginModify != null)
+                OnBeginModify(this, new EventArgs());
+        }
+        public void EndModify()
+        {
+            MoreChangesToCome = false;
+            if (OnEndModify != null)
+                OnEndModify(this, new EventArgs());
+        }
+
 
         /// <summary>
         /// This is called by child-nodes in the parse-tree, in response to a call of RegisterNodeAndStyleRefs().
