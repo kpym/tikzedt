@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" 
+        xmlns:my="clr-namespace:TikzEdt"
+        xmlns:myVM="clr-namespace:TikzEdt.ViewModels"
+        xmlns:mySnippets="clr-namespace:TikzEdt.Snippets"
+        xmlns:myEditor="clr-namespace:TikzEdt.Editor"
+        xmlns:p="clr-namespace:TikzEdt.Properties"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" >
+
+    <ItemsPanelTemplate x:Key="Virtualized">
+        <VirtualizingStackPanel IsItemsHost="True"/>
+    </ItemsPanelTemplate>
+    <!--  <my:TheCompiler x:Key="TheCompiler2"/> -->
+    <!-- El Cheapo hack to make images within disabled toolbar buttons appear 'grayed out'.  This doesn't
+    gray them at all, but lowers their opacity so the (usually gray) background of the button shows through.
+    If WPF had a built-in facility for grayscaling images in disabled buttons, this kind of icky kludgery wouldn't
+    be necessary -->
+    <Style TargetType="{x:Type Image}" x:Key="toolbarImageStyle">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}, AncestorLevel=1}, Path=IsEnabled}" Value="False">
+                <Setter Property="Opacity" Value="0.50"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <CollectionViewSource x:Key="TexErrorsSource" Source="{Binding ActiveVM.TexErrors}">
+        <CollectionViewSource.SortDescriptions>
+            <scm:SortDescription Direction="Descending" PropertyName="severity"/>
+            <scm:SortDescription Direction="Ascending" PropertyName="SourceFileName"/>
+            <scm:SortDescription Direction="Ascending" PropertyName="Line"/>
+        </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+</ResourceDictionary>

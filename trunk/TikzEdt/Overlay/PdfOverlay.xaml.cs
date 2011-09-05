@@ -50,13 +50,13 @@ namespace TikzEdt
     public partial class PdfOverlay : UserControl, OverlayInterface
     {
         #region EVENTS
-        public delegate void ModifiedEventHandler(TikzParseItem sender, string oldtext);
+  //      public delegate void ModifiedEventHandler(TikzParseItem sender, string oldtext);
         /// <summary>
         /// This event is called whenever the picture gets modified.
         /// For example, in the handler one should update the code listing
         /// The sender is the TIkzparseItem modified and oldtext is its text prior to the change.
         /// </summary>
-        public event ModifiedEventHandler OnModified;
+  //      public event ModifiedEventHandler OnModified;
         public delegate void NoArgsEventHandler(object sender);
         /// <summary>
         /// This gets called prior to each group of modifications.
@@ -68,21 +68,21 @@ namespace TikzEdt
         ///     OnModified
         ///     EndModify
         /// </summary>
-        public event NoArgsEventHandler BeginModify;
+    //    public event NoArgsEventHandler BeginModify;
         public void BeginUpdate()
         {
-            if (BeginModify != null)
-                BeginModify(this);
+            if (ParseTree != null)
+                ParseTree.BeginModify();
         }
         /// <summary>
         /// Called after group of modifiactions has been done.
         /// See BeginModify.
         /// </summary>
-        public event NoArgsEventHandler EndModify;
+   //     public event NoArgsEventHandler EndModify;
         public void EndUpdate()
         {
-            if (EndModify != null)
-                EndModify(this);
+            if (ParseTree != null)
+                ParseTree.EndModify();
         }
         /// <summary>
         /// Called when the currently selected tool has changed.
@@ -168,10 +168,10 @@ namespace TikzEdt
         static void OnParseTreeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             PdfOverlay po = d as PdfOverlay;
-            if (e.OldValue != null)
-                (e.OldValue as Tikz_ParseTree).TextChanged -= new Tikz_ParseTree.TextChangedHandler(po._parsetree_TextChanged);
-            if (po.ParseTree != null)
-                po.ParseTree.TextChanged += new Tikz_ParseTree.TextChangedHandler(po._parsetree_TextChanged);
+ //           if (e.OldValue != null)
+ //               (e.OldValue as Tikz_ParseTree).TextChanged -= po._parsetree_TextChanged;
+ //           if (po.ParseTree != null)
+ //               po.ParseTree.TextChanged += new Tikz_ParseTree.TextChangedHandler(po._parsetree_TextChanged);
             po.RedrawObjects();
         }
         /// <summary>
@@ -378,11 +378,11 @@ namespace TikzEdt
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="oldtext"></param>
-        void _parsetree_TextChanged(TikzParseItem sender, string oldtext)
-        {
-            if (OnModified != null)
-                OnModified(sender, oldtext);
-        }
+    //    void _parsetree_TextChanged(object sender, ParseTreeTextChangedEventArgs e)
+    //    {
+    //        if (OnModified != null)
+    //            OnModified(sender, oldtext);
+    //    }
 
         // resets tool to standard (= the move tool)
         public void ActivateDefaultTool()

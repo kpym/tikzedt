@@ -96,8 +96,56 @@ namespace TikzEdt.ViewModels
         public Tikz_ParseTree ParseTree
         {
             get { return _ParseTree; }
-            private set { _ParseTree = value; NotifyPropertyChanged("ParseTree"); }
+            private set 
+            {
+                if (value != _ParseTree)
+                {
+                    if (_ParseTree != null)
+                    {
+                        _ParseTree.TextChanged -= OnParseTreeTextChanged;
+                        _ParseTree.OnBeginModify -= OnParseTreeBeginModify;
+                        _ParseTree.OnEndModify -= OnParseTreeEndModify;
+                    }
+
+                    _ParseTree = value;
+
+                    if (_ParseTree != null)
+                    {
+                        _ParseTree.TextChanged += OnParseTreeTextChanged;
+                        _ParseTree.OnBeginModify += OnParseTreeBeginModify;
+                        _ParseTree.OnEndModify += OnParseTreeEndModify;
+                    }
+
+                    NotifyPropertyChanged("ParseTree");
+                }
+            }
         }
+        void OnParseTreeBeginModify(object sender, EventArgs e)
+        {
+            Document.BeginUpdate();
+        }
+        void OnParseTreeEndModify(object sender, EventArgs e)
+        {
+            Document.EndUpdate();
+            Recompile(true);
+            UpdateStyleList();
+        }
+        void OnParseTreeTextChanged(object sender, ParseTreeTextChangedEventArgs e)
+        {
+            if (e.ChangedItem != null)
+            {
+                int InsertAt = e.ChangedItem.StartPosition();
+                if (InsertAt > Document.Text.Length)
+                {
+                    MainWindow.AddStatusLine("Trying to insert code \"" + e.ChangedItem.ToString().Replace(Environment.NewLine, "<NEWLINE>") + "\" to position " + e.ChangedItem.StartPosition() + " but document has only " + Document.Text.Length + " characters."
+                    + " Inserting code at end of document instead. Code does probably not compile now. Please correct or choose undo.", true);
+                    InsertAt = Document.Text.Length;
+                }
+
+                Document.Replace(InsertAt, e.OldText.Length, e.ChangedItem.ToString());
+            }
+        }
+
 
         bool _AllowEditing = false;
         public bool AllowEditing
@@ -273,7 +321,19 @@ namespace TikzEdt.ViewModels
                 }
             }
         }
-
+        int _ReloadPdf = 0;
+        public int ReloadPdf
+        {
+            get { return _ReloadPdf; }
+            set
+            {
+                if (_ReloadPdf != value)
+                {
+                    _ReloadPdf = value;
+                    NotifyPropertyChanged("ReloadPdf");
+                }
+            }
+        }
 
         #region commands
         //public RelayCommand CloseCommand { get { return new RelayCommand((e); } } 
@@ -382,6 +442,7 @@ namespace TikzEdt.ViewModels
                     PdfPath = Helper.RemoveFileExtension(job.path) + ".pdf";
                     if (OnPdfReady != null)
                         OnPdfReady(this, new PdfReadyEventArgs() { ReloadPdf = true });
+                    ReloadPdf++;
 
                 }
             }
@@ -407,7 +468,7 @@ namespace TikzEdt.ViewModels
 
         }
 
-        private bool TryDisposeFile(bool DeleteTemporaryFiles = true)
+        public bool TryDisposeFile(bool DeleteTemporaryFiles = true)
         {
             if (ChangesMade)
             {
@@ -466,7 +527,9 @@ namespace TikzEdt.ViewModels
 
             // no auto-compilation in Production Mode (no Auto saving)
             //if (chkProductionMode.IsChecked == false)
-            Recompile();
+            if (ParseTree == null || !ParseTree.MoreChangesToCome)
+                Recompile();
+            
             //}
         }
 
@@ -628,6 +691,7 @@ namespace TikzEdt.ViewModels
                     TheCompiler.Instance.AddJobExclusive(Document.Text, path, true, DocumentID);
                 else
                     PdfPath = "";
+                
             }
             else if (MainWindow.TheVM.EditorMode == TEMode.Preview)
             {

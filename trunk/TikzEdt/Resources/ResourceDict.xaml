@@ -1,0 +1,30 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" 
+                    xmlns:my="clr-namespace:TikzEdt"
+                    xmlns:myVM="clr-namespace:TikzEdt.ViewModels"
+                    xmlns:mySnippets="clr-namespace:TikzEdt.Snippets"
+                    xmlns:myEditor="clr-namespace:TikzEdt.Editor"
+                    xmlns:p="clr-namespace:TikzEdt.Properties"
+                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
+    
+    <Style x:Key="FlatButtonStyle" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
+        <Setter Property="Focusable" Value="False" />
+    </Style>
+
+    <!-- Note: If VS2010 tells you something like:
+        "type my:InverseBooleanConverter was not found. verify that you are not missing an assembly"
+        delete your obj directory within this project, then click the build button (F6) 
+        (or Build->Clean, then Rebuild worked for me) -->
+    <my:InverseBooleanConverter x:Key="BoolInverter" />
+    <my:SeverityImageConverter x:Key="SeverityToImg"/>
+    <BooleanToVisibilityConverter x:Key="boolToVis" />
+    <my:InverseNullableBooleanConverter x:Key="NBoolInverter" />
+    <my:BooleanToWidthConverter x:Key="BoolToWidth" />
+    <my:EnumToBooleanConverter x:Key="EnumToBool"/>
+    <my:EnumToVisibilityConverter x:Key="EnumToVis"/>
+    <my:NoopConverter x:Key="NoopConverter"/> <!-- for debugging -->
+    <my:ZoomToResolutionConverter x:Key="ZoomResConverter"/>
+    <my:CompareConverter x:Key="compareConverter"/>
+    <my:EnumAndBooleanToVisibilityConverter x:Key="EnumBoolToVis"/>
+</ResourceDictionary>

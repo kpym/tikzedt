@@ -45,18 +45,41 @@ namespace TikzEdt
             IsHitTestVisible = false;
         }
 
-        double _Resolution = Consts.ptspertikzunit;
+        readonly public static DependencyProperty ResolutionProperty = DependencyProperty.Register(
+  "Resolution", typeof(double), typeof(RasterControl), new PropertyMetadata(Consts.ptspertikzunit,
+      new PropertyChangedCallback(OnBBChanged)));
+        /// <summary>
+        /// The current bounding box.
+        /// </summary>
         public double Resolution
         {
-            get { return _Resolution; }
-            set
-            {
-                _Resolution = value; 
-                Width = Resolution * BB.Width;
-                Height = Resolution * BB.Height;
-                DrawRaster();
-            }
+            get { return (double)GetValue(ResolutionProperty); }
+            set { SetValue(ResolutionProperty, value); }
         }
+        void AdjustSize()
+        {
+            Width = Resolution * BB.Width;
+            Height = Resolution * BB.Height;
+            DrawRaster();
+        }
+        readonly public static DependencyProperty BBProperty = DependencyProperty.Register(
+            "BB", typeof(Rect), typeof(RasterControl), new PropertyMetadata(new Rect(0, 0, 10, 10),
+                new PropertyChangedCallback(OnBBChanged)));
+        static void OnBBChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            RasterControl rc = d as RasterControl;
+            rc.AdjustSize();
+        }
+        /// <summary>
+        /// The current bounding box.
+        /// </summary>
+        public Rect BB
+        {
+            get { return (Rect)GetValue(BBProperty); }
+            set { SetValue(BBProperty, value); }
+        }
+
+
 
         bool _OverrideWithZeroGridWidth = false;
         // use this to set GridWidth to zero temporarily (e.g., on ALT pressed)
@@ -142,17 +165,6 @@ namespace TikzEdt
             set
             {
                 RadialOffset = value * Math.PI / 180;                
-            }
-        }
-
-        Rect _BB = new Rect(0,0,10,10);
-        public Rect BB
-        {
-            get { return _BB; }
-            set { _BB = value;
-                Width = Resolution * BB.Width;
-                Height = Resolution * BB.Height;     
-                DrawRaster(); 
             }
         }
 
