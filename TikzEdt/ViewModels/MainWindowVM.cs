@@ -176,24 +176,35 @@ namespace TikzEdt.ViewModels
         {
             get { return new CommandBinding(ApplicationCommands.Open, OpenCommandHandler); }
         }
+        public CommandBinding SaveCommandBinding
+        {
+            get { return new CommandBinding(ApplicationCommands.Save, SaveCommandHandler); }
+        }
+        public CommandBinding SaveAsCommandBinding
+        {
+            get { return new CommandBinding(ApplicationCommands.SaveAs, SaveAsCommandHandler); }
+        }
 
         /// <summary>
-        /// Adds a new document. If cFile != null, it is loaded from file.
+        /// Loads a document from file.
+        /// 
         /// </summary>
         /// <param name="cFile"></param>
-        public void AddDocument(string cFile = null)
+        public void LoadFile(string cFile = null)
         {
             TEDocumentVM doc;
             try
             {
                 doc = new TEDocumentVM(cFile);
-                doc.OnClose += new EventHandler(doc_OnClose);
-                TEDocumentView view = new TEDocumentView(doc);
+                //doc.OnClose += new EventHandler(doc_OnClose);
+               // TEDocumentView view = new TEDocumentView(doc);
                 doc.OnSaved += ((s, e) => MainWindow.recentFileList.InsertFile((s as TEDocumentVM).FilePath));
                 //Documents.Insert(0, view);
                 //ActiveView = view;
                 if (cFile != null)
                     MainWindow.recentFileList.InsertFile(cFile);
+
+                TheDocument = doc;
             }
             catch (Exception ex)
             {
@@ -246,11 +257,21 @@ namespace TikzEdt.ViewModels
             {
                 if (TheDocument == null || TheDocument.TryDisposeFile())
                     if (ofd.ShowDialog() == true)
-                        TheDocument = new TEDocumentVM(ofd.FileName);
+                       LoadFile(ofd.FileName);
             }
         }
 
-        public void OpenFile()
+        private void SaveCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            TheDocument.SaveCurFile();
+        }
+        private void SaveAsCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            TheDocument.SaveCurFile(true);
+        }
+
+
+    /*    public void OpenFile()
         {
             OpenFileDialog ofd = new OpenFileDialog();
          //   if (ActiveVM != null)
@@ -262,7 +283,7 @@ namespace TikzEdt.ViewModels
                 AddDocument(ofd.FileName);
             }
         }
-
+            */
         void doc_OnClose(object sender, EventArgs e)
         {
             TEDocumentView view = ViewFromVM(sender as TEDocumentVM);

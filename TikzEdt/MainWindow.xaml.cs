@@ -51,7 +51,7 @@ namespace TikzEdt
         public static MainWindowVM TheVM { get; set; }
         public static Common.RecentFileList recentFileList;
 
-        public static RoutedCommand CompileCommand = new RoutedCommand();
+    //    public static RoutedCommand CompileCommand = new RoutedCommand();
         public static RoutedCommand FindNextCommand = new RoutedCommand();
         public static RoutedCommand FindPreviousCommand = new RoutedCommand();
         public static RoutedCommand CommentCommand = new RoutedCommand();
@@ -62,7 +62,8 @@ namespace TikzEdt
         public static RoutedCommand ShowPdfCommand = new RoutedCommand();
         public static RoutedCommand ExportFileCommand = new RoutedCommand();
         public static RoutedCommand OpenPgfManualCommand = new RoutedCommand();
-        
+
+        FindReplace.FindReplaceMgr FindReplaceManager = new FindReplace.FindReplaceMgr();
 
         System.ComponentModel.BackgroundWorker AsyncParser = new System.ComponentModel.BackgroundWorker();
         class AsyncParserJob
@@ -96,7 +97,7 @@ namespace TikzEdt
                 else
                     Title += System.IO.Path.GetFileName(AbsoluteCurFilePath);
 
-                if (ChangesMade)
+                if (TheVM.TheDocument.ChangesMade)
                     Title += "*";
                 // Add to MRU
                 if (!CurFileNeverSaved)
@@ -115,14 +116,14 @@ namespace TikzEdt
         ///     -> the compiler returns -> if careless, the wrong file is displayed.
         /// 
         /// </summary>
-        long CurDocumentID=0;
+    //    long CurDocumentID=0;
 
         /// <summary>
         /// indicates whether current file has never been saved (=created with new file and not yet saved)
         /// </summary>
         bool CurFileNeverSaved = false;
         // indicates whether changes (that need to be saved) are made to the current file
-        private bool _ChangesMade = false;
+   /*     private bool _ChangesMade = false;
         public bool ChangesMade
         {
             get { return _ChangesMade; }
@@ -189,6 +190,8 @@ namespace TikzEdt
 
         OpenFileDialog ofd = new OpenFileDialog();
         SaveFileDialog sfd = new SaveFileDialog();
+   * 
+   * */
         Editor.FindReplaceDialog FindDialog;
         Editor.CodeCompleter codeCompleter = new Editor.CodeCompleter();
 
@@ -199,8 +202,8 @@ namespace TikzEdt
         public static bool isLoaded = false;
         public static bool isClosing = false;
         //public static List<TexOutputParser.TexError> TexErrors = new List<TexOutputParser.TexError>();
-        public static System.Collections.ObjectModel.ObservableCollection<TexOutputParser.TexError> TexErrors = new System.Collections.ObjectModel.ObservableCollection<TexOutputParser.TexError>();
-        public FileSystemWatcher fileWatcher = new FileSystemWatcher();
+  //      public static System.Collections.ObjectModel.ObservableCollection<TexOutputParser.TexError> TexErrors = new System.Collections.ObjectModel.ObservableCollection<TexOutputParser.TexError>();
+   //     public FileSystemWatcher fileWatcher = new FileSystemWatcher();
         public MainWindow()
         {
             this.DataContext = TheVM = new ViewModels.MainWindowVM();
@@ -209,15 +212,18 @@ namespace TikzEdt
             //make sure that double to string is converted with decimal point (not comma!)       
             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
 
+            // set up command bindings
             CommandBindings.Add(TheVM.NewCommandBinding);
             CommandBindings.Add(TheVM.OpenCommandBinding);
-
+            CommandBindings.Add(TheVM.SaveCommandBinding);
+            CommandBindings.Add(TheVM.SaveAsCommandBinding);
+            
             CommandBinding CommentCommandBinding = new CommandBinding(CommentCommand, CommentCommandHandler, AlwaysTrue);
             CommandBinding UnCommentCommandBinding = new CommandBinding(UnCommentCommand, UnCommentCommandHandler, AlwaysTrue);
-            CommandBinding FindNextCommandBinding = new CommandBinding(FindNextCommand, FindNextCommandHandler, AlwaysTrue);
-            CommandBinding FindPreviousCommandBinding = new CommandBinding(FindPreviousCommand, FindPreviousCommandHandler, AlwaysTrue);
-            CommandBinding ShowCodeCompletionsCommandBinding = new CommandBinding(ShowCodeCompletionsCommand, ShowCodeCompletionsCommandHandler, AlwaysTrue);
-            CommandBinding CompileCommandBinding = new CommandBinding(CompileCommand, CompileCommandHandler, AlwaysTrue);
+       //     CommandBinding FindNextCommandBinding = new CommandBinding(FindNextCommand, FindNextCommandHandler, AlwaysTrue);
+        //    CommandBinding FindPreviousCommandBinding = new CommandBinding(FindPreviousCommand, FindPreviousCommandHandler, AlwaysTrue);
+        //    CommandBinding ShowCodeCompletionsCommandBinding = new CommandBinding(ShowCodeCompletionsCommand, ShowCodeCompletionsCommandHandler, AlwaysTrue);
+        //    CommandBinding CompileCommandBinding = new CommandBinding(CompileCommand, CompileCommandHandler, AlwaysTrue);
             CommandBinding SavePdfCommandBinding = new CommandBinding(SavePdfCommand, SavePdfHandler, AlwaysTrue);
             CommandBinding SavePdfAsCommandBinding = new CommandBinding(SavePdfAsCommand, SavePdfAsHandler, AlwaysTrue);
             CommandBinding ShowPdfCommandBinding = new CommandBinding(ShowPdfCommand, ShowPdfHandler, AlwaysTrue);
@@ -225,22 +231,32 @@ namespace TikzEdt
             CommandBinding OpenPgfManualBinding = new CommandBinding(OpenPgfManualCommand, OpenPgfManualHandler, AlwaysTrue); 
             
             pdfOverlay1.Rasterizer = rasterControl1;
-            EnsureFindDialogExists();
+      //      EnsureFindDialogExists();
 
             TikzToBMPFactory.Instance.JobNumberChanged += new TikzToBMPFactory.NoArgsEventHandler(TikzToBmpFactory_JobNumberChanged);
 
-            AsyncParser.DoWork += new System.ComponentModel.DoWorkEventHandler(AsyncParser_DoWork);
-            AsyncParser.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(AsyncParser_RunWorkerCompleted);
+            // set up find/replace dialog
+            FindReplaceManager.CurrentEditor = new FindReplace.TextEditorAdapter(txtCode);
+            FindReplaceManager.ShowSearchIn = false;
+            FindReplaceManager.OwnerWindow = this;
+
+            CommandBindings.Add(FindReplaceManager.FindBinding);
+            CommandBindings.Add(FindReplaceManager.ReplaceBinding);
+            CommandBindings.Add(FindReplaceManager.FindNextBinding);
+
+
+       //     AsyncParser.DoWork += new System.ComponentModel.DoWorkEventHandler(AsyncParser_DoWork);
+       //     AsyncParser.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(AsyncParser_RunWorkerCompleted);
 
             //fileWatcher.NotifyFilter = NotifyFilters.LastWrite;
-            fileWatcher.Changed += new FileSystemEventHandler(fileWatcher_Changed);
+    //        fileWatcher.Changed += new FileSystemEventHandler(fileWatcher_Changed);
 
             this.KeyDown += new KeyEventHandler(MainWindow_KeyDown);
 
             // Register events with the global compiler
             TheCompiler.Instance.OnCompileEvent += new TexCompiler.CompileEventHandler(TexCompiler_OnCompileEvent);
             TheCompiler.Instance.JobSucceeded += new TexCompiler.JobEventHandler(TheCompiler_JobSucceeded);
-            TheCompiler.Instance.OnTexError += new TexCompiler.TexErrorHandler(addProblemMarker);
+      //      TheCompiler.Instance.OnTexError += new TexCompiler.TexErrorHandler(addProblemMarker);
             TheCompiler.Instance.OnTexOutput += new TexCompiler.TexOutputHandler(TexCompiler_OnTexOutput);
             //tikzDisplay1.TexCompilerToListen = TheCompiler.Instance;
 
@@ -254,14 +270,16 @@ namespace TikzEdt
   //          txtCode.TextArea.TextEntering += textEditor_TextArea_TextEntering;
   //          txtCode.TextArea.TextEntered += textEditor_TextArea_TextEntered;
 
-            ofd.CheckFileExists = true;
+  /*          ofd.CheckFileExists = true;
             ofd.ValidateNames = true;
             ofd.Filter = "Tex Files|*.tex"+"|All Files|*.*";
             sfd.Filter = "Tex Files|*.tex"+"|All Files|*.*";
             sfd.OverwritePrompt = true;
             sfd.ValidateNames = true;
 
-            RecentFileList.MenuClick += (s, e) => { if (TryDisposeFile()) LoadFile(e.Filepath); };            
+   * */
+
+            RecentFileList.MenuClick += (s, e) => { if (TheVM.TheDocument.TryDisposeFile()) TheVM.LoadFile(e.Filepath); };            
 
             //cmbGrid.SelectedIndex = 4;
         }
@@ -272,12 +290,12 @@ namespace TikzEdt
             {
                 if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
                 {
-                    Recompile();
+                    TheVM.TheDocument.Recompile();
                 }
             }
         }
 
-        void fileWatcher_Changed(object sender, FileSystemEventArgs e)
+  /*      void fileWatcher_Changed(object sender, FileSystemEventArgs e)
         {
             Dispatcher.Invoke(new Action( delegate() {
                 // there is a well-known issue with filewatcher raising multiple events... so, as a hack, stop wtaching
@@ -296,7 +314,7 @@ namespace TikzEdt
                         break;
                 } } ));
         }
-
+        */
         void TheCompiler_JobSucceeded(object sender, TexCompiler.Job job)
         {
       /*      // it may happen that pdflatex returns after a new document has been created->then don't load the pdf
@@ -325,15 +343,15 @@ namespace TikzEdt
             if (type == TexCompiler.CompileEventType.Start)
             {
                 txtTexout.Document.Blocks.Clear();
-                clearProblemMarkers();
+                //clearProblemMarkers();
             }
-      /**/
-        }
+     
+        } 
 
 
-        void AsyncParser_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+  /*      void AsyncParser_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
- /*           AsyncParserResultType Result = e.Result as AsyncParserResultType;
+            AsyncParserResultType Result = e.Result as AsyncParserResultType;
             if (Result == null)
                 throw new Exception("AsyncParser_RunWorkerCompleted() can only handle e.Result  of type AsyncParserResultType!");
 
@@ -412,13 +430,13 @@ namespace TikzEdt
 
             // Restart parser if necessary
             ParseNeeded = ParseNeeded;
-  */
-        }
+ 
+        } */
 
         /// <summary>
         /// The this is given from AsyncParser_DoWork() to AsyncParser_RunWorkerCompleted().
         /// </summary>
-        class AsyncParserResultType { 
+   /*     class AsyncParserResultType { 
             /// <summary>
             /// Holds the ParseTree of the main file (shown in txtCode) if successful.
             /// </summary>
@@ -522,7 +540,7 @@ namespace TikzEdt
                 e.Result = Result;
             }
         }
-
+        */
         void TikzToBmpFactory_JobNumberChanged(object sender)
         {
             //Dispatcher.Invoke(new Action(
@@ -544,9 +562,9 @@ namespace TikzEdt
              //   ));
         }
 
-        CompletionWindow completionWindow;
+    //    CompletionWindow completionWindow;
 
-        void textEditor_TextArea_TextEntered(object sender, TextCompositionEventArgs e)
+  /*      void textEditor_TextArea_TextEntered(object sender, TextCompositionEventArgs e)
         {
             if (codeCompleter.CompletionTriggers.Contains(e.Text))
             {
@@ -600,7 +618,7 @@ namespace TikzEdt
             // Do not set e.Handled=true.
             // We still want to insert the character that was typed.
         }
-
+        */
         public void AddStatusBarCoordinate(string text)
         {
             CoordinateStatusBarItem.Content = text;
@@ -749,9 +767,9 @@ namespace TikzEdt
 
             //open file specified via command line parameter.            
             if (CmdLine[""] != null)
-                LoadFile(CmdLine[""]);
+                TheVM.TheDocument.LoadFile(CmdLine[""]);
 
-            Recompile();
+            TheVM.TheDocument.Recompile();
         }
 
         /// <summary>
@@ -859,9 +877,9 @@ namespace TikzEdt
         /// Fills the currently displayed lists of styles from the parsetree provided
         /// </summary>
         /// <param name="t">The parse tree to extract the styles from</param>
-        private void UpdateStyleLists(Tikz_ParseTree t)
+     /*    private void UpdateStyleLists(Tikz_ParseTree t)
         {
-           /* if (t == null) return;
+           if (t == null) return;
             string oldsel = cmbNodeStyles.Text;
             cmbNodeStyles.Items.Clear();
             foreach (string s in t.styles.Keys)
@@ -876,13 +894,13 @@ namespace TikzEdt
             {
                 cmbEdgeStyles.Items.Add(s);
             }
-            cmbEdgeStyles.Text = oldsel; */
+            cmbEdgeStyles.Text = oldsel;
         }
         private void ClearStyleLists()
         {
           //  cmbNodeStyles.Items.Clear();
           //  cmbEdgeStyles.Items.Clear();
-        }
+        } */
 
         /// <summary>
         /// Tries to find a BOUNDINGBOX command in the parsetree specified.
@@ -975,9 +993,9 @@ namespace TikzEdt
         ///     Compilation only, done on the current document directly (not on temp file).
         /// </summary>
         /// <param name="NoParse">Skip the parsing step if true. (compile only)</param>
-        private void Recompile(bool NoParse = false)
+    /*      private void Recompile(bool NoParse = false)
         {
-  /*          // Parse and compile, depending on current mode
+          // Parse and compile, depending on current mode
             string path = CurFile + Helper.GetPreviewFilename() + Helper.GetPreviewFilenameExt();
             if (CurFileNeverSaved)
                 path = "";      // use a temp file in the application directory
@@ -1031,7 +1049,7 @@ namespace TikzEdt
                     TheCompiler.Instance.AddJobExclusive(CurFile, CurDocumentID);
                 else
                     tikzDisplay1.SetUnavailable();
-            } */
+            } 
         }
 
         public void txtCode_TextChanged(object sender, EventArgs e)
@@ -1054,9 +1072,9 @@ namespace TikzEdt
 
                 Recompile();
             }
-        }
+        }*/
 
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+     /*   private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             //if (pdfOverlay1 != null)
             //    pdfOverlay1.Visibility = Visibility.Visible;
@@ -1076,14 +1094,14 @@ namespace TikzEdt
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-        }
+        } */
 
         
         /// <summary>
         /// Loads a file and sets the current directory to its containing folder.
         /// </summary>
         /// <param name="cFile">Specify file to load. This must be a full path (not relative).</param>
-        private void LoadFile(string cFile)
+    /*    private void LoadFile(string cFile)
         {
             if (!File.Exists(cFile))
             {
@@ -1138,9 +1156,9 @@ namespace TikzEdt
 
             ShowFilesOfCurrentDirectory();  
             
-        }
+        }*/
 
-        private void ShowFilesOfCurrentDirectory()
+  /*      private void ShowFilesOfCurrentDirectory()
         {
             lstFiles.Items.Clear();
 
@@ -1166,10 +1184,10 @@ namespace TikzEdt
             }
 
             
-        }
+        }*/
 
 
-        private bool TryDisposeFile(bool DeleteTemporaryFiles = true)
+ /*       private bool TryDisposeFile(bool DeleteTemporaryFiles = true)
         {
             if (ChangesMade)
             {
@@ -1270,13 +1288,13 @@ namespace TikzEdt
                 Recompile();
             return true;
         }
-
+        */
         private void AlwaysTrue(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
 
-        private void SaveCommandHandler(object sender, ExecutedRoutedEventArgs e)
+     /*   private void SaveCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             SaveCurFile();
         }
@@ -1285,14 +1303,14 @@ namespace TikzEdt
         {
             SaveCurFile(true);            
         }
-
+        */
         private void ExitCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
         }
 
 
-        private void NewCommandHandler(object sender, ExecutedRoutedEventArgs e)
+     /*   private void NewCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             if (!TryDisposeFile())
                 return;
@@ -1332,13 +1350,13 @@ namespace TikzEdt
 
             // Set new document ID
             CurDocumentID = DateTime.Now.Ticks;
-        }
+        } */
 
-        private void CompileCommandHandler(object sender, ExecutedRoutedEventArgs e)
+    /*    private void CompileCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             Recompile();
         }
-
+        */
        // private void CompileClick(object sender, RoutedEventArgs e)
       //  {
        //     Recompile();
@@ -1349,7 +1367,7 @@ namespace TikzEdt
             TheCompiler.Instance.AbortCompilation();
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
+     /*   private void button1_Click(object sender, RoutedEventArgs e)
         {
             string s = Clipboard.GetText();
             simpletikzLexer lex = new simpletikzLexer(new ANTLRStringStream(s));
@@ -1371,6 +1389,7 @@ namespace TikzEdt
             MessageBox.Show(printTree(t,0));
 
         }
+     
 
 
         public string printTree(CommonTree t, int indent)
@@ -1390,15 +1409,15 @@ namespace TikzEdt
                 return r;
             }  else return "";
 		}
-
-        private void pdfOverlay1_OnModified(TikzParseItem sender, string oldtext)
+ * */
+     /*    private void pdfOverlay1_OnModified(TikzParseItem sender, string oldtext)
         {
             // update code
             //ProgrammaticTextChange = true; 
 
             //txtCode.Text = pdfOverlay1.ParseTree.ToString();
 
-   /*         int InsertAt = sender.StartPosition();
+           int InsertAt = sender.StartPosition();
             if (InsertAt > txtCode.Text.Length)
             {
                 AddStatusLine("Trying to insert code \"" + sender.ToString().Replace(Environment.NewLine, "<NEWLINE>") + "\" to position " + sender.StartPosition() + " but document has only " + txtCode.Text.Length + " characters." 
@@ -1407,11 +1426,11 @@ namespace TikzEdt
             }
 
             txtCode.Document.Replace(InsertAt, oldtext.Length, sender.ToString());
-*/
+
             //ProgrammaticTextChange = false; 
             //MessageBox.Show(pdfOverlay1.ParseTree.ToString());
         }
-
+*/
         private void CommentCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             txtCode.BeginChange();
@@ -1500,7 +1519,7 @@ namespace TikzEdt
             txtCode.SelectionLength = sellength; */
         }
 
-        private void cmbGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    /*    private void cmbGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //if (cmbGrid.SelectedIndex >= 0 && rasterControl1 != null)
             //{
@@ -1518,16 +1537,17 @@ namespace TikzEdt
                     rasterControl1.GridWidth = d;
             }
         }
+     * */
         
 
-        private void button2_Click(object sender, RoutedEventArgs e)
-        {
-            rasterControl1.Visibility = Visibility.Hidden;
-        }
+    //    private void button2_Click(object sender, RoutedEventArgs e)
+    //    {
+    //        rasterControl1.Visibility = Visibility.Hidden;
+    //    }
 
-        private void rb1_Checked(object sender, RoutedEventArgs e)
+    /*    private void rb1_Checked(object sender, RoutedEventArgs e)
         {
-           /* if (pdfOverlay1 == null)
+            if (pdfOverlay1 == null)
                 return;
             if (sender == rbToolMove)
                 pdfOverlay1.Tool = OverlayToolType.move;
@@ -1550,8 +1570,8 @@ namespace TikzEdt
             else if (sender == rbToolGrid)
                 pdfOverlay1.Tool = OverlayToolType.grid;
             else if (sender == rbToolArcEdit)
-                pdfOverlay1.Tool = OverlayToolType.arcedit; */
-        }
+                pdfOverlay1.Tool = OverlayToolType.arcedit; 
+        }*/
 
         private void SnippetMenuClick(object sender, RoutedEventArgs e)
         {
@@ -1639,11 +1659,7 @@ namespace TikzEdt
                 cmbZoom.SelectedIndex--;
         }
 
-        private void cmbZoom_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-
-        }
-        private void cmbZoomTextChanged(object sender, RoutedEventArgs e)
+/*        private void cmbZoomTextChanged(object sender, RoutedEventArgs e)
         {
             string s = cmbZoom.Text;
             s = s.Trim();
@@ -1706,7 +1722,7 @@ namespace TikzEdt
                 }
             }
         }
-
+        */
         private void SettingsMenuClick(object sender, RoutedEventArgs e)
         {
             SettingsDialog sd = new SettingsDialog();
@@ -1725,7 +1741,7 @@ namespace TikzEdt
                 //ad// dockManager.SaveLayout(Helper.GetLayoutConfigFilepath());
                 TikzEdt.Properties.Settings.Default.Save();
 
-                if (!TryDisposeFile())
+                if (!TheVM.TheDocument.TryDisposeFile())
                     e.Cancel = true;
                 else
                 {
@@ -1756,7 +1772,7 @@ namespace TikzEdt
             //int i = 5;
         }
 
-        private void pdfOverlay1_BeginModify(object sender)
+    /*    private void pdfOverlay1_BeginModify(object sender)
         {
            // TheVM.TheDocument.ProgrammaticTextChange = true;
           //  txtCode.Document.BeginUpdate();            
@@ -1769,7 +1785,7 @@ namespace TikzEdt
             // refresh style list since styles may have changed (but: not necessary to fully reparse)
         //    TheVM.TheDocument.UpdateStyleList();
         }
-
+        */
         private void TestUpdClick(object sender, RoutedEventArgs e)
         {
             pdfOverlay1.ParseTree.UpdateText();
@@ -1780,12 +1796,12 @@ namespace TikzEdt
             TheCompiler.GeneratePrecompiledHeaders();
         }
        
-        private void chkFancyMode_Checked(object sender, RoutedEventArgs e)
+  /*      private void chkFancyMode_Checked(object sender, RoutedEventArgs e)
         {
             if (isLoaded)
                 Recompile();
         }
-
+        */
         private void Enscope_Click(object sender, RoutedEventArgs e)
         {
             if (txtCode.SelectionLength > 0)
@@ -1803,7 +1819,7 @@ namespace TikzEdt
                 allow = false;
         }
 
-        private void txtRadialOffset_TextChanged(object sender, TextChangedEventArgs e)
+   /*     private void txtRadialOffset_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (rasterControl1 == null)
                 return;
@@ -1822,7 +1838,7 @@ namespace TikzEdt
                 if (i>0 && i< 1000)
                     rasterControl1.RadialSteps = (uint)i;
         }
-
+        */
         private void pdfOverlay1_JumpToSource(object sender)
         {
             TikzParseItem tpi = sender as TikzParseItem;
@@ -1839,7 +1855,7 @@ namespace TikzEdt
             txtCode.ScrollToLine(txtCode.Document.GetLineByOffset(spos).LineNumber);
             txtCode.Focus();
         }
-
+        /*
         private void pdfOverlay1_ToolChanged(object sender)
         {
             rbToolMove.IsChecked = (pdfOverlay1.Tool == OverlayToolType.move);
@@ -1856,7 +1872,7 @@ namespace TikzEdt
             {
                 cmbZoom.Text = d.ToString() + " %";
             }
-        }
+        } */
 
         private void AboutClick(object sender, RoutedEventArgs e)
         {
@@ -1892,7 +1908,7 @@ namespace TikzEdt
         {
 
         }
-
+        
         void EnsureFindDialogExists()
         {
             if (FindDialog == null)
@@ -1915,7 +1931,7 @@ namespace TikzEdt
         }
 
 
-        private void ShowCodeCompletionsCommandHandler(object sender, ExecutedRoutedEventArgs e)
+    /*    private void ShowCodeCompletionsCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             // Open code completion window
             completionWindow = new CompletionWindow(txtCode.TextArea);
@@ -1938,7 +1954,7 @@ namespace TikzEdt
                 completionWindow = null;
             }; 
         }
-
+        */
         private void UndoCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             if (txtCode.CanUndo && e.Source != txtCode.TextArea)
@@ -1973,7 +1989,7 @@ namespace TikzEdt
         }        
         
         // this is called upon latex error,... the error is extracted from the latex output in the TexCompiler class
-        void addProblemMarker(object sender, TexOutputParser.TexError err, TexCompiler.Job job = null) //String error, int linenr, TexCompiler.Severity severity)
+/*        void addProblemMarker(object sender, TexOutputParser.TexError err, TexCompiler.Job job = null) //String error, int linenr, TexCompiler.Severity severity)
         {
             // if job = null, the error was generated by the parser => always display
             // otherwise display only if the job really was the current document
@@ -1994,7 +2010,7 @@ namespace TikzEdt
         {
             TexErrors.Clear();            
         }
-
+        */
         private void MarkAtOffsetClick(object sender, RoutedEventArgs e)
         {
             // the mouse position upon context menu opening is stored in mousepos_whenmenuopened
@@ -2236,13 +2252,13 @@ namespace TikzEdt
             }
         }
 
-        private void lstFiles_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+  /*      private void lstFiles_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {            
             TextBlock item = lstFiles.SelectedItem as TextBlock;
-            if (TryDisposeFile())
+            if (TheVM.TheDocument.TryDisposeFile())
                 LoadFile(Helper.GetCurrentWorkingDir() + "\\" + item.Text + ".tex");
             
-        }
+        }*/
         private void lstFile_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             /* //ad//
@@ -2331,8 +2347,8 @@ namespace TikzEdt
                         if (r == MessageBoxResult.No)
                             return;                        
                     }
-                    if(TryDisposeFile())
-                        LoadFile(files[0]);
+                    if(TheVM.TheDocument.TryDisposeFile())
+                        TheVM.LoadFile(files[0]);
                 }
                 else
                     MessageBox.Show("Only one file at a time allowed via drag&drop.", "Too many files", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -2357,7 +2373,7 @@ namespace TikzEdt
             //setting e.Effects = DragDropEffects.None is ignored. why?
         }
 
-        private void Test2Click(object sender, RoutedEventArgs e)
+   /*     private void Test2Click(object sender, RoutedEventArgs e)
         {
             TexOutputParser.TexError err = new TexOutputParser.TexError();
             err.Line = 33;
@@ -2389,7 +2405,7 @@ namespace TikzEdt
             err.severity = Severity.WARNING;
             addProblemMarker(this, err);
         }
-
+        */
         private void pdfOverlay1_MouseWheel(object sender, MouseWheelEventArgs e)
         {            
             if (System.Windows.Forms.Control.ModifierKeys == System.Windows.Forms.Keys.Control)
@@ -2402,19 +2418,19 @@ namespace TikzEdt
 
         }
 
-        private void DockManager_Loaded(object sender, RoutedEventArgs e)
+      /*  private void DockManager_Loaded(object sender, RoutedEventArgs e)
         {
-            /* //ad//
+             //ad//
             if (File.Exists(Helper.GetLayoutConfigFilepath()))            
                 dockManager.RestoreLayout(Helper.GetLayoutConfigFilepath());
             TextEditorsPane.ShowHeader = false;
-            dockManager.Visibility = System.Windows.Visibility.Visible;  */
+            dockManager.Visibility = System.Windows.Visibility.Visible;  
         }
 
         private void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
 
-        }
+        }*/
 
         int mousepos_whenmenuopened = -1;  // The mouse position (as a text offset) upon context menu opening; -1 = could not be determined
         private void txtCodeContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)

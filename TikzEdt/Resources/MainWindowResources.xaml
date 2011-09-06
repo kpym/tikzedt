@@ -24,7 +24,7 @@
         </Style.Triggers>
     </Style>
 
-    <CollectionViewSource x:Key="TexErrorsSource" Source="{Binding ActiveVM.TexErrors}">
+    <CollectionViewSource x:Key="TexErrorsSource" Source="{Binding TheDocument.TexErrors}">
         <CollectionViewSource.SortDescriptions>
             <scm:SortDescription Direction="Descending" PropertyName="severity"/>
             <scm:SortDescription Direction="Ascending" PropertyName="SourceFileName"/>
