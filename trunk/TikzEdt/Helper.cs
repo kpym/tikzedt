@@ -83,7 +83,8 @@ namespace TikzEdt
 
         //const string cLatex = "Pdflatex";
         //string cLatexPath = "pdflatex"; //@"C:\Program Files\MiKTeX 2.8\miktex\bin\pdfplatex.exe";
-        public const string cTempFile = "temp_preview";         // for preview
+        public const string cTempFile = "TE_temp_preview";         // for preview
+        public const string cTempExportFile = "TE_export";         // for export
         public const string cTempImgFile = "temp_previewtexts"; // for equation rendering
         public const string defaultCurFile = "New Tikzfile";
         public const string PreviewHeader =

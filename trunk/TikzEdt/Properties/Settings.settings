@@ -146,5 +146,8 @@
     <Setting Name="CompileOnCTRLPressRadioButton" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="Path_htlatex" Type="System.String" Scope="User">
+      <Value Profile="(Default)">htlatex</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
