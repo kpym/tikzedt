@@ -137,7 +137,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AutoGrayImage.cs" />
     <Compile Include="Editor\TextEditorEx.cs" />
+    <Compile Include="ExportCompiler\ExportCompileDialog.xaml.cs">
+      <DependentUpon>ExportCompileDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FileDownloader.cs" />
     <Compile Include="Overlay\ArcEditTool.cs" />
     <Compile Include="Overlay\ArcTool.cs" />
@@ -208,6 +212,10 @@
     </Compile>
     <Compile Include="WindowSetting.cs" />
     <Page Include="Editor\FindReplaceDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportCompiler\ExportCompileDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

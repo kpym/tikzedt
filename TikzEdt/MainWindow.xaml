@@ -131,17 +131,17 @@
         <CommandBinding Command="{x:Static custom:MainWindow.UnCommentCommand}" 
                     Executed="UnCommentCommandHandler" 
                     CanExecute="AlwaysTrue" />
-        <CommandBinding Command="{x:Static custom:MainWindow.SavePdfCommand}" 
+   <!--     <CommandBinding Command="{x:Static custom:MainWindow.SavePdfCommand}" 
                     Executed="SavePdfHandler" 
                     CanExecute="AlwaysTrue" />
         <CommandBinding Command="{x:Static custom:MainWindow.SavePdfAsCommand}" 
                     Executed="SavePdfAsHandler" 
-                    CanExecute="AlwaysTrue" />
-        <CommandBinding Command="{x:Static custom:MainWindow.ShowPdfCommand}" 
-                    Executed="ShowPdfHandler" 
-                    CanExecute="AlwaysTrue" />
+                    CanExecute="AlwaysTrue" /> 
         <CommandBinding Command="{x:Static custom:MainWindow.ExportFileCommand}" 
                     Executed="ExportFileHandler" 
+                    CanExecute="AlwaysTrue" /> -->
+         <CommandBinding Command="{x:Static custom:MainWindow.ShowPdfCommand}" 
+                    Executed="ShowPdfHandler" 
                     CanExecute="AlwaysTrue" />
         <CommandBinding Command="{x:Static custom:MainWindow.OpenPgfManualCommand}" 
                     Executed="OpenPgfManualHandler" 
@@ -152,10 +152,10 @@
         <KeyBinding Command="{x:Static custom:MainWindow.UnCommentCommand}" Key="D" Modifiers="Ctrl+Shift"/>
         <KeyBinding Command="NavigationCommands.Search" Key="F3"/>
         <KeyBinding Command="NavigationCommands.Search" CommandParameter="notnull" Key="F3" Modifiers="Shift"/>
-        <KeyBinding Command="{x:Static custom:MainWindow.ShowCodeCompletionsCommand}" Key="SPACE"  Modifiers="Ctrl"/>
+     <!--   <KeyBinding Command="{x:Static custom:MainWindow.ShowCodeCompletionsCommand}" Key="SPACE"  Modifiers="Ctrl"/> -->
         <KeyBinding Command="{Binding TheDocument.CompileCommand}" Key="F5"/>
         <KeyBinding Command="{x:Static custom:MainWindow.ShowPdfCommand}" Key="F6"/>
-        <KeyBinding Command="{x:Static custom:MainWindow.SavePdfCommand}" Key="S" Modifiers="Ctrl+Shift"/>
+        <KeyBinding Command="{Binding TheDocument.SavePdfCommand}" Key="S" Modifiers="Ctrl+Shift"/>
         <KeyBinding Command="{x:Static custom:MainWindow.OpenPgfManualCommand}" Key="F2"/>
     
     </Window.InputBindings>
@@ -174,9 +174,9 @@
                 <MenuItem Header="Save" Command="ApplicationCommands.Save" />
                 <MenuItem Header="Save As..."  Command="ApplicationCommands.SaveAs" />
                 <Separator/>
-                <MenuItem Header="Save Pdf" Command="{x:Static custom:MainWindow.SavePdfCommand}" InputGestureText="Ctrtl+Shift+S"/>
-                <MenuItem Header="Save Pdf As..." Command="{x:Static custom:MainWindow.SavePdfAsCommand}"/>
-                <MenuItem Header="Export File As..." Command="{x:Static custom:MainWindow.ExportFileCommand}"/>
+                <MenuItem Header="Save Pdf" Command="{Binding TheDocument.SavePdfCommand}" InputGestureText="Ctrtl+Shift+S"/>
+                <MenuItem Header="Save Pdf As..." Command="{Binding TheDocument.SavePdfCommand}" CommandParameter="notnull"/>
+                <MenuItem Header="Export File As..." Command="{Binding TheDocument.ExportFileCommand}"/>
                 <common:RecentFileList x:Name="RecentFileList"/>
                 <MenuItem Header="Quit" Command="ApplicationCommands.Close"  />
             </MenuItem>
@@ -266,7 +266,7 @@
                 </Button>
                 <Button Name="cmdAbortCompilation" Click="AbortCompilationClick" ToolTipService.ShowOnDisabled="True"
                         IsEnabled="{Binding Source={x:Static my:TheCompiler.Instance}, Path=Compiling, Mode=OneWay}">
-                    <Image Source="/TikzEdt;component/Images/error.png" Style="{StaticResource toolbarImageStyle}" Stretch="Fill" Height="16" Width="16"/>
+                    <my:AutoGrayImage Source2="/TikzEdt;component/Images/error.png" Stretch="Fill" Height="16" Width="16" Style="{StaticResource toolbarImageStyle}"/>
                     <Button.ToolTip>Abort compilation in case something goes wrong</Button.ToolTip>
                 </Button>
                 <Separator/>
@@ -710,7 +710,7 @@
                 <GridSplitter Background="Gray" Grid.Row="1" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                 <DockPanel LastChildFill="true" Grid.Row="2">
                     <StackPanel DockPanel.Dock="Left" Background="Gray">
-                        <RadioButton Name="chkStatus" Checked="chkStatus_Checked" Unchecked="chkStatus_Unchecked" Focusable="False" 
+                        <RadioButton Name="chkStatus" Focusable="False" 
                                       IsChecked="True" Style="{StaticResource {x:Type ToggleButton}}">
                             <RadioButton.LayoutTransform>
                                 <RotateTransform Angle="-90"/>

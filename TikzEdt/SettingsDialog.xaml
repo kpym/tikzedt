@@ -70,6 +70,7 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <TextBlock Margin="3" Text="Path to PdfLatex" Grid.Column="0" Grid.Row="0"></TextBlock>
                     <TextBox Margin="3" Grid.Column="1" Grid.Row="0" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_pdflatex, Mode=TwoWay}">
@@ -78,27 +79,33 @@
                             So you don't need the fully qualified path.
                         </TextBox.ToolTip>
                     </TextBox>
-                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="1" Text="External Pdf Viewer" Grid.ColumnSpan="2"> </TextBlock>
-                    <TextBox Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_externalviewer, Mode=TwoWay}">
+                    <TextBlock Margin="3" Text="Path to htlatex" Grid.Column="0" Grid.Row="1"></TextBlock>
+                    <TextBox Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_htlatex, Mode=TwoWay}">
+                        <TextBox.ToolTip>
+                            htlatex is only used for exporting to .svg and .html formats.
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="2" Text="External Pdf Viewer" Grid.ColumnSpan="2"> </TextBlock>
+                    <TextBox Margin="3" Grid.Column="1" Grid.Row="2" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_externalviewer, Mode=TwoWay}">
                         <TextBox.ToolTip>
                             Leave empty to use the default application for opening pdf's.
                         </TextBox.ToolTip>
                     </TextBox>
-                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="2" Text="Compiler Timeout" Grid.ColumnSpan="2"></TextBlock>
-                    <TextBox Margin="3" Grid.Column="1" Grid.Row="2" Text="{Binding Source={x:Static p:Settings.Default}, Path=Compiler_Timeout, Mode=TwoWay}">
+                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="3" Text="Compiler Timeout" Grid.ColumnSpan="2"></TextBlock>
+                    <TextBox Margin="3" Grid.Column="1" Grid.Row="3" Text="{Binding Source={x:Static p:Settings.Default}, Path=Compiler_Timeout, Mode=TwoWay}">
                         <TextBox.ToolTip>
                             Timeout for the main compiler, i.e., the time in milliseconds after which pdflatex is killed. (0 = no timeout)                            
                         </TextBox.ToolTip>
                     </TextBox>
-                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="3" Text="Snippet C. Timeout" Grid.ColumnSpan="2"></TextBlock>
-                    <TextBox Margin="3" Grid.Column="1" Grid.Row="3" Text="{Binding Source={x:Static p:Settings.Default}, Path=Compiler_SnippetTimeout, Mode=TwoWay}">
+                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="4" Text="Snippet C. Timeout" Grid.ColumnSpan="2"></TextBlock>
+                    <TextBox Margin="3" Grid.Column="1" Grid.Row="4" Text="{Binding Source={x:Static p:Settings.Default}, Path=Compiler_SnippetTimeout, Mode=TwoWay}">
                         <TextBox.ToolTip>
                             Timeout for the snippet compiler, i.e., the time in milliseconds after which pdflatex is killed. (0 = no timeout)
                         </TextBox.ToolTip>
                     </TextBox>
-                    <CheckBox Margin="3" Grid.Row="4" Grid.Column="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ShowFullPathInTitle}">Show Full Path in Title </CheckBox>
-                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="5" Text="Compile on" Grid.ColumnSpan="2"></TextBlock>
-                    <Grid HorizontalAlignment="Stretch"  Grid.Column="1" Grid.Row="5" >
+                    <CheckBox Margin="3" Grid.Row="5" Grid.Column="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ShowFullPathInTitle}">Show Full Path in Title </CheckBox>
+                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="6" Text="Compile on" Grid.ColumnSpan="2"></TextBlock>
+                    <Grid HorizontalAlignment="Stretch"  Grid.Column="1" Grid.Row="6" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"></ColumnDefinition>
                             <ColumnDefinition Width="auto"></ColumnDefinition>

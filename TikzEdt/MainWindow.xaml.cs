@@ -52,20 +52,20 @@ namespace TikzEdt
         public static Common.RecentFileList recentFileList;
 
     //    public static RoutedCommand CompileCommand = new RoutedCommand();
-        public static RoutedCommand FindNextCommand = new RoutedCommand();
-        public static RoutedCommand FindPreviousCommand = new RoutedCommand();
+        //public static RoutedCommand FindNextCommand = new RoutedCommand();
+        //public static RoutedCommand FindPreviousCommand = new RoutedCommand();
         public static RoutedCommand CommentCommand = new RoutedCommand();
         public static RoutedCommand UnCommentCommand = new RoutedCommand();
-        public static RoutedCommand ShowCodeCompletionsCommand = new RoutedCommand();
-        public static RoutedCommand SavePdfCommand = new RoutedCommand();
-        public static RoutedCommand SavePdfAsCommand = new RoutedCommand();
+        //public static RoutedCommand ShowCodeCompletionsCommand = new RoutedCommand();
+        //public static RoutedCommand SavePdfCommand = new RoutedCommand();
+        //public static RoutedCommand SavePdfAsCommand = new RoutedCommand();
         public static RoutedCommand ShowPdfCommand = new RoutedCommand();
-        public static RoutedCommand ExportFileCommand = new RoutedCommand();
+        //public static RoutedCommand ExportFileCommand = new RoutedCommand();
         public static RoutedCommand OpenPgfManualCommand = new RoutedCommand();
 
         FindReplace.FindReplaceMgr FindReplaceManager = new FindReplace.FindReplaceMgr();
 
-        System.ComponentModel.BackgroundWorker AsyncParser = new System.ComponentModel.BackgroundWorker();
+ /*       System.ComponentModel.BackgroundWorker AsyncParser = new System.ComponentModel.BackgroundWorker();
         class AsyncParserJob
         {
             public string code;
@@ -107,7 +107,7 @@ namespace TikzEdt
 
             }
         }
-
+        */
         /// <summary>
         /// The document ID uniquely identifies the current document. It is used to assure that results of 
         /// asynchronous operations (parser & pdflatex) can be matched with the document they belong to.
@@ -121,7 +121,7 @@ namespace TikzEdt
         /// <summary>
         /// indicates whether current file has never been saved (=created with new file and not yet saved)
         /// </summary>
-        bool CurFileNeverSaved = false;
+  //      bool CurFileNeverSaved = false;
         // indicates whether changes (that need to be saved) are made to the current file
    /*     private bool _ChangesMade = false;
         public bool ChangesMade
@@ -192,8 +192,8 @@ namespace TikzEdt
         SaveFileDialog sfd = new SaveFileDialog();
    * 
    * */
-        Editor.FindReplaceDialog FindDialog;
-        Editor.CodeCompleter codeCompleter = new Editor.CodeCompleter();
+    //    Editor.FindReplaceDialog FindDialog;
+    //    Editor.CodeCompleter codeCompleter = new Editor.CodeCompleter();
 
         /// <summary>
         /// Indicates whether the form is succesfully loaded.
@@ -224,10 +224,10 @@ namespace TikzEdt
         //    CommandBinding FindPreviousCommandBinding = new CommandBinding(FindPreviousCommand, FindPreviousCommandHandler, AlwaysTrue);
         //    CommandBinding ShowCodeCompletionsCommandBinding = new CommandBinding(ShowCodeCompletionsCommand, ShowCodeCompletionsCommandHandler, AlwaysTrue);
         //    CommandBinding CompileCommandBinding = new CommandBinding(CompileCommand, CompileCommandHandler, AlwaysTrue);
-            CommandBinding SavePdfCommandBinding = new CommandBinding(SavePdfCommand, SavePdfHandler, AlwaysTrue);
-            CommandBinding SavePdfAsCommandBinding = new CommandBinding(SavePdfAsCommand, SavePdfAsHandler, AlwaysTrue);
+       //     CommandBinding SavePdfCommandBinding = new CommandBinding(SavePdfCommand, SavePdfHandler, AlwaysTrue);
+       //     CommandBinding SavePdfAsCommandBinding = new CommandBinding(SavePdfAsCommand, SavePdfAsHandler, AlwaysTrue);
             CommandBinding ShowPdfCommandBinding = new CommandBinding(ShowPdfCommand, ShowPdfHandler, AlwaysTrue);
-            CommandBinding ExportFileCommandBinding = new CommandBinding(ExportFileCommand, ExportFileHandler, AlwaysTrue);
+       //     CommandBinding ExportFileCommandBinding = new CommandBinding(ExportFileCommand, ExportFileHandler, AlwaysTrue);
             CommandBinding OpenPgfManualBinding = new CommandBinding(OpenPgfManualCommand, OpenPgfManualHandler, AlwaysTrue); 
             
             pdfOverlay1.Rasterizer = rasterControl1;
@@ -239,12 +239,11 @@ namespace TikzEdt
             FindReplaceManager.CurrentEditor = new FindReplace.TextEditorAdapter(txtCode);
             FindReplaceManager.ShowSearchIn = false;
             FindReplaceManager.OwnerWindow = this;
-
             CommandBindings.Add(FindReplaceManager.FindBinding);
             CommandBindings.Add(FindReplaceManager.ReplaceBinding);
             CommandBindings.Add(FindReplaceManager.FindNextBinding);
 
-
+            recentFileList = RecentFileList;
        //     AsyncParser.DoWork += new System.ComponentModel.DoWorkEventHandler(AsyncParser_DoWork);
        //     AsyncParser.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(AsyncParser_RunWorkerCompleted);
 
@@ -255,7 +254,7 @@ namespace TikzEdt
 
             // Register events with the global compiler
             TheCompiler.Instance.OnCompileEvent += new TexCompiler.CompileEventHandler(TexCompiler_OnCompileEvent);
-            TheCompiler.Instance.JobSucceeded += new TexCompiler.JobEventHandler(TheCompiler_JobSucceeded);
+      //      TheCompiler.Instance.JobSucceeded += new TexCompiler.JobEventHandler(TheCompiler_JobSucceeded);
       //      TheCompiler.Instance.OnTexError += new TexCompiler.TexErrorHandler(addProblemMarker);
             TheCompiler.Instance.OnTexOutput += new TexCompiler.TexOutputHandler(TexCompiler_OnTexOutput);
             //tikzDisplay1.TexCompilerToListen = TheCompiler.Instance;
@@ -315,9 +314,9 @@ namespace TikzEdt
                 } } ));
         }
         */
-        void TheCompiler_JobSucceeded(object sender, TexCompiler.Job job)
+     /*     void TheCompiler_JobSucceeded(object sender, TexCompiler.Job job)
         {
-      /*      // it may happen that pdflatex returns after a new document has been created->then don't load the pdf
+          // it may happen that pdflatex returns after a new document has been created->then don't load the pdf
             if (job.DocumentID == CurDocumentID)
             {
                 if (!job.GeneratePrecompiledHeaders)
@@ -334,8 +333,8 @@ namespace TikzEdt
                     tikzDisplay1.PdfPath = pdfpath;
                 }
             }
-       * */
-        }
+       
+        }* */
 
         void TexCompiler_OnCompileEvent(object sender, string Message, TexCompiler.CompileEventType type)
         {
@@ -1642,11 +1641,6 @@ namespace TikzEdt
             
         }
 
-        private void cmbZoom_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void cmdZoomInClick(object sender, RoutedEventArgs e)
         {
             if (cmbZoom.SelectedIndex < cmbZoom.Items.Count - 1)            
@@ -1748,13 +1742,13 @@ namespace TikzEdt
                     // Set closing flag
                     isClosing = true;
                     //FindDialog.txtCode = null;
-                    if (FindDialog != null)
-                        FindDialog.Close();
+               //     if (FindDialog != null)
+                //        FindDialog.Close();
                 }
             }
         }
 
-        private void TestClick(object sender, RoutedEventArgs e)
+   /*     private void TestClick(object sender, RoutedEventArgs e)
         {
 
             MessageBox.Show("wp: " + Helper.HasWritePermissionOnDir(@"C:\Program Files").ToString());
@@ -1770,7 +1764,7 @@ namespace TikzEdt
             //b.Dispose();
 
             //int i = 5;
-        }
+        }*/
 
     /*    private void pdfOverlay1_BeginModify(object sender)
         {
@@ -1880,7 +1874,7 @@ namespace TikzEdt
             ta.ShowDialog();
         }
 
-        private void FindCommandHandler(object sender, ExecutedRoutedEventArgs e)
+      /*  private void FindCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             EnsureFindDialogExists();
             FindDialog.ShowAsFind();
@@ -1890,7 +1884,7 @@ namespace TikzEdt
         {
             EnsureFindDialogExists();
             FindDialog.ShowAsReplace();
-        }
+        } */
 
         private void HelpCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
@@ -1909,16 +1903,16 @@ namespace TikzEdt
 
         }
         
-        void EnsureFindDialogExists()
+  /*      void EnsureFindDialogExists()
         {
             if (FindDialog == null)
             {
                 FindDialog = new Editor.FindReplaceDialog(txtCode);
                 FindDialog.Closed += delegate { FindDialog = null; }; 
             }
-        }
+        }*/
 
-        private void FindNextCommandHandler(object sender, ExecutedRoutedEventArgs e)
+   /*     private void FindNextCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             EnsureFindDialogExists();
             FindDialog.FindNext();
@@ -1929,7 +1923,7 @@ namespace TikzEdt
             EnsureFindDialogExists();
             FindDialog.FindPrevious();
         }
-
+        */
 
     /*    private void ShowCodeCompletionsCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
@@ -2024,7 +2018,7 @@ namespace TikzEdt
 
         private void ShowPdfHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            string PdfPath = SavePdf(false);
+            string PdfPath = TheVM.TheDocument.SavePdf(false);
 
             if (PdfPath == "") return;
 
@@ -2038,7 +2032,7 @@ namespace TikzEdt
             }
         }
 
-        private void SavePdfHandler(object sender, ExecutedRoutedEventArgs e)
+       /* private void SavePdfHandler(object sender, ExecutedRoutedEventArgs e)
         {
             SavePdf(false);
         }
@@ -2046,55 +2040,9 @@ namespace TikzEdt
         private void SavePdfAsHandler(object sender, ExecutedRoutedEventArgs e)
         {
             SavePdf(true);
-        }
+        } */
 
-        private string SavePdf(bool SaveAs)
-        {
-            if (SaveAs == false && CurFileNeverSaved)
-            {
-                AddStatusLine("Please save document first", true);
-                return "";
-            }
-
-            string s = Helper.GetCurrentWorkingDir();
-            string t = Helper.GetPreviewFilename();
-            string PreviewPdfFilePath =  System.IO.Path.GetFullPath(CurFile) + t + ".pdf";
-            string PdfFilePath = Helper.RemoveFileExtension(System.IO.Path.GetFullPath(CurFile)) + ".pdf";
-//            string PreviewPdfFilePath = s + "\\" + CurFile + t + ".pdf";
-//            string PdfFilePath = s + "\\" + Helper.RemoveFileExtension(CurFile) + ".pdf";
-
-            if (SaveAs == true)
-            {
-                SaveFileDialog sfd = new SaveFileDialog();
-
-                sfd.Filter = "Pdf Files|*.pdf" +
-             "|All Files|*.*";
-                sfd.OverwritePrompt = true;
-                sfd.ValidateNames = true;
-
-                sfd.FileName = System.IO.Path.GetFileName(CurFile);
-                // change file extension to .pdf
-                sfd.FileName = Helper.RemoveFileExtension(sfd.FileName) + ".pdf";
-                sfd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
-                if (sfd.ShowDialog() != true)
-                    return "";
-                PdfFilePath = sfd.FileName;
-            }
-                  
-            try
-            {
-                File.Copy(PreviewPdfFilePath, PdfFilePath, true);
-            }
-            catch (Exception Ex)
-            {
-                AddStatusLine("Could not save PDF. " + Ex.Message, true);
-                return "";
-            }
-
-            AddStatusLine("Preview PDF file saved as " + PdfFilePath);
-            return PdfFilePath;
-        }
-
+      
         private FileDownloader downloader;
         private void OpenPgfManualHandler(object sender, ExecutedRoutedEventArgs e)
         {
@@ -2148,7 +2096,7 @@ namespace TikzEdt
         /// Displays an Export As dialog and, if successful, exports the current tikzpicture 
         /// as either bmp, jpeg, tiff or png.
         /// </summary>
-        private void ExportFileHandler(object sender, ExecutedRoutedEventArgs e)
+    /*    private void ExportFileHandler(object sender, ExecutedRoutedEventArgs e)
         {
             if (CurFileNeverSaved)
             {
@@ -2221,17 +2169,7 @@ namespace TikzEdt
             }
 
             AddStatusLine("File exported as " + FilePath);            
-        }
-        
-        private void chkStatus_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void chkStatus_Unchecked(object sender, RoutedEventArgs e)
-        {
-
-        }
+        } */       
         
         private void lstErrors_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -2259,9 +2197,9 @@ namespace TikzEdt
                 LoadFile(Helper.GetCurrentWorkingDir() + "\\" + item.Text + ".tex");
             
         }*/
-        private void lstFile_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+      /*   private void lstFile_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            /* //ad//
+            //ad//
             TextBlock item = lstFiles.SelectedItem as TextBlock;
             string file = item.Text;
 
@@ -2280,8 +2218,8 @@ namespace TikzEdt
             documentContent.Show(dockManager);
             //select the just added document
             if(dockManager.ActiveDocument != null)
-                dockManager.ActiveDocument.ContainerPane.SelectedIndex = 0; */
-        }
+                dockManager.ActiveDocument.ContainerPane.SelectedIndex = 0; 
+        }*/
         
         
         private bool txtCode_Goto(int pos, bool HighlightLine = false, bool HighlightChar = false)
@@ -2571,11 +2509,6 @@ namespace TikzEdt
 
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void cmdClear_Click(object sender, RoutedEventArgs e)
         {
             if (sender == cmdClearEStyle)
@@ -2592,6 +2525,5 @@ namespace TikzEdt
         }
 
         
-
     }
 }

@@ -32,7 +32,26 @@ namespace TikzEdt.ViewModels
                 return _CompileCommand;
             }
         }
-
+        RelayCommand _SavePdfCommand;
+        public ICommand SavePdfCommand
+        {
+            get
+            {
+                if (_SavePdfCommand == null)
+                    _SavePdfCommand = new RelayCommand(o => SavePdf(o != null), o => true);
+                return _SavePdfCommand;
+            }
+        }
+        RelayCommand _ExportFileCommand;
+        public ICommand ExportFileCommand
+        {
+            get
+            {
+                if (_ExportFileCommand == null)
+                    _ExportFileCommand = new RelayCommand(o => ExportFile());
+                return _ExportFileCommand;
+            }
+        }
 
         //CommandBinding CompileCommandBinding { get { return new CommandBinding(CompileCommand, CompileCommandHandler); } }
         private void CompileCommandHandler(object sender, ExecutedRoutedEventArgs e)
@@ -727,7 +746,7 @@ namespace TikzEdt.ViewModels
             TexErrors.Clear();
         }
 
-        private string SavePdf(bool SaveAs)
+        public string SavePdf(bool SaveAs)
         {
             if (SaveAs == false && CurFileNeverSaved)
             {
@@ -777,7 +796,7 @@ namespace TikzEdt.ViewModels
         /// Displays an Export As dialog and, if successful, exports the current tikzpicture 
         /// as either bmp, jpeg, tiff or png.
         /// </summary>
-        void ExportFileHandler(object sender, ExecutedRoutedEventArgs e)
+        void ExportFile()
         {
             if (CurFileNeverSaved)
             {
@@ -788,13 +807,15 @@ namespace TikzEdt.ViewModels
             string s = Helper.GetCurrentWorkingDir();
             string t = Helper.GetPreviewFilename();
             string PreviewPdfFilePath = s + "\\" + this.FilePath + t + ".pdf";
-            string TheFilePath = s + "\\" + Helper.RemoveFileExtension(this.FilePath) + ".pdf";
+            string TheFilePath = Helper.RemoveFileExtension(this.FilePath) + ".pdf";
 
             SaveFileDialog sfd = new SaveFileDialog();
 
-            sfd.Filter = "Jpeg Files|*.jpg|Portable Network Graphics|*.png|Bitmap Files|*.bmp|Tiff Files|*.tif|Graphics Interchange Format|*.gif|Extended Meta File|*.emf|Windows Meta File|*.wmf";
+            sfd.Filter = "Jpeg Files|*.jpg|Portable Network Graphics|*.png|Bitmap Files|*.bmp|Tiff Files|*.tif|Graphics Interchange Format|*.gif|Extended Meta File|*.emf|Windows Meta File|*.wmf|Html File|*.html|Scalable Vector Graphics|*.svg";
+            sfd.FilterIndex = 1;
             sfd.OverwritePrompt = true;
             sfd.ValidateNames = true;
+            sfd.AddExtension = true;
 
             sfd.FileName = System.IO.Path.GetFileName(TheFilePath);
             // change file extension to .pdf
@@ -834,6 +855,12 @@ namespace TikzEdt.ViewModels
                     case ".png":
                         imgFormat = System.Drawing.Imaging.ImageFormat.Png;
                         break;
+                    case ".svg":
+                    case ".html":
+                    case ".htm":
+                        // The file will be compiled and exported by ExportCompileDialog
+                        ExportCompiler.ExportCompileDialog.Export(Document.Text, TheFilePath);
+                        return;
                     default:
                         MainWindow.AddStatusLine("Could not export file: Unknown file extension.", true);
                         return;
@@ -851,6 +878,53 @@ namespace TikzEdt.ViewModels
 
             MainWindow.AddStatusLine("File exported as " + TheFilePath);
         }
+
+  /*      private string SavePdf(bool SaveAs)
+        {
+            if (SaveAs == false && CurFileNeverSaved)
+            {
+                MainWindow.AddStatusLine("Please save document first", true);
+                return "";
+            }
+
+            string s = Helper.GetCurrentWorkingDir();
+            string t = Helper.GetPreviewFilename();
+            string PreviewPdfFilePath = System.IO.Path.GetFullPath(CurFile) + t + ".pdf";
+            string PdfFilePath = Helper.RemoveFileExtension(System.IO.Path.GetFullPath(CurFile)) + ".pdf";
+            //            string PreviewPdfFilePath = s + "\\" + CurFile + t + ".pdf";
+            //            string PdfFilePath = s + "\\" + Helper.RemoveFileExtension(CurFile) + ".pdf";
+
+            if (SaveAs == true)
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+
+                sfd.Filter = "Pdf Files|*.pdf" +
+             "|All Files|*.*";
+                sfd.OverwritePrompt = true;
+                sfd.ValidateNames = true;
+
+                sfd.FileName = System.IO.Path.GetFileName(CurFile);
+                // change file extension to .pdf
+                sfd.FileName = Helper.RemoveFileExtension(sfd.FileName) + ".pdf";
+                sfd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
+                if (sfd.ShowDialog() != true)
+                    return "";
+                PdfFilePath = sfd.FileName;
+            }
+
+            try
+            {
+                File.Copy(PreviewPdfFilePath, PdfFilePath, true);
+            }
+            catch (Exception Ex)
+            {
+                AddStatusLine("Could not save PDF. " + Ex.Message, true);
+                return "";
+            }
+
+            AddStatusLine("Preview PDF file saved as " + PdfFilePath);
+            return PdfFilePath;
+        } */
 
         void fileWatcher_Changed(object sender, FileSystemEventArgs e)
         {

@@ -571,5 +571,17 @@ namespace TikzEdt.Properties {
                 this["CompileOnCTRLPressRadioButton"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("htlatex")]
+        public string Path_htlatex {
+            get {
+                return ((string)(this["Path_htlatex"]));
+            }
+            set {
+                this["Path_htlatex"] = value;
+            }
+        }
     }
 }
