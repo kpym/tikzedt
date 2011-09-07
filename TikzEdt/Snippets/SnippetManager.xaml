@@ -110,6 +110,10 @@
                     <Image Source="/TikzEdt;component/Images/Gear.png"></Image>
                     <Button.ToolTip>(Re-)generate all thumbnails</Button.ToolTip>
                 </Button>
+                <Button Click="ImportSnippets_Click">
+                    <Image Source="/TikzEdt;component/Images/042b_AddCategory_32x32_72.png" ImageFailed="Image_ImageFailed"></Image>
+                    <Button.ToolTip>Import snippets...</Button.ToolTip>
+                </Button>
             </ToolBar>
             <ListBox VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="True" x:Name="lstSnippets" ItemsSource="{Binding}" DisplayMemberPath="Name" 
                      SelectedValuePath="ID" SelectionChanged="lstSnippets_SelectionChanged" KeyDown="lstSnippets_KeyDown">

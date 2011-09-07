@@ -269,7 +269,7 @@
                 </Button>
                 <Button Name="cmdAbortCompilation" Click="AbortCompilationClick" ToolTipService.ShowOnDisabled="True"
                         IsEnabled="{Binding Source={x:Static my:TheCompiler.Instance}, Path=Compiling, Mode=OneWay}">
-                    <my:AutoGrayImage Source2="/TikzEdt;component/Images/error.png" Stretch="Fill" Height="16" Width="16" Style="{StaticResource toolbarImageStyle}"/>
+                    <my:AutoGrayImage Source2="/TikzEdt;component/Images/error.png" Stretch="Fill" Height="16" Width="16" />
                     <Button.ToolTip>Abort compilation in case something goes wrong</Button.ToolTip>
                 </Button>
                 <Separator/>
@@ -315,7 +315,7 @@
                     <ComboBoxItem Content="5"/>
                 </ComboBox>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center" ToolTip="The number of coordinate lines of constant angular parameter shown in polar coordinate mode">RS:</TextBlock>
-                <TextBox Width ="30" Name="txtRadialSteps" Text="{Binding RasterRadialSteps}" />                
+                <TextBox Width ="30" Name="txtRadialSteps" Text="{Binding RasterSteps}" />                
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center" ToolTip="The offset (in degrees) of the first coordinate line of constant angular parameter shown in polar coordinate mode">RO:</TextBlock>
                 <TextBox Width ="30" Name="txtRadialOffset" Text="{Binding RasterRadialOffset}"  />
                 <!-- <extToolkit:NumericUpDown Increment="1" Maximum="360" Minimum="-360" Width="50"/> -->
@@ -393,7 +393,7 @@
             <ToolBar Name="tlbTools"  Height="28" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}" Band="1">
                 <RadioButton HorizontalAlignment="Left" Name="rbToolMove" VerticalAlignment="Top"
                              IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.move}}">
-                    <Image Source="/TikzEdt;component/Images/base_cursor.png" Style="{StaticResource toolbarImageStyle}" Stretch="Fill" Height="16" Width="16"/>
+                    <my:AutoGrayImage Source2="/TikzEdt;component/Images/base_cursor.png" Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
                             <TextBlock Text="Select and move tool" FontWeight="Bold"></TextBlock>
@@ -406,7 +406,7 @@
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolAddVert" VerticalAlignment="Top" 
                              IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.addvert}}">
-                    <Image Source="/TikzEdt;component/Images/bmpvert.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <my:AutoGrayImage Source2="/TikzEdt;component/Images/bmpvert.png"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
                             <TextBlock Text="Node tool" FontWeight="Bold"></TextBlock>
@@ -418,7 +418,7 @@
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolAddEdge" VerticalAlignment="Top"
                              IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.addedge}}">
-                    <Image Source="/TikzEdt;component/Images/edge.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <Image Source="/TikzEdt;component/Images/edge.png"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
                             <TextBlock Text="Edge tool" FontWeight="Bold"></TextBlock>
@@ -430,7 +430,7 @@
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolAddPath" VerticalAlignment="Top" 
                              IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.addpath}}">
-                    <Image Source="/TikzEdt;component/Images/path.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <Image Source="/TikzEdt;component/Images/path.png"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
                             <TextBlock Text="Path tool" FontWeight="Bold"></TextBlock>
@@ -442,7 +442,7 @@
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolSmooth" VerticalAlignment="Top" 
                              IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.smooth}}">
-                    <Image Source="/TikzEdt;component/Images/Smooth.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <Image Source="/TikzEdt;component/Images/Smooth.png"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
                             <TextBlock Text="Smooth curve tool" FontWeight="Bold"></TextBlock>
@@ -454,7 +454,7 @@
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolBezier" VerticalAlignment="Top"
                              IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.bezier}}">
-                    <Image Source="/TikzEdt;component/Images/Bezier.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <Image Source="/TikzEdt;component/Images/Bezier.png"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
                             <TextBlock Text="Bezier tool" FontWeight="Bold"></TextBlock>
@@ -466,7 +466,7 @@
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolRectangle" VerticalAlignment="Top" 
                              IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.rectangle}}">
-                    <Image Source="/TikzEdt;component/Images/Rectangle.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <Image Source="/TikzEdt;component/Images/Rectangle.png" Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
                             <TextBlock Text="Rectangle tool" FontWeight="Bold"></TextBlock>
@@ -478,7 +478,7 @@
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolEllipse" VerticalAlignment="Top" 
                              IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.ellipse}}">
-                    <Image Source="/TikzEdt;component/Images/Ellipse.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <Image Source="/TikzEdt;component/Images/Ellipse.png" Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
                             <TextBlock Text="Ellipse tool" FontWeight="Bold"></TextBlock>
@@ -490,7 +490,7 @@
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolArc" VerticalAlignment="Top" 
                              IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.arc}}">
-                    <Image Source="/TikzEdt;component/Images/arc.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <Image Source="/TikzEdt;component/Images/arc.png" Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
                             <TextBlock Text="Arc/Pie tool" FontWeight="Bold"></TextBlock>
@@ -502,7 +502,7 @@
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolArcEdit" VerticalAlignment="Top" Visibility="Visible"
                              IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.arcedit}}">
-                    <Image Source="/TikzEdt;component/Images/arcedit.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <Image Source="/TikzEdt;component/Images/arcedit.png"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
                             <TextBlock Text="Arc/Pie editing tool" FontWeight="Bold"></TextBlock>
@@ -515,7 +515,7 @@
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolGrid" VerticalAlignment="Top" 
                              IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.grid}}">
-                    <Image Source="/TikzEdt;component/Images/Grid.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <Image Source="/TikzEdt;component/Images/Grid.png" Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
                             <TextBlock Text="Grid tool" FontWeight="Bold"></TextBlock>
@@ -530,14 +530,14 @@
                           Text="{Binding TheDocument.NodeStyle}" ItemsSource="{Binding TheDocument.TikzStyles}"/>
                 <Button Name="cmdClearNStyle" Click="cmdClear_Click" ToolTip="Clear Node Style"
                         IsEnabled="{Binding ElementName=cmbNodeStyles, Path=Text, Converter={StaticResource compareConverter}, ConverterParameter=''}">
-                    <Image Source="/TikzEdt;component/Images/BuilderDialog_remove.png" Style="{StaticResource toolbarImageStyle}"/>
+                    <my:AutoGrayImage Source2="/TikzEdt;component/Images/BuilderDialog_remove.png" />
                 </Button>
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Edge style:</TextBlock>
                 <ComboBox Name="cmbEdgeStyles" Width="150" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"
-                          Text="{Binding TheDocument.EdgeStyle}" ItemsSource="{Binding ActiveVM.TikzStyles}"/>
+                          Text="{Binding TheDocument.EdgeStyle}" ItemsSource="{Binding TheDocument.TikzStyles}"/>
                 <Button Name="cmdClearEStyle" Click="cmdClear_Click" ToolTip="Clear Edge Style" 
                         IsEnabled="{Binding ElementName=cmbEdgeStyles, Path=Text, Converter={StaticResource compareConverter}, ConverterParameter=''}">
-                    <Image Source="/TikzEdt;component/Images/BuilderDialog_remove.png" Style="{StaticResource toolbarImageStyle}"/>
+                    <my:AutoGrayImage Source2="/TikzEdt;component/Images/BuilderDialog_remove.png" />
                 </Button>
                 <Separator/>
                 <ToggleButton ToolTip="Use Polar coordinates for newly placed nodes" Name="chkPolar">
@@ -569,7 +569,7 @@
                 <CustomWPFColorPicker:ColorPickerControlView x:Name="ColorPicker1"  Height="16" Width="16" />
                 <Button HorizontalAlignment="Left" Name="bColorPicker1Insert" VerticalAlignment="Top" Visibility="Visible" 
                         Click="ColorPicker1_OnInsert">
-                    <Image Source="/TikzEdt;component/Images/colorinsert.png" Style="{StaticResource toolbarImageStyle}"  Stretch="Fill" Height="16" Width="16"/>
+                    <Image Source="/TikzEdt;component/Images/colorinsert.png"  Stretch="Fill" Height="16" Width="16"/>
                     <Button.ToolTip>
                         <StackPanel>
                             <TextBlock Text="Create color definition" FontWeight="Bold"></TextBlock>
@@ -686,7 +686,7 @@
                                     VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" 
                                     ReloadPdf="{Binding TheDocument.ReloadPdf}"/>
                     <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0"                                      
-                                    NodeStyle="{Binding NodeStyle}" EdgeStyle="{Binding EdgeStyle}"                                                                          
+                                    NodeStyle="{Binding TheDocument.NodeStyle}" EdgeStyle="{Binding TheDocument.EdgeStyle}"                                                                          
                                     JumpToSource="pdfOverlay1_JumpToSource" MouseWheel="pdfOverlay1_MouseWheel"
                                     NewNodeModifier="{Binding ElementName=cmbModifier, Path=Text}"
                                     UsePolarCoordinates="{Binding ElementName=chkPolar, Path=IsChecked}"

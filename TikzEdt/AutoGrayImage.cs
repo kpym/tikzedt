@@ -18,7 +18,16 @@ namespace TikzEdt
 
         void AutoGrayImage_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            Source = IsEnabled?Source2:GrayedImage;   
+            if (IsEnabled)
+            {
+                Source = Source2;
+                Opacity = 1.0;
+            }
+            else
+            {
+                Source = GrayedImage;
+                Opacity = 0.5;
+            }
         }
         FormatConvertedBitmap GrayedImage = null;
 
