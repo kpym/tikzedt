@@ -9,23 +9,14 @@
   * look good 
 
 *TODO:*
-  * Use and adapt AvalonDock
-  * Use FileList again
-  * don't open open dialog in temp folder (rather save last location)  
-  * add multiple document support  
-    * refactor document related code into document class
-  * hedged border around edited scope does not vanish when overlay turned off
-  * Knoten im Radialsystem setzen?
-  * Open in new instance menu item/toolbar button
-  * Copy to clipboard with figure environment+caption etc.
   
 === Code editor (avalonedit) ===
 *TODO:*
-  
+  * incorporate styles in code completions
 
 == TikzDisplay ==
 *TODO*
-  * pdflatex hangs sometimes
+  * pdflatex hangs sometimes (??how to reproduce??)
   * crisp toolbar bitmaps (no aliasing)
 
 == Rasterizer ==
@@ -56,20 +47,18 @@
 === TexCompiler ===
 *TODO*
   * timeout vs package download....?
-  * kill hidden running pdflatex instance(s) on exit
 
 == Deployment ==
 *TODO*
   * Check for PdfLatex in place
   * Check that necessary tex packages are there
   * Welcome screen as Tikzpicture on first load :-) ?
-
+  * check texlive/miktex (because of pdflatex parameter)
 
 == Usability ==
 *TODO*
   * jump to source on dbl click
   * Texlive test+error
-  * tikz extension (+associate)
   * other errors
   * wrong scope box for dudplicate labels
   * tool:deduplicate labels
@@ -94,10 +83,7 @@
   * tooltips (esp. on snippets) open for longer time
   * Improve documentation
   * Ensure MRU stored in same folder as rest of config files...
-  * Support Tikz 3D commands
-  * outsorce find dialog as separate lib
   * outsorce code completions as separate lib
   * support multiple tikzpictures
-  * start folder for file save/open dialogs
   * allow for no pictures in snippets and add some commands. maybe allow to switch between picture and no picture view more easily
   * support tikzpictures anywhere on page (using http://tex.stackexchange.com/questions/10343/determining-the-position-of-a-box-e-g-on-a-page)
