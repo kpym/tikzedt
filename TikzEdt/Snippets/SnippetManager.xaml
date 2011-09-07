@@ -111,7 +111,8 @@
                     <Button.ToolTip>(Re-)generate all thumbnails</Button.ToolTip>
                 </Button>
             </ToolBar>
-            <ListBox VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="True" x:Name="lstSnippets" ItemsSource="{Binding}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectionChanged="lstSnippets_SelectionChanged">
+            <ListBox VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="True" x:Name="lstSnippets" ItemsSource="{Binding}" DisplayMemberPath="Name" 
+                     SelectedValuePath="ID" SelectionChanged="lstSnippets_SelectionChanged" KeyDown="lstSnippets_KeyDown">
                 <ListBox.GroupStyle>
                     <GroupStyle ContainerStyle="{StaticResource ContainerStyle}" HeaderTemplate="{StaticResource groupingHeaderTemplate}"/>
                 </ListBox.GroupStyle>
