@@ -169,8 +169,10 @@
         </Grid.RowDefinitions>
         <Menu Height="23" HorizontalAlignment="Stretch" Name="menu1" VerticalAlignment="Top" Grid.Row="0">
             <MenuItem Header="_File" >
-                <MenuItem Header="Open" Command="ApplicationCommands.Open" />
+                <MenuItem Header="Open..." Command="ApplicationCommands.Open" />
                 <MenuItem Header="New" Command="ApplicationCommands.New" />
+                <MenuItem Header="Open in new instance..." Command="ApplicationCommands.Open" CommandParameter="true"/>
+                <MenuItem Header="New in new instance..." Command="ApplicationCommands.New" CommandParameter="true"/>
                 <MenuItem Header="Save" Command="ApplicationCommands.Save" />
                 <MenuItem Header="Save As..."  Command="ApplicationCommands.SaveAs" />
                 <Separator/>
@@ -186,7 +188,8 @@
                 <Separator/>
                 <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
                 <MenuItem Header="Paste" Command="ApplicationCommands.Paste"/>
-                <MenuItem Header="Cut" Command="ApplicationCommands.Cut"/>
+                <MenuItem Header="Cut" Command="ApplicationCommands.Cut"/> 
+                <MenuItem Header="Copy all with Figure environment" Click="CopyAllWithFigureEnvironment_Click"/>
                 <Separator/>
                 <MenuItem Header="Find..."  Command="ApplicationCommands.Find"/>
                 <MenuItem Header="Replace..."  Command="ApplicationCommands.Replace"/>
@@ -660,8 +663,8 @@
             </ListView> -->
                 <FLV:FolderView x:Name="folderView" Grid.Column="1" Grid.Row="0"
                             Visibility="{Binding ElementName=cmdFiles, Path=IsChecked, Converter={StaticResource boolToVis}}"
-                            Filter="*.tex|*.*" FilterIndex="0" OnFileOpen="folderView_OnFileOpen"
-                            RecentLocations="{Binding ElementName=RecentFileList,Path=BindableRecentFiles}"
+                            Filter="*.tex|*.tikz|*.*" FilterIndex="0" OnFileOpen="folderView_OnFileOpen"
+                            RecentLocations="{Binding ElementName=RecentFileList,Path=BindableRecentFiles}"                                
                             />
             </Grid>
             <osc:DockPanelSplitter DockPanel.Dock="Left" Width="5" Background="Gray"
@@ -674,7 +677,8 @@
                 <Grid Background="#303030">
                     <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center"                                       
                                       Resolution="{Binding TheDocument.Resolution}"
-                                      Visibility="{Binding ElementName=pdfOverlay1, Path=Visibility}" 
+                                      Visibility="{Binding EditorMode, Converter={StaticResource EnumToVis}, ConverterParameter={x:Static myVM:TEMode.Wysiwyg}}"
+                                      ShowRaster="{Binding ShowOverlay}"
                                       BB="{Binding TheDocument.CurrentBB}" />
                     <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" 
                                     RenderTransparent="{Binding EditorMode, Converter={StaticResource EnumToBool}, ConverterParameter={x:Static myVM:TEMode.Wysiwyg}}"

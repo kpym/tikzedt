@@ -241,6 +241,8 @@ namespace TikzEdt.ViewModels
         private void OpenCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = Consts.StdFileDialogFilter;
+            ofd.CheckFileExists = true;
             //if (TheDocument != null)
             //    ofd.InitialDirectory = System.IO.Path.GetDirectoryName(TheDocument.FilePath);
             ofd.InitialDirectory = Directory.GetCurrentDirectory();

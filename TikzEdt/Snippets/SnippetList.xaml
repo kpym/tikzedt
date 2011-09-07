@@ -81,7 +81,7 @@
             </ListBox.GroupStyle>            
                 <ListBox.ItemTemplate>                
                 <DataTemplate>
-                    <DockPanel HorizontalAlignment="Stretch">
+                    <DockPanel HorizontalAlignment="Stretch" ToolTipService.ShowDuration="15000">
                         <DockPanel.ToolTip>
                             <StackPanel>
                                 <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" />

@@ -71,6 +71,8 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <TextBlock Margin="3" Text="Path to PdfLatex" Grid.Column="0" Grid.Row="0"></TextBlock>
                     <TextBox Margin="3" Grid.Column="1" Grid.Row="0" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_pdflatex, Mode=TwoWay}">
@@ -114,7 +116,14 @@
                         <RadioButton Margin="3" Content="code change" Grid.Column="1" Grid.Row="1" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=CompileOnCodeChangeRadioButton}" />
                         <RadioButton Margin="3" Content="CTRL press" Grid.Column="2" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=CompileOnCTRLPressRadioButton}"/>
                     </Grid>
-                    
+                    <Button Grid.Column="1" Grid.Row="7" Margin="4" Click="AssociateTikz_Click">
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
+                                <Setter Property="Focusable" Value="False" />
+                            </Style>
+                        </Button.Style>
+                        Associate *.tikz files with TikzEdt
+                    </Button>
                 </Grid>
             </TabItem>
             <TabItem>

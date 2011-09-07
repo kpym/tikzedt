@@ -79,6 +79,17 @@ namespace TikzEdt
             set { SetValue(BBProperty, value); }
         }
 
+        readonly public static DependencyProperty ShowRasterProperty = DependencyProperty.Register(
+            "ShowRaster", typeof(bool), typeof(RasterControl), new PropertyMetadata(true,
+                new PropertyChangedCallback(OnBBChanged)));
+        /// <summary>
+        /// Use this to temporarily turn off display of the raster (... the white background is still displayed).
+        /// </summary>
+        public bool ShowRaster
+        {
+            get { return (bool)GetValue(ShowRasterProperty); }
+            set { SetValue(ShowRasterProperty, value); }
+        }
 
 
         bool _OverrideWithZeroGridWidth = false;
@@ -378,7 +389,7 @@ namespace TikzEdt
         {
             dc.DrawRectangle(Brushes.White, null, new Rect(RenderSize)); //new Rect(0, 0, Resolution * BB.Width, Resolution * BB.Height));//
             
-            if (GridWidth <= 0)
+            if (GridWidth <= 0 || !ShowRaster)
                return;    
 
             Transform t = GetTikzToScreenTransform();

@@ -1744,6 +1744,10 @@ namespace TikzEdt
                     //FindDialog.txtCode = null;
                //     if (FindDialog != null)
                 //        FindDialog.Close();
+
+                    // Exit running pdflatex instances
+                    TheCompiler.Instance.AbortCompilation();
+                    TikzToBMPFactory.Instance.AbortCompilation();
                 }
             }
         }
@@ -2522,6 +2526,13 @@ namespace TikzEdt
         {
             // open file in new window
             System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location, "\"" + e.FileName + "\"");
+        }
+
+        private void CopyAllWithFigureEnvironment_Click(object sender, RoutedEventArgs e)
+        {
+            string text = @"\begin{figure}" + Environment.NewLine + @"\centering" + Environment.NewLine + TheVM.TheDocument.Document.Text
+                + Environment.NewLine + @"\caption{\label{fig:myfigure} My figure caption. }" + Environment.NewLine + @"\end{figure}";
+            Clipboard.SetText(text);
         }
 
         

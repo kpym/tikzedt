@@ -99,5 +99,24 @@ namespace TikzEdt
                 e.Handled = true;
             }
         }
+
+        private void AssociateTikz_Click(object sender, RoutedEventArgs e)
+        {
+            string exepath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            if (MessageBox.Show("This will change the registry to associate *.tikz files with:"+Environment.NewLine + exepath +
+                Environment.NewLine +  "You also need to run this program in administrator mode."+
+                "Do you want to continue?", "Associate file extension", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    FileAssociation.Associate(".tikz", "TikzEdt.TikzEdt", "Tikz file", null, exepath);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Failed to associate the file extension. You need to run this program in administrator mode (right click TikzEdt.exe -> run as administrator).", "Failed",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
     }
 }

@@ -75,6 +75,11 @@ namespace TikzEdt
         {
             Clear();
         }
+        public override void UpdateRaster()
+        {
+            base.UpdateRaster();
+            overlay.SetCorrectRaster(overlay.CurEditing, false);
+        }
 
         /// <summary>
         /// Adds an item to the list of selected items.
