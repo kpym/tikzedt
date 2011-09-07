@@ -69,6 +69,7 @@
 
 === Misc ===
 *TODO*
+  * change snippets and settings texteditors to texteditorex
   * scopes sometimes too big if name conflicts are present
   * 3d support? (=ignore it automatically)
   * Scrolling also if overlay is off (with Ctrl+wheel)
