@@ -775,7 +775,9 @@
                                        ContextMenuOpening="txtCodeContextMenu_ContextMenuOpening"
                                        HDFile="{x:Static my:Consts.SystaxFileFullPath}"
                                        CompletionsFile="{x:Static my:Consts.CompletionsFileFullPath}"
-                                       Document2="{Binding TheDocument.Document}">
+                                       Document2="{Binding TheDocument.Document}"
+                                       DynamicSnippets="{Binding TheDocument.TikzStyles}"
+                                       DynamicSnippetsEnv="1"> <!-- ID=1 is currently the options environment -->
                     <myEditor:TextEditorEx.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>

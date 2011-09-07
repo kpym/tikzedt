@@ -12,8 +12,33 @@ using System.Windows;
 
 namespace TikzEdt.Editor
 {
-    public class CodeCompleter
+    public class CodeCompleter : DependencyObject
     {
+
+        /// <summary>
+        /// The ID of the Environment the dynamic snippet list is put in
+        /// </summary>
+        public int DynamicSnippetsEnv
+        {
+            get { return (int)GetValue(DynamicSnippetsEnvProperty); }
+            set { SetValue(DynamicSnippetsEnvProperty, value); }
+        }        
+        public static readonly DependencyProperty DynamicSnippetsEnvProperty =
+            DependencyProperty.Register("DynamicSnippetsEnv", typeof(int), typeof(CodeCompleter), new UIPropertyMetadata(0));
+
+        /// <summary>
+        /// A list of additional snippets that may change on runtime.
+        /// E.g., variable or style names can be put here
+        /// </summary>
+        public IEnumerable<string> DynamicSnippets
+        {
+            get { return (IEnumerable<string>)GetValue(DynamicSnippetsProperty); }
+            set { SetValue(DynamicSnippetsProperty, value); }
+        }
+        public static readonly DependencyProperty DynamicSnippetsProperty =
+            DependencyProperty.Register("DynamicSnippets", typeof(IEnumerable<string>), typeof(CodeCompleter), new UIPropertyMetadata(null));
+
+                     
         public string CompletionTriggers = "[.";
 
         public CodeCompleter()
@@ -77,23 +102,30 @@ namespace TikzEdt.Editor
                     {
                         data.Add(snipp);
                     }
+
+                    if (ee.ID == DynamicSnippetsEnv && DynamicSnippets != null)
+                    {
+                        foreach (string snipp in DynamicSnippets)
+                        {
+                            data.Add(new MyCompletionData(snipp, null));
+                        }
+                    }
                 }
             }
 
-            //data.Add(new MyCompletionData("draw"));
-            //data.Add(new MyCompletionData("fill"));
-            //data.Add(new MyCompletionData("minimum size"));
         }
 
         public class CodeEnvironment
         {
             string starttag, endtag;
+            public int ID;
             Regex restart, reend;
             public List<MyCompletionData> snippets = new List<MyCompletionData>();
             public CodeEnvironment(Data.CompletionDS.EnvironmentsRow r)
             {
                 starttag = r.StartTag;
                 endtag = r.EndTag;
+                ID = r.ID;
 
                 RegexOptions o = RegexOptions.RightToLeft | RegexOptions.Compiled;
                 reend = new Regex(endtag, o);

@@ -27,6 +27,31 @@ namespace TikzEdt.Editor
     /// </summary>
     public class TextEditorEx : TextEditor
     {
+
+        /// <summary>
+        /// The ID of the Environment the dynamic snippet list is put in.
+        /// </summary>
+        public int DynamicSnippetsEnv
+        {
+            get { return (int)GetValue(DynamicSnippetsEnvProperty); }
+            set { SetValue(DynamicSnippetsEnvProperty, value); }
+        }
+        public static readonly DependencyProperty DynamicSnippetsEnvProperty =
+            DependencyProperty.Register("DynamicSnippetsEnv", typeof(int), typeof(TextEditorEx), new UIPropertyMetadata(0));
+
+        /// <summary>
+        /// A list of additional snippets that may change on runtime.
+        /// E.g., variable or style names can be put here
+        /// </summary>
+        public IEnumerable<string> DynamicSnippets
+        {
+            get { return (IEnumerable<string>)GetValue(DynamicSnippetsProperty); }
+            set { SetValue(DynamicSnippetsProperty, value); }
+        }
+        public static readonly DependencyProperty DynamicSnippetsProperty =
+            DependencyProperty.Register("DynamicSnippets", typeof(IEnumerable<string>), typeof(TextEditorEx), new UIPropertyMetadata(null));
+
+
         public static readonly DependencyProperty Document2Property = DependencyProperty.Register("Document2",
             typeof(TextDocument), typeof(TextEditorEx), 
             new PropertyMetadata(null, new PropertyChangedCallback(OnDocument2Changed)));
@@ -135,6 +160,19 @@ namespace TikzEdt.Editor
             TextArea.TextEntered += textEditor_TextArea_TextEntered;
 
             Unloaded += new RoutedEventHandler(TextEditorEx_Unloaded);
+
+            // bind dynamic snippet list
+            BindingOperations.SetBinding(codeCompleter, CodeCompleter.DynamicSnippetsEnvProperty, new Binding
+            {
+                Path = new PropertyPath(DynamicSnippetsEnvProperty), 
+                Source = this
+            });
+            BindingOperations.SetBinding(codeCompleter, CodeCompleter.DynamicSnippetsProperty, new Binding
+            {
+                Path = new PropertyPath(DynamicSnippetsProperty),
+                Source = this
+            });
+
 
             //CommandBinding FindBinding = new CommandBinding(ApplicationCommands.Find, FindCommandHandler, AlwaysTrue); 
             //EnsureFindDialogExists();
