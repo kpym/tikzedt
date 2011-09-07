@@ -257,7 +257,9 @@ namespace TikzEdt
                 }
                 _CurEditing = value;
                 if (_CurEditing != null)
+                {
                     AdornerLayer.GetAdornerLayer(CurEditing).Add(new ScopeAdorner(CurEditing));
+                }
 
                 SetCorrectRaster(CurEditing); // todo: correct? ,true
             }

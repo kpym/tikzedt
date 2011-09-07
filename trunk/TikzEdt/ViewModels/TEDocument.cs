@@ -618,7 +618,7 @@ namespace TikzEdt.ViewModels
         {
             SaveFileDialog sfd = new SaveFileDialog()
             {
-                Filter = "Tex Files|*.tex" + "|All Files|*.*",
+                Filter = Consts.StdFileDialogFilter,
                 OverwritePrompt = true,
                 ValidateNames = true
             };

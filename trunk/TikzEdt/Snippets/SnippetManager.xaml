@@ -5,7 +5,8 @@
         xmlns:mySnippets="clr-namespace:TikzEdt.Snippets"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
-        Title="SnippetManager" Height="610" Width="698" Closing="Window_Closing" xmlns:my="clr-namespace:TikzEdt" Loaded="Window_Loaded" Closed="Window_Closed" Icon="/TikzEdt;component/Images/tikzedt48.ico">
+        Title="SnippetManager" Height="610" Width="698" Closing="Window_Closing" xmlns:my="clr-namespace:TikzEdt" 
+        Loaded="Window_Loaded" Closed="Window_Closed" KeyDown="Window_KeyDown" Icon="/TikzEdt;component/Images/tikzedt48.ico">
     <Window.Resources>
         <mySnippets:SnippetsDataSet x:Key="snippetsDataSet" />
         <CollectionViewSource x:Key="snippetsTableViewSource" Source="{Binding Path=SnippetsTable, Source={StaticResource snippetsDataSet}}">

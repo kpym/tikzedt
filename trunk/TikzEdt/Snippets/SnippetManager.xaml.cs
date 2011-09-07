@@ -337,6 +337,12 @@ namespace TikzEdt.Snippets
         {
 
         }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+                Close();
+        }
     }
 
     public sealed class ImageConverter : IValueConverter
