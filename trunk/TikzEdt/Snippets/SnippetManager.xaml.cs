@@ -51,7 +51,7 @@ namespace TikzEdt.Snippets
 
         SnippetsDataSet snippetsDataSet;
         CollectionViewSource snippetsTableViewSource;
-        SnippetsDataSet.SnippetsTableDataTable snippetsTable;
+        public SnippetsDataSet.SnippetsTableDataTable snippetsTable;
 
         public SnippetManager()
         {
@@ -352,6 +352,12 @@ namespace TikzEdt.Snippets
                     if (MessageBox.Show("Really delete the selected snippet?", "Delete", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                         cmdDeleteClick(sender, null);
             }
+        }
+
+        private void ImportSnippets_Click(object sender, RoutedEventArgs e)
+        {
+            SnippetImporter si = new SnippetImporter(snippetsTable);
+            si.ShowDialog();
         }
     }
 

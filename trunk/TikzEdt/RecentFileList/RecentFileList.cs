@@ -20,6 +20,14 @@ namespace Common
 			void RemoveFile( string filepath, int max );
 		}
 
+        readonly public static DependencyProperty BindableRecentFilesProperty = DependencyProperty.Register("BindableRecentFiles",
+                typeof(IEnumerable<String>), typeof(RecentFileList), new PropertyMetadata(null));
+        public IEnumerable<String> BindableRecentFiles
+        {
+            get { return (IEnumerable<String>)GetValue(BindableRecentFilesProperty); }
+            private set { SetValue(BindableRecentFilesProperty, value); }
+        }
+
         private bool _itemsUpToDate = false;
 
 		public IPersist Persister { get; set; }
@@ -71,6 +79,7 @@ namespace Common
         void RecentFileList_Loaded(object sender, RoutedEventArgs e)
         {
             HookFileMenu();
+            BindableRecentFiles = RecentFiles;
         }
 
 		void HookFileMenu()
@@ -88,7 +97,10 @@ namespace Common
 
 		public List<string> RecentFiles { get { return Persister.RecentFiles( MaxNumberOfFiles ); } }
         public void RemoveFile(string filepath) { Persister.RemoveFile(filepath, MaxNumberOfFiles); _itemsUpToDate = false; }
-        public void InsertFile(string filepath) { Persister.InsertFile(filepath, MaxNumberOfFiles); _itemsUpToDate = false; }
+        public void InsertFile(string filepath) { 
+            Persister.InsertFile(filepath, MaxNumberOfFiles); _itemsUpToDate = false;
+            BindableRecentFiles = RecentFiles;
+            }
         
 
 		void _FileMenu_SubmenuOpened( object sender, RoutedEventArgs e )
