@@ -669,27 +669,28 @@
             </Grid>
             <osc:DockPanelSplitter DockPanel.Dock="Left" Width="5" Background="Gray"
                                    Visibility="{Binding Path=LeftToolsColVisible, Source={x:Static p:Settings.Default},Converter={StaticResource boolToVis}}"/>
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" DockPanel.Dock="Right" Name="PreviewScrollViewer"
-                          Width="{Binding OverlayCanvasCol2WidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" DockPanel.Dock="Right" Name="PreviewScrollViewer" 
+                          Width="{Binding OverlayCanvasCol2WidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" >
                 <!-- 
                 <Button Grid.Row="0" Grid.Column="0">Hallo Welt</Button> <my:PdfOverlay  HorizontalAlignment="Stretch" x:Name="pdfOverlay1" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" />
                 -->
-                <Grid Background="#303030">
+                <Grid Background="#303030" MouseWheel="Preview_MouseWheel">
                     <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center"                                       
                                       Resolution="{Binding TheDocument.Resolution}"
                                       Visibility="{Binding EditorMode, Converter={StaticResource EnumToVis}, ConverterParameter={x:Static myVM:TEMode.Wysiwyg}}"
-                                      ShowRaster="{Binding ShowOverlay}"
+                                      ShowRaster="{Binding ShowOverlay}" RasterWidth="{Binding RasterWidth}" RasterRadialSteps="{Binding RasterSteps}"
+                                      RadialOffset="{Binding RasterRadialOffset}"
                                       BB="{Binding TheDocument.CurrentBB}" />
                     <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" 
                                     RenderTransparent="{Binding EditorMode, Converter={StaticResource EnumToBool}, ConverterParameter={x:Static myVM:TEMode.Wysiwyg}}"
                                     PdfPath="{Binding TheDocument.PdfPath}" Resolution="{Binding TheDocument.Resolution}"
-                                    VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" 
+                                    VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"                                     
                                     ReloadPdf="{Binding TheDocument.ReloadPdf}"/>
                     <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0"                                      
                                     NodeStyle="{Binding TheDocument.NodeStyle}" EdgeStyle="{Binding TheDocument.EdgeStyle}"                                                                          
-                                    JumpToSource="pdfOverlay1_JumpToSource" MouseWheel="pdfOverlay1_MouseWheel"
+                                    JumpToSource="pdfOverlay1_JumpToSource" Resolution="{Binding TheDocument.Resolution}"
                                     NewNodeModifier="{Binding ElementName=cmbModifier, Path=Text}"
-                                    UsePolarCoordinates="{Binding ElementName=chkPolar, Path=IsChecked}"
+                                    UsePolarCoordinates="{Binding ElementName=chkPolar, Path=IsChecked}"                                    
                                     Tool="{Binding CurrentTool, Mode=TwoWay}"
                                     ParseTree="{Binding TheDocument.ParseTree}" BB="{Binding TheDocument.CurrentBB}">
                         <my:PdfOverlay.Visibility>

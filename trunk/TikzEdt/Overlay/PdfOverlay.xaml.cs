@@ -102,7 +102,7 @@ namespace TikzEdt
         /// The parameter sender will contain the TikzParseItem the user wants to jump to.
         /// (Call its StartPosition() method to determine the text offset.)
         /// </summary>
-        public event NoArgsEventHandler JumpToSource;
+        public event EventHandler JumpToSource;
 
         #endregion
 
@@ -797,9 +797,19 @@ namespace TikzEdt
             if (JumpToSource != null && mnuJumpSource.Tag != null)
             {
                 if (mnuJumpSource.Tag is OverlayScope)
-                    JumpToSource((mnuJumpSource.Tag as OverlayScope).tikzitem);
+                    JumpToSource((mnuJumpSource.Tag as OverlayScope).tikzitem, null);
                 else if (mnuJumpSource.Tag is OverlayNode)
-                    JumpToSource((mnuJumpSource.Tag as OverlayNode).tikzitem);
+                    JumpToSource((mnuJumpSource.Tag as OverlayNode).tikzitem, null);
+            }
+        }
+        public void JumpToSourceDoIt(OverlayShape o)
+        {
+            if (JumpToSource != null)
+            {
+                if (o is OverlayScope)
+                    JumpToSource((o as OverlayScope).tikzitem, null);
+                else if (o is OverlayNode)
+                    JumpToSource((o as OverlayNode).tikzitem, null);
             }
         }
         private void contextmenuClick(object sender, RoutedEventArgs e)
@@ -914,6 +924,9 @@ namespace TikzEdt
             Rasterizer.OverrideWithZeroGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
             Rasterizer.OverrideWithHalfGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
 
+            if (e.Key == Key.LeftAlt || e.Key == Key.RightAlt)
+                e.Handled = true;
+
             if (!e.Handled)
             {
                 // escape cancels current operation
@@ -932,6 +945,9 @@ namespace TikzEdt
             // turn on raster on Alt released
             Rasterizer.OverrideWithZeroGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
             Rasterizer.OverrideWithHalfGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
+
+            if (e.Key == Key.LeftAlt || e.Key == Key.RightAlt)
+                e.Handled = true;
         }
 
         private void mnuAssignStyle_Click(object sender, RoutedEventArgs e)
@@ -1009,6 +1025,13 @@ namespace TikzEdt
             }
 
             EndUpdate();        // Make sure EndUpdate() is always called (..if Beginupdate() was)!
+        }
+
+        private void canvas1_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            // in case the keyboard focus is lost while alt or shift+alt pressed, the raster has to be made reappear
+            Rasterizer.OverrideWithHalfGridWidth = false;
+            Rasterizer.OverrideWithZeroGridWidth = false; 
         }
 
     }

@@ -153,6 +153,38 @@ namespace TikzEdt
             }
         }
 
+        public override void KeyDown(KeyEventArgs e)
+        {
+            // move the selected object
+            if (SelectedItems.Count > 0)
+            {
+                double x=0, y=0;
+                if (e.Key == Key.Right)
+                    x = 1;
+                else if (e.Key == Key.Left)
+                    x = -1;
+                else if (e.Key == Key.Down)
+                    y = -1;
+                else if (e.Key == Key.Up)
+                    y = 1;
+
+                if (x != 0 || y != 0)
+                {
+                    double step = overlay.Rasterizer.GridWidth * .1;
+                    if (step == 0)
+                        step = 1;
+                    overlay.BeginUpdate();                    
+                    ShiftSelItemsInParseTree(new Point(x*step, y*step), overlay.TopLevelItems );
+                    overlay.EndUpdate();
+                    // update overlay positions
+                    foreach (OverlayShape o in overlay.TopLevelItems)
+                        o.AdjustPosition(overlay.Resolution);
+
+                    e.Handled = true;
+                }
+            }
+            base.KeyDown(e);
+        }
 
         public override void OnLeftMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e)
         {
@@ -161,6 +193,10 @@ namespace TikzEdt
             if (e.ClickCount == 2 && (item is OverlayScope)) // Select for editing
             {
                 overlay.CurEditing = item as OverlayScope;
+            }
+            else if (e.ClickCount == 2 && (item is OverlayNode))
+            {
+                overlay.JumpToSourceDoIt(item);
             }
             else if (item is OverlayShape)
             {

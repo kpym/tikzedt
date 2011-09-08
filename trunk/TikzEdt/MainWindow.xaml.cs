@@ -1837,21 +1837,38 @@ namespace TikzEdt
                     rasterControl1.RadialSteps = (uint)i;
         }
         */
-        private void pdfOverlay1_JumpToSource(object sender)
+        private void pdfOverlay1_JumpToSource(object sender, EventArgs e)
         {
             TikzParseItem tpi = sender as TikzParseItem;
+            string s = tpi.ToString();
             int spos = tpi.StartPosition();
+            int sellength = s.Length;
+
+            // for nodes, try to jump directly to content (so that user can immediately start typing)
+            
+      /*      if (tpi is Tikz_Node)
+            {
+                int i = s.LastIndexOf('{');
+                if (i >= 0)
+                {
+                    spos = spos + i;
+                    sellength = 0;
+                }
+            } */
+
             if (spos > txtCode.Text.Length)
             {
                 AddStatusLine("Trying to jump to position " + spos + " but document only has " + txtCode.Text.Length + " characters. Please correct any parser errors or restart TikzEdt.", true);
                 return;
             }
+
             txtCode.SelectionLength = 0; //deselect first
             txtCode.CaretOffset = spos;
             txtCode.SelectionStart = spos;
-            txtCode.SelectionLength = tpi.ToString().Length;
+            txtCode.SelectionLength = sellength;
             txtCode.ScrollToLine(txtCode.Document.GetLineByOffset(spos).LineNumber);
             txtCode.Focus();
+                  
         }
         /*
         private void pdfOverlay1_ToolChanged(object sender)
@@ -2066,6 +2083,7 @@ namespace TikzEdt
                     downloader.FileDownloadStarted += ((s, args) => AddStatusLine("Download of Tikz/Pgf manual started. Please be patient."));
                     downloader.FileDownloadSucceeded += ((s, args) => AddStatusLine("Download of Tikz/Pgf manual succeeded."));
                     downloader.FileDownloadFailed += ((s, args) => AddStatusLine("Download of Tikz/Pgf manual failed.", true));
+                    
                 }
 
                 //if downloader is downloading file show status.
@@ -2348,14 +2366,24 @@ namespace TikzEdt
             addProblemMarker(this, err);
         }
         */
-        private void pdfOverlay1_MouseWheel(object sender, MouseWheelEventArgs e)
+        private void Preview_MouseWheel(object sender, MouseWheelEventArgs e)
         {            
-            if (System.Windows.Forms.Control.ModifierKeys == System.Windows.Forms.Keys.Control)
+            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
             {
                 int count = cmbZoom.Items.Count;
-                int step = e.Delta > 0 ? 1 : -1;
-                if (cmbZoom.SelectedIndex + step > 0 && cmbZoom.SelectedIndex + step < count)
-                cmbZoom.SelectedIndex += step;
+                double factor = e.Delta > 0 ? 1.1 : .9;
+                TheVM.TheDocument.Resolution *= factor;
+
+                // get Mouse pos for correct scrolling
+                Point p = Mouse.GetPosition(PreviewScrollViewer);
+
+                // adjust scroll
+                PreviewScrollViewer.ScrollToHorizontalOffset(PreviewScrollViewer.HorizontalOffset *factor + p.X * (factor-1));
+                PreviewScrollViewer.ScrollToVerticalOffset(PreviewScrollViewer.VerticalOffset * factor  + p.Y* (factor - 1));
+
+                e.Handled = true;
+                //if (cmbZoom.SelectedIndex + step > 0 && cmbZoom.SelectedIndex + step < count)
+                //cmbZoom.SelectedIndex += step;
             }
 
         }
@@ -2534,7 +2562,6 @@ namespace TikzEdt
                 + Environment.NewLine + @"\caption{\label{fig:myfigure} My figure caption. }" + Environment.NewLine + @"\end{figure}";
             Clipboard.SetText(text);
         }
-
-        
+       
     }
 }

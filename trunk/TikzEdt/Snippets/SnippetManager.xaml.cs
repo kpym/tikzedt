@@ -207,7 +207,7 @@ namespace TikzEdt.Snippets
                 overflowGrid.Visibility = Visibility.Collapsed;
             }
 
-            if (!File.Exists(Helper.GetSettingsPath() + Consts.cSyntaxFile))
+      /*      if (!File.Exists(Helper.GetSettingsPath() + Consts.cSyntaxFile))
             {
                 MessageBox.Show("Syntax definitions not found");
             }
@@ -217,7 +217,7 @@ namespace TikzEdt.Snippets
                 txtSnippetCode.SyntaxHighlighting = HighlightingLoader.Load(r, null);  //HighlightingManager.Instance..GetDefinition("C#");
                 txtSampleCode.SyntaxHighlighting = txtSnippetCode.SyntaxHighlighting;  //HighlightingManager.Instance..GetDefinition("C#");
                 r.Close();
-            }
+            }*/
 
             snippetsDataSet = ((SnippetsDataSet)(this.FindResource("snippetsDataSet")));
             snippetsTable = snippetsDataSet.Tables["SnippetsTable"] as SnippetsDataSet.SnippetsTableDataTable;
@@ -357,7 +357,8 @@ namespace TikzEdt.Snippets
         private void ImportSnippets_Click(object sender, RoutedEventArgs e)
         {
             SnippetImporter si = new SnippetImporter(snippetsTable);
-            si.ShowDialog();
+            if (si.ShowDialog() == true)
+                lstSnippets.UpdateLayout();
         }
     }
 

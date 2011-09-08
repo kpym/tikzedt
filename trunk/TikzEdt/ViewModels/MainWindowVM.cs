@@ -113,6 +113,9 @@ namespace TikzEdt.ViewModels
             }
         }
 
+
+
+
         OverlayToolType _CurrentTool = OverlayToolType.move;
         public OverlayToolType CurrentTool
         {
