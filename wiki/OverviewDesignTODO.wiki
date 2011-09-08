@@ -37,6 +37,7 @@
 *TODO*
   * Automatically indent inserted Code properly
   * ellipse & rectangle -tool: supported rotated coordinate system
+  * use polar not working for almost any tool  
 
 === Snippetmanager ===
 *TODO*
