@@ -180,7 +180,7 @@ namespace TikzEdt
 
                 String dir = System.IO.Path.GetDirectoryName(file);
                 if (dir == "")
-                    throw new Exception("Parameter file in SetCurrentWorkingDir() must containing the full path!");
+                    throw new Exception("Parameter file in SetCurrentWorkingDir() must contain the full path!");
                 else
                     Environment.CurrentDirectory = dir;
             }

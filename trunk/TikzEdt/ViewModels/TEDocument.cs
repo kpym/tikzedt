@@ -590,7 +590,7 @@ namespace TikzEdt.ViewModels
             //CleanupForNewFile();
 
             //set current dir to dir containing cFile.
-            //Helper.SetCurrentWorkingDir(Helper.WorkingDirOptions.DirFromFile, cFile);
+            Helper.SetCurrentWorkingDir(Helper.WorkingDirOptions.DirFromFile, cFile);
             //MainWindow.AddStatusLine("Working directory is now: " + Helper.GetCurrentWorkingDir());
 
 

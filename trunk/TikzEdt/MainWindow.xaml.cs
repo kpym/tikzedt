@@ -766,7 +766,7 @@ namespace TikzEdt
 
             //open file specified via command line parameter.            
             if (CmdLine[""] != null)
-                TheVM.TheDocument.LoadFile(CmdLine[""]);
+                TheVM.LoadFile(CmdLine[""]);
 
             TheVM.TheDocument.Recompile();
         }
