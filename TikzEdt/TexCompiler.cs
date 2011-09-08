@@ -779,7 +779,7 @@ namespace TikzEdt
         /// Code is standalone if
         /// 1) defined by !TIKZEDT STANDALONE command or
         /// 2) it contains string "\documentclass" or
-        /// 3) if it start with string "%&". (Precompiled header)
+        /// 3) if it starts with string "%&". (Precompiled header)
         /// </summary>
         /// <returns></returns>
         public static bool IsStandalone(string code)
