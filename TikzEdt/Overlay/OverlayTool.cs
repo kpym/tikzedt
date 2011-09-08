@@ -136,6 +136,8 @@ namespace TikzEdt
         /// </summary>
         string NewNodeModifier { get; }
         bool UsePolarCoordinates { get; }
+
+        void JumpToSourceDoIt(OverlayShape o);
     }
 
   
@@ -380,9 +382,7 @@ namespace TikzEdt
             //is above the \node-definition which causes an error while compiling the latex code.
             if (AddNewCurAddTo())
             {
-                // make sure both nodes involved are nodes
-
-
+                // make sure both nodes involved have names
                 Parser.Tikz_Node t1 = MakeReferenceableNode(curSel.tikzitem ),
                                  t2 = MakeReferenceableNode(n.tikzitem );
 
@@ -393,12 +393,15 @@ namespace TikzEdt
 
                 curAddTo.AddChild(new Parser.Tikz_Something(" "));
                 curAddTo.AddChild(tc1);
-                curAddTo.AddChild(new Parser.Tikz_Something(" edge "));
+                if (t1 == t2)                
+                    curAddTo.AddChild(new Parser.Tikz_Something(" edge[loop, looseness=20] "));                
+                else
+                    curAddTo.AddChild(new Parser.Tikz_Something(" edge "));
                 curAddTo.AddChild(tc2);
                 //tpict.AddChild(tp);                    
 
                 // make sure both nodes have names
-                Tikz_Picture tpict = overlay.ParseTree.GetTikzPicture();
+  /*              Tikz_Picture tpict = overlay.ParseTree.GetTikzPicture();
                 if (t1.name == "")
                 {
                     t1.SetName(tpict.GetUniqueName());
@@ -409,7 +412,7 @@ namespace TikzEdt
                     t2.SetName(tpict.GetUniqueName());
                     t2.UpdateText();
                 }
-
+                */
                 tc1.nameref = t1.name;
                 tc2.nameref = t2.name;
                 //tc1.UpdateText();

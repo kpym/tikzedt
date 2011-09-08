@@ -196,6 +196,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="SourceManager.cs" />
     <Compile Include="TexCompiler.cs" />
@@ -334,14 +335,17 @@
     </None>
     <None Include="Snippets\SnippetsDataSet.xsc">
       <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Snippets\SnippetsDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>SnippetsDataSet.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Snippets\SnippetsDataSet.xss">
       <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Editor\TikzSyntax.xshd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

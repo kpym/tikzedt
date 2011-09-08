@@ -31,7 +31,7 @@
                 MouseMove="canvas1_MouseMove" Background="#00000000" MouseLeftButtonDown="canvas1_MouseLeftButtonDown" 
                 MouseLeftButtonUp="canvas1_MouseLeftButtonUp" ContextMenuOpening="canvas1_ContextMenuOpening" 
                 MouseRightButtonDown="canvas1_MouseRightButtonDown"
-                MouseWheel="JumpToSourceDoIt" KeyDown="canvas1_KeyDown" KeyUp="canvas1_KeyUp">
+                MouseWheel="JumpToSourceDoIt" KeyDown="canvas1_KeyDown" KeyUp="canvas1_KeyUp" LostKeyboardFocus="canvas1_LostKeyboardFocus">
             <Canvas.FocusVisualStyle>
                 <Style></Style>
             </Canvas.FocusVisualStyle>

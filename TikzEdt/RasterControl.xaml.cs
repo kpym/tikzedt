@@ -108,18 +108,34 @@ namespace TikzEdt
             get { return _OverrideWithHalfGridWidth; }
         }
 
-        double _GridWidth = Properties.Settings.Default.Raster_GridWidth;
+        /// <summary>
+        /// RasterWidth is the raw width of the raster, before modifiers
+        /// </summary>
+        public double RasterWidth
+        {
+            get { return (double)GetValue(RasterWidthProperty); }
+            set { SetValue(RasterWidthProperty, value); }
+        }
+        public static readonly DependencyProperty RasterWidthProperty =
+            DependencyProperty.Register("RasterWidth", typeof(double), typeof(RasterControl), new UIPropertyMetadata(Properties.Settings.Default.Raster_GridWidth, OnBBChanged));
+
+
+        //double _GridWidth = Properties.Settings.Default.Raster_GridWidth;
+        /// <summary>
+        /// Gridwidth is the width of the raster after modifiers (OverrideWithZeroGridWidth or OverrideWithHalfGridWidth)
+        /// </summary>
         public double GridWidth
         {
-            get {
+            get
+            {
                 if (OverrideWithZeroGridWidth)
                     return 0;
                 else if (OverrideWithHalfGridWidth)
-                    return _GridWidth / 2;
+                    return RasterWidth / 2;
                 else
-                    return _GridWidth;
+                    return RasterWidth;
             }
-            set { _GridWidth = value; DrawRaster(); }
+            set { RasterWidth = value; }
         }
 
         double _ForceRadiusTo = -1;
@@ -137,39 +153,45 @@ namespace TikzEdt
             set { _ForceRadiusTo = value; }
         }
 
-        uint _RadialSteps = Properties.Settings.Default.Raster_RadSteps;
+
+
+        public uint RasterRadialSteps
+        {
+            get { return (uint)GetValue(RasterRadialStepsProperty); }
+            set { SetValue(RasterRadialStepsProperty, value); }
+        }
+        public static readonly DependencyProperty RasterRadialStepsProperty =
+            DependencyProperty.Register("RasterRadialSteps", typeof(uint), typeof(RasterControl), new UIPropertyMetadata(Properties.Settings.Default.Raster_RadSteps, OnBBChanged));        
+        //uint _RadialSteps = Properties.Settings.Default.Raster_RadSteps;
         public uint RadialSteps
         {
             //get { return Properties.Settings.Default.Raster_RadSteps; }
             get {
                 if (OverrideWithHalfGridWidth)
-                    return 2 * _RadialSteps;
+                    return 2 * RasterRadialSteps;
                 else
-                    return _RadialSteps;
+                    return RasterRadialSteps;
             }
             set 
-            { 
-                _RadialSteps = value; 
-                if (!IsCartesian)
-                    DrawRaster();
+            {
+                RasterRadialSteps = value; 
             }
         }
-        
-        double _RadialOffset = Properties.Settings.Default.Raster_RadialOffset;
+
+
         /// <summary>
         /// Offset for phi=const coordinate lines, in radians. 0=east pole
         /// </summary>
         public double RadialOffset
         {
-           // get { return Properties.Settings.Default.Raster_RadialOffset *Math.PI /180; }
-            get { return _RadialOffset; }
-            set
-            {
-                _RadialOffset = value;
-                if (!IsCartesian)
-                    DrawRaster();
-            }
+            get { return (double)GetValue(RadialOffsetProperty); }
+            set { SetValue(RadialOffsetProperty, value); }
         }
+
+        // Using a DependencyProperty as the backing store for RadialOffset.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty RadialOffsetProperty =
+            DependencyProperty.Register("RadialOffset", typeof(double), typeof(RasterControl), new UIPropertyMetadata(0.0, OnBBChanged));
+      
         public int RadialOffsetInt
         {
             get { return Convert.ToInt32(RadialOffset); }
