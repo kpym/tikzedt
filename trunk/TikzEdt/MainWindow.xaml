@@ -688,7 +688,8 @@
                                     ReloadPdf="{Binding TheDocument.ReloadPdf}"/>
                     <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0"                                      
                                     NodeStyle="{Binding TheDocument.NodeStyle}" EdgeStyle="{Binding TheDocument.EdgeStyle}"                                                                          
-                                    JumpToSource="pdfOverlay1_JumpToSource" Resolution="{Binding TheDocument.Resolution}"
+                                    JumpToSource="pdfOverlay1_JumpToSource" ReplaceText="pdfOverlay1_ReplaceText"
+                                    Resolution="{Binding TheDocument.Resolution}"
                                     NewNodeModifier="{Binding ElementName=cmbModifier, Path=Text}"
                                     UsePolarCoordinates="{Binding ElementName=chkPolar, Path=IsChecked}"                                    
                                     Tool="{Binding CurrentTool, Mode=TwoWay}"

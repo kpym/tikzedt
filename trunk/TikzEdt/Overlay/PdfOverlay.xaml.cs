@@ -97,12 +97,31 @@ namespace TikzEdt
         /// not because nothing has been drawn yet.)
         /// </summary>
         //public event CallbackEventHandler TryCreateNew;
+
         /// <summary>
         /// This event is called when user selectes Jump To Source on an Overlay item.
         /// The parameter sender will contain the TikzParseItem the user wants to jump to.
         /// (Call its StartPosition() method to determine the text offset.)
         /// </summary>
-        public event EventHandler JumpToSource;
+        public event EventHandler<JumpToSourceEventArgs> JumpToSource;
+        public class JumpToSourceEventArgs : EventArgs
+        {
+            public int JumpToPos;
+            public int SelectionLength;
+        }
+
+        /// <summary>
+        /// This event is called when the user requests some edits to the text that cannot be done by editing the parsetree.
+        /// (Note: currently the parsetree does not support deleting nodes.)
+        /// The Codeblock-commands use this event
+        /// </summary>
+        public event EventHandler<ReplaceTextEventArgs> ReplaceText;
+        public class ReplaceTextEventArgs : EventArgs
+        {
+            public int StartPosition;
+            public int Length;
+            public string ReplacementText;
+        }
 
         #endregion
 
@@ -410,6 +429,18 @@ namespace TikzEdt
             // allow to gain keyboard focus
             canvas.Focusable = true;
             
+            // handle delete event
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Delete, DeleteCommandHandler));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, CopyCommandHandler));
+        }
+
+        void DeleteCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            mnuCodeBlockMark_Click(mnuCodeBlockDelete, null);
+        }
+        void CopyCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            mnuCodeBlockMark_Click(mnuCodeBlockCopy, null);
         }
 
         /// <summary>
@@ -794,22 +825,18 @@ namespace TikzEdt
                 else mnuJumpSource.Tag = null;
             }
 
-            if (JumpToSource != null && mnuJumpSource.Tag != null)
+            if (mnuJumpSource.Tag != null)
             {
-                if (mnuJumpSource.Tag is OverlayScope)
-                    JumpToSource((mnuJumpSource.Tag as OverlayScope).tikzitem, null);
-                else if (mnuJumpSource.Tag is OverlayNode)
-                    JumpToSource((mnuJumpSource.Tag as OverlayNode).tikzitem, null);
+                JumpToSourceDoIt(mnuJumpSource.Tag as OverlayShape);
             }
         }
         public void JumpToSourceDoIt(OverlayShape o)
         {
             if (JumpToSource != null)
             {
-                if (o is OverlayScope)
-                    JumpToSource((o as OverlayScope).tikzitem, null);
-                else if (o is OverlayNode)
-                    JumpToSource((o as OverlayNode).tikzitem, null);
+                TikzParseItem tpi = (mnuJumpSource.Tag as OverlayShape).item; 
+                if (tpi != null)
+                    JumpToSource(this, new JumpToSourceEventArgs() { JumpToPos = tpi.StartPosition(), SelectionLength = tpi.Length });
             }
         }
         private void contextmenuClick(object sender, RoutedEventArgs e)
@@ -1032,6 +1059,87 @@ namespace TikzEdt
             // in case the keyboard focus is lost while alt or shift+alt pressed, the raster has to be made reappear
             Rasterizer.OverrideWithHalfGridWidth = false;
             Rasterizer.OverrideWithZeroGridWidth = false; 
+        }
+
+        private void mnuCodeBlockMark_Click(object sender, RoutedEventArgs e)
+        {
+            if (Tool != OverlayToolType.move)
+                return;
+
+            List<TikzParseItem> CodeBlock = TikzParseTreeHelper.GetCodeBlock( selectionTool.SelItems.Select( ols => ols.item ) );
+
+            if (!CodeBlock.Any()) 
+                return;
+            
+            int startpos = CodeBlock.First().StartPosition();
+            int endpos = CodeBlock.Last().StartPosition() + CodeBlock.Last().Length;
+
+            // get codeblock text
+            string cbtext = "";
+            foreach (var tpi in CodeBlock)
+                cbtext += tpi.ToString();
+
+            if (sender == mnuCodeBlockMark)
+            {
+                if (JumpToSource != null)
+                {
+                    int i1 = CodeBlock.First().StartPosition();
+                    int i2 = CodeBlock.Last().StartPosition() + CodeBlock.Last().Length;
+                    JumpToSource(this, new JumpToSourceEventArgs() { JumpToPos=i1, SelectionLength=i2-i1 });
+                }
+            }
+            else if (sender == mnuCodeBlockCopy)
+            {
+                Clipboard.SetText(cbtext);
+            }
+            else if (sender == mnuCodeBlockDelete)
+            {
+                if (ReplaceText != null)
+                    ReplaceText(this, new ReplaceTextEventArgs() { StartPosition = startpos, Length = endpos - startpos, ReplacementText = "" });
+            }
+            else if (sender == mnuCodeBlockEnscope || sender == mnuCodeBlockEDuplicate)
+            {
+                if (ReplaceText != null)
+                {
+                    // if the selected items are within a path, enscope by adding { }. If they are within another scope or the tikzpicture, enscope by \begin{scope} \end{scope}
+                    TikzContainerParseItem tc = CodeBlock.First().parent;
+                    string NewText;
+                    if (tc is Tikz_Picture || tc is Tikz_Scope)
+                        NewText = "\\begin{scope}[]" + Environment.NewLine + cbtext + Environment.NewLine + "\\end{scope}" + Environment.NewLine;
+                    else
+                        NewText = " { " + cbtext + " } ";
+
+                    if (sender == mnuCodeBlockEnscope)
+                    {
+                        ReplaceText(this, new ReplaceTextEventArgs()
+                        {
+                            StartPosition = startpos,
+                            Length = endpos - startpos,
+                            ReplacementText = NewText
+                        });
+                    }
+                    else
+                    {
+
+                        ReplaceText(this, new ReplaceTextEventArgs()
+                        {
+                            StartPosition = endpos,
+                            Length = 0,
+                            ReplacementText = NewText
+                        });
+                    }
+                }
+            }
+        }
+
+        private void mnuCodeBlockWhatsThis_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("The Wysiwyg interface is \"aware of\" coordinates in the code, but not about other Tikz objects (rectangles etc.). "+
+                "If you mark some coordinates and press delete (for example), Tikzedt has no way to know what part of the Tikz code exactly you want to delete. "+
+                "It always assumes that you want to delete the smallest code block, i.e., the region of the code containing the commands that contain the selects coordinates."+
+                "This might or might not be waht you expect. If not, you have to undo and edit the code manually."+
+                "Note also that the code-block operations may produce a non-compiling Tikzfile, depending on what you delete/enscope.",
+                "What is the code block", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
     }

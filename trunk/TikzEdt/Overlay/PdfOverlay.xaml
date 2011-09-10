@@ -44,12 +44,20 @@
                     <MenuItem Header="Jump To Source" Name="mnuJumpSource"  Click="contextmenuClick"/>
                     <MenuItem Header="Edit this Scope" Name="mnuEdit"  Click="contextmenuClick"/>
                     <MenuItem Header="Assign Style">
-                        <MenuItem Name ="mnuAssignCurrentNodeStyle" Header="Assign current node style" Click="mnuAssignStyle_Click"/>
-                        <MenuItem Name ="mnuAssignNewStyle" Header="Assign new style..." Click="mnuAssignStyle_Click"/>
-                        <MenuItem Name ="mnuChangeToCurrentNodeStyle" Header="Change style to current node style" Click="mnuAssignStyle_Click"/>
-                        <MenuItem Name ="mnuChangeToNewStyle" Header="Change style to new style..." Click="mnuAssignStyle_Click"/>
+                        <MenuItem Name ="mnuAssignCurrentNodeStyle" Header="Assign current node style" Click="mnuAssignStyle_Click" ToolTip="Adds the current node style to the style of the selection"/>
+                            <MenuItem Name ="mnuAssignNewStyle" Header="Assign new style..." Click="mnuAssignStyle_Click" ToolTip="Adds a new node style to the style of the selection"/>
+                            <MenuItem Name ="mnuChangeToCurrentNodeStyle" Header="Change style to current node style" Click="mnuAssignStyle_Click" ToolTip="Replaces the selction's style with the current node style"/>
+                            <MenuItem Name ="mnuChangeToNewStyle" Header="Change style to new style..." Click="mnuAssignStyle_Click" ToolTip="Replaces the selction's style with a new node style"/>
                     </MenuItem>
-                    <Separator/>
+                        <MenuItem Header="Code Block">
+                            <MenuItem Name ="mnuCodeBlockMark" Header="Mark" Click="mnuCodeBlockMark_Click" />
+                            <MenuItem Name ="mnuCodeBlockEnscope" Header="Enscope" Click="mnuCodeBlockMark_Click" />
+                            <MenuItem Name ="mnuCodeBlockEDuplicate" Header="Enscope and duplicate" Click="mnuCodeBlockMark_Click" />
+                            <MenuItem Name ="mnuCodeBlockCopy" Header="Copy" Click="mnuCodeBlockMark_Click" />
+                            <MenuItem Name ="mnuCodeBlockDelete" Header="Delete" Click="mnuCodeBlockMark_Click" />
+                            <MenuItem Name ="mnuCodeBlockWhatsThis" Header="What's this?" Click="mnuCodeBlockWhatsThis_Click" />
+                        </MenuItem>
+                            <Separator/>
                     <MenuItem Header="Move" Name="mnuMove" Click="contextmenuClick">
                         <MenuItem.Icon>
                             <Image Source="/TikzEdt;component/Images/base_cursor.png" Stretch="Fill" Height="16" Width="16"/>
