@@ -175,6 +175,7 @@
     <Compile Include="Parser\ANTLRErrorMsg.cs" />
     <Compile Include="Overlay\Rect_and_EllipseTools.cs" />
     <Compile Include="Overlay\SmoothCurveTool.cs" />
+    <Compile Include="Parser\TikzParseTreeHelper.cs" />
     <Compile Include="Snippets\SnippetImporter.xaml.cs">
       <DependentUpon>SnippetImporter.xaml</DependentUpon>
     </Compile>

@@ -165,6 +165,15 @@ namespace TikzEdt.Parser
         }
 
         /// <summary>
+        /// Removes this item from the parse tree
+        /// </summary>
+        public void Remove()
+        {
+            if (parent != null)
+                parent.RemoveChild(this);
+        }
+
+        /// <summary>
         /// Indicates whether the current item can change the current position.
         /// </summary>
         /// <returns></returns>
@@ -981,7 +990,7 @@ namespace TikzEdt.Parser
         {
             get
             {
-                int ret = 0;
+                int ret = starttag.Length + endtag.Length;
                 foreach (TikzParseItem tpi in Children)
                     ret += tpi.Length;
                 return ret;
@@ -1061,6 +1070,23 @@ namespace TikzEdt.Parser
             Children.Insert(position, tpi);
             // raise event
             RaiseTextChanged(tpi, "");
+        }
+
+        /// <summary>
+        /// Removes a child
+        /// </summary>
+        /// <param name="tpi"></param>
+        /// <param name="InsertAsFirst"></param>
+        public void RemoveChild(TikzParseItem tpi)
+        {
+
+            int startpos = tpi.StartPosition();
+            string oldtext = tpi.ToString();
+            tpi.parent = null;
+            Children.Remove(tpi);
+
+            // raise event
+            RaiseTextChanged(new DummyTikzParseItem(startpos), oldtext);            
         }
 
         /// <summary>
@@ -1532,6 +1558,12 @@ namespace TikzEdt.Parser
                  return options.GetTransformAtEditableShift(out ret);
              else
                  return parent.GetCurrentTransformAt(this, out ret);
+         }
+
+         public Tikz_Scope()
+         {
+             starttag = "\\begin{scope}";
+             endtag = "\\end{scope}";
          }
     }
 
@@ -2584,6 +2616,24 @@ namespace TikzEdt.Parser
         {
             return true;
         }
+    }
+
+    /// <summary>
+    /// This is used solely to replace deleted items when calling events
+    /// </summary>
+    public class DummyTikzParseItem : TikzParseItem
+    {
+        int _startpos;
+        public DummyTikzParseItem(int startpos)
+        {
+            _startpos = startpos;
+            text = "";
+        }
+
+        public override int StartPosition()
+        {
+            return _startpos;
+        }        
     }
 
 }

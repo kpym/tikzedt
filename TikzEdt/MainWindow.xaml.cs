@@ -1837,12 +1837,11 @@ namespace TikzEdt
                     rasterControl1.RadialSteps = (uint)i;
         }
         */
-        private void pdfOverlay1_JumpToSource(object sender, EventArgs e)
-        {
-            TikzParseItem tpi = sender as TikzParseItem;
-            string s = tpi.ToString();
-            int spos = tpi.StartPosition();
-            int sellength = s.Length;
+        private void pdfOverlay1_JumpToSource(object sender, PdfOverlay.JumpToSourceEventArgs e)
+        {            
+            //string s = txtCode.Text.Substring();
+            int spos = e.JumpToPos;
+            int sellength = e.SelectionLength;
 
             // for nodes, try to jump directly to content (so that user can immediately start typing)
             
@@ -2561,6 +2560,11 @@ namespace TikzEdt
             string text = @"\begin{figure}" + Environment.NewLine + @"\centering" + Environment.NewLine + TheVM.TheDocument.Document.Text
                 + Environment.NewLine + @"\caption{\label{fig:myfigure} My figure caption. }" + Environment.NewLine + @"\end{figure}";
             Clipboard.SetText(text);
+        }
+
+        private void pdfOverlay1_ReplaceText(object sender, PdfOverlay.ReplaceTextEventArgs e)
+        {
+            txtCode.Document.Replace(e.StartPosition, e.Length, e.ReplacementText);
         }
        
     }
