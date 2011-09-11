@@ -9,6 +9,8 @@
   * look good 
 
 *TODO:*
+  * Tooltip on file combobox
+  * recent file list below?
   
 === Code editor (avalonedit) ===
 *TODO:*
@@ -28,7 +30,6 @@
   * check math expresions in arc are handled correctly
   * arc followed by bezier handled correctly??
   * better error recovery: if error on \path is detected-> just drop this path instead of stopping parsing of whole file.
-  * node names with empty space.. also in uniquefier
 
 === Tikz ParseTree ===
   * check again whether missing nodenames are treated right
@@ -36,17 +37,13 @@
 
 == PdfOverlay ==
 *TODO*
-  * Automatically indent inserted Code properly
   * ellipse & rectangle -tool: supported rotated coordinate system
   * use polar not working for almost any tool  
-  * stop sign when no WYSIWYG possible
-  * tooltips for nodes after coordinates
 
 === Snippetmanager ===
 *TODO*
   * Change snippet baseclass to list
   * use SnippetList class for Snippet List ?
-  * delete snippet on DEL
 
 === TexCompiler ===
 *TODO*
@@ -65,7 +62,6 @@
   * Texlive test+error
   * other errors
   * wrong scope box for dudplicate labels
-  * tool:deduplicate labels
   * solution for different paths
   * solution for undefined commands
   * support \tikz{ }
@@ -77,15 +73,8 @@
   * scopes sometimes too big if name conflicts are present
   * 3d support? (=ignore it automatically)
   * Scrolling also if overlay is off (with Ctrl+wheel)
-  * wysiwyg delete, wysiwyg enscope+copy
-  * immediately type text after inserting or selecting nodes (or jump to position with double click)
-  * reposition selected items with cursors
-  * sometimes raster vanishes after parse error. Raster not redrawn after focus regained(ALT+TAB)
   * MRU list: somtimes files are not added
   * file for which parsing failed is not taken into mru list after save!
-  * download of tikz manual-> display status bar+speed
-  * edge node to itself -> loop
-  * tooltips (esp. on snippets) open for longer time
   * Improve documentation
   * Ensure MRU stored in same folder as rest of config files...
   * outsorce code completions as separate lib
