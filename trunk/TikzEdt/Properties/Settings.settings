@@ -149,5 +149,8 @@
     <Setting Name="Path_htlatex" Type="System.String" Scope="User">
       <Value Profile="(Default)">htlatex</Value>
     </Setting>
+    <Setting Name="TLB_ShowToolsOther" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -583,5 +583,17 @@ namespace TikzEdt.Properties {
                 this["Path_htlatex"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TLB_ShowToolsOther {
+            get {
+                return ((bool)(this["TLB_ShowToolsOther"]));
+            }
+            set {
+                this["TLB_ShowToolsOther"] = value;
+            }
+        }
     }
 }

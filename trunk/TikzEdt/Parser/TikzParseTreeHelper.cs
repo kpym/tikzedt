@@ -72,6 +72,132 @@ namespace TikzEdt.Parser
             return ret;
         }
 
+
+        /// <summary>
+        /// Scans for duplicate node names in the parse tree and changes them to make them unique.
+        /// Also updates references.
+        /// </summary>
+        /// <param name="tp"></param>
+        public static void UniquefyNodeNames(Tikz_ParseTree tpt)
+        {
+            if (tpt == null)
+                return;
+
+            Dictionary<string, Tikz_Node> nodelist = new Dictionary<string, Tikz_Node>();
+            
+            Tikz_Picture tp = tpt.GetTikzPicture();
+            if (tp == null)
+                return;
+
+            tpt.BeginModify();
+            // clear current node refs
+            tp.nodelist.Clear();
+            // scan for nodes, rename and re-register noderefs
+            ScanTree(tp, nodelist, tp);
+            tpt.EndModify();
+        }
+        /// <summary>
+        /// Recursive function to scan the parsetree in a depth first manner.
+        /// nodelist contains the current map from _old_ nodenames to nodes. it is used to update node references
+        /// </summary>
+        private static void ScanTree(TikzContainerParseItem tc, Dictionary<string, Tikz_Node> nodelist, Tikz_Picture tp)
+        {
+            foreach (var tpi in tc.Children)
+                if (tpi is Tikz_Node)
+                {
+                    Tikz_Node tn = tpi as Tikz_Node;
+                    if (tn.name != null && tn.name.Trim() != "")
+                    {
+                        string name = tn.name.Trim();
+                        // remember the node with its old name (all coordinates referring to this name henceforth will be changed to the new name
+                        nodelist[name] = tn;
+
+                        if (tp.nodelist.ContainsKey(name))
+                        {
+                            // we have to change the name
+                            tn.name = UniquefyName(name, tp);
+                            tn.UpdateText();
+                        }
+                        tn.RegisterNodeAndStyleRefs();
+                    }
+                }
+                else if (tpi is Tikz_Coord)
+                {
+                    Tikz_Coord tco = tpi as Tikz_Coord;
+                    if (tco.type == Tikz_CoordType.Named)
+                    if (nodelist.ContainsKey(tco.nameref))
+                        if (nodelist[tco.nameref].name != tco.nameref)
+                        {
+                            tco.nameref = nodelist[tco.nameref].name;
+                            tco.UpdateText();
+                        }
+
+                }
+                else if (tpi is TikzContainerParseItem)
+                {
+                    ScanTree(tpi as TikzContainerParseItem, nodelist, tp);
+                }
+        }
+        private static string UniquefyName(string oldname, Tikz_Picture tp)
+        {
+            int postfix = 1;
+            while (tp.nodelist.ContainsKey(oldname + "_" + postfix)) 
+                postfix++;
+            return oldname + "_" + postfix;
+        }
+
+
+
+        /// <summary>
+        /// Tries to find the referencable node (with a name) corresponding to a given coordinate.
+        /// If no such node exists, null is returned.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public static Tikz_Node GetReferenceableNode(Tikz_XYItem item, Tikz_Picture tpict)
+        {            
+            if (item == null || tpict == null)
+                return null;
+
+            if (item is Tikz_Node)
+            {
+                Tikz_Node n = item as Tikz_Node;
+                if (n.name==null || n.name == "")
+                    return null;
+                else
+                    return n;
+            }
+            else if (item is Tikz_Coord)
+            {
+                // find the next node
+                for (int i = item.parent.Children.IndexOf(item) + 1; i < item.parent.Children.Count; i++)
+                {
+                    if (item.parent.Children[i] is Tikz_Node)
+                    {
+                        Tikz_Node n = item.parent.Children[i] as Tikz_Node;
+                        // check if the node is really at the same position as the coordinate item
+                        if (n.coord == null)
+                        {
+                            if (n.name != null && n.name != "")
+                                return n;
+                            continue;
+                        }
+                        else
+                            return null;
+                    }
+
+                    if (!(item.parent.Children[i] is Tikz_Something))
+                        break;
+                }
+
+                // if we get here, nothing was found
+                return null;                
+            }
+            else
+                throw new NotImplementedException("MakeReferenceableNode not implemented for this type");
+        }
+
+
         public static bool AllEqual<T>(this IEnumerable<T> values) 
         {
             if (!values.Any()) return true;
@@ -82,6 +208,7 @@ namespace TikzEdt.Parser
         {
             return values.Select(f).AllEqual();
         }
+
 
     }
 }

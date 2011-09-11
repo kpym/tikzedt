@@ -35,6 +35,7 @@ using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Security;
 using Microsoft.Win32;
+using System.Globalization;
 
 //using System.Drawing;
 
@@ -592,6 +593,29 @@ namespace TikzEdt
         #endregion
     }
 
+    [ValueConversion(typeof(bool), typeof(Visibility))]
+    public class InverseBooleanToVisibilityConverter : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            if (targetType != typeof(Visibility))
+                throw new InvalidOperationException("The target must be a Visibility");
+
+            return (bool)value ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            throw new NotSupportedException();
+        }
+
+        #endregion
+    }
+
     [ValueConversion(typeof(Nullable<bool>), typeof(Nullable<bool>))]
     public class InverseNullableBooleanConverter : IValueConverter
     {
@@ -810,5 +834,6 @@ namespace TikzEdt
             }
             return Binding.DoNothing;
         }
-    }
+    }    
+
 }
