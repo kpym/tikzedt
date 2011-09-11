@@ -38,6 +38,8 @@
   * Automatically indent inserted Code properly
   * ellipse & rectangle -tool: supported rotated coordinate system
   * use polar not working for almost any tool  
+  * stop sign when no WYSIWYG possible
+  * tooltips for nodes after coordinates
 
 === Snippetmanager ===
 *TODO*
