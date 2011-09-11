@@ -18,7 +18,7 @@
         (or Build->Clean, then Rebuild worked for me) -->
     <my:InverseBooleanConverter x:Key="BoolInverter" />
     <my:SeverityImageConverter x:Key="SeverityToImg"/>
-    <BooleanToVisibilityConverter x:Key="boolToVis" />
+    <BooleanToVisibilityConverter x:Key="boolToVis" />    
     <my:InverseNullableBooleanConverter x:Key="NBoolInverter" />
     <my:BooleanToWidthConverter x:Key="BoolToWidth" />
     <my:EnumToBooleanConverter x:Key="EnumToBool"/>

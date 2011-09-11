@@ -583,6 +583,12 @@
   <ItemGroup>
     <Resource Include="Images\042b_AddCategory_32x32_72.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\uniquefynames.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\uniquefynames2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

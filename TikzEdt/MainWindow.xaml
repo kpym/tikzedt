@@ -17,7 +17,7 @@
         xmlns:FLV="clr-namespace:FileListView;assembly=FileListView"
         Title="TikzEdt" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
-        Width="{Binding Source={x:Static p:Settings.Default}, Path=Window_Width, Mode=TwoWay}" 
+        Width="944" 
         Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico"
         xmlns:settings="clr-namespace:LogicaCMG.Settings"
         settings:WindowSettings.Save="True"
@@ -206,7 +206,8 @@
                 <MenuItem Header="Toolbars">
                     <MenuItem Header="Main" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Mode=TwoWay}" IsCheckable="True" />
                     <MenuItem Header="Zoom" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowZoom, Mode=TwoWay}" IsCheckable="True" />
-                    <MenuItem Header="Tools" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Mode=TwoWay}" IsCheckable="True"/>
+                    <MenuItem Header="WYSIWYG Tools" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Mode=TwoWay}" IsCheckable="True"/>
+                    <MenuItem Header="Other Tools" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowToolsOther, Mode=TwoWay}" IsCheckable="True"/>
                         <!-- <MenuItem Header="Bounding Box" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowBB, Mode=TwoWay}" IsCheckable="True"/> -->
                     <MenuItem Header="Mode" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowMode, Mode=TwoWay}" IsCheckable="True"/>
                 </MenuItem>
@@ -233,7 +234,7 @@
                 <MenuItem Header="About..." Click="AboutClick"/>
             </MenuItem>
         </Menu>
-        <ToolBarTray Grid.Row="1" Background="Silver">
+        <ToolBarTray Grid.Row="1" Background="Silver" ToolTipService.ShowDuration="15000">
             <ToolBar  Height="28" Name="tlbMain" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Converter={StaticResource boolToVis}}">
                 <Button Command="ApplicationCommands.New" ToolTip="New file">
                     <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png" Stretch="Fill" Height="16" Width="16" />
@@ -557,7 +558,7 @@
                     <ComboBoxItem Content="++" />
                 </ComboBox>
             </ToolBar>
-            <ToolBar Band="1">
+            <ToolBar Band="1" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}">
                 <ToolBar.ToolTip>
                     <StackPanel>
                         <TextBlock Text="Create color definition" FontWeight="Bold"></TextBlock>
@@ -575,6 +576,18 @@
                             <TextBlock Text="Create color definition" FontWeight="Bold"></TextBlock>
                             <TextBlock Width="200" TextWrapping="Wrap">
                                 First choose a color using the color picker. Then press this button to create a new color definition. It is insert right before the TikZ picture.                                
+                            </TextBlock>
+                        </StackPanel>
+                    </Button.ToolTip>
+                </Button>
+                <Separator />
+                <Button Click="UniquefyNames_Click">
+                    <Image Source="/TikzEdt;component/Images/uniquefynames2.png"  Stretch="Fill" Height="16" Width="16" />
+                    <Button.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="Unique-ify node names" FontWeight="Bold"></TextBlock>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                Scans for duplicate node names. Changes nodenames (e.g. from foo to foo_1, foo_2 etc) so as to make them unique. Also updates all references to the named nodes.
                             </TextBlock>
                         </StackPanel>
                     </Button.ToolTip>
@@ -693,7 +706,8 @@
                                     NewNodeModifier="{Binding ElementName=cmbModifier, Path=Text}"
                                     UsePolarCoordinates="{Binding ElementName=chkPolar, Path=IsChecked}"                                    
                                     Tool="{Binding CurrentTool, Mode=TwoWay}"
-                                    ParseTree="{Binding TheDocument.ParseTree}" BB="{Binding TheDocument.CurrentBB}">
+                                    ParseTree="{Binding TheDocument.ParseTree}" BB="{Binding TheDocument.CurrentBB}"
+                                    AllowEditing="{Binding TheDocument.AllowEditing}">
                         <my:PdfOverlay.Visibility>
                             <MultiBinding Converter="{StaticResource EnumBoolToVis}" ConverterParameter="{x:Static myVM:TEMode.Wysiwyg}">
                                 <Binding Path="EditorMode" />

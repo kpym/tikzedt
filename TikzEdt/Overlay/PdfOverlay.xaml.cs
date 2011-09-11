@@ -161,7 +161,6 @@ namespace TikzEdt
         }
 
 
-        private bool _AllowEditing=true;
         /// <summary>
         /// This property determines when the overlay can be edited by the user.
         /// For TikzEdt, it is should be set to false whenever the document is out of sync with the current parsetree.
@@ -169,18 +168,11 @@ namespace TikzEdt
         /// </summary>
         public bool AllowEditing
         {
-            get { return _AllowEditing; }
-            set { 
-                _AllowEditing = value;
-                // display a transparent grid on top of the control that captures all input and displays 
-                // a no-go message via tooltip
-                if (_AllowEditing)
-                    DisablerGrid.Visibility = System.Windows.Visibility.Collapsed;
-                else
-                    DisablerGrid.Visibility = System.Windows.Visibility.Visible;
-            }
-        }
-
+            get { return (bool)GetValue(AllowEditingProperty); }
+            set { SetValue(AllowEditingProperty, value); }
+        }        
+        public static readonly DependencyProperty AllowEditingProperty =
+            DependencyProperty.Register("AllowEditing", typeof(bool), typeof(PdfOverlay), new UIPropertyMetadata(true));
         
         readonly public static DependencyProperty ParseTreeProperty = DependencyProperty.Register(
                 "ParseTree", typeof(Tikz_ParseTree), typeof(PdfOverlay), new PropertyMetadata(null, OnParseTreeChanged));
@@ -432,6 +424,9 @@ namespace TikzEdt
             // handle delete event
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Delete, DeleteCommandHandler));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, CopyCommandHandler));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, CutCommandHandler));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, PasteCommandHandler));
+            
         }
 
         void DeleteCommandHandler(object sender, ExecutedRoutedEventArgs e)
@@ -441,6 +436,15 @@ namespace TikzEdt
         void CopyCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             mnuCodeBlockMark_Click(mnuCodeBlockCopy, null);
+        }
+        void CutCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            mnuCodeBlockMark_Click(mnuCodeBlockCopy, null);
+            mnuCodeBlockMark_Click(mnuCodeBlockDelete, null);
+        }
+        void PasteCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("Pasting in the WYSIWYG part is not supported. Please paste directly into the text editor on the left.", "Paste", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
         /// <summary>
@@ -574,12 +578,13 @@ namespace TikzEdt
                     el.AdjustPosition(Resolution);
 
                     // add tooltip
-                    if (tpi is Tikz_Node && (tpi as Tikz_Node).name != "")
+                    Tikz_Node nref = TikzParseTreeHelper.GetReferenceableNode(tpi as Tikz_XYItem, ParseTree.GetTikzPicture());
+                    if (nref != null && nref.name != "")
                     {
                         ToolTip tip = new ToolTip();
-                        tip.Content = new TextBlock(new Run((tpi as Tikz_Node).name));
+                        tip.Content = new TextBlock(new Run(nref.name));
                         el.ToolTip = tip;                        
-                    }
+                    } 
 
                     canvas1.Children.Add(el);
                     bag.Add(el);

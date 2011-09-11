@@ -2566,6 +2566,12 @@ namespace TikzEdt
         {
             txtCode.Document.Replace(e.StartPosition, e.Length, e.ReplacementText);
         }
+
+        private void UniquefyNames_Click(object sender, RoutedEventArgs e)
+        {
+            TikzParseTreeHelper.UniquefyNodeNames(TheVM.TheDocument.ParseTree);
+        }
+
        
     }
 }
