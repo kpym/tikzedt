@@ -1380,6 +1380,7 @@ namespace TikzEdt.Parser
         public Dictionary<string, Tikz_Node> nodelist = new Dictionary<string, Tikz_Node>();
         public override Tikz_Node GetNodeByName(string tname)
         {
+            tname = TikzParseTreeHelper.CleanName(tname);
             if (nodelist.ContainsKey(tname))
                 return nodelist[tname];
             else
@@ -1387,7 +1388,7 @@ namespace TikzEdt.Parser
         }
         public override void AddNodeRef(Tikz_Node tn)
         {
-            nodelist[tn.name] = tn;
+            nodelist[TikzParseTreeHelper.CleanName(tn.name)] = tn;
         }
 
         public string GetUniqueName()
