@@ -108,7 +108,7 @@ namespace TikzEdt.Parser
                     Tikz_Node tn = tpi as Tikz_Node;
                     if (tn.name != null && tn.name.Trim() != "")
                     {
-                        string name = tn.name.Trim();
+                        string name = CleanName(tn.name.Trim());
                         // remember the node with its old name (all coordinates referring to this name henceforth will be changed to the new name
                         nodelist[name] = tn;
 
@@ -125,12 +125,15 @@ namespace TikzEdt.Parser
                 {
                     Tikz_Coord tco = tpi as Tikz_Coord;
                     if (tco.type == Tikz_CoordType.Named)
-                    if (nodelist.ContainsKey(tco.nameref))
-                        if (nodelist[tco.nameref].name != tco.nameref)
-                        {
-                            tco.nameref = nodelist[tco.nameref].name;
-                            tco.UpdateText();
-                        }
+                    {
+                        string nameref = CleanName(tco.nameref);
+                        if (nodelist.ContainsKey(nameref))
+                            if (CleanName(nodelist[nameref].name) != nameref)
+                            {
+                                tco.nameref = CleanName(nodelist[nameref].name);
+                                tco.UpdateText();
+                            }
+                    }
 
                 }
                 else if (tpi is TikzContainerParseItem)
@@ -162,7 +165,7 @@ namespace TikzEdt.Parser
             if (item is Tikz_Node)
             {
                 Tikz_Node n = item as Tikz_Node;
-                if (n.name==null || n.name == "")
+                if (n.name==null || n.name.Trim() == "")
                     return null;
                 else
                     return n;
@@ -178,7 +181,7 @@ namespace TikzEdt.Parser
                         // check if the node is really at the same position as the coordinate item
                         if (n.coord == null)
                         {
-                            if (n.name != null && n.name != "")
+                            if (n.name != null && n.name.Trim() != "")
                                 return n;
                             continue;
                         }
@@ -197,6 +200,17 @@ namespace TikzEdt.Parser
                 throw new NotImplementedException("MakeReferenceableNode not implemented for this type");
         }
 
+        /// <summary>
+        /// Removes whitespace from name. Note that multiple whitespace chars can also occur inside the string.
+        /// E.g. " bla    bla   " is mapped to "bla bla"        
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string CleanName(string name)
+        {
+            string[] s = name.Split(new char[] {' ','\t','\n','\r' }, StringSplitOptions.RemoveEmptyEntries);
+            return String.Join(" ",s);
+        }
 
         public static bool AllEqual<T>(this IEnumerable<T> values) 
         {
