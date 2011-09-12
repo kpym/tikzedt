@@ -14,7 +14,6 @@
   
 === Code editor (avalonedit) ===
 *TODO:*
-  * incorporate styles in code completions
 
 == TikzDisplay ==
 *TODO*
