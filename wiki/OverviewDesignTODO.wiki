@@ -41,8 +41,6 @@
 
 === Snippetmanager ===
 *TODO*
-  * Change snippet baseclass to list
-  * use SnippetList class for Snippet List ?
 
 === TexCompiler ===
 *TODO*
