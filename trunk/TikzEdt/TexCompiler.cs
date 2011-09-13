@@ -447,8 +447,10 @@ namespace TikzEdt
             // call pdflatex 
             if (job.GeneratePrecompiledHeaders)
             {
-                texProcess.StartInfo.Arguments = "-ini -jobname=\"" + job.name
-                    + "\" \"&pdflatex " + System.IO.Path.GetFileName(job.path) + "\\dump\"";                
+                string pchArgs = Properties.Settings.Default.PrecompiledHeaderCompileCommand;
+                texProcess.StartInfo.Arguments = pchArgs.Replace("$JOBNAME$", job.name).Replace("$FILENAME$", System.IO.Path.GetFileName(job.path));
+                //texProcess.StartInfo.Arguments = "-ini -jobname=\"" + job.name
+                //    + "\" \"&pdflatex " + System.IO.Path.GetFileName(job.path) + "\\dump\"";                
             }
             else
             {

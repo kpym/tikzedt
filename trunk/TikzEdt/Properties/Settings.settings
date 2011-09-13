@@ -152,5 +152,8 @@
     <Setting Name="TLB_ShowToolsOther" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="PrecompiledHeaderCompileCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-ini -jobname="$JOBNAME$" "&amp;pdflatex $FILENAME$\dump"</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

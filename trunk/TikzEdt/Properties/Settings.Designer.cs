@@ -595,5 +595,17 @@ namespace TikzEdt.Properties {
                 this["TLB_ShowToolsOther"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-ini -jobname=\"$JOBNAME$\" \"&pdflatex $FILENAME$\\dump\"")]
+        public string PrecompiledHeaderCompileCommand {
+            get {
+                return ((string)(this["PrecompiledHeaderCompileCommand"]));
+            }
+            set {
+                this["PrecompiledHeaderCompileCommand"] = value;
+            }
+        }
     }
 }
