@@ -2,6 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:p="clr-namespace:TikzEdt.Properties"
+        xmlns:myEditor="clr-namespace:TikzEdt.Editor"
+        xmlns:my="clr-namespace:TikzEdt" 
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
         Title="Settings" Height="346" Width="438" Loaded="Window_Loaded" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico" 
@@ -170,10 +172,10 @@
                     <!-- <TextBlock Text="Compiler"></TextBlock>   -->
                     <TextBlock Margin="3" Text="Code prepended:" Grid.Row="0" ></TextBlock>
                     <TextBlock  Grid.Row="1"  Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!"></TextBlock>
-                    <avalonedit:TextEditor  Grid.Row="2"  Margin="3" Name="txtPreamble"  VerticalAlignment="Stretch" BorderThickness="1" />
+                    <myEditor:TextEditorEx  Grid.Row="2"  Margin="3" x:Name="txtPreamble"  VerticalAlignment="Stretch" BorderThickness="1" HDFile="{x:Static my:Consts.SystaxFileFullPath}"/>
                     <TextBlock  Grid.Row="3"  Margin="3" Text="Code appended:" ></TextBlock>
                     <TextBlock  Grid.Row="4"  Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!" ></TextBlock>
-                    <avalonedit:TextEditor Grid.Row="5" Margin="3" Name="txtPostamble" VerticalAlignment="Stretch" BorderThickness="1" Grid.RowSpan="2" />
+                    <myEditor:TextEditorEx Grid.Row="5" Margin="3" x:Name="txtPostamble" VerticalAlignment="Stretch" BorderThickness="1" Grid.RowSpan="2" HDFile="{x:Static my:Consts.SystaxFileFullPath}"/>
                 </Grid>
             </TabItem>
             <TabItem>

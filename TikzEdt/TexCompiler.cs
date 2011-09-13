@@ -447,7 +447,7 @@ namespace TikzEdt
             // call pdflatex 
             if (job.GeneratePrecompiledHeaders)
             {
-                texProcess.StartInfo.Arguments = "-ini -job-name=\"" + job.name
+                texProcess.StartInfo.Arguments = "-ini -jobname=\"" + job.name
                     + "\" \"&pdflatex " + System.IO.Path.GetFileName(job.path) + "\\dump\"";                
             }
             else

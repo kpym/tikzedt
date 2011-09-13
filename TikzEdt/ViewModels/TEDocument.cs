@@ -61,6 +61,7 @@ namespace TikzEdt.ViewModels
 
         string _FilePath = null;
         /// <summary>
+        /// This is the full file path, including the directory
         /// FilePath = null means the document has not been saved yet
         /// </summary>
         public string FilePath
@@ -622,12 +623,11 @@ namespace TikzEdt.ViewModels
                 OverwritePrompt = true,
                 ValidateNames = true
             };
-            bool isTempFile = false;
-            if (CurFileNeverSaved)
-                isTempFile = true;
+            bool isTempFile = CurFileNeverSaved;
             string OldFileName = FilePath;
 
-            sfd.FileName = System.IO.Path.GetFileName(FilePath);
+            //sfd.FileName = System.IO.Path.GetFileName(FilePath);
+            sfd.FileName = ShortFileName;
             //sfd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
             sfd.InitialDirectory = Directory.GetCurrentDirectory();
 
@@ -636,7 +636,8 @@ namespace TikzEdt.ViewModels
             {
                 if (sfd.ShowDialog() != true)
                     return false;
-                else FilePath = sfd.FileName; //note temporarily CurFile is absolute.
+                
+                FilePath = sfd.FileName; 
                 WeNeedRecompilationAfterSave = true;
             }
 
@@ -648,6 +649,7 @@ namespace TikzEdt.ViewModels
             wr.Close();
             ChangesMade = false;
             //CurFileNeverSaved = false;
+
             MainWindow.AddStatusLine("File saved to " + FilePath + ".");
             if (OnSaved != null)
                 OnSaved(this, new EventArgs());
@@ -673,12 +675,12 @@ namespace TikzEdt.ViewModels
 
                 //now change current dir.
                 Helper.SetCurrentWorkingDir(Helper.WorkingDirOptions.DirFromFile, FilePath);
-                FilePath = System.IO.Path.GetFileName(FilePath);
+           //     FilePath = System.IO.Path.GetFileName(FilePath);
             }
 
             // start watching for external changes again
             fileWatcher.Path = Directory.GetCurrentDirectory();
-            fileWatcher.Filter = FilePath;
+            fileWatcher.Filter = ShortFileName;
             fileWatcher.EnableRaisingEvents = true;
 
             if (WeNeedRecompilationAfterSave)
