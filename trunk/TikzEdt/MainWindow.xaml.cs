@@ -244,6 +244,7 @@ namespace TikzEdt
             CommandBindings.Add(FindReplaceManager.FindNextBinding);
 
             recentFileList = RecentFileList;
+            //recentFileList.UseXmlPersister();
        //     AsyncParser.DoWork += new System.ComponentModel.DoWorkEventHandler(AsyncParser_DoWork);
        //     AsyncParser.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(AsyncParser_RunWorkerCompleted);
 

@@ -201,7 +201,7 @@ namespace TikzEdt.ViewModels
                 doc = new TEDocumentVM(cFile);
                 //doc.OnClose += new EventHandler(doc_OnClose);
                // TEDocumentView view = new TEDocumentView(doc);
-                doc.OnSaved += ((s, e) => MainWindow.recentFileList.InsertFile((s as TEDocumentVM).FilePath));
+                doc.OnSaved += ( (s, e) => MainWindow.recentFileList.InsertFile((s as TEDocumentVM).FilePath) );
                 //Documents.Insert(0, view);
                 //ActiveView = view;
                 if (cFile != null)
@@ -232,7 +232,10 @@ namespace TikzEdt.ViewModels
             else
             {
                 if (TheDocument == null || TheDocument.TryDisposeFile())
+                {
                     TheDocument = new TEDocumentVM();
+                    TheDocument.OnSaved += ((s, args) => MainWindow.recentFileList.InsertFile((s as TEDocumentVM).FilePath));
+                }
             }
 
         }

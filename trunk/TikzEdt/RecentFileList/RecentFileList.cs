@@ -65,7 +65,10 @@ namespace Common
 
 		public RecentFileList()
 		{
-			Persister = new RegistryPersister();
+            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+			    Persister = new RegistryPersister();
+            else 
+                Persister = new XmlPersister();
 
 			MaxNumberOfFiles = 9;
 			MaxPathLength = 50;

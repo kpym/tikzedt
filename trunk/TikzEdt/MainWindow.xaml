@@ -15,7 +15,7 @@
         xmlns:CustomWPFColorPicker="clr-namespace:CustomWPFColorPicker;assembly=CustomWPFColorPicker"
         xmlns:myVM="clr-namespace:TikzEdt.ViewModels"
         xmlns:FLV="clr-namespace:FileListView;assembly=FileListView"
-        Title="TikzEdt" 
+        Title="{Binding TheDocument.DisplayString}" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
         Width="944" 
         Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico"
