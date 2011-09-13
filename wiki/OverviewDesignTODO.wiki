@@ -56,9 +56,7 @@
 == Usability ==
 *TODO*
   * jump to source on dbl click
-  * Texlive test+error
   * other errors
-  * wrong scope box for dudplicate labels
   * solution for different paths
   * solution for undefined commands
   * support \tikz{ }
@@ -66,15 +64,13 @@
 
 === Misc ===
 *TODO*
-  * change snippets and settings texteditors to texteditorex
-  * scopes sometimes too big if name conflicts are present
   * 3d support? (=ignore it automatically)
-  * Scrolling also if overlay is off (with Ctrl+wheel)
-  * MRU list: somtimes files are not added
-  * file for which parsing failed is not taken into mru list after save!
   * Improve documentation
-  * Ensure MRU stored in same folder as rest of config files...
-  * outsorce code completions as separate lib
   * support multiple tikzpictures
+  * production mode should also work w/o previewenv
   * allow for no pictures in snippets and add some commands. maybe allow to switch between picture and no picture view more easily
   * support tikzpictures anywhere on page (using http://tex.stackexchange.com/questions/10343/determining-the-position-of-a-box-e-g-on-a-page)
+
+=== For later ===
+*TODO*
+  * outsorce code completions as separate lib
