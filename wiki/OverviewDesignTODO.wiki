@@ -17,8 +17,6 @@
 
 == TikzDisplay ==
 *TODO*
-  * pdflatex hangs sometimes (??how to reproduce??)
-  * crisp toolbar bitmaps (no aliasing)
 
 == Rasterizer ==
 *TODO*
@@ -31,7 +29,6 @@
   * better error recovery: if error on \path is detected-> just drop this path instead of stopping parsing of whole file.
 
 === Tikz ParseTree ===
-  * check again whether missing nodenames are treated right
   * Use Length property
 
 == PdfOverlay ==
@@ -44,7 +41,6 @@
 
 === TexCompiler ===
 *TODO*
-  * timeout vs package download....?
 
 == Deployment ==
 *TODO*
@@ -74,3 +70,5 @@
 === For later ===
 *TODO*
   * outsorce code completions as separate lib
+  * pdflatex hangs sometimes (??how to reproduce??)
+  * crisp toolbar bitmaps (no aliasing) (solution unknown)
