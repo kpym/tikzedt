@@ -210,7 +210,7 @@ namespace TikzEdt
             {
 
                 //throw new Exception("AppdataPath not set yet! Do it using SetAppdataPath() before calling GetAppdataPath().");
-                int DOESNOTLETDESIGNSHOW = 3; //that is why this line is disabled.
+                //int DOESNOTLETDESIGNSHOW = 3; //that is why this line is disabled.
             }
             return _AppdataPath;
         }
@@ -260,7 +260,7 @@ namespace TikzEdt
             return false;
 
             // this doesn't seem to work on my machine
-            var writeAllow = false;
+      /*      var writeAllow = false;
             var writeDeny = false;
             var accessControlList = Directory.GetAccessControl(path);
             var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
@@ -275,7 +275,7 @@ namespace TikzEdt
                     writeDeny = true;
             }
 
-            return writeAllow && !writeDeny;
+            return writeAllow && !writeDeny; */
         }
 
         
@@ -474,6 +474,9 @@ namespace TikzEdt
             }
             return count;
         }
+
+       // [DllImport("User32.dll")]
+       // public static extern bool UpdateWindow(IntPtr HWND);
 
     }
 

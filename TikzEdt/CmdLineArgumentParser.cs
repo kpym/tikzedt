@@ -566,7 +566,7 @@ namespace CLAParser
                 {
                     Sub = new Regex(SubRegEx);
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
                     //this should never happen since subexpression of a valid regex should still be valid.
                     throw new Exception("Internal Exception: SubRegEx invalid: " + SubRegEx.ToString());
@@ -660,7 +660,7 @@ namespace CLAParser
                         ///OptionalString can be anything. No check necessary.
                         case ValueType.OptionalString: break;
                         ///this should never happen because all cases are matched!
-                        default: throw new Exception("Internal Exception: Unmatch case in AddNewFoundParameter()!"); break;
+                        default: throw new Exception("Internal Exception: Unmatch case in AddNewFoundParameter()!");
                     }
 
                     ///now parameter is wanted and format is okay. insert param and value into FoundParameters

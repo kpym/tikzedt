@@ -102,9 +102,10 @@
     </Reference>
     <Reference Include="FindReplace, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\FindReplace.dll</HintPath>
+      <HintPath>..\..\..\FindReplaceTest\FindReplace\bin\Release\FindReplace.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.AvalonEdit">
+    <Reference Include="ICSharpCode.AvalonEdit, Version=4.1.0.7916, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
     <Reference Include="PDFLibNet, Version=1.0.6.8, Culture=neutral, PublicKeyToken=26d87f7d66fb2aee, processorArchitecture=x86">
@@ -148,6 +149,7 @@
       <DependentUpon>ExportCompileDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="FileDownloader.cs" />
+    <Compile Include="Misc\DockPanelSplitter.cs" />
     <Compile Include="Overlay\ArcEditTool.cs" />
     <Compile Include="Overlay\ArcTool.cs" />
     <Compile Include="Overlay\BezierTool.cs" />
@@ -593,6 +595,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\uniquefynames2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Misc\garbage.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

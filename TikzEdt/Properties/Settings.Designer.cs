@@ -335,9 +335,9 @@ namespace TikzEdt.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("50")]
-        public global::System.Windows.GridLength LeftMenuColWidthSetting {
+        public int LeftMenuColWidthSetting {
             get {
-                return ((global::System.Windows.GridLength)(this["LeftMenuColWidthSetting"]));
+                return ((int)(this["LeftMenuColWidthSetting"]));
             }
             set {
                 this["LeftMenuColWidthSetting"] = value;
@@ -358,7 +358,7 @@ namespace TikzEdt.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("*")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public global::System.Windows.GridLength OverlayCanvasColWidthSetting {
             get {
                 return ((global::System.Windows.GridLength)(this["OverlayCanvasColWidthSetting"]));
@@ -383,9 +383,9 @@ namespace TikzEdt.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("80")]
-        public global::System.Windows.GridLength StatusFieldRowHeightSetting {
+        public int StatusFieldRowHeightSetting {
             get {
-                return ((global::System.Windows.GridLength)(this["StatusFieldRowHeightSetting"]));
+                return ((int)(this["StatusFieldRowHeightSetting"]));
             }
             set {
                 this["StatusFieldRowHeightSetting"] = value;

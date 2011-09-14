@@ -52,7 +52,6 @@ namespace TikzEdt
             if (nextChar == -1)
             {
                 bool b = hasMoreTokens();
-                b = b;
                 return " ";
             }
             string ret = str.Substring(currentChar, nextChar - currentChar);
