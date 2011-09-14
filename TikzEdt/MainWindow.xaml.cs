@@ -2591,12 +2591,15 @@ namespace TikzEdt
 
         private void TextBlock_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
         {
-            //InvalidateVisual();
-            //InvalidateArrange();
+            InvalidateVisual();
+            InvalidateArrange();
             //Width = Width - 1;
+            //Width = Width + 1;
+            //DockPanel.SetDock(txtCode, Dock.Bottom);
            // IntPtr windowHandle = new WindowInteropHelper(Application.Current.MainWindow).Handle;
             //Helper.UpdateWindow(windowHandle);
-            
+            UpdateLayout();
+            InvalidateProperty(WidthProperty);
         }
        
     }
