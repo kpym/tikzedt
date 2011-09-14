@@ -9,7 +9,7 @@
   * look good 
 
 *TODO:*
-  * Tooltip on file combobox
+  * Filter multiple types in folder view
   * recent file list below?
   
 === Code editor (avalonedit) ===
@@ -29,7 +29,6 @@
   * better error recovery: if error on \path is detected-> just drop this path instead of stopping parsing of whole file.
 
 === Tikz ParseTree ===
-  * Use Length property
 
 == PdfOverlay ==
 *TODO*
