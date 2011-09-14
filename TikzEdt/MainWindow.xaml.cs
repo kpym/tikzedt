@@ -40,6 +40,7 @@ using Antlr.Runtime.Tree;
 using TikzEdt.Parser;
 using FileDownloaderApp;
 using TikzEdt.ViewModels;
+using System.Windows.Threading;
 
 namespace TikzEdt
 {
@@ -770,6 +771,14 @@ namespace TikzEdt
                 TheVM.LoadFile(CmdLine[""]);
 
             TheVM.TheDocument.Recompile();
+
+            // redraw the window
+            Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Visible;
+            txtCode.Visibility = Visibility.Collapsed;
+            txtCode.Visibility = Visibility.Visible;
+            txtCode.InvalidateVisual();
+
         }
 
         /// <summary>
@@ -1734,7 +1743,7 @@ namespace TikzEdt
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {
                 //ad// dockManager.SaveLayout(Helper.GetLayoutConfigFilepath());
-                TikzEdt.Properties.Settings.Default.Save();
+                Properties.Settings.Default.Save();
 
                 if (!TheVM.TheDocument.TryDisposeFile())
                     e.Cancel = true;
@@ -2550,7 +2559,7 @@ namespace TikzEdt
 
         }
 
-        private void folderView_OnFileOpen(object sender, FileListView.FolderView.FileOpenEventArgs e)
+        private void folderView_OnFileOpen(object sender, FileListView.FListView.FileOpenEventArgs e)
         {
             // open file in new window
             System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location, "\"" + e.FileName + "\"");
@@ -2571,6 +2580,11 @@ namespace TikzEdt
         private void UniquefyNames_Click(object sender, RoutedEventArgs e)
         {
             TikzParseTreeHelper.UniquefyNodeNames(TheVM.TheDocument.ParseTree);
+        }
+
+        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            txtCode.InvalidateVisual();
         }
 
        
