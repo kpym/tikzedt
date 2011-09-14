@@ -41,6 +41,7 @@ using TikzEdt.Parser;
 using FileDownloaderApp;
 using TikzEdt.ViewModels;
 using System.Windows.Threading;
+using System.Windows.Interop;
 
 namespace TikzEdt
 {
@@ -770,14 +771,10 @@ namespace TikzEdt
             if (CmdLine[""] != null)
                 TheVM.LoadFile(CmdLine[""]);
 
-            TheVM.TheDocument.Recompile();
+            //TheVM.TheDocument.Recompile();
 
-            // redraw the window
-            Visibility = Visibility.Collapsed;
-            Visibility = Visibility.Visible;
-            txtCode.Visibility = Visibility.Collapsed;
-            txtCode.Visibility = Visibility.Visible;
-            txtCode.InvalidateVisual();
+
+            Width = Width - 1;
 
         }
 
@@ -2587,6 +2584,20 @@ namespace TikzEdt
             txtCode.InvalidateVisual();
         }
 
+        private void DockPanelSplitter_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("jkhkjhkj");
+        }
+
+        private void TextBlock_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
+        {
+            //InvalidateVisual();
+            //InvalidateArrange();
+            //Width = Width - 1;
+           // IntPtr windowHandle = new WindowInteropHelper(Application.Current.MainWindow).Handle;
+            //Helper.UpdateWindow(windowHandle);
+            
+        }
        
     }
 }

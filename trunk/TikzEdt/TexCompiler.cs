@@ -496,7 +496,7 @@ namespace TikzEdt
                 //myPdflatexOutputParser.Clear();
                 AsyncReaderWorker.RunWorkerAsync();
             }
-            catch (System.ComponentModel.Win32Exception ex)
+            catch (System.ComponentModel.Win32Exception)
             { 
                 //texprocess_Exited("", "Cannot find pdf compiler pdflatex.");
                 //ex.NativeErrorCode == 2

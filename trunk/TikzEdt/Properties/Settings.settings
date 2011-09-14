@@ -86,19 +86,19 @@
     <Setting Name="Snippets_ShowThumbs" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="LeftMenuColWidthSetting" Type="System.Windows.GridLength" Scope="User">
+    <Setting Name="LeftMenuColWidthSetting" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">50</Value>
     </Setting>
     <Setting Name="LeftToolsColWidthSetting" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">151</Value>
     </Setting>
     <Setting Name="OverlayCanvasColWidthSetting" Type="System.Windows.GridLength" Scope="User">
-      <Value Profile="(Default)">*</Value>
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="OverlayCanvasCol2WidthSetting" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">300</Value>
     </Setting>
-    <Setting Name="StatusFieldRowHeightSetting" Type="System.Windows.GridLength" Scope="User">
+    <Setting Name="StatusFieldRowHeightSetting" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">80</Value>
     </Setting>
     <Setting Name="MessageColWidth" Type="System.Int32" Scope="User">
