@@ -1,20 +1,6 @@
 <?xml version="1.0" standalone="yes"?>
 <SnippetsDataSet xmlns="http://tempuri.org/SnippetsDataSet.xsd">
   <SnippetsTable>
-    <ID>0</ID>
-    <Name>simple</Name>
-    <Category>Test Cases</Category>
-    <Description>Add descriptive text here 
-Will be displayed as tooltip</Description>
-    <SnippetCode>\begin{tikzpicture}
-  \draw (1,1)--(3,3);
-\end{tikzpicture}</SnippetCode>
-    <SampleCode>\begin{tikzpicture}
-  \draw (1,1)--(3,3);
-\end{tikzpicture}</SampleCode>
-    <Dependencies />
-  </SnippetsTable>
-  <SnippetsTable>
     <ID>1</ID>
     <Name>Gray block</Name>
     <Category>Styles Nodes</Category>
@@ -26,6 +12,7 @@ Will be displayed as tooltip</Description>
 \node [gray_block] at (-0,0) {};
 \end{tikzpicture}</SampleCode>
     <Dependencies />
+    <NodeStyle>draw,outer sep=7,inner sep=7,minimum size=57,line width=1, very thick, draw=black!55, top color=white,bottom color=black!20</NodeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>2</ID>
@@ -42,6 +29,7 @@ Will be displayed as tooltip</Description>
   \useasboundingbox (current bounding box.south west)+(-\border,-\border) rectangle (current bounding box.north east)+(\border,\border);
 \end{tikzpicture}</SampleCode>
     <Dependencies>shadows</Dependencies>
+    <NodeStyle> font={\huge\bfseries}, shape=circle, minimum size=0.5cm, circular drop shadow, text=black, very thick, draw=black!55, top color=white,bottom color=green!80, text width=0.5cm, align=center</NodeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>3</ID>
@@ -73,6 +61,7 @@ Will be displayed as tooltip</Description>
   \draw[decorate,decoration=zigzag] (1,1)--(2,1);
 \end{tikzpicture}</SampleCode>
     <Dependencies>decorations.pathmorphing</Dependencies>
+    <EdgeStyle>decorate,decoration=zigzag</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>5</ID>
@@ -324,6 +313,7 @@ Will be displayed as tooltip</Description>
 \draw[default_edge] (v1) edge (v2);
 \end{tikzpicture}</SampleCode>
     <Dependencies />
+    <EdgeStyle>default_edge</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>15</ID>
@@ -371,6 +361,7 @@ Will be displayed as tooltip</Description>
   \fill[decorate, decoration=footprints] (1,1)--(3,3);
 \end{tikzpicture}</SampleCode>
     <Dependencies>decorations.footprints</Dependencies>
+    <EdgeStyle>decorate, decoration=footprints</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>18</ID>
@@ -383,6 +374,7 @@ Will be displayed as tooltip</Description>
   \draw[decorate, decoration=saw] (0,0)--(1,0);
 \end{tikzpicture}</SampleCode>
     <Dependencies>decorations.pathmorphing</Dependencies>
+    <EdgeStyle>decorate, decoration=saw</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>19</ID>
@@ -400,6 +392,7 @@ I copied it from http://www.texample.net/tikz/examples/pgf-version-2/</Descripti
 \end{tikzpicture}
 </SampleCode>
     <Dependencies>decorations.text</Dependencies>
+    <EdgeStyle>decorate,decoration={text along path, text={bla bla}}</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>20</ID>
@@ -412,6 +405,7 @@ I copied it from http://www.texample.net/tikz/examples/pgf-version-2/</Descripti
   \draw[decorate, decoration={brace, amplitude=5pt}] (1,1)--(2,1);
 \end{tikzpicture}</SampleCode>
     <Dependencies>decorations.pathreplacing</Dependencies>
+    <EdgeStyle>decorate, decoration={brace, amplitude=5pt}</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>21</ID>
@@ -425,6 +419,7 @@ Will be displayed as tooltip</Description>
 \draw[decorate,decoration={coil,segment length=4pt}] (0,1) -- (1,1);
 \end{tikzpicture}</SampleCode>
     <Dependencies>decorations.pathmorphing</Dependencies>
+    <EdgeStyle>decorate,decoration={coil,segment length=4pt}</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>22</ID>
@@ -435,9 +430,10 @@ Will be displayed as tooltip</Description>
     <SampleCode>\begin{tikzpicture}
 % only for bounding box
  \draw[white] (1,.9) rectangle (2,1.1);
-  \draw (1,1) -&gt; (2,1);
+  \draw[-&gt;] (1,1) -- (2,1);
 \end{tikzpicture}</SampleCode>
     <Dependencies />
+    <EdgeStyle>-&gt;</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>23</ID>
@@ -452,6 +448,7 @@ Will be displayed as tooltip</Description>
   \draw[-latex] (1,1)--(2,1);
 \end{tikzpicture}</SampleCode>
     <Dependencies>arrows</Dependencies>
+    <EdgeStyle>-latex</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>24</ID>
@@ -466,6 +463,7 @@ Will be displayed as tooltip</Description>
   \draw[o-*] (1,1)--(2,1);
 \end{tikzpicture}</SampleCode>
     <Dependencies>arrows</Dependencies>
+    <EdgeStyle>o-*</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>25</ID>
@@ -480,6 +478,7 @@ Will be displayed as tooltip</Description>
   \draw[-open triangle 45] (1,1)--(2,1);
 \end{tikzpicture}</SampleCode>
     <Dependencies>arrows</Dependencies>
+    <EdgeStyle>-open triangle 45</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>26</ID>
@@ -494,6 +493,7 @@ Will be displayed as tooltip</Description>
   \draw[-triangle 90] (1,1)--(2,1);
 \end{tikzpicture}</SampleCode>
     <Dependencies>arrows</Dependencies>
+    <EdgeStyle>-triangle 90</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>27</ID>
@@ -508,6 +508,7 @@ Will be displayed as tooltip</Description>
   \draw[-triangle 60] (1,1)--(2,1);
 \end{tikzpicture}</SampleCode>
     <Dependencies>arrows</Dependencies>
+    <EdgeStyle>-triangle 60</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>28</ID>
@@ -522,6 +523,7 @@ Will be displayed as tooltip</Description>
   \draw[diamond-open diamond] (1,1)--(2,1);
 \end{tikzpicture}</SampleCode>
     <Dependencies>arrows</Dependencies>
+    <EdgeStyle>diamond-open diamond</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>29</ID>
@@ -536,6 +538,7 @@ Will be displayed as tooltip</Description>
   \draw[square-open square] (1,1)--(2,1);
 \end{tikzpicture}</SampleCode>
     <Dependencies>arrows</Dependencies>
+    <EdgeStyle>square-open square</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>30</ID>
@@ -550,6 +553,7 @@ Will be displayed as tooltip</Description>
   \draw[-stealth] (1,1)--(2,1);
 \end{tikzpicture}</SampleCode>
     <Dependencies>arrows</Dependencies>
+    <EdgeStyle>-stealth</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>31</ID>
@@ -659,6 +663,7 @@ child[concept color=orange,grow=0] {node[concept] {Child concept}};
 \draw[green_arrow_edge] (v1) edge (v2);
 \end{tikzpicture}</SampleCode>
     <Dependencies />
+    <EdgeStyle>green_arrow_edge</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>36</ID>
@@ -707,18 +712,6 @@ Will be displayed as tooltip</Description>
 \begin{scope}[xshift=1.3cm, yshift=-.5cm,scale=1.7]
   \draw[xshift=1cm] (0,3)--(5,8)[xshift=1cm] (1,1)--(5,4);
 \end{scope}
-\end{tikzpicture}</SampleCode>
-    <Dependencies />
-  </SnippetsTable>
-  <SnippetsTable>
-    <ID>39</ID>
-    <Name>New Snippet2</Name>
-    <Category>Test Cases</Category>
-    <Description>Add descriptive text here 
-Will be displayed as tooltip</Description>
-    <SnippetCode>draw</SnippetCode>
-    <SampleCode>\begin{tikzpicture}
-  \draw (1,1)--(3,3);
 \end{tikzpicture}</SampleCode>
     <Dependencies />
   </SnippetsTable>
@@ -772,6 +765,7 @@ Insert at head of document.</Description>
 
 \end{tikzpicture} </SampleCode>
     <Dependencies />
+    <NodeStyle>outer sep=0,inner sep=0,minimum size=0</NodeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>43</ID>
@@ -787,6 +781,7 @@ Insert at head of document.</Description>
 \node [bordered] (v1) at (4,9) {node};
 \end{tikzpicture} </SampleCode>
     <Dependencies />
+    <NodeStyle>draw,outer sep=0,inner sep=1,minimum size=10</NodeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>44</ID>
@@ -881,6 +876,7 @@ Insert at head of document.</Description>
 
 </SampleCode>
     <Dependencies />
+    <NodeStyle>message</NodeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>47</ID>
@@ -927,5 +923,21 @@ Insert at head of document.</Description>
 };
 \end{tikzpicture}</SampleCode>
     <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>51</ID>
+    <Name>simple</Name>
+    <Category>Test Cases</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw (1,1)--(3,3);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle />
+    <NodeStyle />
   </SnippetsTable>
 </SnippetsDataSet>
