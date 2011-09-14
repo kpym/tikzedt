@@ -4,6 +4,8 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Interop;
 
 namespace TikzEdt
 {
@@ -19,7 +21,8 @@ namespace TikzEdt
                 System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(
                   AppDispatcherUnhandledException);
 
-            
+            // This shouldn't be necessary... but it is. On my machine there are rendering issues....
+            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
             // defer other startup processing to base class
             base.OnStartup(e);
