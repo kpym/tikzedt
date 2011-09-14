@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="TikzEdt.Snippets.SnippetList"
+             x:Name="Myself"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -70,10 +71,12 @@
                  IsSynchronizedWithCurrentItem="True" x:Name="lstSnippets" ItemsSource="{Binding}" SelectedValuePath="ID" 
                  MouseDoubleClick="lstSnippets_MouseDoubleClick" HorizontalContentAlignment="Stretch" >     
             <ListBox.ContextMenu>
-                <ContextMenu>
+                <ContextMenu x:Name="contextMenu">
                     <MenuItem Header="Insert Snippet" Click="InsertSnippetClick"/>
                     <MenuItem Header="Insert full Code Sample"  Click="InsertFullCodeClick"/>
                     <MenuItem Header="Insert Dependencies"  Click="InsertDependenciesClick"/>
+                    <Separator/>
+                    <MenuItem Header="Show Thumbnails" IsCheckable="True" IsChecked="{Binding ElementName=Myself, Path=ShowThumbnails}" />
                 </ContextMenu>                
             </ListBox.ContextMenu>
             <ListBox.GroupStyle>
@@ -99,7 +102,7 @@
                         
                         <Image DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10" Height="Auto" Width="40" 
                                Source="{Binding Path=ID, Converter={StaticResource ImgConverter}}" HorizontalAlignment="Center" 
-                               Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=mySnippets:SnippetList, AncestorLevel=1}, Path=ShowThumbnails, Converter={StaticResource boolToVis}}" />
+                               Visibility="{Binding ElementName=Myself, Path=ShowThumbnails, Converter={StaticResource boolToVis}}" />
                         <Button DockPanel.Dock="Right" ToolTip="Use this style with WYSIWYG tools&#xa;CTRL to add the style to the current one (instead of replace)" Click="UseStyleButton_Click" >
                             <Button.Style>
                                 <Style BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">

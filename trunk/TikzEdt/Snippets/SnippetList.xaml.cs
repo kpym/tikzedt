@@ -51,7 +51,7 @@ namespace TikzEdt.Snippets
         public event EventHandler<UseStylesEventArgs> OnUseStyles;
 
         readonly public static DependencyProperty ShowThumbnailsProperty = DependencyProperty.Register(
-         "ShowThumbnails", typeof(bool), typeof(SnippetList), new PropertyMetadata(false));
+         "ShowThumbnails", typeof(bool), typeof(SnippetList), new PropertyMetadata(true));
         public bool ShowThumbnails
         {
             get { return (bool)GetValue(ShowThumbnailsProperty); }
@@ -61,6 +61,10 @@ namespace TikzEdt.Snippets
         public SnippetList()
         {
             InitializeComponent();
+
+            // there is a binding problem (bug) that makes the following line necessary
+            NameScope.SetNameScope(contextMenu, NameScope.GetNameScope(this));
+
         }
 
         SnippetsDataSet snippetsDataSet;

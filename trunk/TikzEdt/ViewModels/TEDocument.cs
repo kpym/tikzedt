@@ -566,8 +566,9 @@ namespace TikzEdt.ViewModels
 
             // no auto-compilation in Production Mode (no Auto saving)
             //if (chkProductionMode.IsChecked == false)
-            if (ParseTree == null || !ParseTree.MoreChangesToCome)
-                Recompile();
+            if (MainWindow.TheVM == null || MainWindow.TheVM.EditorMode != TEMode.Production)
+                if (ParseTree == null || !ParseTree.MoreChangesToCome)
+                    Recompile();
             
             //}
         }

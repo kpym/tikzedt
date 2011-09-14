@@ -15,7 +15,7 @@
         xmlns:CustomWPFColorPicker="clr-namespace:CustomWPFColorPicker;assembly=CustomWPFColorPicker"
         xmlns:myVM="clr-namespace:TikzEdt.ViewModels"
         xmlns:FLV="clr-namespace:FileListView;assembly=FileListView"
-        Title="{Binding TheDocument.DisplayString}" 
+        Title="{Binding TheDocument.DisplayString, StringFormat=TikzEdt - {0}}" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
         Width="944" 
         Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico"
@@ -201,8 +201,9 @@
             <MenuItem Header="_View">
                 <MenuItem Header="Show Pdf in external viewer" Command="{x:Static custom:MainWindow.ShowPdfCommand}" InputGestureText="F6"/>
                 <Separator/>
-                <MenuItem Header="Fancy Mode" IsCheckable="True" IsChecked="{Binding ElementName=chkFancyMode, Path=IsChecked}"/>
-                <MenuItem Header="Standard Mode" IsCheckable="True" IsChecked="{Binding ElementName=chkStandardMode, Path=IsChecked}"/>
+                <MenuItem Header="WYSIWYG Mode" IsCheckable="True" IsChecked="{Binding EditorMode, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myVM:TEMode.Wysiwyg}}"/>
+                <MenuItem Header="Preview Mode" IsCheckable="True" IsChecked="{Binding EditorMode, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myVM:TEMode.Preview}}"/>
+                <MenuItem Header="Production Mode" IsCheckable="True" IsChecked="{Binding EditorMode, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myVM:TEMode.Production}}"/>
                 <MenuItem Header="Toolbars">
                     <MenuItem Header="Main" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Mode=TwoWay}" IsCheckable="True" />
                     <MenuItem Header="Zoom" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowZoom, Mode=TwoWay}" IsCheckable="True" />
@@ -281,7 +282,7 @@
                 </CheckBox>
             </ToolBar>
             <ToolBar Name="tlbZoom"
-                     Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowZoom, Converter={StaticResource boolToVis}}">
+                     Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowZoom, Converter={StaticResource boolToVis}}" ToolTipService.ShowDuration="15000">
                 <Button Click="cmdZoomOutClick" ToolTip="Zoom out" >
                     <Image Source="/TikzEdt;component/Images/ZoomOutHS.png"  Stretch="Fill" Height="16" Width="16"/>
                 </Button>
@@ -304,7 +305,7 @@
                 </Button>
                </ToolBar>
             <ToolBar Height="28" Name="tlbGrid">
-                <TextBlock VerticalAlignment="Center" Margin="0 0 3 0">Grid:</TextBlock>
+                <TextBlock VerticalAlignment="Center" Margin="0 0 3 0" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown">Grid:</TextBlock>
                 <ComboBox Name="cmbGrid"  Width="40" ItemsSource="{Binding}" SelectedIndex="4" IsEditable="True"
                           Text="{Binding RasterWidth}">
                     <ComboBoxItem Content="0" />
@@ -380,7 +381,7 @@
                         <StackPanel>
                             <TextBlock Text="Production Mode" FontWeight="Bold"></TextBlock>
                             <TextBlock Width="200" TextWrapping="Wrap">
-                                This mode is the same as Standard Mode, except that 
+                                This mode is the same as Preview Mode, except that 
                                 (i) the picture displayed on the right is the final 
                                 pdf output (file yourtexfile.pdf)
                                 (ii) there is no auto-compilation, you have to hit compile 
@@ -391,7 +392,7 @@
                     </RadioButton.ToolTip>
                 </RadioButton>
             </ToolBar>
-            <ToolBar Name="tlbTools"  Height="28" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}" Band="1">
+            <ToolBar Name="tlbTools"  Height="28" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}" Band="1" ToolTipService.ShowDuration="15000">
                 <RadioButton HorizontalAlignment="Left" Name="rbToolMove" VerticalAlignment="Top"
                              IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.move}}">
                     <my:AutoGrayImage Source2="/TikzEdt;component/Images/base_cursor.png" Stretch="Fill" Height="16" Width="16"/>
@@ -526,14 +527,29 @@
                         </StackPanel>
                     </RadioButton.ToolTip>
                 </RadioButton>
-                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Node style:</TextBlock>
+                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">
+                    Node style:
+                    <TextBlock.ToolTip>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                The node style is automatically applied to nodes drawn with one of the WYSIWYG tools on the left.
+                                You can choose an existing style, type your own or copy a style from the snippet list.
+                            </TextBlock>
+                    </TextBlock.ToolTip>
+                </TextBlock>
                 <ComboBox Name="cmbNodeStyles" Width="150" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"
                           Text="{Binding TheDocument.NodeStyle}" ItemsSource="{Binding TheDocument.TikzStyles}"/>
                 <Button Name="cmdClearNStyle" Click="cmdClear_Click" ToolTip="Clear Node Style"
                         IsEnabled="{Binding ElementName=cmbNodeStyles, Path=Text, Converter={StaticResource compareConverter}, ConverterParameter=''}">
                     <my:AutoGrayImage Source2="/TikzEdt;component/Images/BuilderDialog_remove.png" />
                 </Button>
-                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Edge style:</TextBlock>
+                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Edge style:
+                     <TextBlock.ToolTip>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                The edge style is automatically applied to edges drawn with one of the WYSIWYG tools on the left.
+                                You can choose an existing style, type your own or copy a style from the snippet list.
+                            </TextBlock>
+                    </TextBlock.ToolTip>
+                </TextBlock>
                 <ComboBox Name="cmbEdgeStyles" Width="150" IsEditable="True" ItemsPanel="{DynamicResource Virtualized}"
                           Text="{Binding TheDocument.EdgeStyle}" ItemsSource="{Binding TheDocument.TikzStyles}"/>
                 <Button Name="cmdClearEStyle" Click="cmdClear_Click" ToolTip="Clear Edge Style" 
@@ -558,7 +574,7 @@
                     <ComboBoxItem Content="++" />
                 </ComboBox>
             </ToolBar>
-            <ToolBar Band="1" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}">
+            <ToolBar Band="1" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}" ToolTipService.ShowDuration="15000">
                 <ToolBar.ToolTip>
                     <StackPanel>
                         <TextBlock Text="Create color definition" FontWeight="Bold"></TextBlock>
@@ -569,7 +585,7 @@
                 </ToolBar.ToolTip>
                 <CustomWPFColorPicker:ColorPickerControlView x:Name="ColorPicker1"  Height="16" Width="16" />
                 <Button HorizontalAlignment="Left" Name="bColorPicker1Insert" VerticalAlignment="Top" Visibility="Visible" 
-                        Click="ColorPicker1_OnInsert">
+                        Click="ColorPicker1_OnInsert" ToolTipService.ShowDuration="15000">
                     <Image Source="/TikzEdt;component/Images/colorinsert.png"  Stretch="Fill" Height="16" Width="16"/>
                     <Button.ToolTip>
                         <StackPanel>
@@ -665,7 +681,7 @@
                   Visibility="{Binding Path=LeftToolsColVisible, Source={x:Static p:Settings.Default},Converter={StaticResource boolToVis}}">
             <mySnippets:SnippetList x:Name="snippetlist1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                     Grid.Column="1" Grid.Row="0" OnInsert="snippetlist1_OnInsert" 
-                                    ShowThumbnails="{Binding Source={x:Static p:Settings.Default}, Path=Snippets_ShowThumbs}" 
+                                    ShowThumbnails="{Binding Source={x:Static p:Settings.Default}, Path=Snippets_ShowThumbs, Mode=TwoWay}" 
                                     Visibility="{Binding ElementName=cmdSnippets, Path=IsChecked, Converter={StaticResource boolToVis}}"
                                     OnUseStyles="snippetlist1_OnUseStyles"/>
          <!--   <ListView Grid.Column="1" Grid.Row="0" Name="lstFiles" MouseRightButtonUp="lstFile_MouseRightButtonUp" MouseDoubleClick="lstFiles_MouseDoubleClick"
@@ -720,15 +736,15 @@
                 </Grid>
             </ScrollViewer>
             <osc:DockPanelSplitter DockPanel.Dock="Right" Width="5" Background="Gray"/>
-
-            <Grid>
+            <DockPanel LastChildFill="True" >
+            <!--<Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="3"/>
                     <RowDefinition Height="{Binding StatusFieldRowHeightSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="StatusFieldRow" />
                 </Grid.RowDefinitions>
-                <GridSplitter Background="Gray" Grid.Row="1" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                <DockPanel LastChildFill="true" Grid.Row="2">
+                <GridSplitter Background="Gray" Grid.Row="1" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" /> -->
+                <DockPanel LastChildFill="true" DockPanel.Dock="Bottom" Height="{Binding StatusFieldRowHeightSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" >
                     <StackPanel DockPanel.Dock="Left" Background="Gray">
                         <RadioButton Name="chkStatus" Focusable="False" 
                                       IsChecked="True" Style="{StaticResource {x:Type ToggleButton}}">
@@ -784,7 +800,8 @@
                         </ListView>
 
                     </Grid>
-                </DockPanel>                
+                </DockPanel>
+                <osc:DockPanelSplitter DockPanel.Dock="Bottom" Height="5" Background="Gray"/>
                 <myEditor:TextEditorEx HorizontalAlignment="Stretch" x:Name="txtCode" VerticalAlignment="Stretch" 
                                        ShowLineNumbers="{Binding Source={x:Static p:Settings.Default}, Path=Editor_ShowLineNumbers}"
                                        WordWrap="{Binding Source={x:Static p:Settings.Default}, Path=Editor_WordWrap}" Drop="txtCode_Drop" DragEnter="txtCode_DragEnter"
@@ -793,7 +810,8 @@
                                        CompletionsFile="{x:Static my:Consts.CompletionsFileFullPath}"
                                        Document2="{Binding TheDocument.Document}"
                                        DynamicSnippets="{Binding TheDocument.TikzStyles}"
-                                       DynamicSnippetsEnv="1"> <!-- ID=1 is currently the options environment -->
+                                       DynamicSnippetsEnv="1"
+                                       Grid.Row="0"> <!-- ID=1 is currently the options environment -->
                     <myEditor:TextEditorEx.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
@@ -808,9 +826,9 @@
                         </ContextMenu>
                     </myEditor:TextEditorEx.ContextMenu>
                 </myEditor:TextEditorEx>
-            </Grid>
+            </DockPanel>
 
-            <!-- <GridSplitter Background="Gray" Grid.Column="4" Grid.Row="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />-->
+            <!-- </Grid> <GridSplitter Background="Gray" Grid.Column="4" Grid.Row="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />-->
        
         </DockPanel>
         <!-- DocumentsSource="{Binding MyDocuments}" -->
