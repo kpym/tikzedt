@@ -69,6 +69,7 @@
   * error log not deleted after succesful compilation
   * folderview context menu
   * error with fig_homdegm1
+  * code completions without {= etc
 
 === For later ===
 *TODO*
