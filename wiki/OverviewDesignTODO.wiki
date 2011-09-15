@@ -67,7 +67,7 @@
   * "add as new snippet" command
   * support tikzpictures anywhere on page (using http://tex.stackexchange.com/questions/10343/determining-the-position-of-a-box-e-g-on-a-page)
   * error log not deleted after succesful compilation
-  
+  * folderview context menu
 
 === For later ===
 *TODO*
