@@ -70,6 +70,8 @@
   * folderview context menu
   * error with fig_homdegm1
   * code completions without {= etc
+  * nullreference exception on dbl click
+  * invent something to share styles
 
 === For later ===
 *TODO*
