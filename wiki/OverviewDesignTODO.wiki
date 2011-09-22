@@ -72,7 +72,7 @@
   * code completions without {= etc
   * nullreference exception on dbl click
   * invent something to share styles
-  * selection not deleted ??? sometimes moves instead of selects
+  * selection not deleted ??? sometimes moves instead of selects...after right click
 
 === For later ===
 *TODO*
