@@ -73,6 +73,7 @@
   * nullreference exception on dbl click
   * invent something to share styles
   * selection not deleted ??? sometimes moves instead of selects...after right click
+  * save pdfbutton
 
 === For later ===
 *TODO*
