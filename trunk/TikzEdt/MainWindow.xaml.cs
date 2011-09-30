@@ -2576,7 +2576,13 @@ namespace TikzEdt
 
         private void pdfOverlay1_ReplaceText(object sender, PdfOverlay.ReplaceTextEventArgs e)
         {
-            txtCode.Document.Replace(e.StartPosition, e.Length, e.ReplacementText);
+            txtCode.BeginChange();
+
+            // Note: we assume that the replacements are already brought into correct order !!
+            foreach (var r in e.Replacements)
+                txtCode.Document.Replace(r.StartPosition, r.Length, r.ReplacementText);
+
+            txtCode.EndChange();
         }
 
         private void UniquefyNames_Click(object sender, RoutedEventArgs e)

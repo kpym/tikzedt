@@ -118,9 +118,21 @@ namespace TikzEdt
         public event EventHandler<ReplaceTextEventArgs> ReplaceText;
         public class ReplaceTextEventArgs : EventArgs
         {
-            public int StartPosition;
-            public int Length;
-            public string ReplacementText;
+            public struct ReplaceData
+            {
+                public int StartPosition;
+                public int Length;
+                public string ReplacementText;
+            }
+            public IEnumerable<ReplaceData> Replacements;
+
+            public ReplaceTextEventArgs() { }
+            public ReplaceTextEventArgs( int tStartPosition, int tLength, string tReplacementText) 
+            {
+                var l = new List<ReplaceData>();
+                l.Add(new ReplaceData() { StartPosition = tStartPosition, Length=tLength, ReplacementText=tReplacementText });
+                Replacements = l;
+            } 
         }
 
         #endregion
@@ -431,16 +443,15 @@ namespace TikzEdt
 
         void DeleteCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            mnuCodeBlockMark_Click(mnuCodeBlockDelete, null);
+            mnuSelection_Click(mnuSelectionDelete, null);
         }
         void CopyCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            mnuCodeBlockMark_Click(mnuCodeBlockCopy, null);
+            mnuSelection_Click(mnuSelectionCopy, null);
         }
         void CutCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            mnuCodeBlockMark_Click(mnuCodeBlockCopy, null);
-            mnuCodeBlockMark_Click(mnuCodeBlockDelete, null);
+            mnuSelection_Click(mnuSelectionCut, null);
         }
         void PasteCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
@@ -1066,7 +1077,88 @@ namespace TikzEdt
             Rasterizer.OverrideWithZeroGridWidth = false; 
         }
 
-        private void mnuCodeBlockMark_Click(object sender, RoutedEventArgs e)
+        private void mnuSelection_Click(object sender, RoutedEventArgs e)
+        {
+            if (Tool != OverlayToolType.move)
+                return;
+
+            List<TikzParseItem> FullSelection = TikzParseTreeHelper.GetFullSelection(selectionTool.SelItems.Select(ols => ols.item));
+
+            if (!FullSelection.Any())
+                return;
+
+            // get codeblock text
+            string cbtext = "", cbtextE="";
+            foreach (var tpi in FullSelection)
+                cbtext += tpi.ToString() + Environment.NewLine;
+
+            // if the selected items are within a path, enscope by adding { }. If they are within another scope or the tikzpicture, enscope by \begin{scope} \end{scope}
+            TikzContainerParseItem tc = FullSelection.First().parent;
+            if (tc is Tikz_Picture || tc is Tikz_Scope)
+                cbtextE = "\\begin{scope}[]" + Environment.NewLine + cbtext + Environment.NewLine + "\\end{scope}" + Environment.NewLine;
+            else
+                cbtextE = " { " + cbtext + " } ";
+
+
+            var ReplacementList = new List<ReplaceTextEventArgs.ReplaceData>();
+
+            if (sender == mnuSelectionCopy)
+            {
+                Clipboard.SetText(cbtext);
+            }
+            else if (sender == mnuSelectionCopyE)
+            {
+                Clipboard.SetText(cbtextE);
+            }
+            else if (sender == mnuSelectionDelete || sender == mnuSelectionCut || sender == mnuSelectionCutE)
+            {
+                if (ReplaceText != null)
+                {
+                    foreach (var tpi in FullSelection)
+                        ReplacementList.Insert(0, new ReplaceTextEventArgs.ReplaceData() { StartPosition = tpi.StartPosition(), Length = tpi.Length, ReplacementText = "" });
+
+                    if (sender == mnuSelectionCut)
+                        Clipboard.SetText(cbtext);
+                    else if (sender == mnuSelectionCutE)
+                        Clipboard.SetText(cbtextE);
+
+                    ReplaceText(this, new ReplaceTextEventArgs() { Replacements = ReplacementList });
+                }
+            }
+            else if (sender == mnuSelectionCollect || sender == mnuSelectionCollectE)
+            {
+                if (ReplaceText != null)
+                {
+                    // Text to delete ... mind the order
+                    foreach (var tpi in FullSelection)
+                        ReplacementList.Insert(0, new ReplaceTextEventArgs.ReplaceData() { StartPosition = tpi.StartPosition(), Length = tpi.Length, ReplacementText = "" });
+
+                    // text to insert (text of selected nodes, gathered together, optionally enscoped
+                    if (sender == mnuSelectionCollect)
+                    {
+                        ReplacementList.Add(new ReplaceTextEventArgs.ReplaceData() 
+                        {
+                            StartPosition = FullSelection.First().StartPosition(),
+                            Length = 0,
+                            ReplacementText = cbtext
+                        });
+                    }
+                    else
+                    {
+                        ReplacementList.Add(new ReplaceTextEventArgs.ReplaceData()
+                        {
+                            StartPosition = FullSelection.First().StartPosition(),
+                            Length = 0,
+                            ReplacementText = cbtextE
+                        });
+                    }
+
+                    ReplaceText(this, new ReplaceTextEventArgs() { Replacements = ReplacementList });
+                }
+            }
+        }
+
+        /*private void mnuCodeBlockMark_Click(object sender, RoutedEventArgs e)
         {
             if (Tool != OverlayToolType.move)
                 return;
@@ -1125,7 +1217,6 @@ namespace TikzEdt
                     }
                     else
                     {
-
                         ReplaceText(this, new ReplaceTextEventArgs()
                         {
                             StartPosition = endpos,
@@ -1135,16 +1226,16 @@ namespace TikzEdt
                     }
                 }
             }
-        }
+        } */
 
         private void mnuCodeBlockWhatsThis_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("The Wysiwyg interface is \"aware of\" coordinates in the code, but not about other Tikz objects (rectangles etc.). "+
                 "If you mark some coordinates and press delete (for example), Tikzedt has no way to know what part of the Tikz code exactly you want to delete. "+
-                "It always assumes that you want to delete the smallest code block, i.e., the region of the code containing the commands that contain the selects coordinates."+
+                "It uses a heuristic to determine what to do."+
                 "This might or might not be waht you expect. If not, you have to undo and edit the code manually."+
-                "Note also that the code-block operations may produce a non-compiling Tikzfile, depending on what you delete/enscope.",
-                "What is the code block", MessageBoxButton.OK, MessageBoxImage.Information);
+                "Note also that the Delete/Cut/Collect operations may produce a non-compiling Tikzfile, depending on what you delete/cut/collect.",
+                "This is not doing what you want?", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
     }
