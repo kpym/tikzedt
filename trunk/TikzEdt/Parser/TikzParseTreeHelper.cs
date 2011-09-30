@@ -53,6 +53,45 @@ namespace TikzEdt.Parser
         }
 
         /// <summary>
+        /// The method returns a list of TikzParseItems all of whose coordinates objects are contained in the selection.
+        /// </summary>
+        /// <param name="?"></param>
+        /// <returns></returns>
+        public static List<TikzParseItem> GetFullSelection(IEnumerable<TikzParseItem> ItemList)
+        {
+            List<TikzParseItem> ret = new List<TikzParseItem>();
+            if (ItemList == null || ItemList.Count() == 0)
+                return ret;
+
+            // find all ancestors for each Item
+            var AncestorList = ItemList.Select(l => FindAncestorsInPicture(l)).ToList();
+            //AncestorList.Join(
+
+            // scan through all elements in the ancestor lists and determine wheter all its node descendants are selected
+
+            // Now the last elements of all lists are ancestors on one "level" of the tree. Find the smallest and largest in the horizontal ordering
+            var elements = AncestorList.Select(l => l.Last());
+            TikzContainerParseItem commonparent = elements.First().parent;
+
+            int firstind = elements.Min(t => commonparent.Children.IndexOf(t));
+            int lastind = elements.Max(t => commonparent.Children.IndexOf(t));
+
+            // Handle a special case: if the items are all coordinates in a single Tikz_Path, 
+            // that (other than those items) contains only Tikz_Somethings, then return the whole path
+            if (commonparent is Tikz_Path)
+            {
+                if (commonparent.Children.FindIndex(tpi => !(tpi is Tikz_Something)) >= firstind
+                    && commonparent.Children.FindLastIndex(tpi => !(tpi is Tikz_Something)) <= lastind)
+                {
+                    ret.Add(commonparent);
+                    return ret;
+                }
+            }
+
+            return commonparent.Children.GetRange(firstind, lastind - firstind + 1).ToList();
+        }
+
+        /// <summary>
         /// Finds a list of ancestors (in ascending order) of the ParseItem.
         /// The returned list includes t as first element.
         /// </summary>
@@ -69,6 +108,26 @@ namespace TikzEdt.Parser
                 cur = cur.parent;
             } while (cur != null);
             
+            return ret;
+        }
+
+        /// <summary>
+        /// Same as FindAncestors, but stops at the Tikz_Picture.
+        /// I.e., the last node in the list is the one below the Tikz_Picture
+        /// </summary>
+        /// <param name="t">The node. Must not be null.</param>
+        /// <returns></returns>
+        public static List<TikzParseItem> FindAncestorsInPicture(TikzParseItem t)
+        {
+            List<TikzParseItem> ret = new List<TikzParseItem>();
+
+            TikzParseItem cur = t;
+            do
+            {
+                ret.Add(cur);
+                cur = cur.parent;
+            } while (cur != null && !(cur is Tikz_Picture) );
+
             return ret;
         }
 

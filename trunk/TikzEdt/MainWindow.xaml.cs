@@ -281,7 +281,12 @@ namespace TikzEdt
 
    * */
 
-            RecentFileList.MenuClick += (s, e) => { if (TheVM.TheDocument.TryDisposeFile()) TheVM.LoadFile(e.Filepath); };            
+            RecentFileList.MenuClick += (s, e) => {
+                if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+                    System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location, "\"" + e.Filepath + "\"");
+                else if (TheVM.TheDocument.TryDisposeFile()) 
+                    TheVM.LoadFile(e.Filepath); 
+            };            
 
             //cmbGrid.SelectedIndex = 4;
         }

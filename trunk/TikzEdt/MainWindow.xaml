@@ -19,7 +19,7 @@
         Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico"        
         xmlns:settings="clr-namespace:LogicaCMG.Settings"
         settings:WindowSettings.Save="True"
-        UseLayoutRounding="True" Background="Gray" AllowsTransparency="False" >
+        UseLayoutRounding="True" AllowsTransparency="False" >
     <!-- -->
     <Window.Resources>
         <ResourceDictionary>
@@ -108,7 +108,7 @@
                 <MenuItem Header="Save Pdf" Command="{Binding TheDocument.SavePdfCommand}" InputGestureText="Ctrtl+Shift+S"/>
                 <MenuItem Header="Save Pdf As..." Command="{Binding TheDocument.SavePdfCommand}" CommandParameter="notnull"/>
                 <MenuItem Header="Export File As..." Command="{Binding TheDocument.ExportFileCommand}"/>
-                <common:RecentFileList x:Name="RecentFileList"/>
+                <common:RecentFileList x:Name="RecentFileList" />                
                 <MenuItem Header="Quit" Command="ApplicationCommands.Close"  />
             </MenuItem>
             <MenuItem Header="_Edit" >
@@ -570,10 +570,16 @@
                 <FLV:FolderView x:Name="folderView" Grid.Column="1" Grid.Row="0"
                             Visibility="{Binding ElementName=cmdFiles, Path=IsChecked, Converter={StaticResource boolToVis}}"
                             Filter="*.tex|*.tikz|*.*" FilterIndex="0" OnFileOpen="folderView_OnFileOpen"
-                            RecentLocations="{Binding ElementName=RecentFileList,Path=BindableRecentFiles}"                                
-                            />
+                            RecentLocations="{Binding ElementName=RecentFileList,Path=BindableRecentFiles}"                               
+                            >
+              <!--       <FLV:FolderView.ListViewContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Open" />
+                        </ContextMenu>
+                    </FLV:FolderView.ListViewContextMenu> -->
+                </FLV:FolderView>
             </Grid>
-            <my:DockPanelSplitter DockPanel.Dock="Left" Thickness="5"
+            <my:DockPanelSplitter DockPanel.Dock="Left" Thickness="5" Background="Gray"
                                    Visibility="{Binding Path=LeftToolsColVisible, Source={x:Static p:Settings.Default},Converter={StaticResource boolToVis}}"/>
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" DockPanel.Dock="Right" Name="PreviewScrollViewer" 
                           Width="{Binding OverlayCanvasCol2WidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" >
@@ -612,7 +618,7 @@
                                     Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}" -->
                 </Grid>
             </ScrollViewer>
-            <my:DockPanelSplitter DockPanel.Dock="Right" Thickness="5" />
+            <my:DockPanelSplitter DockPanel.Dock="Right" Thickness="5" Background="Gray"/>
             <DockPanel LastChildFill="True" >
             <!--<Grid>
                 <Grid.RowDefinitions>
@@ -678,7 +684,7 @@
 
                     </Grid>
                 </DockPanel>
-                <my:DockPanelSplitter DockPanel.Dock="Bottom" Thickness="5" />
+                <my:DockPanelSplitter DockPanel.Dock="Bottom" Thickness="5" Background="Gray"/>
                 <myEditor:TextEditorEx HorizontalAlignment="Stretch" x:Name="txtCode" VerticalAlignment="Stretch" 
                                        ShowLineNumbers="{Binding Source={x:Static p:Settings.Default}, Path=Editor_ShowLineNumbers}"
                                        WordWrap="{Binding Source={x:Static p:Settings.Default}, Path=Editor_WordWrap}" Drop="txtCode_Drop" DragEnter="txtCode_DragEnter"

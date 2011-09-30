@@ -103,7 +103,7 @@
                         <Image DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10" Height="Auto" Width="40" 
                                Source="{Binding Path=ID, Converter={StaticResource ImgConverter}}" HorizontalAlignment="Center" 
                                Visibility="{Binding ElementName=Myself, Path=ShowThumbnails, Converter={StaticResource boolToVis}}" />
-                        <Button DockPanel.Dock="Right" ToolTip="Use this style with WYSIWYG tools&#xa;CTRL to add the style to the current one (instead of replace)" Click="UseStyleButton_Click" >
+                        <Button DockPanel.Dock="Right" ToolTip="Use this style with WYSIWYG tools&#xa;CTRL to add the style to the current one (rather than replace it)" Click="UseStyleButton_Click" >
                             <Button.Style>
                                 <Style BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
                                     <Setter Property="Focusable" Value="False" />
@@ -116,6 +116,21 @@
                                 </MultiBinding>
                             </Button.Visibility>
                             <Image Source="/TikzEdt;component/Images/RightPlay.png" SnapsToDevicePixels="True" Width="10" Height="16"/>
+                        </Button>
+                        <Button DockPanel.Dock="Right" FontFamily="Arial" FontWeight="Bold" Width="16" Margin="0 0 3 0"
+                                ToolTip="Insert as \tikzstyle{...} command" Click="InsertAsTikzStyle_Click">
+                            <Button.Style>
+                                <Style BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
+                                    <Setter Property="Focusable" Value="False" />
+                                </Style>
+                            </Button.Style>
+                            <Button.Visibility>
+                                <MultiBinding Converter="{StaticResource StringToVis}" Mode="OneWay" >
+                                    <Binding Path="EdgeStyle"/>
+                                    <Binding Path="NodeStyle" />
+                                </MultiBinding>
+                            </Button.Visibility>
+                            S
                         </Button>
                         <TextBlock VerticalAlignment="Center" FontSize="12" TextWrapping="Wrap">                          
                           <TextBlock.Text>
