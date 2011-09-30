@@ -10,7 +10,7 @@
 
 *TODO:*
   * Filter multiple types in folder view
-  * recent file list below?
+  * File list context menu  
   
 === Code editor (avalonedit) ===
 *TODO:*
@@ -58,7 +58,7 @@
 
 === Misc ===
 *TODO*
-  * change CodeBlock functions....
+  * Support unit tests
   * 3d support? (=ignore it automatically)
   * Improve documentation
   * support multiple tikzpictures
