@@ -53,11 +53,20 @@
                             <MenuItem Name ="mnuChangeToNewStyle" Header="Change style to new style..." Click="mnuAssignStyle_Click" ToolTip="Replaces the selction's style with a new node style"/>
                     </MenuItem>
                         <MenuItem Header="Selection">
-                            <MenuItem Name ="mnuCodeBlockMark" Header="Mark Code Block" Click="mnuCodeBlockMark_Click" ToolTip="Marks a region of the code enveloping the selection" /> 
-                            <MenuItem Name ="mnuCodeBlockEnscope" Header="Enscope" Click="mnuCodeBlockMark_Click" />
-                            <MenuItem Name ="mnuCodeBlockEDuplicate" Header="Enscope and duplicate" Click="mnuCodeBlockMark_Click" />
-                            <MenuItem Name ="mnuCodeBlockCopy" Header="Copy" Click="mnuCodeBlockMark_Click" />
-                            <MenuItem Name ="mnuCodeBlockDelete" Header="Delete" Click="mnuCodeBlockMark_Click" />
+                            <MenuItem Name ="mnuSelectionCopy" Header="Copy" Click="mnuSelection_Click" />
+                            <MenuItem Name ="mnuSelectionCopyE" Header="Copy Enscoped" Click="mnuSelection_Click" />
+                            <MenuItem Name ="mnuSelectionCut" Header="Cut" Click="mnuSelection_Click" />
+                            <MenuItem Name ="mnuSelectionCutE" Header="Cut Enscoped" Click="mnuSelection_Click" />
+                            <MenuItem Name ="mnuSelectionDelete" Header="Delete" Click="mnuSelection_Click" />
+                            <MenuItem Name ="mnuSelectionCollect" Header="Collect" Click="mnuSelection_Click" ToolTip="Reorders lines of the code such that the selected items stand close to each other." />
+                            <MenuItem Name ="mnuSelectionCollectE" Header="Collect and Enscope" Click="mnuSelection_Click" />
+                            <Separator/>
+                            
+                    <!--        <MenuItem Name ="mnuCodeBlockMark" Header="Mark Code Block" Click="mnuCodeBlockMark_Click" ToolTip="Marks a region of the code enveloping the selection" /> 
+                            <MenuItem Name ="mnuCodeBlockEnscope" Header="Enscope Code Block" Click="mnuCodeBlockMark_Click" />                                                       
+                            <MenuItem Name ="mnuCodeBlockDelete" Header="Delete Code Block" Click="mnuCodeBlockMark_Click" />                         
+                            <Separator/> -->  
+                            
                             <MenuItem Name ="mnuCodeBlockWhatsThis" Header="What's this?" Click="mnuCodeBlockWhatsThis_Click" />
                         </MenuItem>
                             <Separator/>

@@ -52,25 +52,90 @@ namespace TikzEdt.Parser
             return commonparent.Children.GetRange(firstind, lastind-firstind +1).ToList();            
         }
 
-        /// <summary>
-        /// The method returns a list of TikzParseItems all of whose coordinates objects are contained in the selection.
-        /// </summary>
-        /// <param name="?"></param>
-        /// <returns></returns>
         public static List<TikzParseItem> GetFullSelection(IEnumerable<TikzParseItem> ItemList)
         {
             List<TikzParseItem> ret = new List<TikzParseItem>();
             if (ItemList == null || ItemList.Count() == 0)
                 return ret;
 
+            //  ** Find the least common ancestor **
             // find all ancestors for each Item
-            var AncestorList = ItemList.Select(l => FindAncestorsInPicture(l)).ToList();
-            //AncestorList.Join(
+            var AncestorList = ItemList.Select(l => FindAncestors(l)).ToList();
 
-            // scan through all elements in the ancestor lists and determine wheter all its node descendants are selected
+            // as long as the highest ancestor is common, remove this ancestor from the lists
+            while (AncestorList.AllEqual(l => l.Last()) && AncestorList.All(l => l.Count >= 2))
+                foreach (var l in AncestorList)
+                    l.RemoveAt(l.Count - 1);
+
+            // Now the last elements of all lists are ancestors on one "level" of the tree.
+            // Remove duplicates and sort
+            var elements = AncestorList.Select(l => l.Last())
+                                       .Distinct()
+                                       .OrderBy(tpi => tpi.StartPosition())
+                                       .ToList();
+
+           
+            // Handle a special case: if the items are all coordinates in a single Tikz_Path, 
+            // that (other than those items) contains only Tikz_Somethings, then return the whole path
+            TikzContainerParseItem commonparent = elements.First().parent;
+            if (commonparent is Tikz_Path)
+            {
+                if (commonparent.Children.All(tpi => (tpi is Tikz_Something) || elements.Contains(tpi) ) )
+                {
+                    ret.Add(commonparent);
+                    return ret;
+                }
+            }
+
+            // otherwise just return the elements found so far
+            return elements;
+        }
+
+        /// <summary>
+        /// The method returns a list of TikzParseItems all of whose coordinates objects are contained in the selection.
+        /// </summary>
+        /// <param name="?"></param>
+        /// <returns></returns>
+        public static List<TikzParseItem> GetFullSelection2(IEnumerable<TikzParseItem> ItemList)
+        {
+            List<TikzParseItem> ret = new List<TikzParseItem>();
+            if (ItemList == null || ItemList.Count() == 0)
+                return ret;
+
+            // find all ancestors for each Item. Theese are candidates to be selected (or not)
+            var AncestorList = ItemList.Select(l => FindAncestorsInPicture(l)).ToList();
+            HashSet<TikzParseItem> candidates = new HashSet<TikzParseItem>();
+            foreach (var l in AncestorList)
+                foreach (var ll in l)
+                    candidates.Add(ll);
+
+            // add all items contained in selected container items
+            HashSet<TikzParseItem> selWithDesc = new HashSet<TikzParseItem>(ItemList);
+            foreach (var tpi in ItemList)            
+                foreach (var ll in SelectDescendants(tpi, t => !(t is Tikz_Something)))
+                    selWithDesc.Add(ll);
+            
+            // scan through all elements in the candidate lists and determine wheter all its node descendants are selected
+            HashSet<TikzParseItem> ret2 = new HashSet<TikzParseItem>();
+            foreach (var tpi in candidates)
+            {
+                var mustbeselected = SelectDescendants(tpi, t => !(t is Tikz_Something));
+                if (selWithDesc.IsSupersetOf(mustbeselected))
+                    ret2.Add(tpi);
+            }
+
+            // remove descendants from the list of selected items
+            foreach (var tpi in ret2)
+                if (!ret2.Any(t => IsAncestorOf(t, tpi)))
+                    ret.Add(tpi);
+
+            // sort items
+            ret.Sort((a,b) => a.StartPosition() - b.StartPosition() );
+
+            return ret;
 
             // Now the last elements of all lists are ancestors on one "level" of the tree. Find the smallest and largest in the horizontal ordering
-            var elements = AncestorList.Select(l => l.Last());
+  /*          var elements = AncestorList.Select(l => l.Last());
             TikzContainerParseItem commonparent = elements.First().parent;
 
             int firstind = elements.Min(t => commonparent.Children.IndexOf(t));
@@ -88,7 +153,8 @@ namespace TikzEdt.Parser
                 }
             }
 
-            return commonparent.Children.GetRange(firstind, lastind - firstind + 1).ToList();
+            return commonparent.Children.GetRange(firstind, lastind - firstind + 1).ToList(); */
+            
         }
 
         /// <summary>
@@ -131,6 +197,39 @@ namespace TikzEdt.Parser
             return ret;
         }
 
+        /// <summary>
+        /// Selects all descendants of a node fulfilling a certain criterion.
+        /// </summary>
+        /// <param name="tpi"></param>
+        /// <param name="?"></param>
+        /// <returns></returns>
+        public static HashSet<TikzParseItem> SelectDescendants(TikzParseItem tpi, Predicate<TikzParseItem> criterion)
+        {
+            HashSet<TikzParseItem> ret = new HashSet<TikzParseItem>();
+            if (! (tpi is TikzContainerParseItem))
+                return ret;
+
+            foreach (var t in (tpi as TikzContainerParseItem).Children)                
+            {
+                if (criterion(t))
+                    ret.Add(t);
+                foreach (var ll in SelectDescendants(t, criterion))
+                    ret.Add(ll);
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// Checks if tp1 is an ancestor of tp2
+        /// </summary>
+        /// <param name="tp1"></param>
+        /// <param name="tp2"></param>
+        /// <returns></returns>
+        public static bool IsAncestorOf(TikzParseItem tp1, TikzParseItem tp2)
+        {
+            // Note that first item returned by findancestors is the node itself -> skip it
+            return FindAncestors(tp2).Skip(1).Contains(tp1);
+        }
 
         /// <summary>
         /// Scans for duplicate node names in the parse tree and changes them to make them unique.
