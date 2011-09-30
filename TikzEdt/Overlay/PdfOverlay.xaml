@@ -52,8 +52,8 @@
                             <MenuItem Name ="mnuChangeToCurrentNodeStyle" Header="Change style to current node style" Click="mnuAssignStyle_Click" ToolTip="Replaces the selction's style with the current node style"/>
                             <MenuItem Name ="mnuChangeToNewStyle" Header="Change style to new style..." Click="mnuAssignStyle_Click" ToolTip="Replaces the selction's style with a new node style"/>
                     </MenuItem>
-                        <MenuItem Header="Code Block">
-                            <MenuItem Name ="mnuCodeBlockMark" Header="Mark" Click="mnuCodeBlockMark_Click" />
+                        <MenuItem Header="Selection">
+                            <MenuItem Name ="mnuCodeBlockMark" Header="Mark Code Block" Click="mnuCodeBlockMark_Click" ToolTip="Marks a region of the code enveloping the selection" /> 
                             <MenuItem Name ="mnuCodeBlockEnscope" Header="Enscope" Click="mnuCodeBlockMark_Click" />
                             <MenuItem Name ="mnuCodeBlockEDuplicate" Header="Enscope and duplicate" Click="mnuCodeBlockMark_Click" />
                             <MenuItem Name ="mnuCodeBlockCopy" Header="Copy" Click="mnuCodeBlockMark_Click" />

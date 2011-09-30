@@ -165,7 +165,7 @@
                     <TextBox Margin="3" Name="NameDTKey" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Name}" />
 
                     <TextBlock Margin="3"  Grid.Row="2" Grid.Column="0">Description:</TextBlock>
-                    <TextBox Margin="3" Name="DescriptionDTKey" AcceptsReturn="True" Grid.Row="2" Grid.Column="1" Height="80" Text="{Binding Path=Description}" />
+                    <TextBox Margin="3" Name="DescriptionDTKey" AcceptsReturn="True" Grid.Row="2" Grid.Column="1" Height="80" Text="{Binding Path=Description}" TextWrapping="Wrap" />
 
                     <TextBlock Margin="3" Grid.Row="3" Grid.Column="0">Snippet Code:</TextBlock>
                     <!-- <local:TextEditorWithBinding x:Name="SnippetCodeDTKey" Grid.Row="3" Grid.Column="1" BindableText="{Binding Path=SnippetCode}" Height="150"/>-->

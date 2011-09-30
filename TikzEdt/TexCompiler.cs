@@ -73,6 +73,7 @@ namespace TikzEdt
             public string   code="",   // The tex code 
                             path="",   // The tex-filename, if empty string "", the default tempfile is used
                             name="";   // (optional) A description, to be displayed on error
+            public string ExtraCompileOptions = "";
             public Rect BB =new Rect(0,0,0,0);         // The BoundingBox. If it has size >0, a rectangle is inserted into the tex code
             public bool CreateBMP=false;  // if true, create bmp file, if false, create pdf only
             public bool WriteCode=true;  // true if code should be written to path, false if file already exists and just needs to be compiled
@@ -366,6 +367,8 @@ namespace TikzEdt
                 job = todo_tex.Dequeue();
             }
             CurrentJob = job;
+            // Do Preprocessing 
+            PreprocessJob(CurrentJob);
 
             // save into temporary textfile
             if (job.WriteCode || job.GeneratePrecompiledHeaders)
@@ -374,11 +377,12 @@ namespace TikzEdt
                 bool lsucceeded;
                 int PositionOfAddedLine, NumberOfAddedLines;
                 string codetowrite = job.code;
+
                 //if (job.BB.Width > 0 && job.BB.Height > 0)
                 //    codetowrite = writeBBtoTikz(job.code, job.BB, out lsucceeded);
                 if (job.BBShallBeWritten && !job.GeneratePrecompiledHeaders)
                 {
-                    codetowrite = writeBBWritertoTikz(job.code, out lsucceeded, out PositionOfAddedLine, out NumberOfAddedLines);
+                    codetowrite = writeBBWritertoTikz(codetowrite, out lsucceeded, out PositionOfAddedLine, out NumberOfAddedLines);
                     if (lsucceeded)
                     {
                         job.BBWritten = true;
@@ -398,7 +402,7 @@ namespace TikzEdt
                     //\usepackage[active,tightpage]{preview}
                     //\PreviewEnvironment{tikzpicture}
                     //and insert if required
-                    if (ContainsPreviewEnvironment(job.code) == false && ContainsDoNotInsertPreviewEnvironment(job.code) == false && !job.GeneratePrecompiledHeaders)
+                    if (ContainsPreviewEnvironment(codetowrite) == false && ContainsDoNotInsertPreviewEnvironment(codetowrite) == false && !job.GeneratePrecompiledHeaders)
                     {
 
                         // Inserting code in the editor is not so good since it breaks some tex files, e.g., testcase 29.
@@ -454,7 +458,7 @@ namespace TikzEdt
             }
             else
             {
-                texProcess.StartInfo.Arguments = "-interaction=nonstopmode -halt-on-error \"" + job.path + "\"";
+                texProcess.StartInfo.Arguments = "-interaction=nonstopmode -halt-on-error \"" + job.path + "\"" + " " + job.ExtraCompileOptions;
             }
             texProcess.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(job.path);
 
@@ -512,6 +516,34 @@ namespace TikzEdt
                 }
             }
             
+        }
+
+        /// <summary>
+        /// This method takes as input a compile job and does necessary preprocessing.
+        /// Currently, it just removes TE comments, i.e., strings "%!TE%", from the code
+        /// and scans for compile options %TEO.
+        /// </summary>
+        /// <param name="job">The job to be processed</param>
+        /// <returns></returns>
+        private void PreprocessJob(Job job)
+        {           
+            StringReader sr = new StringReader(job.code);
+            StringWriter sw = new StringWriter();
+            string line, trimline;
+
+            while ((line = sr.ReadLine()) != null)
+            {
+                trimline = line.Trim();
+                if (trimline.StartsWith(Consts.PreProc_CompilerOptions))
+                {
+                    job.ExtraCompileOptions = job.ExtraCompileOptions + trimline.Remove(0, Consts.PreProc_CompilerOptions.Length); 
+                }
+                else if (trimline.StartsWith(Consts.PreProc_Include))
+                    sw.WriteLine("\\input{"+trimline.Remove(0, Consts.PreProc_Include.Length)+"}");
+                else
+                    sw.WriteLine(line);
+            }
+            job.code = sw.ToString().Replace(Consts.PreProc_Comment, "");
         }
 
         void timer_Tick(object sender, EventArgs e)

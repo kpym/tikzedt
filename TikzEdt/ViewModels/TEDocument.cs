@@ -1090,6 +1090,7 @@ namespace TikzEdt.ViewModels
         }
         // Unfortunately, due to a debugger "bug", the exception has to be caught and transferred into a cancelled event
         // this cancel event type is AsyncParserResultType. It is passed to AsyncParser_RunWorkerCompleted().
+        Regex InputsRegex = new Regex(@"((^[^%]*|\n[^\n%]*?)\\input{(?<file>.*)})|(^|\n(\s)*" +Consts.PreProc_Include+ @"\s+(?<file>))", RegexOptions.Compiled);
         void AsyncParser_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             AsyncParserResultType Result = new AsyncParserResultType();
@@ -1107,8 +1108,7 @@ namespace TikzEdt.ViewModels
                 string inputfile = "";
                 try
                 {
-                    //find input files using Regex
-                    Regex InputsRegex = new Regex(@"(^[^%]*|\n[^\n%]*?)\\input{(?<file>.*)}", RegexOptions.Compiled);
+                    //find input files using Regex                    
                     MatchCollection files = InputsRegex.Matches(job.code);
                     foreach (Match file in files)
                     {

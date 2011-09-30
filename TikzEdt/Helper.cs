@@ -142,6 +142,11 @@ namespace TikzEdt
         //Todo: the following creates a problem on first load
         public static string SystaxFileFullPath { get { return System.Windows.Forms.Application.UserAppDataPath + "\\" + Consts.cSettingsDir + "\\" + Consts.cSyntaxFile; } }
         public static string CompletionsFileFullPath { get { return System.Windows.Forms.Application.UserAppDataPath + "\\" + Consts.cSettingsDir + "\\" + Consts.cCompletionsFile; } }
+
+        // TE preprocessor commands
+        public static string PreProc_Comment = "%!TE%";
+        public static string PreProc_CompilerOptions = "%!TEO";
+        public static string PreProc_Include = "%!TEI";
     }
 
     /// <summary>
@@ -571,8 +576,17 @@ namespace TikzEdt
 
     }*/
 
+    /// <summary>
+    /// The purpose of this class is to channel the (limited) Viewmodel user interaction,
+    /// so that the viewmodel can be tested in unit tests. TODO
+    /// </summary>
+    public static class GlobalUI
+    {
+        
+    }
 
 
+    #region Converters
     [ValueConversion(typeof(bool), typeof(bool))]
     public class InverseBooleanConverter : IValueConverter
     {
@@ -838,5 +852,5 @@ namespace TikzEdt
             return Binding.DoNothing;
         }
     }    
-
+#endregion
 }

@@ -179,6 +179,27 @@ namespace TikzEdt.Snippets
             }
         }
 
+        private void InsertAsTikzStyle_Click(object sender, RoutedEventArgs e)
+        {
+            // find row corresponding to clicked button
+            object curItem = ((ListBoxItem)lstSnippets.ContainerFromElement((Button)sender)).Content;
+            if (curItem != null)
+            {
+                string toinsert = "", dependencies="";
+                SnippetsDataSet.SnippetsTableRow r = (curItem as DataRowView).Row as SnippetsDataSet.SnippetsTableRow;
+                if (!r.IsNull(snippetsTable.NodeStyleColumn) && ! (r.NodeStyle.Trim()=="") )
+                    toinsert += "\\tikzstyle{mynodestyle} = ["+ r.NodeStyle +"]"+Environment.NewLine;
+                if (!r.IsNull(snippetsTable.EdgeStyleColumn) && !(r.EdgeStyle.Trim() == ""))
+                    toinsert += "\\tikzstyle{myedgestyle} = [" + r.EdgeStyle + "]" + Environment.NewLine;
+                if (!r.IsNull(snippetsTable.DependenciesColumn))
+                    dependencies = r.Dependencies;
+                
+                if (OnInsert != null)
+                    OnInsert(toinsert, dependencies);
+            }
+            
+        }
+
         private void UseStyleButton_Click(object sender, RoutedEventArgs e)
         {
             // find row corresponding to clicked button
@@ -196,9 +217,8 @@ namespace TikzEdt.Snippets
                 args.InAddition = Keyboard.Modifiers.HasFlag(ModifierKeys.Control);
 
                 if (OnUseStyles != null)
-                    OnUseStyles(this,  args);
+                    OnUseStyles(this, args);
             }
-            
         }
     }
 
