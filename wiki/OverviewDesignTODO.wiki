@@ -10,7 +10,6 @@
 
 *TODO:*
   * Filter multiple types in folder view
-  * File list context menu  
   
 === Code editor (avalonedit) ===
 *TODO:*
