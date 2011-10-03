@@ -9,7 +9,6 @@
   * look good 
 
 *TODO:*
-  * Filter multiple types in folder view
   
 === Code editor (avalonedit) ===
 *TODO:*
@@ -22,7 +21,7 @@
 
 == TikzParser ==
 *TODO*
-  * Support \foreach (..at least ignor properly)
+  * Support \foreach (..at least ignore properly)
   * check math expresions in arc are handled correctly
   * arc followed by bezier handled correctly??
   * better error recovery: if error on \path is detected-> just drop this path instead of stopping parsing of whole file.
