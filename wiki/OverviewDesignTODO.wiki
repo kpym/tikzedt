@@ -73,6 +73,7 @@
   * invent something to share styles
   * selection not deleted ??? sometimes moves instead of selects...after right click
   * save pdfbutton
+  * temp files as hidden (at least add option)
 
 === For later ===
 *TODO*
