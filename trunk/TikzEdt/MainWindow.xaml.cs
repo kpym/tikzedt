@@ -2563,8 +2563,16 @@ namespace TikzEdt
 
         private void folderView_OnFileOpen(object sender, FileListView.FListView.FileOpenEventArgs e)
         {
-            // open file in new window
-            System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location, "\"" + e.FileName + "\"");
+            // open file, either in this window or in a new instance, depending on the command parameter
+            if (e.CommandParameter == null)
+            {
+                if (TheVM.TheDocument.TryDisposeFile())
+                    TheVM.LoadFile(e.FileName);
+            }
+            else if ((string)e.CommandParameter == "newinstance")
+                System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location, "\"" + e.FileName + "\"");
+            else if ((string)e.CommandParameter == "externalviewer")
+                System.Diagnostics.Process.Start(e.FileName);
         }
 
         private void CopyAllWithFigureEnvironment_Click(object sender, RoutedEventArgs e)
@@ -2611,6 +2619,11 @@ namespace TikzEdt
             //Helper.UpdateWindow(windowHandle);
             UpdateLayout();
             InvalidateProperty(WidthProperty);
+        }
+
+        private void OpenInExplorer_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(folderView.CurrentFolder);
         }
        
     }

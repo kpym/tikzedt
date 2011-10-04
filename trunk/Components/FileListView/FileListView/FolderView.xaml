@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="FileListView.FolderView"
+             x:Name="FV"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:my="clr-namespace:FileListView"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="200" Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <Style x:Key="FlatButtonStyle" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
+            <Setter Property="Focusable" Value="False" />
+        </Style>
+        <my:IntToBoolConverter x:Key="intToBoolConverter"/>
+        <BooleanToVisibilityConverter x:Key="boolToVis" />
+        <my:FilterStringToListConverter x:Key="FilterStringToList"/>
+        <Style TargetType="{x:Type Image}" x:Key="toolbarImageStyle">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}, AncestorLevel=1}, Path=IsEnabled}" Value="False">
+                    <Setter Property="Opacity" Value="0.50"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <DockPanel Name="MainPanel">
+        <my:FolderComboBox x:Name="cmbFolder" CurrentFolder="{Binding ElementName=FV, Path=CurrentFolder, Mode=TwoWay}" 
+                           DockPanel.Dock="Top" RecentLocations="{Binding ElementName=FV, Path=RecentLocations}" ToolTip="{Binding ElementName=FV, Path=CurrentFolder}"/>
+        <!-- -->
+        <DockPanel DockPanel.Dock="Top" LastChildFill="True">
+            <Button Name="cmdBack"  DockPanel.Dock="Left" Style="{StaticResource FlatButtonStyle}" 
+                    Command="{x:Static my:FListView.BackCommand}" CommandTarget="{Binding ElementName=lstFiles}">                
+                <my:AutoGrayImage  Width="16" Height="16" Style="{StaticResource toolbarImageStyle}" Source2="/FileListView;component/Images/Back.png"/>
+            </Button>
+            <Button Name="cmdForward" DockPanel.Dock="Left" Style="{StaticResource FlatButtonStyle}" 
+                    Command="{x:Static my:FListView.ForwardCommand}" CommandTarget="{Binding ElementName=lstFiles}">
+                <my:AutoGrayImage  Width="16" Height="16" Style="{StaticResource toolbarImageStyle}" Source2="/FileListView;component/Images/forward.png"/>
+            </Button>
+            <Button Name="cmdUp" DockPanel.Dock="Left" Style="{StaticResource FlatButtonStyle}"
+                    Command="{x:Static my:FListView.UpCommand}" CommandTarget="{Binding ElementName=lstFiles}">
+                <my:AutoGrayImage  Width="16" Height="16" Source2="/FileListView;component/Images/075b_UpFolder_16x16_72.png"/>
+            </Button>
+            <ComboBox Name="cmbFilter" DockPanel.Dock="Right" ItemsSource="{Binding ElementName=FV, Path=Filter, Converter={StaticResource FilterStringToList}}" 
+                      SelectedIndex="{Binding ElementName=FV, Path=FilterIndex}" Width="60"
+                      Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" >
+            </ComboBox>                      
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0">Filter:</TextBlock>
+
+        </DockPanel>
+        <my:FListView x:Name="lstFiles" CurrentFolder="{Binding ElementName=FV, Path=CurrentFolder, Mode=TwoWay}" Filter="{Binding ElementName=FV, Path=Filter}" 
+                         FilterIndex="{Binding ElementName=FV, Path=FilterIndex}" ShowFolders="{Binding ElementName=FV, Path=ShowFolders}" 
+                         ShowIcons="{Binding ElementName=FV, Path=ShowIcons}" ShowHidden="{Binding ElementName=FV, Path=ShowHidden}"
+                         OnFileOpen="lstFiles_OnFileOpen" ContextMenu="{Binding ElementName=FV, Path=ListViewContextMenu}"/>
+    </DockPanel>
+</UserControl>

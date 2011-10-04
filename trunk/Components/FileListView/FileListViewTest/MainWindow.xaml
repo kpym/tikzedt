@@ -1,0 +1,43 @@
+﻿<Window x:Class="FileListViewTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:FLV="clr-namespace:FileListView;assembly=FileListView"
+        xmlns:coll="clr-namespace:System.Collections.ObjectModel;assembly=System"
+        Title="MainWindow" Height="356" Width="429">
+    <Window.Resources>
+        
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <FLV:FolderView Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="folderView1" 
+                       SnapsToDevicePixels="True" Filter="*.tex|*.txt|*.exe;*.txt|*.exe|*.*" RecentLocations="{Binding RecentFiles}"
+                        OnFileOpen="folderView1_OnFileOpen">
+            <FLV:FolderView.ListViewContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Open" Command="{x:Static FLV:FListView.OpenCommand}" FontWeight="Bold"/>
+                    <MenuItem Header="Alternate Open"  Command="{x:Static FLV:FListView.OpenFileCommand}" CommandParameter="1"/>                    
+                </ContextMenu>
+            </FLV:FolderView.ListViewContextMenu>
+        </FLV:FolderView>
+        <GridSplitter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1"/>
+        <StackPanel Grid.Column="2" Margin="5">
+            <TextBlock Margin="0 5 0 5" Text="{Binding ElementName=folderView1,Path=CurrentFolder}" TextWrapping="WrapWithOverflow"/>
+            <DockPanel Height="100">
+                <StackPanel DockPanel.Dock="Right">
+                    <Button Margin="2 0 2 2" Content="+" Name="button1" VerticalAlignment="Top" Width="30" Click="button1_Click" />
+                    <Button Margin="2 0 2 2" Content="-" Name="button2" VerticalAlignment="Top" Width="30" Click="button2_Click" />
+                </StackPanel>
+                <ListBox Name="lstRecent" ItemsSource="{Binding RecentFiles}" ToolTip="Recent File List">
+                </ListBox>
+            </DockPanel>
+            <CheckBox IsChecked="{Binding ElementName=folderView1,Path=ShowFolders}">ShowFolders</CheckBox>
+            <CheckBox IsChecked="{Binding ElementName=folderView1,Path=ShowHidden}">ShowHidden</CheckBox>
+            <CheckBox IsChecked="{Binding ElementName=folderView1,Path=ShowIcons}" >ShowIcons</CheckBox>
+            <FLV:FListView Height="100" />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,258 @@
+﻿  <!--  <Window.Resources>
+        <ItemsPanelTemplate x:Key="Virtualized">
+            <VirtualizingStackPanel IsItemsHost="True"/>
+        </ItemsPanelTemplate>        
+        <Style TargetType="{x:Type Image}" x:Key="toolbarImageStyle">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}, AncestorLevel=1}, Path=IsEnabled}" Value="False">
+                    <Setter Property="Opacity" Value="0.50"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style> -->
+        <!-- Note: If VS2010 tells you something like:
+        "type my:InverseBooleanConverter was not found. verify that you are not missing an assembly"
+        delete your obj directory within this project, then click the build button (F6) 
+        (or Build->Clean, then Rebuild worked for me) -->
+ <!--       <my:InverseBooleanConverter x:Key="BoolInverter" />
+        <my:SeverityImageConverter x:Key="SeverityToImg"/>
+        <BooleanToVisibilityConverter x:Key="boolToVis" />
+        <my:InverseNullableBooleanConverter x:Key="NBoolInverter" />
+        <my:BooleanToWidthConverter x:Key="BoolToWidth" />
+        <my:CompareConverter x:Key="compareConverter"/>
+
+        <CollectionViewSource x:Key="TexErrorsSource" Source="{Binding Source={x:Static my:MainWindow.TexErrors}}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription Direction="Descending" PropertyName="severity"/>
+                <scm:SortDescription Direction="Ascending" PropertyName="SourceFileName"/>
+                <scm:SortDescription Direction="Ascending" PropertyName="Line"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </Window.Resources>  -->
+
+	 <!--      <CommandBinding Command="ApplicationCommands.Open"
+                    Executed="OpenCommandHandler"
+                    CanExecute="AlwaysTrue"                       
+                    /> 
+        <CommandBinding Command="ApplicationCommands.Save"
+                    Executed="SaveCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    />
+        <CommandBinding Command="ApplicationCommands.SaveAs"
+                    Executed="SaveAsCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    />-->
+        <!--     <CommandBinding Command="ApplicationCommands.New"
+                    Executed="NewCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    />-->
+
+					 <!--   <CommandBinding Command="ApplicationCommands.Find"
+                    Executed="FindCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    />
+        <CommandBinding Command="ApplicationCommands.Replace"
+                    Executed="ReplaceCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    /> -->
+
+
+
+					 <!--      <CommandBinding Command="{x:Static custom:MainWindow.ShowCodeCompletionsCommand}" 
+                    Executed="ShowCodeCompletionsCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    /> -->
+   <!--     <CommandBinding Command="{x:Static custom:MainWindow.FindNextCommand}" 
+                    Executed="FindNextCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    /> 
+        <CommandBinding Command="{x:Static custom:MainWindow.FindPreviousCommand}" 
+                    Executed="FindPreviousCommandHandler"
+                    CanExecute="AlwaysTrue"
+                    />  -->
+
+					<!--     <CommandBinding Command="{x:Static custom:MainWindow.SavePdfCommand}" 
+                    Executed="SavePdfHandler" 
+                    CanExecute="AlwaysTrue" />
+        <CommandBinding Command="{x:Static custom:MainWindow.SavePdfAsCommand}" 
+                    Executed="SavePdfAsHandler" 
+                    CanExecute="AlwaysTrue" /> 
+        <CommandBinding Command="{x:Static custom:MainWindow.ExportFileCommand}" 
+                    Executed="ExportFileHandler" 
+                    CanExecute="AlwaysTrue" /> -->
+
+
+					            <!-- <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions> -->
+            <!--  Width="{Binding LeftToolsColWidthSetting, Source={x:Static p:Settings.Default},
+                    Converter={StaticResource BoolToWidth}, ConverterParameter=LeftToolsColVisible,
+                    Mode=TwoWay}"
+                <ColumnDefinition Width="{Binding LeftMenuColWidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="LeftMenuCol"></ColumnDefinition> -->
+
+            <!-- <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" Name="LeftMenuCol"></ColumnDefinition>
+                <ColumnDefinition Name="LeftToolsCol">
+                    <ColumnDefinition.Width>
+                        <MultiBinding Converter="{StaticResource BoolToWidth}" Mode="TwoWay" >
+                            <Binding Path="LeftToolsColWidthSetting" Source="{x:Static p:Settings.Default}" />
+                            <Binding Path="LeftToolsColVisible" Source="{x:Static p:Settings.Default}" />
+                        </MultiBinding>
+                    </ColumnDefinition.Width>
+                </ColumnDefinition>
+                <ColumnDefinition Name="LeftSplitterCol">
+                    <ColumnDefinition.Width>
+                        <MultiBinding Converter="{StaticResource BoolToWidth}" Mode="OneWay" >
+                            <Binding Path="SplitterColWidthSetting" Source="{x:Static p:Settings.Default}" />
+                            <Binding Path="LeftToolsColVisible" Source="{x:Static p:Settings.Default}" />
+                        </MultiBinding>
+                    </ColumnDefinition.Width>
+                </ColumnDefinition>
+                <ColumnDefinition Width="{Binding OverlayCanvasColWidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="OverlayCanvasCol"></ColumnDefinition>
+                <ColumnDefinition Width="3"></ColumnDefinition>
+                <ColumnDefinition Width="{Binding OverlayCanvasCol2WidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" Name="OverlayCanvasCol2"></ColumnDefinition>
+            </Grid.ColumnDefinitions> -->
+
+
+			            <!-- <ToolBar Height="28" Name="tlbBB" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowBB, Converter={StaticResource boolToVis}}">
+                <TextBlock Name="txtBB" Margin="0 0 3 0" VerticalAlignment="Center">Bounding Box:</TextBlock>
+                
+                <CheckBox Name="chkAutoBB" Checked="chkAutoBB_Checked" Unchecked="chkAutoBB_Checked" IsChecked="True">Auto</CheckBox>
+                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">X</TextBlock>
+            <TextBox Name="txtBBX" Width="25" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
+                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">Y</TextBlock>
+            <TextBox Name="txtBBY" Width="25" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
+                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">W</TextBlock>
+            <TextBox Name="txtBBW" Width="25" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
+                <TextBlock Margin="3 0 3 0" VerticalAlignment="Center">H</TextBlock>
+            <TextBox Name="txtBBH" Width="25" IsEnabled="{Binding ElementName=chkAutoBB, Path=IsChecked, Converter={StaticResource BoolInverter}}"/>
+        </ToolBar> -->
+
+
+		  <!--   <ListView Grid.Column="1" Grid.Row="0" Name="lstFiles" MouseRightButtonUp="lstFile_MouseRightButtonUp" MouseDoubleClick="lstFiles_MouseDoubleClick"
+                      Visibility="{Binding ElementName=cmdFiles, Path=IsChecked, Converter={StaticResource boolToVis}}">
+                <ListView.ToolTip>
+                    TeX-files in current working directory
+                </ListView.ToolTip>
+            </ListView> -->
+
+			<!-- DocumentsSource="{Binding MyDocuments}" -->
+        <!--
+        <ad:DockingManager x:Name="dockManager" Visibility="Hidden" Grid.Row="3"  Loaded="DockManager_Loaded">
+           
+            <ad:ResizingPanel ResizeWidth="*" ResizeHeight="*" EffectiveSize="0,0" Orientation="Horizontal">
+                <ad:ResizingPanel ResizeWidth="150">
+                <ad:DockablePane>
+                        <ad:DockableContent Name="Files" Title="Files" IsCloseable="False" >
+                            <ListView Name="lstFiles" MouseRightButtonUp="lstFile_MouseRightButtonUp" MouseDoubleClick="lstFiles_MouseDoubleClick">
+                                <ListView.ToolTip>
+                                    TeX-files in current working directory
+                                </ListView.ToolTip>
+                            </ListView>
+                        </ad:DockableContent>
+                        <ad:DockableContent Name="Snippets" Title="Snippets" IsCloseable="False" >
+                       
+                            <mySnippets:SnippetList x:Name="snippetlist1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                    Grid.Column="1" Grid.Row="0" OnInsert="snippetlist1_OnInsert" 
+                                    ShowThumbnails="{Binding Source={x:Static p:Settings.Default}, Path=Snippets_ShowThumbs}" 
+                                    Visibility="{Binding ElementName=cmdSnippets, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
+                      
+                    </ad:DockableContent>
+                    </ad:DockablePane>
+                </ad:ResizingPanel>
+
+                <ad:ResizingPanel Name="TextAndErrors" ResizeWidth="*" ResizeHeight="*" EffectiveSize="517,141.5" Orientation="Vertical">
+
+                    <ad:DocumentPane Name="TextEditorsPane" ShowHeader="False">                        
+                        <ad:DocumentContent Name="TextEditor" Title="Text Editor" IsCloseable="False">
+
+                            <avalonedit:TextEditor HorizontalAlignment="Stretch" Name="txtCode" VerticalAlignment="Stretch" TextChanged="txtCode_TextChanged" 
+                                       ShowLineNumbers="{Binding Source={x:Static p:Settings.Default}, Path=Editor_ShowLineNumbers}"
+                                       WordWrap="{Binding Source={x:Static p:Settings.Default}, Path=Editor_WordWrap}" Drop="txtCode_Drop" DragEnter="txtCode_DragEnter">
+                                <avalonedit:TextEditor.ContextMenu>
+                                    <ContextMenu >
+                                        <MenuItem Header="Copy" Command="ApplicationCommands.Copy"/>
+                                        <MenuItem Header="Cut" Command="ApplicationCommands.Cut"/>
+                                        <MenuItem Header="Paste" Command="ApplicationCommands.Paste"/>
+                                        <Separator />
+                                        <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}"/>
+                                        <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
+                                        <MenuItem Header="En-Scope" Click="Enscope_Click"/>
+                                        <Separator/>
+                                        <MenuItem Header="Mark item in Overlay (if possible)" Click="MarkAtOffsetClick" />
+                                    </ContextMenu>
+                                </avalonedit:TextEditor.ContextMenu>
+                            </avalonedit:TextEditor>
+
+                        </ad:DocumentContent>
+                    </ad:DocumentPane>
+                    <ad:DockablePane ad:ResizingPanel.ResizeHeight="200" SelectedIndex="0" >
+                        <ad:DockableContent Name="StatusDock" Title="Status" IsCloseable="False">
+                            <RichTextBox  HorizontalAlignment="Stretch"  Name="txtStatus" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+                        </ad:DockableContent>
+                        <ad:DockableContent Name="PdflatexDock" Title="Pdflatex" IsCloseable="False">
+                            <RichTextBox  HorizontalAlignment="Stretch"  Name="txtTexout" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
+                        </ad:DockableContent>
+                        <ad:DockableContent Name="ErrorsDock" Title="Errors" IsCloseable="False">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible">
+                                <ListView Name="lstErrors" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                  IsSynchronizedWithCurrentItem="True"                                  
+                                  MouseDoubleClick="lstErrors_MouseDoubleClick"
+                                  ItemsSource="{Binding Source={StaticResource TexErrorsSource}}"
+                                      >
+
+
+                                    <ListView.Resources>
+
+                                    </ListView.Resources>
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="" Width="Auto">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Image Source="{Binding Path=severity, Converter={StaticResource SeverityToImg}}" Width="16" Height="16"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=Message}" Header="Message" Width="{Binding MessageColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}"/>
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=Line}" Header="line" Width="{Binding LineColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=Pos}" Header="pos" Width="{Binding PosColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=SourceFileName}" Header="src" Width="{Binding SourceColWidth, Source={x:Static p:Settings.Default}, Mode=TwoWay}" />
+                                        </GridView>
+                                    </ListView.View>
+
+                                </ListView>
+                            </ScrollViewer>
+                        </ad:DockableContent>
+                    </ad:DockablePane>
+                </ad:ResizingPanel>
+
+                <ad:ResizingPanel ResizeWidth="450">
+                <ad:DockablePane>
+
+
+                        <ad:DockableContent Name="Preview" Title="Preview" IsCloseable="False">
+
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <Grid Background="#303030">
+                                    <my:RasterControl HorizontalAlignment="Center" x:Name="rasterControl1" Grid.Row="0" Width="200" Height="200" Grid.Column="0" VerticalAlignment="Center"
+                                       Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"  />
+                                    <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" 
+                                    RenderTransparent="{Binding ElementName=chkFancyMode, Path=IsChecked}"
+                                    VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" />
+                                    <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0" 
+                                    OnModified="pdfOverlay1_OnModified" BeginModify="pdfOverlay1_BeginModify" EndModify="pdfOverlay1_EndModify" 
+                                    NodeStyle="{Binding ElementName=cmbNodeStyles, Path=Text,Mode=OneWay}" EdgeStyle="{Binding ElementName=cmbEdgeStyles, Path=Text, Mode=OneWay}"
+                                    Visibility="{Binding ElementName=chkFancyMode, Path=IsChecked, Converter={StaticResource boolToVis}}"   
+                                    JumpToSource="pdfOverlay1_JumpToSource" ToolChanged="pdfOverlay1_ToolChanged" MouseWheel="pdfOverlay1_MouseWheel"/>
+                                </Grid>
+                            </ScrollViewer>
+
+
+                        </ad:DockableContent>
+                    </ad:DockablePane>
+                </ad:ResizingPanel>
+
+
+            </ad:ResizingPanel>
+
+        </ad:DockingManager> -->
