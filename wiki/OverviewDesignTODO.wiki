@@ -64,14 +64,11 @@
   * add more snippets
   * "add as new snippet" command
   * support tikzpictures anywhere on page (using http://tex.stackexchange.com/questions/10343/determining-the-position-of-a-box-e-g-on-a-page)
-  * error log not deleted after succesful compilation
-  * folderview context menu
+  * error log not deleted after successful compilation
   * error with fig_homdegm1
   * code completions without {= etc
   * nullreference exception on dbl click
-  * invent something to share styles
   * selection not deleted ??? sometimes moves instead of selects...after right click
-  * save pdfbutton
   * temp files as hidden (at least add option)
 
 === For later ===
