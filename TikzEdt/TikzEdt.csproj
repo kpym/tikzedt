@@ -102,7 +102,7 @@
     </Reference>
     <Reference Include="FindReplace, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\FindReplaceTest\FindReplace\bin\Release\FindReplace.dll</HintPath>
+      <HintPath>..\lib\FindReplace.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.AvalonEdit, Version=4.1.0.7916, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
