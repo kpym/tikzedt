@@ -105,7 +105,7 @@
                 <MenuItem Header="Save" Command="ApplicationCommands.Save" />
                 <MenuItem Header="Save As..."  Command="ApplicationCommands.SaveAs" />
                 <Separator/>
-                <MenuItem Header="Save Pdf" Command="{Binding TheDocument.SavePdfCommand}" InputGestureText="Ctrtl+Shift+S"/>
+                <MenuItem Header="Save Pdf" Command="{Binding TheDocument.SavePdfCommand}" InputGestureText="Ctrl+Shift+S"/>
                 <MenuItem Header="Save Pdf As..." Command="{Binding TheDocument.SavePdfCommand}" CommandParameter="notnull"/>
                 <MenuItem Header="Export File As..." Command="{Binding TheDocument.ExportFileCommand}"/>
                 <common:RecentFileList x:Name="RecentFileList" />                
