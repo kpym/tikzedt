@@ -1,0 +1,34 @@
+﻿<Window x:Class="FindReplaceTestSDI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:FR="clr-namespace:FindReplace;assembly=FindReplace"
+        xmlns:my="clr-namespace:FindReplaceTestSDI"
+        xmlns:AE="http://icsharpcode.net/sharpdevelop/avalonedit"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.InputBindings>
+        <KeyBinding Key="F3" Modifiers="Shift" Command="Search" CommandParameter="something" />
+    </Window.InputBindings>
+    <Grid>
+        <AE:TextEditor Name="MyTextEditor" WordWrap="True">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            In ac adipiscing massa. Sed fringilla neque id massa lobortis
+            sed varius erat fermentum. Donec nec interdum arcu. Aliquam
+            sit amet libero nisi, in feugiat purus. Curabitur tellus 
+            urna, euismod quis tristique vel, consectetur ac quam. 
+            Suspendisse dui nibh, volutpat quis facilisis ac, faucibus
+            et elit. Nunc neque dolor, egestas at ultrices a, mollis
+            posuere nibh. Phasellus egestas, sem a commodo porttitor, 
+            diam nisl sodales dolor, at accumsan odio velit in nulla. 
+            Praesent rhoncus quam eu lacus suscipit eleifend. Quisque 
+            aliquet felis a justo pretium sed eleifend massa fermentum.
+            Duis porta tristique pharetra. Curabitur consectetur interdum
+            dolor, quis sollicitudin magna varius vel. Etiam malesuada
+            tristique elit dapibus fermentum. Integer vel risus tortor, vel
+            cursus libero. Ut sed massa lectus. Curabitur turpis eros, 
+            tristique non convallis in, dapibus in enim. Donec vestibulum 
+            ullamcorper ullamcorper. Quisque sodales, purus sodales gravida 
+            pretium, mauris sapien dictum purus, quis egestas lectus
+            mauris ac metus.
+        </AE:TextEditor>   
+    </Grid>
+</Window>

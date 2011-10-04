@@ -607,5 +607,17 @@ namespace TikzEdt.Properties {
                 this["PrecompiledHeaderCompileCommand"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FolderView_ShowHidden {
+            get {
+                return ((bool)(this["FolderView_ShowHidden"]));
+            }
+            set {
+                this["FolderView_ShowHidden"] = value;
+            }
+        }
     }
 }

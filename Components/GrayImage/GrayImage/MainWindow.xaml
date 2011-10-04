@@ -1,0 +1,15 @@
+﻿<Window x:Class="GrayImage.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:my="clr-namespace:GrayImage"
+        Title="MainWindow" Height="240" Width="221">
+    <Grid>
+        <Button Height="82" HorizontalAlignment="Left" Margin="23,33,0,0" Name="button1" VerticalAlignment="Top" Width="158"
+                IsEnabled="{Binding ElementName=checkBox1,Path=IsChecked}">
+            <my:AutoGrayImage x:Name="img1"  Source2="/GrayImage;component/Images/Tulips.png" />
+        </Button>
+        <Button Content="Pick Image..." Height="29" HorizontalAlignment="Left" Margin="23,121,0,0" Name="button2" VerticalAlignment="Top" Width="158" Click="button2_Click" />
+        <CheckBox  Content="IsEnabled" Height="15" HorizontalAlignment="Left" Margin="23,12,0,0" Name="checkBox1" VerticalAlignment="Top" Width="148" />
+        <Button Content="Set null" Height="29" HorizontalAlignment="Left" Margin="23,156,0,0" Name="button3" VerticalAlignment="Top" Width="158" Click="button3_Click" />
+    </Grid>
+</Window>

@@ -181,6 +181,9 @@
                 <Button Command="ApplicationCommands.Save"  ToolTip="Save file">
                     <Image Source="/TikzEdt;component/Images/saveHS.png"  Stretch="Fill" Height="16" Width="16" />
                 </Button>
+                <Button Command="{Binding TheDocument.SavePdfCommand}"  ToolTip="Save Pdf">
+                    <Image Source="/TikzEdt;component/Images/savePdf.png"  Stretch="Fill" Height="16" Width="16" />
+                </Button>
                 <Separator/>
                 <Button Command="ApplicationCommands.Paste"  ToolTip="Paste">
                     <Image Source="/TikzEdt;component/Images/PasteHS.png"  Stretch="Fill" Height="16" Width="16"/>
@@ -569,14 +572,19 @@
        
                 <FLV:FolderView x:Name="folderView" Grid.Column="1" Grid.Row="0"
                             Visibility="{Binding ElementName=cmdFiles, Path=IsChecked, Converter={StaticResource boolToVis}}"
-                            Filter="*.tex|*.tikz|*.*" FilterIndex="0" OnFileOpen="folderView_OnFileOpen"
-                            RecentLocations="{Binding ElementName=RecentFileList,Path=BindableRecentFiles}"                               
+                            Filter="*.tex;*.tikz|*.tex|*.tikz|*.*" FilterIndex="0" OnFileOpen="folderView_OnFileOpen"
+                            RecentLocations="{Binding ElementName=RecentFileList,Path=BindableRecentFiles}"
+                            ShowHidden="{Binding FolderView_ShowHidden, Source={x:Static p:Settings.Default}}"
                             >
-              <!--       <FLV:FolderView.ListViewContextMenu>
+                     <FLV:FolderView.ListViewContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Open" />
+                            <MenuItem Header="Open" FontWeight="Bold" Command="{x:Static FLV:FListView.OpenCommand}"/>
+                            <MenuItem Header="Open in new instance" Command="{x:Static FLV:FListView.OpenFileCommand}" CommandParameter="newinstance"/>
+                            <MenuItem Header="Open in external viewer" Command="{x:Static FLV:FListView.OpenFileCommand}" CommandParameter="externalviewer"/>
+                            <Separator />
+                            <MenuItem Header="View in Explorer" Click="OpenInExplorer_Click"/>
                         </ContextMenu>
-                    </FLV:FolderView.ListViewContextMenu> -->
+                    </FLV:FolderView.ListViewContextMenu> 
                 </FLV:FolderView>
             </Grid>
             <my:DockPanelSplitter DockPanel.Dock="Left" Thickness="5" Background="Gray"

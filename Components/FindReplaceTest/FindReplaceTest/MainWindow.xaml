@@ -1,0 +1,33 @@
+﻿<Window x:Class="FindReplaceTest.MainWindow"
+        Name="MW"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:FR="clr-namespace:FindReplace;assembly=FindReplace"
+        xmlns:my="clr-namespace:FindReplaceTest"
+        Title="MainWindow" Height="350" Width="525"
+        Closed="MW_Closed">
+    <Window.Resources>
+        <my:MyViewData x:Key="ViewData" />
+        <FR:IEditorConverter x:Key="IEC" />
+        <FR:FindReplaceMgr x:Key="FRep" InterfaceConverter="{StaticResource IEC}" 
+                          Editors="{Binding Source={StaticResource ViewData}, Path=Views}"
+                          CurrentEditor="{Binding Source={StaticResource ViewData}, Path=ActiveView, Mode=TwoWay}" />
+    </Window.Resources>
+    <Window.CommandBindings>
+        <my:StaticResourceEx ResourceKey="FRep" Path="FindBinding" />
+        <my:StaticResourceEx ResourceKey="FRep" Path="ReplaceBinding" />
+        <my:StaticResourceEx ResourceKey="FRep" Path="FindNextBinding" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="F3" Modifiers="Shift" Command="Search" CommandParameter="something" />
+    </Window.InputBindings>
+    <Grid DataContext="{StaticResource ViewData}">        
+        <TabControl ItemsSource="{Binding Views}" SelectedItem="{Binding ActiveView, Mode=TwoWay}" >
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem">
+                    <Setter Property="Header" Value="{Binding Tag}"/>
+                </Style>
+            </TabControl.ItemContainerStyle>
+        </TabControl>
+    </Grid>
+</Window>

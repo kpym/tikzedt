@@ -126,6 +126,7 @@
                         </Button.Style>
                         Associate *.tikz files with TikzEdt
                     </Button>
+                    <CheckBox Margin="3" Grid.Row="8" Grid.Column="1" IsChecked="{Binding FolderView_ShowHidden, Source={x:Static p:Settings.Default}}">Show hidden files in folder panel</CheckBox>
                 </Grid>
             </TabItem>
             <TabItem>

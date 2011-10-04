@@ -155,5 +155,8 @@
     <Setting Name="PrecompiledHeaderCompileCommand" Type="System.String" Scope="User">
       <Value Profile="(Default)">-ini -jobname="$JOBNAME$" "&amp;pdflatex $FILENAME$\dump"</Value>
     </Setting>
+    <Setting Name="FolderView_ShowHidden" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
