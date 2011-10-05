@@ -24,7 +24,7 @@ namespace TikzEdt.Parser
     /// This static class creates a human readable error string
     /// from a ANTLRException. This string can be passed to the user.
     /// </summary>
-    static class ANTLRErrorMsg
+    public static class ANTLRErrorMsg
     {
         static public string ToString(RecognitionException Ex, string[] tokenNames)
         {

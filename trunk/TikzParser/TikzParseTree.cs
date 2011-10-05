@@ -2173,7 +2173,7 @@ namespace TikzEdt.Parser
     /// <summary>
     /// The class for path elements of the form "arc (30:60:2)" or arc "arc (30:60:2 and 4)"
     /// </summary>
-    class Tikz_Arc : Tikz_XYItem
+    public class Tikz_Arc : Tikz_XYItem
     {
         public Tikz_NumberUnit phi1 = null, phi2=null, r1 = null, r2 = null;
 

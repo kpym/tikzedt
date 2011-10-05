@@ -1,0 +1,77 @@
+\documentclass[]{article}
+
+\usepackage{layouts}
+\usepackage{tikz}
+
+%for environment aligned
+\usepackage{amsmath}
+
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+
+\usetikzlibrary{calc}
+
+\begin{document}
+
+
+
+%note: align= is needed to print nodes with several lines
+\tikzstyle{every node}= [font=\Huge, align=center]
+%\tikzstyle{every node}= [font=\Huge, draw=black,                     minimum width=2cm, thick]
+
+\begin{tikzpicture}
+	
+\pgfmathparse{28.4527}
+\global\let\tikzconst\pgfmathresult
+	
+%\node at (1,4) {textwidth in cm: \printinunitsof{cm}\prntlen{\textwidth}};
+\node (v13) at (1,7) {Multilines \\ test};
+
+\node(v11) at (1,2) {};
+\path
+  let
+    \p1=(v11)  
+  in {
+  node at (v11)
+	  {
+	  	\pgfmathparse{(\x1/\tikzconst)}
+	  	\global\let\xpos\pgfmathresult
+	  	\pgfmathparse{(\y1/\tikzconst)}
+	  	\global\let\ypos\pgfmathresult
+	  	This node is at \pgfmathprintnumber{\xpos}; \pgfmathprintnumber{\ypos}
+	  }
+  };
+
+
+\node(v1) at (1,0) {$x=\pgfmathprintnumber{\xpos}; y=\pgfmathprintnumber{\ypos}$};
+
+\node[left] (v3) at (1,-2) {$\frac{x+y}{2}=$};
+    
+\node[right] at (1,-2) {
+		\pgfmathparse{0.5* ( \ypos + \xpos)}
+  		\global\let\tempvar\pgfmathresult
+		$\tempvar pt$
+	};
+
+
+
+\node at (5,-9) {Example:} 
+  child {node {
+  $\begin{aligned} \\ 
+    \frac{x+y}{d}&=\pi\\
+     a+b &= d +1
+  \end{aligned}$}};
+   
+\node[] at (-2,-9) {Example: \\ 
+  $\begin{aligned}
+     a &= bx + c\\
+     a+b &= d +1
+  \end{aligned}$};
+
+
+
+
+
+\end{tikzpicture}
+
+\end{document}

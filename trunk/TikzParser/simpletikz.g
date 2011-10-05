@@ -3,8 +3,8 @@ grammar simpletikz;
 options 
 {
 	output=AST;
-	language = 'CSharp2';
-	//backtrack=true;
+	//language = 'CSharp2';
+	backtrack=true;
 }
 
 
@@ -91,6 +91,7 @@ IM_DONTCARE;
 IM_ARC;
 }
 
+/*
 @parser::members {
 
   //@Override
@@ -133,7 +134,7 @@ IM_ARC;
     }
 }    
   
-/* comment out above for java*/
+ comment out above for java*/
 
 
 tikzdocument

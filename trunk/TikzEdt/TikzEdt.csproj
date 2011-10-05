@@ -168,8 +168,6 @@
     </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="MyCompletionData.cs" />
-    <Compile Include="output\simpletikzLexer.cs" />
-    <Compile Include="output\simpletikzParser.cs" />
     <Compile Include="Overlay\InputMessageBox.xaml.cs">
       <DependentUpon>InputMessageBox.xaml</DependentUpon>
     </Compile>
@@ -179,10 +177,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Overlay\SelectionTool.cs" />
-    <Compile Include="Parser\ANTLRErrorMsg.cs" />
     <Compile Include="Overlay\Rect_and_EllipseTools.cs" />
     <Compile Include="Overlay\SmoothCurveTool.cs" />
-    <Compile Include="Parser\TikzParseTreeHelper.cs" />
     <Compile Include="Snippets\SnippetImporter.xaml.cs">
       <DependentUpon>SnippetImporter.xaml</DependentUpon>
     </Compile>
@@ -214,8 +210,6 @@
     <Compile Include="TikzEdtAbout.xaml.cs">
       <DependentUpon>TikzEdtAbout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Parser\TikzParser.cs" />
-    <Compile Include="Parser\TikzParseTree.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\TEDocument.cs" />
@@ -601,6 +595,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\savePdf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TikzParser\TikzParser.csproj">
+      <Project>{DCEE85EE-19E0-46F4-8C94-BB044075561F}</Project>
+      <Name>TikzParser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
