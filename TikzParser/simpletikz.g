@@ -3,8 +3,8 @@ grammar simpletikz;
 options 
 {
 	output=AST;
-	//language = 'CSharp2';
-	backtrack=true;
+	language = 'CSharp2';
+	//backtrack=true;
 }
 
 
@@ -91,7 +91,7 @@ IM_DONTCARE;
 IM_ARC;
 }
 
-/*
+
 @parser::members {
 
   //@Override
@@ -134,7 +134,7 @@ IM_ARC;
     }
 }    
   
- comment out above for java*/
+/* comment out above for java*/
 
 
 tikzdocument
@@ -165,7 +165,7 @@ tikz_style
 	;
 
 tikz_options
-	: 	squarebr_start (option (',' option)* ','?)? squarebr_end		-> ^(IM_OPTIONS squarebr_start option* squarebr_end)
+	: 	squarebr_start (option (',' option)* ','?)? tikzstring? squarebr_end		-> ^(IM_OPTIONS squarebr_start option* squarebr_end)
 	;
 
 option
@@ -188,7 +188,7 @@ iddornumberunitorstringorrange
 	:	 range | numberunit | bracedcoord | idd | tikzstring  // changed here (numberunit)=>
 		;
 bracedcoord
-	:	'{'!  coord '}'!
+	:	'{'!  coord_nooption '}'!
 	;
 range
 	: numberunit ':' numberunit	->	^(IM_STRING numberunit ':' numberunit )
@@ -210,7 +210,7 @@ idd
 	:	idd_heavenknowswhythisisnecessary  -> ^(IM_ID )
 	;
 idd_heavenknowswhythisisnecessary
- 	:	 ~( '(' | ')' | '[' |	']' | '{' | '}' | ',' | '='	| ';'	| ':' | '/.style' | '/.append' )+ ;
+ 	:	 ~( '(' | ')' | '[' |	']' | '{' | '}' | ',' | '='	| ';'	| ':' | '/.style' |  '/.append' )+ ;
 idd2
 	:	ID+ -> ^(IM_ID )
 	;
@@ -314,14 +314,14 @@ tikzpath_element
 tikzpath_element_single
 	:
 		  tikz_options 
-		  | let_cmd_parts -> ^(IM_TIKZEDT_CMD let_cmd_parts+)
-		| coord
+		| let_cmd_parts -> ^(IM_TIKZEDT_CMD let_cmd_parts+)
+		//| arc_ignore
+		| arc
+		| (coord)=>coord
 		| controls
 		| tikznode_int
 		| tikzcoordinate_int
 		| circle!
-		| arc_ignore
-		| arc
 		| roundbr_start tikzpath_element* roundbr_end -> ^(IM_PATH roundbr_start tikzpath_element* roundbr_end)
 		|	 '(' tikzpath_element* ')' -> ^(IM_PATH '(' tikzpath_element* ')')
 		| edgeop!
@@ -396,7 +396,7 @@ no_rlbracket
 	:	~('[' | ']')
 	;
 nodename
-	:	'(' idd ')'		-> ^(IM_NODENAME idd)
+	:	'(' idd ')'		-> ^(IM_NODENAME idd )
 	;
 
 // note that tikz is ambiguous. for example "3 and 4" is a valid node name, and furthermore the size is optional
@@ -408,11 +408,12 @@ circle
 arc
 	:	'arc' ('(' numberunitorvariable ':' numberunitorvariable ':' numberunitorvariable ('and' numberunit)? ')') -> ^(IM_ARC numberunitorvariable+ numberunit?)
 	|	'arc' ('(' coord_part ':' coord_part ':' coord_part ('and' numberunit)? ')') -> ^(IM_ARC coord_part+ numberunit?)
+	|	'arc' tikz_options ->^(IM_DONTCARE) 
 	;
 	
-arc_ignore
-	: 	'arc' tikz_options -> ^(IM_DONTCARE)
-	;
+//arc_ignore
+//	: 	'arc' tikz_options -> ^(IM_DONTCARE)
+//	;
 	
 size
 	:	  '(' numberunit ('and' numberunit)? ')'		-> ^(IM_SIZE numberunit*)	// for future use
@@ -422,8 +423,15 @@ size
 	
 
 //note: the last option is for complex coordinates which TE cannot parse/understand
+coord_nodename 
+	:	'(' tikz_options? idd  ')'  -> ^(IM_NODENAME idd tikz_options? );
 coord	
-	:	  nodename 								-> ^(IM_COORD nodename)
+	:	  coord_nodename							-> ^(IM_COORD coord_nodename  )
+		| ( coord_modifier? '(' numberunit coord_sep numberunit ')')		-> ^(IM_COORD coord_modifier? numberunit+ coord_sep)
+		| ( coord_modifier? '(' coord_part coord_sep coord_part ')')		-> ^(IM_COORD coord_modifier? coord_part+ coord_sep)
+	;
+coord_nooption	
+	:	  nodename								-> ^(IM_COORD nodename )
 		| ( coord_modifier? '(' numberunit coord_sep numberunit ')')		-> ^(IM_COORD coord_modifier? numberunit+ coord_sep)
 		| ( coord_modifier? '(' coord_part coord_sep coord_part ')')		-> ^(IM_COORD coord_modifier? coord_part+ coord_sep)
 	;
@@ -612,6 +620,11 @@ ESC_SEQ
     ;
 
 
-
+// make sure that tokens do not shadow input... i.e., for each token all partial matches must be in the following list
 SOMETHING 
-	:	. ;
+	:	 . ;
+	
+// for /.style, /.append
+SOMETHING1
+	:    '/.' ('a'..'z'|'A'..'Z')*;
+	

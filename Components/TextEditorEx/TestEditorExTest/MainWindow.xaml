@@ -1,0 +1,29 @@
+﻿<Window x:Class="TestEditorExTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:myEditor="clr-namespace:TikzEdt.Editor;assembly=TextEditorEx"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Right">
+                <DockPanel>
+                    <Button DockPanel.Dock="Right" Margin="2" Click="Button_Click">Add</Button>
+                    <TextBox Margin="2" Name="txtText"></TextBox>
+                </DockPanel>
+                <ListBox Height="200" Margin="2" ItemsSource="{Binding SomeStyles}"/>
+                <CheckBox Margin="2" IsChecked="True" Name="chkCodeCompletion">Enable Code Completions</CheckBox>
+                <CheckBox Margin="2" IsChecked="True" Name="chkBeginCompletion">Enable \begin Completion</CheckBox>
+            </StackPanel>
+        <myEditor:TextEditorEx HorizontalAlignment="Stretch" x:Name="txtCode" VerticalAlignment="Stretch" 
+                                       ShowLineNumbers="true"
+                                       WordWrap="true"                                       
+                                       HDFile="TikzSyntax.xshd"
+                                       CompletionsFile="CodeCompletions.xml"
+                                       CompleteBegins="{Binding ElementName=chkBeginCompletion, Path=IsChecked}"
+                                       EnableCodeCompletion="{Binding ElementName=chkCodeCompletion, Path=IsChecked}"
+                                       DynamicSnippets="{Binding SomeStyles}"
+                                       DynamicSnippetsEnv="1"
+                                       />
+        </DockPanel>
+    </Grid>
+</Window>

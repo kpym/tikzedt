@@ -3,8 +3,7 @@
                             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" 
         xmlns:my="clr-namespace:TikzEdt"
         xmlns:myVM="clr-namespace:TikzEdt.ViewModels"
-        xmlns:mySnippets="clr-namespace:TikzEdt.Snippets"
-        xmlns:myEditor="clr-namespace:TikzEdt.Editor"
+        xmlns:mySnippets="clr-namespace:TikzEdt.Snippets"       
         xmlns:p="clr-namespace:TikzEdt.Properties"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" >
 

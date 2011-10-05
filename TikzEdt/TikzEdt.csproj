@@ -127,6 +127,10 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="TextEditorEx, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\TextEditorEx.dll</HintPath>
+    </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
@@ -143,31 +147,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AutoGrayImage.cs" />
-    <Compile Include="Editor\TextEditorEx.cs" />
+    <Compile Include="Misc\AutoGrayImage.cs" />
     <Compile Include="ExportCompiler\ExportCompileDialog.xaml.cs">
       <DependentUpon>ExportCompileDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FileDownloader.cs" />
+    <Compile Include="Misc\FileDownloader.cs" />
     <Compile Include="Misc\DockPanelSplitter.cs" />
     <Compile Include="Overlay\ArcEditTool.cs" />
     <Compile Include="Overlay\ArcTool.cs" />
     <Compile Include="Overlay\BezierTool.cs" />
-    <Compile Include="CmdLineArgumentParser.cs" />
-    <Compile Include="Editor\CodeCompleter.cs" />
-    <Compile Include="Data\CompletionDS.cs">
-      <DependentUpon>CompletionDS.xsd</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Data\CompletionDS.Designer.cs">
-      <DependentUpon>CompletionDS.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Editor\FindReplaceDialog.xaml.cs">
-      <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Misc\CmdLineArgumentParser.cs" />
     <Compile Include="Helper.cs" />
-    <Compile Include="MyCompletionData.cs" />
     <Compile Include="Overlay\InputMessageBox.xaml.cs">
       <DependentUpon>InputMessageBox.xaml</DependentUpon>
     </Compile>
@@ -213,14 +203,7 @@
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\TEDocument.cs" />
-    <Compile Include="Views\DocumentView.xaml.cs">
-      <DependentUpon>DocumentView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="WindowSetting.cs" />
-    <Page Include="Editor\FindReplaceDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ExportCompiler\ExportCompileDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -289,10 +272,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DocumentView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -317,14 +296,9 @@
     </None>
     <None Include="Editor\CodeCompletions.xml">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\CompletionDS.xsc">
-      <DependentUpon>CompletionDS.xsd</DependentUpon>
-    </None>
-    <None Include="Data\CompletionDS.xsd" />
-    <None Include="Data\CompletionDS.xss">
-      <DependentUpon>CompletionDS.xsd</DependentUpon>
+    <None Include="Editor\TikzSyntax.xshd">
+      <SubType>Designer</SubType>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -348,10 +322,6 @@
     <None Include="Snippets\SnippetsDataSet.xss">
       <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Editor\TikzSyntax.xshd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </None>
     <None Include="TikzEdt_TemporaryKey.pfx" />
   </ItemGroup>
@@ -602,6 +572,7 @@
       <Name>TikzParser</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
