@@ -70,6 +70,7 @@
   * nullreference exception on dbl click
   * selection not deleted ??? sometimes moves instead of selects...after right click
   * temp files as hidden (at least add option)
+  * make parser errors distinguishable from latex errors  
 
 === For later ===
 *TODO*
