@@ -7,7 +7,19 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TikzEdt1.0", "TikzEdt1.0\Ti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TikzParser", "TikzParser\TikzParser.csproj", "{DCEE85EE-19E0-46F4-8C94-BB044075561F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TikzParserUnitTests", "TikzParserUnitTests\TikzParserUnitTests.csproj", "{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C1C11997-1EA9-4D70-A118-598F39A1F404}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		TikzEdt.vsmdi = TikzEdt.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = TikzEdt.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
 		CD_ROM|Mixed Platforms = CD_ROM|Mixed Platforms
@@ -126,6 +138,36 @@ Global
 		{DCEE85EE-19E0-46F4-8C94-BB044075561F}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
 		{DCEE85EE-19E0-46F4-8C94-BB044075561F}.SingleImage|x64.ActiveCfg = Release|Any CPU
 		{DCEE85EE-19E0-46F4-8C94-BB044075561F}.SingleImage|x86.ActiveCfg = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.CD_ROM|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.CD_ROM|Mixed Platforms.Build.0 = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.CD_ROM|x64.ActiveCfg = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.CD_ROM|x86.ActiveCfg = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.DVD-5|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.DVD-5|Mixed Platforms.Build.0 = Debug|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.DVD-5|x64.ActiveCfg = Debug|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.DVD-5|x86.ActiveCfg = Debug|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.Release|x64.ActiveCfg = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.Release|x86.ActiveCfg = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.SingleImage|x64.ActiveCfg = Release|Any CPU
+		{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}.SingleImage|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

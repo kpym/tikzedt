@@ -29,7 +29,7 @@ namespace TikzEdt.Parser
     /// <summary>
     /// 
     /// </summary>
-    static class TikzParser
+    public static class TikzParser
     {
         //static public string TIKZEDT_CMD_COMMENT = "";
 
