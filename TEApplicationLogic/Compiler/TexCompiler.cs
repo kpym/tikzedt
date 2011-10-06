@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
+//using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -26,7 +26,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+//using System.Windows.Shapes;
 //using System.Drawing;
 using System.Diagnostics;
 using System.IO;
@@ -210,7 +210,7 @@ namespace TikzEdt
             catch (ThreadAbortException)
             {
                 // process terminated by user
-                MainWindow.AddStatusLine("PdfLatex: process terminated by user.", true);
+                GlobalUI.AddStatusLine(this, "PdfLatex: process terminated by user.", true);
             }
             finally
             {
@@ -261,7 +261,7 @@ namespace TikzEdt
         public static Job GetPrecompiledHeaderJob()
         {
             Job job = new Job();
-            job.code = Properties.Settings.Default.Tex_Preamble;
+            job.code = CompilerSettings.Instance.Tex_Preamble;
             job.path = Helper.GetPrecompiledHeaderPath() + Helper.GetPrecompiledHeaderFilename();
             job.name = System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename());
             job.GeneratePrecompiledHeaders = true;
@@ -417,7 +417,7 @@ namespace TikzEdt
 
                                 string PreviewEnvCode = Environment.NewLine + @"\usepackage[active,tightpage]{preview}" + Environment.NewLine
                                                         + @"\PreviewEnvironment{tikzpicture}";// +Environment.NewLine + Environment.NewLine;
-                                MainWindow.AddStatusLine("Warning: No PreviewEnvironment code found, overlay might be misaligned. Insert:"
+                                GlobalUI.AddStatusLine(this, "Warning: No PreviewEnvironment code found, overlay might be misaligned. Insert:"
                                       + PreviewEnvCode);
                                 /*int PosBeginDoc = ((MainWindow)Application.Current.Windows[0]).txtCode.Text.IndexOf(@"\begin{document}");
                         
@@ -446,9 +446,9 @@ namespace TikzEdt
                             job.AddOffset(1 /*start counting at 1*/, LinesJustAdded);
 
                             s.WriteLine(codetowrite);
-                            s.WriteLine(Properties.Settings.Default.Tex_Postamble);
+                            s.WriteLine(CompilerSettings.Instance.Tex_Postamble);
                             job.AddOffset(LinesJustAdded + Helper.CountStringOccurrences(codetowrite, Environment.NewLine) + 1 /*start counting at 1*/,
-                                Helper.CountStringOccurrences(Properties.Settings.Default.Tex_Postamble, Environment.NewLine) + 1 /*add 1 for WriteLine()*/);
+                                Helper.CountStringOccurrences(CompilerSettings.Instance.Tex_Postamble, Environment.NewLine) + 1 /*add 1 for WriteLine()*/);
                         }
                     }
 
@@ -470,7 +470,7 @@ namespace TikzEdt
             // call pdflatex 
             if (job.GeneratePrecompiledHeaders)
             {
-                string pchArgs = Properties.Settings.Default.PrecompiledHeaderCompileCommand;
+                string pchArgs = CompilerSettings.Instance.PrecompiledHeaderCompileCommand;
                 texProcess.StartInfo.Arguments = pchArgs.Replace("$JOBNAME$", job.name).Replace("$FILENAME$", System.IO.Path.GetFileName(job.path));
                 //texProcess.StartInfo.Arguments = "-ini -jobname=\"" + job.name
                 //    + "\" \"&pdflatex " + System.IO.Path.GetFileName(job.path) + "\\dump\"";                
@@ -511,6 +511,7 @@ namespace TikzEdt
             job.cmdline =  texProcess.StartInfo.WorkingDirectory +">"+ texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments;
             try
             {
+                texProcess.StartInfo.FileName = CompilerSettings.Instance.Path_pdflatex;
                 texProcess.Start();
 
                 // start asynchronous reading of the process output
@@ -581,12 +582,12 @@ namespace TikzEdt
 
             if (InstallingPacket == false)
             {
-                MainWindow.AddStatusLine("Timeout. Compilation aborted", true);
+                GlobalUI.AddStatusLine(this, "Timeout. Compilation aborted", true);
                 AbortCompilation();
             }
             else 
             {
-                MainWindow.AddStatusLine("Please wait. pdflatex seems to be installing some required package.");
+                GlobalUI.AddStatusLine(this, "Please wait. pdflatex seems to be installing some required package.");
             }
         }
         /// <summary>
@@ -639,7 +640,7 @@ namespace TikzEdt
 
             //texProcess.EnableRaisingEvents = true;
             //texProcess.StartInfo.Arguments = "-quiet -halt-on-error " + Consts.cTempFile + ".tex";
-            texProcess.StartInfo.FileName = Properties.Settings.Default.Path_pdflatex;//"pdflatex";
+            texProcess.StartInfo.FileName = CompilerSettings.Instance.Path_pdflatex;//"pdflatex";
             texProcess.StartInfo.CreateNoWindow = true;
             texProcess.StartInfo.UseShellExecute = false;
             texProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -851,7 +852,7 @@ namespace TikzEdt
                     || code.Trim().StartsWith("%&") );    // precompiled header
 
             //using data binding would probably be nicer...
-            ((MainWindow)Application.Current.Windows[0]).SetStandAloneStatus(ret);
+            //((MainWindow)Application.Current.Windows[0]).SetStandAloneStatus(ret);
 
             return ret;
         }
@@ -967,7 +968,7 @@ namespace TikzEdt
         static TikzToBMPFactory()
         {
             Instance.JobFailed += new JobEventHandler(OnJobFailed);
-            Instance.timeout = Properties.Settings.Default.Compiler_SnippetTimeout;
+            Instance.timeout = CompilerSettings.Instance.Compiler_SnippetTimeout;//todo... has to be updated whenever timeout changes
         }
 
         public static void OnJobFailed(object sender, Job job)
@@ -994,7 +995,7 @@ namespace TikzEdt
 
         static TheCompiler()
         {
-            Instance.timeout = Properties.Settings.Default.Compiler_Timeout;
+            Instance.timeout = CompilerSettings.Instance.Compiler_Timeout;// todo
         }
 
         public static void GeneratePrecompiledHeaders()

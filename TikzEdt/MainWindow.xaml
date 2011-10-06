@@ -4,6 +4,7 @@
         xmlns:custom="clr-namespace:TikzEdt"
         xmlns:common="clr-namespace:Common"      
         xmlns:my="clr-namespace:TikzEdt"
+        xmlns:myApp="clr-namespace:TikzEdt;assembly=TEApplicationLogic"
         xmlns:mySnippets="clr-namespace:TikzEdt.Snippets"
         xmlns:p="clr-namespace:TikzEdt.Properties"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
@@ -11,7 +12,7 @@
         xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
         xmlns:myEditor="clr-namespace:TikzEdt.Editor;assembly=TextEditorEx"
         xmlns:CustomWPFColorPicker="clr-namespace:CustomWPFColorPicker;assembly=CustomWPFColorPicker"
-        xmlns:myVM="clr-namespace:TikzEdt.ViewModels"
+        xmlns:myVM="clr-namespace:TikzEdt.ViewModels;assembly=TEApplicationLogic"
         xmlns:FLV="clr-namespace:FileListView;assembly=FileListView"
         Title="{Binding TheDocument.DisplayString, StringFormat=TikzEdt - {0}}" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
@@ -145,9 +146,9 @@
             <MenuItem Header="_Compilation">
                 <MenuItem Header="Compile" Command="{Binding TheDocument.CompileCommand}" InputGestureText="F5"/>
                 <MenuItem Name="mnuAbort" Header="Abort" Click="AbortCompilationClick"
-                          IsEnabled="{Binding Source={x:Static my:TheCompiler.Instance}, Path=Compiling, Mode=OneWay}"/>
+                          IsEnabled="{Binding Source={x:Static myApp:TheCompiler.Instance}, Path=Compiling, Mode=OneWay}"/>
                 <MenuItem Name="mnuAbortSnippet" Header="Abort current snippet compilation" Click="AbortSnippetCompilationClick"
-                          IsEnabled="{Binding Source={x:Static my:TikzToBMPFactory.Instance}, Path=Compiling, Mode=OneWay}"/>
+                          IsEnabled="{Binding Source={x:Static myApp:TikzToBMPFactory.Instance}, Path=Compiling, Mode=OneWay}"/>
                 <Separator/>
                 <MenuItem Header="(Re-)Generate precompiled headers" Click="GenerateHeadersClick"/>
             </MenuItem>
@@ -202,7 +203,7 @@
                     </Button.ToolTip>
                 </Button>
                 <Button Name="cmdAbortCompilation" Click="AbortCompilationClick" ToolTipService.ShowOnDisabled="True"
-                        IsEnabled="{Binding Source={x:Static my:TheCompiler.Instance}, Path=Compiling, Mode=OneWay}">
+                        IsEnabled="{Binding Source={x:Static myApp:TheCompiler.Instance}, Path=Compiling, Mode=OneWay}">
                     <my:AutoGrayImage Source2="/TikzEdt;component/Images/error.png" Stretch="Fill" Height="16" Width="16" />
                     <Button.ToolTip>Abort compilation in case something goes wrong</Button.ToolTip>
                 </Button>
@@ -326,7 +327,7 @@
             </ToolBar>
             <ToolBar Name="tlbTools"  Height="28" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}" Band="1" ToolTipService.ShowDuration="15000">
                 <RadioButton HorizontalAlignment="Left" Name="rbToolMove" VerticalAlignment="Top"
-                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.move}}">
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myApp:OverlayToolType.move}}">
                     <my:AutoGrayImage Source2="/TikzEdt;component/Images/base_cursor.png" Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -339,7 +340,7 @@
                     </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolAddVert" VerticalAlignment="Top" 
-                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.addvert}}">
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myApp:OverlayToolType.addvert}}">
                     <my:AutoGrayImage Source2="/TikzEdt;component/Images/bmpvert.png"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -351,7 +352,7 @@
                     </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolAddEdge" VerticalAlignment="Top"
-                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.addedge}}">
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myApp:OverlayToolType.addedge}}">
                     <Image Source="/TikzEdt;component/Images/edge.png"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -363,7 +364,7 @@
                     </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolAddPath" VerticalAlignment="Top" 
-                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.addpath}}">
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myApp:OverlayToolType.addpath}}">
                     <Image Source="/TikzEdt;component/Images/path.png"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -375,7 +376,7 @@
                     </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolSmooth" VerticalAlignment="Top" 
-                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.smooth}}">
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myApp:OverlayToolType.smooth}}">
                     <Image Source="/TikzEdt;component/Images/Smooth.png"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -387,7 +388,7 @@
                     </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolBezier" VerticalAlignment="Top"
-                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.bezier}}">
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myApp:OverlayToolType.bezier}}">
                     <Image Source="/TikzEdt;component/Images/Bezier.png"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -399,7 +400,7 @@
                     </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolRectangle" VerticalAlignment="Top" 
-                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.rectangle}}">
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myApp:OverlayToolType.rectangle}}">
                     <Image Source="/TikzEdt;component/Images/Rectangle.png" Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -411,7 +412,7 @@
                     </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolEllipse" VerticalAlignment="Top" 
-                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.ellipse}}">
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myApp:OverlayToolType.ellipse}}">
                     <Image Source="/TikzEdt;component/Images/Ellipse.png" Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -423,7 +424,7 @@
                     </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolArc" VerticalAlignment="Top" 
-                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.arc}}">
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myApp:OverlayToolType.arc}}">
                     <Image Source="/TikzEdt;component/Images/arc.png" Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -435,7 +436,7 @@
                     </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolArcEdit" VerticalAlignment="Top" Visibility="Visible"
-                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.arcedit}}">
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myApp:OverlayToolType.arcedit}}">
                     <Image Source="/TikzEdt;component/Images/arcedit.png"  Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -448,7 +449,7 @@
                     </RadioButton.ToolTip>
                 </RadioButton>
                 <RadioButton HorizontalAlignment="Left" Name="rbToolGrid" VerticalAlignment="Top" 
-                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static my:OverlayToolType.grid}}">
+                             IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myApp:OverlayToolType.grid}}">
                     <Image Source="/TikzEdt;component/Images/Grid.png" Stretch="Fill" Height="16" Width="16"/>
                     <RadioButton.ToolTip>
                         <StackPanel>
@@ -734,7 +735,8 @@
             </StatusBarItem>
             
             <StatusBarItem Name="CoordinateStatusBarItem" Content="(0,0)" DockPanel.Dock="Right" HorizontalAlignment="Right" />
-            <StatusBarItem Name="StandAloneStatusBarItem" Content="" DockPanel.Dock="Right" HorizontalAlignment="Right" />
+            <StatusBarItem Name="StandAloneStatusBarItem" Content="[Document is standalone]" DockPanel.Dock="Right" HorizontalAlignment="Right" 
+                           Visibility="{Binding TheDocument.IsStandAlone, Converter={StaticResource boolToVis}}"/>
 
             <StatusBarItem Name="BBStatusBarItem" Content="Bounding Box:" DockPanel.Dock="Right" HorizontalAlignment="Right" />
             

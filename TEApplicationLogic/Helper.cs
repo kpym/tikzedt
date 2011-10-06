@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
+//using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -26,7 +26,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+//using System.Windows.Shapes;
 //using System.Drawing;
 using System.Diagnostics;
 using System.IO;
@@ -428,26 +428,7 @@ namespace TikzEdt
             }
         }
 
-        public static Brush GetHatchBrush()
-        {
-            VisualBrush vb = new VisualBrush();
-
-            vb.TileMode = TileMode.Tile;
-
-            vb.Viewport = new Rect(0, 0, 5, 5);
-            vb.ViewportUnits = BrushMappingMode.Absolute;
-
-            vb.Viewbox = new Rect(0, 0, 6, 6);
-            vb.ViewboxUnits = BrushMappingMode.Absolute;
-
-            Line l = new Line();
-            l.X1 = 0; l.X2 = 6; l.Y1 = 6; l.Y2 = 0;
-            l.Stroke = Brushes.Black;
-            vb.Visual = l;
-
-            return vb;
-        }
-
+      
         /// <summary>
         /// Finds the point in (angle + 2 Pi \Z) closest to (closeto)
         /// </summary>
@@ -486,11 +467,107 @@ namespace TikzEdt
 
     /// <summary>
     /// The purpose of this class is to channel the (limited) Viewmodel user interaction,
-    /// so that the viewmodel can be tested in unit tests. TODO
+    /// so that the viewmodel can be tested in unit tests.
+    /// 
+    /// Also acts as mediator with the main window
     /// </summary>
     public static class GlobalUI
     {
-        
+
+        /// <summary>
+        /// For unit testing the IO, set this to the desired result. 
+        /// Otherwise leave null, then a modal message box is displayed.
+        /// </summary>
+        public static MessageBoxResult? MockResult = null;
+        public static MessageBoxResult ShowMessageBox(string Text, string Caption, MessageBoxButton Button, MessageBoxImage Icon)
+        {
+            if (MockResult == null)
+                return MessageBox.Show(Text, Caption, Button, Icon);
+            else
+                return (MessageBoxResult)MockResult;
+        }
+
+        public class RecentFileEventData : EventArgs
+        {
+            public string FileName;
+            public bool IsInsert; // if false it means the file should be removed
+        }
+        public static event EventHandler<RecentFileEventData> OnRecentFileEvent;
+        public class GlobalStatusEventData : EventArgs
+        {
+            public string StatusLine;
+            public bool IsError;
+        }
+        public static event EventHandler<GlobalStatusEventData> OnGlobalStatus;
+        public class ExportCompileEventData : EventArgs
+        {
+            public string Code;
+            public string File;
+        }
+        public static event EventHandler<ExportCompileEventData> OnExportCompile;
+
+
+        public static void AddStatusLine(object sender, string line, bool error=false)
+        {
+            if (OnGlobalStatus != null)
+                OnGlobalStatus(sender, new GlobalStatusEventData() { StatusLine=line, IsError=error });
+        }
+
+        public static void RaiseRecentFileEvent(object sender, string file, bool insert)
+        {
+            if (OnRecentFileEvent != null)
+                OnRecentFileEvent(sender, new RecentFileEventData() { FileName = file, IsInsert = insert });
+        }
+
+        public static void ShowExportCompileDialog(object sender, string code, string file)
+        {
+            if (OnExportCompile != null)
+                OnExportCompile(sender, new ExportCompileEventData() { File = file, Code = code });
+        }
     }
+
+    /// <summary>
+    /// Since we are in an assembly different from the main one, we cannot directly access the application settings (w/o doing a hack at least).
+    /// To circumvent, all settings access is channeled through this class.
+    /// 
+    /// In the main application, the Instance variable is overridden with a subclass instance that accesses Properties.Settings
+    /// </summary>
+    public class CompilerSettings
+    {
+        public static CompilerSettings Instance = new CompilerSettings();
+
+        public virtual double BB_Std_X { get { return -5; } }
+        public virtual double BB_Std_Y { get { return -5; } }
+        public virtual double BB_Std_W { get { return 10; } }
+        public virtual double BB_Std_H { get { return 10; } }
+        public virtual double BB_Margin { get { return 6; } }
+        public virtual string Tex_Preamble { get { return @"\documentclass{article}
+\usepackage{tikz,amsmath, amssymb,bm,color}
+\usepackage[margin=0cm,nohead]{geometry}
+\usepackage[active,tightpage]{preview}
+\usetikzlibrary{shapes,arrows}
+% needed for BB
+\usetikzlibrary{calc}
+
+\PreviewEnvironment{tikzpicture}
+"; 
+        } }
+
+        public virtual string Tex_Postamble
+        {
+            get
+            {
+                return @"\end{document}";
+            }
+        }
+
+        public virtual string PrecompiledHeaderCompileCommand { get { return "-ini -jobname=\"$JOBNAME$\" \"&pdflatex $FILENAME$\\dump\" "; } }
+        public virtual int Compiler_SnippetTimeout { get { return 0; } }
+        public virtual int Compiler_Timeout { get { return 0; } }
+        public virtual string Path_pdflatex { get { return "pdflatex"; } }
+        public virtual string Path_htlatex { get { return "htlatex"; } }
+    }
+
+
 
 }

@@ -172,7 +172,6 @@
     <Compile Include="Snippets\SnippetImporter.xaml.cs">
       <DependentUpon>SnippetImporter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TexOutputParser.cs" />
     <Compile Include="RasterControl.xaml.cs">
       <DependentUpon>RasterControl.xaml</DependentUpon>
     </Compile>
@@ -193,16 +192,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="SourceManager.cs" />
-    <Compile Include="TexCompiler.cs" />
     <Compile Include="TikzDisplay.xaml.cs">
       <DependentUpon>TikzDisplay.xaml</DependentUpon>
     </Compile>
     <Compile Include="TikzEdtAbout.xaml.cs">
       <DependentUpon>TikzEdtAbout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\MainWindowVM.cs" />
-    <Compile Include="ViewModels\RelayCommand.cs" />
-    <Compile Include="ViewModels\TEDocument.cs" />
     <Compile Include="WindowSetting.cs" />
     <Page Include="ExportCompiler\ExportCompileDialog.xaml">
       <SubType>Designer</SubType>
@@ -567,6 +562,10 @@
     <Resource Include="Images\savePdf.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TEApplicationLogic\TEApplicationLogic.csproj">
+      <Project>{EB03FD23-3941-4B4B-964C-29CB265BA5EA}</Project>
+      <Name>TEApplicationLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TikzParser\TikzParser.csproj">
       <Project>{DCEE85EE-19E0-46F4-8C94-BB044075561F}</Project>
       <Name>TikzParser</Name>
