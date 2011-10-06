@@ -34,25 +34,96 @@ using System.Windows.Threading;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
+using SmartWeakEvent;
 
 namespace TikzEdt
 {
     public class TexCompiler : DependencyObject //DispatcherObject
     {
-        public delegate void NoArgsEventHandler(object sender);
-        public event NoArgsEventHandler BitmapGenerated;            // called after _successful_ bitmap generation
-        public event NoArgsEventHandler JobNumberChanged;           // called whenever the number of jobs in the queue changed
-        public delegate void JobEventHandler(object sender, Job job);
-        public event JobEventHandler JobFailed;
-        public event JobEventHandler JobSucceeded;
+        #region events
+        //*** Note that some events are consumed by TEDocumentVM, which has a shorter lifetime than TexCompiler
+        //*** Hence we need to use weak events to avoid memory leaks
+
+        FastSmartWeakEvent<EventHandler> _BitmapGenerated = new FastSmartWeakEvent<EventHandler>();
+        public event EventHandler BitmapGenerated
+        {
+            add { _BitmapGenerated.Add(value); }
+            remove { _BitmapGenerated.Remove(value); }
+        }
+
+        FastSmartWeakEvent<EventHandler> _JobNumberChanged = new FastSmartWeakEvent<EventHandler>();
+        public event EventHandler JobNumberChanged
+        {
+            add { _JobNumberChanged.Add(value); }
+            remove { _JobNumberChanged.Remove(value); }
+        }
+        
+ //       public delegate void NoArgsEventHandler(object sender);
+ //       public event NoArgsEventHandler BitmapGenerated;            // called after _successful_ bitmap generation
+ //       public event NoArgsEventHandler JobNumberChanged;           // called whenever the number of jobs in the queue changed
+        public class JobEventArgs : EventArgs
+        {
+            public Job job;
+            public JobEventArgs(Job tjob) { job = tjob; }
+        }
+
+        FastSmartWeakEvent<EventHandler<JobEventArgs>> _JobFailed = new FastSmartWeakEvent<EventHandler<JobEventArgs>>();
+        public event EventHandler<JobEventArgs> JobFailed
+        {
+            add { _JobFailed.Add(value); }
+            remove { _JobFailed.Remove(value); }
+        }
+        FastSmartWeakEvent<EventHandler<JobEventArgs>> _JobSucceeded = new FastSmartWeakEvent<EventHandler<JobEventArgs>>();
+        public event EventHandler<JobEventArgs> JobSucceeded
+        {
+            add { _JobSucceeded.Add(value); }
+            remove { _JobSucceeded.Remove(value); }
+        }
+
+
+    //    public delegate void JobEventHandler(object sender, Job job);
+    //    public event JobEventHandler JobFailed;
+    //    public event JobEventHandler JobSucceeded;
 
         public enum CompileEventType { Start, Error, Success, Status };
-        public delegate void CompileEventHandler(object sender, string Message, CompileEventType type);
-        public event CompileEventHandler OnCompileEvent;
-        public delegate void TexOutputHandler(object sender, string Message);
-        public event TexOutputHandler OnTexOutput;
-        public delegate void TexErrorHandler(object sender, TexOutputParser.TexError Error, Job job);
-        public event TexErrorHandler OnTexError;
+        public class CompileEventArgs : EventArgs
+        {
+            public CompileEventType Type = CompileEventType.Status;
+            public string Message;
+            public TexOutputParser.TexError Error = null;
+            public Job job;
+            public CompileEventArgs() { }
+            public CompileEventArgs(string message) { Message = message; }
+            public CompileEventArgs(string message, CompileEventType type) { Message = message; Type = type; }
+        }
+        FastSmartWeakEvent<EventHandler<CompileEventArgs>> _OnCompileEvent = new FastSmartWeakEvent<EventHandler<CompileEventArgs>>();
+        public event EventHandler<CompileEventArgs> OnCompileEvent
+        {
+            add { _OnCompileEvent.Add(value); }
+            remove { _OnCompileEvent.Remove(value); }
+        }
+        FastSmartWeakEvent<EventHandler<CompileEventArgs>> _OnTexOutput = new FastSmartWeakEvent<EventHandler<CompileEventArgs>>();
+        public event EventHandler<CompileEventArgs> OnTexOutput
+        {
+            add { _OnTexOutput.Add(value); }
+            remove { _OnTexOutput.Remove(value); }
+        }
+        FastSmartWeakEvent<EventHandler<CompileEventArgs>> _OnTexError = new FastSmartWeakEvent<EventHandler<CompileEventArgs>>();
+        public event EventHandler<CompileEventArgs> OnTexError
+        {
+            add { _OnTexError.Add(value); }
+            remove { _OnTexError.Remove(value); }
+        }
+
+     //   public delegate void CompileEventHandler(object sender, string Message, CompileEventType type);
+     //   public event CompileEventHandler OnCompileEvent;
+     //   public delegate void TexOutputHandler(object sender, string Message);
+     //   public event TexOutputHandler OnTexOutput;
+     //   public delegate void TexErrorHandler(object sender, TexOutputParser.TexError Error, Job job);
+     //   public event TexErrorHandler OnTexError;
+
+        #endregion
+
 
         // This read only property indicates whether the Compiler is currently busy
         readonly private static DependencyPropertyKey CompilingPropertyKey = DependencyProperty.RegisterReadOnly(
@@ -252,8 +323,7 @@ namespace TikzEdt
                 job.path = /*Helper.GetAppDir() + "\\" + */Helper.GetTempFileName() + ".tex";
 
             todo_tex.Enqueue(job);
-            if (JobNumberChanged != null)
-                JobNumberChanged(this);
+            _JobNumberChanged.Raise(this, EventArgs.Empty);
             if (!Compiling)//(!isRunning)
                 doCompile();
         }
@@ -458,11 +528,9 @@ namespace TikzEdt
                 }
                 catch (Exception ex)
                 {
-                    OnCompileEvent(this, "Error: Cannot create target file '" + job.path + "'. " + ex.Message, CompileEventType.Error);
-                    if (JobFailed != null)
-                    {
-                        JobFailed(this, job);
-                    }
+                    _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Error: Cannot create target file '" + job.path + "'. " + ex.Message, Type = CompileEventType.Error } );
+                    _JobFailed.Raise(this, new JobEventArgs(job) );
+                    
                     //return;
                 }
             }
@@ -501,13 +569,12 @@ namespace TikzEdt
                 //on first call when texProcess was not started, HasExited raises exception.
             }
 
-            if (OnCompileEvent != null)
-            {
+
                 if (job.GeneratePrecompiledHeaders)
-                    OnCompileEvent(this, "Generating precompiled header: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, CompileEventType.Start);
+                    _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Generating precompiled header: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, Type = CompileEventType.Start });
                 else
-                    OnCompileEvent(this, "Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, CompileEventType.Start);
-            }
+                    _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, Type = CompileEventType.Start });
+
             job.cmdline =  texProcess.StartInfo.WorkingDirectory +">"+ texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments;
             try
             {
@@ -527,13 +594,9 @@ namespace TikzEdt
 
                 timer.Stop();
                 SetValue(CompilingPropertyKey, false);
-                OnCompileEvent(this, "Cannot find pdf compiler pdflatex. Please install and/or add to PATH variable.", CompileEventType.Error);
+                _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Cannot find pdf compiler pdflatex. Please install and/or add to PATH variable.", Type = CompileEventType.Error });
+                _JobFailed.Raise(this, new JobEventArgs(job) );
                 
-
-                if (JobFailed != null)
-                {
-                    JobFailed(this, job);
-                }
             }
             
         }
@@ -662,12 +725,9 @@ namespace TikzEdt
 
 
 
-        void myPdflatexOutputParser_OnTexError(object sender, TexOutputParser.TexError e, Job job)
+        void myPdflatexOutputParser_OnTexError(object sender, TexOutputParser.TexError e, Job tjob)
         {
-            if (OnTexError != null)
-            {
-                OnTexError(sender, e, job);
-            }            
+            _OnTexError.Raise(sender, new CompileEventArgs() { Error = e, job = tjob } );                        
         }
 
 
@@ -688,8 +748,7 @@ namespace TikzEdt
             Dispatcher.BeginInvoke(new Action(delegate()
             {
             Job job = CurrentJob;       // todo_tex.Dequeue();
-            if (JobNumberChanged != null)
-                 JobNumberChanged(this);    // invoke here... it would also be possible to invoke on start of compilation...
+            _JobNumberChanged.Raise(this, EventArgs.Empty);    // invoke here... it would also be possible to invoke on start of compilation...
 
             // Parse tex errors/warnings and display
             myPdflatexOutputParser.parseOutput(job);
@@ -702,10 +761,8 @@ namespace TikzEdt
                     ReadBBFromFile(job);
                 }
 
-                if (OnCompileEvent != null)
-                    OnCompileEvent(this, "Compilation done", CompileEventType.Success);
-                if (JobSucceeded != null)
-                    JobSucceeded(this, job);
+                _OnCompileEvent.Raise(this, new CompileEventArgs() { Message="Compilation done", Type=CompileEventType.Success });
+                _JobSucceeded.Raise(this, new JobEventArgs( job ));
 
                 //for thumbnail generation
                 if (job.CreateBMP && !job.GeneratePrecompiledHeaders)
@@ -724,8 +781,7 @@ namespace TikzEdt
                     {
                         //mypdfDoc.SaveBmp(pathnoext + ".bmp", Resolution);
                         mypdfDoc.SaveBmp(pathnoext + ".png", Resolution, true, System.Drawing.Imaging.ImageFormat.Png);
-                        if (BitmapGenerated != null)
-                            BitmapGenerated(this);
+                        _BitmapGenerated.Raise(this, EventArgs.Empty);
                     }
                 }
                 else if (job.GeneratePrecompiledHeaders == true)
@@ -733,10 +789,13 @@ namespace TikzEdt
                     if (!File.Exists(Helper.GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename()) + ".fmt"))
                     {
                         todo_tex.Clear();
-                        if (OnCompileEvent != null)
-                            OnCompileEvent(this, "Compilation of pre-compiled header succeded but the pre-compiled header file could not be found." +
+                        _OnCompileEvent.Raise(this, new CompileEventArgs()
+                        {
+                            Message = "Compilation of pre-compiled header succeded but the pre-compiled header file could not be found." +
                                 " It is supposed to be here: " + Helper.GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename()) + ".fmt" +
-                                Environment.NewLine + "Compilation of main document stopped. Check settings and read/write permissions!", CompileEventType.Error);
+                                Environment.NewLine + "Compilation of main document stopped. Check settings and read/write permissions!",
+                            Type = CompileEventType.Error
+                        });
                     }
                     else
                     { 
@@ -754,21 +813,16 @@ namespace TikzEdt
                 if (job.GeneratePrecompiledHeaders == true)
                 {
                     todo_tex.Clear();
-                    if (OnCompileEvent != null)
-                        OnCompileEvent(this, "Compilation of pre-compiled header failed with exit code " + texProcess.ExitCode +". Compilation of main document stopped. Check under settings code of pre-compiled header!", CompileEventType.Error);
-                    if (JobNumberChanged != null)
-                        JobNumberChanged(this);
+                    _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Compilation of pre-compiled header failed with exit code " + texProcess.ExitCode + 
+                        ". Compilation of main document stopped. Check under settings code of pre-compiled header!", Type = CompileEventType.Error });
+                    _JobNumberChanged.Raise(this, EventArgs.Empty);
                 }
                 else
                 {
-                    if (OnCompileEvent != null)
-                        OnCompileEvent(this, "Compilation failed with exit code " + texProcess.ExitCode, CompileEventType.Error);
+                    _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Compilation failed with exit code " + texProcess.ExitCode, Type = CompileEventType.Error });
                 }
 
-                if (JobFailed != null)
-                {
-                    JobFailed(this, job);
-                }
+                _JobFailed.Raise(this, new JobEventArgs( job ));                
 
             }
             
@@ -940,8 +994,7 @@ namespace TikzEdt
                         }
 
 
-                        if (OnTexOutput != null)
-                            OnTexOutput(this, Message);
+                        _OnTexOutput.Raise(this, new CompileEventArgs(Message) );
 
                         //add warning and errors to
                         myPdflatexOutputParser.addLine(Message);
@@ -967,14 +1020,14 @@ namespace TikzEdt
 
         static TikzToBMPFactory()
         {
-            Instance.JobFailed += new JobEventHandler(OnJobFailed);
+            Instance.JobFailed += OnJobFailed;
             Instance.timeout = CompilerSettings.Instance.Compiler_SnippetTimeout;//todo... has to be updated whenever timeout changes
         }
 
-        public static void OnJobFailed(object sender, Job job)
+        public static void OnJobFailed(object sender, JobEventArgs e)
         {
-            string msg = "Compilation of the Codesnippet-Thumbnail " + job.path + " (" + job.name + ") failed.\r\nPlease re-check the code.";
-            msg += Environment.NewLine + Environment.NewLine + "cmdline: " + job.cmdline;
+            string msg = "Compilation of the Codesnippet-Thumbnail " + e.job.path + " (" + e.job.name + ") failed.\r\nPlease re-check the code.";
+            msg += Environment.NewLine + Environment.NewLine + "cmdline: " + e.job.cmdline;
             MessageBox.Show(msg);
         }
 

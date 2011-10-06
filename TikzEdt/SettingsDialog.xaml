@@ -4,6 +4,7 @@
         xmlns:p="clr-namespace:TikzEdt.Properties"
         xmlns:myEditor="clr-namespace:TikzEdt.Editor;assembly=TextEditorEx"
         xmlns:my="clr-namespace:TikzEdt" 
+        xmlns:myApp="clr-namespace:TikzEdt;assembly=TEApplicationLogic" 
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
         Title="Settings" Height="363" Width="470" Loaded="Window_Loaded" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico" 
@@ -177,10 +178,10 @@
                     <!-- <TextBlock Text="Compiler"></TextBlock>   -->
                     <TextBlock Margin="3" Text="Code prepended:" Grid.Row="0" Grid.ColumnSpan="2"></TextBlock>
                     <TextBlock  Grid.Row="1"  Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!" Grid.ColumnSpan="2"></TextBlock>
-                    <myEditor:TextEditorEx  Grid.Row="2"  Margin="3" x:Name="txtPreamble"  VerticalAlignment="Stretch" BorderThickness="1" Grid.ColumnSpan="2" HDFile="{x:Static my:Consts.SystaxFileFullPath}"/>
+                    <myEditor:TextEditorEx  Grid.Row="2"  Margin="3" x:Name="txtPreamble"  VerticalAlignment="Stretch" BorderThickness="1" Grid.ColumnSpan="2" HDFile="{x:Static myApp:Consts.SystaxFileFullPath}"/>
                     <TextBlock  Grid.Row="3"  Margin="3" Text="Code appended:" Grid.ColumnSpan="2" ></TextBlock>
                     <TextBlock  Grid.Row="4"  Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!" Grid.ColumnSpan="2"></TextBlock>
-                    <myEditor:TextEditorEx Grid.Row="5" Margin="3" x:Name="txtPostamble" VerticalAlignment="Stretch" BorderThickness="1" Grid.ColumnSpan="2" HDFile="{x:Static my:Consts.SystaxFileFullPath}"/>
+                    <myEditor:TextEditorEx Grid.Row="5" Margin="3" x:Name="txtPostamble" VerticalAlignment="Stretch" BorderThickness="1" Grid.ColumnSpan="2" HDFile="{x:Static myApp:Consts.SystaxFileFullPath}"/>
                     <TextBlock  Grid.Row="6"  Margin="3" Text="Precompilation Arguments:" VerticalAlignment="Center"/>
                     <TextBox Margin="3" Grid.Column="1" Grid.Row="6" Text="{Binding Source={x:Static p:Settings.Default}, Path=PrecompiledHeaderCompileCommand, Mode=TwoWay}"/>
                 </Grid>

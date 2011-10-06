@@ -240,7 +240,7 @@ namespace TikzEdt
             pdfOverlay1.Rasterizer = rasterControl1;
       //      EnsureFindDialogExists();
 
-            TikzToBMPFactory.Instance.JobNumberChanged += new TikzToBMPFactory.NoArgsEventHandler(TikzToBmpFactory_JobNumberChanged);
+            TikzToBMPFactory.Instance.JobNumberChanged += TikzToBmpFactory_JobNumberChanged;
 
             // set up find/replace dialog
             FindReplaceManager.CurrentEditor = new FindReplace.TextEditorAdapter(txtCode);
@@ -261,10 +261,10 @@ namespace TikzEdt
             this.KeyDown += new KeyEventHandler(MainWindow_KeyDown);
 
             // Register events with the global compiler
-            TheCompiler.Instance.OnCompileEvent += new TexCompiler.CompileEventHandler(TexCompiler_OnCompileEvent);
+            TheCompiler.Instance.OnCompileEvent += TexCompiler_OnCompileEvent;
       //      TheCompiler.Instance.JobSucceeded += new TexCompiler.JobEventHandler(TheCompiler_JobSucceeded);
       //      TheCompiler.Instance.OnTexError += new TexCompiler.TexErrorHandler(addProblemMarker);
-            TheCompiler.Instance.OnTexOutput += new TexCompiler.TexOutputHandler(TexCompiler_OnTexOutput);
+            TheCompiler.Instance.OnTexOutput += TexCompiler_OnTexOutput;
             //tikzDisplay1.TexCompilerToListen = TheCompiler.Instance;
 
             
@@ -349,10 +349,10 @@ namespace TikzEdt
        
         }* */
 
-        void TexCompiler_OnCompileEvent(object sender, string Message, TexCompiler.CompileEventType type)
+        void TexCompiler_OnCompileEvent(object sender, TexCompiler.CompileEventArgs e)
         {
-            AddStatusLine(Message, type == TexCompiler.CompileEventType.Error);
-            if (type == TexCompiler.CompileEventType.Start)
+            AddStatusLine(e.Message, e.Type == TexCompiler.CompileEventType.Error);
+            if (e.Type == TexCompiler.CompileEventType.Start)
             {
                 txtTexout.Document.Blocks.Clear();
                 //clearProblemMarkers();
@@ -553,7 +553,7 @@ namespace TikzEdt
             }
         }
         */
-        void TikzToBmpFactory_JobNumberChanged(object sender)
+        void TikzToBmpFactory_JobNumberChanged(object sender, EventArgs e)
         {
             //Dispatcher.Invoke(new Action(
             //    delegate()
@@ -2008,12 +2008,12 @@ namespace TikzEdt
             e.CanExecute = txtCode.CanRedo;
         }
 
-        private void TexCompiler_OnTexOutput(object sender, string Message)
+        private void TexCompiler_OnTexOutput(object sender, TexCompiler.CompileEventArgs e)
         {
             //add whole line as paragraph to txtTexout
             Paragraph p = new Paragraph();
             p.Margin = new Thickness(0);
-            p.Inlines.Add(new Run(Message));
+            p.Inlines.Add(new Run(e.Message));
             txtTexout.Document.Blocks.Add(p);
             EditingCommands.MoveToDocumentEnd.Execute(null, txtTexout);
             txtTexout.ScrollToEnd();

@@ -1590,7 +1590,7 @@ namespace TikzEdt
             //Brush
             //renderBrush.Opacity = 0.2;
             Pen renderPen = new Pen(new SolidColorBrush(Colors.Navy), 1.5);
-            renderPen.Brush = Helper.GetHatchBrush();
+            renderPen.Brush = GetHatchBrush();
             double renderRadius = 5.0;
             renderPen.Thickness = renderRadius;
             //renderPen.DashStyle = new DashStyle(
@@ -1602,6 +1602,26 @@ namespace TikzEdt
             //drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomRight, renderRadius, renderRadius);
             drawingContext.DrawRectangle(null, renderPen, new Rect(adornedElementRect.X-renderRadius, adornedElementRect.Y-renderRadius, 
                             adornedElementRect.Width+2*renderRadius, adornedElementRect.Height+2*renderRadius));
+        }
+
+        public static Brush GetHatchBrush()
+        {
+            VisualBrush vb = new VisualBrush();
+
+            vb.TileMode = TileMode.Tile;
+
+            vb.Viewport = new Rect(0, 0, 5, 5);
+            vb.ViewportUnits = BrushMappingMode.Absolute;
+
+            vb.Viewbox = new Rect(0, 0, 6, 6);
+            vb.ViewboxUnits = BrushMappingMode.Absolute;
+
+            Line l = new Line();
+            l.X1 = 0; l.X2 = 6; l.Y1 = 6; l.Y2 = 0;
+            l.Stroke = Brushes.Black;
+            vb.Visual = l;
+
+            return vb;
         }
     }
 

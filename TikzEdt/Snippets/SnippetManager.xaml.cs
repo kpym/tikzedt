@@ -71,7 +71,7 @@ namespace TikzEdt.Snippets
                 isSuccessfullyLoaded = true;
 
             fact = TikzToBMPFactory.Instance;
-            fact.BitmapGenerated += new TikzToBMPFactory.NoArgsEventHandler(fact_BitmapGenerated);
+            fact.BitmapGenerated += fact_BitmapGenerated;
 
             //string appPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
             //xmldp.Source = new Uri(appPath + @"\Snippets.xml");
@@ -80,7 +80,7 @@ namespace TikzEdt.Snippets
         /// <summary>
         /// This method is called (in a different thread) when the Bitmap Factory has succesfully compiled a Thumbnail
         /// </summary>
-        void fact_BitmapGenerated(object sender)
+        void fact_BitmapGenerated(object sender, EventArgs e)
         {
             //Dispatcher.Invoke(new Action(
             //                delegate()
@@ -308,7 +308,7 @@ namespace TikzEdt.Snippets
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            fact.BitmapGenerated -= new TikzToBMPFactory.NoArgsEventHandler(fact_BitmapGenerated);
+            fact.BitmapGenerated -= fact_BitmapGenerated;
             // release mutex
             if (myMutex != null && isSuccessfullyLoaded)
                 myMutex.ReleaseMutex();
