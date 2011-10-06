@@ -576,15 +576,6 @@ namespace TikzEdt
 
     }*/
 
-    /// <summary>
-    /// The purpose of this class is to channel the (limited) Viewmodel user interaction,
-    /// so that the viewmodel can be tested in unit tests. TODO
-    /// </summary>
-    public static class GlobalUI
-    {
-        
-    }
-
 
     #region Converters
     [ValueConversion(typeof(bool), typeof(bool))]

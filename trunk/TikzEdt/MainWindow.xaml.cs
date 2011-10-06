@@ -211,6 +211,11 @@ namespace TikzEdt
             this.DataContext = TheVM = new ViewModels.MainWindowVM();
             InitializeComponent();
             
+            // register GlobalUI events 
+            GlobalUI.OnGlobalStatus += (s, e) => AddStatusLine(e.StatusLine, e.IsError);
+            GlobalUI.OnExportCompile += (s, e) => ExportCompiler.ExportCompileDialog.Export(e.Code, e.File);
+            GlobalUI.OnRecentFileEvent += (s, e) => { if (e.IsInsert) recentFileList.InsertFile(e.FileName); else recentFileList.RemoveFile(e.FileName); };
+
             //make sure that double to string is converted with decimal point (not comma!)       
             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
 
@@ -631,13 +636,13 @@ namespace TikzEdt
             CoordinateStatusBarItem.Content = text;
         }
 
-        public void SetStandAloneStatus(bool IsStandAlone)
+      /*  public void SetStandAloneStatus(bool IsStandAlone)
         {
             if (IsStandAlone)
                 StandAloneStatusBarItem.Content = "[Document is standalone]";
             else
                 StandAloneStatusBarItem.Content = "";
-        }
+        } */
 
 
         public static void AddStatusLine(string text, bool lError = false)

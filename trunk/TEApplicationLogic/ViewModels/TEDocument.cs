@@ -140,6 +140,21 @@ namespace TikzEdt.ViewModels
             }
         }
 
+         
+        /// <summary>
+        /// Indicates whether the document can be compiled as/is, or whether a preamble has to be added
+        /// </summary>
+        public bool IsStandAlone
+        {
+            get { return _IsStandAlone; }
+            private set
+            {
+                _IsStandAlone = value;
+                NotifyPropertyChanged("IsStandAlone");
+            }
+        }
+        bool _IsStandAlone = false;
+
         /*int _CaretOffset = 0;
         public int CaretOffset
         {
@@ -270,7 +285,7 @@ namespace TikzEdt.ViewModels
             }
         }
 
-        private Rect _currentBB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);
+        private Rect _currentBB = new Rect(CompilerSettings.Instance.BB_Std_X, CompilerSettings.Instance.BB_Std_Y, CompilerSettings.Instance.BB_Std_W, CompilerSettings.Instance.BB_Std_H);
         /// <summary>
         /// The currently active bounding box.
         /// </summary>
@@ -357,7 +372,7 @@ namespace TikzEdt.ViewModels
                 int InsertAt = e.ChangedItem.StartPosition();
                 if (InsertAt > Document.Text.Length)
                 {
-                    MainWindow.AddStatusLine("Trying to insert code \"" + e.ChangedItem.ToString().Replace(Environment.NewLine, "<NEWLINE>") + "\" to position " + e.ChangedItem.StartPosition() + " but document has only " + Document.Text.Length + " characters."
+                    GlobalUI.AddStatusLine(this, "Trying to insert code \"" + e.ChangedItem.ToString().Replace(Environment.NewLine, "<NEWLINE>") + "\" to position " + e.ChangedItem.StartPosition() + " but document has only " + Document.Text.Length + " characters."
                     + " Inserting code at end of document instead. Code does probably not compile now. Please correct or choose undo.", true);
                     InsertAt = Document.Text.Length;
                 }
@@ -378,7 +393,7 @@ namespace TikzEdt.ViewModels
                     if (job.hasBB)
                     {
                         Rect newBB = job.BB;
-                        newBB.Inflate(Properties.Settings.Default.BB_Margin, Properties.Settings.Default.BB_Margin);
+                        newBB.Inflate(CompilerSettings.Instance.BB_Margin, CompilerSettings.Instance.BB_Margin);
                         CurrentBB = newBB;
                     }
                     BBvalid = job.hasBB;
@@ -411,7 +426,7 @@ namespace TikzEdt.ViewModels
 
             // no auto-compilation in Production Mode (no Auto saving)
             //if (chkProductionMode.IsChecked == false)
-            if (MainWindow.TheVM == null || MainWindow.TheVM.EditorMode != TEMode.Production)
+            if (TheVM == null || TheVM.EditorMode != TEMode.Production)
                 if (ParseTree == null || !ParseTree.MoreChangesToCome)
                     Recompile();
 
@@ -451,12 +466,14 @@ namespace TikzEdt.ViewModels
             if (Result.DocumentID != DocumentID)
                 return;
 
+            IsStandAlone = Result.IsStandAlone;
+
             //check if error occurred
             if (Result.Error != null && Result.Error is RecognitionException)
             {
                 RecognitionException ex = Result.Error as RecognitionException;
                 string errmsg = ANTLRErrorMsg.ToString(ex, simpletikzParser.tokenNames);
-                MainWindow.AddStatusLine("Couldn't parse code. " + errmsg, true);
+                GlobalUI.AddStatusLine(this, "Couldn't parse code. " + errmsg, true);
                 if (ex.Line == 0 && ex.CharPositionInLine == -1)
                 {
                     addProblemMarker(errmsg, Document.LineCount, 0, Severity.ERROR, ShortFileName);
@@ -475,7 +492,7 @@ namespace TikzEdt.ViewModels
                 string errmsg = Result.Error.GetType().ToString();
                 if (Result.Error is Exception)
                     errmsg += ":" + ((Exception)Result.Error).Message;
-                MainWindow.AddStatusLine("Couldn't parse code. " + errmsg, true);
+                GlobalUI.AddStatusLine(this, "Couldn't parse code. " + errmsg, true);
                 ParseTree = null;
                 TikzStyles.Clear();
             }
@@ -496,7 +513,7 @@ namespace TikzEdt.ViewModels
                 {
                     RecognitionException ex = Result.Warning as RecognitionException;
                     string errmsg = ANTLRErrorMsg.ToString(ex, simpletikzParser.tokenNames);
-                    MainWindow.AddStatusLine("Couldn't parse included file. " + errmsg, true);
+                    GlobalUI.AddStatusLine(this, "Couldn't parse included file. " + errmsg, true);
                     if (ex.Line == 0 && ex.CharPositionInLine == -1)
                     {
                         addProblemMarker(errmsg, Document.LineCount, 0, Severity.WARNING, Result.WarningSource);
@@ -516,7 +533,7 @@ namespace TikzEdt.ViewModels
                 else if (Result.Warning != null && Result.Warning is Exception)
                 {
                     string errmsg = ((Exception)Result.Warning).Message;
-                    MainWindow.AddStatusLine("Couldn't parse included file " + Result.WarningSource + ". " + errmsg, true);
+                    GlobalUI.AddStatusLine(this, "Couldn't parse included file " + Result.WarningSource + ". " + errmsg, true);
                 }
             }
 
@@ -528,6 +545,9 @@ namespace TikzEdt.ViewModels
                       
 
         #region private fields
+
+        MainWindowVM TheVM;
+
         FileSystemWatcher fileWatcher = new FileSystemWatcher();
         System.ComponentModel.BackgroundWorker AsyncParser = new System.ComponentModel.BackgroundWorker();
         class AsyncParserJob
@@ -596,8 +616,9 @@ namespace TikzEdt.ViewModels
         /// If cFile != null, the new Document will be loaded from file
         /// </summary>
         /// <param name="cFile"></param>
-        public TEDocumentVM(string cFile = null)
+        public TEDocumentVM(MainWindowVM parent, string cFile = null)
         {
+            TheVM = parent;
             // Set new document ID, before receiving any compiler events
             DocumentID = DateTime.Now.Ticks;
           
@@ -785,7 +806,7 @@ namespace TikzEdt.ViewModels
             ChangesMade = false;
             //CurFileNeverSaved = false;
 
-            MainWindow.AddStatusLine("File saved to " + FilePath + ".");
+            GlobalUI.AddStatusLine(this, "File saved to " + FilePath + ".");
             if (OnSaved != null)
                 OnSaved(this, new EventArgs());
 
@@ -845,7 +866,7 @@ namespace TikzEdt.ViewModels
             else
                 path = "";      // use a temp file
 
-            if (MainWindow.TheVM == null || MainWindow.TheVM.EditorMode == TEMode.Wysiwyg)
+            if (TheVM == null || TheVM.EditorMode == TEMode.Wysiwyg)
             {
                 if (!ProgrammaticTextChange && !NoParse)
                 {
@@ -868,7 +889,7 @@ namespace TikzEdt.ViewModels
                     PdfPath = "";
                 
             }
-            else if (MainWindow.TheVM.EditorMode == TEMode.Preview)
+            else if (TheVM.EditorMode == TEMode.Preview)
             {
                 TheCompiler.Instance.AddJobExclusive(Document.Text, path, false, DocumentID);
             }
@@ -887,7 +908,7 @@ namespace TikzEdt.ViewModels
         {
             if (SaveAs == false && CurFileNeverSaved)
             {
-                MainWindow.AddStatusLine("Please save document first", true);
+                GlobalUI.AddStatusLine(this, "Please save document first", true);
                 return "";
             }
 
@@ -922,11 +943,11 @@ namespace TikzEdt.ViewModels
             }
             catch (Exception Ex)
             {
-                MainWindow.AddStatusLine("Could not save PDF. " + Ex.Message, true);
+                GlobalUI.AddStatusLine(this, "Could not save PDF. " + Ex.Message, true);
                 return "";
             }
 
-            MainWindow.AddStatusLine("Preview PDF file saved as " + PdfFilePath);
+            GlobalUI.AddStatusLine(this, "Preview PDF file saved as " + PdfFilePath);
             return PdfFilePath;
         }
         /// <summary>
@@ -937,7 +958,7 @@ namespace TikzEdt.ViewModels
         {
             if (CurFileNeverSaved)
             {
-                MainWindow.AddStatusLine("Please save document first", true);
+                GlobalUI.AddStatusLine(this, "Please save document first", true);
                 return;
             }
 
@@ -996,10 +1017,10 @@ namespace TikzEdt.ViewModels
                     case ".html":
                     case ".htm":
                         // The file will be compiled and exported by ExportCompileDialog
-                        ExportCompiler.ExportCompileDialog.Export(Document.Text, TheFilePath);
+                        GlobalUI.ShowExportCompileDialog(this, Document.Text, TheFilePath);
                         return;
                     default:
-                        MainWindow.AddStatusLine("Could not export file: Unknown file extension.", true);
+                        GlobalUI.AddStatusLine(this, "Could not export file: Unknown file extension.", true);
                         return;
                 }
 
@@ -1009,11 +1030,11 @@ namespace TikzEdt.ViewModels
             }
             catch (Exception Ex)
             {
-                MainWindow.AddStatusLine("Could not export file. " + Ex.Message, true);
+                GlobalUI.AddStatusLine(this, "Could not export file. " + Ex.Message, true);
                 return;
             }
 
-            MainWindow.AddStatusLine("File exported as " + TheFilePath);
+            GlobalUI.AddStatusLine(this, "File exported as " + TheFilePath);
         }
 
   /*      private string SavePdf(bool SaveAs)
@@ -1113,6 +1134,10 @@ namespace TikzEdt.ViewModels
             /// The ID of the document that was parsed.
             /// </summary>
             public long DocumentID;
+            /// <summary>
+            /// A flag indicating whether the document can be compiled as is.
+            /// </summary>
+            public bool IsStandAlone {get; set;}
         }
         class ParserException : Exception
         {
@@ -1134,6 +1159,8 @@ namespace TikzEdt.ViewModels
                 Result.DocumentID = job.DocumentID;
                 Tikz_ParseTree tp = TikzParser.Parse(job.code);
                 Result.ParseTree = tp;
+
+                Result.IsStandAlone = TexCompiler.IsStandalone(job.code);
 
                 //include any styles from include files via \input cmd
                 string inputfile = "";

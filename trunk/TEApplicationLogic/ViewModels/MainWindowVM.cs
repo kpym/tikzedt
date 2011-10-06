@@ -189,14 +189,14 @@ namespace TikzEdt.ViewModels
             TEDocumentVM doc;
             try
             {
-                doc = new TEDocumentVM(cFile);
+                doc = new TEDocumentVM(this, cFile);
                 //doc.OnClose += new EventHandler(doc_OnClose);
                // TEDocumentView view = new TEDocumentView(doc);
-                doc.OnSaved += ( (s, e) => MainWindow.recentFileList.InsertFile((s as TEDocumentVM).FilePath) );
+                doc.OnSaved += ( (s, e) => GlobalUI.RaiseRecentFileEvent(s, (s as TEDocumentVM).FilePath, true) );
                 //Documents.Insert(0, view);
                 //ActiveView = view;
                 if (cFile != null)
-                    MainWindow.recentFileList.InsertFile(cFile);
+                    GlobalUI.RaiseRecentFileEvent(doc, cFile, true);
 
                 TheDocument = doc;
             }
@@ -204,8 +204,7 @@ namespace TikzEdt.ViewModels
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 if (cFile != null)
-                    MainWindow.recentFileList.RemoveFile(cFile);
-
+                    GlobalUI.RaiseRecentFileEvent(this, cFile, false);
             }
         }
 
@@ -224,8 +223,8 @@ namespace TikzEdt.ViewModels
             {
                 if (TheDocument == null || TheDocument.TryDisposeFile())
                 {
-                    TheDocument = new TEDocumentVM();
-                    TheDocument.OnSaved += ((s, args) => MainWindow.recentFileList.InsertFile((s as TEDocumentVM).FilePath));
+                    TheDocument = new TEDocumentVM(this);
+                    TheDocument.OnSaved += ((s, args) => GlobalUI.RaiseRecentFileEvent(s, (s as TEDocumentVM).FilePath, true));
                 }
             }
 
