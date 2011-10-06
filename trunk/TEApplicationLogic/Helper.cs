@@ -44,7 +44,7 @@ namespace TikzEdt
     /// <summary>
     /// Please put all global constants that are not in the Properties.Settings into this static class.
     /// </summary>
-    static class Consts
+    public static class Consts
     {
         public const double cmperin = 2.54;
         public const double ptspertikzunit = 28.45;//72.0 / cmperin; // 28.3464567
@@ -140,7 +140,7 @@ namespace TikzEdt
         //public const string precompilation_args_img = "-ini -job-name=\"" + cTempImgFile + "\" \"&latex " + cTempImgFile + "pre.tex\\dump\"";
 
         //Todo: the following creates a problem on first load
-        public static string AppDataPath { get { return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); } } //System.Windows.Forms.Application.UserAppDataPath
+        public static string AppDataPath { get { return  System.Windows.Forms.Application.UserAppDataPath; } } 
         public static string SystaxFileFullPath { get { return AppDataPath + "\\" + Consts.cSettingsDir + "\\" + Consts.cSyntaxFile; } }
         public static string CompletionsFileFullPath { get { return AppDataPath + "\\" + Consts.cSettingsDir + "\\" + Consts.cCompletionsFile; } }
 
@@ -153,7 +153,7 @@ namespace TikzEdt
     /// <summary>
     /// This purely static class is host to functions of global interest (or those which have no home).
     /// </summary>
-    static class Helper
+    public static class Helper
     {
         /// <summary>
         /// This function takes a string and removes all trailing and leading and all multiple whitespace.
@@ -479,14 +479,57 @@ namespace TikzEdt
         /// Otherwise leave null, then a modal message box is displayed.
         /// </summary>
         public static MessageBoxResult? MockResult = null;
+        public static string LastMessage = ""; // stores the last messagebox text for testing
         public static MessageBoxResult ShowMessageBox(string Text, string Caption, MessageBoxButton Button, MessageBoxImage Icon)
         {
             if (MockResult == null)
                 return MessageBox.Show(Text, Caption, Button, Icon);
             else
+            {
+                LastMessage = Text;
                 return (MessageBoxResult)MockResult;
+            }
         }
 
+        /// <summary>
+        /// To enable unit testing, queries for filenames by the viewmodels are channeled through these methods
+        /// </summary>
+        public static bool? MockFileDialogResult = null;
+        public static string MockFileDialogFileName = null;
+        public static bool? ShowOpenFileDialog(out string FileName)
+        {
+            if (MockFileDialogFileName == null)
+            {
+                bool? ret = ofd.ShowDialog();
+                FileName = ofd.FileName;
+                return ret;
+            }
+            else
+            {
+                FileName = MockFileDialogFileName;
+                return MockFileDialogResult;
+            }
+                
+        }
+        public static bool? ShowSaveFileDialog(out string FileName)
+        {
+            if (MockFileDialogFileName == null)
+            {
+                bool? ret = sfd.ShowDialog();
+                FileName = sfd.FileName;
+                return ret;
+            }
+            else
+            {
+                FileName = MockFileDialogFileName;
+                return MockFileDialogResult;
+            }
+        }
+        static OpenFileDialog ofd = new OpenFileDialog() { CheckFileExists=true, CheckPathExists=true };
+        static SaveFileDialog sfd = new SaveFileDialog() { OverwritePrompt=true, ValidateNames = true };
+
+
+        # region Events (mediator part)
         public class RecentFileEventData : EventArgs
         {
             public string FileName;
@@ -524,6 +567,7 @@ namespace TikzEdt
             if (OnExportCompile != null)
                 OnExportCompile(sender, new ExportCompileEventData() { File = file, Code = code });
         }
+        #endregion
     }
 
     /// <summary>

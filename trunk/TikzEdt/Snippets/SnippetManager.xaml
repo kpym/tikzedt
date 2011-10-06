@@ -8,6 +8,7 @@
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         Title="SnippetManager" Height="610" Width="698" Closing="Window_Closing" 
         xmlns:my="clr-namespace:TikzEdt" 
+        xmlns:myApp="clr-namespace:TikzEdt;assembly=TEApplicationLogic"
         Loaded="Window_Loaded" Closed="Window_Closed" KeyDown="Window_KeyDown" Icon="/TikzEdt;component/Images/tikzedt48.ico">
     <Window.Resources>
         <mySnippets:SnippetsDataSet x:Key="snippetsDataSet" />
@@ -171,14 +172,14 @@
                     <!-- <local:TextEditorWithBinding x:Name="SnippetCodeDTKey" Grid.Row="3" Grid.Column="1" BindableText="{Binding Path=SnippetCode}" Height="150"/>-->
                     <myEditor:TextEditorEx Margin="3" x:Name="txtSnippetCode" Grid.Row="3" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged" 
                                            BorderBrush="Black" BorderThickness="1"
-                                           HDFile="{x:Static my:Consts.SystaxFileFullPath}"
-                                           CompletionsFile="{x:Static my:Consts.CompletionsFileFullPath}"/>
+                                           HDFile="{x:Static myApp:Consts.SystaxFileFullPath}"
+                                           CompletionsFile="{x:Static myApp:Consts.CompletionsFileFullPath}"/>
                     
                     <TextBlock Grid.Row="4" Grid.Column="0" Margin="3">Sample Code:</TextBlock>
                     <myEditor:TextEditorEx x:Name="txtSampleCode" Grid.Row="4" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged"
                                            BorderBrush="Black" BorderThickness="1" 
-                                           HDFile="{x:Static my:Consts.SystaxFileFullPath}"
-                                           CompletionsFile="{x:Static my:Consts.CompletionsFileFullPath}"/>
+                                           HDFile="{x:Static myApp:Consts.SystaxFileFullPath}"
+                                           CompletionsFile="{x:Static myApp:Consts.CompletionsFileFullPath}"/>
 
                     <TextBlock Grid.Row="5" Grid.Column="0" Margin="3">Dependencies</TextBlock>
                     <TextBox Margin="3" Name="DependenciesDTKey" AcceptsReturn="True" Grid.Row="5" Grid.Column="1" Text="{Binding Path=Dependencies}"/>

@@ -44,7 +44,7 @@ namespace TikzEdt
     /// <summary>
     /// Please put all global constants that are not in the Properties.Settings into this static class.
     /// </summary>
-    static class Consts
+ /*   static class Consts
     {
         public const double cmperin = 2.54;
         public const double ptspertikzunit = 28.45;//72.0 / cmperin; // 28.3464567
@@ -147,12 +147,12 @@ namespace TikzEdt
         public static string PreProc_Comment = "%!TE%";
         public static string PreProc_CompilerOptions = "%!TEO";
         public static string PreProc_Include = "%!TEI";
-    }
+    } */
 
     /// <summary>
     /// This purely static class is host to functions of global interest (or those which have no home).
     /// </summary>
-    static class Helper
+  /*  static class Helper
     {
         /// <summary>
         /// This function takes a string and removes all trailing and leading and all multiple whitespace.
@@ -265,22 +265,22 @@ namespace TikzEdt
             return false;
 
             // this doesn't seem to work on my machine
-      /*      var writeAllow = false;
-            var writeDeny = false;
-            var accessControlList = Directory.GetAccessControl(path);
-            var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+      //      var writeAllow = false;
+      //      var writeDeny = false;
+      //      var accessControlList = Directory.GetAccessControl(path);
+      //      var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
 
-            foreach (System.Security.AccessControl.FileSystemAccessRule rule in accessRules)
-            {
-                if ((System.Security.AccessControl.FileSystemRights.Write & rule.FileSystemRights) != System.Security.AccessControl.FileSystemRights.Write) continue;
+     //       foreach (System.Security.AccessControl.FileSystemAccessRule rule in accessRules)
+    //        {
+      //          if ((System.Security.AccessControl.FileSystemRights.Write & rule.FileSystemRights) != System.Security.AccessControl.FileSystemRights.Write) continue;
 
-                if (rule.AccessControlType == System.Security.AccessControl.AccessControlType.Allow)
-                    writeAllow = true;
-                else if (rule.AccessControlType == System.Security.AccessControl.AccessControlType.Deny)
-                    writeDeny = true;
-            }
+        //        if (rule.AccessControlType == System.Security.AccessControl.AccessControlType.Allow)
+        //            writeAllow = true;
+        //        else if (rule.AccessControlType == System.Security.AccessControl.AccessControlType.Deny)
+        //            writeDeny = true;
+        //    }
 
-            return writeAllow && !writeDeny; */
+        //    return writeAllow && !writeDeny; 
         }
 
         
@@ -288,24 +288,7 @@ namespace TikzEdt
         public static string GetAppDir() // w/o trailing backslash 
         {
             return System.AppDomain.CurrentDomain.BaseDirectory; ;
-            /*throw new Exception("GetAppDir() is obsolete! Use GetAppdataPath() or GetCurrentWorkingDir() instead.");
-            string appPath = "";
-            try
-            {
-                appPath = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-                //since CodeBase returns a URI formatted string, character '#' has special meaning
-                //(separating base URI from parameters)
-                //however, we have a directory here. '#' is a valid, normal character here.
-                appPath = appPath.Replace("#", "%23");
-                appPath = System.IO.Path.GetDirectoryName(appPath);
-                Uri uriAddress2 = (new Uri(appPath));
-                appPath = uriAddress2.LocalPath;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception: " + ex.ToString());
-            }
-            return appPath;*/
+            
         }
 
         /// <summary>
@@ -355,35 +338,7 @@ namespace TikzEdt
         public static string GetPreviewFilenameExt()
         {
             return ".tex";
-        }
-
-       /* public static void GeneratePrecompiledHeaders()
-        {
-            //StreamWriter s = new StreamWriter(Consts.cTempImgFile + "pre.tex");
-            //s.WriteLine(Consts.ImgHeader);
-            //s.Close();bool ImgHeader=false
-
-            //System.Diagnostics.Process p = new System.Diagnostics.Process();
-            //System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("latex");
-            //psi.Arguments = Consts.precompilation_args_img;
-            //psi.CreateNoWindow = true;
-            //p.StartInfo = psi;
-            //p.Start();
-            
-            StreamWriter s = new StreamWriter(Consts.cTempFile + "pre.tex");
-            s.WriteLine(Properties.Settings.Default.Tex_Preamble);
-            s.Close();
-
-            System.Diagnostics.Process p = new System.Diagnostics.Process();
-            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("pdflatex");
-            psi.Arguments = Consts.precompilation_args;
-            psi.CreateNoWindow = true;
-            p.StartInfo = psi;
-            //p.Exited +=new EventHandler(Helper.precompilation_Exited);
-            //needs non-static callback function.
-            //however, since this function is static it cannot reach anything non-static.
-            p.Start();
-        } */
+        }    
 
         public static string RemoveFileExtension(string file)
         {            
@@ -427,25 +382,7 @@ namespace TikzEdt
             }
         }
 
-        public static Brush GetHatchBrush()
-        {
-            VisualBrush vb = new VisualBrush();
-
-            vb.TileMode = TileMode.Tile;
-
-            vb.Viewport = new Rect(0, 0, 5, 5);
-            vb.ViewportUnits = BrushMappingMode.Absolute;
-
-            vb.Viewbox = new Rect(0, 0, 6, 6);
-            vb.ViewboxUnits = BrushMappingMode.Absolute;
-
-            Line l = new Line();
-            l.X1 = 0; l.X2 = 6; l.Y1 = 6; l.Y2 = 0;
-            l.Stroke = Brushes.Black;
-            vb.Visual = l;
-
-            return vb;
-        }
+        
 
         /// <summary>
         /// Finds the point in (angle + 2 Pi \Z) closest to (closeto)
@@ -483,7 +420,7 @@ namespace TikzEdt
        // [DllImport("User32.dll")]
        // public static extern bool UpdateWindow(IntPtr HWND);
 
-    }
+    } */
 
     public class FileAssociation
     {
