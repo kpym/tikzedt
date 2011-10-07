@@ -39,8 +39,6 @@
 
 == Usability ==
 *TODO*
-  * support \tikz{ }
-
 
 === Misc ===
 *TODO*
