@@ -35,11 +35,10 @@
 
 == Deployment ==
 *TODO*
+  * Test file associations
 
 == Usability ==
 *TODO*
-  * other errors
-  * solution for different paths
   * support \tikz{ }
 
 
@@ -47,7 +46,6 @@
 *TODO*
   * Support unit tests
   * production mode should also work w/o previewenv
-  * add more snippets
   * error log not deleted after successful compilation
   * error with fig_homdegm1
   * selection not deleted ??? sometimes moves instead of selects...after right click
@@ -55,6 +53,9 @@
 === Vague things ===
   * improve workflow
   * Improve documentation
+  * solution for different paths
+  * add more snippets
+
 
 === For later ===
 *TODO*
