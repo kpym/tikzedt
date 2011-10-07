@@ -43,7 +43,6 @@
 === Misc ===
 *TODO*
   * Support unit tests
-  * selection not deleted ??? sometimes moves instead of selects...after right click
 
 === Vague things ===
   * improve workflow
