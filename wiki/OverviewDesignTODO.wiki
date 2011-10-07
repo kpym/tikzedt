@@ -22,7 +22,6 @@
 == TikzParser ==
 *TODO*
   * check math expresions in arc are handled correctly
-  * arc followed by bezier handled correctly??
 
 === Tikz ParseTree ===
 
