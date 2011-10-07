@@ -28,7 +28,6 @@
 
 == PdfOverlay ==
 *TODO*
-  * ellipse & rectangle -tool: supported rotated coordinate system
   * use polar not working for almost any tool  
 
 === Snippetmanager ===
