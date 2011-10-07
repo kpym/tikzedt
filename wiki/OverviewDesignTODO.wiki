@@ -49,15 +49,12 @@
 === Misc ===
 *TODO*
   * Support unit tests
-  * 3d support? (=ignore it automatically)
   * Improve documentation
   * production mode should also work w/o previewenv
   * add more snippets
   * error log not deleted after successful compilation
   * error with fig_homdegm1
-  * code completions without {= etc
   * selection not deleted ??? sometimes moves instead of selects...after right click
-  * make parser errors distinguishable from latex errors  
 
 === For later ===
 *TODO*
@@ -68,3 +65,4 @@
   * support multiple tikzpictures
   * support tikzpictures anywhere on page (using http://tex.stackexchange.com/questions/10343/determining-the-position-of-a-box-e-g-on-a-page)
   * better error recovery: if error on \path is detected-> just drop this path instead of stopping parsing of whole file.
+  * 3d support? (=ignore it automatically)
