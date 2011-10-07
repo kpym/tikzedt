@@ -43,8 +43,6 @@
 === Misc ===
 *TODO*
   * Support unit tests
-  * error log not deleted after successful compilation
-  * error with fig_homdegm1
   * selection not deleted ??? sometimes moves instead of selects...after right click
 
 === Vague things ===
