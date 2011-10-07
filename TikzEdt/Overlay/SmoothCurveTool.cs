@@ -111,6 +111,7 @@ namespace TikzEdt
 
                     // create new coordinate
                     Parser.Tikz_Coord tc = new Parser.Tikz_Coord();
+                    tc.type = overlay.UsePolarCoordinates ? Parser.Tikz_CoordType.Polar : Parser.Tikz_CoordType.Cartesian;
                     curAddTo.AddChild(tc);
                     if (item is OverlayNode && IsReferenceable(item))
                     {

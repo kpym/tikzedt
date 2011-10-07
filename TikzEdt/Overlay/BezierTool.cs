@@ -68,7 +68,9 @@ namespace TikzEdt
                         Tikz_Controls tcont = new Tikz_Controls();
                         tcont.starttag = " .. controls ";
                         tcont.endtag = " ..";
-                        Parser.Tikz_Coord tc1 = new Parser.Tikz_Coord(), tc2 = new Parser.Tikz_Coord();
+                        Parser.Tikz_Coord tc1 = new Parser.Tikz_Coord(), tc2 = new Parser.Tikz_Coord(); // control points
+                        tc1.type = tc2.type = overlay.UsePolarCoordinates ? Parser.Tikz_CoordType.Polar : Parser.Tikz_CoordType.Cartesian;
+
                         tcont.AddChild(tc1);
                         tcont.AddChild(new Tikz_Something(" and "));
                         tcont.AddChild(tc2);
@@ -77,6 +79,7 @@ namespace TikzEdt
 
                         // the endpoint
                         Parser.Tikz_Coord tcend = new Parser.Tikz_Coord();
+                        tcend.type = overlay.UsePolarCoordinates ? Parser.Tikz_CoordType.Polar : Parser.Tikz_CoordType.Cartesian;
                         curAddTo.AddChild(new Tikz_Something(" "));
                         curAddTo.AddChild(tcend);
                         
@@ -100,6 +103,7 @@ namespace TikzEdt
                         // add starting point
                         // create new coordinate
                         Parser.Tikz_Coord tc = new Parser.Tikz_Coord();
+                        tc.type = overlay.UsePolarCoordinates ? Parser.Tikz_CoordType.Polar : Parser.Tikz_CoordType.Cartesian;
                         curAddTo.AddChild(tc);
                         // do it here since the coordinate calculation needs the parents' coord. transform
                         tc.SetAbsPos(new Point(p.X, p.Y)); //hack

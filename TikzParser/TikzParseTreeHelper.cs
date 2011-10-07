@@ -328,7 +328,7 @@ namespace TikzEdt.Parser
                 else
                     return n;
             }
-            else if (item is Tikz_Coord)
+            else if (item is Tikz_Coord || item is Tikz_Arc)
             {
                 // find the next node
                 for (int i = item.parent.Children.IndexOf(item) + 1; i < item.parent.Children.Count; i++)
@@ -352,10 +352,13 @@ namespace TikzEdt.Parser
                 }
 
                 // if we get here, nothing was found
-                return null;                
+                return null;
             }
             else
-                throw new NotImplementedException("MakeReferenceableNode not implemented for this type");
+            {
+                return null;
+                //throw new NotImplementedException("MakeReferenceableNode not implemented for this type");
+            }
         }
 
         /// <summary>

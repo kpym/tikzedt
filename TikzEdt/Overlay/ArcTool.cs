@@ -167,7 +167,8 @@ namespace TikzEdt
                     if (IsPie)
                     {
                         // create new coordinate
-                        Tikz_Coord tc = new Parser.Tikz_Coord();                        
+                        Tikz_Coord tc = new Parser.Tikz_Coord();
+                        tc.type = overlay.UsePolarCoordinates ? Parser.Tikz_CoordType.Polar : Parser.Tikz_CoordType.Cartesian;
                         curAddTo.AddChild(tc);
                         tc.SetAbsPos(center);
                         curAddTo.AddChild(new Parser.Tikz_Something(" -- "));
