@@ -21,14 +21,12 @@
 
 == TikzParser ==
 *TODO*
-  * check math expresions in arc are handled correctly
+  * check math expressions in arc are handled correctly
 
 === Tikz ParseTree ===
 
 == PdfOverlay ==
 *TODO*
-  * use polar not working for almost any tool
-  * error with arc tool
 
 === Snippetmanager ===
 *TODO*
