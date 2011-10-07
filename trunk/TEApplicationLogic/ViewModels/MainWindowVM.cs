@@ -202,7 +202,7 @@ namespace TikzEdt.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                GlobalUI.ShowMessageBox(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 if (cFile != null)
                     GlobalUI.RaiseRecentFileEvent(this, cFile, false);
             }
@@ -236,26 +236,20 @@ namespace TikzEdt.ViewModels
         /// </summary>
         private void OpenCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = Consts.StdFileDialogFilter;
-            ofd.CheckFileExists = true;
-            //if (TheDocument != null)
-            //    ofd.InitialDirectory = System.IO.Path.GetDirectoryName(TheDocument.FilePath);
-            ofd.InitialDirectory = Directory.GetCurrentDirectory();
-            //ofd.FileName = System.IO.Path.GetFileName(CurFile);
+            string filename;
             if (e.Parameter != null)
-            {
-                if (ofd.ShowDialog() == true)
+            {                
+                if (GlobalUI.ShowOpenFileDialog(out filename) == true)
                 {
                     // open a new instance
-                    System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location, "\""+ofd.FileName+"\"");
+                    System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location, "\""+filename+"\"");
                 }
             }
             else
             {
                 if (TheDocument == null || TheDocument.TryDisposeFile())
-                    if (ofd.ShowDialog() == true)
-                       LoadFile(ofd.FileName);
+                    if (GlobalUI.ShowOpenFileDialog(out filename) == true)
+                       LoadFile(filename);
             }
         }
 

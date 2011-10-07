@@ -442,7 +442,7 @@ namespace TikzEdt.ViewModels
                 // there is a well-known issue with filewatcher raising multiple events... so, as a hack, stop wtaching
                 fileWatcher.EnableRaisingEvents = false;
                 // the currently watched file was changed -> ask the user to reload
-                switch (MessageBox.Show("The currently open file was modified outside the editor.\r\nDo you want to reload the file from disk?",
+                switch (GlobalUI.ShowMessageBox("The currently open file was modified outside the editor.\r\nDo you want to reload the file from disk?",
                     "Modified outside TikzEdt", MessageBoxButton.YesNo, MessageBoxImage.Warning))
                 {
                     case MessageBoxResult.Yes:
@@ -693,7 +693,7 @@ namespace TikzEdt.ViewModels
         {
             if (ChangesMade)
             {
-                switch (MessageBox.Show("Save changes to " + ShortFileName + "?", "Changes need to be saved",
+                switch (GlobalUI.ShowMessageBox("Save changes to " + ShortFileName + "?", "Changes need to be saved",
                     MessageBoxButton.YesNoCancel, MessageBoxImage.Warning))
                 {
                     case (MessageBoxResult.Yes):
@@ -774,27 +774,16 @@ namespace TikzEdt.ViewModels
 
         public bool SaveCurFile(bool saveas = false)
         {
-            SaveFileDialog sfd = new SaveFileDialog()
-            {
-                Filter = Consts.StdFileDialogFilter,
-                OverwritePrompt = true,
-                ValidateNames = true
-            };
             bool isTempFile = CurFileNeverSaved;
-            string OldFileName = FilePath;
-
-            //sfd.FileName = System.IO.Path.GetFileName(FilePath);
-            sfd.FileName = ShortFileName;
-            //sfd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
-            sfd.InitialDirectory = Directory.GetCurrentDirectory();
+            string OldFileName = FilePath, filename;
 
             bool WeNeedRecompilationAfterSave = false;
             if (CurFileNeverSaved || saveas)
             {
-                if (sfd.ShowDialog() != true)
+                if (GlobalUI.ShowSaveFileDialog(out filename, ShortFileName) != true)
                     return false;
                 
-                FilePath = sfd.FileName; 
+                FilePath = filename; 
                 WeNeedRecompilationAfterSave = true;
             }
 
