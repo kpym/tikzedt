@@ -59,6 +59,7 @@
 
 === For later ===
 *TODO*
+  * auto reload for filelistview (and/or refresh button)
   * Check that necessary tex packages are there
   * outsorce (and publish) code completions as separate lib
   * pdflatex hangs sometimes (??how to reproduce??)(pdf file access problem?)
