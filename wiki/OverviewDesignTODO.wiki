@@ -21,7 +21,6 @@
 
 == TikzParser ==
 *TODO*
-  * check math expressions in arc are handled correctly
 
 === Tikz ParseTree ===
 
@@ -66,3 +65,4 @@
   * support tikzpictures anywhere on page (using http://tex.stackexchange.com/questions/10343/determining-the-position-of-a-box-e-g-on-a-page)
   * better error recovery: if error on \path is detected-> just drop this path instead of stopping parsing of whole file.
   * 3d support? (=ignore it automatically)
+  * check math expressions in arc are handled correctly
