@@ -36,16 +36,13 @@
 
 == Deployment ==
 *TODO*
-  * Check for PdfLatex in place
   * Check that necessary tex packages are there
   * Welcome screen as Tikzpicture on first load :-) ?
 
 == Usability ==
 *TODO*
-  * jump to source on dbl click
   * other errors
   * solution for different paths
-  * solution for undefined commands
   * support \tikz{ }
   * improve workflow
 
