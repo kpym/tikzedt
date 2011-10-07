@@ -23,7 +23,6 @@
 *TODO*
   * check math expresions in arc are handled correctly
   * arc followed by bezier handled correctly??
-  * better error recovery: if error on \path is detected-> just drop this path instead of stopping parsing of whole file.
 
 === Tikz ParseTree ===
 
@@ -74,3 +73,4 @@
   * "add as new snippet" command
   * support multiple tikzpictures
   * support tikzpictures anywhere on page (using http://tex.stackexchange.com/questions/10343/determining-the-position-of-a-box-e-g-on-a-page)
+  * better error recovery: if error on \path is detected-> just drop this path instead of stopping parsing of whole file.
