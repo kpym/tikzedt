@@ -35,28 +35,30 @@
 
 == Deployment ==
 *TODO*
-  * Check that necessary tex packages are there
-  * Welcome screen as Tikzpicture on first load :-) ?
 
 == Usability ==
 *TODO*
   * other errors
   * solution for different paths
   * support \tikz{ }
-  * improve workflow
+
 
 === Misc ===
 *TODO*
   * Support unit tests
-  * Improve documentation
   * production mode should also work w/o previewenv
   * add more snippets
   * error log not deleted after successful compilation
   * error with fig_homdegm1
   * selection not deleted ??? sometimes moves instead of selects...after right click
 
+=== Vague things ===
+  * improve workflow
+  * Improve documentation
+
 === For later ===
 *TODO*
+  * Check that necessary tex packages are there
   * outsorce (and publish) code completions as separate lib
   * pdflatex hangs sometimes (??how to reproduce??)(pdf file access problem?)
   * crisp toolbar bitmaps (no aliasing) (solution unknown)
