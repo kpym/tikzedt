@@ -5,6 +5,9 @@ using System.Windows.Input;
 using TikzEdt;
 using System.Windows;
 using System.Windows.Controls;
+using System.IO;
+using System.Diagnostics;
+using System.Threading;
 
 namespace TEApplicationLogicUnitTests
 {
@@ -88,9 +91,10 @@ namespace TEApplicationLogicUnitTests
             GlobalUI.MockResult = MessageBoxResult.Cancel;
             // create a new file again, the file was not changed, so the use should not be asked to save
             ApplicationCommands.New.Execute(null, dummy);
-            Assert.AreEqual(GlobalUI.LastMessage, "");
+            Assert.AreEqual(GlobalUI.LastMessage, "");           
+
             // now change the file a bit
-            target.TheDocument.Document.Insert(0, "hallo Welt");
+            target.TheDocument.Document.Insert(0, "   ");
             string oldText = target.TheDocument.Document.Text;
             // try to override again
             ApplicationCommands.New.Execute(null, dummy);
@@ -99,6 +103,32 @@ namespace TEApplicationLogicUnitTests
             Assert.AreEqual(target.TheDocument.Document.Text, oldText);
 
             // Now save the file to a temp file
+            string filename = Directory.GetCurrentDirectory() + "\\temp.tex";
+            if (File.Exists(filename))
+                File.Delete(filename);
+            
+            GlobalUI.MockFileDialogFileName = filename;
+            GlobalUI.MockFileDialogResult = true;
+            ApplicationCommands.SaveAs.Execute(null, dummy);
+            Assert.IsTrue(File.Exists(filename));
+
+            
+
+            // Let pdflatex do its job (hack)
+            Thread.Sleep(2000);
+            // check that temp files are removed, but pdf should exist
+            Assert.IsTrue(File.Exists("temp.tex.preview.pdf"));
+            Assert.IsFalse(File.Exists("temp.tex.preview.log"));
+            Assert.IsFalse(File.Exists("temp.tex.preview.aux"));
+            
+            // change file on disk... change should be detected, and user asked to reload file
+            GlobalUI.MockResult = MessageBoxResult.Yes; // reload the file
+            File.WriteAllText(filename, "\\begin{tikzpicture} \r\n blabla\r\n \\end{tikzpicture}");
+            System.Threading.Thread.Sleep(2000);
+            Assert.IsTrue(target.TheDocument.Document.Text.Contains("blabla"));
+            // file should not be marked as changed
+            Assert.IsFalse(target.TheDocument.ChangesMade);
+
 
 
         }

@@ -496,10 +496,12 @@ namespace TikzEdt
         /// </summary>
         public static bool? MockFileDialogResult = null;
         public static string MockFileDialogFileName = null;
-        public static bool? ShowOpenFileDialog(out string FileName)
+        public static bool? ShowOpenFileDialog(out string FileName, string Filter = Consts.StdFileDialogFilter)
         {
             if (MockFileDialogFileName == null)
             {
+                ofd.InitialDirectory = Directory.GetCurrentDirectory();
+                ofd.Filter = Filter;
                 bool? ret = ofd.ShowDialog();
                 FileName = ofd.FileName;
                 return ret;
@@ -511,10 +513,13 @@ namespace TikzEdt
             }
                 
         }
-        public static bool? ShowSaveFileDialog(out string FileName)
+        public static bool? ShowSaveFileDialog(out string FileName, string InitFilename, string Filter = Consts.StdFileDialogFilter)
         {
             if (MockFileDialogFileName == null)
             {
+                sfd.InitialDirectory = Directory.GetCurrentDirectory();
+                sfd.FileName = InitFilename;
+                sfd.Filter = Filter;
                 bool? ret = sfd.ShowDialog();
                 FileName = sfd.FileName;
                 return ret;
