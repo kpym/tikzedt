@@ -28,7 +28,8 @@
 
 == PdfOverlay ==
 *TODO*
-  * use polar not working for almost any tool  
+  * use polar not working for almost any tool
+  * error with arc tool
 
 === Snippetmanager ===
 *TODO*
