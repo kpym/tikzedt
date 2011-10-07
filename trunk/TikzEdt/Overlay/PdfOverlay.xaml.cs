@@ -813,7 +813,7 @@ namespace TikzEdt
         {
 
             if (canvas1.IsMouseCaptured)
-                canvas1.ReleaseMouseCapture();
+                canvas1.ReleaseMouseCapture();  // release mouse capture here to make sure the tools cannot forget
             Point mousep = e.GetPosition(canvas1);
             CurrentTool.OnLeftMouseButtonUp(e, new Point(mousep.X, Height - mousep.Y));
 
@@ -850,7 +850,7 @@ namespace TikzEdt
         {
             if (JumpToSource != null)
             {
-                TikzParseItem tpi = (mnuJumpSource.Tag as OverlayShape).item; 
+                TikzParseItem tpi = o.item; 
                 if (tpi != null)
                     JumpToSource(this, new JumpToSourceEventArgs() { JumpToPos = tpi.StartPosition(), SelectionLength = tpi.Length });
             }

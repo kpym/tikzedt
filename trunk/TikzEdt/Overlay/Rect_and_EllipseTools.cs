@@ -65,6 +65,11 @@ namespace TikzEdt
             Canvas.SetLeft(PreviewRect, origin.X);
             Canvas.SetTop(PreviewRect, origin.Y);
             PreviewRect.Width = PreviewRect.Height = 0;
+
+            // adjust rotation in case we are in a rotated frame
+            double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.CoordinateTransform) * 180 / Math.PI;
+            PreviewRect.RenderTransform = new RotateTransform(angle);
+
             if (!overlay.canvas.Children.Contains(PreviewRect))
                 overlay.canvas.Children.Add(PreviewRect);
             PreviewRect.Visibility = Visibility.Visible;
@@ -83,21 +88,32 @@ namespace TikzEdt
                 Point firstpoint = overlay.ScreenToTikz(origin, true);
                 Point secondpoint = overlay.Rasterizer.RasterizePixelToTikz(p);
 
+                double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.CoordinateTransform);
+                Matrix R = Matrix.Identity;
+                R.Rotate(angle * 180 / Math.PI);
+                Matrix RI = R;
+                RI.Invert();  // RI = R inverse 
+
+                Point firstpointR = R.Transform(firstpoint), secondpointR = R.Transform(secondpoint);
+
                 if (ForcePointsBLTR)
                 {
                     // ensure first pt is bottom left, second top right
-                    Rect r = new Rect(firstpoint, secondpoint);
-                    firstpoint = r.TopLeft; // note that we use upside down coordinates, so the c# notations are different
-                    secondpoint = r.BottomRight;
+                    Rect r = new Rect(firstpointR, secondpointR);
+                    firstpointR = r.TopLeft; // note that we use upside down coordinates, so the c# notations are different
+                    secondpointR = r.BottomRight;
+                    firstpoint = RI.Transform(firstpointR);
+                    secondpoint = RI.Transform(secondpointR);
                 }
 
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
                 {
                     // both sides the same
-                    double sidelength = Math.Max(Math.Abs(firstpoint.X-secondpoint.X), Math.Abs(firstpoint.Y-secondpoint.Y));
-                    secondpoint = new Point(
-                        firstpoint.X + Math.Sign(secondpoint.X-firstpoint.X) * sidelength,
-                        firstpoint.Y + Math.Sign(secondpoint.Y-firstpoint.Y) * sidelength );
+                    double sidelength = Math.Max(Math.Abs(firstpointR.X-secondpointR.X), Math.Abs(firstpointR.Y-secondpointR.Y));
+                    secondpointR = new Point(
+                        firstpointR.X + Math.Sign(secondpointR.X-firstpointR.X) * sidelength,
+                        firstpointR.Y + Math.Sign(secondpointR.Y-firstpointR.Y) * sidelength );
+                    secondpoint = RI.Transform(secondpointR);
                 }
 
                 overlay.BeginUpdate();
@@ -105,9 +121,9 @@ namespace TikzEdt
                 if (AddNewCurAddTo())
                 {
                     Parser.Tikz_Coord tc1 = new Parser.Tikz_Coord();
-                    tc1.type = Parser.Tikz_CoordType.Cartesian;
+                    tc1.type = overlay.UsePolarCoordinates? Parser.Tikz_CoordType.Polar : Parser.Tikz_CoordType.Cartesian;
                     Parser.Tikz_Coord tc2 = new Parser.Tikz_Coord();
-                    tc2.type = Parser.Tikz_CoordType.Cartesian;
+                    tc2.type = overlay.UsePolarCoordinates ? Parser.Tikz_CoordType.Polar : Parser.Tikz_CoordType.Cartesian;
 
                     curAddTo.AddChild(new Parser.Tikz_Something(" "));
                     curAddTo.AddChild(tc1);
@@ -159,22 +175,34 @@ namespace TikzEdt
             mousep = new Point(mousep.X, overlay.canvas.ActualHeight - mousep.Y);
             if (PreviewRect.Visibility == Visibility.Visible)
             {
-                // update the size of the selection rect
-                double x = Math.Min(mousep.X, origin.X),
-                       y = Math.Min(mousep.Y, origin.Y);
-                //SelectionRect.RenderTransform = new TranslateTransform(x, y);
-                Canvas.SetLeft(PreviewRect, x);
-                Canvas.SetTop(PreviewRect, y);
+                // compute rotated diagonal
+                double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.CoordinateTransform) ;
+                Matrix R = Matrix.Identity;
+                R.Rotate(-angle * 180 / Math.PI);
+                Vector newdiag = R.Transform(mousep-origin);
+
+                // update the size and position of the preview rect
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
                 {
                     // both sides the same
-                    PreviewRect.Width = PreviewRect.Height = Math.Max(Math.Abs(mousep.X - origin.X), Math.Abs(mousep.Y - origin.Y));
+                    PreviewRect.Width = PreviewRect.Height = Math.Max(Math.Abs(newdiag.X), Math.Abs(newdiag.Y));
+                    newdiag = new Vector(Math.Sign(newdiag.X) * PreviewRect.Width, Math.Sign(newdiag.Y) * PreviewRect.Height);
                 }
                 else
                 {
-                    PreviewRect.Width = Math.Abs(mousep.X - origin.X);
-                    PreviewRect.Height = Math.Abs(mousep.Y - origin.Y);
+                    PreviewRect.Width = Math.Abs(newdiag.X);
+                    PreviewRect.Height = Math.Abs(newdiag.Y);
                 }
+               
+                R.Invert();
+                Point topleft = origin + R.Transform( new Vector(Math.Min(0, newdiag.X), Math.Min(0, newdiag.Y)) );
+
+                //double x = (newdiag.X<0 ?  mousep.X : origin.X),
+                //       y = (newdiag.Y<0 ?  mousep.Y : origin.Y);
+                //SelectionRect.RenderTransform = new TranslateTransform(x, y);
+                Canvas.SetLeft(PreviewRect, topleft.X);
+                Canvas.SetTop(PreviewRect, topleft.Y);
+
             }
         }
 
@@ -242,6 +270,10 @@ namespace TikzEdt
             Canvas.SetLeft(PreviewEllipse, origin.X);
             Canvas.SetTop(PreviewEllipse, origin.Y);
             PreviewEllipse.Width = PreviewEllipse.Height = 0;
+
+            double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.CoordinateTransform) * 180 / Math.PI;
+            PreviewEllipse.RenderTransform = new RotateTransform(angle);
+
             if (!overlay.canvas.Children.Contains(PreviewEllipse))
                 overlay.canvas.Children.Add(PreviewEllipse);
             PreviewEllipse.Visibility = Visibility.Visible;
@@ -257,22 +289,27 @@ namespace TikzEdt
                 if (!EnsureParseTreeExists())
                     return;
 
-                Point center = overlay.ScreenToTikz(origin, true);
-                Point secondpoint = overlay.Rasterizer.RasterizePixelToTikz(p);
+                Point center = overlay.ScreenToTikz(origin, true); 
+                Point secondpoint = overlay.Rasterizer.RasterizePixelToTikz(p); // in axis aligned (untranformed) tikz coordinates
 
-                double width = Math.Abs(center.X - secondpoint.X),   // actually half the width/height!
-                       height = Math.Abs(center.Y - secondpoint.Y);
+                // compute rotated diagonal
+                double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.CoordinateTransform);
+                Matrix R = Matrix.Identity;
+                R.Rotate(angle * 180 / Math.PI);
+                Vector newdiag = R.Transform(secondpoint - center);
+
+                double width = Math.Abs(newdiag.X),   // actually half the width/height!
+                       height = Math.Abs(newdiag.Y);
+
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
                     width = height = Math.Max(width, height);
                 
-
-
                 overlay.BeginUpdate();
 
                 if (AddNewCurAddTo())
                 {
                     Parser.Tikz_Coord tc1 = new Parser.Tikz_Coord();
-                    tc1.type = Parser.Tikz_CoordType.Cartesian;
+                    tc1.type = overlay.UsePolarCoordinates ? Parser.Tikz_CoordType.Polar : Parser.Tikz_CoordType.Cartesian;
 
                     curAddTo.AddChild(new Parser.Tikz_Something(" "));
                     curAddTo.AddChild(tc1);
@@ -281,7 +318,8 @@ namespace TikzEdt
                     TikzMatrix M;
                     if (curAddTo.GetCurrentTransformAt(tc1, out M))
                     {
-                        Point size_trans = M.Inverse().Transform(new Point(width, height), true);
+                        R.Invert();
+                        Point size_trans = M.Inverse().Transform(R.Transform(new Point(width, height)), true);
                         width = size_trans.X;
                         height = size_trans.Y;
                     }
@@ -331,16 +369,24 @@ namespace TikzEdt
             mousep = new Point(mousep.X, overlay.canvas.ActualHeight - mousep.Y);
             if (PreviewEllipse.Visibility == Visibility.Visible)
             {
-                double width = Math.Abs(mousep.X - origin.X),   // actually half the width/height!
-                       height = Math.Abs(mousep.Y - origin.Y);
+                // compute rotated diagonal
+                double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.CoordinateTransform);
+                Matrix R = Matrix.Identity;
+                R.Rotate(-angle * 180 / Math.PI);
+                Vector newdiag = R.Transform(mousep - origin);
+
+                double width = Math.Abs(newdiag.X),   // actually half the width/height!
+                       height = Math.Abs(newdiag.Y);
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
                     width = height = Math.Max(width, height);
+                PreviewEllipse.Width = 2 * width;
+                PreviewEllipse.Height = 2 * height;
 
-                Canvas.SetLeft(PreviewEllipse, origin.X - width);
-                Canvas.SetTop(PreviewEllipse, origin.Y - height);
+                R.Invert();
+                Point topleft = origin + R.Transform(new Vector(-width, -height));
 
-                PreviewEllipse.Width = 2*width;
-                PreviewEllipse.Height = 2*height;
+                Canvas.SetLeft(PreviewEllipse, topleft.X);
+                Canvas.SetTop(PreviewEllipse, topleft.Y);
 
             }
         }

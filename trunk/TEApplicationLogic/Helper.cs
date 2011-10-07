@@ -462,6 +462,11 @@ namespace TikzEdt
             return count;
         }
 
+
+        public static double RotationFromMatrix(Parser.TikzMatrix M)
+        {
+            return Math.Atan2(M.m[1, 0], M.m[0, 0]);
+        }
     }
      
 
