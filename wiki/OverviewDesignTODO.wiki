@@ -59,21 +59,19 @@
   * Support unit tests
   * 3d support? (=ignore it automatically)
   * Improve documentation
-  * support multiple tikzpictures
   * production mode should also work w/o previewenv
   * add more snippets
-  * "add as new snippet" command
-  * support tikzpictures anywhere on page (using http://tex.stackexchange.com/questions/10343/determining-the-position-of-a-box-e-g-on-a-page)
   * error log not deleted after successful compilation
   * error with fig_homdegm1
   * code completions without {= etc
-  * nullreference exception on dbl click
   * selection not deleted ??? sometimes moves instead of selects...after right click
-  * temp files as hidden (at least add option)
   * make parser errors distinguishable from latex errors  
 
 === For later ===
 *TODO*
-  * outsorce code completions as separate lib
-  * pdflatex hangs sometimes (??how to reproduce??)
+  * outsorce (and publish) code completions as separate lib
+  * pdflatex hangs sometimes (??how to reproduce??)(pdf file access problem?)
   * crisp toolbar bitmaps (no aliasing) (solution unknown)
+  * "add as new snippet" command
+  * support multiple tikzpictures
+  * support tikzpictures anywhere on page (using http://tex.stackexchange.com/questions/10343/determining-the-position-of-a-box-e-g-on-a-page)
