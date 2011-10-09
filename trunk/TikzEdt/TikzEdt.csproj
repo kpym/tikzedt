@@ -11,8 +11,7 @@
     <RootNamespace>TikzEdt</RootNamespace>
     <AssemblyName>TikzEdt</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -198,6 +197,9 @@
     <Compile Include="TikzEdtAbout.xaml.cs">
       <DependentUpon>TikzEdtAbout.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TipsTricksWindow.xaml.cs">
+      <DependentUpon>TipsTricksWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowSetting.cs" />
     <Page Include="ExportCompiler\ExportCompileDialog.xaml">
       <SubType>Designer</SubType>
@@ -264,6 +266,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TikzEdtAbout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TipsTricksWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -571,7 +577,9 @@
       <Name>TikzParser</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <SplashScreen Include="TESplashScreen.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -55,7 +55,7 @@ namespace TikzEdt.Parser
     /// <summary>
     /// This purely static class is host to functions of global interest (or those which have no home).
     /// </summary>
-    static class Helper
+    public static class Helper
     {
         /// <summary>
         /// This function takes a string and removes all trailing and leading and all multiple whitespace.

@@ -67,6 +67,7 @@ namespace TEApplicationLogicUnitTests
         /// <summary>
         ///A test for OnJobFailed
         ///</summary>
+        [Ignore]
         [TestMethod()]
         public void OnJobFailedTest()
         {
@@ -79,6 +80,7 @@ namespace TEApplicationLogicUnitTests
         /// <summary>
         ///A test for TikzToBMPFactory Constructor
         ///</summary>
+        [Ignore]
         [TestMethod()]
         public void TikzToBMPFactoryConstructorTest()
         {

@@ -67,7 +67,7 @@ namespace TikzEdt
         }
     }
 
-    public enum Severity { NOTICE, WARNING, ERROR }; // the order is the inverse sort order in the error listbox
+    public enum Severity { NOTICE, PARSERWARNING, WARNING, PARSERERROR, ERROR }; // the order is the inverse sort order in the error listbox
 
     public class TexOutputParser
     {
@@ -116,6 +116,8 @@ namespace TikzEdt
             public int Pos { get { return pos; } set { linenr = pos; } }                       
             private Severity _severity;
             public Severity severity { get { return _severity; } set { _severity = value; } }
+            public bool IsFromParser { get { return severity == Severity.PARSERERROR || severity == Severity.PARSERWARNING; } }
+
 
             public bool inincludefile=false;  // tells whether the error occured in a file \input-ted (rather than in the main file)
         }

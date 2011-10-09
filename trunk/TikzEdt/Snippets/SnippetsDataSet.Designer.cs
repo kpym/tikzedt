@@ -277,7 +277,7 @@ namespace TikzEdt.Snippets {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class SnippetsTableDataTable : global::System.Data.TypedTableBase<SnippetsTableRow> {
+        public partial class SnippetsTableDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
             
             private global::System.Data.DataColumn columnID;
             
@@ -454,6 +454,12 @@ namespace TikzEdt.Snippets {
                 rowSnippetsTableRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowSnippetsTableRow);
                 return rowSnippetsTableRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

@@ -501,13 +501,13 @@ namespace TikzEdt
 
                 //return PolarToCartesian(polar);
 
-                Point polar = CartToPol(pstd);
+                Point polar = TikzEdt.Parser.Helper.CartToPol(pstd);
                 polar = new Point( Math.Round(polar.X / GridWidth)  * GridWidth,
                                    Math.Round((polar.Y - RadialOffset) / (2 * Math.PI / RadialSteps)) * (2 * Math.PI / RadialSteps) + RadialOffset 
                                    );
                 if (ForceRadiusTo >= 0)
                     polar = new Point(ForceRadiusTo, polar.Y);
-                pstd_rast = PolToCart(polar);
+                pstd_rast = TikzEdt.Parser.Helper.PolToCart(polar);
             }
             return CoordinateTransform.Transform(pstd_rast, IsRelative);
         }
@@ -569,6 +569,7 @@ namespace TikzEdt
         //    Point pp = new Point((p.X-RasterOrigin.X)/RasterScaleX, (p.Y-RasterOrigin.Y)/RasterScaleY);
         //    return CartToPol(pp);
         //}
+        /*
         /// <summary>
         /// Converts Cartesian to polar (standard, does not use the coordinate transf.)
         /// </summary>
@@ -609,6 +610,6 @@ namespace TikzEdt
             Point pp = new Point(p.Y, p.X * Math.PI / 180);
             return PolToCart(pp);
         }
-
+        */
     }
 }

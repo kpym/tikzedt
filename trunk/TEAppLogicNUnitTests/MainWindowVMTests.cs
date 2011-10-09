@@ -1,112 +1,70 @@
-﻿using TikzEdt.ViewModels;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Windows.Input;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using TikzEdt;
-using System.Windows;
-using System.Windows.Controls;
-using System.IO;
-using System.Diagnostics;
+using TikzEdt.ViewModels;
+using NUnit.Framework;
 using System.Threading;
+using System.IO;
+using System.Windows.Input;
+using System.Windows.Controls;
+using System.Windows;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Security.Permissions;
 using System.Windows.Threading;
 
-namespace TEApplicationLogicUnitTests
+namespace TEAppLogicNUnitTests
 {
-    
-    
-    /// <summary>
-    ///This is a test class for MainWindowVMTest and is intended
-    ///to contain all MainWindowVMTest Unit Tests
-    ///</summary>
-    [TestClass()]
-    public class MainWindowVMTest : DispatcherObject
+
+
+    [TestFixture, RequiresSTA]
+    public class MainWindowVMTests
     {
-        
-        private TestContext testContextInstance;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
+        [TestFixtureSetUp]
+        public static void MyClassInitialize()
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        [ClassInitialize()]
-        public static void MyClassInitialize(TestContext testContext)
+        [Test]
+        public void TestTest()
         {
-            Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
-            GlobalUI.OnGlobalStatus += (s,e) => Debug.WriteLine("*** "+e.StatusLine);
-            MyBackgroundWorker.IsSynchronous = true;
-        }
-        
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
+            BackgroundWorker bw = new BackgroundWorker();
+            Process p= new Process();
+            p.StartInfo.RedirectStandardError = true;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.UseShellExecute = false;
+            double x = 0, y=0;
 
-        int WaitForN = 0;
+            bw.DoWork += (s, e) => x = 35;
+            bw.RunWorkerCompleted += (s, e) => y = 35;
 
-        [TestMethod()]
-        public void TestsDispatcher()
-        {
+            bw.RunWorkerAsync();
+
             Thread.Sleep(1000);
-            while (WaitForN > 0)
-            {
-                DispatcherUtil.DoEvents();
-                Thread.Sleep(100);
-            }
+
+            Console.WriteLine(x);
+            Console.WriteLine(y);
+            Assert.AreEqual(35, x);
+            Assert.AreEqual(35, y);
         }
 
-
-        /// <summary>
-        /// This test performs several standard activities regarding files
-        ///</summary>
-        //[Ignore]
-        [TestMethod()]        
-        [DeploymentItem("TEApplicationLogic.dll")]
+        [Test]
         public void StdFileHandlingTest()
         {
-            Interlocked.Increment(ref WaitForN);
-            this.Dispatcher.Invoke(DispatcherPriority.Send, new Action(delegate()
-            {
 
-            MainWindowVM_Accessor target = new MainWindowVM_Accessor(TheCompiler.Instance); 
+            MainWindowVM target = new MainWindowVM(TheCompiler.Instance); 
             // To execute commands, we need to take a detour and bind them in a dummy
             StackPanel dummy = new StackPanel();
             dummy.CommandBindings.Add(target.SaveAsCommandBinding);
             dummy.CommandBindings.Add(target.NewCommandBinding);
             dummy.CommandBindings.Add(target.SaveCommandBinding);
             dummy.CommandBindings.Add(target.OpenCommandBinding);
+
+            Console.WriteLine(Directory.GetCurrentDirectory());                        
 
             // create a new file 
             ApplicationCommands.New.Execute(null, dummy);
@@ -116,14 +74,15 @@ namespace TEApplicationLogicUnitTests
             ApplicationCommands.New.Execute(null, dummy);
             Assert.AreEqual(GlobalUI.LastMessage, "");
             //Application.DoEvents();
-        //    Thread.Sleep(1000);
+        //    Thread.Sleep(10000);
             //DispatcherUtil.DoEvents();
+            //Application.DoEvents();
 
             // now change the file a bit
             target.TheDocument.Document.Insert(0, "   ");
             string oldText = target.TheDocument.Document.Text;
 
-       //     Thread.Sleep(1000);
+          //  Thread.Sleep(1000);
             //DispatcherUtil.DoEvents();
 
             // try to override again
@@ -132,7 +91,7 @@ namespace TEApplicationLogicUnitTests
             Assert.IsTrue(GlobalUI.LastMessage != "");
             Assert.AreEqual(target.TheDocument.Document.Text, oldText);
 
-        //    Thread.Sleep(1000);
+         //   Thread.Sleep(1000);
             //DispatcherUtil.DoEvents();
 
             // Now save the file to a temp file
@@ -140,17 +99,17 @@ namespace TEApplicationLogicUnitTests
             if (File.Exists(filename))
                 File.Delete(filename);
 
-       //     Thread.Sleep(1000);
+            Thread.Sleep(1000);
            // DispatcherUtil.DoEvents();
 
             GlobalUI.MockFileDialogFileName = filename;
             GlobalUI.MockFileDialogResult = true;
             ApplicationCommands.SaveAs.Execute(null, dummy);
             Assert.IsTrue(File.Exists(filename));
+                       
 
-            
             // Let pdflatex do its job (hack)
-        //    Thread.Sleep(2000);
+       //     Thread.Sleep(2000);
             //DispatcherUtil.DoEvents();
 
             //return;
@@ -162,6 +121,7 @@ namespace TEApplicationLogicUnitTests
             // change file on disk... change should be detected, and user asked to reload file
             GlobalUI.MockResult = MessageBoxResult.Yes; // reload the file
             File.WriteAllText(filename, "\\begin{tikzpicture} \r\n blabla\r\n \\end{tikzpicture}");
+        //    System.Threading.Thread.Sleep(2000);
             System.Threading.Thread.Sleep(1000);
             DispatcherUtil.DoEvents();
             System.Threading.Thread.Sleep(1000);
@@ -170,17 +130,33 @@ namespace TEApplicationLogicUnitTests
             // file should not be marked as changed
             Assert.IsFalse(target.TheDocument.ChangesMade);
 
-          //  Thread.Sleep(1000);
-
-            } ) );
-            Interlocked.Decrement(ref WaitForN);
-       //     Dispatcher.Run();
+      //      Thread.Sleep(1000);
 
         }
 
-
-
     }
+
+     [SetUpFixture]
+      public class MySetUpClass
+      {
+        [SetUp]
+	    public static void RunBeforeAnyTests()
+	    {
+            Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
+            GlobalUI.OnGlobalStatus += (s, e) => Console.WriteLine("*** " + e.StatusLine);
+            TheCompiler.Instance.OnCompileEvent += (s, e) => Console.WriteLine("+++ " + e.Message);
+            TheCompiler.Instance.OnTexOutput += (s, e) => Console.WriteLine("xxx " + e.Message);
+            TheCompiler.Instance.JobFailed += (s, e) => Console.WriteLine("xxx failed");
+
+            MyBackgroundWorker.IsSynchronous = true;
+	    }
+
+        [TearDown]
+        public static void RunAfterAnyTests()
+	    {
+	      // ...
+	    }
+      }
 
 
     public static class DispatcherUtil
@@ -200,5 +176,4 @@ namespace TEApplicationLogicUnitTests
             return null;
         }
     }
-
 }

@@ -38,7 +38,7 @@ using SmartWeakEvent;
 
 namespace TikzEdt
 {
-    public class TexCompiler : DependencyObject //DispatcherObject
+    public class TexCompiler : TikzEdt.ViewModels.ViewModelBase //DependencyObject //DispatcherObject
     {
         #region events
         //*** Note that some events are consumed by TEDocumentVM, which has a shorter lifetime than TexCompiler
@@ -126,7 +126,7 @@ namespace TikzEdt
 
 
         // This read only property indicates whether the Compiler is currently busy
-        readonly private static DependencyPropertyKey CompilingPropertyKey = DependencyProperty.RegisterReadOnly(
+    /*    readonly private static DependencyPropertyKey CompilingPropertyKey = DependencyProperty.RegisterReadOnly(
         "Compiling", typeof(bool), typeof(TexCompiler), new PropertyMetadata(false));
         readonly public static DependencyProperty CompilingProperty = CompilingPropertyKey.DependencyProperty;
         public bool Compiling
@@ -135,7 +135,18 @@ namespace TikzEdt
             //could CompilingProperty and isRunning be merged?
             get { return (bool)GetValue(CompilingProperty); }
             set { }
+        } */
+        bool _Compiling = false;
+        public bool Compiling
+        {
+            get { return _Compiling; }
+            private set
+            {
+                _Compiling = value;
+                NotifyPropertyChanged("Compiling");
+            }
         }
+        void SetCompiling(bool value) { Compiling = value; }
 
         public double timeout = 0; // in milliseconds, 0 = no timeout. Note overwritten in doCompile()
         public double Resolution = 50;
@@ -248,13 +259,15 @@ namespace TikzEdt
         /// processExited events, in the correct order.
         /// (I.e., when exited occurs, all output has been read)
         /// </summary>
-        System.ComponentModel.BackgroundWorker AsyncReaderWorker = new System.ComponentModel.BackgroundWorker();
+        //System.ComponentModel.BackgroundWorker AsyncReaderWorker = new System.ComponentModel.BackgroundWorker();
+        MyBackgroundWorker AsyncReaderWorker = new MyBackgroundWorker();
         class AsyncReaderReturnType
         {
             public string stdout, stderr;
         }
         void AsyncReaderWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
+        //    GlobalUI.AddStatusLine(this, "asyncreader called");
             // read asynchronously from the process output
             StringWriter sw = new StringWriter();
             StringWriter ew = new StringWriter();
@@ -264,11 +277,12 @@ namespace TikzEdt
                 string line;
                 while ((line = texProcess.StandardOutput.ReadLine()) != null)
                 {
+      //              GlobalUI.AddStatusLine(this, "asyncreader 0");
                     sw.WriteLine(line);
                     // call handler
                     texProcess_OutputDataReceived(texProcess, line);
                 }
-
+        //        GlobalUI.AddStatusLine(this, "asyncreader 1");
                 // read all output from stderr
                 //err_out = texProcess.StandardError.ReadToEnd();
                 while ((line = texProcess.StandardError.ReadLine()) != null)
@@ -320,7 +334,7 @@ namespace TikzEdt
         {
             // if job.path is empty, fill with a temp file name
             if (job.path == "") //compile in work dir!
-                job.path = /*Helper.GetAppDir() + "\\" + */Helper.GetTempFileName() + ".tex";
+                job.path = /*Helper.GetAppDir() + "\\" + */ System.IO.Path.GetTempPath() + "\\" + Helper.GetTempFileName() + ".tex";
 
             todo_tex.Enqueue(job);
             _JobNumberChanged.Raise(this, EventArgs.Empty);
@@ -399,7 +413,8 @@ namespace TikzEdt
             }
             catch (InvalidOperationException)
             {
-                SetValue(CompilingPropertyKey, false);
+                //SetValue(CompilingPropertyKey, false);
+                SetCompiling(false);
             }
             
         }
@@ -410,6 +425,8 @@ namespace TikzEdt
         /// </summary>
         protected void doCompile()
         {
+            //return;
+      //      GlobalUI.AddStatusLine(this, "docompile  called");
             if (Compiling || todo_tex.Count == 0)
             {
                 return;
@@ -418,7 +435,8 @@ namespace TikzEdt
             //get current timeout value from settings -> is set using property
             //TheCompiler.Instance.timeout = Properties.Settings.Default.Timeout_pdflatex;
 
-            SetValue(CompilingPropertyKey, true);
+            //SetValue(CompilingPropertyKey, true);
+            SetCompiling(true);
 
             Job job;
             if (!File.Exists(Helper.GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename()) + ".fmt"))
@@ -439,7 +457,7 @@ namespace TikzEdt
             CurrentJob = job;
             // Do Preprocessing 
             PreprocessJob(CurrentJob);
-
+//    GlobalUI.AddStatusLine(this, "docompile  called 1");
             // save into temporary textfile
             if (job.WriteCode || job.GeneratePrecompiledHeaders)
             {
@@ -459,7 +477,7 @@ namespace TikzEdt
                         job.AddOffset(PositionOfAddedLine, NumberOfAddedLines);
                     }
                 }
-
+    //        GlobalUI.AddStatusLine(this, "docompile  called 2");
                 try
                 {
 
@@ -534,31 +552,33 @@ namespace TikzEdt
                     //return;
                 }
             }
-
+     //       GlobalUI.AddStatusLine(this, "docompile  called 3");
             // call pdflatex 
             if (job.GeneratePrecompiledHeaders)
             {
                 string pchArgs = CompilerSettings.Instance.PrecompiledHeaderCompileCommand;
                 texProcess.StartInfo.Arguments = pchArgs.Replace("$JOBNAME$", job.name).Replace("$FILENAME$", System.IO.Path.GetFileName(job.path));
                 //texProcess.StartInfo.Arguments = "-ini -jobname=\"" + job.name
-                //    + "\" \"&pdflatex " + System.IO.Path.GetFileName(job.path) + "\\dump\"";                
+                //    + "\" \"&pdflatex " + System.IO.Path.GetFileName(job.path) + "\\dump\"";          
+
+                GlobalUI.AddStatusLine(this, "compiling header... " + job.path);
             }
             else
             {
                 texProcess.StartInfo.Arguments = "-interaction=nonstopmode -halt-on-error \"" + job.path + "\"" + " " + job.ExtraCompileOptions;
             }
             texProcess.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(job.path);
-
+      //      GlobalUI.AddStatusLine(this, "docompile  called 4");
             // Set reset timer in case something goes wrong
             if (timeout > 0)
             {
                 timer.Interval = TimeSpan.FromMilliseconds(timeout);
                 timer.Start();
             }
-
+        //    GlobalUI.AddStatusLine(this, "docompile  called 5");
             try
             {
-                if (texProcess.HasExited == true)
+                if (texProcess != null &&  texProcess.HasExited == true)
                 {
                     texProcess.CancelOutputRead();
                     texProcess.CancelErrorRead();
@@ -593,10 +613,12 @@ namespace TikzEdt
                 //ex.NativeErrorCode == 2
 
                 timer.Stop();
-                SetValue(CompilingPropertyKey, false);
+                //SetValue(CompilingPropertyKey, false);
+                SetCompiling(false);
                 _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Cannot find pdf compiler pdflatex. Please install and/or add to PATH variable.", Type = CompileEventType.Error });
                 _JobFailed.Raise(this, new JobEventArgs(job) );
-                
+                GlobalUI.ShowMessageBox("It seems that you do not have Latex installed. TikzEdt cannot work without Latex. Please download a Latex distribution, e.g., MikTeX or TexLive. "+
+                    "If you did install it, please check that pdflatex is in the %PATH% or that the path in the settings is set correctly.", "Error running pdflatex",  MessageBoxButton.OK, MessageBoxImage.Error);
             }
             
         }
@@ -744,8 +766,8 @@ namespace TikzEdt
             //delegate()
             //{
             timer.Stop();
-
-            Dispatcher.BeginInvoke(new Action(delegate()
+        GlobalUI.AddStatusLine(this, "tex process returned");
+            MyBackgroundWorker.BeginInvoke(Dispatcher, new Action(delegate()
             {
             Job job = CurrentJob;       // todo_tex.Dequeue();
             _JobNumberChanged.Raise(this, EventArgs.Empty);    // invoke here... it would also be possible to invoke on start of compilation...
@@ -771,11 +793,13 @@ namespace TikzEdt
 
                     if (!mypdfDoc.LoadPdf(pathnoext + ".pdf"))
                     {
-                        MessageBox.Show("Couldn't load pdf " + pathnoext + ".pdf");
+                        //GlobalUI.ShowMessageBox("Couldn't load pdf " + pathnoext + ".pdf", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        GlobalUI.AddStatusLine(this, "Couldn't load pdf " + pathnoext + ".pdf", true);
                     }
                     else if (mypdfDoc.IsEmpty())
                     {
-                        MessageBox.Show("Image is empty. Did you fill out the sample code block?");
+                       // MessageBox.Show("Image is empty. Did you fill out the sample code block?" public static MessageBoxResult ShowMessageBox);
+                        GlobalUI.AddStatusLine(this, "Image is empty. Did you fill out the sample code block?");
                     }
                     else
                     {
@@ -832,7 +856,8 @@ namespace TikzEdt
             //before the complete output was received by texProcess_OutputDataReceived().
 
             //isRunning = false;
-            SetValue(CompilingPropertyKey, false);
+            //SetValue(CompilingPropertyKey, false);
+            SetCompiling(false);
  
             if (todo_tex.Count > 0)
                 doCompile();
@@ -911,7 +936,7 @@ namespace TikzEdt
             return ret;
         }
 
-        public bool ContainsPreviewEnvironment(string code)
+        public static bool ContainsPreviewEnvironment(string code)
         {
             RegexOptions ro = new RegexOptions();
             ro = ro | RegexOptions.IgnoreCase;
@@ -924,7 +949,7 @@ namespace TikzEdt
             else
                 return false; 
         }
-        public bool ContainsDoNotInsertPreviewEnvironment(string code)
+        public static bool ContainsDoNotInsertPreviewEnvironment(string code)
         {
             RegexOptions ro = new RegexOptions();
             ro = ro | RegexOptions.IgnoreCase;
@@ -964,7 +989,7 @@ namespace TikzEdt
         void texProcess_OutputDataReceived(object sender, string line)
         {
             
-            Dispatcher.Invoke(
+            MyBackgroundWorker.BeginInvoke(Dispatcher, 
                 new Action(
                     delegate()
                     {
@@ -1028,7 +1053,7 @@ namespace TikzEdt
         {
             string msg = "Compilation of the Codesnippet-Thumbnail " + e.job.path + " (" + e.job.name + ") failed.\r\nPlease re-check the code.";
             msg += Environment.NewLine + Environment.NewLine + "cmdline: " + e.job.cmdline;
-            MessageBox.Show(msg);
+            GlobalUI.AddStatusLine(null, msg, true);
         }
 
     }

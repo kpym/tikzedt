@@ -36,6 +36,7 @@ using System.Security.Permissions;
 using System.Security;
 using Microsoft.Win32;
 using System.Globalization;
+using System.ComponentModel;
 
 //using System.Drawing;
 
@@ -163,6 +164,8 @@ namespace TikzEdt
         /// <returns>the same string, with the whitespace removed</returns>
         public static string RemoveMultipleWhitespace(string inputString)
         {
+            if (inputString == null)
+                return null;
             string[] parts = inputString.Trim().Split(new char[] { ' ', '\n', '\t', '\r', '\f', '\v' }, 
                 StringSplitOptions.RemoveEmptyEntries);
             return String.Join(" ", parts);
@@ -387,7 +390,9 @@ namespace TikzEdt
         } */
 
         public static string RemoveFileExtension(string file)
-        {            
+        {
+            if (file == null)
+                return null;
             string ext = System.IO.Path.GetExtension(file);
             return file.Remove(file.Length - ext.Length, ext.Length);
         }
@@ -485,10 +490,11 @@ namespace TikzEdt
         /// </summary>
         public static MessageBoxResult? MockResult = null;
         public static string LastMessage = ""; // stores the last messagebox text for testing
+        public static Window MessageBoxOwner;        
         public static MessageBoxResult ShowMessageBox(string Text, string Caption, MessageBoxButton Button, MessageBoxImage Icon)
         {
             if (MockResult == null)
-                return MessageBox.Show(Text, Caption, Button, Icon);
+                return MessageBox.Show(MessageBoxOwner, Text, Caption, Button, Icon);
             else
             {
                 LastMessage = Text;
@@ -536,7 +542,7 @@ namespace TikzEdt
             }
         }
         static OpenFileDialog ofd = new OpenFileDialog() { CheckFileExists=true, CheckPathExists=true };
-        static SaveFileDialog sfd = new SaveFileDialog() { OverwritePrompt=true, ValidateNames = true };
+        static SaveFileDialog sfd = new SaveFileDialog() { OverwritePrompt=true, ValidateNames = true, AddExtension = true };
 
 
         # region Events (mediator part)
@@ -588,7 +594,11 @@ namespace TikzEdt
     /// </summary>
     public class CompilerSettings
     {
-        public static CompilerSettings Instance = new CompilerSettings();
+        public static CompilerSettings Instance;
+        static CompilerSettings()
+        {
+             Instance = new CompilerSettings();
+        }
 
         public virtual double BB_Std_X { get { return -5; } }
         public virtual double BB_Std_Y { get { return -5; } }
@@ -623,5 +633,81 @@ namespace TikzEdt
     }
 
 
+
+    public class MyBackgroundWorker 
+    {
+        public static void Invoke(Dispatcher dispatcher, Action action)
+        {
+            if (IsSynchronous)
+                action();
+            else
+                dispatcher.Invoke(action);
+        }
+
+        public static void BeginInvoke(Dispatcher dispatcher, Action action)
+        {
+            if (IsSynchronous)
+                action();
+            else
+                dispatcher.BeginInvoke(action);
+        }
+
+        public static bool IsSynchronous = false;
+
+        public event DoWorkEventHandler DoWork;        
+        public event RunWorkerCompletedEventHandler RunWorkerCompleted;
+
+        BackgroundWorker bgw = new BackgroundWorker();
+
+        public bool IsBusy { get { return bgw.IsBusy; } }
+
+        public void RunWorkerAsync()
+        {
+            RunWorkerAsync(null);
+        }
+        public void RunWorkerAsync(object argument)
+        {
+            if (IsSynchronous)
+            {
+                DoWorkEventArgs e = new DoWorkEventArgs(argument);
+                Exception error = null;
+                if (DoWork != null)
+                {
+                    try
+                    {
+                        DoWork(this, e);
+                    }
+                    catch (Exception exc)
+                    {
+                        error = exc;
+                    }
+                }
+                if (RunWorkerCompleted != null)
+                    RunWorkerCompleted(this, new RunWorkerCompletedEventArgs(e.Result, error, false));
+            }
+            else
+            {
+                bgw.RunWorkerAsync(argument);
+            }
+        }
+
+        public MyBackgroundWorker()
+        {            
+            bgw.DoWork += new DoWorkEventHandler(bgw_DoWork);
+            bgw.RunWorkerCompleted += bgw_RunWorkerCompleted;
+        }
+
+        void bgw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (DoWork != null)
+                DoWork(sender, e);
+        }
+        void bgw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (RunWorkerCompleted != null)
+                RunWorkerCompleted(sender, e);
+        }
+
+    }
 
 }
