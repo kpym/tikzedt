@@ -154,7 +154,7 @@ tikz_styleorsetorcmd
 	;
 
 dontcare_preamble
-	:	~('\\begin' | '\\tikzstyle' | '\\tikzset' | TIKZEDT_CMD_COMMENT)
+	:	~('\\begin' | '\\tikzstyle' | '\\tikzset' | '\\tikz' | TIKZEDT_CMD_COMMENT)
 	;
 otherbegin
 	:	'\\begin' '{' idd2 '}'	// todo: sufficient to have ID???
@@ -185,7 +185,7 @@ no_rlbrace
 	:	~('{' | '}')
 	;
 iddornumberunitorstringorrange
-	:	 range | numberunit | bracedcoord | idd | tikzstring  // changed here (numberunit)=>
+	:	 range | numberunit | bracedcoord | idd | (( number! ':'!)? tikzstring)  // changed here (numberunit)=>
 		;
 bracedcoord
 	:	'{'!  coord_nooption '}'!
@@ -240,16 +240,27 @@ tikz_set
 // *** Things that go within the picture ****
 
 tikzpicture 
-	:	 tikzpicture_start tikz_options? tikzbody? tikzpicture_end		-> ^(IM_PICTURE tikzpicture_start tikz_options? tikzbody? tikzpicture_end)
+	:	   ( tikzpicture_start tikz_options? tikzbody? tikzpicture_end)	-> ^(IM_PICTURE tikzpicture_start tikz_options? tikzbody? tikzpicture_end)
+		| ( tikz_start  tikz_options? '{' tikzbody2? roundbr_end )		-> ^(IM_PICTURE tikz_start tikz_options? tikzbody2? roundbr_end)
 	;
 
 tikzbody
 	:	( tikzscope | tikzpath | tikznode_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body_nobr! )  // necessary to prevent conflict with options
 		( tikzscope | tikzpath | tikznode_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body! )*
 	;
+tikzbody2
+	:	( tikzscope | tikzpath | tikznode_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body_nobr2! )  // necessary to prevent conflict with options
+		( tikzscope | tikzpath | tikznode_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body2! )*
+	;
 	
+dontcare_body_nobr2
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '[' |'{' | '}' ))	// necessary to prevent conflict with options
+	;	
+dontcare_body2
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' |'{' | '}'))   
+	;
 dontcare_body_nobr
-	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '['))	// necessary to prevent conflict with options
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '[' ))	// necessary to prevent conflict with options
 	;	
 dontcare_body
 	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' ))   
@@ -526,6 +537,9 @@ tikz_set_start
 	;
 tikzpicture_start
 	:	'\\begin' '{' 'tikzpicture' '}' -> ^(IM_STARTTAG '\\begin')
+	;
+tikz_start
+	:	'\\tikz' -> ^(IM_STARTTAG '\\tikz')
 	;
 tikzpicture_end
 	:	'\\end' '{' 'tikzpicture' '}' -> ^(IM_ENDTAG '\\end')

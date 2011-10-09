@@ -619,5 +619,17 @@ namespace TikzEdt.Properties {
                 this["FolderView_ShowHidden"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowTipsTricksWindow {
+            get {
+                return ((bool)(this["ShowTipsTricksWindow"]));
+            }
+            set {
+                this["ShowTipsTricksWindow"] = value;
+            }
+        }
     }
 }

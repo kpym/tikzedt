@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
+using System.Collections;
 
 namespace TikzEdt.Snippets
 {
@@ -91,7 +92,7 @@ namespace TikzEdt.Snippets
             
             foreach (CodeSnippet s in snippetList)
             {
-                SnippetsDataSet.SnippetsTableRow r = SnippTable.FirstOrDefault(rr => rr.Category == s.Category && rr.Name == s.Name);
+                SnippetsDataSet.SnippetsTableRow r = SnippTable.Cast< SnippetsDataSet.SnippetsTableRow>().FirstOrDefault(rr => rr.Category == s.Category && rr.Name == s.Name);
                 if (r != null)
                 {
                     s.IsAlreadyThere = true;

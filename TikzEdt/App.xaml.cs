@@ -24,6 +24,9 @@ namespace TikzEdt
             // This shouldn't be necessary... but it is. On my machine there are rendering issues....
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
+            // tie settings to Viewmodels
+            CompilerSettings.Instance = new PropertiesCompilerSettings();
+
             // defer other startup processing to base class
             base.OnStartup(e);
         }

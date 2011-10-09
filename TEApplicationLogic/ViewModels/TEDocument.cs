@@ -309,7 +309,7 @@ namespace TikzEdt.ViewModels
 
         string _PdfPath = "";
         /// <summary>
-        /// The path to the Pdf file.
+        /// The path to the Pdf file that is currently displayed.
         /// </summary>
         public string PdfPath
         {
@@ -437,7 +437,8 @@ namespace TikzEdt.ViewModels
 
         void fileWatcher_Changed(object sender, FileSystemEventArgs e)
         {
-            Dispatcher.Invoke(new Action(delegate()
+            //return;
+            Dispatcher.Invoke( new Action(delegate()
             {
                 // there is a well-known issue with filewatcher raising multiple events... so, as a hack, stop wtaching
                 fileWatcher.EnableRaisingEvents = false;
@@ -448,6 +449,7 @@ namespace TikzEdt.ViewModels
                     case MessageBoxResult.Yes:
                         ChangesMade = false;
                         LoadFile(FilePath); // here the filewatcher is turned on again implicitly
+                        Recompile();
                         break;
                     case MessageBoxResult.No:
                         ChangesMade = true;
@@ -459,6 +461,7 @@ namespace TikzEdt.ViewModels
 
         void AsyncParser_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
+            
             AsyncParserResultType Result = e.Result as AsyncParserResultType;
             if (Result == null)
                 throw new Exception("AsyncParser_RunWorkerCompleted() can only handle e.Result  of type AsyncParserResultType!");
@@ -467,7 +470,7 @@ namespace TikzEdt.ViewModels
             if (Result.DocumentID != DocumentID)
                 return;
 
-            IsStandAlone = Result.IsStandAlone;
+            IsStandAlone = Result.IsStandAlone;       
 
             //check if error occurred
             if (Result.Error != null && Result.Error is RecognitionException)
@@ -477,12 +480,11 @@ namespace TikzEdt.ViewModels
                 GlobalUI.AddStatusLine(this, "Couldn't parse code. " + errmsg, true);
                 if (ex.Line == 0 && ex.CharPositionInLine == -1)
                 {
-                    addProblemMarker(errmsg, Document.LineCount, 0, Severity.ERROR, ShortFileName);
-
+                    addProblemMarker(errmsg, Document.LineCount, 0, Severity.PARSERERROR, ShortFileName);
                 }
                 else
                 {
-                    addProblemMarker(errmsg, ex.Line, ex.CharPositionInLine, Severity.ERROR, ShortFileName);
+                    addProblemMarker(errmsg, ex.Line, ex.CharPositionInLine, Severity.PARSERERROR, ShortFileName);
                 }
                 ParseTree = null;
                 TikzStyles.Clear();
@@ -508,7 +510,7 @@ namespace TikzEdt.ViewModels
 
                 // fill the style list
                 UpdateStyleList();
-
+                
                 //now check if a warning occured. That would be a parser error in an included file.                
                 if (Result.Warning != null && Result.Warning is RecognitionException)
                 {
@@ -517,12 +519,12 @@ namespace TikzEdt.ViewModels
                     GlobalUI.AddStatusLine(this, "Couldn't parse included file. " + errmsg, true);
                     if (ex.Line == 0 && ex.CharPositionInLine == -1)
                     {
-                        addProblemMarker(errmsg, Document.LineCount, 0, Severity.WARNING, Result.WarningSource);
+                        addProblemMarker(errmsg, Document.LineCount, 0, Severity.PARSERWARNING, Result.WarningSource);
 
                     }
                     else
                     {
-                        addProblemMarker(errmsg, ex.Line, ex.CharPositionInLine, Severity.WARNING, Result.WarningSource);
+                        addProblemMarker(errmsg, ex.Line, ex.CharPositionInLine, Severity.PARSERWARNING, Result.WarningSource);
                     }
 
                 }
@@ -536,6 +538,7 @@ namespace TikzEdt.ViewModels
                     string errmsg = ((Exception)Result.Warning).Message;
                     GlobalUI.AddStatusLine(this, "Couldn't parse included file " + Result.WarningSource + ". " + errmsg, true);
                 }
+                
             }
 
             // Restart parser if necessary
@@ -548,9 +551,11 @@ namespace TikzEdt.ViewModels
         #region private fields
 
         MainWindowVM TheVM;
+        TexCompiler Compiler;
 
         FileSystemWatcher fileWatcher = new FileSystemWatcher();
-        System.ComponentModel.BackgroundWorker AsyncParser = new System.ComponentModel.BackgroundWorker();
+        //System.ComponentModel.BackgroundWorker AsyncParser = new System.ComponentModel.BackgroundWorker();
+        MyBackgroundWorker AsyncParser = new MyBackgroundWorker();
         class AsyncParserJob
         {
             public string code;
@@ -617,9 +622,10 @@ namespace TikzEdt.ViewModels
         /// If cFile != null, the new Document will be loaded from file
         /// </summary>
         /// <param name="cFile"></param>
-        public TEDocumentVM(MainWindowVM parent, string cFile = null)
+        public TEDocumentVM(MainWindowVM parent, TexCompiler compiler, string cFile = null)
         {
             TheVM = parent;
+            Compiler = compiler;
             // Set new document ID, before receiving any compiler events
             DocumentID = DateTime.Now.Ticks;
           
@@ -658,6 +664,19 @@ namespace TikzEdt.ViewModels
             //currentBB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);
             //ClearStyleLists();
 
+        }
+
+        ~TEDocumentVM()
+        {
+            if (CurFileNeverSaved)
+            {
+                //delete temp files there.
+                Helper.DeleteTemporaryFiles(System.IO.Path.GetTempPath() + "\\" + Helper.GetTempFileName(), true);
+            }
+            else
+            {    
+                Helper.DeleteTemporaryFiles(FilePath);
+            }
         }
 
 
@@ -762,7 +781,8 @@ namespace TikzEdt.ViewModels
 
             Document = new TextDocument(newcode);
             //Document.Insert(0, newcode);
-            ChangesMade = false;  // set here since txtCode sets ChangesMade on Text change
+            ChangesMade = false;  // set here since txtCode sets ChangesMade on Text change        
+            
 
             // start watching for external changes
             fileWatcher.Path = Path.GetDirectoryName(FilePath); // Directory.GetCurrentDirectory();
@@ -848,14 +868,14 @@ namespace TikzEdt.ViewModels
         /// </summary>
         /// <param name="NoParse">Skip the parsing step if true. (compile only)</param>
         public void Recompile(bool NoParse = false)
-        {
+        {            
             // Parse and compile, depending on current mode
             string path;
             if (FilePath != null)
                 path = FilePath + Helper.GetPreviewFilename() + Helper.GetPreviewFilenameExt();
             else
                 path = "";      // use a temp file
-
+            
             if (TheVM == null || TheVM.EditorMode == TEMode.Wysiwyg)
             {
                 if (!ProgrammaticTextChange && !NoParse)
@@ -871,7 +891,7 @@ namespace TikzEdt.ViewModels
                         AllowEditing = true;
                     }
                 }
-
+                //return;
                 //compiling only must be started if there is latex code
                 if (Document.Text.Trim() != "")
                     TheCompiler.Instance.AddJobExclusive(Document.Text, path, true, DocumentID);
@@ -902,34 +922,28 @@ namespace TikzEdt.ViewModels
                 return "";
             }
 
-            string s = Helper.GetCurrentWorkingDir();
-            string t = Helper.GetPreviewFilename();
-            string PreviewPdfFilePath = s + "\\" + FilePath + t + ".pdf";
-            string PdfFilePath = s + "\\" + Helper.RemoveFileExtension(FilePath) + ".pdf";
+            //string s = Helper.GetCurrentWorkingDir();
+            //string t = Helper.GetPreviewFilename();
+            //string PreviewPdfFilePath = s + "\\" + FilePath + t + ".pdf";
+            string NewPdfFilePath = Helper.RemoveFileExtension(FilePath) + ".pdf";
+            
 
             if (SaveAs == true)
-            {
-                SaveFileDialog sfd = new SaveFileDialog();
-
-                sfd.Filter = "Pdf Files|*.pdf" +
-             "|All Files|*.*";
-                sfd.OverwritePrompt = true;
-                sfd.ValidateNames = true;
-
-                sfd.FileName = System.IO.Path.GetFileName(FilePath);
+            {             
+                string filter = "Pdf Files|*.pdf|All Files|*.*";                
+                string initFileName = System.IO.Path.GetFileName(FilePath);
+                string outFileName;
                 // change file extension to .pdf
-                sfd.FileName = Helper.RemoveFileExtension(sfd.FileName) + ".pdf";
-                sfd.InitialDirectory = System.IO.Path.GetDirectoryName(FilePath);
-                if (sfd.ShowDialog() != true)
+                initFileName = Helper.RemoveFileExtension(initFileName) + ".pdf";
+                //sfd.InitialDirectory = System.IO.Path.GetDirectoryName(FilePath);
+                if (GlobalUI.ShowSaveFileDialog(out outFileName, initFileName, filter) != true)
                     return "";
-                PdfFilePath = sfd.FileName;
+                NewPdfFilePath = outFileName;
             }
-
-
 
             try
             {
-                File.Copy(PreviewPdfFilePath, PdfFilePath, true);
+                File.Copy(PdfPath, NewPdfFilePath, true);
             }
             catch (Exception Ex)
             {
@@ -937,8 +951,8 @@ namespace TikzEdt.ViewModels
                 return "";
             }
 
-            GlobalUI.AddStatusLine(this, "Preview PDF file saved as " + PdfFilePath);
-            return PdfFilePath;
+            GlobalUI.AddStatusLine(this, "Preview PDF file saved as " + NewPdfFilePath);
+            return NewPdfFilePath;
         }
         /// <summary>
         /// Displays an Export As dialog and, if successful, exports the current tikzpicture 
@@ -946,38 +960,33 @@ namespace TikzEdt.ViewModels
         /// </summary>
         void ExportFile()
         {
-            if (CurFileNeverSaved)
+            if (!File.Exists(PdfPath))
             {
-                GlobalUI.AddStatusLine(this, "Please save document first", true);
+                GlobalUI.AddStatusLine(this, "Please compile document first", true);
                 return;
             }
 
-            string s = Helper.GetCurrentWorkingDir();
-            string t = Helper.GetPreviewFilename();
-            string PreviewPdfFilePath = s + "\\" + this.FilePath + t + ".pdf";
-            string TheFilePath = Helper.RemoveFileExtension(this.FilePath) + ".pdf";
+            //string s = Helper.GetCurrentWorkingDir();
+            //string t = Helper.GetPreviewFilename();
+            //string PreviewPdfFilePath = s + "\\" + this.FilePath + t + ".pdf";
+            //string TheFilePath = Helper.RemoveFileExtension(this.FilePath) + ".pdf";
 
-            SaveFileDialog sfd = new SaveFileDialog();
+            string filter = "Jpeg Files|*.jpg|Portable Network Graphics|*.png|Bitmap Files|*.bmp|Tiff Files|*.tif|Graphics Interchange Format|*.gif|Extended Meta File|*.emf|Windows Meta File|*.wmf|Html File|*.html|Scalable Vector Graphics|*.svg";
+            //sfd.FilterIndex = 1;
+            string initFileName = ShortFileName;
+            initFileName = Helper.RemoveFileExtension(initFileName) + ".jpg";
+            string outFileName;
 
-            sfd.Filter = "Jpeg Files|*.jpg|Portable Network Graphics|*.png|Bitmap Files|*.bmp|Tiff Files|*.tif|Graphics Interchange Format|*.gif|Extended Meta File|*.emf|Windows Meta File|*.wmf|Html File|*.html|Scalable Vector Graphics|*.svg";
-            sfd.FilterIndex = 1;
-            sfd.OverwritePrompt = true;
-            sfd.ValidateNames = true;
-            sfd.AddExtension = true;
-
-            sfd.FileName = System.IO.Path.GetFileName(TheFilePath);
-            // change file extension to .pdf
-            sfd.FileName = Helper.RemoveFileExtension(sfd.FileName) + ".jpg";
-            sfd.InitialDirectory = System.IO.Path.GetDirectoryName(TheFilePath);
-            if (sfd.ShowDialog() != true)
+            // change file extension to .pdf            
+            //sfd.InitialDirectory = System.IO.Path.GetDirectoryName(TheFilePath);
+            if (GlobalUI.ShowSaveFileDialog(out outFileName, initFileName, filter) != true)
                 return;
-            TheFilePath = sfd.FileName;
-
+           
             try
             {
                 System.Drawing.Imaging.ImageFormat imgFormat;
                 bool Transparent = true;
-                switch (System.IO.Path.GetExtension(TheFilePath).ToLower())
+                switch (System.IO.Path.GetExtension(outFileName).ToLower())
                 {
                     case ".jpg":
                         imgFormat = System.Drawing.Imaging.ImageFormat.Jpeg;
@@ -1007,7 +1016,7 @@ namespace TikzEdt.ViewModels
                     case ".html":
                     case ".htm":
                         // The file will be compiled and exported by ExportCompileDialog
-                        GlobalUI.ShowExportCompileDialog(this, Document.Text, TheFilePath);
+                        GlobalUI.ShowExportCompileDialog(this, Document.Text, outFileName);
                         return;
                     default:
                         GlobalUI.AddStatusLine(this, "Could not export file: Unknown file extension.", true);
@@ -1015,8 +1024,8 @@ namespace TikzEdt.ViewModels
                 }
 
                 PdfToBmp p2b = new PdfToBmp();
-                p2b.LoadPdf(PreviewPdfFilePath);
-                p2b.SaveBmp(TheFilePath, Consts.ptspertikzunit, Transparent, imgFormat);
+                p2b.LoadPdf(PdfPath);
+                p2b.SaveBmp(outFileName, Consts.ptspertikzunit, Transparent, imgFormat);
             }
             catch (Exception Ex)
             {
@@ -1024,7 +1033,7 @@ namespace TikzEdt.ViewModels
                 return;
             }
 
-            GlobalUI.AddStatusLine(this, "File exported as " + TheFilePath);
+            GlobalUI.AddStatusLine(this, "File exported as " + outFileName);
         }
 
   /*      private string SavePdf(bool SaveAs)
@@ -1188,7 +1197,7 @@ namespace TikzEdt.ViewModels
                                         TexOutputParser.TexError te = new TexOutputParser.TexError();
                                         te.Message = "Style [" + style.Key + "] is defined multiple times. Check position " + style.Value.StartPosition() + " in " + inputfile + " and this definition.";
                                         te.pos = Result.ParseTree.styles[style.Key].StartPosition();
-                                        te.severity = Severity.WARNING;
+                                        te.severity = Severity.PARSERWARNING;
                                         pe.e = te;
                                         throw pe;
                                     }

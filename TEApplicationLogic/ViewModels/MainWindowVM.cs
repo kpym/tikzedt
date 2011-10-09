@@ -159,8 +159,11 @@ namespace TikzEdt.ViewModels
         //{ get { return Documents.Select<TEDocumentVM, TEDocumentContent>( (s, i) => s.doccontent ); } } 
    //     public AvalonDock.DocumentContent SelectedTab { get; set; }
 
-        public MainWindowVM()
+        TexCompiler Compiler;
+
+        public MainWindowVM(TexCompiler compiler)
         {
+            Compiler = compiler;
             //Documents = new ObservableCollection<TEDocumentView>();
             // create one document to start with
             //AddDocument();
@@ -189,7 +192,7 @@ namespace TikzEdt.ViewModels
             TEDocumentVM doc;
             try
             {
-                doc = new TEDocumentVM(this, cFile);
+                doc = new TEDocumentVM(this, Compiler, cFile);
                 //doc.OnClose += new EventHandler(doc_OnClose);
                // TEDocumentView view = new TEDocumentView(doc);
                 doc.OnSaved += ( (s, e) => GlobalUI.RaiseRecentFileEvent(s, (s as TEDocumentVM).FilePath, true) );
@@ -223,7 +226,7 @@ namespace TikzEdt.ViewModels
             {
                 if (TheDocument == null || TheDocument.TryDisposeFile())
                 {
-                    TheDocument = new TEDocumentVM(this);
+                    TheDocument = new TEDocumentVM(this, Compiler);
                     TheDocument.OnSaved += ((s, args) => GlobalUI.RaiseRecentFileEvent(s, (s as TEDocumentVM).FilePath, true));
                 }
             }
@@ -292,21 +295,6 @@ namespace TikzEdt.ViewModels
             return null;
         } */
     }
-
-    public class ViewModelBase : DispatcherObject, INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void NotifyPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-            }
-        }
-    }
-
-
 
     /// <summary>
     /// The mode TE can be operated in

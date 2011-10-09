@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EB03FD23-3941-4B4B-964C-29CB265BA5EA}</ProjectGuid>
+    <ProjectGuid>{F9ADB781-6536-4FE7-B440-439F8481A33C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TEApplicationLogic</RootNamespace>
-    <AssemblyName>TEApplicationLogic</AssemblyName>
+    <RootNamespace>TEAppLogicNUnitTests</RootNamespace>
+    <AssemblyName>TEAppLogicNUnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,27 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="antlr.runtime">
-      <HintPath>..\lib\antlr.runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Antlr3.Runtime">
-      <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Antlr3.Utility">
-      <HintPath>..\lib\Antlr3.Utility.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\lib\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
-    <Reference Include="PDFLibNet">
+    <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
+    <Reference Include="PDFLibNet, Version=1.0.6.6, Culture=neutral, PublicKeyToken=26d87f7d66fb2aee, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\PDFLibNet.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -61,28 +52,16 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Compiler\TexCompiler.cs" />
-    <Compile Include="Compiler\TexOutputParser.cs" />
-    <Compile Include="FastSmartWeakEvent.cs" />
-    <Compile Include="Helper.cs" />
-    <Compile Include="OverlayToolType.cs" />
-    <Compile Include="PdfToBmp.cs" />
+    <Compile Include="DocumentVMTests.cs" />
+    <Compile Include="MainWindowVMTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\MainWindowVM.cs" />
-    <Compile Include="ViewModels\RelayCommand.cs" />
-    <Compile Include="ViewModels\TEDocument.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="TexCompilerTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TikzParser\TikzParser.csproj">
-      <Project>{DCEE85EE-19E0-46F4-8C94-BB044075561F}</Project>
-      <Name>TikzParser</Name>
+    <ProjectReference Include="..\TEApplicationLogic\TEApplicationLogic.csproj">
+      <Project>{EB03FD23-3941-4B4B-964C-29CB265BA5EA}</Project>
+      <Name>TEApplicationLogic</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
-    <None Include="ClassDiagram3.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

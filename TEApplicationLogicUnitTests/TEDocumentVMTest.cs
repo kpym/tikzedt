@@ -1,6 +1,10 @@
 ﻿using TikzEdt.ViewModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using TikzEdt;
+using System.IO;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace TEApplicationLogicUnitTests
 {
@@ -11,7 +15,7 @@ namespace TEApplicationLogicUnitTests
     ///to contain all TEDocumentVMTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class TEDocumentVMTest
+    public class TEDocumentVMTest  : DispatcherObject
     {
 
 
@@ -38,10 +42,11 @@ namespace TEApplicationLogicUnitTests
         //You can use the following additional attributes as you write your tests:
         //
         //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
+        [ClassInitialize()]
+        public static void MyClassInitialize(TestContext testContext)
+        {
+            MyBackgroundWorker.IsSynchronous = true;
+        }
         //
         //Use ClassCleanup to run code after all tests in a class have run
         //[ClassCleanup()]
@@ -67,75 +72,40 @@ namespace TEApplicationLogicUnitTests
         /// <summary>
         ///A test for SavePdf
         ///</summary>
+        [Ignore]
         [TestMethod()]
         public void SavePdfTest()
         {
-            MainWindowVM parent = null; // TODO: Initialize to an appropriate value
+            TexCompiler tc = new TexCompiler();
+            //MainWindowVM parent = new MainWindowVM(tc); // TODO: Initialize to an appropriate value
             string cFile = string.Empty; // TODO: Initialize to an appropriate value
-            TEDocumentVM target = new TEDocumentVM(parent, cFile); // TODO: Initialize to an appropriate value
-            bool SaveAs = false; // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            actual = target.SavePdf(SaveAs);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            TEDocumentVM target = new TEDocumentVM(null, tc); 
+            string filename = GlobalUI.MockFileDialogFileName = Directory.GetCurrentDirectory() + "\\" + "temp2.tex";
+            GlobalUI.MockFileDialogResult = true;
+            target.SaveCurFile();
+            
+            Thread.Sleep(1000);
+
+            target.SavePdf(false);
+
+            Assert.IsTrue(File.Exists(Helper.RemoveFileExtension(filename)+".pdf"));
+            
         }
 
-        /// <summary>
-        ///A test for SaveCurFile
-        ///</summary>
-        [TestMethod()]
-        public void SaveCurFileTest()
-        {
-            MainWindowVM parent = null; // TODO: Initialize to an appropriate value
-            string cFile = string.Empty; // TODO: Initialize to an appropriate value
-            TEDocumentVM target = new TEDocumentVM(parent, cFile); // TODO: Initialize to an appropriate value
-            bool saveas = false; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.SaveCurFile(saveas);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for LoadFile
-        ///</summary>
-        [TestMethod()]
-        public void LoadFileTest()
-        {
-            MainWindowVM parent = null; // TODO: Initialize to an appropriate value
-            string cFile = string.Empty; // TODO: Initialize to an appropriate value
-            TEDocumentVM target = new TEDocumentVM(parent, cFile); // TODO: Initialize to an appropriate value
-            string cFile1 = string.Empty; // TODO: Initialize to an appropriate value
-            target.LoadFile(cFile1);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
 
         /// <summary>
         ///A test for ExportFile
         ///</summary>
+        [Ignore]
         [TestMethod()]
         [DeploymentItem("TEApplicationLogic.dll")]
         public void ExportFileTest()
         {
-            PrivateObject param0 = null; // TODO: Initialize to an appropriate value
-            TEDocumentVM_Accessor target = new TEDocumentVM_Accessor(param0); // TODO: Initialize to an appropriate value
-            target.ExportFile();
+            //PrivateObject param0 = null; // TODO: Initialize to an appropriate value
+            //TEDocumentVM_Accessor target = new TEDocumentVM_Accessor(param0); // TODO: Initialize to an appropriate value
+            //target.ExportFile();
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
 
-        /// <summary>
-        ///A test for UpdateStyleList
-        ///</summary>
-        [TestMethod()]
-        public void UpdateStyleListTest()
-        {
-            MainWindowVM parent = null; // TODO: Initialize to an appropriate value
-            string cFile = string.Empty; // TODO: Initialize to an appropriate value
-            TEDocumentVM target = new TEDocumentVM(parent, cFile); // TODO: Initialize to an appropriate value
-            target.UpdateStyleList();
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
     }
 }

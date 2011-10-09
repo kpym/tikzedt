@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TEApplicationLogic", "TEApp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TEApplicationLogicUnitTests", "TEApplicationLogicUnitTests\TEApplicationLogicUnitTests.csproj", "{869F7503-52E5-4A0A-9D68-2AFABCE8DBDB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TEAppLogicNUnitTests", "TEAppLogicNUnitTests\TEAppLogicNUnitTests.csproj", "{F9ADB781-6536-4FE7-B440-439F8481A33C}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = TikzEdt.vsmdi
@@ -232,6 +234,36 @@ Global
 		{869F7503-52E5-4A0A-9D68-2AFABCE8DBDB}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
 		{869F7503-52E5-4A0A-9D68-2AFABCE8DBDB}.SingleImage|x64.ActiveCfg = Release|Any CPU
 		{869F7503-52E5-4A0A-9D68-2AFABCE8DBDB}.SingleImage|x86.ActiveCfg = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.CD_ROM|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.CD_ROM|Mixed Platforms.Build.0 = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.CD_ROM|x64.ActiveCfg = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.CD_ROM|x86.ActiveCfg = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.DVD-5|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.DVD-5|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.DVD-5|x64.ActiveCfg = Debug|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.DVD-5|x86.ActiveCfg = Debug|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.Release|x64.ActiveCfg = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.Release|x86.ActiveCfg = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.SingleImage|x64.ActiveCfg = Release|Any CPU
+		{F9ADB781-6536-4FE7-B440-439F8481A33C}.SingleImage|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

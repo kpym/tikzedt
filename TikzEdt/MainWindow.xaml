@@ -162,6 +162,7 @@
             <MenuItem Header="?">
                 <MenuItem Header="Help..." Command="ApplicationCommands.Help"/>
                 <MenuItem Header="Open PGF manual..." Command="{x:Static custom:MainWindow.OpenPgfManualCommand}" InputGestureText="F2"/>
+                <MenuItem Header="Show Tips&amp;Tricks" Click="ShowTipsTricks_Click"/>
                 <MenuItem Header="About..." Click="AboutClick"/>
             </MenuItem>
         </Menu>
@@ -240,7 +241,7 @@
             <ToolBar Height="28" Name="tlbGrid">
                 <TextBlock VerticalAlignment="Center" Margin="0 0 3 0" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown_1">Grid:</TextBlock>
                 <ComboBox Name="cmbGrid"  Width="40" ItemsSource="{Binding}" SelectedIndex="4" IsEditable="True"
-                          Text="{Binding RasterWidth}">
+                          Text="{Binding RasterWidth}" ToolTip="Sets the grid spacing. Tip: ALT turns off the grid temporarily, ALT+SHIFT halves the grid spacing.">
                     <ComboBoxItem Content="0" />
                     <ComboBoxItem Content="0.1" />
                     <ComboBoxItem Content="0.2" />
@@ -253,7 +254,13 @@
                 <TextBox Width ="30" Name="txtRadialSteps" Text="{Binding RasterSteps}" />                
                 <TextBlock Margin="3 0 3 0" VerticalAlignment="Center" ToolTip="The offset (in degrees) of the first coordinate line of constant angular parameter shown in polar coordinate mode">RO:</TextBlock>
                 <TextBox Width ="30" Name="txtRadialOffset" Text="{Binding RasterRadialOffset}"  />
-                <!-- <extToolkit:NumericUpDown Increment="1" Maximum="360" Minimum="-360" Width="50"/> -->
+                <!-- <extToolkit:NumericUpDown Increment="1" Maximum="360" Minimum="-360" Width="50"/>
+                <CheckBox IsChecked="{Binding ElementName=rasterControl1}">
+                    0
+                </CheckBox>
+                <CheckBox>
+                    1/2
+                </CheckBox> -->
             </ToolBar>
             <ToolBar  Band="0" Height="28" Name="tlbMode"
                       Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowMode, Converter={StaticResource boolToVis}}">
@@ -605,7 +612,7 @@
                     <my:TikzDisplay HorizontalAlignment="Center" x:Name="tikzDisplay1" 
                                     RenderTransparent="{Binding EditorMode, Converter={StaticResource EnumToBool}, ConverterParameter={x:Static myVM:TEMode.Wysiwyg}}"
                                     PdfPath="{Binding TheDocument.PdfPath}" Resolution="{Binding TheDocument.Resolution}"
-                                    VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"                                     
+                                    VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"                                  
                                     ReloadPdf="{Binding TheDocument.ReloadPdf}"/>
                     <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0"                                      
                                     NodeStyle="{Binding TheDocument.NodeStyle}" EdgeStyle="{Binding TheDocument.EdgeStyle}"                                                                          
@@ -670,15 +677,16 @@
                                   Visibility="{Binding ElementName=chkErrorTex, Path=IsChecked, Converter={StaticResource boolToVis}}" 
                                   MouseDoubleClick="lstErrors_MouseDoubleClick"
                                   ItemsSource="{Binding Source={StaticResource TexErrorsSource}}">
-                            <ListView.Resources>
-
-                            </ListView.Resources>
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Image Source="{Binding Path=severity, Converter={StaticResource SeverityToImg}}" Width="16" Height="16"/>
+                                                <Grid>
+                                                    <Image Source="{Binding Path=severity, Converter={StaticResource SeverityToImg}}" Width="16" Height="16"/>
+                                                    <TextBlock Text="P" Visibility="{Binding IsFromParser, Converter={StaticResource boolToVis}}" Width="16" FontSize="11" FontFamily="Arial" FontWeight="ExtraBold"
+                                                               TextAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 -5 -5"/>
+                                                </Grid>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>

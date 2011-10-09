@@ -53,11 +53,11 @@
                             <MenuItem Name ="mnuChangeToNewStyle" Header="Change style to new style..." Click="mnuAssignStyle_Click" ToolTip="Replaces the selction's style with a new node style"/>
                     </MenuItem>
                         <MenuItem Header="Selection">
-                            <MenuItem Name ="mnuSelectionCopy" Header="Copy" Click="mnuSelection_Click" />
+                            <MenuItem Name ="mnuSelectionCopy" Header="Copy" Click="mnuSelection_Click" InputGestureText="Ctrl+C"/>
                             <MenuItem Name ="mnuSelectionCopyE" Header="Copy Enscoped" Click="mnuSelection_Click" />
-                            <MenuItem Name ="mnuSelectionCut" Header="Cut" Click="mnuSelection_Click" />
+                            <MenuItem Name ="mnuSelectionCut" Header="Cut" Click="mnuSelection_Click" InputGestureText="Ctrl+X"/>
                             <MenuItem Name ="mnuSelectionCutE" Header="Cut Enscoped" Click="mnuSelection_Click" />
-                            <MenuItem Name ="mnuSelectionDelete" Header="Delete" Click="mnuSelection_Click" />
+                            <MenuItem Name ="mnuSelectionDelete" Header="Delete" Click="mnuSelection_Click" InputGestureText="Del"/>
                             <MenuItem Name ="mnuSelectionCollect" Header="Collect" Click="mnuSelection_Click" ToolTip="Reorders lines of the code such that the selected items stand close to each other." />
                             <MenuItem Name ="mnuSelectionCollectE" Header="Collect and Enscope" Click="mnuSelection_Click" />
                             <Separator/>

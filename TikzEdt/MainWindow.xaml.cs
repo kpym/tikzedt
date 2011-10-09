@@ -208,13 +208,14 @@ namespace TikzEdt
    //     public FileSystemWatcher fileWatcher = new FileSystemWatcher();
         public MainWindow()
         {
-            this.DataContext = TheVM = new ViewModels.MainWindowVM();
+            this.DataContext = TheVM = new ViewModels.MainWindowVM(TheCompiler.Instance);
             InitializeComponent();
             
             // register GlobalUI events 
             GlobalUI.OnGlobalStatus += (s, e) => AddStatusLine(e.StatusLine, e.IsError);
             GlobalUI.OnExportCompile += (s, e) => ExportCompiler.ExportCompileDialog.Export(e.Code, e.File);
             GlobalUI.OnRecentFileEvent += (s, e) => { if (e.IsInsert) recentFileList.InsertFile(e.FileName); else recentFileList.RemoveFile(e.FileName); };
+            GlobalUI.MessageBoxOwner = this;
 
             //make sure that double to string is converted with decimal point (not comma!)       
             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
@@ -740,10 +741,10 @@ namespace TikzEdt
 
             //set path to user-defined application data. depending on cmdline parameter user data
             //is stored next to .exe or in %appdata%. If program dir is not writable %userappdata% is used.
-            if (true || CmdLine["userapp"] != null || !Helper.IsAppDirWritable()) // hack: always use Appdata folder (...since I couldn't make HasWritePermissionOnDir work)
+            //if ( CmdLine["userapp"] != null || !Helper.IsAppDirWritable()) // hack: always use Appdata folder (...since I couldn't make HasWritePermissionOnDir work)
                 Helper.SetAppdataPath(Helper.AppdataPathOptions.AppData);
-            else
-                Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
+            //else
+            //    Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
 
             AddStatusLine("Application data directory is " + Helper.GetAppdataPath());            
 
@@ -784,8 +785,9 @@ namespace TikzEdt
             //TheVM.TheDocument.Recompile();
 
 
-            Width = Width - 1;
-
+            //Width = Width - 1;
+            if (Properties.Settings.Default.ShowTipsTricksWindow)
+                (new TipsTricksWindow() { Owner=this }).ShowDialog();
         }
 
         /// <summary>
@@ -1907,7 +1909,7 @@ namespace TikzEdt
 
         private void AboutClick(object sender, RoutedEventArgs e)
         {
-            TikzEdtAbout ta = new TikzEdtAbout();
+            TikzEdtAbout ta = new TikzEdtAbout() { Owner=this };
             ta.ShowDialog();
         }
 
@@ -2629,6 +2631,11 @@ namespace TikzEdt
         private void OpenInExplorer_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start(folderView.CurrentFolder);
+        }
+
+        private void ShowTipsTricks_Click(object sender, RoutedEventArgs e)
+        {
+            (new TipsTricksWindow() { Owner = this }).ShowDialog();
         }
        
     }

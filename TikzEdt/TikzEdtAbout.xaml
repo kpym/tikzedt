@@ -1,7 +1,8 @@
 ﻿<Window x:Class="TikzEdt.TikzEdtAbout"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="About" Height="250" Width="370" ResizeMode="NoResize" Icon="/TikzEdt;component/Images/tikzedt48.ico">
+        Title="About" Height="250" Width="370" ResizeMode="NoResize" Icon="/TikzEdt;component/Images/tikzedt48.ico"
+        WindowStartupLocation="CenterOwner">
     <Grid>
         <DockPanel>
             <Image Height="120" DockPanel.Dock="Left" Name="image1" Stretch="Fill" VerticalAlignment="Center" Width="120" Margin="10" Source="/TikzEdt;component/Images/logotight.png" />
