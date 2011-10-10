@@ -32,7 +32,7 @@ namespace TEAppLogicNUnitTests
         string NonStandAloneCode =
  @"\begin{tikzpicture}
 \draw (0,0)--(3,3);
-\end{tikzpicture
+\end{tikzpicture}
 ";
 
         string JunkCode =
@@ -40,6 +40,7 @@ namespace TEAppLogicNUnitTests
 
         TexCompiler tc;
         TexCompiler.Job LastReceivedJob;
+        bool Error_Reported = false, JobFailed_Reported = false;
 
         [TestFixtureSetUp]
         public static void MyClassInitialize()
@@ -52,10 +53,16 @@ namespace TEAppLogicNUnitTests
         {
             tc = new TexCompiler();
             tc.JobSucceeded += (s, e) => LastReceivedJob = e.job;
+            tc.OnTexError += (s, e) => Error_Reported = true;
+            tc.JobFailed += (s, e) => JobFailed_Reported = true;
+
+            LastReceivedJob = null;
+            Error_Reported = false;
+            JobFailed_Reported = false;
         }
 
         [Test]
-        public void PrecompiedHeaderJobTest()
+        public void PrecompiledHeaderJobTest()
         {
 
 
@@ -66,7 +73,7 @@ namespace TEAppLogicNUnitTests
         {
             
             // Delete the precompiled header and check that it is re-created
-            string pchPath = Helper.GetPrecompiledHeaderPath() + Helper.GetPrecompiledHeaderFilename();
+            string pchPath = Helper.GetPrecompiledHeaderFMTFilePath();
             if (File.Exists(pchPath))
                 File.Delete(pchPath);
 
@@ -81,12 +88,43 @@ namespace TEAppLogicNUnitTests
             // Check that the bounding box is read out and is approximately correct
             LastReceivedJob = null;
             tc.AddJobExclusive(NonStandAloneCode, null, true, 111);
+            tc.AddJobExclusive(NonStandAloneCode, null, true, 111);
+
             Assert.AreNotEqual(LastReceivedJob, null);
             Assert.AreEqual(LastReceivedJob.DocumentID, 111);
-            Assert.That(LastReceivedJob.BB.Width, Is.EqualTo(3).Within(0.1));
-            Assert.That(LastReceivedJob.BB.Height, Is.EqualTo(3).Within(0.1));
+            Assert.That(LastReceivedJob.BB.Width, Is.EqualTo(3).Within(0.5));
+            Assert.That(LastReceivedJob.BB.Height, Is.EqualTo(3).Within(0.5));
 
 
+        }
+
+        [Test]
+        public void ErrorHandlingTest()
+        {
+            // Check that the bounding box is read out and is approximately correct        
+            tc.AddJobExclusive(JunkCode, null, true, 112);
+
+            Assert.AreEqual(LastReceivedJob, null);  // should not be compiled correctly
+            Assert.IsTrue(Error_Reported);
+            Assert.IsTrue(JobFailed_Reported);
+        }
+
+        [Test]
+        public void LocksUpOnPdfInUseTest()
+        {
+            // lock the pdf, and check that still the compiler returns, and not produces deadlock
+            LastReceivedJob = null;            
+            // compile, now pdf should be in place
+            tc.AddJobExclusive(NonStandAloneCode, "temp3.tex", true, 113);
+            // lock the pdf and recompile
+            using (FileStream fs = new FileStream("temp3.pdf", FileMode.OpenOrCreate))
+            {
+                // tc.timeout = 6000;
+                tc.AddJobExclusive(NonStandAloneCode, "temp3.tex", true, 113);                
+            }
+            Assert.AreEqual(LastReceivedJob, null);  // should not be compiled correctly
+            Assert.IsTrue(Error_Reported);
+            Assert.IsTrue(JobFailed_Reported);
         }
 
     }

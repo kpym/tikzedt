@@ -475,12 +475,12 @@ namespace TikzEdt
         /// addProblemEventHandler()
         /// </summary>
         /// <param name="line">One complete line of pdflatex.exe output</param>
-        public void parseLine(string line)
+ /*       public void parseLine(string line)
         {
             
             
         }
-
+        */
 
         /**
          * Updates the stack that determines which file we are currently

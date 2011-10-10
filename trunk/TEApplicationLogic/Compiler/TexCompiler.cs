@@ -333,8 +333,8 @@ namespace TikzEdt
         public void AddJob(Job job)
         {
             // if job.path is empty, fill with a temp file name
-            if (job.path == "") //compile in work dir!
-                job.path = /*Helper.GetAppDir() + "\\" + */ System.IO.Path.GetTempPath() + "\\" + Helper.GetTempFileName() + ".tex";
+            if (job.path == null || job.path == "") 
+                job.path = /*Helper.GetAppDir() + "\\" + */ System.IO.Path.GetTempPath() +  Helper.GetTempFileName() + ".tex";
 
             todo_tex.Enqueue(job);
             _JobNumberChanged.Raise(this, EventArgs.Empty);
@@ -426,7 +426,7 @@ namespace TikzEdt
         protected void doCompile()
         {
             //return;
-      //      GlobalUI.AddStatusLine(this, "docompile  called");
+      GlobalUI.AddStatusLine(this, "docompile  called");
             if (Compiling || todo_tex.Count == 0)
             {
                 return;
@@ -439,13 +439,8 @@ namespace TikzEdt
             SetCompiling(true);
 
             Job job;
-            if (!File.Exists(Helper.GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename()) + ".fmt"))
+            if (!File.Exists(Helper.GetPrecompiledHeaderFMTFilePath()))
             {
-                // if (OnCompileEvent != null)
-                //    OnCompileEvent(this, "Generating precompiled headers.... please restart in some moments", CompileEventType.Status); 
-                //Helper.GeneratePrecompiledHeaders();  // todo: add as compile job
-                //return;
-
                 //Note: If this job fails, header compiliation and compiliation of the main document is stopped to prevent infinite loop.
                 job = GetPrecompiledHeaderJob();
             }
@@ -477,7 +472,7 @@ namespace TikzEdt
                         job.AddOffset(PositionOfAddedLine, NumberOfAddedLines);
                     }
                 }
-    //        GlobalUI.AddStatusLine(this, "docompile  called 2");
+            GlobalUI.AddStatusLine(this, "docompile  called 2");
                 try
                 {
 
@@ -548,8 +543,8 @@ namespace TikzEdt
                 {
                     _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Error: Cannot create target file '" + job.path + "'. " + ex.Message, Type = CompileEventType.Error } );
                     _JobFailed.Raise(this, new JobEventArgs(job) );
-                    
-                    //return;
+                    SetCompiling(false);
+                    return;
                 }
             }
      //       GlobalUI.AddStatusLine(this, "docompile  called 3");
@@ -766,7 +761,7 @@ namespace TikzEdt
             //delegate()
             //{
             timer.Stop();
-        GlobalUI.AddStatusLine(this, "tex process returned");
+  //   GlobalUI.AddStatusLine(this, "tex process returned");
             MyBackgroundWorker.BeginInvoke(Dispatcher, new Action(delegate()
             {
             Job job = CurrentJob;       // todo_tex.Dequeue();

@@ -346,6 +346,10 @@ namespace TikzEdt
         {
             return "temp_header.tex";
         }
+        public static string GetPrecompiledHeaderFMTFilePath()
+        {
+            return GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(GetPrecompiledHeaderFilename()) + ".fmt";
+        }
 
         public static string GetTempFileName()
         {

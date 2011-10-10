@@ -4,6 +4,7 @@ using System;
 using System.Windows;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 
 namespace TEApplicationLogicUnitTests
 {
@@ -19,6 +20,28 @@ namespace TEApplicationLogicUnitTests
 
 
         private TestContext testContextInstance;
+
+
+        string StandAloneCode =
+@"\documentclass{article}
+\usepackage{tikz}
+\begin{document}
+\begin{tikzpicture}
+
+\end{tikzpicture
+\end{document}
+";
+        string NonStandAloneCode =
+ @"\begin{tikzpicture}
+\draw (0,0)--(3,3);
+\end{tikzpicture}
+";
+
+        string JunkCode =
+@"sdfsdlfj sfdlj klsdf lsdjf ksdfj l";
+
+        TexCompiler tc;
+        TexCompiler.Job LastReceivedJob;
 
         /// <summary>
         ///Gets or sets the test context which provides
@@ -41,10 +64,11 @@ namespace TEApplicationLogicUnitTests
         //You can use the following additional attributes as you write your tests:
         //
         //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
+        [ClassInitialize()]
+        public static void MyClassInitialize(TestContext testContext)
+        {
+            MyBackgroundWorker.IsSynchronous = true;
+        }
         //
         //Use ClassCleanup to run code after all tests in a class have run
         //[ClassCleanup()]
@@ -53,10 +77,12 @@ namespace TEApplicationLogicUnitTests
         //}
         //
         //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            tc = new TexCompiler();
+            tc.JobSucceeded += (s, e) => LastReceivedJob = e.job;
+        }
         //
         //Use TestCleanup to run code after each test has run
         //[TestCleanup()]
@@ -111,6 +137,20 @@ namespace TEApplicationLogicUnitTests
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
 
+        [TestMethod()]
+        [DeploymentItem("TEApplicationLogic.dll")]
+        public void AddJobTest_PCHCreation()
+        {
+
+            // Delete the precompiled header and check that it is re-created
+            string pchPath = Helper.GetPrecompiledHeaderFMTFilePath();
+            if (File.Exists(pchPath))
+                File.Delete(pchPath);
+
+            tc.AddJobExclusive(NonStandAloneCode, null, true, 111);
+
+            Assert.IsTrue(File.Exists(pchPath));
+        }
 
 
         /// <summary>
@@ -156,6 +196,21 @@ namespace TEApplicationLogicUnitTests
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
- 
+        [TestMethod()]
+        [DeploymentItem("TEApplicationLogic.dll")]
+        public void AddJobTest_BBreadout()
+        {
+            // Check that the bounding box is read out and is approximately correct
+            LastReceivedJob = null;
+            tc.AddJobExclusive(NonStandAloneCode, null, true, 111);
+            tc.AddJobExclusive(NonStandAloneCode, null, true, 111);
+
+            Assert.AreNotEqual(LastReceivedJob, null);
+            Assert.AreEqual(LastReceivedJob.DocumentID, 111);
+            //Assert.That(LastReceivedJob.BB.Width, Is.EqualTo(3).Within(0.1));
+            //Assert.That(LastReceivedJob.BB.Height, Is.EqualTo(3).Within(0.1));
+
+
+        }
     }
 }
