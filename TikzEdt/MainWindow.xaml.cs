@@ -158,7 +158,7 @@ namespace TikzEdt
             {
                 _currentBB = value;
 
-                BBStatusBarItem.Content = "Bounding Box: ("+Math.Round(currentBB.X,2) + ", " + Math.Round(currentBB.Y,2) + ") ("
+                CoordinateStatusBarItem.Content = "Bounding Box: ("+Math.Round(currentBB.X,2) + ", " + Math.Round(currentBB.Y,2) + ") ("
                     +Math.Round(currentBB.X+currentBB.Width,2) + ", " + Math.Round(currentBB.Y+currentBB.Height,2) + ")";
 
                 // add some margin
@@ -632,10 +632,6 @@ namespace TikzEdt
             // We still want to insert the character that was typed.
         }
         */
-        public void AddStatusBarCoordinate(string text)
-        {
-            CoordinateStatusBarItem.Content = text;
-        }
 
       /*  public void SetStandAloneStatus(bool IsStandAlone)
         {
@@ -2636,6 +2632,22 @@ namespace TikzEdt
         private void ShowTipsTricks_Click(object sender, RoutedEventArgs e)
         {
             (new TipsTricksWindow() { Owner = this }).ShowDialog();
+        }
+
+        private void pdfOverlay1_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point mousep = e.GetPosition(pdfOverlay1);
+            // convert to bottom left coordinates
+            Point p = new Point(mousep.X, pdfOverlay1.Height - mousep.Y);            
+
+            // display the current mouse position
+            p.Y /= pdfOverlay1.Resolution;
+            p.X /= pdfOverlay1.Resolution;
+            p.X += pdfOverlay1.BB.X;
+            p.Y += pdfOverlay1.BB.Y;
+
+            String s = "(" + String.Format("{0:f1}", p.X) + ", " + String.Format("{0:f1}", p.Y) + ")";
+            CoordinateStatusBarItem.Content = s;
         }
        
     }

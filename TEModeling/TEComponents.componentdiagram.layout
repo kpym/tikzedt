@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<componentDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="TEComponents">
+  <componentModelMoniker Id="2da0329a-867a-400a-8a7f-9f4cdb10e9fa" />
+  <nestedChildShapes>
+    <componentShape Id="a984d71f-51fb-4002-bbe7-7af0425588e8" absoluteBounds="4.25, 2.375, 1.5, 0.95" customColor="161, 199, 231" whiteBoxBoundsHeight="0" whiteBoxBoundsWidth="0" blackBoxBoundsHeight="0" blackBoxBoundsWidth="0" whiteBoxTopEdgeShapesCount="0" whiteBoxRightEdgeShapesCount="0" whiteBoxBottomEdgeShapesCount="0" whiteBoxLeftEdgeShapesCount="0" blackBoxTopEdgeShapesCount="0" blackBoxRightEdgeShapesCount="0" blackBoxBottomEdgeShapesCount="0" blackBoxLeftEdgeShapesCount="0">
+      <componentMoniker Id="d653d401-c557-46d2-a621-1d0670ec9b0d" LastKnownName="TikzParser" />
+    </componentShape>
+    <componentShape Id="e75c9071-53d5-4d69-b3c1-27f6b7c7a794" absoluteBounds="7.375, 2.2916667461395264, 1.5, 0.95" customColor="161, 199, 231" whiteBoxBoundsHeight="0" whiteBoxBoundsWidth="0" blackBoxBoundsHeight="0" blackBoxBoundsWidth="0" whiteBoxTopEdgeShapesCount="0" whiteBoxRightEdgeShapesCount="0" whiteBoxBottomEdgeShapesCount="0" whiteBoxLeftEdgeShapesCount="0" blackBoxTopEdgeShapesCount="0" blackBoxRightEdgeShapesCount="0" blackBoxBottomEdgeShapesCount="0" blackBoxLeftEdgeShapesCount="0">
+      <componentMoniker Id="5e4700c0-8493-4349-952c-cf9dc955b1b6" LastKnownName="Overlay" />
+    </componentShape>
+    <componentShape Id="44850bc3-9fa2-43d3-8bd0-d22c1c373715" absoluteBounds="1.375, 2.5, 1.5, 0.95" customColor="161, 199, 231" whiteBoxBoundsHeight="0" whiteBoxBoundsWidth="0" blackBoxBoundsHeight="0" blackBoxBoundsWidth="0" whiteBoxTopEdgeShapesCount="0" whiteBoxRightEdgeShapesCount="0" whiteBoxBottomEdgeShapesCount="0" whiteBoxLeftEdgeShapesCount="0" blackBoxTopEdgeShapesCount="0" blackBoxRightEdgeShapesCount="0" blackBoxBottomEdgeShapesCount="0" blackBoxLeftEdgeShapesCount="0">
+      <componentMoniker Id="608dbf2d-9de1-4d50-8a2f-338d2349d90b" LastKnownName="Editor" />
+    </componentShape>
+  </nestedChildShapes>
+</componentDiagram>

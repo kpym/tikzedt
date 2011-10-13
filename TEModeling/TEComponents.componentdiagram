@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<componentModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" dslVersion="1.0.0.0" Id="2da0329a-867a-400a-8a7f-9f4cdb10e9fa" name="TEComponents" linkedPackageId="a32b2fe6-c874-45f3-8ae4-980603e6b83e" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="304bf602-87ab-49d4-bab9-25c354d1e47c">
+      <profileInstance Id="e94c83d9-c824-48f2-8246-770d20169160" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="84cf5d2c-0235-4ebd-a6a4-4ff2321b7e80">
+      <profileInstance Id="6f68f3ed-85d7-4ed1-93db-55ab3d11e4f3" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <componentModelHasComponents>
+      <component Id="d653d401-c557-46d2-a621-1d0670ec9b0d" name="TikzParser" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="cbf7579b-6f34-4402-a3fe-f27c00afdd44" />
+      </component>
+    </componentModelHasComponents>
+    <componentModelHasComponents>
+      <component Id="5e4700c0-8493-4349-952c-cf9dc955b1b6" name="Overlay" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="6395ca57-4a40-4afd-bbed-1d35df6a997a" />
+      </component>
+    </componentModelHasComponents>
+    <componentModelHasComponents>
+      <component Id="608dbf2d-9de1-4d50-8a2f-338d2349d90b" name="Editor" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="c53693f3-b4f4-4214-b09b-b591b1bec094" />
+      </component>
+    </componentModelHasComponents>
+  </packagedElements>
+  <package Id="a32b2fe6-c874-45f3-8ae4-980603e6b83e" name="TEModeling">
+    <elementDefinition Id="59d786fd-c190-49e4-8203-03e772544a64" />
+  </package>
+</componentModel>

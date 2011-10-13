@@ -64,22 +64,26 @@ namespace TikzEdt
         public class JobEventArgs : EventArgs
         {
             public Job job;
-            public JobEventArgs(Job tjob) { job = tjob; }
+            public TexOutputParser.ParseResult OutputParseResult;
+            public int ExitCode; // the exitcode of the pdflatex process
+            
+            //public JobEventArgs(Job tjob) { job = tjob; }
+            public JobEventArgs(Job tjob, TexOutputParser.ParseResult presult, int exitCode) { job = tjob; OutputParseResult = presult; ExitCode = exitCode; }
         }
 
-        FastSmartWeakEvent<EventHandler<JobEventArgs>> _JobFailed = new FastSmartWeakEvent<EventHandler<JobEventArgs>>();
-        public event EventHandler<JobEventArgs> JobFailed
+        FastSmartWeakEvent<EventHandler<JobEventArgs>> _JobDone = new FastSmartWeakEvent<EventHandler<JobEventArgs>>();
+        public event EventHandler<JobEventArgs> JobDone
         {
-            add { _JobFailed.Add(value); }
-            remove { _JobFailed.Remove(value); }
+            add { _JobDone.Add(value); }
+            remove { _JobDone.Remove(value); }
         }
-        FastSmartWeakEvent<EventHandler<JobEventArgs>> _JobSucceeded = new FastSmartWeakEvent<EventHandler<JobEventArgs>>();
+    /*    FastSmartWeakEvent<EventHandler<JobEventArgs>> _JobSucceeded = new FastSmartWeakEvent<EventHandler<JobEventArgs>>();
         public event EventHandler<JobEventArgs> JobSucceeded
         {
             add { _JobSucceeded.Add(value); }
             remove { _JobSucceeded.Remove(value); }
         }
-
+        */
 
     //    public delegate void JobEventHandler(object sender, Job job);
     //    public event JobEventHandler JobFailed;
@@ -90,8 +94,9 @@ namespace TikzEdt
         {
             public CompileEventType Type = CompileEventType.Status;
             public string Message;
-            public TexOutputParser.TexError Error = null;
+            //public TexOutputParser.TexError Error = null;
             public Job job;
+            
             public CompileEventArgs() { }
             public CompileEventArgs(string message) { Message = message; }
             public CompileEventArgs(string message, CompileEventType type) { Message = message; Type = type; }
@@ -108,12 +113,12 @@ namespace TikzEdt
             add { _OnTexOutput.Add(value); }
             remove { _OnTexOutput.Remove(value); }
         }
-        FastSmartWeakEvent<EventHandler<CompileEventArgs>> _OnTexError = new FastSmartWeakEvent<EventHandler<CompileEventArgs>>();
+       /* FastSmartWeakEvent<EventHandler<CompileEventArgs>> _OnTexError = new FastSmartWeakEvent<EventHandler<CompileEventArgs>>();
         public event EventHandler<CompileEventArgs> OnTexError
         {
             add { _OnTexError.Add(value); }
             remove { _OnTexError.Remove(value); }
-        }
+        } */
 
      //   public delegate void CompileEventHandler(object sender, string Message, CompileEventType type);
      //   public event CompileEventHandler OnCompileEvent;
@@ -167,9 +172,12 @@ namespace TikzEdt
 
             public long DocumentID = 0;             // used to match jobs with documents, see comment on CurDocumentID
 
-            //public int lineoffset = 0;     // stores how many lines were inserted at the beginning. This is to conpute the true linenr of errors
 
-            System.Collections.Generic.SortedDictionary<int, int> LineOffsetDict = new SortedDictionary<int, int>();
+            //System.Collections.Generic.SortedDictionary<int, int> LineOffsetDict = new SortedDictionary<int, int>(); // key=line at which code was inserted, value=nr of inserted lines
+
+            // Keeps a record of the lines inserted programmatically into the temp file to allow for matching error kline numbers
+            // First=line at which code was inserted, Second=nr of inserted lines
+            List<Pair<int, int>> ProgrammaticInsertions = new List<Pair<int, int>>(); 
             /// <summary>
             /// Translates a line number of the temp file (that is the one that was compiled)
             /// to the corresponding line number in the editor.
@@ -178,6 +186,14 @@ namespace TikzEdt
             /// <returns></returns>
             public int TempFileLineToEditorLine(int LineInTempFile)
             {
+                int ret = LineInTempFile;
+                for (int j = ProgrammaticInsertions.Count - 1; j >= 0; j--)
+                    if (ProgrammaticInsertions[j].First <= ret)
+                        ret -= Math.Min(ProgrammaticInsertions[j].Second, ret - ProgrammaticInsertions[j].First);
+                return ret;
+
+
+                /*
                 //search for the key (i.e. the line) that is just greater than LineInTempFile 
                 //then take the value (as offset) of the previous line.
                 //Note: If a line is requested that was inserted into the temp file, this will
@@ -192,7 +208,7 @@ namespace TikzEdt
                     else
                         break;               
                 }
-                return LineInTempFile - Offset;
+                return LineInTempFile - Offset; */
             }
             /// <summary>
             /// Call this function if text is added to the temp file (the one that is compiled).
@@ -203,7 +219,10 @@ namespace TikzEdt
             /// <param name="LineCount">indicates how many line are added at that location</param>
             public void AddOffset(int PositionOfAddedLine, int NumberOfAddedLines)
             {
-                
+
+                ProgrammaticInsertions.Add(new Pair<int, int>(PositionOfAddedLine, NumberOfAddedLines));
+
+                /*
                 //if there are offsets below the just inserted one, then all lower offsets have to be shifted down accordingly.
                 System.Collections.Generic.SortedDictionary<int, int> TempDict = new SortedDictionary<int, int>();
                 List<int> DeleteKeyList = new List<int>();
@@ -228,11 +247,12 @@ namespace TikzEdt
                 }
 
                 LineOffsetDict.Add(PositionOfAddedLine, NumberOfAddedLines);
-
+                */
             }
             public void OffsetClear()
             {
-                LineOffsetDict.Clear();
+                ProgrammaticInsertions.Clear();
+                //LineOffsetDict.Clear();
             }
 
             //for debugging include cmdline which is executed
@@ -249,7 +269,7 @@ namespace TikzEdt
         protected Queue<Job> todo_tex = new Queue<Job>();
         Job CurrentJob;     // the job that is currently compiling
 
-        TexOutputParser myPdflatexOutputParser = new TexOutputParser();
+       // TexOutputParser myPdflatexOutputParser = new TexOutputParser();
 
         /// <summary>
         /// We do not use the events generated by the c# process because it can not guarantee that all output is read before 
@@ -280,7 +300,9 @@ namespace TikzEdt
       //              GlobalUI.AddStatusLine(this, "asyncreader 0");
                     sw.WriteLine(line);
                     // call handler
-                    texProcess_OutputDataReceived(texProcess, line);
+                    //texProcess_OutputDataReceived(texProcess, line);
+                    string line2 = line; // we need a new variable in the closure below
+                    MyBackgroundWorker.BeginInvoke(Dispatcher, () => _OnTexOutput.Raise(this, new CompileEventArgs(line2)) );
                 }
         //        GlobalUI.AddStatusLine(this, "asyncreader 1");
                 // read all output from stderr
@@ -289,7 +311,7 @@ namespace TikzEdt
                 {
                     ew.WriteLine(line);
                     // call handler
-                    texProcess_OutputDataReceived(texProcess, line);
+                    MyBackgroundWorker.BeginInvoke(Dispatcher, () => _OnTexOutput.Raise(this, new CompileEventArgs(line)));
                 }
             }
             catch (ThreadAbortException)
@@ -426,7 +448,7 @@ namespace TikzEdt
         protected void doCompile()
         {
             //return;
-      GlobalUI.AddStatusLine(this, "docompile  called");
+  //    GlobalUI.AddStatusLine(this, "docompile  called");
             if (Compiling || todo_tex.Count == 0)
             {
                 return;
@@ -472,7 +494,7 @@ namespace TikzEdt
                         job.AddOffset(PositionOfAddedLine, NumberOfAddedLines);
                     }
                 }
-            GlobalUI.AddStatusLine(this, "docompile  called 2");
+  //          GlobalUI.AddStatusLine(this, "docompile  called 2");
                 try
                 {
 
@@ -542,7 +564,7 @@ namespace TikzEdt
                 catch (Exception ex)
                 {
                     _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Error: Cannot create target file '" + job.path + "'. " + ex.Message, Type = CompileEventType.Error } );
-                    _JobFailed.Raise(this, new JobEventArgs(job) );
+                    _JobDone.Raise(this, new JobEventArgs(job, null, -1) );
                     SetCompiling(false);
                     return;
                 }
@@ -585,10 +607,10 @@ namespace TikzEdt
             }
 
 
-                if (job.GeneratePrecompiledHeaders)
-                    _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Generating precompiled header: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, Type = CompileEventType.Start });
-                else
-                    _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, Type = CompileEventType.Start });
+           if (job.GeneratePrecompiledHeaders)
+                _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Generating precompiled header: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, Type = CompileEventType.Start });
+           else
+                _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Compiling document for preview: " + texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments, Type = CompileEventType.Start });
 
             job.cmdline =  texProcess.StartInfo.WorkingDirectory +">"+ texProcess.StartInfo.FileName + " " + texProcess.StartInfo.Arguments;
             try
@@ -611,7 +633,7 @@ namespace TikzEdt
                 //SetValue(CompilingPropertyKey, false);
                 SetCompiling(false);
                 _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Cannot find pdf compiler pdflatex. Please install and/or add to PATH variable.", Type = CompileEventType.Error });
-                _JobFailed.Raise(this, new JobEventArgs(job) );
+                _JobDone.Raise(this, new JobEventArgs(job, null, -1) );
                 GlobalUI.ShowMessageBox("It seems that you do not have Latex installed. TikzEdt cannot work without Latex. Please download a Latex distribution, e.g., MikTeX or TexLive. "+
                     "If you did install it, please check that pdflatex is in the %PATH% or that the path in the settings is set correctly.", "Error running pdflatex",  MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -735,18 +757,18 @@ namespace TikzEdt
             AsyncReaderWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(AsyncReaderWorker_DoWork);
             AsyncReaderWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(AsyncReaderWorker_RunWorkerCompleted);
 
-            myPdflatexOutputParser.OnTexError += new TexOutputParser.TexErrorHandler(myPdflatexOutputParser_OnTexError);
+            //myPdflatexOutputParser.OnTexError += new TexOutputParser.TexErrorHandler(myPdflatexOutputParser_OnTexError);
             //myPdflatexOutputParser.addProblem +=new PdflatexOutputParser.addProblemEventHandler(myPdflatexOutputParser_addProblem);
             //texProcess.ErrorDataReceived += new DataReceivedEventHandler(texProcess_ErrorDataReceived);
         }
 
 
 
-        void myPdflatexOutputParser_OnTexError(object sender, TexOutputParser.TexError e, Job tjob)
+     /*   void myPdflatexOutputParser_OnTexError(object sender, TexOutputParser.TexError e, Job tjob)
         {
             _OnTexError.Raise(sender, new CompileEventArgs() { Error = e, job = tjob } );                        
         }
-
+        */
 
         /// <summary>
         /// This is called when PDFLatex has exited
@@ -768,8 +790,7 @@ namespace TikzEdt
             _JobNumberChanged.Raise(this, EventArgs.Empty);    // invoke here... it would also be possible to invoke on start of compilation...
 
             // Parse tex errors/warnings and display
-            myPdflatexOutputParser.parseOutput(job);
-
+            TexOutputParser.ParseResult OutputParseResult = TexOutputParser.parseOutput(StdOutput, job);            
 
             if (texProcess.ExitCode == 0)
             {
@@ -778,8 +799,7 @@ namespace TikzEdt
                     ReadBBFromFile(job);
                 }
 
-                _OnCompileEvent.Raise(this, new CompileEventArgs() { Message="Compilation done", Type=CompileEventType.Success });
-                _JobSucceeded.Raise(this, new JobEventArgs( job ));
+                _OnCompileEvent.Raise(this, new CompileEventArgs() { Message="Compilation done", Type=CompileEventType.Success });                
 
                 //for thumbnail generation
                 if (job.CreateBMP && !job.GeneratePrecompiledHeaders)
@@ -841,9 +861,11 @@ namespace TikzEdt
                     _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Compilation failed with exit code " + texProcess.ExitCode, Type = CompileEventType.Error });
                 }
 
-                _JobFailed.Raise(this, new JobEventArgs( job ));                
+                //_JobFailed.Raise(this, new JobEventArgs( job, OutputParseResult ));                
 
             }
+
+            _JobDone.Raise(this, new JobEventArgs(job, OutputParseResult, texProcess.ExitCode));
             
             //parse output from pdflatex.
             //myPdflatexOutputParser.parseOutput();
@@ -972,61 +994,7 @@ namespace TikzEdt
                     }
                 )
             );
-        }*/
-
-        //line de-breaking buffer for pdflatex output
-        private string OnTexOutputBufferString = "";
-        private const int MAX_LINE_LENGTH = 79;
-        void texProcess_OutputDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            texProcess_OutputDataReceived(sender, e.Data);
-        }
-        void texProcess_OutputDataReceived(object sender, string line)
-        {
-            
-            MyBackgroundWorker.BeginInvoke(Dispatcher, 
-                new Action(
-                    delegate()
-                    {
-                        string Message = line;
-                        if (Message==null)
-                            return;
-
-                        if (OnTexOutputBufferString != "")
-                        {
-                            Message = OnTexOutputBufferString + Message;
-                            OnTexOutputBufferString = "";
-                        }
-
-                        // add tex output
-                        if (Message != "")
-                        {
-                            //Add more lines if line length is a multiple of 79 and
-                            //it does not end with "...", '"', or ')'
-                            //[These are the common line endings of lines with variable length]
-                            if (!Message.EndsWith("...") && !Message.EndsWith("\"") && !Message.EndsWith(")") 
-                                && Message.Length % MAX_LINE_LENGTH == 0)
-                            {
-                                OnTexOutputBufferString = Message;
-                                //Message will be processed upon next call of this function.
-                                return;
-                            }
-                        }
-
-
-                        _OnTexOutput.Raise(this, new CompileEventArgs(Message) );
-
-                        //add warning and errors to
-                        myPdflatexOutputParser.addLine(Message);
-
-                        // Note: parsing is now started in texprocess_exited 
-                        //if this was the last output line, start parsing.
-                        //if (Message.Contains("Transcript written on"))
-                        //    myPdflatexOutputParser.parseOutput();
-                    }
-                )
-            );
-        }        
+        }*/        
 
     }
 
@@ -1040,15 +1008,18 @@ namespace TikzEdt
 
         static TikzToBMPFactory()
         {
-            Instance.JobFailed += OnJobFailed;
+            Instance.JobDone += OnJobDone;
             Instance.timeout = CompilerSettings.Instance.Compiler_SnippetTimeout;//todo... has to be updated whenever timeout changes
         }
 
-        public static void OnJobFailed(object sender, JobEventArgs e)
+        public static void OnJobDone(object sender, JobEventArgs e)
         {
-            string msg = "Compilation of the Codesnippet-Thumbnail " + e.job.path + " (" + e.job.name + ") failed.\r\nPlease re-check the code.";
-            msg += Environment.NewLine + Environment.NewLine + "cmdline: " + e.job.cmdline;
-            GlobalUI.AddStatusLine(null, msg, true);
+            if (e.ExitCode != 0)
+            {
+                string msg = "Compilation of the Codesnippet-Thumbnail " + e.job.path + " (" + e.job.name + ") failed.\r\nPlease re-check the code.";
+                msg += Environment.NewLine + Environment.NewLine + "cmdline: " + e.job.cmdline;
+                GlobalUI.AddStatusLine(null, msg, true);
+            }
         }
 
     }

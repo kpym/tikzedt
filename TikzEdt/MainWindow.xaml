@@ -191,7 +191,7 @@
                     <my:AutoGrayImage Source2="/TikzEdt;component/Images/PasteHS.png"  Stretch="Fill" Height="16" Width="16"/>
                 </Button>
                 <Button Command="ApplicationCommands.Copy" ToolTip="Copy">
-                    <my:AutoGrayImage Source2="/TikzEdt;component/Images/copy.png"  Stretch="Fill" Height="16" Width="16"/>
+                    <my:AutoGrayImage Source2="/TikzEdt;component/Images/CopyHS.png"  Stretch="Fill" Height="16" Width="16"/>
                 </Button>
                 <Button Command="ApplicationCommands.Cut" ToolTip="Cut">
                     <my:AutoGrayImage Source2="/TikzEdt;component/Images/cut.png"  Stretch="Fill" Height="16" Width="16"/>
@@ -614,7 +614,8 @@
                                     PdfPath="{Binding TheDocument.PdfPath}" Resolution="{Binding TheDocument.Resolution}"
                                     VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"                                  
                                     ReloadPdf="{Binding TheDocument.ReloadPdf}"/>
-                    <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0"                                      
+                    <my:PdfOverlay  HorizontalAlignment="Center" x:Name="pdfOverlay1" VerticalAlignment="Center" Width="200" Height="200" Grid.Row="0" Grid.Column="0"  
+                                    MouseMove="pdfOverlay1_MouseMove"
                                     NodeStyle="{Binding TheDocument.NodeStyle}" EdgeStyle="{Binding TheDocument.EdgeStyle}"                                                                          
                                     JumpToSource="pdfOverlay1_JumpToSource" ReplaceText="pdfOverlay1_ReplaceText"
                                     Resolution="{Binding TheDocument.Resolution}"
@@ -746,7 +747,10 @@
             <StatusBarItem Name="StandAloneStatusBarItem" Content="[Document is standalone]" DockPanel.Dock="Right" HorizontalAlignment="Right" 
                            Visibility="{Binding TheDocument.IsStandAlone, Converter={StaticResource boolToVis}}"/>
 
+            <Separator DockPanel.Dock="Right"/>
+            <StatusBarItem Content="{Binding TheDocument.CurrentBB, Converter={StaticResource RectToString}}" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="0 0 10 0"/>
             <StatusBarItem Name="BBStatusBarItem" Content="Bounding Box:" DockPanel.Dock="Right" HorizontalAlignment="Right" />
+
             
         </StatusBar>
     </Grid>

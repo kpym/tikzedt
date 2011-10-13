@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.IO;
 
 
 namespace TikzEdt
@@ -78,20 +79,6 @@ namespace TikzEdt
         /// Class that contains the data for the alarm event. Derives from System.EventArgs.   
         /// </summary>
         public class TexError : EventArgs
-        /*{
-            // TODO
-            int _Line;
-            public int Line { get { return _Line; } set { _Line = value; } }
-            public int linenr { get { return _Line; } set { _Line = value; } }
-            string _Message;
-            public string Message { get { return _Message; } set { _Message = value; } }
-            public string error { get { return _Message; } set { _Message = value; } }
-            Severity _type;
-            public Severity type { get { return _type; } set { _type = value; } }
-            public Severity severity { get { return _type; } set { _type = value; } }
-
-            public String causingSourceFile;
-        }*/
         {
             public String error;
             public string Message { get { return error; } set { error = value; } }
@@ -110,10 +97,10 @@ namespace TikzEdt
                 }
                 set { error = causingSourceFile; }
             }
-            public int linenr;
+            int linenr;
             public int Line { get { return linenr; } set { linenr = value; } }
-            public int pos;
-            public int Pos { get { return pos; } set { linenr = pos; } }                       
+            int pos;
+            public int Pos { get { return pos; } set { pos = value; } }                       
             private Severity _severity;
             public Severity severity { get { return _severity; } set { _severity = value; } }
             public bool IsFromParser { get { return severity == Severity.PARSERERROR || severity == Severity.PARSERWARNING; } }
@@ -121,72 +108,69 @@ namespace TikzEdt
 
             public bool inincludefile=false;  // tells whether the error occured in a file \input-ted (rather than in the main file)
         }
-    
+
+        public class ParseResult
+        {
+            public bool ErrorsFound;
+            public IEnumerable<TexError> Errors; 
+        }
 
         /// <summary>
         /// For each problem (NOTICE, ERROR, WARNING) found in the output of pdflatex
         /// when parseOutput() will trigger the addProblem event. Register for this event 
         /// to receive these problems.
         /// </summary>
-        public event TexErrorHandler OnTexError;
-        public delegate void TexErrorHandler(Object sender, TexError e, TexCompiler.Job job);
+//        public event TexErrorHandler OnTexError;
+//        public delegate void TexErrorHandler(Object sender, TexError e, TexCompiler.Job job);
         
         /// <summary>
         /// Private function that is called for each found problem in output of pdflatex when
         /// calling parseOutput(). addProblemMarker() fits the arguments into addProblemEventArgs
         /// so that addProblemEventHandler addProblem can be triggered. 
         /// </summary>
-        private void addProblemMarker(String error, String causingSourceFile, int linenr, Severity severity, TexCompiler.Job job)
+        private static void addProblemMarker(String error, String causingSourceFile, int linenr, Severity severity, TexCompiler.Job job, List<TexError> AddToThisList)
         {
-            if (OnTexError != null)
-            {
+           // if (OnTexError != null)
+           // {
                 TexError e = new TexError();
                 e.error = error;
                 e.causingSourceFile = causingSourceFile;
-                e.linenr = linenr;
+                e.Line = linenr;
                 if (job != null)
                 {
                     if (e.causingSourceFile == null)
                         e.inincludefile = true;
                     else
-                        e.inincludefile = (String.Compare(e.causingSourceFile.Trim(),
+                        e.inincludefile = (String.Compare(e.causingSourceFile.Trim().Replace('/','\\'),
                                             System.IO.Path.GetFullPath(job.path), true) != 0);
                     if (!e.inincludefile && linenr > 0)
                     {                        
-                        e.linenr = job.TempFileLineToEditorLine(e.linenr);                        
+                        e.Line = job.TempFileLineToEditorLine(e.Line);                        
                     }
-                    if (!e.inincludefile)
+                    if (!e.inincludefile && e.causingSourceFile != null)
                     {
-                        //trim preview file ending.
-                        e.causingSourceFile = e.SourceFileName.Substring(0, (e.SourceFileName.Length - Helper.GetPreviewFilename().Length - Helper.GetPreviewFilenameExt().Length));
+                        // trim preview file ending.
+                        e.causingSourceFile = e.causingSourceFile.Trim();
+                        if (e.causingSourceFile.EndsWith(Helper.GetPreviewFilename()+Helper.GetPreviewFilenameExt()))
+                            e.causingSourceFile = e.SourceFileName.Substring(0, (e.SourceFileName.Length - Helper.GetPreviewFilename().Length - Helper.GetPreviewFilenameExt().Length));
                     }
                 }
-                e.pos = -1;
+                e.Pos = -1;
                 e.severity = severity;
-                OnTexError(this, e, job);
-            }
+                AddToThisList.Add(e);
+         //       OnTexError(this, e, job);
+         //   }
         }
 
         /// <summary>
         /// clears the current code
         /// </summary>
-        public void Clear()
-        {
-            WholeOutput = "";
-        }
+  //      public void Clear()
+  //      {
+  //          WholeOutput = "";
+  //      }
 
-        private Stack<String> parsingStack;
-        private bool alreadyShowError;
-        private bool citeNotfound;
-        private bool hasProblem;
-        private string error;
-        private string occurance;
-        private int linenr;
-        private Severity severity;
-        private bool errorsFound;
-        private String WholeOutput;
-
-        public TexOutputParser()
+  /*      public TexOutputParser()
         {
             parsingStack = new Stack<string>();
             parseNewOutput();
@@ -203,21 +187,36 @@ namespace TikzEdt
             severity = Severity.WARNING;
             errorsFound = false;
             WholeOutput = "";
-        }
-        public bool parseOutput( TexCompiler.Job job)
+        } */
+
+        public static ParseResult parseOutput( string WholeOutput, TexCompiler.Job job)
         {
+            List<TexError> ErrorList = new List<TexError>();
+            ParseResult ret = new ParseResult() { Errors= ErrorList, ErrorsFound=false };
 
             //if WholeOutput is not complete, ignore it. However, this should NEVER happen.
             if (!WholeOutput.Contains("Transcript written on"))
-            {                
-                WholeOutput = "";
-                return true;
+            {
+                ret.ErrorsFound = true;
+                return ret;
             }
+
+            Stack<String> parsingStack = new Stack<string>();
+            bool alreadyShowError = false;
+            bool citeNotfound = false;
+            bool hasProblem = false;
+            string error = "";
+            string occurance = "";
+            int linenr = -1;
+            Severity severity = Severity.WARNING;
+            bool errorsFound = false;
+            
+
+            WholeOutput = DebreakLines(WholeOutput);
+
 
             //take WholeOutput and use each line as token
             StringTokenizer st = new StringTokenizer(WholeOutput, Environment.NewLine);
-            //reset all variables (actually most of them could be local variables...)
-            parseNewOutput();
 
             Regex LATEXERROR = new Regex("^! LaTeX Error: (.*)$");
             Regex LATEXCERROR = new Regex("^(.+?\\.\\w{3}):(\\d+): (.+)$");
@@ -253,7 +252,7 @@ namespace TikzEdt
                 if (m.Success)
                 {
                     //C-Style LaTeX error
-                    addProblemMarker(m.Groups[3].Value, m.Groups[1].Value, Convert.ToInt32(m.Groups[2]), Severity.ERROR, job);
+                    addProblemMarker(m.Groups[3].Value, m.Groups[1].Value, Convert.ToInt32(m.Groups[2]), Severity.ERROR, job, ErrorList);
                     //Maybe parsingStack is empty...
                     if (parsingStack.Count == 0)
                     {
@@ -269,13 +268,13 @@ namespace TikzEdt
                     if (hasProblem)
                     {
                         // We have a not reported problem
-                        addProblemMarker(error, occurance, linenr, severity, job);
+                        addProblemMarker(error, occurance, linenr, severity, job, ErrorList);
                         linenr = -1;
                     }
                     hasProblem = true;
                     errorsFound = true;
                     severity = Severity.ERROR;
-                    occurance = determineSourceFile();
+                    occurance = determineSourceFile(parsingStack);
                     Match m2 = LATEXERROR.Match(line);
                     if (m2.Success)
                     {
@@ -289,7 +288,7 @@ namespace TikzEdt
                         {
                             error += ' ' + part2;
                         }
-                        updateParsedFile(part2, job);
+                        updateParsedFile(part2, job, parsingStack, ErrorList, ref alreadyShowError);
                         continue;
                     }
                     if (line.StartsWith("! Undefined control sequence."))
@@ -310,7 +309,7 @@ namespace TikzEdt
                     if (hasProblem)
                     {
                         // We have a not reported problem
-                        addProblemMarker(error, occurance, linenr, severity, job);
+                        addProblemMarker(error, occurance, linenr, severity, job, ErrorList);
                         linenr = -1;
                         hasProblem = false;
                     }
@@ -319,7 +318,7 @@ namespace TikzEdt
                         // prepare to re-run latex
                         /*TexlipseProperties.setSessionProperty(resource.getProject(),
                                 TexlipseProperties.SESSION_LATEX_RERUN, "true");*/
-                        GlobalUI.AddStatusLine(this, "SHOULD RERUN LATEX.", true);
+                        GlobalUI.AddStatusLine(null, "SHOULD RERUN LATEX.", true);
                         continue;
                     }
                     else if (line.IndexOf("There were undefined") > -1)
@@ -329,7 +328,7 @@ namespace TikzEdt
                             // prepare to run bibtex
                             /*TexlipseProperties.setSessionProperty(resource.getProject(),
                                     TexlipseProperties.SESSION_BIBTEX_RERUN, "true");*/
-                            GlobalUI.AddStatusLine(this, "SHOULD RERUN BIBTEX.", true);
+                            GlobalUI.AddStatusLine(null, "SHOULD RERUN BIBTEX.", true);
                         }
                         continue;
                     }
@@ -344,7 +343,7 @@ namespace TikzEdt
                         continue;
                     }
                     severity = Severity.WARNING;
-                    occurance = determineSourceFile();
+                    occurance = determineSourceFile(parsingStack);
                     hasProblem = true;
                     if (line.StartsWith("LaTeX Warning: ") || line.IndexOf("pdfTeX warning") != -1)
                     {
@@ -362,11 +361,11 @@ namespace TikzEdt
                         {
                             linenr = Convert.ToInt32(pm.Groups[1].Value);
                         }
-                        updateParsedFile(nextLine, job);
+                        updateParsedFile(nextLine, job, parsingStack, ErrorList, ref alreadyShowError);
                         error += nextLine;
                         if (linenr != -1)
                         {
-                            addProblemMarker(line, occurance, linenr, severity, job);
+                            addProblemMarker(line, occurance, linenr, severity, job, ErrorList);
                             hasProblem = false;
                             linenr = -1;
                         }
@@ -390,15 +389,15 @@ namespace TikzEdt
                     if (hasProblem)
                     {
                         // We have a not reported problem
-                        addProblemMarker(error, occurance, linenr, severity, job);
+                        addProblemMarker(error, occurance, linenr, severity, job, ErrorList);
                         linenr = -1;
                         hasProblem = false;
                     }
                     severity = Severity.WARNING;
-                    occurance = determineSourceFile();
+                    occurance = determineSourceFile(parsingStack);
                     error = line;
                     linenr = Convert.ToInt32(m.Groups[1].Value);
-                    addProblemMarker(line, occurance, linenr, severity, job);
+                    addProblemMarker(line, occurance, linenr, severity, job, ErrorList);
                     hasProblem = false;
                     linenr = -1;
                     continue;
@@ -407,14 +406,14 @@ namespace TikzEdt
                 if (m.Success)
                 {
                     // prepare to run bibtex
-                    GlobalUI.AddStatusLine(this, "SHOULD RUN BIBTEX.", true);
+                    GlobalUI.AddStatusLine(null, "SHOULD RUN BIBTEX.", true);
                     continue;
                 }
                 m = NOTOCFILE.Match(line);
                 if (m.Success)
                 {
                     // prepare to re-run latex
-                    GlobalUI.AddStatusLine(this, "SHOULD RERUN LATEX.", true);
+                    GlobalUI.AddStatusLine(null, "SHOULD RERUN LATEX.", true);
                     continue;
                 }
                 m = ATLINE.Match(line);                
@@ -427,7 +426,7 @@ namespace TikzEdt
                     {
                         error += " " + line.Substring(index).Trim() + " (followed by: "
                                 + part2.Trim() + ")";
-                        addProblemMarker(error, occurance, linenr, severity, job);
+                        addProblemMarker(error, occurance, linenr, severity, job, ErrorList);
                         linenr = -1;
                         hasProblem = false;
                         continue;
@@ -437,12 +436,12 @@ namespace TikzEdt
                 if (hasProblem && m.Success)
                 {
                     linenr = Convert.ToInt32(m.Groups[1].Value);
-                    addProblemMarker(error, occurance, linenr, severity, job);
+                    addProblemMarker(error, occurance, linenr, severity, job, ErrorList);
                     linenr = -1;
                     hasProblem = false;
                     continue;
                 }
-                updateParsedFile(line, job);
+                updateParsedFile(line, job, parsingStack, ErrorList, ref alreadyShowError);
 
             }
 
@@ -453,8 +452,57 @@ namespace TikzEdt
                   // do not add "==> Fatal error blabla " to error list (is not an error)
                   //addProblemMarker(error, occurance, linenr, severity);
                 //hasProblem = false;
-            }  
-            return errorsFound;
+            }
+            ret.ErrorsFound = errorsFound;
+            return ret;
+        }
+
+        const int MAX_LINE_LENGTH = 79;
+        /// <summary>
+        /// Some lines in the pdflatex output are broken by "..." markers.
+        /// Remove those.
+        /// </summary>
+        /// <param name="WholeOutput">The latex output</param>
+        /// <returns>The latex output, with lines appropraitely joined together.</returns>
+        private static string DebreakLines(string WholeOutput)
+        {
+            StringReader sr = new StringReader(WholeOutput);
+            StringWriter sw = new StringWriter();
+            string LineBuffer = "";
+            string line;
+
+            while ((line = sr.ReadLine()) != null)
+            {
+
+                string Message = line;
+
+                if (LineBuffer != "")
+                {
+                    Message = LineBuffer + Message;
+                    LineBuffer = "";
+                }
+
+                // add tex output
+                if (Message != "")
+                {
+                    //Add more lines if line length is a multiple of 79 and
+                    //it does not end with "...", '"', or ')'
+                    //[These are the common line endings of lines with variable length]
+                    if (!Message.EndsWith("...") && !Message.EndsWith("\"") && !Message.EndsWith(")")
+                        && Message.Length % MAX_LINE_LENGTH == 0)
+                    {
+                        LineBuffer = Message;
+                        // Message will be processed upon next call of this function.
+                        continue;
+                    }
+                }
+
+                sw.WriteLine(Message);
+            }
+            if (LineBuffer != "")
+                sw.WriteLine(LineBuffer);
+
+            return sw.ToString();
         }
 
         /// <summary>
@@ -464,10 +512,64 @@ namespace TikzEdt
         /// (Combine segments if segement length is a multiple of 79 and it does not end with ...)
         /// </summary>
         /// <param name="Line">Line to add.</param>
-        public void addLine(String Line)
-        {
-            WholeOutput += Line + Environment.NewLine;
-        }   
+//        public void addLine(String Line)
+//        {
+//            WholeOutput += Line + Environment.NewLine;
+//        }
+
+             
+        //static const int MAX_LINE_LENGTH = 79;
+        ///// <summary>
+        ///// Some lines in the pdflatex output are broken by "..." markers.
+        ///// Remove those.
+        ///// </summary>
+        ///// <param name="WholeOutput">The latex output</param>
+        ///// <returns>The latex output, with lines appropraitely joined together.</returns>
+        //private static string DebreakLines(string WholeOutput)
+        //{
+        //    StringReader sr = new StringReader(WholeOutput);
+        //    StringWriter sw = new StringWriter();
+        //    private string OnTexOutputBufferString = "";
+        //    string line;
+
+            
+        //                string Message = line;
+        //                if (Message == null)
+        //                    return;
+
+        //                if (OnTexOutputBufferString != "")
+        //                {
+        //                    Message = OnTexOutputBufferString + Message;
+        //                    OnTexOutputBufferString = "";
+        //                }
+
+        //                // add tex output
+        //                if (Message != "")
+        //                {
+        //                    //Add more lines if line length is a multiple of 79 and
+        //                    //it does not end with "...", '"', or ')'
+        //                    //[These are the common line endings of lines with variable length]
+        //                    if (!Message.EndsWith("...") && !Message.EndsWith("\"") && !Message.EndsWith(")")
+        //                        && Message.Length % MAX_LINE_LENGTH == 0)
+        //                    {
+        //                        OnTexOutputBufferString = Message;
+        //                        //Message will be processed upon next call of this function.
+        //                        return;
+        //                    }
+        //                }
+
+
+        //                _OnTexOutput.Raise(this, new CompileEventArgs(Message));
+
+        //                //add warning and errors to
+        //                myPdflatexOutputParser.addLine(Message);
+
+        //                // Note: parsing is now started in texprocess_exited 
+        //                //if this was the last output line, start parsing.
+        //                //if (Message.Contains("Transcript written on"))
+        //                //    myPdflatexOutputParser.parseOutput();
+
+        //}
 
 
         /// <summary>
@@ -488,7 +590,7 @@ namespace TikzEdt
          * 
          * @param logLine A line from latex' output containing which file we are in
          */
-        private void updateParsedFile(String logLine, TexCompiler.Job job)
+        private static void updateParsedFile(String logLine, TexCompiler.Job job, Stack<string> parsingStack, List<TexError> ErrorList, ref bool alreadyShowError)
         {
             if (logLine.IndexOf('(') == -1 && logLine.IndexOf(')') == -1)
                 return;
@@ -513,8 +615,8 @@ namespace TikzEdt
                     // There was a parsing error, this is very rare
                     string err = "Error while parsing the LaTeX output. " +
                             "Please consult the console output";
-                    GlobalUI.AddStatusLine(this, err, true);
-                    addProblemMarker(err, "file", 0, Severity.ERROR, job);
+                    GlobalUI.AddStatusLine(null, err, true);
+                    addProblemMarker(err, "file", 0, Severity.ERROR, job, ErrorList);
                 }
             }
         }
@@ -524,7 +626,7 @@ namespace TikzEdt
          * @param c the character
          * @return true if the character is legal
          */
-        private bool isAllowedinName(char c)
+        private static bool isAllowedinName(char c)
         {
             if (c == '(' || c == ')' || c == '[')
                 return false;
@@ -546,7 +648,7 @@ namespace TikzEdt
         /// Determines the source file we are currently parsing.
         /// </summary>
         /// <returns>The filename or null if no file could be determined</returns>
-        private String determineSourceFile()
+        private static string determineSourceFile( Stack<string> parsingStack )
         {
             int i = parsingStack.Count - 1;
             //creating a new stack reverses the order!

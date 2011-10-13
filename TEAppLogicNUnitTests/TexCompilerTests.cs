@@ -36,11 +36,12 @@ namespace TEAppLogicNUnitTests
 ";
 
         string JunkCode =
-@"sdfsdlfj sfdlj klsdf lsdjf ksdfj l";
+@"sdfsdlfj \sfdlj \klsdf [lsdjf  }ksdfj l";
 
         TexCompiler tc;
         TexCompiler.Job LastReceivedJob;
-        bool Error_Reported = false, JobFailed_Reported = false;
+        TexCompiler.JobEventArgs LastReceivedEA;
+        bool JobFailed_Reported = false;
 
         [TestFixtureSetUp]
         public static void MyClassInitialize()
@@ -52,12 +53,10 @@ namespace TEAppLogicNUnitTests
         public void TestSetup()
         {
             tc = new TexCompiler();
-            tc.JobSucceeded += (s, e) => LastReceivedJob = e.job;
-            tc.OnTexError += (s, e) => Error_Reported = true;
-            tc.JobFailed += (s, e) => JobFailed_Reported = true;
+            tc.JobDone += (s, e) => { LastReceivedJob = e.job; LastReceivedEA = e; JobFailed_Reported = e.ExitCode != 0; };                  
 
             LastReceivedJob = null;
-            Error_Reported = false;
+            LastReceivedEA = null;
             JobFailed_Reported = false;
         }
 
@@ -100,12 +99,13 @@ namespace TEAppLogicNUnitTests
 
         [Test]
         public void ErrorHandlingTest()
-        {
-            // Check that the bounding box is read out and is approximately correct        
+        {            
             tc.AddJobExclusive(JunkCode, null, true, 112);
 
-            Assert.AreEqual(LastReceivedJob, null);  // should not be compiled correctly
-            Assert.IsTrue(Error_Reported);
+            Assert.AreNotEqual(LastReceivedJob, null);
+            Assert.AreEqual(LastReceivedJob.DocumentID, 112);
+            Assert.IsTrue(LastReceivedEA.OutputParseResult.Errors.Count() > 0);
+            Assert.IsTrue(LastReceivedEA.OutputParseResult.Errors.Any(err => err.severity == Severity.ERROR) );
             Assert.IsTrue(JobFailed_Reported);
         }
 
@@ -122,8 +122,9 @@ namespace TEAppLogicNUnitTests
                 // tc.timeout = 6000;
                 tc.AddJobExclusive(NonStandAloneCode, "temp3.tex", true, 113);                
             }
-            Assert.AreEqual(LastReceivedJob, null);  // should not be compiled correctly
-            Assert.IsTrue(Error_Reported);
+            Assert.AreNotEqual(LastReceivedJob, null);
+            Assert.AreEqual(LastReceivedJob.DocumentID, 113);
+            Assert.IsTrue(LastReceivedEA.OutputParseResult.Errors.Count() > 0);
             Assert.IsTrue(JobFailed_Reported);
         }
 
