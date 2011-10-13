@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" dslVersion="1.0.0.0" Id="d6c7e60f-ad25-4937-8d99-26919d1af9b1" name="Overview" linkedPackageId="2386e985-c5f2-48a7-bcf4-83370afe1f2b" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="34b511b1-80cb-4a23-a88c-903c7b696c88" name="TikzParser" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="d1ab71f2-7425-4a6b-911c-746067e85fb9" />
+        <ownedOperationsInternal>
+          <operation Id="0d5f746e-efe0-48e8-b415-f279d6d9f42d" name="Parse" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="81271c29-d9e6-4150-9683-173c89eff659" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="640580c8-f600-4102-8480-4a1d5825df63" direction="Return">
+                  <elementDefinition Id="b1ad2d92-bddc-44c5-b06e-f894e8bc9421" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="94e7d2af-4db9-4e01-9eaa-f3a394ca5e60" LastKnownName="TikzParseTree" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="b5d5660f-ab26-4bba-bcbc-a76928ea5d0a" name="code" direction="In" isUnique="false">
+                  <elementDefinition Id="dedc9bde-df73-4a1a-afb2-af9bd0199c22" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="91e0519f-76d7-408f-90e8-47a6ff274337" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="f4f64359-66f5-4c88-829c-2b6cc8fcce65" name="TEDocumentVM" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="f651bd44-14c9-4403-87a7-ac34e988ae81" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="f6b007c6-1b28-41a5-8892-36db82fa805b" name="MainWindowVM" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="d45f319b-45e5-472d-b51c-27e800a02344" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="94e7d2af-4db9-4e01-9eaa-f3a394ca5e60" name="TikzParseTree" isAbstract="false" isLeaf="false" cachedFullName="TEModeling::TikzParseTree">
+        <elementDefinition Id="ad3450af-9b49-4710-b8be-90c61444f4cb" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="91e0519f-76d7-408f-90e8-47a6ff274337" name="String" isAbstract="false" isLeaf="false" cachedFullName="String">
+        <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
+      </referencedType>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="2386e985-c5f2-48a7-bcf4-83370afe1f2b" name="TEModeling">
+    <elementDefinition Id="59d786fd-c190-49e4-8203-03e772544a64" />
+    <profileInstances>
+      <packageHasProfileInstances Id="4a572cac-a42c-4111-86ff-6d65cf3ac212">
+        <profileInstance Id="93f8e937-22f9-4754-9454-2777f64c35e6" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="299276d0-df60-4a48-a3d3-9e5698b3655f">
+        <profileInstance Id="d5da0505-6783-4115-86f8-ff70d325894e" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</logicalClassDesignerModel>

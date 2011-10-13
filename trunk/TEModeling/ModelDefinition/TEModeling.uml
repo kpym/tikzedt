@@ -1,0 +1,1269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm11="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm12="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner"
+  dslVersion="1.0.0.0"
+  Id="59d786fd-c190-49e4-8203-03e772544a64"
+  name="TEModeling" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <profileInstances>
+    <packageHasProfileInstances
+      Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b">
+      <profileInstance
+        Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791"
+        name="StandardProfileL2" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances
+      Id="29349502-908c-4fda-9054-c48619c59ed0">
+      <profileInstance
+        Id="532ea607-fb19-44b8-8502-3351b05452be"
+        name="StandardProfileL3" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <component
+        Id="cbf7579b-6f34-4402-a3fe-f27c00afdd44"
+        name="TikzParser"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="d1ab71f2-7425-4a6b-911c-746067e85fb9"
+        name="TikzParser"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedOperationsInternal>
+          <operation
+            Id="81271c29-d9e6-4150-9683-173c89eff659"
+            name="Parse"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="b1ad2d92-bddc-44c5-b06e-f894e8bc9421"
+                  direction="Return">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="ad3450af-9b49-4710-b8be-90c61444f4cb"
+                      LastKnownName="TikzParseTree"
+                      LastKnownLocation="TEModeling.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="dedc9bde-df73-4a1a-afb2-af9bd0199c22"
+                  name="code"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="TEModeling.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="ad3450af-9b49-4710-b8be-90c61444f4cb"
+        name="TikzParseTree"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="b6b8f04a-8380-4661-a137-4f1c1052e621"
+        name="User"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="565ed574-0219-48d9-a8fd-05aa688c9fb1"
+        name="UseCase1"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="f651bd44-14c9-4403-87a7-ac34e988ae81"
+        name="TEDocumentVM"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="d45f319b-45e5-472d-b51c-27e800a02344"
+        name="MainWindowVM"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="6395ca57-4a40-4afd-bbed-1d35df6a997a"
+        name="Overlay"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <component
+        Id="c53693f3-b4f4-4214-b09b-b591b1bec094"
+        name="Editor"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <interaction
+        Id="2755ad93-b09a-425c-bf34-8d40dc230877"
+        name="Document Compilation"
+        collapseFragmentsFlag="false"
+        isActiveClass="false"
+        isAbstract="false"
+        isLeaf="false"
+        isReentrant="false">
+        <fragments>
+          <behaviorExecutionSpecification
+            Id="9b24e2a2-77a4-468b-a2b3-7540728d54e2"
+            name="BehaviorExecutionSpecification1">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="b687608f-39e7-464e-a727-29b2b6053a96"
+                LastKnownName="ExecutionOccurrenceSpecification2"
+                LastKnownLocation="TEModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="bf27ea00-3b46-42a0-b468-1e3d8034eb65"
+                LastKnownName="ExecutionOccurrenceSpecification1"
+                LastKnownLocation="TEModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="5abbb7c1-2a5d-485e-9e3c-d0746f6b2831"
+                LastKnownName="MessageOccurrenceSpecification2"
+                LastKnownLocation="TEModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="d68d8d0a-fb2a-46f9-bb10-a7fe876f3615"
+                LastKnownName="MessageOccurrenceSpecification11"
+                LastKnownLocation="TEModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="2840752b-ad6b-466c-a2f7-0fbf36caaed9"
+                LastKnownName="MessageOccurrenceSpecification13"
+                LastKnownLocation="TEModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="3def8176-b37a-4286-a7ab-42c99fa49f10"
+                LastKnownName="MessageOccurrenceSpecification3"
+                LastKnownLocation="TEModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="bf27ea00-3b46-42a0-b468-1e3d8034eb65"
+            name="ExecutionOccurrenceSpecification1">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="8de0a803-5a65-40ac-b85f-d70754e622f8"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="TEModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="5abbb7c1-2a5d-485e-9e3c-d0746f6b2831"
+            name="MessageOccurrenceSpecification2">
+            <covered>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="d6fcd8bd-4ce6-4f08-8d1b-34baa19347f9"
+            name="MessageOccurrenceSpecification1">
+            <covered>
+              <lifelineMoniker
+                Id="c5c1a142-2821-4cdb-827b-8c327cd63d5d"
+                LastKnownName="Lifeline1"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="1589249f-e4d2-4d85-9a07-abfd773c48d8"
+            name="BehaviorExecutionSpecification4">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="7d7fc2c3-80e1-4e9f-b491-d800ed7e9b74"
+                LastKnownName="tikzParser : TikzParser"
+                LastKnownLocation="TEModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="b266d472-faca-42a8-bd64-5639990f5796"
+                LastKnownName="ExecutionOccurrenceSpecification8"
+                LastKnownLocation="TEModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="099e8626-7709-4e64-af70-d5416e592d04"
+                LastKnownName="ExecutionOccurrenceSpecification7"
+                LastKnownLocation="TEModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="67c9b054-66eb-4ac7-b0e8-3c9d5ee81c47"
+                LastKnownName="MessageOccurrenceSpecification12"
+                LastKnownLocation="TEModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="099e8626-7709-4e64-af70-d5416e592d04"
+            name="ExecutionOccurrenceSpecification7">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="04469d65-f661-4a82-a607-73d5e1ac05b2"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="TEModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="7d7fc2c3-80e1-4e9f-b491-d800ed7e9b74"
+                LastKnownName="tikzParser : TikzParser"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="d68d8d0a-fb2a-46f9-bb10-a7fe876f3615"
+            name="MessageOccurrenceSpecification11">
+            <covered>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="67c9b054-66eb-4ac7-b0e8-3c9d5ee81c47"
+            name="MessageOccurrenceSpecification12">
+            <covered>
+              <lifelineMoniker
+                Id="7d7fc2c3-80e1-4e9f-b491-d800ed7e9b74"
+                LastKnownName="tikzParser : TikzParser"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="1a619ecf-6c15-4c8a-85f9-811e10489807"
+            name="BehaviorExecutionSpecification5">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="70af6061-28e8-4caf-a5f2-c524e4be60c3"
+                LastKnownName="texCompiler : TexCompiler"
+                LastKnownLocation="TEModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="adfeb859-d60e-4e2b-ae36-71e7135ca388"
+                LastKnownName="ExecutionOccurrenceSpecification10"
+                LastKnownLocation="TEModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="84a52324-50ae-4ce9-ad5f-52eb5c70af98"
+                LastKnownName="ExecutionOccurrenceSpecification9"
+                LastKnownLocation="TEModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="17618085-1f40-4cca-aec7-6e830e8ca4a1"
+                LastKnownName="MessageOccurrenceSpecification14"
+                LastKnownLocation="TEModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="84a52324-50ae-4ce9-ad5f-52eb5c70af98"
+            name="ExecutionOccurrenceSpecification9">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="72862e9e-7305-4470-b441-4a87836248e0"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="TEModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="70af6061-28e8-4caf-a5f2-c524e4be60c3"
+                LastKnownName="texCompiler : TexCompiler"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="2840752b-ad6b-466c-a2f7-0fbf36caaed9"
+            name="MessageOccurrenceSpecification13">
+            <covered>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="17618085-1f40-4cca-aec7-6e830e8ca4a1"
+            name="MessageOccurrenceSpecification14">
+            <covered>
+              <lifelineMoniker
+                Id="70af6061-28e8-4caf-a5f2-c524e4be60c3"
+                LastKnownName="texCompiler : TexCompiler"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="b266d472-faca-42a8-bd64-5639990f5796"
+            name="ExecutionOccurrenceSpecification8">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="fef81e55-9d15-401f-b4c5-ef932b8073d2"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="TEModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="7d7fc2c3-80e1-4e9f-b491-d800ed7e9b74"
+                LastKnownName="tikzParser : TikzParser"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="3def8176-b37a-4286-a7ab-42c99fa49f10"
+            name="MessageOccurrenceSpecification3">
+            <covered>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="903ea4ef-6274-4cc0-8867-f1941e0a43f8"
+            name="MessageOccurrenceSpecification4">
+            <covered>
+              <lifelineMoniker
+                Id="c5c1a142-2821-4cdb-827b-8c327cd63d5d"
+                LastKnownName="Lifeline1"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="b687608f-39e7-464e-a727-29b2b6053a96"
+            name="ExecutionOccurrenceSpecification2">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="25d9cc2b-5109-4d51-b299-23e05ff0517b"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="TEModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="adfeb859-d60e-4e2b-ae36-71e7135ca388"
+            name="ExecutionOccurrenceSpecification10">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="010e544a-a2cc-497f-bbfd-cee473988dc1"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="TEModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="70af6061-28e8-4caf-a5f2-c524e4be60c3"
+                LastKnownName="texCompiler : TexCompiler"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="f8a27220-569b-4074-891d-8f02fbe84751"
+            name="BehaviorExecutionSpecification7">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="99908dae-bc1b-46ba-869b-24b6047accf2"
+                LastKnownName="ExecutionOccurrenceSpecification14"
+                LastKnownLocation="TEModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="ccf68ac6-42b4-457e-821a-0b49d51a7fd6"
+                LastKnownName="ExecutionOccurrenceSpecification13"
+                LastKnownLocation="TEModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="24932a6e-9f31-4945-a70f-e1ba214e8b63"
+                LastKnownName="MessageOccurrenceSpecification18"
+                LastKnownLocation="TEModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="d0629e8b-05f5-40dd-a3df-2d378e113399"
+                LastKnownName="MessageOccurrenceSpecification21"
+                LastKnownLocation="TEModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="ccf68ac6-42b4-457e-821a-0b49d51a7fd6"
+            name="ExecutionOccurrenceSpecification13">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="5344cecb-4128-4b1a-90c1-26013488b851"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="TEModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="24932a6e-9f31-4945-a70f-e1ba214e8b63"
+            name="MessageOccurrenceSpecification18">
+            <covered>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="8c75c71f-ab8d-4d9c-b931-69dfc703b669"
+            name="MessageOccurrenceSpecification17">
+            <covered>
+              <lifelineMoniker
+                Id="7d7fc2c3-80e1-4e9f-b491-d800ed7e9b74"
+                LastKnownName="tikzParser : TikzParser"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="6780a37e-b9d2-4c6a-9efd-11fcf3ee5110"
+            name="BehaviorExecutionSpecification9">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="2d2f4306-deb3-49b9-a38b-b828ddbd29e4"
+                LastKnownName="pdfOverlay : PdfOverlay"
+                LastKnownLocation="TEModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="fe2be243-b996-49f1-817d-4762b45a3658"
+                LastKnownName="ExecutionOccurrenceSpecification18"
+                LastKnownLocation="TEModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="1d820b07-1948-4969-9ae3-8f516969a6e6"
+                LastKnownName="ExecutionOccurrenceSpecification17"
+                LastKnownLocation="TEModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="4f1ed4ea-e944-447e-ac97-93123ad4315c"
+                LastKnownName="MessageOccurrenceSpecification22"
+                LastKnownLocation="TEModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="1d820b07-1948-4969-9ae3-8f516969a6e6"
+            name="ExecutionOccurrenceSpecification17">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="ae63eed9-fb6c-4e23-9f0e-a5ed2371b4b6"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="TEModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="2d2f4306-deb3-49b9-a38b-b828ddbd29e4"
+                LastKnownName="pdfOverlay : PdfOverlay"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="d0629e8b-05f5-40dd-a3df-2d378e113399"
+            name="MessageOccurrenceSpecification21">
+            <covered>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="4f1ed4ea-e944-447e-ac97-93123ad4315c"
+            name="MessageOccurrenceSpecification22">
+            <covered>
+              <lifelineMoniker
+                Id="2d2f4306-deb3-49b9-a38b-b828ddbd29e4"
+                LastKnownName="pdfOverlay : PdfOverlay"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="99908dae-bc1b-46ba-869b-24b6047accf2"
+            name="ExecutionOccurrenceSpecification14">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="41ffc1b0-ad99-4733-a589-49989ab992e0"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="TEModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="fe2be243-b996-49f1-817d-4762b45a3658"
+            name="ExecutionOccurrenceSpecification18">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="024090ff-1611-4548-9375-ab7bcdda5175"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="TEModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="2d2f4306-deb3-49b9-a38b-b828ddbd29e4"
+                LastKnownName="pdfOverlay : PdfOverlay"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="2814fa05-c7b9-4eb3-89a5-810ebe6be06b"
+            name="BehaviorExecutionSpecification6">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="2b63126e-a0a3-4bfe-a1b2-04cc9fc46d5e"
+                LastKnownName="ExecutionOccurrenceSpecification12"
+                LastKnownLocation="TEModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="2832bcc2-1e24-4ef1-a7b5-eb3ba583bee9"
+                LastKnownName="ExecutionOccurrenceSpecification11"
+                LastKnownLocation="TEModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="f86066b2-9d38-4304-b73c-d00237acfe7c"
+                LastKnownName="MessageOccurrenceSpecification16"
+                LastKnownLocation="TEModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="90eb22eb-9d25-4495-9fa7-ac5aed95ae82"
+                LastKnownName="MessageOccurrenceSpecification23"
+                LastKnownLocation="TEModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="2832bcc2-1e24-4ef1-a7b5-eb3ba583bee9"
+            name="ExecutionOccurrenceSpecification11">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="69942f7c-383f-4c2f-881e-ec10f013457f"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="TEModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="f86066b2-9d38-4304-b73c-d00237acfe7c"
+            name="MessageOccurrenceSpecification16">
+            <covered>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="4ab85940-e587-446a-9914-de670d595e63"
+            name="MessageOccurrenceSpecification15">
+            <covered>
+              <lifelineMoniker
+                Id="70af6061-28e8-4caf-a5f2-c524e4be60c3"
+                LastKnownName="texCompiler : TexCompiler"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="633e5a9d-79f5-44ab-9ffa-6c6909f3bb63"
+            name="BehaviorExecutionSpecification10">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="c96e54b4-6a9a-49ff-88dd-5740ea3ce4e3"
+                LastKnownName="tikzDisplay : TikzDisplay"
+                LastKnownLocation="TEModeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="3058b389-80ac-4b5a-aaff-f6534848e3d8"
+                LastKnownName="ExecutionOccurrenceSpecification20"
+                LastKnownLocation="TEModeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="b4f258fe-06cf-466b-8099-1ef298b2ef01"
+                LastKnownName="ExecutionOccurrenceSpecification19"
+                LastKnownLocation="TEModeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="9d439e5e-b587-46c8-925f-febb08614db5"
+                LastKnownName="MessageOccurrenceSpecification24"
+                LastKnownLocation="TEModeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="b4f258fe-06cf-466b-8099-1ef298b2ef01"
+            name="ExecutionOccurrenceSpecification19">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="63379f5e-4820-4bd5-9959-a6b3c2f02770"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="TEModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="c96e54b4-6a9a-49ff-88dd-5740ea3ce4e3"
+                LastKnownName="tikzDisplay : TikzDisplay"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="90eb22eb-9d25-4495-9fa7-ac5aed95ae82"
+            name="MessageOccurrenceSpecification23">
+            <covered>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="9d439e5e-b587-46c8-925f-febb08614db5"
+            name="MessageOccurrenceSpecification24">
+            <covered>
+              <lifelineMoniker
+                Id="c96e54b4-6a9a-49ff-88dd-5740ea3ce4e3"
+                LastKnownName="tikzDisplay : TikzDisplay"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="2b63126e-a0a3-4bfe-a1b2-04cc9fc46d5e"
+            name="ExecutionOccurrenceSpecification12">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="67d87c73-7d8e-40ec-a4df-f7586816af51"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="TEModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+                LastKnownName="tEDocumentVM : TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="3058b389-80ac-4b5a-aaff-f6534848e3d8"
+            name="ExecutionOccurrenceSpecification20">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="bd7dc67c-d518-4b8a-b096-ec554f219322"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="TEModeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="c96e54b4-6a9a-49ff-88dd-5740ea3ce4e3"
+                LastKnownName="tikzDisplay : TikzDisplay"
+                LastKnownLocation="TEModeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+        </fragments>
+        <lifelines>
+          <lifeline
+            Id="c5c1a142-2821-4cdb-827b-8c327cd63d5d"
+            name="Lifeline1"
+            isActor="false"
+            lifelineDisplayName="Lifeline1">
+            <topLevelOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="d6fcd8bd-4ce6-4f08-8d1b-34baa19347f9"
+                LastKnownName="MessageOccurrenceSpecification1"
+                LastKnownLocation="TEModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="903ea4ef-6274-4cc0-8867-f1941e0a43f8"
+                LastKnownName="MessageOccurrenceSpecification4"
+                LastKnownLocation="TEModeling.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="bb3567ba-6773-4db6-8858-6c7cd0e56888"
+            name="tEDocumentVM : TEDocumentVM"
+            isActor="false"
+            lifelineDisplayName="tEDocumentVM : TEDocumentVM">
+            <represents>
+              <propertyMoniker
+                Id="d9516a40-b7e2-426a-acba-8d57da69f3d8"
+                LastKnownLocation="TEModeling.uml" />
+            </represents>
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker
+                Id="bf27ea00-3b46-42a0-b468-1e3d8034eb65"
+                LastKnownName="ExecutionOccurrenceSpecification1"
+                LastKnownLocation="TEModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="b687608f-39e7-464e-a727-29b2b6053a96"
+                LastKnownName="ExecutionOccurrenceSpecification2"
+                LastKnownLocation="TEModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="ccf68ac6-42b4-457e-821a-0b49d51a7fd6"
+                LastKnownName="ExecutionOccurrenceSpecification13"
+                LastKnownLocation="TEModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="99908dae-bc1b-46ba-869b-24b6047accf2"
+                LastKnownName="ExecutionOccurrenceSpecification14"
+                LastKnownLocation="TEModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="2832bcc2-1e24-4ef1-a7b5-eb3ba583bee9"
+                LastKnownName="ExecutionOccurrenceSpecification11"
+                LastKnownLocation="TEModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="2b63126e-a0a3-4bfe-a1b2-04cc9fc46d5e"
+                LastKnownName="ExecutionOccurrenceSpecification12"
+                LastKnownLocation="TEModeling.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="7d7fc2c3-80e1-4e9f-b491-d800ed7e9b74"
+            name="tikzParser : TikzParser"
+            isActor="false"
+            lifelineDisplayName="tikzParser : TikzParser">
+            <represents>
+              <propertyMoniker
+                Id="2304c4f4-bf8b-45eb-b04d-93483394cd53"
+                LastKnownLocation="TEModeling.uml" />
+            </represents>
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker
+                Id="099e8626-7709-4e64-af70-d5416e592d04"
+                LastKnownName="ExecutionOccurrenceSpecification7"
+                LastKnownLocation="TEModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="b266d472-faca-42a8-bd64-5639990f5796"
+                LastKnownName="ExecutionOccurrenceSpecification8"
+                LastKnownLocation="TEModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="8c75c71f-ab8d-4d9c-b931-69dfc703b669"
+                LastKnownName="MessageOccurrenceSpecification17"
+                LastKnownLocation="TEModeling.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="70af6061-28e8-4caf-a5f2-c524e4be60c3"
+            name="texCompiler : TexCompiler"
+            isActor="false"
+            lifelineDisplayName="texCompiler : TexCompiler">
+            <represents>
+              <propertyMoniker
+                Id="209c4900-ce7c-46e4-9eb1-bb94adec1ae3"
+                LastKnownLocation="TEModeling.uml" />
+            </represents>
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker
+                Id="84a52324-50ae-4ce9-ad5f-52eb5c70af98"
+                LastKnownName="ExecutionOccurrenceSpecification9"
+                LastKnownLocation="TEModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="adfeb859-d60e-4e2b-ae36-71e7135ca388"
+                LastKnownName="ExecutionOccurrenceSpecification10"
+                LastKnownLocation="TEModeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="4ab85940-e587-446a-9914-de670d595e63"
+                LastKnownName="MessageOccurrenceSpecification15"
+                LastKnownLocation="TEModeling.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="2d2f4306-deb3-49b9-a38b-b828ddbd29e4"
+            name="pdfOverlay : PdfOverlay"
+            isActor="false"
+            lifelineDisplayName="pdfOverlay : PdfOverlay">
+            <represents>
+              <propertyMoniker
+                Id="0bddbb25-3027-440a-83f1-a75cc226dd6f"
+                LastKnownLocation="TEModeling.uml" />
+            </represents>
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker
+                Id="1d820b07-1948-4969-9ae3-8f516969a6e6"
+                LastKnownName="ExecutionOccurrenceSpecification17"
+                LastKnownLocation="TEModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="fe2be243-b996-49f1-817d-4762b45a3658"
+                LastKnownName="ExecutionOccurrenceSpecification18"
+                LastKnownLocation="TEModeling.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="c96e54b4-6a9a-49ff-88dd-5740ea3ce4e3"
+            name="tikzDisplay : TikzDisplay"
+            isActor="false"
+            lifelineDisplayName="tikzDisplay : TikzDisplay">
+            <represents>
+              <propertyMoniker
+                Id="edd16bdc-2bc0-4737-b297-83a7fefdb079"
+                LastKnownLocation="TEModeling.uml" />
+            </represents>
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker
+                Id="b4f258fe-06cf-466b-8099-1ef298b2ef01"
+                LastKnownName="ExecutionOccurrenceSpecification19"
+                LastKnownLocation="TEModeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="3058b389-80ac-4b5a-aaff-f6534848e3d8"
+                LastKnownName="ExecutionOccurrenceSpecification20"
+                LastKnownLocation="TEModeling.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+        </lifelines>
+        <messages>
+          <message
+            Id="b58bfd99-189c-4ebe-8ea2-fad85c451d77"
+            name="Recompile()"
+            messageKind="Complete"
+            messageSort="SynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="d6fcd8bd-4ce6-4f08-8d1b-34baa19347f9"
+                LastKnownName="MessageOccurrenceSpecification1"
+                LastKnownLocation="TEModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="5abbb7c1-2a5d-485e-9e3c-d0746f6b2831"
+                LastKnownName="MessageOccurrenceSpecification2"
+                LastKnownLocation="TEModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="02329040-c645-4303-8e3b-9244fa16fa7d"
+            messageKind="Complete"
+            messageSort="Reply"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="3def8176-b37a-4286-a7ab-42c99fa49f10"
+                LastKnownName="MessageOccurrenceSpecification3"
+                LastKnownLocation="TEModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="903ea4ef-6274-4cc0-8867-f1941e0a43f8"
+                LastKnownName="MessageOccurrenceSpecification4"
+                LastKnownLocation="TEModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="2f60c516-ec4f-4081-a913-f7cc715ed0e8"
+            name="Parse()"
+            messageKind="Complete"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="d68d8d0a-fb2a-46f9-bb10-a7fe876f3615"
+                LastKnownName="MessageOccurrenceSpecification11"
+                LastKnownLocation="TEModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="67c9b054-66eb-4ac7-b0e8-3c9d5ee81c47"
+                LastKnownName="MessageOccurrenceSpecification12"
+                LastKnownLocation="TEModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="159f56a1-9c22-4467-8d55-7b8939ad8cd4"
+            name="AddJobExclusive()"
+            messageKind="Complete"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="2840752b-ad6b-466c-a2f7-0fbf36caaed9"
+                LastKnownName="MessageOccurrenceSpecification13"
+                LastKnownLocation="TEModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="17618085-1f40-4cca-aec7-6e830e8ca4a1"
+                LastKnownName="MessageOccurrenceSpecification14"
+                LastKnownLocation="TEModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="108000d3-9721-451f-a605-3ea3abaf0dd2"
+            name="JobDone"
+            messageKind="Complete"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="4ab85940-e587-446a-9914-de670d595e63"
+                LastKnownName="MessageOccurrenceSpecification15"
+                LastKnownLocation="TEModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="f86066b2-9d38-4304-b73c-d00237acfe7c"
+                LastKnownName="MessageOccurrenceSpecification16"
+                LastKnownLocation="TEModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="1b8fc218-bf87-4bd5-976f-ba5730c97471"
+            name="Parse complete"
+            messageKind="Complete"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="8c75c71f-ab8d-4d9c-b931-69dfc703b669"
+                LastKnownName="MessageOccurrenceSpecification17"
+                LastKnownLocation="TEModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="24932a6e-9f31-4945-a70f-e1ba214e8b63"
+                LastKnownName="MessageOccurrenceSpecification18"
+                LastKnownLocation="TEModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="317a2b07-8d4d-41d2-9517-12fe931519f1"
+            name="Notify by setting ParseTree"
+            messageKind="Complete"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="d0629e8b-05f5-40dd-a3df-2d378e113399"
+                LastKnownName="MessageOccurrenceSpecification21"
+                LastKnownLocation="TEModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="4f1ed4ea-e944-447e-ac97-93123ad4315c"
+                LastKnownName="MessageOccurrenceSpecification22"
+                LastKnownLocation="TEModeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="1bed4528-6fc2-4b76-8d08-ed89648a7289"
+            name="Notify by setting PdfPath and ReloadPdf++"
+            messageKind="Complete"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="90eb22eb-9d25-4495-9fa7-ac5aed95ae82"
+                LastKnownName="MessageOccurrenceSpecification23"
+                LastKnownLocation="TEModeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="9d439e5e-b587-46c8-925f-febb08614db5"
+                LastKnownName="MessageOccurrenceSpecification24"
+                LastKnownLocation="TEModeling.uml" />
+            </receiveEvent>
+          </message>
+        </messages>
+        <ownedAttributesInternal>
+          <property
+            Id="d9516a40-b7e2-426a-acba-8d57da69f3d8"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="f651bd44-14c9-4403-87a7-ac34e988ae81"
+                LastKnownName="TEDocumentVM"
+                LastKnownLocation="TEModeling.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="2304c4f4-bf8b-45eb-b04d-93483394cd53"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="d1ab71f2-7425-4a6b-911c-746067e85fb9"
+                LastKnownName="TikzParser"
+                LastKnownLocation="TEModeling.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="209c4900-ce7c-46e4-9eb1-bb94adec1ae3"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="268a63c6-73fe-44f1-85bd-e2cd2747d12c"
+                LastKnownName="TexCompiler"
+                LastKnownLocation="TEModeling.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="0bddbb25-3027-440a-83f1-a75cc226dd6f"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="71f8f768-80cc-4991-92b0-9f444a0c26ce"
+                LastKnownName="PdfOverlay"
+                LastKnownLocation="TEModeling.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="edd16bdc-2bc0-4737-b297-83a7fefdb079"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="e020e319-a8bd-40d5-974b-ca466d9b672a"
+                LastKnownName="TikzDisplay"
+                LastKnownLocation="TEModeling.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </interaction>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="268a63c6-73fe-44f1-85bd-e2cd2747d12c"
+        name="TexCompiler"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="8de0a803-5a65-40ac-b85f-d70754e622f8"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="25d9cc2b-5109-4d51-b299-23e05ff0517b"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="04469d65-f661-4a82-a607-73d5e1ac05b2"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="fef81e55-9d15-401f-b4c5-ef932b8073d2"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="72862e9e-7305-4470-b441-4a87836248e0"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="010e544a-a2cc-497f-bbfd-cee473988dc1"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="69942f7c-383f-4c2f-881e-ec10f013457f"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="67d87c73-7d8e-40ec-a4df-f7586816af51"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="5344cecb-4128-4b1a-90c1-26013488b851"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="41ffc1b0-ad99-4733-a589-49989ab992e0"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="71f8f768-80cc-4991-92b0-9f444a0c26ce"
+        name="PdfOverlay"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="e020e319-a8bd-40d5-974b-ca466d9b672a"
+        name="TikzDisplay"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="ae63eed9-fb6c-4e23-9f0e-a5ed2371b4b6"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="024090ff-1611-4548-9375-ab7bcdda5175"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="63379f5e-4820-4bd5-9959-a6b3c2f02770"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="bd7dc67c-d518-4b8a-b096-ec554f219322"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+  </packagedElements>
+  <primitiveType
+    Id="220a3521-e091-4221-bae9-3ef9018e845c"
+    name="Integer"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+    name="Boolean"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+    name="String"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="3ab42e7d-4969-445a-b209-471f5cb8209c"
+    name="UnlimitedNatural"
+    isAbstract="false"
+    isLeaf="false" />
+</modelStoreModel>

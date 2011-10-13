@@ -150,6 +150,7 @@
     <Compile Include="ExportCompiler\ExportCompileDialog.xaml.cs">
       <DependentUpon>ExportCompileDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Misc\Converters.cs" />
     <Compile Include="Misc\FileDownloader.cs" />
     <Compile Include="Misc\DockPanelSplitter.cs" />
     <Compile Include="Overlay\ArcEditTool.cs" />
@@ -579,6 +580,9 @@
   </ItemGroup>
   <ItemGroup>
     <SplashScreen Include="TESplashScreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CopyHS.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

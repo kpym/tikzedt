@@ -657,14 +657,14 @@ namespace TikzEdt
             CurrentTool.OnMouseMove(p, e);
             
             // display the current mouse position
-            p.Y /= Resolution;
+         /*   p.Y /= Resolution;
             p.X /= Resolution;
             p.X += BB.X;
             p.Y += BB.Y;
-                   
-            String s = "(" + String.Format("{0:f1}", p.X) + "; "+ String.Format("{0:f1}", p.Y) + ")";
-            ((MainWindow)Application.Current.Windows[0]).AddStatusBarCoordinate(s);
-            
+
+            String s = "(" + String.Format("{0:f1}", p.X) + "; " + String.Format("{0:f1}", p.Y) + ")";
+            ((MainWindow)Application.Current.Windows[0]).AddStatusBarCoordinate(s);            
+         */ 
         }
 
         /// <summary>

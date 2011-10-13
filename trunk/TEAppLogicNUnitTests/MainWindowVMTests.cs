@@ -146,7 +146,7 @@ namespace TEAppLogicNUnitTests
             GlobalUI.OnGlobalStatus += (s, e) => Console.WriteLine("*** " + e.StatusLine);
             TheCompiler.Instance.OnCompileEvent += (s, e) => Console.WriteLine("+++ " + e.Message);
             TheCompiler.Instance.OnTexOutput += (s, e) => Console.WriteLine("xxx " + e.Message);
-            TheCompiler.Instance.JobFailed += (s, e) => Console.WriteLine("xxx failed");
+            TheCompiler.Instance.JobDone += (s, e) => Console.WriteLine("xxx Done with Exit Code "+e.ExitCode);
 
             MyBackgroundWorker.IsSynchronous = true;
 	    }

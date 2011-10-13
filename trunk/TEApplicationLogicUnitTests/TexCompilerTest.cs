@@ -1,6 +1,7 @@
 ﻿using TikzEdt;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 using System.Windows;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -38,10 +39,12 @@ namespace TEApplicationLogicUnitTests
 ";
 
         string JunkCode =
-@"sdfsdlfj sfdlj klsdf lsdjf ksdfj l";
+@"sdfsdlfj \sfdlj \klsdf [lsdjf  }ksdfj l";
 
         TexCompiler tc;
         TexCompiler.Job LastReceivedJob;
+        TexCompiler.JobEventArgs LastReceivedEA;
+        bool JobFailed_Reported = false;
 
         /// <summary>
         ///Gets or sets the test context which provides
@@ -81,7 +84,11 @@ namespace TEApplicationLogicUnitTests
         public void MyTestInitialize()
         {
             tc = new TexCompiler();
-            tc.JobSucceeded += (s, e) => LastReceivedJob = e.job;
+            tc.JobDone += (s, e) => { LastReceivedJob = e.job; LastReceivedEA = e; JobFailed_Reported = e.ExitCode != 0; };       
+
+            LastReceivedJob = null;
+            LastReceivedEA = null;
+            JobFailed_Reported = false;
         }
         //
         //Use TestCleanup to run code after each test has run
@@ -116,11 +123,11 @@ namespace TEApplicationLogicUnitTests
         [DeploymentItem("TEApplicationLogic.dll")]
         public void PreprocessJobTest()
         {
-            TexCompiler_Accessor target = new TexCompiler_Accessor(); // TODO: Initialize to an appropriate value
-            TexCompiler.Job job = new TexCompiler.Job(); // TODO: Initialize to an appropriate value
-            job.code = "\\begin{tikzpicture} %!TE% \\end{tikzpicture}";
-            target.PreprocessJob(job);
-            Assert.AreEqual("\\begin{tikzpicture}  \\end{tikzpicture}", job.code.Trim());
+            //TexCompiler_Accessor target = new TexCompiler_Accessor(); // TODO: Initialize to an appropriate value
+           // TexCompiler.Job job = new TexCompiler.Job(); // TODO: Initialize to an appropriate value
+           // job.code = "\\begin{tikzpicture} %!TE% \\end{tikzpicture}";
+           // target.PreprocessJob(job);
+           // Assert.AreEqual("\\begin{tikzpicture}  \\end{tikzpicture}", job.code.Trim());
         }
 
         /// <summary>
@@ -207,10 +214,43 @@ namespace TEApplicationLogicUnitTests
 
             Assert.AreNotEqual(LastReceivedJob, null);
             Assert.AreEqual(LastReceivedJob.DocumentID, 111);
-            //Assert.That(LastReceivedJob.BB.Width, Is.EqualTo(3).Within(0.1));
-            //Assert.That(LastReceivedJob.BB.Height, Is.EqualTo(3).Within(0.1));
-
+            Assert.IsTrue( Math.Abs( LastReceivedJob.BB.Width -3) < .5);
+            Assert.IsTrue( Math.Abs( LastReceivedJob.BB.Height - 3) < .5);
 
         }
+
+        [TestMethod()]
+        [DeploymentItem("TEApplicationLogic.dll")]
+        public void ErrorHandlingTest()
+        {
+            // Check that the bounding box is read out and is approximately correct        
+            tc.AddJobExclusive(JunkCode, null, true, 112);
+
+            Assert.AreNotEqual(LastReceivedJob, null);
+            Assert.AreEqual(112, LastReceivedJob.DocumentID);
+            Assert.IsTrue(LastReceivedEA.OutputParseResult.Errors.Count() > 0);
+            Assert.IsTrue(JobFailed_Reported);
+        }
+
+        [TestMethod()]
+        [DeploymentItem("TEApplicationLogic.dll")]
+        public void LocksUpOnPdfInUseTest()
+        {
+            // lock the pdf, and check that still the compiler returns, and not produces deadlock
+            LastReceivedJob = null;
+            // compile, now pdf should be in place
+            tc.AddJobExclusive(NonStandAloneCode, "temp3.tex", true, 113);
+            // lock the pdf and recompile
+            using (FileStream fs = new FileStream("temp3.pdf", FileMode.OpenOrCreate))
+            {
+                // tc.timeout = 6000;
+                tc.AddJobExclusive(NonStandAloneCode, "temp3.tex", true, 113);
+            }
+            Assert.AreNotEqual(LastReceivedJob, null);
+            Assert.AreEqual(113, LastReceivedJob.DocumentID);
+            Assert.IsTrue(LastReceivedEA.OutputParseResult.Errors.Count() > 0);
+            Assert.IsTrue(JobFailed_Reported);
+        }
+
     }
 }

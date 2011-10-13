@@ -26,4 +26,5 @@
     <my:ZoomToResolutionConverter x:Key="ZoomResConverter"/>
     <my:CompareConverter x:Key="compareConverter"/>
     <my:EnumAndBooleanToVisibilityConverter x:Key="EnumBoolToVis"/>
+    <my:RectToStringConverter x:Key="RectToString" />
 </ResourceDictionary>
