@@ -31,23 +31,36 @@
       <SubType>Content</SubType>
       <DependentUpon>TEComponents.componentdiagram</DependentUpon>
     </Content>
-    <Content Include="UMLActivityDiagram1.activitydiagram">
+    <Content Include="PreviewUpdate.activitydiagram">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="UMLActivityDiagram1.activitydiagram.layout">
+    <Content Include="PreviewUpdate.activitydiagram.layout">
       <SubType>Content</SubType>
-      <DependentUpon>UMLActivityDiagram1.activitydiagram</DependentUpon>
+      <DependentUpon>PreviewUpdate.activitydiagram</DependentUpon>
     </Content>
-    <Content Include="UMLSequenceDiagram1.sequencediagram">
+    <Content Include="DocumentCompilation.sequencediagram">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="UMLSequenceDiagram1.sequencediagram.layout">
+    <Content Include="DocumentCompilation.sequencediagram.layout">
       <SubType>Content</SubType>
-      <DependentUpon>UMLSequenceDiagram1.sequencediagram</DependentUpon>
+      <DependentUpon>DocumentCompilation.sequencediagram</DependentUpon>
     </Content>
     <Folder Include="ModelDefinition\" />
     <Content Include="ModelDefinition\TEModeling.uml">
       <SubType>Content</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Validate Include="Layers.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="Layers.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Layers.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="Layers.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>Layers.layerdiagram</DependentUpon>
+    </Validate>
   </ItemGroup>
 </Project>

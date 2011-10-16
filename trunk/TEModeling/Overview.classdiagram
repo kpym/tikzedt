@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" dslVersion="1.0.0.0" Id="d6c7e60f-ad25-4937-8d99-26919d1af9b1" name="Overview" linkedPackageId="2386e985-c5f2-48a7-bcf4-83370afe1f2b" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" xmlns:dm11="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" dslVersion="1.0.0.0" Id="d6c7e60f-ad25-4937-8d99-26919d1af9b1" name="Overview" linkedPackageId="2386e985-c5f2-48a7-bcf4-83370afe1f2b" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
   <packagedElements>
     <logicalClassDesignerModelHasTypes>
       <class Id="34b511b1-80cb-4a23-a88c-903c7b696c88" name="TikzParser" isAbstract="false" isLeaf="false" isActiveClass="false">
@@ -32,11 +32,73 @@
     <logicalClassDesignerModelHasTypes>
       <class Id="f4f64359-66f5-4c88-829c-2b6cc8fcce65" name="TEDocumentVM" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="f651bd44-14c9-4403-87a7-ac34e988ae81" />
+        <targetEnds>
+          <association Id="56211ce0-3f21-4820-a919-d1463cfa16c5" isDerived="false" sourceEndRoleName="" targetEndRoleName="" isLeaf="false" isAbstract="false">
+            <classMoniker Id="34b511b1-80cb-4a23-a88c-903c7b696c88" LastKnownName="TikzParser" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="80f5b442-7200-459d-8741-66ff4b1c7afb" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="682ab269-e0bd-4afe-99df-f9b5c442be54" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="1ed10575-3d01-413e-a7d6-ef539460cc2d" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="095af343-91b6-4e01-bb35-6b71b6b2776a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="677c6776-b9b1-428f-95d4-94e45bce9ef8" />
+          </association>
+          <association Id="c306c238-f701-4780-9e16-7604a281d5b0" isDerived="false" sourceEndRoleName="Compiler" targetEndRoleName="" isLeaf="false" isAbstract="false">
+            <classMoniker Id="90749a58-011d-4ccc-80f8-141c36544166" LastKnownName="TexCompiler" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="32807fb6-b66c-4f04-aa1f-574b9ec2da63" name="Compiler" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="d61342ed-c557-45de-adb8-e8af6dfaeaad" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="528200b8-78e5-4a20-99cc-85eccef0c66a" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                  <elementDefinition Id="f8090911-88b3-45c4-b55d-2738ed15e137" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="258943c0-3abb-40f5-abcf-8995d3c8359f" />
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="25f99f3b-7226-4668-b829-67658a6ce04c" name="Compiler" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="8b6af800-6f42-4c01-966a-2c670c9c368b" />
+          </property>
+        </ownedAttributesInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
       <class Id="f6b007c6-1b28-41a5-8892-36db82fa805b" name="MainWindowVM" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="d45f319b-45e5-472d-b51c-27e800a02344" />
+        <targetEnds>
+          <association Id="b099e2a9-dc4f-4a2d-a845-ab0ad984eba9" isDerived="false" sourceEndRoleName="TheDocument" targetEndRoleName="" isLeaf="false" isAbstract="false">
+            <classMoniker Id="f4f64359-66f5-4c88-829c-2b6cc8fcce65" LastKnownName="TEDocumentVM" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="34eb9bdd-5cd7-4f7b-81b5-dc93356c28bb" name="TheDocument" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="3219c0ad-7ca5-412e-ad0c-b7005cb03d1b" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a49eb50a-8386-4e3b-b162-a058185b6808" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="d670c651-5c5e-4204-ba9b-f384ee8859f9" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="1cffc32f-20da-48f9-b19f-d794925a9531" />
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="db3cbee6-e6db-42d3-9dc5-a3128292183d" name="TheDocument" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="3a99acb5-5ce9-4661-a300-beada03fb66f" />
+          </property>
+        </ownedAttributesInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
     <packageHasNamedElement>
@@ -49,6 +111,11 @@
         <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
       </referencedType>
     </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="90749a58-011d-4ccc-80f8-141c36544166" name="TexCompiler" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="268a63c6-73fe-44f1-85bd-e2cd2747d12c" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
   </packagedElements>
   <package Id="2386e985-c5f2-48a7-bcf4-83370afe1f2b" name="TEModeling">
     <elementDefinition Id="59d786fd-c190-49e4-8203-03e772544a64" />

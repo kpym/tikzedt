@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Input;
 using System.Text.RegularExpressions;
 using Antlr.Runtime;
+using TESharedComponents;
 
 namespace TikzEdt.ViewModels
 {

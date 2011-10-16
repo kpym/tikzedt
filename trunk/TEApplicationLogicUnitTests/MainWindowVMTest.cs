@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Security.Permissions;
 using System.Windows.Threading;
+using TESharedComponents;
 
 namespace TEApplicationLogicUnitTests
 {

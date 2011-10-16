@@ -1,22 +1,17 @@
-﻿using TikzEdt.ViewModels;
+﻿using Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using TikzEdt;
-using System.IO;
-using System.Threading;
-using System.Windows.Threading;
-using TESharedComponents;
 
-namespace TEApplicationLogicUnitTests
+namespace TESharedComponentsTests
 {
     
     
     /// <summary>
-    ///This is a test class for TEDocumentVMTest and is intended
-    ///to contain all TEDocumentVMTest Unit Tests
+    ///This is a test class for RecentFileListTest and is intended
+    ///to contain all RecentFileListTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class TEDocumentVMTest  : DispatcherObject
+    public class RecentFileListTest
     {
 
 
@@ -43,11 +38,10 @@ namespace TEApplicationLogicUnitTests
         //You can use the following additional attributes as you write your tests:
         //
         //Use ClassInitialize to run code before running the first test in the class
-        [ClassInitialize()]
-        public static void MyClassInitialize(TestContext testContext)
-        {
-            MyBackgroundWorker.IsSynchronous = true;
-        }
+        //[ClassInitialize()]
+        //public static void MyClassInitialize(TestContext testContext)
+        //{
+        //}
         //
         //Use ClassCleanup to run code after all tests in a class have run
         //[ClassCleanup()]
@@ -71,42 +65,27 @@ namespace TEApplicationLogicUnitTests
 
 
         /// <summary>
-        ///A test for SavePdf
+        ///A test for InsertFile
         ///</summary>
-        [Ignore]
         [TestMethod()]
-        public void SavePdfTest()
+        public void InsertFileTest()
         {
-            TexCompiler tc = new TexCompiler();
-            //MainWindowVM parent = new MainWindowVM(tc); // TODO: Initialize to an appropriate value
-            string cFile = string.Empty; // TODO: Initialize to an appropriate value
-            TEDocumentVM target = new TEDocumentVM(null, tc); 
-            string filename = GlobalUI.MockFileDialogFileName = Directory.GetCurrentDirectory() + "\\" + "temp2.tex";
-            GlobalUI.MockFileDialogResult = true;
-            target.SaveCurFile();
-            
-            Thread.Sleep(1000);
-
-            target.SavePdf(false);
-
-            Assert.IsTrue(File.Exists(Helper.RemoveFileExtension(filename)+".pdf"));
-            
-        }
-
-
-        /// <summary>
-        ///A test for ExportFile
-        ///</summary>
-        [Ignore]
-        [TestMethod()]
-        [DeploymentItem("TEApplicationLogic.dll")]
-        public void ExportFileTest()
-        {
-            //PrivateObject param0 = null; // TODO: Initialize to an appropriate value
-            //TEDocumentVM_Accessor target = new TEDocumentVM_Accessor(param0); // TODO: Initialize to an appropriate value
-            //target.ExportFile();
+            RecentFileList target = new RecentFileList(); // TODO: Initialize to an appropriate value
+            string filepath = string.Empty; // TODO: Initialize to an appropriate value
+            target.InsertFile(filepath);
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
 
+        /// <summary>
+        ///A test for RemoveFile
+        ///</summary>
+        [TestMethod()]
+        public void RemoveFileTest()
+        {
+            RecentFileList target = new RecentFileList(); // TODO: Initialize to an appropriate value
+            string filepath = string.Empty; // TODO: Initialize to an appropriate value
+            target.RemoveFile(filepath);
+            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+        }
     }
 }
