@@ -146,17 +146,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Misc\AutoGrayImage.cs" />
     <Compile Include="ExportCompiler\ExportCompileDialog.xaml.cs">
       <DependentUpon>ExportCompileDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Misc\Converters.cs" />
-    <Compile Include="Misc\FileDownloader.cs" />
-    <Compile Include="Misc\DockPanelSplitter.cs" />
     <Compile Include="Overlay\ArcEditTool.cs" />
     <Compile Include="Overlay\ArcTool.cs" />
     <Compile Include="Overlay\BezierTool.cs" />
-    <Compile Include="Misc\CmdLineArgumentParser.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Overlay\InputMessageBox.xaml.cs">
       <DependentUpon>InputMessageBox.xaml</DependentUpon>
@@ -175,7 +171,6 @@
     <Compile Include="RasterControl.xaml.cs">
       <DependentUpon>RasterControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RecentFileList\RecentFileList.cs" />
     <Compile Include="SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
@@ -191,7 +186,6 @@
       <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="SourceManager.cs" />
     <Compile Include="TikzDisplay.xaml.cs">
       <DependentUpon>TikzDisplay.xaml</DependentUpon>
     </Compile>
@@ -572,6 +566,10 @@
     <ProjectReference Include="..\TEApplicationLogic\TEApplicationLogic.csproj">
       <Project>{EB03FD23-3941-4B4B-964C-29CB265BA5EA}</Project>
       <Name>TEApplicationLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TESharedComponents\TESharedComponents.csproj">
+      <Project>{67D51221-DEBE-4A44-9C67-F09DEAA69368}</Project>
+      <Name>TESharedComponents</Name>
     </ProjectReference>
     <ProjectReference Include="..\TikzParser\TikzParser.csproj">
       <Project>{DCEE85EE-19E0-46F4-8C94-BB044075561F}</Project>

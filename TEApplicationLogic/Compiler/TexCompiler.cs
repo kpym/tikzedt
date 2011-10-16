@@ -35,6 +35,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using SmartWeakEvent;
+using TESharedComponents;
 
 namespace TikzEdt
 {

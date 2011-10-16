@@ -86,6 +86,10 @@
       <Project>{EB03FD23-3941-4B4B-964C-29CB265BA5EA}</Project>
       <Name>TEApplicationLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TESharedComponents\TESharedComponents.csproj">
+      <Project>{67D51221-DEBE-4A44-9C67-F09DEAA69368}</Project>
+      <Name>TESharedComponents</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TikzParser\TikzParser.csproj">
       <Project>{DCEE85EE-19E0-46F4-8C94-BB044075561F}</Project>
       <Name>TikzParser</Name>

@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Security.Permissions;
 using System.Windows.Threading;
+using TESharedComponents;
 
 namespace TEAppLogicNUnitTests
 {

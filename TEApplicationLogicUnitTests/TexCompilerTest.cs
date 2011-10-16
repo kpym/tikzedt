@@ -6,6 +6,7 @@ using System.Windows;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using TESharedComponents;
 
 namespace TEApplicationLogicUnitTests
 {
