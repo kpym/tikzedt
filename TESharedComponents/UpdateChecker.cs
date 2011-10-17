@@ -104,7 +104,11 @@ namespace TESharedComponents
             else
             {
                 SuccessEventArgs sea = e.Result as SuccessEventArgs;
-                sea.CurrentVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
+                System.Reflection.Assembly A = System.Reflection.Assembly.GetEntryAssembly();
+                if (A != null)
+                    sea.CurrentVersion = A.GetName().Version;
+                else
+                    sea.CurrentVersion = new Version(0, 0);  // being here is an error.... However for the sake of unittests no error is reported
                 sea.HasNewerVersion = sea.LatestVersion > sea.CurrentVersion;
                 if (Success != null)
                     Success(this, sea);

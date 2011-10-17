@@ -890,7 +890,7 @@ namespace TikzEdt.Parser
             get { return _number; }
             set
             {
-                _number = Math.Round(value, (int)Consts.RoundToDecimals);
+                _number = Math.Round(value, (int)ParserSettings.Instance.RoundToDecimals);
             }
         }
         public string unit="";

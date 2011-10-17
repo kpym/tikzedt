@@ -70,8 +70,9 @@ namespace TESharedComponentsTests
         [TestMethod()]
         public void StartTest()
         {
-            FileDownloader target = new FileDownloader(); // TODO: Initialize to an appropriate value
-            target.Start();
+            //FileDownloader target = new FileDownloader(); // TODO: Initialize to an appropriate value
+            //target.
+            //target.Start();
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
     }

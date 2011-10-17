@@ -42,14 +42,25 @@ namespace TikzEdt.Parser
         public const double TikzDefaultFontSize = 8;
         public const int TikzImgResolution = 300; // resolution in dpi with which images are compiled
   
-        public const string DoubleFormat = "#.####";
+       // public const string DoubleFormat = "#.####";
 
         public const float selecttoler = .01F;
         public const float drawXsize = .1F; // drawn for invisible vertices
         public const float coordvertexsize = .25F; // size of size zero vertex (to ease selection)
 
         // TODO: tie this to the global setting
-        public static uint RoundToDecimals = 4;
+        //public static uint RoundToDecimals = 6;
+    }
+
+    /// <summary>
+    /// This class provides the settings interface for Parser routines.
+    /// Currently, there is only one setting.
+    /// </summary>
+    public class ParserSettings
+    {
+        public static ParserSettings Instance = new ParserSettings();
+        protected ParserSettings() { }
+        public virtual uint RoundToDecimals { get { return 4; } }
     }
 
     /// <summary>
@@ -134,7 +145,7 @@ namespace TikzEdt.Parser
             Point pp = CartToPol(p);
             return new Point(
                 Math.Round(180 * pp.Y / Math.PI),
-                Math.Round(pp.X, (int)(Consts.RoundToDecimals))
+                Math.Round(pp.X, (int)(ParserSettings.Instance.RoundToDecimals))
                 );
         }
 

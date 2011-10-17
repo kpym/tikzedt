@@ -26,6 +26,7 @@ namespace TikzEdt
 
             // tie settings to Viewmodels
             CompilerSettings.Instance = new PropertiesCompilerSettings();
+            TikzEdt.Parser.ParserSettings.Instance = new PropertiesParserSettings();
 
             // defer other startup processing to base class
             base.OnStartup(e);
