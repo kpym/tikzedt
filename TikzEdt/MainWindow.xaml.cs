@@ -42,6 +42,7 @@ using FileDownloaderApp;
 using TikzEdt.ViewModels;
 using System.Windows.Threading;
 using System.Windows.Interop;
+using TESharedComponents;
 
 namespace TikzEdt
 {
@@ -51,7 +52,7 @@ namespace TikzEdt
     public partial class MainWindow : Window
     {
         public static MainWindowVM TheVM { get; set; }
-        public static Common.RecentFileList recentFileList;
+        public static Common.RecentFileList recentFileList;               
 
     //    public static RoutedCommand CompileCommand = new RoutedCommand();
         //public static RoutedCommand FindNextCommand = new RoutedCommand();
@@ -66,6 +67,8 @@ namespace TikzEdt
         public static RoutedCommand OpenPgfManualCommand = new RoutedCommand();
 
         FindReplace.FindReplaceMgr FindReplaceManager = new FindReplace.FindReplaceMgr();
+
+        public TESharedComponents.UpdateChecker updateChecker = new TESharedComponents.UpdateChecker() { VersionInfoURL = Consts.VersionInfoURL };
 
  /*       System.ComponentModel.BackgroundWorker AsyncParser = new System.ComponentModel.BackgroundWorker();
         class AsyncParserJob
@@ -251,6 +254,9 @@ namespace TikzEdt
             CommandBindings.Add(FindReplaceManager.ReplaceBinding);
             CommandBindings.Add(FindReplaceManager.FindNextBinding);
 
+            updateChecker.Status += (s, e) => AddStatusLine(e.Description, e.HasFailed);
+            updateChecker.Success += new EventHandler<TESharedComponents.UpdateChecker.SuccessEventArgs>(updateChecker_Success);
+
             recentFileList = RecentFileList;
             //recentFileList.UseXmlPersister();
        //     AsyncParser.DoWork += new System.ComponentModel.DoWorkEventHandler(AsyncParser_DoWork);
@@ -286,6 +292,7 @@ namespace TikzEdt
             sfd.ValidateNames = true;
 
    * */
+            txtStatus.Document.Blocks.Clear();
 
             RecentFileList.MenuClick += (s, e) => {
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
@@ -295,6 +302,43 @@ namespace TikzEdt
             };            
 
             //cmbGrid.SelectedIndex = 4;
+        }
+
+        void updateChecker_Success(object sender, TESharedComponents.UpdateChecker.SuccessEventArgs e)
+        {
+            if (e.HasNewerVersion)
+            {
+                Paragraph p = new Paragraph();
+                p.Margin = new Thickness(0);
+                p.Inlines.Add(new Run("There is a new version of TikzEdt. Version " + e.LatestVersion + " is available for download at "));                
+                Hyperlink hl = new Hyperlink(new Run(e.DownloadURL));
+                hl.NavigateUri = new Uri(e.DownloadURL);
+                hl.RequestNavigate += (s, ee) =>
+                {
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(ee.Uri.AbsoluteUri));
+                    ee.Handled = true;
+                };
+                p.Inlines.Add(hl);
+                txtStatus.Document.Blocks.Add(p);
+                EditingCommands.MoveToDocumentEnd.Execute(null, txtStatus);
+                txtStatus.ScrollToEnd();
+
+                //MessageBox.Show("A new version of TikzEdt is available. Your current version is " + e.CurrentVersion + ", the new version is " + e.LatestVersion + "."
+                //    +Environment.NewLine + "Download: " +Environment.NewLine +"    " + e.DownloadURL + Environment.NewLine + "or see more download options: "
+                //    + Environment.NewLine + "    " + e.WebpageURL, "New Version", MessageBoxButton.OK, MessageBoxImage.Information
+                //    );
+                MyMessageBox.ShowWithHyperlinks("A new version of TikzEdt is available. Your current version is " + e.CurrentVersion + ", the new version is " + e.LatestVersion + "."
+                    + Environment.NewLine + "Download: " + Environment.NewLine + "    " + e.DownloadURL + Environment.NewLine + "or see more download options: "
+                    + Environment.NewLine + "    " + e.WebpageURL, "New Version", MessageBoxImage.Information, this
+                );
+            }
+            else
+            {
+                AddStatusLine("TikzEdt is up to date. The current version is "+e.CurrentVersion+".");
+
+                MessageBox.Show("Your current version of TikzEdt ("+e.CurrentVersion+ ") is the latest available.", "TikzEdt up to date",
+                    MessageBoxButton.OK, MessageBoxImage.Information );
+            }
         }
 
         void MainWindow_KeyDown(object sender, KeyEventArgs e)
@@ -669,6 +713,7 @@ namespace TikzEdt
             p.Margin = new Thickness(0);
             p.Inlines.Add(new Run(text));
             txtStatus.Document.Blocks.Add(p);
+           
             EditingCommands.MoveToDocumentEnd.Execute(null, txtStatus);
             txtStatus.ScrollToEnd();
         }
@@ -686,6 +731,7 @@ namespace TikzEdt
                 return;
             }
 
+            
             AddStatusLine("Welcome to TikzEdt");
             AddStatusLine("This software is under development. All help/feedback/feature requests/error reports are welcome.");
 
@@ -738,9 +784,10 @@ namespace TikzEdt
             //set path to user-defined application data. depending on cmdline parameter user data
             //is stored next to .exe or in %appdata%. If program dir is not writable %userappdata% is used.
             //if ( CmdLine["userapp"] != null || !Helper.IsAppDirWritable()) // hack: always use Appdata folder (...since I couldn't make HasWritePermissionOnDir work)
+            if ( CmdLine["userapp"] != null)    
                 Helper.SetAppdataPath(Helper.AppdataPathOptions.AppData);
-            //else
-            //    Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
+            else
+                Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
 
             AddStatusLine("Application data directory is " + Helper.GetAppdataPath());            
 
@@ -770,6 +817,11 @@ namespace TikzEdt
             ///(i.e. %temp% or path of loaded file)
             ///use Helper.SetCurrentWorkingDir() to do that.
             ///all function calls assume that they are in the correct dir.
+
+
+            // start checking for Updates?
+            if (Properties.Settings.Default.CheckForUpdates)
+                updateChecker.CheckForUpdatesAsync();
 
             // Open a new file 
             ApplicationCommands.New.Execute(null, this);
@@ -2648,6 +2700,11 @@ namespace TikzEdt
 
             String s = "(" + String.Format("{0:f1}", p.X) + ", " + String.Format("{0:f1}", p.Y) + ")";
             CoordinateStatusBarItem.Content = s;
+        }
+
+        private void CheckForUpdates_Click(object sender, RoutedEventArgs e)
+        {
+            updateChecker.CheckForUpdatesAsync();
         }
        
     }

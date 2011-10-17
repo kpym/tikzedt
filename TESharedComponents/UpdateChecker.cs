@@ -16,7 +16,7 @@ namespace TESharedComponents
     /// <tikzedt>
     ///   <latestversion>0.1.3</latestversion>  
     ///   <webpageurl>http://code.google.com/p/tikzedt/</webpageurl>
-    ///   <dowloadurl>http://tikzedt.googlecode.com/files/TikzEdt0_1_3beta.msi</dowloadurl> 
+    ///   <downloadurl>http://tikzedt.googlecode.com/files/TikzEdt0_1_3beta.msi</downloadurl> 
     /// </tikzedt>
     /// 
     /// 
@@ -31,6 +31,7 @@ namespace TESharedComponents
         public string VersionInfoURL { get; set; }
 
         private MyBackgroundWorker worker = new MyBackgroundWorker();
+        //private Random random = new Random();
 
         /// <summary>
         /// Starts checking for updates.         
@@ -41,7 +42,14 @@ namespace TESharedComponents
             if (String.IsNullOrWhiteSpace(VersionInfoURL))
                 return false;
 
-            worker.RunWorkerAsync(VersionInfoURL);
+            if (worker.IsBusy)
+            {
+                if (Status != null)
+                    Status(this, new StatusEventArgs() { Description = "Checking for updates in progress, please wait." });
+                return false;
+            }
+            else
+                worker.RunWorkerAsync(VersionInfoURL);
 
             return true;
         }
@@ -64,8 +72,16 @@ namespace TESharedComponents
 
         public UpdateChecker()
         {
+            worker.WorkerReportsProgress = true;
             worker.DoWork += new System.ComponentModel.DoWorkEventHandler(worker_DoWork);
             worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
+            worker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(worker_ProgressChanged);
+        }
+
+        void worker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            if (Status != null)
+                Status(this, new StatusEventArgs() { Description = e.UserState as string });
         }
 
         void worker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -88,7 +104,7 @@ namespace TESharedComponents
             else
             {
                 SuccessEventArgs sea = e.Result as SuccessEventArgs;
-                sea.CurrentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                sea.CurrentVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
                 sea.HasNewerVersion = sea.LatestVersion > sea.CurrentVersion;
                 if (Success != null)
                     Success(this, sea);
@@ -108,10 +124,19 @@ namespace TESharedComponents
             using (WebClient wc = new WebClient())
             {
                 XmlDocument doc = new XmlDocument();
-                doc.LoadXml(wc.DownloadString(url));
-                result.LatestVersion = new Version( doc.SelectSingleNode("//latestversion").InnerText );
-                result.DownloadURL = doc.SelectSingleNode("//downloadurl").InnerText;
-                result.WebpageURL = doc.SelectSingleNode("//webpageurl").InnerText;
+                string s = wc.DownloadString(url); //+"?Unused="+random.Next() // to disable caching
+                doc.LoadXml(s);
+                bgw.ReportProgress(0, "Downloaded new version information.");
+                try
+                {
+                    result.LatestVersion = new Version(doc.SelectSingleNode("//latestversion").InnerText);
+                    result.DownloadURL = doc.SelectSingleNode("//downloadurl").InnerText;
+                    result.WebpageURL = doc.SelectSingleNode("//webpageurl").InnerText;
+                }
+                catch (Exception)
+                {
+                    throw new Exception("The version info file has a wrong format.");
+                }
             }
 
             e.Result = result;
