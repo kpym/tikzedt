@@ -9,12 +9,12 @@
 == What !TikzEdt can and cannot do for you ==
 Typically, when producing graphics for use in LaTeX documents, you have the choice between:
   # Using a scripting language, like Tikz or pstricks to directly code the image.
-  # Using an external wysiwyg drawing program (like Inkscape, !OpenOffice Draw, or even MS Powerpoint), export your dawing as pdf or eps, and include it in your tex-file.
+  # Using an external WYSIWYG drawing program (like Inkscape, !OpenOffice Draw, or even MS Powerpoint), export your dawing as pdf or eps, and include it in your tex-file.
 
 Both approaches have advantages and disadvantages. Usually the manually coded graphics are higher quality, but more effort to produce. In particular, positioning items in Code such that proportions "look good" can be painful. Real time preview programs like [http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language ktikz] already help a lot. 
-The goal of !TikzEdt is to go one step further and combine wysiwyg and code editing, so that ideally you can generate graphics coded in Tikz in little more time that would need with a vector drawing program, but still retain the full flexibility and high quality look of Tikz drawings.
+The goal of !TikzEdt is to go one step further and combine WYSIWYG and code editing, so that ideally you can generate graphics coded in Tikz in little more time that would need with a vector drawing program, but still retain the full flexibility and high quality look of Tikz drawings.
 
-!TikzEdt is however not a replacement for full-featured wysiwyg vector graphics programs. It assists you writing Tikz code, but you will still have to learn the Tikz language, since  only a few Tikz commands are accessible through !TikzEdt's wysiwyg tools. If you do not want to deal with TikZ coding, you probably are better of using Inkscape or one of its commercial counterparts.
+!TikzEdt is however not a replacement for full-featured WYSIWYG vector graphics programs. It assists you writing Tikz code, but you will still have to learn the Tikz language, since  only a few Tikz commands are accessible through !TikzEdt's WYSIWYG tools. If you do not want to deal with TikZ coding, you probably are better of using Inkscape or one of its commercial counterparts.
 
 = Getting started =
 
@@ -44,10 +44,10 @@ If all goes well, you will see on the right hand side the compiled preview of yo
   # By an extensible snippet library that you can display or hide by pressing the button on the left. Insert snippets by double click or using the context menu. You can write your own snippets usinging the snippet editor (Menu Settings->Snippet Editor), or directly editing the xml file.
   # By the wysiwig tools accessible through an overlay displayed on top of the compiled tikz image. 
 
-Except the last, these features are pretty standard, so let us discuss only the wysiwyg part in more detail. This is also the part that is programmatically most difficult to realize and took most of our time.
+Except the last, these features are pretty standard, so let us discuss only the WYSIWYG part in more detail. This is also the part that is programmatically most difficult to realize and took most of our time.
 
-== The wysiwyg tools ==
-There are currently 6 wysiwyg tools.
+== The WYSIWYG tools ==
+There are currently 6 WYSIWYG tools.
 
 http://lh6.ggpht.com/_t8n2oghTr8Y/TUE_eaWjsiI/AAAAAAAAABk/_3lhD1usJoQ/toolstoolbar.png
 
@@ -76,7 +76,7 @@ You can also select Tikz `scope`s for editing by double clicking or through the 
 == Which Tikz objects appear in the overlay ==
 You will note that not all elements in your tikz file are represented in the overlay. This is for two reasons:
   * It does not make sense to move with the mouse some Tikz elements. For example, if you draw a Tikz `matrix`, the position of the matrix elements cannot be changed directly, but is determined by the typesetter. Hence it does not make sense to make those positions editable.
-  * The position of coordinates has to be determined by !TikzEdt. The authors cannot reimplement completely Latex/Tikz and hence not all constructions are wysiwyg-supported.
+  * The position of coordinates has to be determined by !TikzEdt. The authors cannot reimplement completely Latex/Tikz and hence not all constructions are WYSIWYG-supported.
 
 What appears in the overlay are coordinates, which are editable, and whose absolute position can be "easily" determined. To see what this means in practice, let us consider examples.
 
@@ -96,18 +96,18 @@ What appears in the overlay are coordinates, which are editable, and whose absol
       child {node {}}
     }
 }}}
-Here the child nodes are not displayed since its position can be neither modified nor determined by !TikzEdt. Also note that expressions using the Tikz math engine are not evaluated by !TikzEdt and hence those nodes are not displayed in the !TikzEdt overlay. But probably, you wouldn't want to wysiwyg edit those nodes anyway. 
+Here the child nodes are not displayed since its position can be neither modified nor determined by !TikzEdt. Also note that expressions using the Tikz math engine are not evaluated by !TikzEdt and hence those nodes are not displayed in the !TikzEdt overlay. But probably, you wouldn't want to WYSIWYG edit those nodes anyway. 
 
 == Can the overlay fail? ==
 Determining and modifying the positions of nodes is rather intricate programmatically. We tried to make sure that 
-(i) even if only part of the TikZ code can be understood by !TikzEdt, wysiwyg editing of the remainder of the code still works, and (ii) that your code will never get corrupted by the wysiwyg editor.
+(i) even if only part of the TikZ code can be understood by !TikzEdt, WYSIWYG editing of the remainder of the code still works, and (ii) that your code will never get corrupted by the WYSIWYG editor.
 In the current beta phase, in case you encounter problems (we don't hope so, of course), you should:
-  # Either turn off the wysiwyg features by switching to "Preview Mode", and use !TikzEdt as just a text editor with preview.
+  # Either turn off the WYSIWYG features by switching to "Preview Mode", and use !TikzEdt as just a text editor with preview.
   # Or enclose the conflicting part of your code in `%/*` ... `%*/`. The part ... in the middle will be ignored by the parser and will not appear on the overlay.
   # In any case, we are happy if you [http://code.google.com/p/tikzedt/issues report] the problem and send us the conflicting file, so that we can improve the program.
 == Coordinate systems and tranformations ==
 
-!TikzEdt supports TikZ coordinate transformations, but currently not canvas transformations. In particular, you can use the wysiwyg features with polar coordinates, and things should behave as you expect.
+!TikzEdt supports TikZ coordinate transformations, but currently not canvas transformations. In particular, you can use the WYSIWYG features with polar coordinates, and things should behave as you expect.
 For example, try to move the node in this example:
 {{{
 \begin{tikzpicture}
@@ -123,6 +123,9 @@ There are some additional features:
   * Put the caret at some position in the text editor and right click->Mark item in overlay. Then the location of the item is highlighted in the preview on the right. (Note: Make sure the caret is really at the right position, not just the mouse....)
   * The other way around, you can jump to the source code corresponding to some item in the overlay using the context menu or mouse wheel.
 
+= Protable version =
+You can start TikzEdt with the -portable flag. 
+  
 = FAQ =
 
 Q: Latex reports an error "...default stile file not found ...". 
