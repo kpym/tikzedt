@@ -70,10 +70,10 @@ namespace TESharedComponentsTests
         [TestMethod()]
         public void ParseTest()
         {
-            string NamespaceOfResX = string.Empty; // TODO: Initialize to an appropriate value
-            CLAParser.CLAParser target = new CLAParser.CLAParser(NamespaceOfResX); // TODO: Initialize to an appropriate value
-            string[] Arguments = null; // TODO: Initialize to an appropriate value
-            target.Parse(Arguments);
+            //string NamespaceOfResX = string.Empty; // TODO: Initialize to an appropriate value
+            //CLAParser.CLAParser target = new CLAParser.CLAParser(NamespaceOfResX); // TODO: Initialize to an appropriate value
+            //string[] Arguments = null; // TODO: Initialize to an appropriate value
+            //target.Parse();
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
     }

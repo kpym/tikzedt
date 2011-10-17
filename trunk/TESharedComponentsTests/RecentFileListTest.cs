@@ -1,6 +1,7 @@
 ﻿using Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 
 namespace TESharedComponentsTests
 {
@@ -65,27 +66,42 @@ namespace TESharedComponentsTests
 
 
         /// <summary>
-        ///A test for InsertFile
+        ///A test for InsertFile and RemoveFile
         ///</summary>
         [TestMethod()]
         public void InsertFileTest()
         {
             RecentFileList target = new RecentFileList(); // TODO: Initialize to an appropriate value
-            string filepath = string.Empty; // TODO: Initialize to an appropriate value
+            while (target.RecentFiles.Count >0)
+                target.RemoveFile(target.RecentFiles[0]);
+            
+            string filepath = "C:\\test.txt", filepath2 = "C:\\TesT.txt", filepath3 = "C:\\hallowelt.txt"; 
             target.InsertFile(filepath);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.AreEqual(1, target.BindableRecentFiles.Count());
+            target.InsertFile(filepath2);
+            Assert.AreEqual(1, target.BindableRecentFiles.Count());
+            target.InsertFile(filepath3);
+            Assert.AreEqual(2, target.BindableRecentFiles.Count());
         }
 
         /// <summary>
-        ///A test for RemoveFile
+        ///A test for 
         ///</summary>
         [TestMethod()]
         public void RemoveFileTest()
         {
             RecentFileList target = new RecentFileList(); // TODO: Initialize to an appropriate value
-            string filepath = string.Empty; // TODO: Initialize to an appropriate value
-            target.RemoveFile(filepath);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            while (target.RecentFiles.Count > 0)
+                target.RemoveFile(target.RecentFiles[0]);
+
+            string filepath = "C:\\test.txt", filepath2 = "C:\\TesT.txt", filepath3 = "C:\\hallowelt.txt";
+            target.InsertFile(filepath);
+            target.InsertFile(filepath3);
+            Assert.AreEqual(2, target.BindableRecentFiles.Count());
+            target.RemoveFile(filepath2);
+            Assert.AreEqual(1, target.RecentFiles.Count());
+            Assert.AreEqual(1, target.BindableRecentFiles.Count());
+            
         }
     }
 }

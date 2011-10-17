@@ -760,7 +760,7 @@ namespace TikzEdt
             //parse command line parameter
             CLAParser.CLAParser CmdLine = new CLAParser.CLAParser("TikzEdt");
             CmdLine.Parameter(CLAParser.CLAParser.ParamAllowType.Optional, "", CLAParser.CLAParser.ValueType.String, "Path to file that is to be loaded on starting TikzEdt.");
-            CmdLine.Parameter(CLAParser.CLAParser.ParamAllowType.Optional, "userapp", CLAParser.CLAParser.ValueType.Bool, "Read configuration files from %appdata% folder, else it is read from the application directory. ");// + System.Windows.Forms.Application.UserAppDataPath);
+            CmdLine.Parameter(CLAParser.CLAParser.ParamAllowType.Optional, "portable", CLAParser.CLAParser.ValueType.Bool, "Read configuration files from the application directory, else it is read from %appdata% folder. ");// + System.Windows.Forms.Application.UserAppDataPath);
             CmdLine.AllowAdditionalParameters = false;
             try
             {
@@ -783,8 +783,8 @@ namespace TikzEdt
 
             //set path to user-defined application data. depending on cmdline parameter user data
             //is stored next to .exe or in %appdata%. If program dir is not writable %userappdata% is used.
-            //if ( CmdLine["userapp"] != null || !Helper.IsAppDirWritable()) // hack: always use Appdata folder (...since I couldn't make HasWritePermissionOnDir work)
-            if ( CmdLine["userapp"] != null)    
+            //if ( CmdLine["userapp"] != null || !Helper.IsAppDirWritable()) // hack: always use Appdata folder (...since I couldn't make HasWritePermissionOnDir work) 
+            if ( CmdLine["portable"] == null)
                 Helper.SetAppdataPath(Helper.AppdataPathOptions.AppData);
             else
                 Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);

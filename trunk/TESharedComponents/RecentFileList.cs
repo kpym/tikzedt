@@ -8,11 +8,13 @@ using System.Xml;
 using System.Diagnostics;
 using System.Text;
 using System.Reflection;
+using System.ComponentModel;
 
 namespace Common
 {
 	public class RecentFileList : Separator
-	{
+    {
+
 		public interface IPersist
 		{
 			List<string> RecentFiles( int max );
@@ -27,6 +29,12 @@ namespace Common
             get { return (IEnumerable<String>)GetValue(BindableRecentFilesProperty); }
             private set { SetValue(BindableRecentFilesProperty, value); }
         }
+   
+       /* public IEnumerable<String> BindableRecentFiles
+        {
+            get { return RecentFiles; }
+            private set { NotifyPropertyChanged("BindableRecentFiles"); }
+        } */
 
         private bool _itemsUpToDate = false;
 
@@ -99,9 +107,14 @@ namespace Common
 		}
 
 		public List<string> RecentFiles { get { return Persister.RecentFiles( MaxNumberOfFiles ); } }
-        public void RemoveFile(string filepath) { Persister.RemoveFile(filepath, MaxNumberOfFiles); _itemsUpToDate = false; }
+        public void RemoveFile(string filepath) { 
+            Persister.RemoveFile(filepath, MaxNumberOfFiles); 
+            _itemsUpToDate = false;
+            BindableRecentFiles = RecentFiles;
+        }
         public void InsertFile(string filepath) { 
-            Persister.InsertFile(filepath, MaxNumberOfFiles); _itemsUpToDate = false;
+            Persister.InsertFile(filepath, MaxNumberOfFiles); 
+            _itemsUpToDate = false;
             BindableRecentFiles = RecentFiles;
             }
         
@@ -611,12 +624,18 @@ again:
 
 			public XmlPersister()
 			{
-				Filepath =
+				/*Filepath =
 					Path.Combine(
 						Environment.GetFolderPath( Environment.SpecialFolder.ApplicationData ),
 						ApplicationAttributes.CompanyName + "\\" +
 						ApplicationAttributes.ProductName + "\\" +
-						"RecentFileList.xml" );
+						"RecentFileList.xml" ); */
+                Filepath =
+                    Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                        ApplicationAttributes.CompanyName, // + "\\" +
+                        ApplicationAttributes.ProductName, // + "\\" +
+                        "RecentFileList.xml");
 			}
 
 			public XmlPersister( string filepath )

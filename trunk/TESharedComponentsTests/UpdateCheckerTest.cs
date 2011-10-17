@@ -51,10 +51,17 @@ namespace TESharedComponentsTests
         //}
         //
         //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            target = new UpdateChecker();
+            target.Status += (s, e) => statusargs = e;
+            target.Success += (s, e) => successargs = e;
+            successargs = null;
+            statusargs = null;
+
+        
+        }
         //
         //Use TestCleanup to run code after each test has run
         //[TestCleanup()]
@@ -66,6 +73,7 @@ namespace TESharedComponentsTests
 
         UpdateChecker.SuccessEventArgs successargs = null;
         UpdateChecker.StatusEventArgs statusargs = null;
+        UpdateChecker target;
 
         /// <summary>
         ///A test for CheckForUpdatesAsync
@@ -73,10 +81,7 @@ namespace TESharedComponentsTests
         [TestMethod()]
         public void CheckForUpdatesAsyncTest()
         {
-            UpdateChecker target = new UpdateChecker();
             target.VersionInfoURL = @"https://tikzedt.googlecode.com/svn/trunk/VersionInfo.xml";
-            target.Status += (s, e) => statusargs = e;
-            target.Success += (s, e) => successargs = e;
 
             bool expected = true;
             bool actual;
@@ -90,6 +95,22 @@ namespace TESharedComponentsTests
             Assert.IsTrue(Uri.IsWellFormedUriString(successargs.DownloadURL, UriKind.Absolute));
             Assert.IsTrue(Uri.IsWellFormedUriString(successargs.WebpageURL, UriKind.Absolute));
 
+        }
+
+        [TestMethod()]
+        public void CheckForUpdatesAsync_Fail_Test()
+        {
+            target.VersionInfoURL = @"https://tikzedt.googlecode.com/svn/trunk/junk.junk";
+
+            bool expected = true;
+            bool actual;
+            actual = target.CheckForUpdatesAsync();
+            Assert.AreEqual(expected, actual);
+
+            Assert.IsNull(successargs);
+            Assert.IsNotNull(statusargs);
+
+            Assert.IsTrue(statusargs.HasFailed);            
         }
     }
 }
