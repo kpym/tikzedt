@@ -1,0 +1,52 @@
+﻿<Window x:Class="TikzEdt.TipsTricksWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:p="clr-namespace:TikzEdt.Properties"
+        Loaded="Window_Loaded"
+        Title="How to use TikzEdt" Height="318" Width="382" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
+                <Button DockPanel.Dock="Right" Margin="5" IsDefault="True" IsCancel="True" Width="70" Click="Button_Click">OK</Button>
+                <CheckBox Margin="5" VerticalAlignment="Center" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ShowTipsTricksWindow, Mode=TwoWay}">Show this on next startup</CheckBox>
+            </DockPanel>
+            <RichTextBox IsDocumentEnabled="True" IsReadOnly="True" VerticalScrollBarVisibility="Auto">
+                <FlowDocument>
+                    <Paragraph FontSize="15" FontWeight="Bold">
+                        Using TikzEdt
+                    </Paragraph>
+                    <Paragraph>
+                        <Run Foreground="Red" FontWeight="Bold">Important:</Run> To use TikzEdt you need a working installation of Latex. If you do not have one, download
+                        <Hyperlink NavigateUri="http://miktex.org/" RequestNavigate="Hyperlink_RequestNavigate">MikTex</Hyperlink> or
+                        <Hyperlink NavigateUri="http://www.tug.org/texlive/" RequestNavigate="Hyperlink_RequestNavigate">TexLive</Hyperlink>. A full installation is recommended to avoid having to install missing packages later.
+                    </Paragraph>
+                    <Paragraph FontSize="15" FontWeight="Bold">
+                        Tips and Tricks
+                    </Paragraph>
+                    <List>
+                        <ListItem>
+                            <Paragraph>You can re-show this window from the help menu later.</Paragraph>
+                        </ListItem>
+                        <ListItem>
+                            <Paragraph>Grid: The grid spacing can be set in the appropriate toolbar. Alternatively, ALT temporarily sets the grid spacing to 0, while ALT+SHIFT cuts it in half. </Paragraph>
+                        </ListItem>
+                        <ListItem>
+                            <Paragraph>Snippets: Snippets can be inserted as styles, as full code samples, or as-is. You can create your own snippets under Settings->SnippetManager</Paragraph>
+                        </ListItem>
+                        <ListItem>
+                            <Paragraph>Styles: You can set styles to be used with the WYSIWYG tools in the tools toolbar.</Paragraph>
+                        </ListItem>
+                        <ListItem>
+                            <Paragraph>TikzEdt supports both standalone document (containing \documentclass{} etc.) and tikz pictures to be \input{}-ted into a master document. 
+                                However for correct bounding box determination you should use \PreviewEnvironment{tikzpicture} in your standalone documents.
+                            </Paragraph>
+                        </ListItem>
+                        <ListItem>
+                            <Paragraph>Press Ctrl to open recent files in the File menu in a new window.</Paragraph>
+                        </ListItem>
+                    </List>
+                </FlowDocument>
+            </RichTextBox>
+        </DockPanel>
+    </Grid>
+</Window>
