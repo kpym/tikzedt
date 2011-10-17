@@ -76,6 +76,8 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <TextBlock Margin="3" Text="Path to PdfLatex" Grid.Column="0" Grid.Row="0"></TextBlock>
                     <TextBox Margin="3" Grid.Column="1" Grid.Row="0" Text="{Binding Source={x:Static p:Settings.Default}, Path=Path_pdflatex, Mode=TwoWay}">
@@ -128,6 +130,7 @@
                         Associate *.tikz files with TikzEdt
                     </Button>
                     <CheckBox Margin="3" Grid.Row="8" Grid.Column="1" IsChecked="{Binding FolderView_ShowHidden, Source={x:Static p:Settings.Default}}">Show hidden files in folder panel</CheckBox>
+                    <CheckBox Margin="3" Grid.Row="9" Grid.Column="1" IsChecked="{Binding CheckForUpdates, Source={x:Static p:Settings.Default}}">Check for updates on startup</CheckBox>
                 </Grid>
             </TabItem>
             <TabItem>

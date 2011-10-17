@@ -1,7 +1,6 @@
 ﻿using CLAParser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using CLAParser;
 
 namespace TESharedComponentsTests
 {

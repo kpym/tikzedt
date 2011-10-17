@@ -164,6 +164,7 @@
                 <MenuItem Header="Help..." Command="ApplicationCommands.Help"/>
                 <MenuItem Header="Open PGF manual..." Command="{x:Static custom:MainWindow.OpenPgfManualCommand}" InputGestureText="F2"/>
                 <MenuItem Header="Show Tips&amp;Tricks" Click="ShowTipsTricks_Click"/>
+                <MenuItem Header="Check for updates..." Click="CheckForUpdates_Click"/>
                 <MenuItem Header="About..." Click="AboutClick"/>
             </MenuItem>
         </Menu>
@@ -669,9 +670,11 @@
                     </StackPanel>
                     <Grid>
                         <RichTextBox  HorizontalAlignment="Stretch"  Name="txtStatus" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
-                                      Visibility="{Binding ElementName=chkStatus, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
+                                      Visibility="{Binding ElementName=chkStatus, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                      IsDocumentEnabled="True"/>
                         <RichTextBox  HorizontalAlignment="Stretch"  Name="txtTexout" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
-                                      Visibility="{Binding ElementName=chkFullTex, Path=IsChecked, Converter={StaticResource boolToVis}}"/>
+                                      Visibility="{Binding ElementName=chkFullTex, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                      IsDocumentEnabled="True"/>
                       <!--  <TextBox Name="textBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
                                       Visibility="{Binding ElementName=chkErrorTex, Path=IsChecked, Converter={StaticResource boolToVis}}"/> -->
                         <ListView Name="lstErrors" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 

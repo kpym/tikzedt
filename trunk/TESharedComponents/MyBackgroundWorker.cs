@@ -87,18 +87,18 @@ namespace TESharedComponents
         void bgw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             if (ProgressChanged != null)
-                ProgressChanged(sender, e);
+                ProgressChanged(this, e);
         }
 
         void bgw_DoWork(object sender, DoWorkEventArgs e)
         {
             if (DoWork != null)
-                DoWork(sender, e);
+                DoWork(this, e);
         }
         void bgw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (RunWorkerCompleted != null)
-                RunWorkerCompleted(sender, e);
+                RunWorkerCompleted(this, e);
         }
 
     }
