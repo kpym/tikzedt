@@ -1,5 +1,5 @@
 ﻿/*This file is part of TikzEdt.
- 
+  
 TikzEdt is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -102,6 +102,8 @@ namespace TikzEdt
         @"\documentclass[fleqn]{article}
 \usepackage{amsmath, amssymb,bm,color}
 ";
+
+        public const string VersionInfoURL = @"https://tikzedt.googlecode.com/svn/trunk/VersionInfo.xml";
 
         /// <summary>
         /// The starting code for a new File 
