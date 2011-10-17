@@ -292,9 +292,11 @@
     </None>
     <None Include="Editor\CodeCompletions.xml">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Editor\TikzSyntax.xshd">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -581,6 +583,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\CopyHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editor\TheSnippets.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
