@@ -545,7 +545,9 @@ namespace TikzEdt
                         }
                         else
                         {
-                            s.WriteLine("%& \"" + Helper.GetPrecompiledHeaderPath() + Helper.GetPrecompiledHeaderFilename() + "\"");
+                            // unfortunately, texlive seemingly cannot cope with windows filenames and " ", so we have to convert to DOS 8.3 names 
+                            //s.WriteLine("%& \"" + Helper.GetPrecompiledHeaderPath() + Helper.GetPrecompiledHeaderFilename() + "\"");                            
+                            s.WriteLine("%& " + Helper.GetPrecompiledHeaderShortFilePath() );
                             s.WriteLine("\\begin{document}");
                             int LinesJustAdded = 2;
                             //job.lineoffset = 2;
@@ -854,7 +856,7 @@ namespace TikzEdt
                 {
                     todo_tex.Clear();
                     _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Compilation of pre-compiled header failed with exit code " + texProcess.ExitCode + 
-                        ". Compilation of main document stopped. Check under settings code of pre-compiled header!", Type = CompileEventType.Error });
+                        ". Compilation of main document stopped. Check that all necessary packages are installed and that the pre-compiled header code (in the settings) has no errors!", Type = CompileEventType.Error });
                     _JobNumberChanged.Raise(this, EventArgs.Empty);
                 }
                 else

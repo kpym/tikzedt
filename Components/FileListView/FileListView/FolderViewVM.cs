@@ -150,6 +150,11 @@ namespace FileListView
                 FV.CurrentFolder = newf;
             }
         }
+
+        public void Refresh()
+        {
+            PopulateView();
+        }
     }
 
     public class ObservableStack<T> : ObservableCollection<T>

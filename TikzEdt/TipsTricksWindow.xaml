@@ -19,6 +19,12 @@
                         <Run Foreground="Red" FontWeight="Bold">Important:</Run> To use TikzEdt you need a working installation of Latex. If you do not have one, download
                         <Hyperlink NavigateUri="http://miktex.org/" RequestNavigate="Hyperlink_RequestNavigate">MikTex</Hyperlink> or
                         <Hyperlink NavigateUri="http://www.tug.org/texlive/" RequestNavigate="Hyperlink_RequestNavigate">TexLive</Hyperlink>. A full installation is recommended to avoid having to install missing packages later.
+                        In particular, packages
+                        <Run FontWeight="Bold">pgf, ms, xcolor, preview, mptopdf</Run> are nedded.
+                        <LineBreak/>
+                        <Hyperlink NavigateUri="InstallPackages_Miktex.bat" RequestNavigate="Hyperlink_RequestNavigate_ExeFolder"  ToolTip="Runs InstallPackages_Miktex.bat">Try to install packages (MikTex).</Hyperlink>
+                        <LineBreak/>
+                        <Hyperlink NavigateUri="InstallPackages_TexLive.bat" RequestNavigate="Hyperlink_RequestNavigate_ExeFolder" ToolTip="Runs InstallPackages_TexLive.bat">Try to install packages (TexLive).</Hyperlink>
                     </Paragraph>
                     <Paragraph FontSize="15" FontWeight="Bold">
                         Tips and Tricks
@@ -32,6 +38,9 @@
                         </ListItem>
                         <ListItem>
                             <Paragraph>Snippets: Snippets can be inserted as styles, as full code samples, or as-is. You can create your own snippets under Settings->SnippetManager</Paragraph>
+                        </ListItem>
+                        <ListItem>
+                            <Paragraph>Snippet thumbnails are created from the snippet's Latex code. You can (re-)create snippet thumbnails in the SnippetManager.</Paragraph>
                         </ListItem>
                         <ListItem>
                             <Paragraph>Styles: You can set styles to be used with the WYSIWYG tools in the tools toolbar.</Paragraph>

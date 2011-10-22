@@ -353,6 +353,19 @@ namespace TikzEdt
             return GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(GetPrecompiledHeaderFilename()) + ".fmt";
         }
 
+        /// <summary>
+        /// Returns the shortened precompiled header name without extension.
+        /// 
+        /// </summary>
+        /// <returns>The full path to the precompiled header file, in DOS format, without extension.</returns>
+        public static string GetPrecompiledHeaderShortFilePath()
+        {
+            string path = GetPrecompiledHeaderFMTFilePath();
+            path = LongPathToShort(path);
+            path = RemoveFileExtension(path);
+            return path;
+        }
+
         public static string GetTempFileName()
         {
             return Consts.cTempFile + Process.GetCurrentProcess().Id;
@@ -477,6 +490,22 @@ namespace TikzEdt
         public static double RotationFromMatrix(Parser.TikzMatrix M)
         {
             return Math.Atan2(M.m[1, 0], M.m[0, 0]);
+        }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetShortPathName(
+            [MarshalAs(UnmanagedType.LPTStr)]
+        string path,
+            [MarshalAs(UnmanagedType.LPTStr)]
+        StringBuilder shortPath,
+            int shortPathLength
+            );
+
+        public static string LongPathToShort(string LongPath)
+        {
+            StringBuilder shortPath = new StringBuilder(255);
+            GetShortPathName(LongPath, shortPath, shortPath.Capacity);
+            return shortPath.ToString();
         }
     }
      
