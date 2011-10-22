@@ -34,6 +34,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xaml" />
@@ -53,6 +54,7 @@
     <Compile Include="MyMessageBox.xaml.cs">
       <DependentUpon>MyMessageBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MySettingsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecentFileList.cs" />
     <Compile Include="UpdateChecker.cs" />

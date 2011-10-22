@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Interop;
+using System.IO;
 
 namespace TikzEdt
 {
@@ -24,13 +25,86 @@ namespace TikzEdt
             // This shouldn't be necessary... but it is. On my machine there are rendering issues....
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
+            // set application data path and settings path          
+            if (e.Args.Contains("-p") || e.Args.Contains("--portable"))
+            {
+                Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
+            }
+            else
+                Helper.SetAppdataPath(Helper.AppdataPathOptions.AppData);           
+
+            // load/store settings at a sensible location (not the standard cryptic one)
+            RewireSettingsProvider(TikzEdt.Properties.Settings.Default);
+
             // tie settings to Viewmodels
             CompilerSettings.Instance = new PropertiesCompilerSettings();
             TikzEdt.Parser.ParserSettings.Instance = new PropertiesParserSettings();
 
+            // check that necessary config files are in place
+            string missingfile = "";
+            if (false == FirstRunPreparations(out missingfile))
+                MessageBox.Show("File " + missingfile + " not found. Please re-install program or provide file manually.", "File missing", MessageBoxButton.OK, 
+                    MessageBoxImage.Error);
+
             // defer other startup processing to base class
             base.OnStartup(e);
         }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+        }
+
+        private  void RewireSettingsProvider(ApplicationSettingsBase settings)
+        {
+            var portableSettingsProvider = 
+                new TESettingsProvider(Path.Combine( Helper.GetAppdataPath(),  "TikzEdt.settings"));
+            settings.Providers.Add(portableSettingsProvider);
+            foreach (System.Configuration.SettingsProperty prop in settings.Properties)
+                prop.Provider = portableSettingsProvider;
+            settings.Reload();
+        }
+
+
+        /// <summary>
+        /// Checks if all config files are available and copies them
+        /// from the application direction to UserAppDataPath.
+        /// </summary>
+        /// <param name="missing"></param>
+        /// <returns></returns>
+        bool FirstRunPreparations(out string missing)
+        {
+            bool success = true;
+            missing = "";
+            //these files need to be in the appdata path.
+            List<String> InstallFiles = new List<string>();
+            InstallFiles.Add(Consts.cCompletionsFile);
+            InstallFiles.Add(Consts.cSyntaxFile);
+            InstallFiles.Add(Consts.cSnippetsFile);
+
+            foreach (string file in InstallFiles)
+            {
+                //check if file is in Helper.GetSettingsPath() if not try to copy it from exe dir.
+                if (!File.Exists(Helper.GetSettingsPath() + file))
+                {
+                    //if not there check if it is in exe dir
+                    if (!File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + "\\Editor\\" + file))
+                    {
+                        success = false;
+                        missing = file;
+                        break;
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(Helper.GetSettingsPath());
+                        File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + "\\Editor\\" + file, Helper.GetSettingsPath() + file);
+                        //let global exception handler show exception to user.
+                    }
+                }
+            }
+            return success;
+        }
+
         void AppDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             //do whatever you need to do with the exception

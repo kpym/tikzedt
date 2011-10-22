@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:my="clr-namespace:FileListView"
+             
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="200" Loaded="UserControl_Loaded" >
     <UserControl.Resources>
@@ -27,20 +28,24 @@
                            DockPanel.Dock="Top" RecentLocations="{Binding ElementName=FV, Path=RecentLocations}" ToolTip="{Binding ElementName=FV, Path=CurrentFolder}"/>
         <!-- -->
         <DockPanel DockPanel.Dock="Top" LastChildFill="True">
-            <Button Name="cmdBack"  DockPanel.Dock="Left" Style="{StaticResource FlatButtonStyle}" 
-                    Command="{x:Static my:FListView.BackCommand}" CommandTarget="{Binding ElementName=lstFiles}">                
+            <Button Name="cmdBack"  DockPanel.Dock="Left" Style="{StaticResource FlatButtonStyle}" ToolTip="Back"
+                    Command="{x:Static NavigationCommands.BrowseBack}" CommandTarget="{Binding ElementName=lstFiles}">                
                 <my:AutoGrayImage  Width="16" Height="16" Style="{StaticResource toolbarImageStyle}" Source2="/FileListView;component/Images/Back.png"/>
             </Button>
-            <Button Name="cmdForward" DockPanel.Dock="Left" Style="{StaticResource FlatButtonStyle}" 
-                    Command="{x:Static my:FListView.ForwardCommand}" CommandTarget="{Binding ElementName=lstFiles}">
+            <Button Name="cmdForward" DockPanel.Dock="Left" Style="{StaticResource FlatButtonStyle}" ToolTip="Forward"
+                    Command="{x:Static NavigationCommands.BrowseForward}" CommandTarget="{Binding ElementName=lstFiles}">
                 <my:AutoGrayImage  Width="16" Height="16" Style="{StaticResource toolbarImageStyle}" Source2="/FileListView;component/Images/forward.png"/>
             </Button>
-            <Button Name="cmdUp" DockPanel.Dock="Left" Style="{StaticResource FlatButtonStyle}"
-                    Command="{x:Static my:FListView.UpCommand}" CommandTarget="{Binding ElementName=lstFiles}">
+            <Button Name="cmdUp" DockPanel.Dock="Left" Style="{StaticResource FlatButtonStyle}" ToolTip="Up" 
+                    Command="{x:Static NavigationCommands.BrowseBack}" CommandTarget="{Binding ElementName=lstFiles}">
                 <my:AutoGrayImage  Width="16" Height="16" Source2="/FileListView;component/Images/075b_UpFolder_16x16_72.png"/>
             </Button>
+            <Button Name="cmdRefresh" DockPanel.Dock="Left" Style="{StaticResource FlatButtonStyle}" ToolTip="Refresh" 
+                    Command="{x:Static NavigationCommands.Refresh}" CommandTarget="{Binding ElementName=lstFiles}">
+                <my:AutoGrayImage  Width="16" Height="16" Source2="Images/112_RefreshArrow_Blue_16x16_72.png" />
+            </Button>
             <ComboBox Name="cmbFilter" DockPanel.Dock="Right" ItemsSource="{Binding ElementName=FV, Path=Filter, Converter={StaticResource FilterStringToList}}" 
-                      SelectedIndex="{Binding ElementName=FV, Path=FilterIndex}" Width="60"
+                      SelectedIndex="{Binding ElementName=FV, Path=FilterIndex}" Width="Auto" MinWidth="60"
                       Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" >
             </ComboBox>                      
             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0">Filter:</TextBlock>

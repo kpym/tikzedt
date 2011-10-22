@@ -39,5 +39,12 @@ namespace TikzEdt
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;
         }
+
+        private void Hyperlink_RequestNavigate_ExeFolder(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            // executes a file in exe folder 
+            Process.Start(new ProcessStartInfo(System.IO.Path.Combine(Helper.GetAppDir(), e.Uri.OriginalString)));
+            e.Handled = true;
+        }
     }
 }

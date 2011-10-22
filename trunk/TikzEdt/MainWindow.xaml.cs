@@ -43,6 +43,7 @@ using TikzEdt.ViewModels;
 using System.Windows.Threading;
 using System.Windows.Interop;
 using TESharedComponents;
+using System.Diagnostics;
 
 namespace TikzEdt
 {
@@ -336,7 +337,7 @@ namespace TikzEdt
             {
                 AddStatusLine("TikzEdt is up to date. The current version is "+e.CurrentVersion+".");
 
-                MessageBox.Show("Your current version of TikzEdt ("+e.CurrentVersion+ ") is the latest available.", "TikzEdt up to date",
+                GlobalUI.ShowMessageBox("Your current version of TikzEdt ("+e.CurrentVersion+ ") is the latest available.", "TikzEdt up to date",
                     MessageBoxButton.OK, MessageBoxImage.Information );
             }
         }
@@ -771,7 +772,7 @@ namespace TikzEdt
                 String msg = Ex.Message + Environment.NewLine + Environment.NewLine;
                 msg += CmdLine.GetUsage() + Environment.NewLine + Environment.NewLine;
                 msg += CmdLine.GetParameterInfo();
-                MessageBox.Show(msg);
+                GlobalUI.ShowMessageBox(msg, "Unknown command line arguments", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             //do we need such a routine that checks whether all files are available?            
@@ -784,16 +785,12 @@ namespace TikzEdt
             //set path to user-defined application data. depending on cmdline parameter user data
             //is stored next to .exe or in %appdata%. If program dir is not writable %userappdata% is used.
             //if ( CmdLine["userapp"] != null || !Helper.IsAppDirWritable()) // hack: always use Appdata folder (...since I couldn't make HasWritePermissionOnDir work) 
-            if ( CmdLine["portable"] == null)
-                Helper.SetAppdataPath(Helper.AppdataPathOptions.AppData);
-            else
-                Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
+            //if ( CmdLine["portable"] == null)
+            //    Helper.SetAppdataPath(Helper.AppdataPathOptions.AppData);
+            //else
+            //    Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
 
             AddStatusLine("Application data directory is " + Helper.GetAppdataPath());            
-
-            string missingfile = "";
-            if(false == FirstRunPreparations(out missingfile))
-                AddStatusLine("File "+missingfile+" not found. Please re-install program or provide file manually.", true);
 
             AddStatusLine("Working directory is now: " + Helper.GetCurrentWorkingDir());
 /*            if (!File.Exists(Helper.GetSettingsPath() + Consts.cSyntaxFile))
@@ -831,52 +828,10 @@ namespace TikzEdt
                 TheVM.LoadFile(CmdLine[""]);
 
             //TheVM.TheDocument.Recompile();
-
-
             //Width = Width - 1;
             if (Properties.Settings.Default.ShowTipsTricksWindow)
                 (new TipsTricksWindow() { Owner=this }).ShowDialog();
         }
-
-        /// <summary>
-        /// Checks if all config files are available and copies them
-        /// from the application direction to UserAppDataPath.
-        /// </summary>
-        /// <param name="missing"></param>
-        /// <returns></returns>
-        bool FirstRunPreparations(out string missing)
-        {
-            bool success = true;
-            missing = "";
-            //these files need to be in the appdata path.
-            List<String> InstallFiles = new List<string>();
-            InstallFiles.Add(Consts.cCompletionsFile);
-            InstallFiles.Add(Consts.cSyntaxFile);
-            InstallFiles.Add(Consts.cSnippetsFile);
-
-            foreach (string file in InstallFiles)
-            {
-                //check if file is in Helper.GetSettingsPath() if not try to copy it from exe dir.
-                if (!File.Exists(Helper.GetSettingsPath() + file))
-                {
-                    //if not there check if it is in exe dir
-                    if (!File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + "\\Editor\\" + file))
-                    {
-                        success = false;
-                        missing = file;
-                        break;
-                    }
-                    else
-                    {
-                        Directory.CreateDirectory(Helper.GetSettingsPath());
-                        File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + "\\Editor\\" + file, Helper.GetSettingsPath() + file);
-                        //let global exception handler show exception to user.
-                    }
-                }
-            }
-            return success;
-        }
-
 
         
         /// <summary>
@@ -2369,7 +2324,8 @@ namespace TikzEdt
                     //warn user about wrong file extension
                     if (System.IO.Path.GetExtension(files[0]) != ".tex")
                     {
-                        MessageBoxResult r = MessageBox.Show("File does not seem to be a LaTeX-file. Proceed opening?", "Wrong file extension", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+                        MessageBoxResult r = MessageBox.Show(this, "File does not seem to be a LaTeX-file. Proceed opening?", "Wrong file extension",
+                            MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
                         if (r == MessageBoxResult.No)
                             return;                        
                     }
@@ -2377,7 +2333,7 @@ namespace TikzEdt
                         TheVM.LoadFile(files[0]);
                 }
                 else
-                    MessageBox.Show("Only one file at a time allowed via drag&drop.", "Too many files", MessageBoxButton.OK, MessageBoxImage.Information);
+                    GlobalUI.ShowMessageBox("Only one file at a time allowed via drag&drop.", "Too many files", MessageBoxButton.OK, MessageBoxImage.Information);
                         
             }
             
@@ -2658,11 +2614,6 @@ namespace TikzEdt
             txtCode.InvalidateVisual();
         }
 
-        private void DockPanelSplitter_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            MessageBox.Show("jkhkjhkj");
-        }
-
         private void TextBlock_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
         {
             InvalidateVisual();
@@ -2705,6 +2656,22 @@ namespace TikzEdt
         private void CheckForUpdates_Click(object sender, RoutedEventArgs e)
         {
             updateChecker.CheckForUpdatesAsync();
+        }
+
+        private void InstallLatexPackages_Click(object sender, RoutedEventArgs e)
+        {
+            int result = MyMessageBox.Show("This tries to install the required Latex packages by running InstallPackages_Miktex.bat "+
+                "or InstallPackages_TexLive.bat in the installation directory.",
+                "Install missing packages", MessageBoxImage.Information, new string[] { "I use MikTex", "I use TexLive", "Cancel" }, 2, this);
+            if (result == 0)
+                Process.Start(new ProcessStartInfo(System.IO.Path.Combine(Helper.GetAppDir(), "InstallPackages_Miktex.bat")));
+            else if (result == 1)
+                Process.Start(new ProcessStartInfo(System.IO.Path.Combine(Helper.GetAppDir(), "InstallPackages_TexLive.bat")));
+        }
+
+        private void JumpToCurrentFolder_Click(object sender, RoutedEventArgs e)
+        {
+            folderView.CurrentFolder = Directory.GetCurrentDirectory();
         }
        
     }

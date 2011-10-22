@@ -91,6 +91,12 @@ namespace TESharedComponents
             }
 
             // add content
+            if (content is string)
+            {
+                TextBlock tb = new TextBlock() { MaxWidth = 400, Margin = new Thickness(20), TextWrapping = TextWrapping.Wrap };
+                tb.Inlines.Add(content as string);
+                content = tb;
+            }
             mbox.TheContent.Content = content;
 
             mbox.ShowDialog();
@@ -132,6 +138,7 @@ namespace TESharedComponents
 
             return Show(newContent, title, img, new string[] { "OK" }, 0, owner);
         }
+
 
         private MyMessageBox()
         {

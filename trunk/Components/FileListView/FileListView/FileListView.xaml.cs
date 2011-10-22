@@ -91,8 +91,8 @@ namespace FileListView
         #endregion
 
         #region Commands
-        public static RoutedCommand BackCommand = new RoutedCommand();
-        public static RoutedCommand ForwardCommand = new RoutedCommand();
+        //public static RoutedCommand BackCommand = new RoutedCommand();
+        //public static RoutedCommand ForwardCommand = new RoutedCommand();
         public static RoutedCommand UpCommand = new RoutedCommand();
         public static RoutedCommand OpenCommand = new RoutedCommand();
         public static RoutedCommand OpenFileCommand = new RoutedCommand();
@@ -105,11 +105,12 @@ namespace FileListView
             InitializeComponent();
             DataContext = TheVM = new FileListViewVM(this);
 
-            CommandBindings.Add(new CommandBinding(BackCommand, (s,e) => TheVM.Back(), (s,e) => e.CanExecute= (TheVM.RecentFolders.Count >1) ));
-            CommandBindings.Add(new CommandBinding(ForwardCommand, (s, e) => TheVM.Forward(), (s, e) => e.CanExecute = (TheVM.FutureFolders.Count > 0)));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.BrowseBack, (s,e) => TheVM.Back(), (s,e) => e.CanExecute= (TheVM.RecentFolders.Count >1) ));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.BrowseForward, (s, e) => TheVM.Forward(), (s, e) => e.CanExecute = (TheVM.FutureFolders.Count > 0)));
             CommandBindings.Add(new CommandBinding(UpCommand, (s, e) => TheVM.Up(), (s, e) => e.CanExecute = (CurrentFolder != null ? CurrentFolder.Split(new char[] { System.IO.Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries).Length > 1 : false)));
             CommandBindings.Add(new CommandBinding(OpenCommand, (s, e) => HandleOpenCommand(SelectedItem, e.Parameter), (s, e) => e.CanExecute = (SelectedItem != null)));
-            CommandBindings.Add(new CommandBinding(OpenFileCommand, (s, e) => HandleOpenCommand(SelectedItem, e.Parameter), (s, e) => e.CanExecute = (SelectedItem is FSItemVM && (SelectedItem as FSItemVM).type==FSItemType.File )));            
+            CommandBindings.Add(new CommandBinding(OpenFileCommand, (s, e) => HandleOpenCommand(SelectedItem, e.Parameter), (s, e) => e.CanExecute = (SelectedItem is FSItemVM && (SelectedItem as FSItemVM).type==FSItemType.File )));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.Refresh, (s, e) => TheVM.Refresh(), (s, e) => e.CanExecute=true ));
         }
 
 

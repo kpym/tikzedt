@@ -159,6 +159,8 @@
                  <!-- <MenuItem Header="Test..." Click="TestClick"/>
                <MenuItem Header="Test...Updatetexts" Click="TestUpdClick"/>
                 <MenuItem Header="Test...Error Listview" Click="Test2Click"/> -->
+                <Separator/>
+                <MenuItem Header="Try to install missing Latex packages" Click="InstallLatexPackages_Click"/>
             </MenuItem>
             <MenuItem Header="?">
                 <MenuItem Header="Help..." Command="ApplicationCommands.Help"/>
@@ -592,7 +594,9 @@
                             <MenuItem Header="Open in new instance" Command="{x:Static FLV:FListView.OpenFileCommand}" CommandParameter="newinstance"/>
                             <MenuItem Header="Open in external viewer" Command="{x:Static FLV:FListView.OpenFileCommand}" CommandParameter="externalviewer"/>
                             <Separator />
-                            <MenuItem Header="View in Explorer" Click="OpenInExplorer_Click"/>
+                            <MenuItem Header="Jump to working directory" Click="JumpToCurrentFolder_Click"/>
+                            <Separator/>
+                            <MenuItem Header="View in Explorer" Click="OpenInExplorer_Click"/>                            
                         </ContextMenu>
                     </FLV:FolderView.ListViewContextMenu> 
                 </FLV:FolderView>
