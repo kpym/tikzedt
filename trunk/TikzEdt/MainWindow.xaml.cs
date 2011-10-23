@@ -259,6 +259,8 @@ namespace TikzEdt
             updateChecker.Success += new EventHandler<TESharedComponents.UpdateChecker.SuccessEventArgs>(updateChecker_Success);
 
             recentFileList = RecentFileList;
+            recentFileList.UseXmlPersister(System.IO.Path.Combine(Helper.GetAppdataPath(), "RecentFileList.xml"));
+            
             //recentFileList.UseXmlPersister();
        //     AsyncParser.DoWork += new System.ComponentModel.DoWorkEventHandler(AsyncParser_DoWork);
        //     AsyncParser.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(AsyncParser_RunWorkerCompleted);
@@ -758,10 +760,12 @@ namespace TikzEdt
             */
             //cmbGrid.SelectedIndex = 4;
 
-            //parse command line parameter
-            CLAParser.CLAParser CmdLine = new CLAParser.CLAParser("TikzEdt");
+            //parse command line parameter... *** There seemed to be a problem with the CLA Parser I couldn't fix. Temporarily disabled it.
+    /*        CLAParser.CLAParser CmdLine = new CLAParser.CLAParser("TikzEdt");
+            CmdLine.ParameterPrefix = "-";
             CmdLine.Parameter(CLAParser.CLAParser.ParamAllowType.Optional, "", CLAParser.CLAParser.ValueType.String, "Path to file that is to be loaded on starting TikzEdt.");
             CmdLine.Parameter(CLAParser.CLAParser.ParamAllowType.Optional, "portable", CLAParser.CLAParser.ValueType.Bool, "Read configuration files from the application directory, else it is read from %appdata% folder. ");// + System.Windows.Forms.Application.UserAppDataPath);
+            CmdLine.Parameter(CLAParser.CLAParser.ParamAllowType.Optional, "p", CLAParser.CLAParser.ValueType.Bool, "Read configuration files from the application directory, else it is read from %appdata% folder. ");
             CmdLine.AllowAdditionalParameters = false;
             try
             {
@@ -774,7 +778,7 @@ namespace TikzEdt
                 msg += CmdLine.GetParameterInfo();
                 GlobalUI.ShowMessageBox(msg, "Unknown command line arguments", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
+            */
             //do we need such a routine that checks whether all files are available?            
             /*string missing;
             if (FirstRunPreparations(out missing) == false)
@@ -822,10 +826,12 @@ namespace TikzEdt
 
             // Open a new file 
             ApplicationCommands.New.Execute(null, this);
-
+            
             //open file specified via command line parameter.            
-            if (CmdLine[""] != null)
-                TheVM.LoadFile(CmdLine[""]);
+            //if (CmdLine[""] != null)            
+            //    TheVM.LoadFile(CmdLine[""]);
+            if (!String.IsNullOrWhiteSpace( App.StartupFile ))
+                TheVM.LoadFile(App.StartupFile);
 
             //TheVM.TheDocument.Recompile();
             //Width = Width - 1;
@@ -2663,10 +2669,17 @@ namespace TikzEdt
             int result = MyMessageBox.Show("This tries to install the required Latex packages by running InstallPackages_Miktex.bat "+
                 "or InstallPackages_TexLive.bat in the installation directory.",
                 "Install missing packages", MessageBoxImage.Information, new string[] { "I use MikTex", "I use TexLive", "Cancel" }, 2, this);
-            if (result == 0)
-                Process.Start(new ProcessStartInfo(System.IO.Path.Combine(Helper.GetAppDir(), "InstallPackages_Miktex.bat")));
-            else if (result == 1)
-                Process.Start(new ProcessStartInfo(System.IO.Path.Combine(Helper.GetAppDir(), "InstallPackages_TexLive.bat")));
+            try
+            {
+                if (result == 0)
+                    Process.Start(new ProcessStartInfo(System.IO.Path.Combine(Helper.GetAppDir(), "InstallPackages_Miktex.bat")));
+                else if (result == 1)
+                    Process.Start(new ProcessStartInfo(System.IO.Path.Combine(Helper.GetAppDir(), "InstallPackages_TexLive.bat")));
+            }
+            catch (Exception)
+            {
+                GlobalUI.ShowMessageBox("Could not start the package installation script (InstallPackages_XXX.bat). Maybe the installation is broken.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void JumpToCurrentFolder_Click(object sender, RoutedEventArgs e)

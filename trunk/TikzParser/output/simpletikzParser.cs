@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g 2011-10-07 18:06:34
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g 2011-10-22 23:12:11
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 168, 219
@@ -1243,7 +1243,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          tikz_options, idd
+            	// elements:          idd, tikz_options
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -1659,7 +1659,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          idd, iddornumberunitorstringorrange
+            	// elements:          iddornumberunitorstringorrange, idd
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -1861,7 +1861,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          44, 43
+            	// elements:          43, 44
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -3545,7 +3545,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          tikz_options, tikzpicture_end, tikzpicture_start, tikzbody
+                    	// elements:          tikzpicture_end, tikz_options, tikzpicture_start, tikzbody
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -3661,7 +3661,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          tikzbody2, tikz_start, tikz_options, roundbr_end
+                    	// elements:          tikzbody2, tikz_options, tikz_start, roundbr_end
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -4843,7 +4843,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          tikzbody, tikzscope_end, tikzscope_start, tikz_options
+            	// elements:          tikz_options, tikzscope_start, tikzscope_end, tikzbody
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -4984,7 +4984,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          tikzpath_element, path_start, semicolon_end
+            	// elements:          path_start, semicolon_end, tikzpath_element
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -5432,7 +5432,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          tikzpath_element, roundbr_end, roundbr_start
+                    	// elements:          tikzpath_element, roundbr_start, roundbr_end
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -5514,7 +5514,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          53, 52, tikzpath_element
+                    	// elements:          52, tikzpath_element, 53
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -5665,7 +5665,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          controls_end, controls_start, coord
+            	// elements:          controls_start, coord, controls_end
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -5809,7 +5809,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          semicolon_end, tikznode_core, node_start, tikzpath_element
+            	// elements:          semicolon_end, tikzpath_element, tikznode_core, node_start
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -5952,7 +5952,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          tikzpath_element, tikznode_core, semicolon_end, matrix_start
+            	// elements:          semicolon_end, tikznode_core, tikzpath_element, matrix_start
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -6155,7 +6155,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          tikzcoordinate_core1, tikzcoordinate_core2, tikzcoordinate_core3, coordinate_start, semicolon_end, tikzpath_element
+            	// elements:          tikzcoordinate_core1, tikzpath_element, tikzcoordinate_core2, coordinate_start, semicolon_end, tikzcoordinate_core3
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -6476,7 +6476,7 @@ public partial class simpletikzParser : Parser
 
 
             	// AST REWRITE
-            	// elements:          tikznode_decorator, tikzstring
+            	// elements:          tikzstring, tikznode_decorator
             	// token labels:      
             	// rule labels:       retval
             	// token list labels: 
@@ -7583,7 +7583,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          numberunit, numberunitorvariable
+                    	// elements:          numberunitorvariable, numberunit
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -8211,7 +8211,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          coord_modifier, coord_sep, numberunit
+                    	// elements:          numberunit, coord_modifier, coord_sep
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -8312,7 +8312,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          coord_part, coord_modifier, coord_sep
+                    	// elements:          coord_sep, coord_part, coord_modifier
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -8531,7 +8531,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          numberunit, coord_sep, coord_modifier
+                    	// elements:          coord_modifier, numberunit, coord_sep
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -8800,7 +8800,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          idd, 43, 44
+                    	// elements:          44, idd, 43
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -8939,7 +8939,7 @@ public partial class simpletikzParser : Parser
 
 
                     	// AST REWRITE
-                    	// elements:          numberunit, 47, 45, idd
+                    	// elements:          45, 47, idd, numberunit
                     	// token labels:      
                     	// rule labels:       retval
                     	// token list labels: 
@@ -8957,10 +8957,10 @@ public partial class simpletikzParser : Parser
                     	    object root_1 = (object)adaptor.GetNilNode();
                     	    root_1 = (object)adaptor.BecomeRoot((object)adaptor.Create(IM_DONTCARE, "IM_DONTCARE"), root_1);
 
-                    	    if ( !(stream_numberunit.HasNext() || stream_45.HasNext() || stream_idd.HasNext()) ) {
+                    	    if ( !(stream_45.HasNext() || stream_idd.HasNext() || stream_numberunit.HasNext()) ) {
                     	        throw new RewriteEarlyExitException();
                     	    }
-                    	    while ( stream_numberunit.HasNext() || stream_45.HasNext() || stream_idd.HasNext() )
+                    	    while ( stream_45.HasNext() || stream_idd.HasNext() || stream_numberunit.HasNext() )
                     	    {
                     	        adaptor.AddChild(root_1, stream_idd.NextTree());
                     	        adaptor.AddChild(root_1, stream_45.NextNode());
@@ -8974,9 +8974,9 @@ public partial class simpletikzParser : Parser
                     	        stream_47.Reset();
 
                     	    }
-                    	    stream_numberunit.Reset();
                     	    stream_45.Reset();
                     	    stream_idd.Reset();
+                    	    stream_numberunit.Reset();
 
                     	    adaptor.AddChild(root_0, root_1);
                     	    }

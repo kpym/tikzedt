@@ -940,4 +940,58 @@ Will be displayed as tooltip</Description>
     <EdgeStyle />
     <NodeStyle />
   </SnippetsTable>
+  <SnippetsTable>
+    <ID>52</ID>
+    <Name>Compiler options</Name>
+    <Category>Preprocessor Commands</Category>
+    <Description>The command 
+%!TEO &lt;bla&gt; 
+adds the pdflatex compiler option &lt;bla&gt;.</Description>
+    <SnippetCode>%!TEO -include-directory=..</SnippetCode>
+    <SampleCode>%!TEO -include-directory=..
+\begin{tikzpicture}
+  \node at (0,0) {\%!TE};
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>53</ID>
+    <Name>(Un)Comment</Name>
+    <Category>Preprocessor Commands</Category>
+    <Description>The string "%!TE%" is removed by TikzEdt prior to compilation.
+Use this (for example) to include further input files.</Description>
+    <SnippetCode>%!TE% something</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \node at (0,0) {\%!TE};
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>54</ID>
+    <Name>TE Input</Name>
+    <Category>Preprocessor Commands</Category>
+    <Description>Use this to include files only in TikzEdt.
+The standard use-case is that you input multiple tikzpictures in some master tex-file and you want to use a common set of commands or styles.</Description>
+    <SnippetCode>%!TEI myfile.tex</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \node at (0,0) {\%!TE};
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>55</ID>
+    <Name>Parser Ignore</Name>
+    <Category>Preprocessor Commands</Category>
+    <Description>Use %/* ... %*/ to hide some lines of code from the Parser in case it reports an error in an otherwise correctly compiling tikz file.</Description>
+    <SnippetCode>%/*
+This line is ignored by the TE parser.
+%*/</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+%/*
+This line is ignored by the TE parser.
+%*/
+  \node at (0,0) {\%/* ... \%*/ };
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
 </SnippetsDataSet>

@@ -57,7 +57,7 @@ namespace TikzEdt
         /// The sender is the TIkzparseItem modified and oldtext is its text prior to the change.
         /// </summary>
   //      public event ModifiedEventHandler OnModified;
-        public delegate void NoArgsEventHandler(object sender);
+        //public delegate void NoArgsEventHandler(object sender);
         /// <summary>
         /// This gets called prior to each group of modifications.
         /// One user action, i.e., add path, might trigger multiple OnModified events.
@@ -87,8 +87,8 @@ namespace TikzEdt
         /// <summary>
         /// Called when the currently selected tool has changed.
         /// </summary>
-        public event NoArgsEventHandler ToolChanged;
-        public delegate void CallbackEventHandler(object sender, out bool allow);
+        //public event EventHandler ToolChanged;
+        //public delegate void CallbackEventHandler(object sender, out bool allow);
         /// <summary>
         /// If the user attempts to add something (node, path...) to the empty PdfOverlay Control (i.e., ParseTree=null)
         /// by default a new TikzPicture is created, to add the something to.
@@ -195,6 +195,9 @@ namespace TikzEdt
  //               (e.OldValue as Tikz_ParseTree).TextChanged -= po._parsetree_TextChanged;
  //           if (po.ParseTree != null)
  //               po.ParseTree.TextChanged += new Tikz_ParseTree.TextChangedHandler(po._parsetree_TextChanged);
+            // reset current tool
+            po.CurrentTool.OnDeactivate();
+            po.CurrentTool.OnActivate();
             po.RedrawObjects();
         }
         /// <summary>
