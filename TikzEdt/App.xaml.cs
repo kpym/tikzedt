@@ -15,8 +15,15 @@ namespace TikzEdt
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// Represents the file to load on startup
+        /// </summary>
+        public static string StartupFile = null;
+
         protected override void OnStartup(StartupEventArgs e)
         {
+            StartupFile = e.Args.FirstOrDefault(str => !str.StartsWith("-"));
+
             // define application exception handler
             Application.Current.DispatcherUnhandledException += new
                 System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(
@@ -124,12 +131,13 @@ namespace TikzEdt
                 {
                     try
                     {
-                        MessageBox.Show("Fatal Error", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Stop);
+                        MessageBox.Show("An error occurred in TikzEdt. Sorry for the inconvenience. Please save and restart TikzEdt."+Environment.NewLine +
+                            (e.Exception != null? e.Exception.Message : ""), "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Stop);
                     }
                     finally
                     {
-                        System.Environment.Exit(1);
-                        Application.Current.MainWindow.Close();
+                        //System.Environment.Exit(1);
+                        //Application.Current.MainWindow.Close();
                     }
                 }
 

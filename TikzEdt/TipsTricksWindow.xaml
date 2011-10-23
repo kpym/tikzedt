@@ -53,6 +53,10 @@
                         <ListItem>
                             <Paragraph>Press Ctrl to open recent files in the File menu in a new window.</Paragraph>
                         </ListItem>
+                        <ListItem>
+                            <Paragraph>You can run TikzEdt in portable mode by supplying the -p or --portable command line switch.
+                            In this case TikzEdt stores its settings in the application folder, which must be writable.</Paragraph>
+                        </ListItem>
                     </List>
                 </FlowDocument>
             </RichTextBox>

@@ -43,7 +43,14 @@ namespace TikzEdt
         private void Hyperlink_RequestNavigate_ExeFolder(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
             // executes a file in exe folder 
-            Process.Start(new ProcessStartInfo(System.IO.Path.Combine(Helper.GetAppDir(), e.Uri.OriginalString)));
+            try
+            {
+                Process.Start(new ProcessStartInfo(System.IO.Path.Combine(Helper.GetAppDir(), e.Uri.OriginalString)));
+            }
+            catch (Exception )
+            {
+                MessageBox.Show(this, "Could not start " + e.Uri.OriginalString + ". Maybe the installation is broken.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             e.Handled = true;
         }
     }

@@ -635,7 +635,7 @@ again:
                         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                         ApplicationAttributes.CompanyName, // + "\\" +
                         ApplicationAttributes.ProductName, // + "\\" +
-                        "RecentFileList.xml");
+                        "RecentFileList.xml");                
 			}
 
 			public XmlPersister( string filepath )
@@ -698,9 +698,9 @@ again:
 				{
 					_IsStreamOwned = true;
 
-					Directory.CreateDirectory( Path.GetDirectoryName( filepath ) );
+                    Directory.CreateDirectory(Path.GetDirectoryName(filepath));
 
-					_Stream = File.Open( filepath, mode );
+                    _Stream = File.Open(filepath, mode);
 				}
 
 				public SmartStream( Stream stream )
@@ -717,82 +717,83 @@ again:
 				}
 			}
 
-			SmartStream OpenStream( FileMode mode )
-			{
-				if ( !String.IsNullOrEmpty( Filepath ) )
-				{
-					return new SmartStream( Filepath, mode );
-				}
-				else
-				{
-					return new SmartStream( Stream );
-				}
-			}
+            SmartStream OpenStream(FileMode mode)
+            {
+                if (!String.IsNullOrEmpty(Filepath))
+                {
+                    return new SmartStream(Filepath, mode);
+                }
+                else
+                {
+                    return new SmartStream(Stream);
+                }
+            }
 
 			List<string> Load( int max )
 			{
 				List<string> list = new List<string>( max );
-
+                XmlTextReader x = null;
 				using ( MemoryStream ms = new MemoryStream() )
 				{
-					using ( SmartStream ss = OpenStream( FileMode.OpenOrCreate ) )
-					{
-						if ( ss.Stream.Length == 0 ) return list;
+                    try
+                    {
 
-						ss.Stream.Position = 0;
+                        using (SmartStream ss = OpenStream(FileMode.OpenOrCreate))
+                        {
+                            if (ss == null || ss.Stream.Length == 0) return list;
 
-						byte[] buffer = new byte[ 1 << 20 ];
-						for ( ; ; )
-						{
-							int bytes = ss.Stream.Read( buffer, 0, buffer.Length );
-							if ( bytes == 0 ) break;
-							ms.Write( buffer, 0, bytes );
-						}
+                            ss.Stream.Position = 0;
 
-						ms.Position = 0;
-					}
+                            byte[] buffer = new byte[1 << 20];
+                            for (; ; )
+                            {
+                                int bytes = ss.Stream.Read(buffer, 0, buffer.Length);
+                                if (bytes == 0) break;
+                                ms.Write(buffer, 0, bytes);
+                            }
 
-					XmlTextReader x = null;
+                            ms.Position = 0;
+                        }
 
-					try
-					{
-						x = new XmlTextReader( ms );
+                        x = new XmlTextReader(ms);
 
-						while ( x.Read() )
-						{
-							switch ( x.NodeType )
-							{
-								case XmlNodeType.XmlDeclaration:
-								case XmlNodeType.Whitespace:
-									break;
+                        while (x.Read())
+                        {
+                            switch (x.NodeType)
+                            {
+                                case XmlNodeType.XmlDeclaration:
+                                case XmlNodeType.Whitespace:
+                                    break;
 
-								case XmlNodeType.Element:
-									switch ( x.Name )
-									{
-										case "RecentFiles": break;
+                                case XmlNodeType.Element:
+                                    switch (x.Name)
+                                    {
+                                        case "RecentFiles": break;
 
-										case "RecentFile":
-											if ( list.Count < max ) list.Add( x.GetAttribute( 0 ) );
-											break;
+                                        case "RecentFile":
+                                            if (list.Count < max) list.Add(x.GetAttribute(0));
+                                            break;
 
-										default: Debug.Assert( false ); break;
-									}
-									break;
+                                        default: Debug.Assert(false); break;
+                                    }
+                                    break;
 
-								case XmlNodeType.EndElement:
-									switch ( x.Name )
-									{
-										case "RecentFiles": return list;
-										default: Debug.Assert( false ); break;
-									}
-									break;
+                                case XmlNodeType.EndElement:
+                                    switch (x.Name)
+                                    {
+                                        case "RecentFiles": return list;
+                                        default: Debug.Assert(false); break;
+                                    }
+                                    break;
 
-								default:
-									Debug.Assert( false );
-									break;
-							}
-						}
-					}
+                                default:
+                                    Debug.Assert(false);
+                                    break;
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    { }
 					finally
 					{
 						if ( x != null ) x.Close();
@@ -807,45 +808,46 @@ again:
 				{
 					XmlTextWriter x = null;
 
-					try
-					{
-						x = new XmlTextWriter( ms, Encoding.UTF8 );
-						if ( x == null ) { Debug.Assert( false ); return; }
+                    try
+                    {
+                        x = new XmlTextWriter(ms, Encoding.UTF8);
+                        if (x == null) { Debug.Assert(false); return; }
 
-						x.Formatting = Formatting.Indented;
+                        x.Formatting = Formatting.Indented;
 
-						x.WriteStartDocument();
+                        x.WriteStartDocument();
 
-						x.WriteStartElement( "RecentFiles" );
+                        x.WriteStartElement("RecentFiles");
 
-						foreach ( string filepath in list )
-						{
-							x.WriteStartElement( "RecentFile" );
-							x.WriteAttributeString( "Filepath", filepath );
-							x.WriteEndElement();
-						}
+                        foreach (string filepath in list)
+                        {
+                            x.WriteStartElement("RecentFile");
+                            x.WriteAttributeString("Filepath", filepath);
+                            x.WriteEndElement();
+                        }
 
-						x.WriteEndElement();
+                        x.WriteEndElement();
 
-						x.WriteEndDocument();
+                        x.WriteEndDocument();
 
-						x.Flush();
+                        x.Flush();
 
-						using ( SmartStream ss = OpenStream( FileMode.Create ) )
-						{
-							ss.Stream.SetLength( 0 );
+                        using (SmartStream ss = OpenStream(FileMode.Create))
+                        {
+                            ss.Stream.SetLength(0);
 
-							ms.Position = 0;
+                            ms.Position = 0;
 
-							byte[] buffer = new byte[ 1 << 20 ];
-							for ( ; ; )
-							{
-								int bytes = ms.Read( buffer, 0, buffer.Length );
-								if ( bytes == 0 ) break;
-								ss.Stream.Write( buffer, 0, bytes );
-							}
-						}
-					}
+                            byte[] buffer = new byte[1 << 20];
+                            for (; ; )
+                            {
+                                int bytes = ms.Read(buffer, 0, buffer.Length);
+                                if (bytes == 0) break;
+                                ss.Stream.Write(buffer, 0, bytes);
+                            }
+                        }
+                    }
+                    catch (Exception) { }
 					finally
 					{
 						if ( x != null ) x.Close();

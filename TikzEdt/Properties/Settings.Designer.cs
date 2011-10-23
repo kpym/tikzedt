@@ -358,19 +358,7 @@ namespace TikzEdt.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public global::System.Windows.GridLength OverlayCanvasColWidthSetting {
-            get {
-                return ((global::System.Windows.GridLength)(this["OverlayCanvasColWidthSetting"]));
-            }
-            set {
-                this["OverlayCanvasColWidthSetting"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("300")]
+        [global::System.Configuration.DefaultSettingValueAttribute("400")]
         public int OverlayCanvasCol2WidthSetting {
             get {
                 return ((int)(this["OverlayCanvasCol2WidthSetting"]));

@@ -892,7 +892,7 @@ namespace TikzEdt.ViewModels
                     }
                     else
                     {
-                        ParseTree = null;
+                        ParseTree = new Tikz_ParseTree();
                         AllowEditing = true;
                     }
                 }

@@ -59,7 +59,7 @@ namespace TikzEdt
         /// <summary>
         /// This is called by the overlay when the tool should update the raster, (usually because the UsePolar... setting has changed) 
         /// </summary>
-        public virtual void UpdateRaster() { }
+        public virtual void UpdateRaster() { }        
 
         /// <summary>
         /// This method is called when the tool is active and the appropriate mouse event occurs.
@@ -91,7 +91,7 @@ namespace TikzEdt
     /// </summary>
     interface OverlayInterface
     {
-        Parser.Tikz_ParseTree ParseTree { get; set; }
+        Parser.Tikz_ParseTree ParseTree { get;  }
         //void SetParseTree(
         bool AllowEditing { get; }
 
@@ -524,10 +524,30 @@ namespace TikzEdt
         protected virtual bool EnsureCurAddToExists(out bool created)
         {
             created = false;
+            if (overlay.ParseTree == null)
+                return false;
             // find tikzpicture
             Parser.Tikz_Picture tpict = overlay.ParseTree.GetTikzPicture();
             if (tpict == null)
-                return false;
+            {
+                if (overlay.AllowEditing)
+                {
+                    // add a new tikzpicture
+                    Tikz_Picture tp = new Tikz_Picture();
+                    tp.starttag = "\\begin{tikzpicture}";
+                    tp.AddChild(new Tikz_Something("\r\n"));
+                    tp.endtag = "\\end{tikzpicture}";
+
+                    //overlay.BeginUpdate();
+
+                    overlay.ParseTree.AddChild(tp);
+                    tp.UpdateText();
+
+                    //overlay.EndUpdate();
+                }
+                else 
+                    return false;
+            }
 
             if (curAddTo == null || !(curAddTo is Parser.Tikz_Path))
             {
@@ -648,6 +668,9 @@ namespace TikzEdt
             // Try to create a new ParseTree
             if (overlay.ParseTree == null)
             {
+                // TODO
+                return false;
+
                 //TryCreateNew(this, out lret);
                 if (overlay.AllowEditing)
                 {
@@ -660,7 +683,7 @@ namespace TikzEdt
 
                     overlay.BeginUpdate();
 
-                    overlay.ParseTree = t;
+              //      overlay.ParseTree = t;
                     t.AddChild(tp);
                     tp.UpdateText();
 
