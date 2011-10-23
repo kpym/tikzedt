@@ -1,5 +1,3 @@
-#What is still to be done.
-
 == How to contribute ==
 
 The authors (Thomas and Julian) hope you enjoy TikzEdt.
