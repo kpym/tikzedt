@@ -42,8 +42,7 @@
 
 === Misc ===
 *TODO*
-  * Support unit tests
-  * precision setting
+  * Hotkey hints in menus
 
 === Vague things ===
   * improve workflow
