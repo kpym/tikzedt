@@ -126,8 +126,8 @@
                 <MenuItem Header="Replace..."  Command="ApplicationCommands.Replace"/>
                 <MenuItem Header="Find Next"  Command="NavigationCommands.Search" InputGestureText="F3"/>
                 <Separator/>
-                <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}"/>
-                <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
+                <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}" InputGestureText="Ctrl+D"/>
+                <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}" InputGestureText="Ctrl+Shift+D"/>
             </MenuItem>
             <MenuItem Header="_View">
                 <MenuItem Header="Show Pdf in external viewer" Command="{x:Static custom:MainWindow.ShowPdfCommand}" InputGestureText="F6"/>
@@ -729,8 +729,8 @@
                             <MenuItem Header="Cut" Command="ApplicationCommands.Cut"/>
                             <MenuItem Header="Paste" Command="ApplicationCommands.Paste"/>
                             <Separator />
-                            <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}"/>
-                            <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}"/>
+                            <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}" InputGestureText="Ctrl+D"/>
+                            <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}" InputGestureText="Ctrl+Shift+D"/>
                             <MenuItem Header="En-Scope" Click="Enscope_Click"/>
                             <Separator/>
                             <MenuItem Header="Mark item in Overlay (if possible)" Click="MarkAtOffsetClick" />
