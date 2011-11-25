@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="c6a03341-9d86-4011-a3a0-4a73cf7665ec" name="Preview Update " linkedPackageId="bf44311d-e12d-4081-8dfc-07e72633d383" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
+  <description>This happens whenever the TeX code is changed.</description>
+  <ownedCommentsInternal>
+    <comment Id="963046f0-056f-455f-8ca8-c9fd04c3260a">
+      <elementDefinition Id="eee85b43-730f-4620-8a4b-a645b9bfafdd" />
+      <body>The user modifies the TeX document</body>
+      <annotatedElements>
+        <initialNodeMoniker Id="530dff71-be77-4460-9fe4-d0f0f6a8793d" LastKnownName="Initial1hjgj" />
+      </annotatedElements>
+    </comment>
+    <comment Id="a4ecb690-7c8f-4208-8be9-15202aefde88">
+      <elementDefinition Id="ac56b105-cba2-450b-a476-f3f5b944be9b" />
+      <body>Errors encountered?</body>
+      <annotatedElements>
+        <decisionNodeMoniker Id="654eb40b-e989-4b74-86a9-72ba16dbb6fd" LastKnownName="Decision1" />
+      </annotatedElements>
+    </comment>
+    <comment Id="fc8e5b6a-cc10-42cb-92d2-d458656606d3">
+      <elementDefinition Id="c71f90a0-f814-4903-97a7-e41b734d0612" />
+      <body>Errors encountered?</body>
+      <annotatedElements>
+        <decisionNodeMoniker Id="4194d96a-12e9-44bd-af7d-ca50b9ae9ffb" LastKnownName="Decision2" />
+      </annotatedElements>
+    </comment>
+  </ownedCommentsInternal>
+  <profileInstances>
+    <packageHasProfileInstances Id="1e981d26-c9f9-4ae5-86fc-c36d49f53e28">
+      <profileInstance Id="83476673-34a1-49f4-adec-ad5f2ed6e448" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="cdad94ea-b2f2-4e6c-bf2c-03bb25d26e07">
+      <profileInstance Id="2fbecd61-05e1-4e44-ba2b-9f4fe9f326c8" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <activityRootModelHasActivity>
+      <activity Id="fdde8259-efe3-465b-ac0e-271297fe5264" name="Preview Update " isAbstract="false" isLeaf="false" isActiveClass="false" isReentrant="false" isReadOnly="false" isSingleExecution="false">
+        <elementDefinition Id="2abc2e4b-62c4-47c5-b7e6-997f94ce8826" />
+        <nodes>
+          <initialNode Id="530dff71-be77-4460-9fe4-d0f0f6a8793d" name="Initial1hjgj" isLeaf="false">
+            <elementDefinition Id="a46347f4-1fd0-4348-8239-b082c5b57c0c" />
+            <flowNodeTargets>
+              <controlFlow Id="5e1b980f-13f3-4d6e-b981-a16a753f07fe" isLeaf="false">
+                <forkNodeMoniker Id="8a550995-ea4f-4fa1-b91f-f017537a5ccc" LastKnownName="Fork1" />
+                <elementDefinition Id="5eb2bb38-28ee-444f-947f-c3f83041e6dc" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <forkNode Id="8a550995-ea4f-4fa1-b91f-f017537a5ccc" name="Fork1" isLeaf="false">
+            <elementDefinition Id="59d357d9-0323-4676-bff7-7171c562859b" />
+            <objectFlowTargets>
+              <objectFlow Id="e563cc42-9692-4b2f-8d58-0417b2d40c49" isLeaf="false" isMulticast="false" isMultireceive="false">
+                <inputPinMoniker Id="a61bb735-5f52-4ceb-93dd-2e38856db1fe" LastKnownName="TeX Code" />
+                <elementDefinition Id="07bab44f-b134-4808-b265-5374e0486425" />
+              </objectFlow>
+              <objectFlow Id="b8bb2d67-39d4-44b7-8bdd-0df97ed27d41" isLeaf="false" isMulticast="false" isMultireceive="false">
+                <inputPinMoniker Id="7bef66ab-959f-4a04-887e-85591a4c85f2" LastKnownName="TeX Code" />
+                <elementDefinition Id="33d040a9-5776-4bbb-b747-ca55abdfeb81" />
+              </objectFlow>
+            </objectFlowTargets>
+          </forkNode>
+          <callOperationAction Id="60155551-83ec-4d73-a2f7-4a575c5ea8ba" name="Call TexCompiler.AddJob..." isLeaf="false">
+            <elementDefinition Id="bbc5c9ab-3a6f-485c-92d5-3069cce83c40" />
+            <pins>
+              <callOperationActionHasTarget>
+                <inputPin Id="a61bb735-5f52-4ceb-93dd-2e38856db1fe" name="TeX Code" isLeaf="false" ordering="Unordered" isControlType="false" isControl="false">
+                  <elementDefinition Id="578ec6ed-ff2f-409d-a19a-094eafa23b43" />
+                  <upperBound>
+                    <literalInteger Id="3fb0d8d2-413f-42f9-87bb-745aeef6d1cc" name="2147483647" value="2147483647">
+                      <elementDefinition Id="6ce87b43-5ead-41cf-bb97-f1571c1e8c67" />
+                    </literalInteger>
+                  </upperBound>
+                </inputPin>
+              </callOperationActionHasTarget>
+              <callActionHasResults>
+                <outputPin Id="dbb911d9-198e-4c0e-bb34-1645dd4eaa8c" name="Signal when pdf ready" isLeaf="false" ordering="Unordered" isControlType="false" isControl="false">
+                  <elementDefinition Id="d12b4b65-da84-4d28-a134-0adae06bba27" />
+                  <objectFlowTargets>
+                    <objectFlow Id="584e1af7-10eb-4858-bac0-4431a1c157f9" isLeaf="false" isMulticast="false" isMultireceive="false">
+                      <decisionNodeMoniker Id="654eb40b-e989-4b74-86a9-72ba16dbb6fd" LastKnownName="Decision1" />
+                      <elementDefinition Id="97a0bd19-e6f3-4625-a3aa-41da13f22142" />
+                    </objectFlow>
+                  </objectFlowTargets>
+                  <upperBound>
+                    <literalInteger Id="9ad57eef-949e-4fe4-867c-aeab1123ab3c" name="2147483647" value="2147483647">
+                      <elementDefinition Id="4f4ac3d1-bbce-4cd1-9fce-d7d56c5f1886" />
+                    </literalInteger>
+                  </upperBound>
+                </outputPin>
+              </callActionHasResults>
+            </pins>
+          </callOperationAction>
+          <callOperationAction Id="55cc04f3-cbfb-45c2-8555-f4bf437569aa" name="Run TikzParser.Parse" isLeaf="false">
+            <elementDefinition Id="dc78b9c8-5562-4253-a93d-5e23bc5cf568" />
+            <pins>
+              <callOperationActionHasTarget>
+                <inputPin Id="7bef66ab-959f-4a04-887e-85591a4c85f2" name="TeX Code" isLeaf="false" ordering="Unordered" isControlType="false" isControl="false">
+                  <elementDefinition Id="1abae83b-c823-4511-b44c-7666133afee3" />
+                  <upperBound>
+                    <literalInteger Id="897f3a83-6da7-428a-a71b-782fc184d503" name="2147483647" value="2147483647">
+                      <elementDefinition Id="049d5af4-cce4-461b-aefb-b4bd5ec5bde4" />
+                    </literalInteger>
+                  </upperBound>
+                </inputPin>
+              </callOperationActionHasTarget>
+              <callActionHasResults>
+                <outputPin Id="2a663c17-5fc6-442b-a51c-2d7e90d812f0" name="TikzParseTree" isLeaf="false" ordering="Unordered" isControlType="false" isControl="false">
+                  <elementDefinition Id="07828176-8b9a-4ce3-a72b-fabafe54adf8" />
+                  <objectFlowTargets>
+                    <objectFlow Id="c1ab05ef-ea32-4b11-8948-63071436cffe" isLeaf="false" isMulticast="false" isMultireceive="false">
+                      <decisionNodeMoniker Id="4194d96a-12e9-44bd-af7d-ca50b9ae9ffb" LastKnownName="Decision2" />
+                      <elementDefinition Id="592df3d4-1285-43cd-a4b2-80f92b65a6b3" />
+                    </objectFlow>
+                  </objectFlowTargets>
+                  <upperBound>
+                    <literalInteger Id="28ba6264-d56b-4c2c-bfbe-172163eba9f9" name="2147483647" value="2147483647">
+                      <elementDefinition Id="05e2f875-9153-44cc-b84f-1a193f062a68" />
+                    </literalInteger>
+                  </upperBound>
+                </outputPin>
+              </callActionHasResults>
+            </pins>
+          </callOperationAction>
+          <decisionNode Id="654eb40b-e989-4b74-86a9-72ba16dbb6fd" name="Decision1" isLeaf="false">
+            <elementDefinition Id="ae57adf7-e8d5-4d19-b135-1125504817a3" />
+            <flowNodeTargets>
+              <controlFlow Id="68f0c4c2-3edd-4be3-ac18-20cd10b066f2" isLeaf="false">
+                <opaqueActionMoniker Id="e7a1ddc8-0fa3-44c2-969f-8b1e8ab26fef" LastKnownName="Load Pdf in TikzDisplay and update Bounding Box" />
+                <elementDefinition Id="849b7223-b6b6-479a-8f0b-b500b14b6fb9" />
+              </controlFlow>
+              <controlFlow Id="d5b599b0-3223-468b-8f63-46aaeb8cb30e" isLeaf="false">
+                <opaqueActionMoniker Id="7f673a6b-b997-4ace-97bb-51e1a7eeecc4" LastKnownName="Add errors to Error List" />
+                <elementDefinition Id="57cc1899-b10c-4b65-a40e-6013625604ba" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <opaqueAction Id="e7a1ddc8-0fa3-44c2-969f-8b1e8ab26fef" name="Load Pdf in TikzDisplay and update Bounding Box" isLeaf="false">
+            <elementDefinition Id="de14eaea-1d10-47cf-9fda-bd59612f18e4" />
+          </opaqueAction>
+          <opaqueAction Id="7f673a6b-b997-4ace-97bb-51e1a7eeecc4" name="Add errors to Error List" isLeaf="false">
+            <elementDefinition Id="64694a8d-764d-42ab-9c34-570480535932" />
+          </opaqueAction>
+          <decisionNode Id="4194d96a-12e9-44bd-af7d-ca50b9ae9ffb" name="Decision2" isLeaf="false">
+            <elementDefinition Id="0f8cf8a5-d649-4434-a000-ee98a8af4f01" />
+            <flowNodeTargets>
+              <controlFlow Id="3395331b-8a56-4822-91c6-28f95a098c32" isLeaf="false">
+                <opaqueActionMoniker Id="7f673a6b-b997-4ace-97bb-51e1a7eeecc4" LastKnownName="Add errors to Error List" />
+                <elementDefinition Id="c12bf2c2-bddb-42ce-aa18-890afc2ba1a4" />
+              </controlFlow>
+              <controlFlow Id="7d7576b7-30a1-43c8-9747-254574dc1bcc" isLeaf="false">
+                <opaqueActionMoniker Id="028af253-4ebd-454f-a7ec-db318c8374ba" LastKnownName="Load TikzParseTree in PdfOverlay and update style lists." />
+                <elementDefinition Id="d69d6cb0-056f-40d8-95de-01b6c4eaaf44" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <opaqueAction Id="028af253-4ebd-454f-a7ec-db318c8374ba" name="Load TikzParseTree in PdfOverlay and update style lists." isLeaf="false">
+            <elementDefinition Id="d04d6254-9ffa-4267-b7fd-e48c471792b3" />
+            <flowNodeTargets>
+              <controlFlow Id="4cf1ad2d-b1e4-4e77-a2c2-a857862945e4" isLeaf="false">
+                <opaqueActionMoniker Id="06b4edf2-1b54-4377-a818-e56ccfb5b4d0" LastKnownName="In PdfOverlay:&#xD;&#xA;Translate TikzParseTree to display tree and display" />
+                <elementDefinition Id="c518e052-d959-4170-9382-d3947fa2e658" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="06b4edf2-1b54-4377-a818-e56ccfb5b4d0" name="In PdfOverlay:&#xD;&#xA;Translate TikzParseTree to display tree and display" isLeaf="false">
+            <elementDefinition Id="3d5e49dc-12fd-48c5-83f1-21b8c6864d23" />
+          </opaqueAction>
+        </nodes>
+      </activity>
+    </activityRootModelHasActivity>
+  </packagedElements>
+  <package Id="bf44311d-e12d-4081-8dfc-07e72633d383" name="TEModeling">
+    <elementDefinition Id="59d786fd-c190-49e4-8203-03e772544a64" />
+  </package>
+</activityRootModel>
