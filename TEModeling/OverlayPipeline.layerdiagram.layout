@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerDiagram dslVersion="1.0.0.0" Id="6d115033-2083-49d0-aa17-509101931a9b" absoluteBounds="0, 0, 11, 8.5" name="OverlayPipeline">
+  <layerModelMoniker Id="7fc5a49b-298d-49f0-adaa-9cd438a198ad" />
+  <nestedChildShapes>
+    <layerShape Id="755c3b77-f1e5-49aa-9f2b-981e4403de6e" absoluteBounds="3, 2, 2.75, 0.75" customColor="161, 199, 231">
+      <layerMoniker Id="2192acd3-1e74-4456-b6a5-9b11b902e147" />
+    </layerShape>
+    <layerShape Id="a2d1bed2-1fe7-4b3b-a5ff-445f484ec2f6" absoluteBounds="3, 3, 2.75, 0.75" customColor="161, 199, 231">
+      <layerMoniker Id="0964134c-a0ba-4f32-bb2b-a987e4ef1851" />
+    </layerShape>
+    <layerShape Id="d4bf882d-879d-487b-a881-984188f62449" absoluteBounds="3, 4.125, 2, 0.75" customColor="161, 199, 231">
+      <layerMoniker Id="92655406-1332-4f11-ba56-b81d45aa76dc" />
+    </layerShape>
+  </nestedChildShapes>
+</layerDiagram>
