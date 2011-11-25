@@ -93,7 +93,7 @@ namespace FindReplace
         public void BeginChange() { rtb.BeginChange(); }
         public void EndChange() { rtb.EndChange(); }
         public void Select(int start, int length)
-        {
+        {                         
             TextPointer tp = rtb.Document.ContentStart;
             rtb.Selection.Select(GetPoint(tp, start), GetPoint(tp, start + length));
             rtb.ScrollToVerticalOffset(rtb.Selection.Start.GetCharacterRect(LogicalDirection.Forward).Top);
@@ -114,18 +114,30 @@ namespace FindReplace
            tr.Text = ReplaceWith;
        }
 
-       private static TextPointer GetPoint(TextPointer start, int x)
+       /*private static TextPointer GetPointOld(TextPointer start, int x)
        {
            var ret = start;
            var i = 0;
            while (i < x && ret != null)
            {
                if (ret.GetPointerContext(LogicalDirection.Backward) == TextPointerContext.Text || ret.GetPointerContext(LogicalDirection.Backward) == TextPointerContext.None)
-                   i++;
+                   i++;              
                if (ret.GetPositionAtOffset(1, LogicalDirection.Forward) == null)
                    return ret;
                ret = ret.GetPositionAtOffset(1, LogicalDirection.Forward);
            }
+           return ret;
+       }*/
+       private static TextPointer GetPoint(TextPointer start, int x)
+       {                      
+           TextPointer ret = start.GetPositionAtOffset(x);           
+           while (new TextRange(start, ret).Text.Length < x)
+           {
+               if (ret.GetPositionAtOffset(1, LogicalDirection.Forward) == null)
+                   return ret;
+               ret = ret.GetPositionAtOffset(1, LogicalDirection.Forward);
+           }
+
            return ret;
        }
 
