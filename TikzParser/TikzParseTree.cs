@@ -1843,6 +1843,24 @@ namespace TikzEdt.Parser
                         ret.m[0, 1] = -Math.Sin(angle);
                         ret.m[1, 1] = Math.Cos(angle);
                         break;
+                    case "xslant":
+                        if (to.numval == null)
+                            return false;
+                        double amount = to.numval.GetInCM();
+                        ret.m[0, 0] = 1;
+                        ret.m[1, 0] = 0;
+                        ret.m[0, 1] = amount;
+                        ret.m[1, 1] = 1;
+                        break;
+                    case "yslant":
+                        if (to.numval == null)
+                            return false;
+                        amount = to.numval.GetInCM();
+                        ret.m[0, 0] = 1;
+                        ret.m[1, 0] = amount;
+                        ret.m[0, 1] = 0;
+                        ret.m[1, 1] = 1;
+                        break;
                     default:
                         // option not relevant for coordinate computation (or not supported) -> ignore
                         newTrafo = oldTrafo;
