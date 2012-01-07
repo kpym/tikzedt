@@ -585,7 +585,9 @@ namespace TikzEdt
             }
             else
             {
-                texProcess.StartInfo.Arguments = "-interaction=nonstopmode -halt-on-error \"" + job.path + "\"" + " " + job.ExtraCompileOptions;
+                // convert backslashes in file path to slashes
+                string PathWithSlashes = job.path.Replace('\\', '/');
+                texProcess.StartInfo.Arguments = "-interaction=nonstopmode -halt-on-error \"" + PathWithSlashes + "\"" + " " + job.ExtraCompileOptions;
             }
             texProcess.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(job.path);
       //      GlobalUI.AddStatusLine(this, "docompile  called 4");
@@ -748,6 +750,8 @@ namespace TikzEdt
             texProcess.StartInfo.FileName = CompilerSettings.Instance.Path_pdflatex;//"pdflatex";
             texProcess.StartInfo.CreateNoWindow = true;
             texProcess.StartInfo.UseShellExecute = false;
+            
+      //      texProcess.StartInfo.UseShellExecute = true;
             texProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             texProcess.StartInfo.RedirectStandardOutput = true;
             texProcess.StartInfo.RedirectStandardError = true;
