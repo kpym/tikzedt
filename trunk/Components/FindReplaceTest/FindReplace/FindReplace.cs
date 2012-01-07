@@ -65,7 +65,7 @@ namespace FindReplace
         }
         public CommandBinding ReplaceBinding
         {
-            get { return new CommandBinding(ApplicationCommands.Replace, (s, e) => ShowAsReplace()); }
+            get { return new CommandBinding(ApplicationCommands.Replace, (s, e) => { if (AllowReplace) ShowAsReplace(); }); }
         }
         #endregion
 
@@ -187,6 +187,21 @@ namespace FindReplace
         public static readonly DependencyProperty ShowSearchInProperty =
             DependencyProperty.Register("ShowSearchIn", typeof(bool), typeof(FindReplaceMgr), new UIPropertyMetadata(true));
 
+
+        /// <summary>
+        /// Determines whether the "Replace"-page in the dialog in shown or not.
+        /// </summary>
+        public bool AllowReplace
+        {
+            get { return (bool)GetValue(AllowReplaceProperty); }
+            set { SetValue(AllowReplaceProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for AllowReplace.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AllowReplaceProperty =
+            DependencyProperty.Register("AllowReplace", typeof(bool), typeof(FindReplaceMgr), new UIPropertyMetadata(true));
+
+        
         
         /// <summary>
         /// The Window that serves as the parent of the Find/Replace dialog
@@ -412,6 +427,22 @@ namespace FindReplace
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return (FindReplaceMgr.SearchScope)value;
+        }
+
+    }
+
+    public class BoolToInt : IValueConverter
+    {
+        object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((bool)value)
+                return 1;
+            return 0;
+        }
+
+        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
         }
 
     }
