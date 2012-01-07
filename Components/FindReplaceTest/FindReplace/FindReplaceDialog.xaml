@@ -7,6 +7,7 @@
     <Window.Resources>
         <my:SearchScopeToInt x:Key="searchScopeToInt"/>
         <BooleanToVisibilityConverter x:Key="boolToVis" />
+        <my:BoolToInt x:Key="boolToInt"/>
         <DataTemplate x:Key="FindPageTemplate">
             <StackPanel>
                 <TextBlock Margin="3">Text to Find:</TextBlock>
@@ -32,15 +33,15 @@
             </StackPanel>
         </DataTemplate>        
     </Window.Resources>
-    <Grid >        
-        <TabControl Name="tabMain" Height="Auto">
-            <TabItem Header="Find" Name="tabFind"  ContentTemplate="{StaticResource FindPageTemplate}">
+    <Grid >
+        <TabControl Name="tabMain" Height="Auto" BorderThickness="{Binding AllowReplace,  Converter={StaticResource boolToInt}}">
+            <TabItem Header="Find" Name="tabFind"  ContentTemplate="{StaticResource FindPageTemplate}" Visibility="{Binding AllowReplace, Converter={StaticResource boolToVis}}">
                 <StackPanel>
                     <TextBox Margin="3" Name="txtFind" AcceptsReturn="{Binding AcceptsReturn}" Text="{Binding TextToFind, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <Button Margin="3" IsDefault="True" HorizontalAlignment="Right" Width="65" Click="FindNextClick">Find Next</Button>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Replace" Name="tabReplace"  ContentTemplate="{StaticResource FindPageTemplate}">
+            <TabItem Header="Replace" Name="tabReplace"  ContentTemplate="{StaticResource FindPageTemplate}" Visibility="{Binding AllowReplace, Converter={StaticResource boolToVis}}">
                 <StackPanel>
                     <TextBox Margin="3" Name="txtFind2" AcceptsReturn="{Binding AcceptsReturn}" Text="{Binding TextToFind, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock Margin="3">Replace with:</TextBlock>
