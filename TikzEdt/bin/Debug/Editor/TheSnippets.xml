@@ -140,7 +140,7 @@ Will be displayed as tooltip</Description>
 % !TIKZEDT NOPREVIEW
  
 \documentclass[10pt,a4paper,parskip]{scrbook}
-\usepackage[T1]{fontenc}
+%\usepackage[T1]{fontenc}
 \usepackage{tikz}
 \usetikzlibrary{shapes,shadows,arrows,patterns,trees,automata,positioning,snakes}
 
