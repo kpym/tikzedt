@@ -301,5 +301,28 @@ namespace FindReplaceUnitTests
             Assert.AreEqual(Editors[0], target.CurrentEditor);
 
         }
+
+        /// <summary>
+        ///A second test for FindNext
+        ///</summary>
+        [TestMethod()]
+        public void FindNextTest2()
+        {
+            FindReplaceMgr target = MakeSample(@"aaaaaaaaaaaaaaa");
+
+            // basic Find
+            target.CaseSensitive = false;
+            target.TextToFind = "a";
+            target.FindNext();
+            Assert.AreEqual<int>(1, Editors[0].CaretOffset);
+            target.FindNext();
+            Assert.AreEqual<int>(2, Editors[0].CaretOffset);
+            target.FindNext();
+            Assert.AreEqual<int>(3, Editors[0].CaretOffset);
+            target.FindNext();
+            Assert.AreEqual<int>(4, Editors[0].CaretOffset);
+            target.FindNext();
+            Assert.AreEqual<int>(5, Editors[0].CaretOffset);
+        }
     }
 }
