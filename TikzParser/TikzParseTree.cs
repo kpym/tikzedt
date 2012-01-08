@@ -670,6 +670,7 @@ namespace TikzEdt.Parser
                 return false;
             }
 
+            Point offset = new Point(0, 0);
             if (type == Tikz_CoordType.Named)
             {
                 if (relto.parent == null)
@@ -686,11 +687,32 @@ namespace TikzEdt.Parser
                 }
                 else
                 {
-                    return t.GetAbsPos(out ret);
+                    // Tikz allows decorations (+, ++) in front of named coordinates, but not nodes (!!!)
+                    // so we have to take care of this case separately
+                    /*if ( (deco == "+" || deco == "++") && t.parent.starttag.Trim() == "\\coordinate")
+                    {
+                        if (relto.parent is Tikz_Path)
+                        {
+                            if (!(relto.parent as Tikz_Path).GetAbsOffset(out offset, relto))
+                            {
+                                // error in determining offset -> cannot determine coordinates
+                                ret = new Point(0, 0);
+                                return false;
+                            }
+                        }
+                        if (t.GetAbsPos(out ret))
+                        {
+                            ret = new Point(ret.X + offset.X, ret.Y + offset.Y);
+                        }
+                        else
+                            return false;
+                    }
+                    else*/
+                        return t.GetAbsPos(out ret);
                 }
             }
 
-            Point offset = new Point(0, 0);
+            
             if (deco == "+" || deco == "++")
             {
                 // determine offset

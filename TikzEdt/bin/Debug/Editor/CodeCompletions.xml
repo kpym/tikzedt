@@ -118,16 +118,16 @@
     <EndTag>\}</EndTag>
     <ID>0</ID>
     <Snippets>
-      <Text>tikzpicture}</Text>
+      <Text>tikzpicture</Text>
       <environment>0</environment>
       <Description>A Tikz picture environment. The document should contain exactly one.</Description>
     </Snippets>
     <Snippets>
-      <Text>scope}</Text>
+      <Text>scope</Text>
       <environment>0</environment>
     </Snippets>
     <Snippets>
-      <Text>document}</Text>
+      <Text>document</Text>
       <environment>0</environment>
     </Snippets>
   </Environments>

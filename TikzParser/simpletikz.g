@@ -437,7 +437,7 @@ size
 coord_nodename 
 	:	'(' tikz_options? idd  ')'  -> ^(IM_NODENAME idd tikz_options? );
 coord	
-	:	  coord_nodename							-> ^(IM_COORD coord_nodename  )
+	:	  ( coord_modifier? coord_nodename	)				-> ^(IM_COORD coord_modifier? coord_nodename  )
 		| ( coord_modifier? '(' numberunit coord_sep numberunit ')')		-> ^(IM_COORD coord_modifier? numberunit+ coord_sep)
 		| ( coord_modifier? '(' coord_part coord_sep coord_part ')')		-> ^(IM_COORD coord_modifier? coord_part+ coord_sep)
 	;
