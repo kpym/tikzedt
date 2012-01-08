@@ -143,9 +143,9 @@ namespace TikzEdt
         //public const string precompilation_args_img = "-ini -job-name=\"" + cTempImgFile + "\" \"&latex " + cTempImgFile + "pre.tex\\dump\"";
 
         //Todo: the following creates a problem on first load
-        public static string AppDataPath { get { return  System.Windows.Forms.Application.UserAppDataPath; } } 
-        public static string SystaxFileFullPath { get { return AppDataPath + "\\" + Consts.cSettingsDir + "\\" + Consts.cSyntaxFile; } }
-        public static string CompletionsFileFullPath { get { return AppDataPath + "\\" + Consts.cSettingsDir + "\\" + Consts.cCompletionsFile; } }
+  //      public static string AppDataPath { get { return  System.Windows.Forms.Application.UserAppDataPath; } } 
+        public static string SyntaxFileFullPath { get { return Helper.GetAppdataPath() + "\\" + Consts.cSettingsDir + "\\" + Consts.cSyntaxFile; } }
+        public static string CompletionsFileFullPath { get { return Helper.GetAppdataPath() + "\\" + Consts.cSettingsDir + "\\" + Consts.cCompletionsFile; } }
 
         // TE preprocessor commands
         public static string PreProc_Comment = "%!TE%";
@@ -207,11 +207,11 @@ namespace TikzEdt
             return GetAppdataPath() + "\\TikzEdtLayout.xml";
         }
         public enum AppdataPathOptions { AppData, ExeDir };
-        private static string _AppdataPath = "";
+        private static string _AppdataPath = System.Windows.Forms.Application.UserAppDataPath;
         public static void SetAppdataPath(AppdataPathOptions option)
         {
             if (option == AppdataPathOptions.AppData)
-                _AppdataPath = Consts.AppDataPath; //created automatically by .NET!
+                _AppdataPath = System.Windows.Forms.Application.UserAppDataPath; 
             else
                 _AppdataPath = GetAppDir();
         }
@@ -293,7 +293,7 @@ namespace TikzEdt
         
         public static string GetAppDir() // w/o trailing backslash 
         {
-            return System.AppDomain.CurrentDomain.BaseDirectory; ;
+            return System.AppDomain.CurrentDomain.BaseDirectory;
             /*throw new Exception("GetAppDir() is obsolete! Use GetAppdataPath() or GetCurrentWorkingDir() instead.");
             string appPath = "";
             try

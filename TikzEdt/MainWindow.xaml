@@ -715,7 +715,7 @@
                                        ShowLineNumbers="{Binding Source={x:Static p:Settings.Default}, Path=Editor_ShowLineNumbers}"
                                        WordWrap="{Binding Source={x:Static p:Settings.Default}, Path=Editor_WordWrap}" Drop="txtCode_Drop" DragEnter="txtCode_DragEnter"
                                        ContextMenuOpening="txtCodeContextMenu_ContextMenuOpening"
-                                       HDFile="{x:Static myApp:Consts.SystaxFileFullPath}"
+                                       HDFile="{x:Static myApp:Consts.SyntaxFileFullPath}"
                                        CompletionsFile="{x:Static myApp:Consts.CompletionsFileFullPath}"
                                        EnableCodeCompletion="{Binding Source={x:Static p:Settings.Default}, Path=Editor_CodeCompletion}"
                                        Document2="{Binding TheDocument.Document}"
