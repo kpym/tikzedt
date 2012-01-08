@@ -319,13 +319,13 @@ let_cmd_parts
 
 
 tikzpath_element
-	: tikzpath_element_single ','?
+	: tikzpath_element_single ','!?
 	;
 	
 tikzpath_element_single
 	:
 		  tikz_options 
-		| let_cmd_parts -> ^(IM_TIKZEDT_CMD let_cmd_parts+)
+		| let_cmd_parts -> ^(IM_DONTCARE let_cmd_parts+)
 		//| arc_ignore
 		| arc
 		| (coord)=>coord
