@@ -181,10 +181,10 @@
                     <!-- <TextBlock Text="Compiler"></TextBlock>   -->
                     <TextBlock Margin="3" Text="Code prepended:" Grid.Row="0" Grid.ColumnSpan="2"></TextBlock>
                     <TextBlock  Grid.Row="1"  Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!" Grid.ColumnSpan="2"></TextBlock>
-                    <myEditor:TextEditorEx  Grid.Row="2"  Margin="3" x:Name="txtPreamble"  VerticalAlignment="Stretch" BorderThickness="1" Grid.ColumnSpan="2" HDFile="{x:Static myApp:Consts.SystaxFileFullPath}"/>
+                    <myEditor:TextEditorEx  Grid.Row="2"  Margin="3" x:Name="txtPreamble"  VerticalAlignment="Stretch" BorderThickness="1" Grid.ColumnSpan="2" HDFile="{x:Static myApp:Consts.SyntaxFileFullPath}"/>
                     <TextBlock  Grid.Row="3"  Margin="3" Text="Code appended:" Grid.ColumnSpan="2" ></TextBlock>
                     <TextBlock  Grid.Row="4"  Margin="3" Foreground="Red"  TextWrapping="Wrap" Text="Warning: Change it only if you know what you are doing!" Grid.ColumnSpan="2"></TextBlock>
-                    <myEditor:TextEditorEx Grid.Row="5" Margin="3" x:Name="txtPostamble" VerticalAlignment="Stretch" BorderThickness="1" Grid.ColumnSpan="2" HDFile="{x:Static myApp:Consts.SystaxFileFullPath}"/>
+                    <myEditor:TextEditorEx Grid.Row="5" Margin="3" x:Name="txtPostamble" VerticalAlignment="Stretch" BorderThickness="1" Grid.ColumnSpan="2" HDFile="{x:Static myApp:Consts.SyntaxFileFullPath}"/>
                     <TextBlock  Grid.Row="6"  Margin="3" Text="Precompilation Arguments:" VerticalAlignment="Center"/>
                     <TextBox Margin="3" Grid.Column="1" Grid.Row="6" Text="{Binding Source={x:Static p:Settings.Default}, Path=PrecompiledHeaderCompileCommand, Mode=TwoWay}"/>
                 </Grid>

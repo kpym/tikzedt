@@ -172,13 +172,13 @@
                     <!-- <local:TextEditorWithBinding x:Name="SnippetCodeDTKey" Grid.Row="3" Grid.Column="1" BindableText="{Binding Path=SnippetCode}" Height="150"/>-->
                     <myEditor:TextEditorEx Margin="3" x:Name="txtSnippetCode" Grid.Row="3" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged" 
                                            BorderBrush="Black" BorderThickness="1"
-                                           HDFile="{x:Static myApp:Consts.SystaxFileFullPath}"
+                                           HDFile="{x:Static myApp:Consts.SyntaxFileFullPath}"
                                            CompletionsFile="{x:Static myApp:Consts.CompletionsFileFullPath}"/>
                     
                     <TextBlock Grid.Row="4" Grid.Column="0" Margin="3">Sample Code:</TextBlock>
                     <myEditor:TextEditorEx x:Name="txtSampleCode" Grid.Row="4" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged"
                                            BorderBrush="Black" BorderThickness="1" 
-                                           HDFile="{x:Static myApp:Consts.SystaxFileFullPath}"
+                                           HDFile="{x:Static myApp:Consts.SyntaxFileFullPath}"
                                            CompletionsFile="{x:Static myApp:Consts.CompletionsFileFullPath}"/>
 
                     <TextBlock Grid.Row="5" Grid.Column="0" Margin="3">Dependencies</TextBlock>
