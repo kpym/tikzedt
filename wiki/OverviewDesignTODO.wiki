@@ -23,9 +23,11 @@
 *TODO*
 
 === Tikz ParseTree ===
+  * really fix issue 22, i.e., handle relative namedcoordinates correctly.
 
 == PdfOverlay ==
 *TODO*
+
 
 === Snippetmanager ===
 *TODO*
