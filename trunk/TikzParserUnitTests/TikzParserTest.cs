@@ -71,12 +71,15 @@ namespace TikzParserUnitTests
         [TestMethod()]
         public void ParseInputFileTest()
         {
+            /*
             string code = string.Empty; // TODO: Initialize to an appropriate value
             Tikz_ParseTree expected = null; // TODO: Initialize to an appropriate value
             Tikz_ParseTree actual;
             actual = TikzParser.ParseInputFile(code);
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");
+             */
+
         }
 
         /// <summary>
