@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="TikzEdt"
+            extensions="tikz"
+            icon="icons/logotight_16.gif"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            class="tikzEdt.editors.MyPdfEditor"
+            id="tikzEdt.editors.MyPdfEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="tikzEdt.actionSet"
+            label="TikzEdt Actions"
+            visible="true">
+         <menu
+               id="TikzEdtMenu"
+               label="&amp;TikzEdt">
+            <separator name="sampleGroup"/>
+            <separator name="zoomGroup"/>
+         </menu>
+         <menu
+                  id="TikzEdtMenuCompilation"
+                  path="TikzEdtMenu/sampleGroup"
+                  label="Compilation">
+                  <separator
+                  name="sampleGroup2">
+            </separator>
+            </menu>
+         <action
+               class="tikzEdt.actions.ZoomIn"
+               icon="icons/ZoomIn.png"
+               id="tikzEdt.actions.ZoomIn"
+               label="Zoom In"
+               menubarPath="TikzEdtMenu/zoomGroup"
+               style="push"
+               toolbarPath="sampleGroup"
+               tooltip="Increase zoom factor">
+         </action>
+         <action
+               class="tikzEdt.actions.ZoomOut"
+               icon="icons/ZoomOut.png"
+               id="tikzEdt.actions.ZoomOut"
+               label="Zoom Out"
+               menubarPath="TikzEdtMenu/zoomGroup"
+               style="push"
+               toolbarPath="sampleGroup"
+               tooltip="Decrease zoom factor">
+         </action>
+         <action
+               class="tikzEdt.actions.CompileDoIt"
+               icon="icons/compile.gif"
+               id="tikzEdt.actions.CompileDoIt"
+               label="Compile"
+               menubarPath="TikzEdtMenu/TikzEdtMenuCompilation/sampleGroup2"
+               style="push"
+               toolbarPath="sampleGroup"
+               tooltip="Compile the TikZ document for preview">
+         </action>
+         <action
+               class="tikzEdt.actions.CompileAbort"
+               icon="icons/abort.gif"
+               id="tikzEdt.actions.CompileAbort"
+               label="Abort compilation"
+               menubarPath="TikzEdtMenu/TikzEdtMenuCompilation/sampleGroup2"
+               style="push"
+               toolbarPath="sampleGroup"
+               tooltip="Abort compilation">
+         </action>
+         <action
+               class="tikzEdt.actions.CompileGeneratePCH"
+               icon="icons/sample.gif"
+               id="tikzEdt.actions.ZoomOut"
+               label="Generate precompiled headers"
+               menubarPath="TikzEdtMenu/TikzEdtMenuCompilation/sampleGroup2"
+               style="push"
+               toolbarPath="sampleGroup"
+               tooltip="">
+         </action>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+   </extension>
+
+</plugin>

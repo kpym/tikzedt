@@ -1,0 +1,79 @@
+<SyntaxDefinition name="tikz"
+        xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+        
+        
+    <Color name="Comment" foreground="Green"/>
+    <Color name="String" foreground="Gray" />
+    <Color name="MathString" foreground="Red" />
+        <RuleSet>
+        <Span color="Comment" Begin="%" />
+      <!--<Span color="Comment" multiline="true" 
+           Begin="/\*" End="\*/" />-->
+        <Span color="MathString" multiline="true" Begin="\$" End="\$"> 
+          <RuleSet>
+            <!-- nested span for escape sequences -->
+            <Span Begin="\\" End="." />
+          </RuleSet>
+        </Span> 
+        <Span color="String">
+            <Begin>"</Begin>
+            <End>"</End>
+            <RuleSet>
+                <!-- nested span for escape sequences -->
+                <Span Begin="\\" End="." />
+            </RuleSet>
+        </Span>
+
+      <!-- commands -->
+        <Keywords fontweight="bold" foreground="Blue">
+            <Word>\begin</Word>
+            <Word>\end</Word>
+            <Word>\node</Word>
+            <Word>\coordinate</Word>
+            <Word>\draw</Word>
+            <Word>\fill</Word>
+            <Word>\path</Word>
+            <Word>\matrix</Word>
+            <Word>\tikzset</Word>
+            <Word>\tikzstyle</Word>
+            <Word>\definecolor</Word>
+            <!-- ... -->
+        </Keywords>
+
+      <!-- path commands -->
+      <Keywords foreground="Brown">
+        <Word>node</Word>
+        <Word>circle</Word>
+        <Word>grid</Word>
+        <Word>rectangle</Word>
+        <Word>ellipse</Word>
+        <Word>edge</Word>
+        <Word>at</Word>
+        <Word>--</Word>
+        <Word>-></Word>
+        <Word>-|</Word>
+        <Word>|-</Word>
+        <Word>to</Word>
+
+        <!-- ... -->
+      </Keywords>
+      <!-- allowed latex commands -->
+      <Keywords foreground="Blue" fontStyle="italic">
+        <Word>\documentclass</Word>
+        <Word>\usepackage</Word>
+        <Word>\usetikzlibrary</Word>
+        <!-- ... -->
+      </Keywords>
+      
+      <!-- environment names -->
+      <Keywords foreground="Red">
+        <Word>tikzpicture</Word>
+        <Word>equation</Word>
+        <Word>scope</Word>
+        
+        <!-- ... -->
+      </Keywords>
+        
+    </RuleSet>
+    
+</SyntaxDefinition>
