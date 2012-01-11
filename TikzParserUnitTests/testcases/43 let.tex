@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\draw (-2,-1) node (v1) {} -- (-4,0) node (v2) {};
+\draw
+  let
+    \p1=($(v1.north)!0.5!(v2.south)$),
+    \p2=(current bounding box.west),
+    \p3=(current bounding box.east)
+  in
+    (\x2,\y1) -- (\x3, \y1);
+\end{tikzpicture}

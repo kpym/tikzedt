@@ -440,6 +440,7 @@ coord
 	:	  ( coord_modifier? coord_nodename	)				-> ^(IM_COORD coord_modifier? coord_nodename  )
 		| ( coord_modifier? '(' numberunit coord_sep numberunit ')')		-> ^(IM_COORD coord_modifier? numberunit+ coord_sep)
 		| ( coord_modifier? '(' coord_part coord_sep coord_part ')')		-> ^(IM_COORD coord_modifier? coord_part+ coord_sep)
+		| ( coord_modifier? '(' ')')						-> ^(IM_COORD )  // empty brackets allowed in loops
 	;
 coord_nooption	
 	:	  nodename								-> ^(IM_COORD nodename )
