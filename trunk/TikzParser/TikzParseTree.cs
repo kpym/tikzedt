@@ -542,7 +542,14 @@ namespace TikzEdt.Parser
         public static Tikz_Coord FromCommonTree(ITree t, CommonTokenStream tokens)
         {
             Tikz_Coord tc = new Tikz_Coord();
-            if (t.ChildCount == 1 && t.GetChild(0).Type == simpletikzParser.IM_NODENAME) // named node 
+            if (t.ChildCount == 0)
+            {
+                // empty coordinate for loop, treat as named coordinate referencing the current position
+                tc.type = Tikz_CoordType.Named;
+                tc.nameref = "";
+                return tc;
+            }
+            else if (t.ChildCount == 1 && t.GetChild(0).Type == simpletikzParser.IM_NODENAME) // named node 
             {
                 tc.type = Tikz_CoordType.Named;
                 tc.nameref = TikzParser.getTokensString(tokens, t.GetChild(0).GetChild(0)); //t.GetChild(0).GetChild(0).Text;
@@ -593,12 +600,14 @@ namespace TikzEdt.Parser
         /// such that relto sits at p in absolute coordinates.
         /// The extra parameter is needed since this method is called by Tikz_Node, which
         /// contains a Tikz_Coord object. (In that case relto will be the Tikz_Node)
+        /// relto is used to query, e.g., the current position in the Tikz Path.
+        /// (Which is a parent of relto, but not of the current coordinate.)
         /// </summary>
         /// <param name="p">The new absolute (cartesian) coordinates, in cm</param>
         /// <param name="relto">Object with respect to which the coordinate transformation is determined</param>
         public void SetAbsPos(Point p, TikzParseItem relto)
         {
-            if (IsBroken && type == Tikz_CoordType.Named)
+            if (IsBroken || type == Tikz_CoordType.Named)
             {
                 // cannot change coord
             }
@@ -664,7 +673,7 @@ namespace TikzEdt.Parser
         /// <returns>The position in the coordinates of the ancestral Tikz_Picture, or (0,0) in case of failure.</returns>
         public bool GetAbsPos(out Point ret, TikzParseItem relto, bool OnlyOffset=false)
         {
-            if (IsBroken)   // cannot determine coordinates
+            if (IsBroken || type == Tikz_CoordType.Invalid)   // cannot determine coordinates
             {
                 ret = new Point(0,0);
                 return false;
@@ -679,6 +688,30 @@ namespace TikzEdt.Parser
                     ret = new Point(0, 0);
                     return false;
                 }
+
+                // try to get referenced node...
+                if (nameref == "") // empty reference means that we reference the current position (treat as +(0,0))
+                {
+                    // determine current position
+                    if (relto.parent is Tikz_Path)
+                    {
+                        if (!(relto.parent as Tikz_Path).GetAbsOffset(out ret, relto))
+                        {
+                            // error in determining offset -> cannot determine coordinates
+                            ret = new Point(0, 0);
+                            return false;
+                        }
+                        else
+                            return true; // success
+                    }
+                    else
+                    {
+                        // couldn't get offset, because the parent is some container I don't know -> fail
+                        ret = new Point(0, 0);
+                        return false;
+                    }
+                }
+
                 Tikz_Node t = relto.parent.GetNodeByName(nameref);
                 if (t == null)
                 {
@@ -711,44 +744,86 @@ namespace TikzEdt.Parser
                         return t.GetAbsPos(out ret);
                 }
             }
-
-            
-            if (deco == "+" || deco == "++")
+            else if (type == Tikz_CoordType.Cartesian || type == Tikz_CoordType.Polar)
             {
-                // determine offset
-                if (relto.parent is Tikz_Path)
+
+                // determine offset if there is a decoration...
+                // for this we have to ask the parent Tikz Path what the current position is
+                if (deco == "+" || deco == "++")
                 {
-                    if (!(relto.parent as Tikz_Path).GetAbsOffset(out offset, relto))
+                    // determine offset
+                    if (relto.parent is Tikz_Path)
                     {
-                        // error in determining offset -> cannot determine coordinates
-                        ret = new Point(0, 0);
-                        return false;
+                        if (!(relto.parent as Tikz_Path).GetAbsOffset(out offset, relto))
+                        {
+                            // error in determining offset -> cannot determine coordinates
+                            ret = new Point(0, 0);
+                            return false;
+                        }
+                    }
+                    else if (relto.parent is Tikz_Controls)
+                    {
+                        Tikz_Controls par = relto.parent as Tikz_Controls;
+                        Tikz_XYItem offc = null;
+                        if (relto == par.FirstCP)
+                            offc = par.CoordBefore;
+                        else if (relto == par.LastCP)
+                            offc = par.CoordAfter;
+                        if (offc == null || !offc.GetAbsPos(out offset))
+                        {
+                            ret = new Point(0, 0);
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        // not supported
+
+                    }
+
+                    Point relpos = new Point(uX.GetInCM(), uY.GetInCM());
+                    if (type == Tikz_CoordType.Polar)
+                        relpos = Helper.PolToCartTC(relpos);
+
+                    if (relto.parent != null)
+                    {
+                        TikzMatrix M;
+                        if (!relto.parent.GetCurrentTransformAt(relto, out M))
+                        {
+                            ret = new Point(0, 0);
+                            return false;
+                        }
+                        relpos = M.Transform(relpos, true);
+                    }
+                    if (OnlyOffset)
+                    {
+                        ret = offset;
+                        return true;
+                    }
+                    else
+                    {
+                        ret = new Point(offset.X + relpos.X, offset.Y + relpos.Y);
+                        return true;
                     }
                 }
-                else if (relto.parent is Tikz_Controls)
-                {
-                    Tikz_Controls par = relto.parent as Tikz_Controls;
-                    Tikz_XYItem offc = null;
-                    if (relto == par.FirstCP)
-                        offc = par.CoordBefore;
-                    else if (relto == par.LastCP)
-                        offc = par.CoordAfter;
-                    if (offc == null || !offc.GetAbsPos(out offset))
-                    {
-                        ret = new Point(0, 0);
-                        return false;
-                    }
-                } else
-                {
-                    // not supported
 
-                }
-
-                Point relpos = new Point(uX.GetInCM(), uY.GetInCM());
+                // standard coordinate (not relative etc.)
+                Point p = new Point(uX.GetInCM(), uY.GetInCM());
                 if (type == Tikz_CoordType.Polar)
-                    relpos = Helper.PolToCartTC(relpos);
-
-                if (relto.parent != null)
+                    p = Helper.PolToCartTC(p);
+                if (relto.parent == null)
+                {
+                    if (OnlyOffset)
+                    {
+                        ret = new Point(0, 0);
+                    }
+                    else
+                    {
+                        ret = p;
+                    }
+                    return true;
+                }
+                else
                 {
                     TikzMatrix M;
                     if (!relto.parent.GetCurrentTransformAt(relto, out M))
@@ -756,57 +831,27 @@ namespace TikzEdt.Parser
                         ret = new Point(0, 0);
                         return false;
                     }
-                    relpos = M.Transform(relpos, true);
-                }
-                if (OnlyOffset)
-                {
-                    ret = offset;
+                    //Point pret;
+                    if (OnlyOffset)
+                    {
+                        ret = M.Transform(new Point(0, 0));
+                    }
+                    else
+                    {
+                        ret = M.Transform(p);
+                    }
                     return true;
                 }
-                else
-                {
-                    ret = new Point(offset.X + relpos.X, offset.Y + relpos.Y);
-                    return true;
-                }
             }
-
-            // standard coordinate (not relative etc.)
-            Point p = new Point(uX.GetInCM(), uY.GetInCM());
-            if (type == Tikz_CoordType.Polar)
-                p = Helper.PolToCartTC(p);
-            if (relto.parent == null)
+            else // if (type == ...)
             {
-                if (OnlyOffset)
-                {
-                    ret = new Point(0, 0);
-                }
-                else
-                {
-                    ret = p;
-                }
-                return true;
+                // Unsupported type 
+                ret = new Point(0, 0);
+                return false;
             }
-            else
-            {
-                TikzMatrix M;
-                if (!relto.parent.GetCurrentTransformAt(relto, out M))
-                {
-                    ret = new Point(0, 0);
-                    return false;
-                }
-                //Point pret;
-                if (OnlyOffset)
-                {
-                    ret = M.Transform(new Point(0, 0));
-                }
-                else
-                {
-                    ret = M.Transform(p);                    
-                }
-                return true;
-            }
-                
         }
+
+
         public override void UpdateText()
         {
             if (IsBroken)   // if coordinate could not be determined-> do not change the text
