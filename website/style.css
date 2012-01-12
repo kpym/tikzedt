@@ -1,0 +1,97 @@
+body {
+  width=500px;
+  padding:0px;
+  margin: 10px 180px;
+  background-color:#ffffff;
+  font-family:Verdana,Arial,Helvetica,sans-serif;
+  color:#000000;
+}
+#header {
+  height:100px;
+  margin:0px;
+  background-color:#ffffff;
+}
+#box {
+  width:800px;
+  height:auto;
+  padding:5px;
+  margin:0px  auto;
+  background-color:#ffff1f;
+}
+#page {
+  position:static;
+    margin:20px  auto;
+  background-color:#ffffff;
+}
+#nav {
+position:static;
+  /*position:relative;*/
+  margin=10px 10px;
+  background-color:#ffffff;
+}
+#hsep {
+position:static;
+  background-color:#C0C0C0;
+  height:1px;
+  width:100%;
+}
+p.headline {
+  font-family:Verdana,Arial,Helvetica,sans-serif; color:#000000;
+  font-size:2em;
+  margin-bottom: 0px;
+}
+p.subheadline {
+  font-family:Verdana,Arial,Helvetica,sans-serif; color:#000000;
+  font-size:1em;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+p.navlink {
+font-weight:600;
+  font-size:14px;
+}
+p {
+  font-family:Verdana,Arial,Helvetica,sans-serif; color:#000000;
+  font-size:0.84em;
+  padding:0 15px;
+}
+p.back {
+  text-align:center;
+  padding:15px;
+}
+a {
+  color:black;
+}
+pre.prettyprint {
+  background-color:#f0f0f0;
+  font-size:12px;
+  padding:15px;
+}
+pre {
+  font-size:12px;
+  padding:15px;
+}
+table.texttable
+{
+	border-width: 1px;
+	border-spacing: 0px;
+	border-style: outset;
+	border-color: black;
+	border-collapse: separate;
+	background-color: white;
+	padding:15px;
+}
+table.texttable th {
+	border-width: 1px;
+	padding: 0px;
+	border-style: outset;
+	border-color: black;
+	background-color: white;
+}
+table.texttable td {
+	border-width: 1px;
+	padding: 0px;
+	border-style: outset;
+	border-color: black;
+	background-color: white;
+}
