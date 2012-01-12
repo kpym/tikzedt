@@ -14,7 +14,7 @@ Typically, when producing graphics for use in LaTeX documents, you have the choi
 Both approaches have advantages and disadvantages. Usually the manually coded graphics are higher quality, but more effort to produce. In particular, positioning items in Code such that proportions "look good" can be painful. Real time preview programs like [http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language ktikz] already help a lot. 
 The goal of !TikzEdt is to go one step further and combine WYSIWYG and code editing, so that ideally you can generate graphics coded in Tikz in little more time that would need with a vector drawing program, but still retain the full flexibility and high quality look of Tikz drawings.
 
-!TikzEdt is however not a replacement for full-featured WYSIWYG vector graphics programs. It assists you writing Tikz code, but you will still have to learn the Tikz language, since  only a few Tikz commands are accessible through !TikzEdt's WYSIWYG tools. If you do not want to deal with TikZ coding, you probably are better of using Inkscape or one of its commercial counterparts.
+!TikzEdt is however not a replacement for full-featured WYSIWYG vector graphics programs. It assists you writing Tikz code, but you will still have to learn the Tikz language, since  only a few Tikz commands are accessible through !TikzEdt's WYSIWYG tools. If you do not want to deal with TikZ coding, you probably are better off using Inkscape or one of its commercial counterparts.
 
 = Getting started =
 
