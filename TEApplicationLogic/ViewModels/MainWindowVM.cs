@@ -220,7 +220,7 @@ namespace TikzEdt.ViewModels
             if (e.Parameter != null)
             {
                 // open a new instance (TODO: in the same folder...)
-                System.Diagnostics.Process.Start( System.Reflection.Assembly.GetExecutingAssembly().Location );
+                StartNewTEInstance();
             }
             else
             {
@@ -234,6 +234,27 @@ namespace TikzEdt.ViewModels
         }
 
         /// <summary>
+        /// Starts a new instance of TikzEdt
+        /// </summary>
+        /// <param name="Arguments">The arguments to be passed to TE</param>
+        public static void StartNewTEInstance(string Arguments = null)
+        {
+            string exe_location = System.Reflection.Assembly.GetEntryAssembly().Location;
+            try
+            {
+                if (Arguments != null)
+                    System.Diagnostics.Process.Start(exe_location, Arguments);
+                else
+                    System.Diagnostics.Process.Start(exe_location);
+            }
+            catch (Exception e)
+            {
+                GlobalUI.ShowMessageBox("Error: Couldn't start new instance of TikzEdt. (exe path read was: " + exe_location + ".", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+        /// <summary>
         /// Tries to create a new file. Is the command parameter is true, then a new instance of TikzEdt is opened.
         /// If the current file is unsaved, the user has to be asked to save.
         /// </summary>
@@ -245,7 +266,7 @@ namespace TikzEdt.ViewModels
                 if (GlobalUI.ShowOpenFileDialog(out filename) == true)
                 {
                     // open a new instance
-                    System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location, "\""+filename+"\"");
+                    StartNewTEInstance("\""+filename+"\"");
                 }
             }
             else
