@@ -102,7 +102,7 @@ namespace TikzEdt
 
         private void AssociateTikz_Click(object sender, RoutedEventArgs e)
         {
-            string exepath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string exepath = System.Reflection.Assembly.GetEntryAssembly().Location;
             if (MessageBox.Show("This will change the registry to associate *.tikz files with:"+Environment.NewLine + exepath +
                 Environment.NewLine +  "You also need to run this program in administrator mode."+
                 "Do you want to continue?", "Associate file extension", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning) == MessageBoxResult.Yes)

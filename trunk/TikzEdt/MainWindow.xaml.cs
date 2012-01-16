@@ -299,7 +299,7 @@ namespace TikzEdt
 
             RecentFileList.MenuClick += (s, e) => {
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
-                    System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location, "\"" + e.Filepath + "\"");
+                    MainWindowVM.StartNewTEInstance( "\"" + e.Filepath + "\"");
                 else if (TheVM.TheDocument.TryDisposeFile()) 
                     TheVM.LoadFile(e.Filepath); 
             };            
@@ -2587,9 +2587,18 @@ namespace TikzEdt
                     TheVM.LoadFile(e.FileName);
             }
             else if ((string)e.CommandParameter == "newinstance")
-                System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location, "\"" + e.FileName + "\"");
+                MainWindowVM.StartNewTEInstance( "\"" + e.FileName + "\"");
             else if ((string)e.CommandParameter == "externalviewer")
-                System.Diagnostics.Process.Start(e.FileName);
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(e.FileName);
+                }
+                catch (Exception)
+                {
+                    GlobalUI.ShowMessageBox("Couldn't open file: " + e.FileName + ".", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private void CopyAllWithFigureEnvironment_Click(object sender, RoutedEventArgs e)
