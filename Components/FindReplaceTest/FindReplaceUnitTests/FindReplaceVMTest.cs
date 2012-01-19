@@ -324,5 +324,30 @@ namespace FindReplaceUnitTests
             target.FindNext();
             Assert.AreEqual<int>(5, Editors[0].CaretOffset);
         }
+
+        /// <summary>
+        /// Another test for FindNext
+        ///</summary>
+        [TestMethod()]
+        public void FindNextTest_WholeWord()
+        {
+            FindReplaceMgr target = MakeSample(@"aaa
+ 
+abcabc
+ 
+abc
+ 
+aaaa");
+
+            // basic Find
+            target.CaseSensitive = false;
+            target.WholeWord = true;
+            target.TextToFind = "abc";
+            target.FindNext();
+            Assert.AreEqual<int>(22, Editors[0].CaretOffset);
+            Assert.AreEqual<int>(3, Editors[0].SelectionLength);
+            
+        }
+
     }
 }
