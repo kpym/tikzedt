@@ -267,7 +267,7 @@ namespace FindReplace
                 if (UseWildcards)
                     s = s.Replace("\\*", ".*").Replace("\\?", ".");
                 if (WholeWord)
-                    s = "\\W" + s + "\\W";
+                    s = "\\b" + s + "\\b";
                 r = new Regex(s, o);
             }
 
