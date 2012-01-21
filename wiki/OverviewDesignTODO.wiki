@@ -12,6 +12,7 @@
   
 === Code editor (avalonedit) ===
 *TODO:*
+  * Hotkey for Comment/Uncomment
 
 == TikzDisplay ==
 *TODO*
