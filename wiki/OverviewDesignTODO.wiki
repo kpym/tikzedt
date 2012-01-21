@@ -13,6 +13,7 @@
 === Code editor (avalonedit) ===
 *TODO:*
   * Hotkey for Comment/Uncomment
+  * INSERT/REPLACE mode?
 
 == TikzDisplay ==
 *TODO*
