@@ -29,7 +29,7 @@
 
 == PdfOverlay ==
 *TODO*
-
+  * It seems that after undo the tool states are not reset
 
 === Snippetmanager ===
 *TODO*
