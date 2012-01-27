@@ -1,5 +1,4 @@
 <h2><?=$pagetitle?></h2>
-<ul>
 
 <h4>NEWS: Version 0.2 is available for download. (10/23/2011)</h4>
 
@@ -26,4 +25,4 @@ TikzEdt is a combined wysiwyg/text editor designed for editing Tikz code.
 </ul>
 
 Please use <a href="http://code.google.com/p/tikzedt/issues/list">our google code site</a> to report bugs.
-<ul>
+

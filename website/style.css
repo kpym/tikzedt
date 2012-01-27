@@ -12,28 +12,27 @@ body {
   background-color:#ffffff;
 }
 #box {
-  width:800px;
-  height:auto;
+  max-width:800px;
+  /*height:auto;
+  */
   padding:5px;
-  margin:0px  auto;
-  background-color:#ffff1f;
+  margin:10px  auto;
+  background-color:#ff00ff;
 }
 #page {
-  position:static;
-    margin:20px  auto;
-  background-color:#ffffff;
+  position:relative; /* */
+    margin:20px 0;
+  background-color:#00ffff;
 }
 #nav {
-position:static;
-  /*position:relative;*/
+/*position:static;
+  position:relative;*/
   margin=10px 10px;
-  background-color:#ffffff;
+  background-color:#ffff00;
 }
 #hsep {
-position:static;
   background-color:#C0C0C0;
-  height:1px;
-  width:100%;
+  height:5px;
 }
 p.headline {
   font-family:Verdana,Arial,Helvetica,sans-serif; color:#000000;

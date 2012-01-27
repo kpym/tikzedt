@@ -1,21 +1,82 @@
 <h2><?=$pagetitle?></h2>
-<ul>
+
 This is the documentation for users. The Documentation for developers can be found
 <a href="http://code.google.com/p/tikzedt/w/list">here.</a>
 
-#summary The main page of the user wiki
+<ul id="toc"></ul>
+<script type="text/javascript">
+function buildTOC() {
+   // get bullet list holder
+   var toc = document.getElementById("toc");
+   
+   // get all anchors on the page
+   var anchors = document.anchors;
+   for (var i=0; i<anchors.length; i++) {
+      // create list item
+      var li = document.createElement("li");
 
-<wiki:toc max_depth="2" />
+      // create text for anchor in TOC
+      var txt = null;
+      if (document.all) {
+         txt = document.createTextNode(anchors[i].innerText);
+      } else {
+         txt = document.createTextNode(anchors[i].text);
+      }
 
-<h2> TikzEdt </h2>
+
+      // create anchor
+      var a = document.createElement("a");
+      a.href = "#" + anchors[i].name;
+      
+      // add text to anchor
+      a.appendChild(txt);      
+
+      // add anchor to list element
+      li.appendChild(a);
+
+      // add list item to list
+      toc.appendChild(li);
+   }
+}
+
+// set onload event handler
+window.onload = buildTOC;
+
+</script>
+
+
+<ul>
+<li>    <a href="#tikzedt">TikzEdt</a>
+<ul>
+<li>  What TikzEdt can and cannot do for you
+</ul>
+<li>    Getting started
+<ul>
+<li>        The first run
+<li>        Hello World
+</ul>
+<li>    Overview of features
+<ul>
+<li>        The WYSIWYG tools
+<li>        Which Tikz objects appear in the overlay
+<li>        Can the overlay fail?
+<li>        Coordinate systems and tranformations
+<li>        Additional features
+</ul>
+<li>    Portable version
+<li>    FAQ
+</ul>
+	
+<h2> <a name="tikzedt">TikzEdt</a> </h2>
 
 TikzEdt is an editor for the Tikz language, used to encode vector graphics in Latex documents. 
 
-<h4> What !TikzEdt can and cannot do for you </h4>
+<h4> What TikzEdt can and cannot do for you </h4>
 Typically, when producing graphics for use in LaTeX documents, you have the choice between:
-  # Using a scripting language, like Tikz or pstricks to directly code the image.
-  # Using an external WYSIWYG drawing program (like Inkscape, !OpenOffice Draw, or even MS Powerpoint), export your dawing as pdf or eps, and include it in your tex-file.
-
+<ul>
+ <li> Using a scripting language, like Tikz or pstricks to directly code the image.
+ <li> Using an external WYSIWYG drawing program (like Inkscape, !OpenOffice Draw, or even MS Powerpoint), export your dawing as pdf or eps, and include it in your tex-file.
+</ul>
 Both approaches have advantages and disadvantages. Usually the manually coded graphics are higher quality, but more effort to produce. In particular, positioning items in Code such that proportions "look good" can be painful. Real time preview programs like [http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language ktikz] already help a lot. 
 The goal of !TikzEdt is to go one step further and combine WYSIWYG and code editing, so that ideally you can generate graphics coded in Tikz in little more time that would need with a vector drawing program, but still retain the full flexibility and high quality look of Tikz drawings.
 
@@ -43,18 +104,19 @@ Start !TikzEdt and enter the following code:
 If all goes well, you will see on the right hand side the compiled preview of your document, plus two red crosses at the location of the nodes. Try dragging the red crosses with the mouse and watch the code update itself.
 
 <h2> Overview of features </h2>
-!TikzEdt assists you in the following ways:
-  # By providing a good text editor with syntax highlighting and code completion (CTRL-SPACE), powered by AvalonEdit. You can customize the syntax highlighting and code completion by editing the appropriate xml-files.
-  # By providing real time preview of the compiled TikZ picture as you type. The preview is speeded up by using precompiled headers.
-  # By an extensible snippet library that you can display or hide by pressing the button on the left. Insert snippets by double click or using the context menu. You can write your own snippets usinging the snippet editor (Menu Settings->Snippet Editor), or directly editing the xml file.
-  # By the wysiwig tools accessible through an overlay displayed on top of the compiled tikz image. 
-
+TikzEdt assists you in the following ways:
+<ul>
+  <li> By providing a good text editor with syntax highlighting and code completion (CTRL-SPACE), powered by AvalonEdit. You can customize the syntax highlighting and code completion by editing the appropriate xml-files.
+  <li> By providing real time preview of the compiled TikZ picture as you type. The preview is speeded up by using precompiled headers.
+  <li> By an extensible snippet library that you can display or hide by pressing the button on the left. Insert snippets by double click or using the context menu. You can write your own snippets usinging the snippet editor (Menu Settings->Snippet Editor), or directly editing the xml file.
+  <li> By the wysiwig tools accessible through an overlay displayed on top of the compiled tikz image. 
+</ul>
 Except the last, these features are pretty standard, so let us discuss only the WYSIWYG part in more detail. This is also the part that is programmatically most difficult to realize and took most of our time.
 
 <h4> The WYSIWYG tools </h4>
 There are currently 6 WYSIWYG tools.
 
-http://lh6.ggpht.com/_t8n2oghTr8Y/TUE_eaWjsiI/AAAAAAAAABk/_3lhD1usJoQ/toolstoolbar.png
+<img src="img/toolstoolbar.png" />
 
 <table class="texttable">
 </tr>
@@ -89,8 +151,10 @@ You can also select Tikz `scope`s for editing by double clicking or through the 
 
 <h4> Which Tikz objects appear in the overlay </h4>
 You will note that not all elements in your tikz file are represented in the overlay. This is for two reasons:
-  * It does not make sense to move with the mouse some Tikz elements. For example, if you draw a Tikz `matrix`, the position of the matrix elements cannot be changed directly, but is determined by the typesetter. Hence it does not make sense to make those positions editable.
-  * The position of coordinates has to be determined by !TikzEdt. The authors cannot reimplement completely Latex/Tikz and hence not all constructions are WYSIWYG-supported.
+<ul>
+  <li> It does not make sense to move with the mouse some Tikz elements. For example, if you draw a Tikz `matrix`, the position of the matrix elements cannot be changed directly, but is determined by the typesetter. Hence it does not make sense to make those positions editable.
+  <li> The position of coordinates has to be determined by TikzEdt. The authors cannot completely reimplement Latex/Tikz and hence not all constructions are WYSIWYG-supported.
+</ul>
 
 What appears in the overlay are coordinates, which are editable, and whose absolute position can be "easily" determined. To see what this means in practice, let us consider examples.
 
@@ -124,7 +188,7 @@ In the current beta phase, in case you encounter problems (we don't hope so, of 
   
 <h4> Coordinate systems and tranformations </h4>
 
-!TikzEdt supports TikZ coordinate transformations, but currently not canvas transformations. In particular, you can use the WYSIWYG features with polar coordinates, and things should behave as you expect.
+TikzEdt supports TikZ coordinate transformations, but currently not canvas transformations. In particular, you can use the WYSIWYG features with polar coordinates, and things should behave as you expect.
 For example, try to move the node in this example:
 <pre class="prettyprint">
 \begin{tikzpicture}

@@ -7,9 +7,9 @@
 <body>
 <div id="box">
   <div id="header">
-    <? include "header.html" ?>
+     <? include "header.html" ?><!---->
   </div>
-  <div id="hsep"/> <!---->
+  <div id="hsep" />
   <div id="nav">
     <? include "nav.php" ?>
   </div>
