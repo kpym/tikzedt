@@ -106,5 +106,32 @@ namespace TikzParserUnitTests
                 }
             }            
         }
+
+        /// <summary>
+        /// A test for Parse.
+        /// Loads one by one all files in testcases folder and tries to compile.
+        /// Compilation should go through without error.
+        ///</summary>
+        [TestMethod()]
+        public void ParseTestStyleDetection()
+        {
+            string code =
+                @"
+\tikzstyle{test 1}=[draw]
+%!TE% \tikzset{ test   2 /.style={draw}}
+\begin{tikzpicture}[test   3/.style={draw}]
+\tikzstyle{test 4}=[draw]
+\tikzset{   test   5/.style={draw}}
+
+\end{tikzpicture}
+";
+            Tikz_ParseTree T = TikzParser.Parse(code);
+            Assert.AreEqual<int>(5, T.styles.Count);            
+
+            // check whether style names are stored with whitespace removed
+            for (int i=1;i<=5;i++)
+                Assert.IsTrue(T.styles.ContainsKey( "test "+i));
+        }
+
     }
 }

@@ -190,6 +190,7 @@
     <Snippets>
       <Text>tikzstyle</Text>
       <environment>3</environment>
+      <Description>Defines a style: \tikzstyle{mystyle}=[draw, fill]</Description>
     </Snippets>
     <Snippets>
       <Text>usetikzlibrary</Text>
