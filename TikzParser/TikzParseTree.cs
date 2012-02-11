@@ -1401,8 +1401,9 @@ namespace TikzEdt.Parser
         /// <param name="to">The Tikz_Option representing a style that wants to register itself in the list.</param>
         public override void  AddStyleRef(Tikz_Option to)
         {
- 	         if (!styles.ContainsKey(to.key))
-                 styles[to.key]= to;
+            string CleanKey = TikzParseTreeHelper.CleanName(to.key);
+            if (!styles.ContainsKey(CleanKey))
+                styles[CleanKey] = to;
         }
 
         /// <summary>
