@@ -424,7 +424,7 @@ namespace TikzEdt.Parser
                 
                 //return (parent as Tikz_Path).GetAbsOffset(out ret, this);
                 if ((parent as Tikz_Path) != null)
-                    return (parent as Tikz_Path).GetAbsOffset(out ret, this);
+                    return (parent as Tikz_Path).GetAbsOffset(out ret, this, true);
                 else
                 {
                     ret = new Point();
@@ -1476,15 +1476,22 @@ namespace TikzEdt.Parser
         /// <summary>
         /// Gets the offset, i.e., the current drawing position at some
         /// position along the path. (in absolute Cartesian coordinates)
-        /// This is used to determine the absoulte position of nodes specified with relative 
+        /// This is used to determine the absoulte position of items specified with relative 
         /// coordinates like +(1,1).
+        /// 
+        /// Note that in Tikz two offsets are relevant:
+        /// Example:
+        /// \draw (0,0) +(1,1) node {1} +(3,3) -- (5,5);
+        /// Node 1 is placed at +(1,1), the "very current" position.
+        /// The coordinate +(3,3) is taken relative to the "current position", i.e., (0,0).
         /// </summary>
-        /// <param name="tpi">The node just before which the current drawing position is to be determined.</param>
+        /// <param name="tpi">The item just before which the current drawing position is to be determined.</param>
+        /// <param name="VeryCurrent">Whether to "very current" position.</param>
         /// <returns>True, if offset could be determined, false otherwise.</returns>
-        public bool GetAbsOffset(out Point ret, TikzParseItem tpi)
+        public bool GetAbsOffset(out Point ret, TikzParseItem tpi, bool VeryCurrent = false)
         {
             Tikz_XYItem tcret;
-            if (GetLastDrawnItem(tpi, out tcret))
+            if (GetLastDrawnItem(tpi, out tcret, VeryCurrent))
             {
                 // last drawn item exists
                 TikzMatrix M2, M1;
@@ -1545,8 +1552,9 @@ namespace TikzEdt.Parser
         /// </summary>
         /// <param name="before">The item before which we should search.</param>
         /// <param name="ret">The last item that changed the current position.</param>
+        /// <param name="VeryCurrent">Whether to return the last item changing the "very current" position (see GetAbsOffset).</param>
         /// <returns></returns>
-        bool GetLastDrawnItem(TikzParseItem before, out Tikz_XYItem ret)
+        bool GetLastDrawnItem(TikzParseItem before, out Tikz_XYItem ret, bool VeryCurrent )
         {
             int ind;
             if (before == null)
@@ -1561,7 +1569,7 @@ namespace TikzEdt.Parser
                 {
                     Tikz_Coord tc = Children[i] as Tikz_Coord;
 
-                    if (tc.type == Tikz_CoordType.Named || tc.deco != "+")  
+                    if (tc.type == Tikz_CoordType.Named || tc.deco != "+" || VeryCurrent)  
                     {
                         ret = tc;
                         return true;
@@ -1581,7 +1589,7 @@ namespace TikzEdt.Parser
                     Tikz_Path tp = (Children[i] as Tikz_Path);
                     Tikz_XYItem tpi;
                     //TikzMatrix M; // not used here
-                    bool lret = tp.GetLastDrawnItem(null, out tpi);
+                    bool lret = tp.GetLastDrawnItem(null, out tpi, VeryCurrent);
                     if (lret)
                     {
                         ret = tpi;
@@ -1595,7 +1603,7 @@ namespace TikzEdt.Parser
             {
                 Tikz_Path tparent = parent as Tikz_Path;
                 Tikz_XYItem tpi;
-                if (tparent.GetLastDrawnItem(this, out tpi))
+                if (tparent.GetLastDrawnItem(this, out tpi, VeryCurrent))
                 {
                     ret = tpi;
                     return true;
@@ -2383,7 +2391,7 @@ namespace TikzEdt.Parser
             
             // get the offset (=starting point of arc)
             Point offset;
-            if (!(parent as Tikz_Path).GetAbsOffset(out offset, this))
+            if (!(parent as Tikz_Path).GetAbsOffset(out offset, this, true))
                 return false;
 
             //if (OnlyOffset)
@@ -2424,7 +2432,7 @@ namespace TikzEdt.Parser
                 return false;
             }
 
-            return (parent as Tikz_Path).GetAbsOffset(out p, this);              
+            return (parent as Tikz_Path).GetAbsOffset(out p, this, true);              
         }
         bool GetStartPoint(out Point p)
         {
@@ -2434,7 +2442,7 @@ namespace TikzEdt.Parser
                 return false;
             }
 
-            if (!(parent as Tikz_Path).GetAbsOffset(out p, this))
+            if (!(parent as Tikz_Path).GetAbsOffset(out p, this, true))
                 return false;
             // transform 
             TikzMatrix M;
