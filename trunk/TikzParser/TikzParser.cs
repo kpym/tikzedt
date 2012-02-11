@@ -37,7 +37,8 @@ namespace TikzEdt.Parser
         {
             //if code is empty to bother ANTLR (it will raise an exception)
             if (code.Trim() == "")
-                return null;
+                return null;            
+
             simpletikzLexer lex = new simpletikzLexer(new ANTLRStringStream(code));
             CommonTokenStream tokens = new CommonTokenStream(lex);
             simpletikzParser parser = new simpletikzParser(tokens);
@@ -53,9 +54,23 @@ namespace TikzEdt.Parser
             else
                 return null;
         }
+
+        /// <summary>
+        /// This method handles Tikz Preprocessor commands.
+        /// Currently it just removes %!TE%'s.
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        private static string PrepareCodeForParsing(string code)
+        {
+            string PreProc_Comment = "%!TE%"; // HACK, should use Consts.PreProc_Comment
+            return code.Replace(PreProc_Comment, "");
+        }
         
         public static Tikz_ParseTree Parse(string code)
         {
+            code = PrepareCodeForParsing(code);
+
             //if code is empty to bother ANTLR (it will raise an exception)
             if (code.Trim() == "")
                 return null;
