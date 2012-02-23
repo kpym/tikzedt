@@ -609,7 +609,7 @@
                 </FLV:FolderView>
                 <myDynPreamble:DynPreambleView x:Name="preambleView" PreamblesFile="{x:Static myApp:Consts.DynPreamblesFileFullPath}"
                                          Grid.Column="1" Grid.Row="0" Visibility="{Binding ElementName=cmdDynPreamble, Path=IsChecked, Converter={StaticResource boolToVis}}"
-                                         Preamble="{Binding TheDocument.DynamicPreamble, Mode=OneWayToSource}"/>
+                                         />
             </Grid>
             <myC:DockPanelSplitter DockPanel.Dock="Left" Thickness="5" Background="Gray"
                                    Visibility="{Binding Path=LeftToolsColVisible, Source={x:Static p:Settings.Default},Converter={StaticResource boolToVis}}"/>

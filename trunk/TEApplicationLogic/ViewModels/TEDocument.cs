@@ -85,10 +85,11 @@ namespace TikzEdt.ViewModels
 
         #region Public Properties
 
+        //string _DynamicPreamble = "";
         /// <summary>
         /// The value of the preamble should be pushed onto this property. 
         /// </summary>
-        public string DynamicPreamble { get; set;  }
+        public string DynamicPreamble { get { if (TheVM != null) return TheVM.DynamicPreamble; else return null; } }
 
         string _FilePath = null;
         /// <summary>
@@ -496,7 +497,7 @@ namespace TikzEdt.ViewModels
                 }
                 else
                 {
-                    addProblemMarker(errmsg, ex.Line-Result.Err_Offset, ex.CharPositionInLine, Severity.PARSERERROR, ShortFileName);
+                    addProblemMarker(errmsg, ex.Line, ex.CharPositionInLine, Severity.PARSERERROR, ShortFileName);
                 }
                 ParseTree = null;
                 TikzStyles.Clear();
@@ -1158,7 +1159,7 @@ namespace TikzEdt.ViewModels
             /// <summary>
             /// Records how many lines of Dynamic preamble have been added. Error line numbers must be corrected accordingly.
             /// </summary>
-            public int Err_Offset { get; set; }
+            //public int Err_Offset { get; set; }
         }
         class ParserException : Exception
         {
@@ -1180,13 +1181,37 @@ namespace TikzEdt.ViewModels
                 Result.DocumentID = job.DocumentID;
 
                 // the dynamic preamble
-                string DynPre = (String.IsNullOrWhiteSpace(job.DynamicPreamble) ? "" : job.DynamicPreamble + Environment.NewLine);
-                Result.Err_Offset = DynPre.Count(c => c == '\n');
+                //string DynPre = (String.IsNullOrWhiteSpace(job.DynamicPreamble) ? "" : job.DynamicPreamble + Environment.NewLine);
+                //Result.Err_Offset = DynPre.Count(c => c == '\n');
 
-                Tikz_ParseTree tp = TikzParser.Parse(DynPre + job.code);
+                Tikz_ParseTree tp = TikzParser.Parse(job.code);
                 Result.ParseTree = tp;
 
                 Result.IsStandAlone = TexCompiler.IsStandalone(job.code);
+
+                // parse Dynamic preamble
+                if (!String.IsNullOrWhiteSpace(job.DynamicPreamble))
+                {
+                    try
+                    {
+                        Tikz_ParseTree tp2 = TikzParser.ParseInputFile(job.DynamicPreamble);
+                        if (tp2 != null)
+                        {
+                            //every style that was found in included file, add it to parse tree of main file.
+                            foreach (KeyValuePair<string, Tikz_Option> style in tp2.styles)
+                            {
+                                if (!Result.ParseTree.styles.ContainsKey(style.Key))
+                                {
+                                    Result.ParseTree.styles.Add(style.Key, style.Value);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
 
                 //include any styles from include files via \input cmd
                 string inputfile = "";

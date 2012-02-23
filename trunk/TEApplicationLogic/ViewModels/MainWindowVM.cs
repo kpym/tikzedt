@@ -33,6 +33,13 @@ namespace TikzEdt.ViewModels
           } */
 
         #region Properties
+
+        public string DynamicPreamble
+        {
+            get;
+            set;
+        }
+
         private TEDocumentVM _TheDocument; // = new TEDocumentVM();
         /// <summary>
         /// The currently active document.
