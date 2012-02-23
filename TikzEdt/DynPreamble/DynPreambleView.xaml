@@ -60,7 +60,7 @@
                 <Image Source="/TikzEdt;component/Images/112_RefreshArrow_Green_16x16_72.png" Width="16" Height="16" />
             </Button> -->
         </StackPanel>
-        <ListBox ItemsSource="{Binding ElementList}" SelectedIndex="{Binding CurrentIndex}" MouseDoubleClick="ListBox_MouseDoubleClick"
+        <ListBox ItemsSource="{Binding ElementList}" SelectedIndex="{Binding CurrentIndex}"
                  PreviewKeyDown="ListBox_PreviewKeyDown"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListBox.ItemTemplate>

@@ -44,6 +44,7 @@ using System.Windows.Threading;
 using System.Windows.Interop;
 using TESharedComponents;
 using System.Diagnostics;
+using System.ComponentModel;
 
 namespace TikzEdt
 {
@@ -276,6 +277,17 @@ namespace TikzEdt
       //      TheCompiler.Instance.OnTexError += new TexCompiler.TexErrorHandler(addProblemMarker);
             TheCompiler.Instance.OnTexOutput += TexCompiler_OnTexOutput;
             //tikzDisplay1.TexCompilerToListen = TheCompiler.Instance;
+
+            // manually bind dynamic preamble
+            DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(DynPreamble.DynPreambleView.PreambleProperty, typeof(DynPreamble.DynPreambleView) );
+            if (dpd != null)
+            {
+                dpd.AddValueChanged(preambleView, delegate
+                {
+                    if (TheVM != null) TheVM.DynamicPreamble = preambleView.Preamble;
+                });
+            }
+            if (TheVM != null) TheVM.DynamicPreamble = preambleView.Preamble;
 
             // bind lstError to TexErrors (make sure that TexErrors is suitable object for data binding!)
             //lstErrors.ItemsSource = TexErrors;

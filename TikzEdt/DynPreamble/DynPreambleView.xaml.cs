@@ -46,20 +46,20 @@ namespace TikzEdt.DynPreamble
                 v.TheVM.LoadPreambles(v.PreamblesFile);
         }
 
-        //private static readonly DependencyPropertyKey PreamblePropertyKey = DependencyProperty.RegisterReadOnly(
-        //    "Preamble", typeof(string), typeof(DynPreambleView), new PropertyMetadata("", PreambleChanged));
-
+        private static readonly DependencyPropertyKey PreamblePropertyKey = DependencyProperty.RegisterReadOnly(
+            "Preamble", typeof(string), typeof(DynPreambleView), new PropertyMetadata("", PreambleChanged));
+        public static readonly DependencyProperty PreambleProperty = PreamblePropertyKey.DependencyProperty;
         /// <summary>
         /// This property reflects the current preamble. It is not supposed to be set.
         /// (It should be made readonly, but due to a bug in WPF it would make binding to source much more difficult.)
         /// </summary>
-        public string Preamble
-        {
-            get { return (string)GetValue(PreambleProperty); }
-            set { SetValue(PreambleProperty, value); }
-        }
-        public static readonly DependencyProperty PreambleProperty =
-            DependencyProperty.Register("Preamble", typeof(string), typeof(DynPreambleView), new UIPropertyMetadata("", PreambleChanged));
+        //public string Preamble
+        //{
+        //    get { return (string)GetValue(PreambleProperty); }
+        //    set { SetValue(PreambleProperty, value); }
+        //}
+        //public static readonly DependencyProperty PreambleProperty =
+        //    DependencyProperty.Register("Preamble", typeof(string), typeof(DynPreambleView), new UIPropertyMetadata("", PreambleChanged));
 
         
         //public static readonly DependencyProperty PreambleProperty = PreamblePropertyKey.DependencyProperty;
@@ -73,10 +73,10 @@ namespace TikzEdt.DynPreamble
         /// <summary>
         /// Returns the current dynamic Preamble
         /// </summary>
-        //public string Preamble{
-        //    get { return GetValue(PreamblePropertyKey.DependencyProperty) as string; }
-        //    private set { SetValue(PreamblePropertyKey, value); }
-        //}
+        public string Preamble{
+            get { return GetValue(PreamblePropertyKey.DependencyProperty) as string; }
+            private set { SetValue(PreamblePropertyKey, value); }
+        }
 
         private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
