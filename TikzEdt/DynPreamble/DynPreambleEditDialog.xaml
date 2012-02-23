@@ -1,0 +1,24 @@
+﻿<Window x:Class="TikzEdt.DynPreamble.DynPreambleEditDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:myEditor="clr-namespace:TikzEdt.Editor;assembly=TextEditorEx"
+        Title="Edit Dynamic Preamble" Height="228" Width="396" WindowStartupLocation="CenterScreen" 
+        xmlns:myApp="clr-namespace:TikzEdt;assembly=TEApplicationLogic"
+        Icon="/TikzEdt;component/Images/126_Edit_48x48_72.png">
+    <DockPanel Margin="2">
+        <TextBlock Text="Dynamic Preamble Name:" DockPanel.Dock="Top" Margin="3"/>
+        <TextBox Name="txtName" DockPanel.Dock="Top"/>
+        <TextBlock Text="Dynamic Preamble Code:" DockPanel.Dock="Top" Margin="3"/>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="80" Margin="5" IsCancel="True" Click="Button_Click">Cancel</Button>
+            <Button Width="80" Margin="5" IsDefault="True" Click="Button_Click_1">OK</Button>
+        </StackPanel>
+        
+        <myEditor:TextEditorEx Name="txtCode"  DockPanel.Dock="Top"
+                               HDFile="{x:Static myApp:Consts.SyntaxFileFullPath}"
+                               BorderThickness="1"
+                               BorderBrush="Black"
+                               />
+        
+    </DockPanel>
+</Window>

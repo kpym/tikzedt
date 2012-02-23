@@ -176,8 +176,10 @@ namespace TikzEdt
 
             //System.Collections.Generic.SortedDictionary<int, int> LineOffsetDict = new SortedDictionary<int, int>(); // key=line at which code was inserted, value=nr of inserted lines
 
-            // Keeps a record of the lines inserted programmatically into the temp file to allow for matching error kline numbers
-            // First=line at which code was inserted, Second=nr of inserted lines
+            /// <summary>
+            /// Keeps a record of the lines inserted programmatically into the temp file to allow for matching error line numbers.
+            /// First=line at which code was inserted, Second=nr of inserted lines
+            /// </summary>
             List<Pair<int, int>> ProgrammaticInsertions = new List<Pair<int, int>>(); 
             /// <summary>
             /// Translates a line number of the temp file (that is the one that was compiled)
@@ -381,7 +383,7 @@ namespace TikzEdt
         /// <param name="path"></param>
         /// <param name="BB"></param>
         /// <param name="name"></param>
-        public void AddJobExclusive(string code, string path, bool BBShallBeWritten, long DocumentID = 0)
+        public void AddJobExclusive(string code, string path, bool BBShallBeWritten, long DocumentID = 0, int InitialLineOffset=0)
         {
             Job job = new Job();
             job.code = code;
@@ -390,6 +392,9 @@ namespace TikzEdt
             job.CreateBMP = false;
             job.WriteCode = true;
             job.DocumentID = DocumentID;
+
+            if (InitialLineOffset > 0)
+                job.AddOffset(1, InitialLineOffset);
 
             AddJobExclusive(job);
         }

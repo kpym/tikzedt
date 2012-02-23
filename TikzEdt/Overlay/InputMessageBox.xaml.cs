@@ -23,11 +23,12 @@ namespace TikzEdt.Overlay
             InitializeComponent();
         }
 
-        public static MessageBoxResult ShowInputDialog(string Title, string Message, out string Result)
+        public static MessageBoxResult ShowInputDialog(string Title, string Message, out string Result, string InitialText="")
         {
             InputMessageBox imb = new InputMessageBox();
             imb.tbMessage.Text = Message;
             imb.Title = Title;
+            imb.txtText.Text = InitialText;
             if (imb.ShowDialog() == true)
             {
                 Result = imb.txtText.Text;

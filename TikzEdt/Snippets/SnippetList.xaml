@@ -82,7 +82,7 @@
             <ListBox.GroupStyle>
                 <GroupStyle ContainerStyle="{StaticResource ContainerStyle}" HeaderTemplate="{StaticResource groupingHeaderTemplate}"/>
             </ListBox.GroupStyle>            
-                <ListBox.ItemTemplate>                
+            <ListBox.ItemTemplate>                
                 <DataTemplate>
                     <DockPanel HorizontalAlignment="Stretch" ToolTipService.ShowDuration="15000">
                         <DockPanel.ToolTip>
