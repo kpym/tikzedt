@@ -25,7 +25,7 @@
         </Style>
     </UserControl.Resources>
     <DockPanel Name="MainPanel">
-        <TextBlock DockPanel.Dock="Top" Text="Current Dynamic Preamble:" Padding="3" FontWeight="Bold" Background="LightGray" ToolTipService.ShowDuration="15000">
+        <TextBlock DockPanel.Dock="Top" Text="Current Dynamic Preamble:" Padding="3" FontWeight="Bold" Background="Gainsboro" ToolTipService.ShowDuration="15000">
             <TextBlock.ToolTip>
                 <StackPanel>
                     <TextBlock FontWeight="Bold" 

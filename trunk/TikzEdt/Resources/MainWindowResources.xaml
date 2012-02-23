@@ -23,6 +23,10 @@
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="{x:Type ToolBar}" x:Key="TLBStyle">
+        <Setter Property="Background" Value="Gainsboro" />
+    </Style>
+
     <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="{x:Type Button}">
         <Setter Property="ToolTipService.ShowDuration" Value="15000" />
     </Style>
