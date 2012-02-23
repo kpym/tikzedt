@@ -84,6 +84,12 @@ namespace TikzEdt.ViewModels
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// The value of the preamble should be pushed onto this property. 
+        /// </summary>
+        public string DynamicPreamble { get; set;  }
+
         string _FilePath = null;
         /// <summary>
         /// This is the full file path, including the directory
@@ -490,7 +496,7 @@ namespace TikzEdt.ViewModels
                 }
                 else
                 {
-                    addProblemMarker(errmsg, ex.Line, ex.CharPositionInLine, Severity.PARSERERROR, ShortFileName);
+                    addProblemMarker(errmsg, ex.Line-Result.Err_Offset, ex.CharPositionInLine, Severity.PARSERERROR, ShortFileName);
                 }
                 ParseTree = null;
                 TikzStyles.Clear();
@@ -566,9 +572,11 @@ namespace TikzEdt.ViewModels
         {
             public string code;
             public long DocumentID;
-            public AsyncParserJob(string tcode, long tDocumentID)
+            public string DynamicPreamble;
+            public AsyncParserJob(string tcode, long tDocumentID, string tDynamicPreamble)
             {
                 code = tcode; DocumentID = tDocumentID;
+                DynamicPreamble = tDynamicPreamble;
             }
         }
 
@@ -589,7 +597,7 @@ namespace TikzEdt.ViewModels
                 if (_ParseNeeded && !AsyncParser.IsBusy)
                 {
                     _ParseNeeded = false;
-                    AsyncParser.RunWorkerAsync(new AsyncParserJob(Document.Text, DocumentID));
+                    AsyncParser.RunWorkerAsync(new AsyncParserJob(Document.Text, DocumentID, DynamicPreamble));
                 }
             }
         }
@@ -897,9 +905,13 @@ namespace TikzEdt.ViewModels
                     }
                 }
                 //return;
-                //compiling only must be started if there is latex code
+                //compiling must only be started if there is latex code
                 if (Document.Text.Trim() != "")
-                    TheCompiler.Instance.AddJobExclusive(Document.Text, path, true, DocumentID);
+                {
+                    // prepend the Dynamic preamble
+                    string DynPre = (String.IsNullOrWhiteSpace(DynamicPreamble)?"": DynamicPreamble+ Environment.NewLine);
+                    TheCompiler.Instance.AddJobExclusive(DynPre+ Document.Text, path, true, DocumentID, DynPre.Count(c => c=='\n'));
+                }
                 else
                     PdfPath = "";
                 
@@ -1143,6 +1155,10 @@ namespace TikzEdt.ViewModels
             /// A flag indicating whether the document can be compiled as is.
             /// </summary>
             public bool IsStandAlone {get; set;}
+            /// <summary>
+            /// Records how many lines of Dynamic preamble have been added. Error line numbers must be corrected accordingly.
+            /// </summary>
+            public int Err_Offset { get; set; }
         }
         class ParserException : Exception
         {
@@ -1162,7 +1178,12 @@ namespace TikzEdt.ViewModels
             {
                 AsyncParserJob job = e.Argument as AsyncParserJob;
                 Result.DocumentID = job.DocumentID;
-                Tikz_ParseTree tp = TikzParser.Parse(job.code);
+
+                // the dynamic preamble
+                string DynPre = (String.IsNullOrWhiteSpace(job.DynamicPreamble) ? "" : job.DynamicPreamble + Environment.NewLine);
+                Result.Err_Offset = DynPre.Count(c => c == '\n');
+
+                Tikz_ParseTree tp = TikzParser.Parse(DynPre + job.code);
                 Result.ParseTree = tp;
 
                 Result.IsStandAlone = TexCompiler.IsStandalone(job.code);

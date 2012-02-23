@@ -7,6 +7,7 @@
         xmlns:myC="clr-namespace:TikzEdt;assembly=TESharedComponents"
         xmlns:myApp="clr-namespace:TikzEdt;assembly=TEApplicationLogic"
         xmlns:mySnippets="clr-namespace:TikzEdt.Snippets"
+        xmlns:myDynPreamble="clr-namespace:TikzEdt.DynPreamble"
         xmlns:p="clr-namespace:TikzEdt.Properties"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
         xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
@@ -571,6 +572,12 @@
                     </ToggleButton.LayoutTransform>
                     Snippets
                 </ToggleButton>
+                <ToggleButton Width="60" Name="cmdDynPreamble" Checked="cmdSnippets_Checked" Unchecked="cmdSnippets_Unchecked" Focusable="False" IsChecked="False">
+                    <ToggleButton.LayoutTransform>
+                        <RotateTransform Angle="-90"/>
+                    </ToggleButton.LayoutTransform>
+                    Preamble
+                </ToggleButton>
             </StackPanel>            
 
             <!-- <GridSplitter Background="Gray" Grid.Column="2" Grid.Row="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />-->
@@ -600,6 +607,9 @@
                         </ContextMenu>
                     </FLV:FolderView.ListViewContextMenu> 
                 </FLV:FolderView>
+                <myDynPreamble:DynPreambleView x:Name="preambleView" PreamblesFile="{x:Static myApp:Consts.DynPreamblesFileFullPath}"
+                                         Grid.Column="1" Grid.Row="0" Visibility="{Binding ElementName=cmdDynPreamble, Path=IsChecked, Converter={StaticResource boolToVis}}"
+                                         Preamble="{Binding TheDocument.DynamicPreamble, Mode=OneWayToSource}"/>
             </Grid>
             <myC:DockPanelSplitter DockPanel.Dock="Left" Thickness="5" Background="Gray"
                                    Visibility="{Binding Path=LeftToolsColVisible, Source={x:Static p:Settings.Default},Converter={StaticResource boolToVis}}"/>

@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="TikzEdt.DynPreamble.DynPreambleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:myEditor="clr-namespace:TikzEdt.Editor;assembly=TextEditorEx"
+             xmlns:myApp="clr-namespace:TikzEdt;assembly=TEApplicationLogic"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" >
+    <UserControl.Resources>
+        <Style x:Key="FlatButtonStyle" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
+            <Setter Property="Focusable" Value="False" />
+        </Style>
+        <Style x:Key="SeparatorStyle" TargetType="{x:Type Separator}">
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Margin" Value="2,0,2,0"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Separator}">
+                        <Border BorderBrush="LightSlateGray" BorderThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <DockPanel Name="MainPanel">
+        <TextBlock DockPanel.Dock="Top" Text="Current Dynamic Preamble:" Padding="3" FontWeight="Bold" Background="LightGray" ToolTipService.ShowDuration="15000">
+            <TextBlock.ToolTip>
+                <StackPanel>
+                    <TextBlock FontWeight="Bold" 
+                               Text="The Dynamic Preamble" />
+                    <TextBlock Text="The Dynamic Preamble is pre-pended to the TeX Code in the editor. You can use it to edit Tikz code that depends on some external styles or settings." 
+                               TextWrapping="Wrap" Width="200"/>
+                </StackPanel>
+            </TextBlock.ToolTip> 
+        </TextBlock>
+        <myEditor:TextEditorEx DockPanel.Dock="Top" Height="150" IsReadOnly="True" Name="txtCode"
+                               HDFile="{x:Static myApp:Consts.SyntaxFileFullPath}" />
+        <StackPanel FlowDirection="LeftToRight" Orientation="Horizontal"  DockPanel.Dock="Top" Margin="2">
+            <Button Command="{Binding AddCommand}" ToolTip="Add Element" Style="{StaticResource FlatButtonStyle}">
+                <Image Source="/TikzEdt;component/Images/112_Plus_Green_16x16_72.png" Width="16" Height="16" />
+            </Button>
+            <Button Command="{Binding DeleteCommand}" ToolTip="Remove Element" Style="{StaticResource FlatButtonStyle}">
+                <Image Source="/TikzEdt;component/Images/112_Minus_Green_16x16_72.png" Width="16" Height="16" />
+            </Button>
+            <Separator Style="{StaticResource SeparatorStyle}"/>
+            <Button Command="{Binding EditCommand}" ToolTip="Edit Dynamic Preamble" Style="{StaticResource FlatButtonStyle}">
+                <Image Source="/TikzEdt;component/Images/126_Edit_16x16_72.png" Width="16" Height="16" />
+            </Button>
+            <Separator Style="{StaticResource SeparatorStyle}"/>
+            <Button Command="{Binding MoveUpCommand}" ToolTip="Move Up" Style="{StaticResource FlatButtonStyle}">
+                <Image Source="/TikzEdt;component/Images/112_UpArrowShort_Green_16x16_72.png" Width="16" Height="16" />
+            </Button>
+            <Button Command="{Binding MoveDownCommand}" ToolTip="Move Down" Style="{StaticResource FlatButtonStyle}">
+                <Image Source="/TikzEdt;component/Images/112_DownArrowShort_Green_16x16_72.png" Width="16" Height="16" />
+            </Button>
+      <!--      <Separator Style="{StaticResource SeparatorStyle}"/>
+            <Button ToolTip="Reload the preamble list" Style="{StaticResource FlatButtonStyle}" Click="Button_Click">
+                <Image Source="/TikzEdt;component/Images/112_RefreshArrow_Green_16x16_72.png" Width="16" Height="16" />
+            </Button> -->
+        </StackPanel>
+        <ListBox ItemsSource="{Binding ElementList}" SelectedIndex="{Binding CurrentIndex}" MouseDoubleClick="ListBox_MouseDoubleClick"
+                 PreviewKeyDown="ListBox_PreviewKeyDown"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <CheckBox IsChecked="{Binding IsActive}" Grid.RowSpan="2" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Name}" Grid.Column="1" Grid.Row="0" FontWeight="Bold" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Text="{Binding CodeOneLine}" Grid.Column="1" Grid.Row="1" Foreground="Gray" FontStyle="Italic" TextTrimming="CharacterEllipsis" Width="Auto"  />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+</UserControl>

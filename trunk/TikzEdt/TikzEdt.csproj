@@ -153,6 +153,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DynPreamble\DynPreambleEditDialog.xaml.cs">
+      <DependentUpon>DynPreambleEditDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DynPreamble\DynPreambleView.xaml.cs">
+      <DependentUpon>DynPreambleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DynPreamble\DynPreambleVM.cs" />
     <Compile Include="ExportCompiler\ExportCompileDialog.xaml.cs">
       <DependentUpon>ExportCompileDialog.xaml</DependentUpon>
     </Compile>
@@ -203,6 +210,14 @@
       <DependentUpon>TipsTricksWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowSetting.cs" />
+    <Page Include="DynPreamble\DynPreambleEditDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DynPreamble\DynPreambleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ExportCompiler\ExportCompileDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -605,6 +620,33 @@
     <None Include="Editor\TheSnippets.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\112_Plus_Green_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\112_Minus_Green_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\112_UpArrowShort_Green_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\112_DownArrowShort_Green_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\EditTableHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\EditHTMLSource.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\EditDocument.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\126_Edit_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\112_RefreshArrow_Green_16x16_72.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

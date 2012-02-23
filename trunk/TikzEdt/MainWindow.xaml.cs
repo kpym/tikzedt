@@ -277,7 +277,6 @@ namespace TikzEdt
             TheCompiler.Instance.OnTexOutput += TexCompiler_OnTexOutput;
             //tikzDisplay1.TexCompilerToListen = TheCompiler.Instance;
 
-            
             // bind lstError to TexErrors (make sure that TexErrors is suitable object for data binding!)
             //lstErrors.ItemsSource = TexErrors;
             //lstErrors.Items.GroupDescriptions.Add(new System.ComponentModel.GroupDescription())
@@ -1619,15 +1618,23 @@ namespace TikzEdt
                 if (sender == cmdFiles)
                 {
                     cmdSnippets.IsChecked = false;
+                    cmdDynPreamble.IsChecked = false;
                     //snippetlist1.Visibility = System.Windows.Visibility.Hidden;
                 }
                 else if (sender == cmdSnippets)
                 {
                     cmdFiles.IsChecked = false;
+                    cmdDynPreamble.IsChecked = false;
+                    //snippetlist1.Visibility = System.Windows.Visibility.Visible;
+                }
+                else if (sender == cmdDynPreamble)
+                {
+                    cmdFiles.IsChecked = false;
+                    cmdSnippets.IsChecked = false;
                     //snippetlist1.Visibility = System.Windows.Visibility.Visible;
                 }
 
-                Properties.Settings.Default.LeftToolsColVisible =  (cmdSnippets.IsChecked == true || cmdFiles.IsChecked == true);
+                Properties.Settings.Default.LeftToolsColVisible =  (cmdSnippets.IsChecked == true || cmdFiles.IsChecked == true || cmdDynPreamble.IsChecked == true);
                 //GridLengthConverter g = new GridLengthConverter();
                 //if (LeftSplitterCol.Width == (GridLength)g.ConvertFrom(0))
                 //{

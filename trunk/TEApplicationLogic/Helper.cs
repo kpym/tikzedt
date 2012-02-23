@@ -71,6 +71,7 @@ namespace TikzEdt
         public const string cSettingsFile = "T2Gsettings.xml";
         public const string cSyntaxFile = "TikzSyntax.xshd";
         public const string cSnippetsFile = "TheSnippets.xml";
+        public const string cDynPreamblesFile = "DynPreambles.xml";
         public const string cSnippetThumbsDir = "img";
         public const string cMRUFile = "T2GMRU.xml";    // not used
         public const int MaxMRU = 10;// not used
@@ -146,6 +147,7 @@ namespace TikzEdt
   //      public static string AppDataPath { get { return  System.Windows.Forms.Application.UserAppDataPath; } } 
         public static string SyntaxFileFullPath { get { return Helper.GetAppdataPath() + "\\" + Consts.cSettingsDir + "\\" + Consts.cSyntaxFile; } }
         public static string CompletionsFileFullPath { get { return Helper.GetAppdataPath() + "\\" + Consts.cSettingsDir + "\\" + Consts.cCompletionsFile; } }
+        public static string DynPreamblesFileFullPath { get { return Helper.GetAppdataPath() + "\\" + Consts.cSettingsDir + "\\" + Consts.cDynPreamblesFile; } }
 
         // TE preprocessor commands
         public static string PreProc_Comment = "%!TE%";
