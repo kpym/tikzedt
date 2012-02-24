@@ -22,7 +22,13 @@ namespace TikzEdt.DynPreamble
             vm.PropertyChanged += (oo,e) => NotifyPropertyChanged("Preamble");
             ElementList.Add(vm); 
         }); } }
-        public ICommand DeleteCommand { get { return new RelayCommand(o => { if (CurrentIndex >= 0 && CurrentIndex < ElementList.Count) ElementList.RemoveAt(CurrentIndex); }); } }
+        public ICommand DeleteCommand { get { return new RelayCommand(o => 
+        {
+            if (CurrentIndex >= 0 && CurrentIndex < ElementList.Count) 
+                if (GlobalUI.ShowMessageBox("Really delete the dynamic preamble '"+ElementList[CurrentIndex].Name +"'?", "Delete",
+                    System.Windows.MessageBoxButton.YesNoCancel, System.Windows.MessageBoxImage.Warning) == System.Windows.MessageBoxResult.Yes)            
+                    ElementList.RemoveAt(CurrentIndex); 
+        }); } }
         public ICommand EditCommand { get { return new RelayCommand(o => { if (CurrentIndex >= 0 && CurrentIndex < ElementList.Count) ElementList[CurrentIndex].Edit(); } ); } }
         public ICommand ToggleSelectedCommand { get { return new RelayCommand(o => { if (CurrentIndex >= 0 && CurrentIndex < ElementList.Count) ElementList[CurrentIndex].IsActive = !ElementList[CurrentIndex].IsActive; }); } }    
 
