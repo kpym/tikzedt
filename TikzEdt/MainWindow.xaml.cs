@@ -1699,6 +1699,17 @@ namespace TikzEdt
             if (cmbZoom.SelectedIndex > 0)
                 cmbZoom.SelectedIndex--;
         }
+        private void cmdZoomIn2Click(object sender, RoutedEventArgs e)
+        {
+            if (cmbZoom2.SelectedIndex < cmbZoom2.Items.Count - 1)
+                cmbZoom2.SelectedIndex++;
+        }
+
+        private void cmdZoomOut2Click(object sender, RoutedEventArgs e)
+        {
+            if (cmbZoom2.SelectedIndex > 0)
+                cmbZoom2.SelectedIndex--;
+        }
 
 /*        private void cmbZoomTextChanged(object sender, RoutedEventArgs e)
         {

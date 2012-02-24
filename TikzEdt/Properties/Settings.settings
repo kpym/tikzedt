@@ -44,11 +44,8 @@
     <Setting Name="TLB_ShowFiles" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="TLB_ShowBB" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="TLB_ShowZoom" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="RoundToDecimals" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">4</Value>
@@ -75,7 +72,7 @@
       <Value Profile="(Default)">10</Value>
     </Setting>
     <Setting Name="TLB_ShowMode" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="Editor_CodeCompletion" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -159,6 +156,9 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="CheckForUpdates" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TLB_ShowGrid" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
