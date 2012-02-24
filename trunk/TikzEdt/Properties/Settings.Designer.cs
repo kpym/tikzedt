@@ -166,19 +166,7 @@ namespace TikzEdt.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool TLB_ShowBB {
-            get {
-                return ((bool)(this["TLB_ShowBB"]));
-            }
-            set {
-                this["TLB_ShowBB"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool TLB_ShowZoom {
             get {
                 return ((bool)(this["TLB_ShowZoom"]));
@@ -286,7 +274,7 @@ namespace TikzEdt.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool TLB_ShowMode {
             get {
                 return ((bool)(this["TLB_ShowMode"]));
@@ -629,6 +617,18 @@ namespace TikzEdt.Properties {
             }
             set {
                 this["CheckForUpdates"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TLB_ShowGrid {
+            get {
+                return ((bool)(this["TLB_ShowGrid"]));
+            }
+            set {
+                this["TLB_ShowGrid"] = value;
             }
         }
     }

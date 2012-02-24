@@ -24,7 +24,7 @@
     </Style>
 
     <Style TargetType="{x:Type ToolBar}" x:Key="TLBStyle">
-        <Setter Property="Background" Value="Gainsboro" />
+        <!-- <Setter Property="Background" Value="Gainsboro" /> -->
     </Style>
 
     <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="{x:Type Button}">
