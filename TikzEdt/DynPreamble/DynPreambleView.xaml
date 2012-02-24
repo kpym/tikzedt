@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:myEditor="clr-namespace:TikzEdt.Editor;assembly=TextEditorEx"
              xmlns:myApp="clr-namespace:TikzEdt;assembly=TEApplicationLogic"
+             xmlns:myC="clr-namespace:TikzEdt;assembly=TESharedComponents"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" >
     <UserControl.Resources>
@@ -37,6 +38,7 @@
         </TextBlock>
         <myEditor:TextEditorEx DockPanel.Dock="Top" Height="150" IsReadOnly="True" Name="txtCode"
                                HDFile="{x:Static myApp:Consts.SyntaxFileFullPath}" />
+        <myC:DockPanelSplitter DockPanel.Dock="Top" Thickness="5" Background="Gainsboro" />
         <StackPanel FlowDirection="LeftToRight" Orientation="Horizontal"  DockPanel.Dock="Top" Margin="2">
             <Button Command="{Binding AddCommand}" ToolTip="Add Element" Style="{StaticResource FlatButtonStyle}">
                 <Image Source="/TikzEdt;component/Images/112_Plus_Green_16x16_72.png" Width="16" Height="16" />

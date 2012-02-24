@@ -86,9 +86,35 @@
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
     </Style>
 
+    <Style TargetType="{x:Type Separator}">
+        <Setter Property="Height" Value="1" />
+        <Setter Property="Margin" Value="0,2,0,2" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Separator}">
+                    <Border BorderBrush="{DynamicResource SolidBorderBrush}" BorderThickness="1" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style TargetType="{x:Type Menu}">
         <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Menu}">
+                    <Border
+            Background="{StaticResource ControlBackgroundBrush}"
+            BorderBrush="{StaticResource NormalBorderBrush}"
+            BorderThickness="1">
+                        <StackPanel ClipToBounds="True" Orientation="Horizontal" IsItemsHost="True"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
     </Style>
 
     <Style TargetType="{x:Type ToggleButton}" >
@@ -206,7 +232,11 @@
         </Style.Triggers> -->
     </Style>
 
-
+    <Style TargetType="{x:Type MenuItem}">
+        <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NormalBorderBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+    </Style>
 
     <Style TargetType="{x:Type RadioButton}" >
 
@@ -221,13 +251,11 @@
         <Setter Property="BorderBrush" Value="{DynamicResource NormalBorderBrush}" />
         
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
-        <Setter Property="FontSize" Value="10"/>
         <Setter Property="MinHeight" Value="18"/>
         <Setter Property="MinWidth" Value="24"/>
     </Style>
 
-    <Style x:Key="{x:Static ToolBar.CheckBoxStyleKey}" TargetType="{x:Type CheckBox}">
-        <Setter Property="FontSize" Value="10"/>
+    <Style x:Key="{x:Static ToolBar.CheckBoxStyleKey}" TargetType="{x:Type CheckBox}" >
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource NormalBorderBrush}" />
@@ -235,7 +263,6 @@
     </Style>
 
     <Style x:Key="{x:Static ToolBar.RadioButtonStyleKey}" TargetType="{x:Type RadioButton}">
-        <Setter Property="FontSize" Value="10"/>
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource NormalBorderBrush}" />

@@ -18,7 +18,7 @@
         xmlns:FLV="clr-namespace:FileListView;assembly=FileListView"
         Title="{Binding TheDocument.DisplayString, StringFormat=TikzEdt - {0}}" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
-        Width="944" Background="Gainsboro"
+        Width="944" 
         Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico"        
         xmlns:settings="clr-namespace:LogicaCMG.Settings"
         settings:WindowSettings.Save="True"
@@ -35,7 +35,7 @@
                 </ResourceDictionary>
                 <!-- <ResourceDictionary Source="Resources/Std_Styles.xaml"/> 
                 <ResourceDictionary Source="Resources/ExpressionDark.xaml"/>-->
-                <ResourceDictionary Source="Resources/DarkTheme.xaml"/>
+                <ResourceDictionary Source="Resources/GrayTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -273,7 +273,7 @@
                     1/2
                 </CheckBox> -->
             </ToolBar>
-            <ToolBar  Band="0" Height="28" Name="tlbMode" Style="{StaticResource TLBStyle}"
+            <ToolBar  Band="0" Height="28" Name="tlbMode"
                       Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowMode, Converter={StaticResource boolToVis}}">
                 <ToolBar.Resources>
                     <Style TargetType="{x:Type RadioButton}" x:Key="flatbstyle"  BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" >
@@ -512,7 +512,7 @@
                 <ToggleButton ToolTip="Use Polar coordinates for newly placed nodes" Name="chkPolar">
                     <Image Source="/TikzEdt;component/Images/radial.png" />
                 </ToggleButton>
-                <ComboBox Name="cmbModifier" Width="35" IsEditable="False">
+                <ComboBox Name="cmbModifier" Width="45" IsEditable="False">
                     <ComboBox.ToolTip>
                         <StackPanel>
                             <TextBlock Text="Determines whether to use absolute or relative coordinates for newly placed nodes." />
