@@ -1616,9 +1616,10 @@ namespace TikzEdt
             Snippets.SnippetManager s = new Snippets.SnippetManager();
             if (s.isSuccessfullyLoaded) // could stop loading due to not getting a lock
             {
+                s.Owner = this;
                 s.ShowDialog();
                 // reload snippets
-                snippetlist1.Reload();                
+                snippetlist1.Reload();
             }
         }
 
@@ -2124,7 +2125,7 @@ namespace TikzEdt
         private FileDownloader downloader;
         private void OpenPgfManualHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            String pgfmanualurl = @"http://www.ctan.org/tex-archive/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf";
+            String pgfmanualurl = Consts.PGFManualDownloadPath;
             
             //open file if it exists and downloader is not busy downloading it (then file is not complete)
             if (File.Exists(Helper.GetAppdataPath() + "\\" + "pgfmanual.pdf")

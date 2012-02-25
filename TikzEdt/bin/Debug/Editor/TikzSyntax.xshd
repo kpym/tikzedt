@@ -32,6 +32,12 @@
             <Word>\coordinate</Word>
             <Word>\draw</Word>
             <Word>\fill</Word>
+            <Word>\filldraw</Word>
+            <Word>\pattern</Word>
+            <Word>\useasboundingbox</Word>
+            <Word>\shade</Word>
+            <Word>\shadedraw</Word>
+            <Word>\clip</Word>
             <Word>\path</Word>
             <Word>\matrix</Word>
             <Word>\tikzset</Word>

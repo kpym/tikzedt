@@ -631,5 +631,77 @@ namespace TikzEdt.Properties {
                 this["TLB_ShowGrid"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int TLB_GridBand {
+            get {
+                return ((int)(this["TLB_GridBand"]));
+            }
+            set {
+                this["TLB_GridBand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int TLB_ZoomBand {
+            get {
+                return ((int)(this["TLB_ZoomBand"]));
+            }
+            set {
+                this["TLB_ZoomBand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int TLB_FilesBand {
+            get {
+                return ((int)(this["TLB_FilesBand"]));
+            }
+            set {
+                this["TLB_FilesBand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int TLB_ToolsBand {
+            get {
+                return ((int)(this["TLB_ToolsBand"]));
+            }
+            set {
+                this["TLB_ToolsBand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int TLB_OtherToolsBand {
+            get {
+                return ((int)(this["TLB_OtherToolsBand"]));
+            }
+            set {
+                this["TLB_OtherToolsBand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int TLB_ModeBand {
+            get {
+                return ((int)(this["TLB_ModeBand"]));
+            }
+            set {
+                this["TLB_ModeBand"] = value;
+            }
+        }
     }
 }

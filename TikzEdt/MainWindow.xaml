@@ -176,7 +176,7 @@
             </MenuItem>
         </Menu>
         <ToolBarTray Grid.Row="1"  ToolTipService.ShowDuration="15000" >
-            <ToolBar  Height="28" Name="tlbMain"  
+            <ToolBar  Height="28" Name="tlbMain"  Band="{Binding Source={x:Static p:Settings.Default}, Path=TLB_FilesBand, Mode=TwoWay}"
                       Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Converter={StaticResource boolToVis}}">
                 <Button Command="ApplicationCommands.New" ToolTip="New file">
                     <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png" Stretch="Fill" Height="16" Width="16" />
@@ -225,7 +225,7 @@
                     <CheckBox.ToolTip>Switch the overlay displaying on top of the preview on/off</CheckBox.ToolTip>
                 </CheckBox>
             </ToolBar>
-            <ToolBar Name="tlbZoom" 
+            <ToolBar Name="tlbZoom" Band="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ZoomBand, Mode=TwoWay}"
                      Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowZoom, Converter={StaticResource boolToVis}}" ToolTipService.ShowDuration="15000">
                 <Button Click="cmdZoomOutClick" ToolTip="Zoom out" >
                     <Image Source="/TikzEdt;component/Images/ZoomOutHS.png"  Stretch="Fill" Height="16" Width="16"/>
@@ -248,7 +248,7 @@
                     <Image Source="/TikzEdt;component/Images/ZoomInHS.png"  Stretch="Fill" Height="16" Width="16"/>
                 </Button>
                </ToolBar>
-            <ToolBar Height="28" Name="tlbGrid" 
+            <ToolBar Height="28" Name="tlbGrid" Band="{Binding Source={x:Static p:Settings.Default}, Path=TLB_GridBand, Mode=TwoWay}"
                      Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowGrid, Converter={StaticResource boolToVis}}">
                 <TextBlock VerticalAlignment="Center" Margin="0 0 3 0" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown_1">Grid:</TextBlock>
                 <ComboBox Name="cmbGrid"  Width="40" ItemsSource="{Binding}" SelectedIndex="4" IsEditable="True"
@@ -273,7 +273,7 @@
                     1/2
                 </CheckBox> -->
             </ToolBar>
-            <ToolBar  Band="0" Height="28" Name="tlbMode"
+            <ToolBar  Band="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ModeBand, Mode=TwoWay}" Height="28" Name="tlbMode"
                       Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowMode, Converter={StaticResource boolToVis}}">
                 <ToolBar.Resources>
                     <Style TargetType="{x:Type RadioButton}" x:Key="flatbstyle"  BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" >
@@ -344,7 +344,8 @@
                 </RadioButton>
             </ToolBar>
             <ToolBar Name="tlbTools"  Height="28" 
-                     Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}" Band="1" ToolTipService.ShowDuration="15000">
+                     Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowTools, Converter={StaticResource boolToVis}}" 
+                     Band="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ToolsBand, Mode=TwoWay}" ToolTipService.ShowDuration="15000">
                 <RadioButton HorizontalAlignment="Left" Name="rbToolMove" VerticalAlignment="Top"
                              IsChecked="{Binding CurrentTool, Converter={StaticResource EnumToBool},ConverterParameter={x:Static myApp:OverlayToolType.move}}">
                     <myC:AutoGrayImage Source2="/TikzEdt;component/Images/base_cursor.png" Stretch="Fill" Height="16" Width="16"/>
@@ -526,7 +527,7 @@
                     <ComboBoxItem Content="++" />
                 </ComboBox>
             </ToolBar>
-            <ToolBar Band="1" Style="{StaticResource TLBStyle}"
+            <ToolBar Band="{Binding Source={x:Static p:Settings.Default}, Path=TLB_OtherToolsBand, Mode=TwoWay}"
                      Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowToolsOther, Converter={StaticResource boolToVis}}" ToolTipService.ShowDuration="15000">
                 <ToolBar.ToolTip>
                     <StackPanel>
@@ -769,6 +770,10 @@
                 <ProgressBar Name="progressCompile" Visibility="Collapsed" Width="80" Height="10" IsIndeterminate="False" />
             </StatusBarItem>
 
+
+            <StatusBarItem Name="CoordinateStatusBarItem" Content="(0,0)" DockPanel.Dock="Right" HorizontalAlignment="Right" 
+                           HorizontalContentAlignment="Right" MinWidth="60" FontSize="11"/>
+            <Separator DockPanel.Dock="Right"/>
             <StatusBarItem Name="StatusBarZoom" DockPanel.Dock="Right" HorizontalAlignment="Right" >
                 <StackPanel Orientation="Horizontal">
                     <Button Click="cmdZoomOut2Click" ToolTip="Zoom out" Style="{StaticResource FlatButtonStyle}">
@@ -814,12 +819,11 @@
                     <TextBox Width ="30" Name="txtRadialOffset2" Text="{Binding RasterRadialOffset}"  FontSize="9" />
                 </StackPanel>
             </StatusBarItem>
+
+            
             <Separator DockPanel.Dock="Right"/>
-            <StatusBarItem Name="CoordinateStatusBarItem" Content="(0,0)" DockPanel.Dock="Right" HorizontalAlignment="Right" MinWidth="50" FontSize="11"/>
             <StatusBarItem Name="StandAloneStatusBarItem" Content="[Document is standalone]" DockPanel.Dock="Right" HorizontalAlignment="Right" 
                            Visibility="{Binding TheDocument.IsStandAlone, Converter={StaticResource boolToVis}}" FontSize="11"/>
-
-            <Separator DockPanel.Dock="Right"/>
             <StatusBarItem Content="{Binding TheDocument.CurrentBB, Converter={StaticResource RectToString}}" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="0 0 10 0" FontSize="10"/>
             <StatusBarItem Name="BBStatusBarItem" Content="Bounding Box:" DockPanel.Dock="Right" HorizontalAlignment="Right" FontSize="11"/>
 

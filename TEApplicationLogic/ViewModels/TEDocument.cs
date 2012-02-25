@@ -91,6 +91,22 @@ namespace TikzEdt.ViewModels
         /// </summary>
         public string DynamicPreamble { get { if (TheVM != null) return TheVM.DynamicPreamble; else return null; } }
 
+        /// <summary>
+        /// Returns the current Tikz Code, including the dynamic preamble,
+        /// but not including the static preamble (from the settings)
+        /// </summary>
+        public string CodeWithPreamble {
+            get 
+            {
+                if (Document == null) 
+                    return "";
+                if (String.IsNullOrWhiteSpace(DynamicPreamble))
+                    return Document.Text;
+                else
+                    return DynamicPreamble + Environment.NewLine + Document.Text;
+            } 
+        }
+
         string _FilePath = null;
         /// <summary>
         /// This is the full file path, including the directory
@@ -919,7 +935,8 @@ namespace TikzEdt.ViewModels
             }
             else if (TheVM.EditorMode == TEMode.Preview)
             {
-                TheCompiler.Instance.AddJobExclusive(Document.Text, path, false, DocumentID);
+                //TheCompiler.Instance.AddJobExclusive(Document.Text, path, false, DocumentID);
+                TheCompiler.Instance.AddJobExclusive(CodeWithPreamble, path, false, DocumentID);
             }
             else
             {
@@ -1034,7 +1051,7 @@ namespace TikzEdt.ViewModels
                     case ".html":
                     case ".htm":
                         // The file will be compiled and exported by ExportCompileDialog
-                        GlobalUI.ShowExportCompileDialog(this, Document.Text, outFileName);
+                        GlobalUI.ShowExportCompileDialog(this, CodeWithPreamble, outFileName);
                         return;
                     default:
                         GlobalUI.AddStatusLine(this, "Could not export file: Unknown file extension.", true);

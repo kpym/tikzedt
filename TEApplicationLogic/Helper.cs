@@ -153,6 +153,7 @@ namespace TikzEdt
         public static string PreProc_Comment = "%!TE%";
         public static string PreProc_CompilerOptions = "%!TEO";
         public static string PreProc_Include = "%!TEI";
+        public static string PGFManualDownloadPath = @"http://www.ctan.org/tex-archive/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf";
     }
 
     /// <summary>

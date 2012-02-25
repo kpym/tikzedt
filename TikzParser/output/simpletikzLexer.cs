@@ -1,4 +1,4 @@
-// $ANTLR 3.1.1 C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g 2012-01-11 08:23:59
+// $ANTLR 3.1.1 C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g 2012-02-25 11:28:53
 
 using System;
 using Antlr.Runtime;
@@ -8,93 +8,97 @@ using Stack 		= Antlr.Runtime.Collections.StackList;
 
 
 public partial class simpletikzLexer : Lexer {
-    public const int T__68 = 68;
-    public const int T__69 = 69;
-    public const int T__66 = 66;
-    public const int T__67 = 67;
     public const int EXPONENT = 34;
-    public const int T__64 = 64;
-    public const int T__65 = 65;
-    public const int IM_STARTTAG = 13;
     public const int TIKZEDT_CMD_COMMENT = 27;
-    public const int T__62 = 62;
-    public const int T__63 = 63;
-    public const int IM_CONTROLS = 23;
     public const int IM_PATH = 4;
     public const int IM_ID = 18;
     public const int IM_DONTCARE = 25;
     public const int SOMETHING = 37;
-    public const int ID = 28;
-    public const int T__61 = 61;
     public const int EOF = -1;
-    public const int T__60 = 60;
-    public const int MATHSTRING = 36;
     public const int IM_ARC = 26;
     public const int COMMAND = 29;
     public const int IM_ENDTAG = 14;
-    public const int IM_USETIKZLIB = 20;
-    public const int T__55 = 55;
-    public const int T__56 = 56;
-    public const int T__57 = 57;
+    public const int T__93 = 93;
+    public const int T__91 = 91;
+    public const int T__92 = 92;
     public const int IM_DOCUMENT = 11;
-    public const int T__58 = 58;
-    public const int ESC_SEQ = 35;
     public const int IM_STRING = 21;
-    public const int T__51 = 51;
-    public const int T__52 = 52;
-    public const int T__53 = 53;
-    public const int T__54 = 54;
+    public const int T__90 = 90;
     public const int IM_TIKZSET = 19;
-    public const int T__59 = 59;
-    public const int IM_OPTION_KV = 17;
     public const int COMMENT = 33;
-    public const int T__50 = 50;
-    public const int IM_TIKZEDT_CMD = 24;
     public const int SOMETHING1 = 38;
-    public const int T__42 = 42;
-    public const int T__43 = 43;
-    public const int T__40 = 40;
-    public const int T__41 = 41;
-    public const int T__46 = 46;
-    public const int T__80 = 80;
     public const int IM_OPTIONS = 15;
-    public const int T__47 = 47;
+    public const int T__80 = 80;
     public const int T__81 = 81;
-    public const int T__44 = 44;
-    public const int T__82 = 82;
     public const int IM_OPTION_STYLE = 16;
-    public const int T__45 = 45;
+    public const int T__82 = 82;
     public const int T__83 = 83;
-    public const int T__48 = 48;
-    public const int T__49 = 49;
     public const int IM_COORD = 6;
-    public const int IM_PICTURE = 10;
     public const int INT = 31;
     public const int T__85 = 85;
     public const int T__84 = 84;
     public const int T__87 = 87;
     public const int T__86 = 86;
     public const int T__89 = 89;
-    public const int T__88 = 88;
     public const int IM_NODE = 5;
+    public const int T__88 = 88;
     public const int IM_STYLE = 22;
-    public const int IM_NUMBERUNIT = 9;
-    public const int IM_SCOPE = 12;
-    public const int T__71 = 71;
     public const int WS = 32;
+    public const int T__71 = 71;
     public const int T__72 = 72;
     public const int T__70 = 70;
-    public const int T__39 = 39;
-    public const int IM_SIZE = 7;
     public const int T__76 = 76;
     public const int T__75 = 75;
     public const int T__74 = 74;
     public const int T__73 = 73;
-    public const int IM_NODENAME = 8;
     public const int T__79 = 79;
     public const int T__78 = 78;
-    public const int FLOAT_WO_EXP = 30;
     public const int T__77 = 77;
+    public const int T__68 = 68;
+    public const int T__69 = 69;
+    public const int T__66 = 66;
+    public const int T__67 = 67;
+    public const int T__64 = 64;
+    public const int T__65 = 65;
+    public const int IM_STARTTAG = 13;
+    public const int T__62 = 62;
+    public const int T__63 = 63;
+    public const int IM_CONTROLS = 23;
+    public const int T__61 = 61;
+    public const int ID = 28;
+    public const int T__60 = 60;
+    public const int MATHSTRING = 36;
+    public const int T__55 = 55;
+    public const int IM_USETIKZLIB = 20;
+    public const int T__56 = 56;
+    public const int T__57 = 57;
+    public const int T__58 = 58;
+    public const int T__51 = 51;
+    public const int ESC_SEQ = 35;
+    public const int T__52 = 52;
+    public const int T__53 = 53;
+    public const int T__54 = 54;
+    public const int T__59 = 59;
+    public const int IM_OPTION_KV = 17;
+    public const int T__50 = 50;
+    public const int IM_TIKZEDT_CMD = 24;
+    public const int T__42 = 42;
+    public const int T__43 = 43;
+    public const int T__40 = 40;
+    public const int T__41 = 41;
+    public const int T__46 = 46;
+    public const int T__47 = 47;
+    public const int T__44 = 44;
+    public const int T__45 = 45;
+    public const int T__48 = 48;
+    public const int T__49 = 49;
+    public const int IM_PICTURE = 10;
+    public const int IM_NUMBERUNIT = 9;
+    public const int IM_SCOPE = 12;
+    public const int T__39 = 39;
+    public const int IM_SIZE = 7;
+    public const int IM_NODENAME = 8;
+    public const int FLOAT_WO_EXP = 30;
 
         //@Override
         public override void ReportError(RecognitionException e) {
@@ -134,7 +138,7 @@ public partial class simpletikzLexer : Lexer {
     
     override public string GrammarFileName
     {
-    	get { return "C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g";} 
+    	get { return "C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g";} 
     }
 
     // $ANTLR start "T__39"
@@ -144,8 +148,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__39;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:28:7: ( '\\\\begin' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:28:9: '\\\\begin'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:28:7: ( '\\\\begin' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:28:9: '\\\\begin'
             {
             	Match("\\begin"); 
 
@@ -168,8 +172,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__40;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:29:7: ( '\\\\tikzstyle' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:29:9: '\\\\tikzstyle'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:29:7: ( '\\\\tikzstyle' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:29:9: '\\\\tikzstyle'
             {
             	Match("\\tikzstyle"); 
 
@@ -192,8 +196,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__41;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:30:7: ( '\\\\tikzset' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:30:9: '\\\\tikzset'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:30:7: ( '\\\\tikzset' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:30:9: '\\\\tikzset'
             {
             	Match("\\tikzset"); 
 
@@ -216,8 +220,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__42;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:31:7: ( '\\\\tikz' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:31:9: '\\\\tikz'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:31:7: ( '\\\\tikz' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:31:9: '\\\\tikz'
             {
             	Match("\\tikz"); 
 
@@ -240,8 +244,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__43;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:32:7: ( '{' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:32:9: '{'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:32:7: ( '{' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:32:9: '{'
             {
             	Match('{'); 
 
@@ -263,8 +267,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__44;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:33:7: ( '}' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:33:9: '}'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:33:7: ( '}' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:33:9: '}'
             {
             	Match('}'); 
 
@@ -286,8 +290,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__45;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:34:7: ( '=' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:34:9: '='
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:34:7: ( '=' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:34:9: '='
             {
             	Match('='); 
 
@@ -309,8 +313,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__46;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:35:7: ( '+=' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:35:9: '+='
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:35:7: ( '+=' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:35:9: '+='
             {
             	Match("+="); 
 
@@ -333,8 +337,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__47;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:36:7: ( ',' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:36:9: ','
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:36:7: ( ',' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:36:9: ','
             {
             	Match(','); 
 
@@ -356,8 +360,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__48;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:37:7: ( ':' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:37:9: ':'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:37:7: ( ':' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:37:9: ':'
             {
             	Match(':'); 
 
@@ -379,8 +383,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__49;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:38:7: ( '/.style' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:38:9: '/.style'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:38:7: ( '/.style' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:38:9: '/.style'
             {
             	Match("/.style"); 
 
@@ -403,8 +407,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__50;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:39:7: ( '/.append' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:39:9: '/.append'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:39:7: ( '/.append' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:39:9: '/.append'
             {
             	Match("/.append"); 
 
@@ -427,8 +431,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__51;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:40:7: ( 'style' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:40:9: 'style'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:40:7: ( 'style' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:40:9: 'style'
             {
             	Match("style"); 
 
@@ -451,8 +455,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__52;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:41:7: ( '(' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:41:9: '('
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:41:7: ( '(' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:41:9: '('
             {
             	Match('('); 
 
@@ -474,8 +478,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__53;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:42:7: ( ')' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:42:9: ')'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:42:7: ( ')' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:42:9: ')'
             {
             	Match(')'); 
 
@@ -497,8 +501,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__54;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:43:7: ( '[' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:43:9: '['
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:43:7: ( '[' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:43:9: '['
             {
             	Match('['); 
 
@@ -520,8 +524,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__55;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:44:7: ( ']' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:44:9: ']'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:44:7: ( ']' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:44:9: ']'
             {
             	Match(']'); 
 
@@ -543,8 +547,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__56;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:45:7: ( ';' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:45:9: ';'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:45:7: ( ';' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:45:9: ';'
             {
             	Match(';'); 
 
@@ -566,8 +570,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__57;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:46:7: ( 'cm' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:46:9: 'cm'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:46:7: ( 'cm' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:46:9: 'cm'
             {
             	Match("cm"); 
 
@@ -590,8 +594,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__58;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:47:7: ( 'in' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:47:9: 'in'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:47:7: ( 'in' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:47:9: 'in'
             {
             	Match("in"); 
 
@@ -614,8 +618,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__59;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:48:7: ( 'ex' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:48:9: 'ex'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:48:7: ( 'ex' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:48:9: 'ex'
             {
             	Match("ex"); 
 
@@ -638,8 +642,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__60;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:49:7: ( 'mm' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:49:9: 'mm'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:49:7: ( 'mm' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:49:9: 'mm'
             {
             	Match("mm"); 
 
@@ -662,8 +666,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__61;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:50:7: ( 'pt' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:50:9: 'pt'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:50:7: ( 'pt' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:50:9: 'pt'
             {
             	Match("pt"); 
 
@@ -686,8 +690,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__62;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:51:7: ( 'em' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:51:9: 'em'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:51:7: ( 'em' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:51:9: 'em'
             {
             	Match("em"); 
 
@@ -710,8 +714,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__63;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:52:7: ( '\\\\end' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:52:9: '\\\\end'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:52:7: ( '\\\\end' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:52:9: '\\\\end'
             {
             	Match("\\end"); 
 
@@ -734,8 +738,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__64;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:53:7: ( '\\\\node' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:53:9: '\\\\node'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:53:7: ( '\\\\node' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:53:9: '\\\\node'
             {
             	Match("\\node"); 
 
@@ -758,8 +762,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__65;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:54:7: ( '\\\\matrix' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:54:9: '\\\\matrix'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:54:7: ( '\\\\matrix' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:54:9: '\\\\matrix'
             {
             	Match("\\matrix"); 
 
@@ -782,8 +786,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__66;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:55:7: ( '\\\\coordinate' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:55:9: '\\\\coordinate'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:55:7: ( '\\\\coordinate' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:55:9: '\\\\coordinate'
             {
             	Match("\\coordinate"); 
 
@@ -806,8 +810,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__67;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:56:7: ( '\\\\draw' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:56:9: '\\\\draw'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:56:7: ( '\\\\draw' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:56:9: '\\\\draw'
             {
             	Match("\\draw"); 
 
@@ -830,8 +834,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__68;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:57:7: ( '\\\\path' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:57:9: '\\\\path'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:57:7: ( '\\\\path' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:57:9: '\\\\path'
             {
             	Match("\\path"); 
 
@@ -854,8 +858,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__69;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:58:7: ( '\\\\filldraw' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:58:9: '\\\\filldraw'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:58:7: ( '\\\\filldraw' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:58:9: '\\\\filldraw'
             {
             	Match("\\filldraw"); 
 
@@ -878,10 +882,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__70;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:59:7: ( '\\\\fill' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:59:9: '\\\\fill'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:59:7: ( '\\\\pattern' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:59:9: '\\\\pattern'
             {
-            	Match("\\fill"); 
+            	Match("\\pattern"); 
 
 
             }
@@ -902,10 +906,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__71;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:60:7: ( '\\\\clip' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:60:9: '\\\\clip'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:60:7: ( '\\\\shade' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:60:9: '\\\\shade'
             {
-            	Match("\\clip"); 
+            	Match("\\shade"); 
 
 
             }
@@ -926,10 +930,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__72;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:61:7: ( 'let' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:61:9: 'let'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:61:7: ( '\\\\shadedraw' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:61:9: '\\\\shadedraw'
             {
-            	Match("let"); 
+            	Match("\\shadedraw"); 
 
 
             }
@@ -950,10 +954,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__73;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:62:7: ( 'and' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:62:9: 'and'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:62:7: ( '\\\\useasboundingbox' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:62:9: '\\\\useasboundingbox'
             {
-            	Match("and"); 
+            	Match("\\useasboundingbox"); 
 
 
             }
@@ -974,10 +978,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__74;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:63:7: ( 'coordinate' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:63:9: 'coordinate'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:63:7: ( '\\\\fill' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:63:9: '\\\\fill'
             {
-            	Match("coordinate"); 
+            	Match("\\fill"); 
 
 
             }
@@ -998,10 +1002,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__75;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:64:7: ( 'node' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:64:9: 'node'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:64:7: ( '\\\\clip' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:64:9: '\\\\clip'
             {
-            	Match("node"); 
+            	Match("\\clip"); 
 
 
             }
@@ -1022,10 +1026,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__76;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:65:7: ( 'at' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:65:9: 'at'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:65:7: ( 'let' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:65:9: 'let'
             {
-            	Match("at"); 
+            	Match("let"); 
 
 
             }
@@ -1046,10 +1050,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__77;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:66:7: ( 'circle' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:66:9: 'circle'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:66:7: ( 'and' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:66:9: 'and'
             {
-            	Match("circle"); 
+            	Match("and"); 
 
 
             }
@@ -1070,10 +1074,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__78;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:67:7: ( 'ellipse' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:67:9: 'ellipse'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:67:7: ( 'coordinate' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:67:9: 'coordinate'
             {
-            	Match("ellipse"); 
+            	Match("coordinate"); 
 
 
             }
@@ -1094,10 +1098,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__79;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:68:7: ( 'arc' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:68:9: 'arc'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:68:7: ( 'node' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:68:9: 'node'
             {
-            	Match("arc"); 
+            	Match("node"); 
 
 
             }
@@ -1118,10 +1122,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__80;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:69:7: ( '--' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:69:9: '--'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:69:7: ( 'at' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:69:9: 'at'
             {
-            	Match("--"); 
+            	Match("at"); 
 
 
             }
@@ -1142,10 +1146,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__81;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:70:7: ( '->' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:70:9: '->'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:70:7: ( 'circle' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:70:9: 'circle'
             {
-            	Match("->"); 
+            	Match("circle"); 
 
 
             }
@@ -1166,10 +1170,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__82;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:71:7: ( '|-' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:71:9: '|-'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:71:7: ( 'ellipse' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:71:9: 'ellipse'
             {
-            	Match("|-"); 
+            	Match("ellipse"); 
 
 
             }
@@ -1190,10 +1194,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__83;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:72:7: ( '-|' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:72:9: '-|'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:72:7: ( 'arc' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:72:9: 'arc'
             {
-            	Match("-|"); 
+            	Match("arc"); 
 
 
             }
@@ -1214,10 +1218,11 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__84;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:73:7: ( '+' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:73:9: '+'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:73:7: ( '--' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:73:9: '--'
             {
-            	Match('+'); 
+            	Match("--"); 
+
 
             }
 
@@ -1237,10 +1242,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__85;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:74:7: ( '++' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:74:9: '++'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:74:7: ( '->' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:74:9: '->'
             {
-            	Match("++"); 
+            	Match("->"); 
 
 
             }
@@ -1261,10 +1266,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__86;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:75:7: ( '..' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:75:9: '..'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:75:7: ( '|-' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:75:9: '|-'
             {
-            	Match(".."); 
+            	Match("|-"); 
 
 
             }
@@ -1285,10 +1290,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__87;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:76:7: ( 'controls' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:76:9: 'controls'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:76:7: ( '-|' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:76:9: '-|'
             {
-            	Match("controls"); 
+            	Match("-|"); 
 
 
             }
@@ -1309,11 +1314,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__88;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:77:7: ( 'tikzpicture' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:77:9: 'tikzpicture'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:77:7: ( '+' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:77:9: '+'
             {
-            	Match("tikzpicture"); 
-
+            	Match('+'); 
 
             }
 
@@ -1333,10 +1337,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__89;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:78:7: ( 'scope' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:78:9: 'scope'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:78:7: ( '++' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:78:9: '++'
             {
-            	Match("scope"); 
+            	Match("++"); 
 
 
             }
@@ -1350,6 +1354,102 @@ public partial class simpletikzLexer : Lexer {
     }
     // $ANTLR end "T__89"
 
+    // $ANTLR start "T__90"
+    public void mT__90() // throws RecognitionException [2]
+    {
+    		try
+    		{
+            int _type = T__90;
+    	int _channel = DEFAULT_TOKEN_CHANNEL;
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:79:7: ( '..' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:79:9: '..'
+            {
+            	Match(".."); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally 
+    	{
+        }
+    }
+    // $ANTLR end "T__90"
+
+    // $ANTLR start "T__91"
+    public void mT__91() // throws RecognitionException [2]
+    {
+    		try
+    		{
+            int _type = T__91;
+    	int _channel = DEFAULT_TOKEN_CHANNEL;
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:80:7: ( 'controls' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:80:9: 'controls'
+            {
+            	Match("controls"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally 
+    	{
+        }
+    }
+    // $ANTLR end "T__91"
+
+    // $ANTLR start "T__92"
+    public void mT__92() // throws RecognitionException [2]
+    {
+    		try
+    		{
+            int _type = T__92;
+    	int _channel = DEFAULT_TOKEN_CHANNEL;
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:81:7: ( 'tikzpicture' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:81:9: 'tikzpicture'
+            {
+            	Match("tikzpicture"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally 
+    	{
+        }
+    }
+    // $ANTLR end "T__92"
+
+    // $ANTLR start "T__93"
+    public void mT__93() // throws RecognitionException [2]
+    {
+    		try
+    		{
+            int _type = T__93;
+    	int _channel = DEFAULT_TOKEN_CHANNEL;
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:82:7: ( 'scope' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:82:9: 'scope'
+            {
+            	Match("scope"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally 
+    	{
+        }
+    }
+    // $ANTLR end "T__93"
+
     // $ANTLR start "ID"
     public void mID() // throws RecognitionException [2]
     {
@@ -1357,8 +1457,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = ID;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:576:5: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '.' | '!' )* )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:576:7: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '.' | '!' )*
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:576:5: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '.' | '!' )* )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:576:7: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '.' | '!' )*
             {
             	if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z') || input.LA(1) == '_' || (input.LA(1) >= 'a' && input.LA(1) <= 'z') ) 
             	{
@@ -1371,7 +1471,7 @@ public partial class simpletikzLexer : Lexer {
             	    Recover(mse);
             	    throw mse;}
 
-            	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:576:31: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '.' | '!' )*
+            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:576:31: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '.' | '!' )*
             	do 
             	{
             	    int alt1 = 2;
@@ -1386,7 +1486,7 @@ public partial class simpletikzLexer : Lexer {
             	    switch (alt1) 
             		{
             			case 1 :
-            			    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:
+            			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:
             			    {
             			    	if ( input.LA(1) == '!' || input.LA(1) == '.' || (input.LA(1) >= '0' && input.LA(1) <= '9') || (input.LA(1) >= 'A' && input.LA(1) <= 'Z') || input.LA(1) == '_' || (input.LA(1) >= 'a' && input.LA(1) <= 'z') ) 
             			    	{
@@ -1430,10 +1530,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = INT;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:579:5: ( ( '-' )? ( '0' .. '9' )+ )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:579:7: ( '-' )? ( '0' .. '9' )+
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:579:5: ( ( '-' )? ( '0' .. '9' )+ )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:579:7: ( '-' )? ( '0' .. '9' )+
             {
-            	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:579:7: ( '-' )?
+            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:579:7: ( '-' )?
             	int alt2 = 2;
             	int LA2_0 = input.LA(1);
 
@@ -1444,7 +1544,7 @@ public partial class simpletikzLexer : Lexer {
             	switch (alt2) 
             	{
             	    case 1 :
-            	        // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:579:7: '-'
+            	        // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:579:7: '-'
             	        {
             	        	Match('-'); 
 
@@ -1453,7 +1553,7 @@ public partial class simpletikzLexer : Lexer {
 
             	}
 
-            	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:579:12: ( '0' .. '9' )+
+            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:579:12: ( '0' .. '9' )+
             	int cnt3 = 0;
             	do 
             	{
@@ -1469,7 +1569,7 @@ public partial class simpletikzLexer : Lexer {
             	    switch (alt3) 
             		{
             			case 1 :
-            			    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:579:12: '0' .. '9'
+            			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:579:12: '0' .. '9'
             			    {
             			    	MatchRange('0','9'); 
 
@@ -1507,7 +1607,7 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = FLOAT_WO_EXP;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:591:5: ( ( '-' )? ( '0' .. '9' )+ '.' ( '0' .. '9' )* | ( '-' )? '.' ( '0' .. '9' )+ )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:591:5: ( ( '-' )? ( '0' .. '9' )+ '.' ( '0' .. '9' )* | ( '-' )? '.' ( '0' .. '9' )+ )
             int alt9 = 2;
             switch ( input.LA(1) ) 
             {
@@ -1561,9 +1661,9 @@ public partial class simpletikzLexer : Lexer {
             switch (alt9) 
             {
                 case 1 :
-                    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:591:9: ( '-' )? ( '0' .. '9' )+ '.' ( '0' .. '9' )*
+                    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:591:9: ( '-' )? ( '0' .. '9' )+ '.' ( '0' .. '9' )*
                     {
-                    	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:591:9: ( '-' )?
+                    	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:591:9: ( '-' )?
                     	int alt4 = 2;
                     	int LA4_0 = input.LA(1);
 
@@ -1574,7 +1674,7 @@ public partial class simpletikzLexer : Lexer {
                     	switch (alt4) 
                     	{
                     	    case 1 :
-                    	        // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:591:9: '-'
+                    	        // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:591:9: '-'
                     	        {
                     	        	Match('-'); 
 
@@ -1583,7 +1683,7 @@ public partial class simpletikzLexer : Lexer {
 
                     	}
 
-                    	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:591:14: ( '0' .. '9' )+
+                    	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:591:14: ( '0' .. '9' )+
                     	int cnt5 = 0;
                     	do 
                     	{
@@ -1599,7 +1699,7 @@ public partial class simpletikzLexer : Lexer {
                     	    switch (alt5) 
                     		{
                     			case 1 :
-                    			    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:591:15: '0' .. '9'
+                    			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:591:15: '0' .. '9'
                     			    {
                     			    	MatchRange('0','9'); 
 
@@ -1619,7 +1719,7 @@ public partial class simpletikzLexer : Lexer {
                     		;	// Stops C# compiler whinging that label 'loop5' has no statements
 
                     	Match('.'); 
-                    	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:591:30: ( '0' .. '9' )*
+                    	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:591:30: ( '0' .. '9' )*
                     	do 
                     	{
                     	    int alt6 = 2;
@@ -1634,7 +1734,7 @@ public partial class simpletikzLexer : Lexer {
                     	    switch (alt6) 
                     		{
                     			case 1 :
-                    			    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:591:31: '0' .. '9'
+                    			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:591:31: '0' .. '9'
                     			    {
                     			    	MatchRange('0','9'); 
 
@@ -1653,9 +1753,9 @@ public partial class simpletikzLexer : Lexer {
                     }
                     break;
                 case 2 :
-                    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:592:9: ( '-' )? '.' ( '0' .. '9' )+
+                    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:592:9: ( '-' )? '.' ( '0' .. '9' )+
                     {
-                    	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:592:9: ( '-' )?
+                    	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:592:9: ( '-' )?
                     	int alt7 = 2;
                     	int LA7_0 = input.LA(1);
 
@@ -1666,7 +1766,7 @@ public partial class simpletikzLexer : Lexer {
                     	switch (alt7) 
                     	{
                     	    case 1 :
-                    	        // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:592:9: '-'
+                    	        // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:592:9: '-'
                     	        {
                     	        	Match('-'); 
 
@@ -1676,7 +1776,7 @@ public partial class simpletikzLexer : Lexer {
                     	}
 
                     	Match('.'); 
-                    	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:592:18: ( '0' .. '9' )+
+                    	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:592:18: ( '0' .. '9' )+
                     	int cnt8 = 0;
                     	do 
                     	{
@@ -1692,7 +1792,7 @@ public partial class simpletikzLexer : Lexer {
                     	    switch (alt8) 
                     		{
                     			case 1 :
-                    			    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:592:19: '0' .. '9'
+                    			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:592:19: '0' .. '9'
                     			    {
                     			    	MatchRange('0','9'); 
 
@@ -1732,14 +1832,14 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = TIKZEDT_CMD_COMMENT;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:596:5: ( '%' WS '!TIKZEDT' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:596:9: '%' WS '!TIKZEDT' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:596:5: ( '%' WS '!TIKZEDT' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:596:9: '%' WS '!TIKZEDT' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
             {
             	Match('%'); 
             	mWS(); 
             	Match("!TIKZEDT"); 
 
-            	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:596:29: (~ ( '\\n' | '\\r' ) )*
+            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:596:29: (~ ( '\\n' | '\\r' ) )*
             	do 
             	{
             	    int alt10 = 2;
@@ -1754,7 +1854,7 @@ public partial class simpletikzLexer : Lexer {
             	    switch (alt10) 
             		{
             			case 1 :
-            			    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:596:29: ~ ( '\\n' | '\\r' )
+            			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:596:29: ~ ( '\\n' | '\\r' )
             			    {
             			    	if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t') || (input.LA(1) >= '\u000B' && input.LA(1) <= '\f') || (input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) 
             			    	{
@@ -1779,7 +1879,7 @@ public partial class simpletikzLexer : Lexer {
             	loop10:
             		;	// Stops C# compiler whining that label 'loop10' has no statements
 
-            	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:596:43: ( '\\r' )?
+            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:596:43: ( '\\r' )?
             	int alt11 = 2;
             	int LA11_0 = input.LA(1);
 
@@ -1790,7 +1890,7 @@ public partial class simpletikzLexer : Lexer {
             	switch (alt11) 
             	{
             	    case 1 :
-            	        // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:596:43: '\\r'
+            	        // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:596:43: '\\r'
             	        {
             	        	Match('\r'); 
 
@@ -1819,16 +1919,16 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = COMMENT;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:600:5: ( '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' | '%/*' ( options {greedy=false; } : . )* '%*/' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:600:5: ( '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' | '%/*' ( options {greedy=false; } : . )* '%*/' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
             int alt17 = 2;
             alt17 = dfa17.Predict(input);
             switch (alt17) 
             {
                 case 1 :
-                    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:600:9: '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+                    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:600:9: '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
                     {
                     	Match('%'); 
-                    	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:600:13: (~ ( '\\n' | '\\r' ) )*
+                    	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:600:13: (~ ( '\\n' | '\\r' ) )*
                     	do 
                     	{
                     	    int alt12 = 2;
@@ -1843,7 +1943,7 @@ public partial class simpletikzLexer : Lexer {
                     	    switch (alt12) 
                     		{
                     			case 1 :
-                    			    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:600:13: ~ ( '\\n' | '\\r' )
+                    			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:600:13: ~ ( '\\n' | '\\r' )
                     			    {
                     			    	if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t') || (input.LA(1) >= '\u000B' && input.LA(1) <= '\f') || (input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) 
                     			    	{
@@ -1868,7 +1968,7 @@ public partial class simpletikzLexer : Lexer {
                     	loop12:
                     		;	// Stops C# compiler whining that label 'loop12' has no statements
 
-                    	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:600:27: ( '\\r' )?
+                    	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:600:27: ( '\\r' )?
                     	int alt13 = 2;
                     	int LA13_0 = input.LA(1);
 
@@ -1879,7 +1979,7 @@ public partial class simpletikzLexer : Lexer {
                     	switch (alt13) 
                     	{
                     	    case 1 :
-                    	        // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:600:27: '\\r'
+                    	        // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:600:27: '\\r'
                     	        {
                     	        	Match('\r'); 
 
@@ -1894,11 +1994,11 @@ public partial class simpletikzLexer : Lexer {
                     }
                     break;
                 case 2 :
-                    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:601:9: '%/*' ( options {greedy=false; } : . )* '%*/' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+                    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:601:9: '%/*' ( options {greedy=false; } : . )* '%*/' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
                     {
                     	Match("%/*"); 
 
-                    	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:601:15: ( options {greedy=false; } : . )*
+                    	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:601:15: ( options {greedy=false; } : . )*
                     	do 
                     	{
                     	    int alt14 = 2;
@@ -1906,7 +2006,7 @@ public partial class simpletikzLexer : Lexer {
                     	    switch (alt14) 
                     		{
                     			case 1 :
-                    			    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:601:43: .
+                    			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:601:43: .
                     			    {
                     			    	MatchAny(); 
 
@@ -1923,7 +2023,7 @@ public partial class simpletikzLexer : Lexer {
 
                     	Match("%*/"); 
 
-                    	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:601:54: (~ ( '\\n' | '\\r' ) )*
+                    	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:601:54: (~ ( '\\n' | '\\r' ) )*
                     	do 
                     	{
                     	    int alt15 = 2;
@@ -1938,7 +2038,7 @@ public partial class simpletikzLexer : Lexer {
                     	    switch (alt15) 
                     		{
                     			case 1 :
-                    			    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:601:54: ~ ( '\\n' | '\\r' )
+                    			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:601:54: ~ ( '\\n' | '\\r' )
                     			    {
                     			    	if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t') || (input.LA(1) >= '\u000B' && input.LA(1) <= '\f') || (input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) 
                     			    	{
@@ -1963,7 +2063,7 @@ public partial class simpletikzLexer : Lexer {
                     	loop15:
                     		;	// Stops C# compiler whining that label 'loop15' has no statements
 
-                    	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:601:68: ( '\\r' )?
+                    	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:601:68: ( '\\r' )?
                     	int alt16 = 2;
                     	int LA16_0 = input.LA(1);
 
@@ -1974,7 +2074,7 @@ public partial class simpletikzLexer : Lexer {
                     	switch (alt16) 
                     	{
                     	    case 1 :
-                    	        // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:601:68: '\\r'
+                    	        // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:601:68: '\\r'
                     	        {
                     	        	Match('\r'); 
 
@@ -2006,8 +2106,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = WS;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:604:5: ( ( ' ' | '\\t' | '\\r' | '\\n' ) )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:604:9: ( ' ' | '\\t' | '\\r' | '\\n' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:604:5: ( ( ' ' | '\\t' | '\\r' | '\\n' ) )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:604:9: ( ' ' | '\\t' | '\\r' | '\\n' )
             {
             	if ( (input.LA(1) >= '\t' && input.LA(1) <= '\n') || input.LA(1) == '\r' || input.LA(1) == ' ' ) 
             	{
@@ -2038,8 +2138,8 @@ public partial class simpletikzLexer : Lexer {
     {
     		try
     		{
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:611:19: ( ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:611:21: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:611:19: ( ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:611:21: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
             {
             	if ( input.LA(1) == 'E' || input.LA(1) == 'e' ) 
             	{
@@ -2052,7 +2152,7 @@ public partial class simpletikzLexer : Lexer {
             	    Recover(mse);
             	    throw mse;}
 
-            	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:611:31: ( '+' | '-' )?
+            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:611:31: ( '+' | '-' )?
             	int alt18 = 2;
             	int LA18_0 = input.LA(1);
 
@@ -2063,7 +2163,7 @@ public partial class simpletikzLexer : Lexer {
             	switch (alt18) 
             	{
             	    case 1 :
-            	        // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:
+            	        // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:
             	        {
             	        	if ( input.LA(1) == '+' || input.LA(1) == '-' ) 
             	        	{
@@ -2082,7 +2182,7 @@ public partial class simpletikzLexer : Lexer {
 
             	}
 
-            	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:611:42: ( '0' .. '9' )+
+            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:611:42: ( '0' .. '9' )+
             	int cnt19 = 0;
             	do 
             	{
@@ -2098,7 +2198,7 @@ public partial class simpletikzLexer : Lexer {
             	    switch (alt19) 
             		{
             			case 1 :
-            			    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:611:43: '0' .. '9'
+            			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:611:43: '0' .. '9'
             			    {
             			    	MatchRange('0','9'); 
 
@@ -2134,11 +2234,11 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = MATHSTRING;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:618:2: ( '$' ( ESC_SEQ | ~ ( '\\\\' | '$' ) )* '$' )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:618:4: '$' ( ESC_SEQ | ~ ( '\\\\' | '$' ) )* '$'
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:618:2: ( '$' ( ESC_SEQ | ~ ( '\\\\' | '$' ) )* '$' )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:618:4: '$' ( ESC_SEQ | ~ ( '\\\\' | '$' ) )* '$'
             {
             	Match('$'); 
-            	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:618:8: ( ESC_SEQ | ~ ( '\\\\' | '$' ) )*
+            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:618:8: ( ESC_SEQ | ~ ( '\\\\' | '$' ) )*
             	do 
             	{
             	    int alt20 = 3;
@@ -2157,14 +2257,14 @@ public partial class simpletikzLexer : Lexer {
             	    switch (alt20) 
             		{
             			case 1 :
-            			    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:618:10: ESC_SEQ
+            			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:618:10: ESC_SEQ
             			    {
             			    	mESC_SEQ(); 
 
             			    }
             			    break;
             			case 2 :
-            			    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:618:20: ~ ( '\\\\' | '$' )
+            			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:618:20: ~ ( '\\\\' | '$' )
             			    {
             			    	if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '#') || (input.LA(1) >= '%' && input.LA(1) <= '[') || (input.LA(1) >= ']' && input.LA(1) <= '\uFFFF') ) 
             			    	{
@@ -2209,8 +2309,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = COMMAND;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:629:2: ( '\\\\' ID )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:629:4: '\\\\' ID
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:629:2: ( '\\\\' ID )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:629:4: '\\\\' ID
             {
             	Match('\\'); 
             	mID(); 
@@ -2233,8 +2333,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = ESC_SEQ;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:634:5: ( '\\\\' . )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:634:9: '\\\\' .
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:634:5: ( '\\\\' . )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:634:9: '\\\\' .
             {
             	Match('\\'); 
             	MatchAny(); 
@@ -2257,8 +2357,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = SOMETHING;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:640:2: ( . )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:640:5: .
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:640:2: ( . )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:640:5: .
             {
             	MatchAny(); 
 
@@ -2280,12 +2380,12 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = SOMETHING1;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:644:2: ( '/.' ( 'a' .. 'z' | 'A' .. 'Z' )* )
-            // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:644:7: '/.' ( 'a' .. 'z' | 'A' .. 'Z' )*
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:644:2: ( '/.' ( 'a' .. 'z' | 'A' .. 'Z' )* )
+            // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:644:7: '/.' ( 'a' .. 'z' | 'A' .. 'Z' )*
             {
             	Match("/."); 
 
-            	// C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:644:12: ( 'a' .. 'z' | 'A' .. 'Z' )*
+            	// C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:644:12: ( 'a' .. 'z' | 'A' .. 'Z' )*
             	do 
             	{
             	    int alt21 = 2;
@@ -2300,7 +2400,7 @@ public partial class simpletikzLexer : Lexer {
             	    switch (alt21) 
             		{
             			case 1 :
-            			    // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:
+            			    // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:
             			    {
             			    	if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z') || (input.LA(1) >= 'a' && input.LA(1) <= 'z') ) 
             			    	{
@@ -2339,440 +2439,468 @@ public partial class simpletikzLexer : Lexer {
 
     override public void mTokens() // throws RecognitionException 
     {
-        // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:8: ( T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | ID | INT | FLOAT_WO_EXP | TIKZEDT_CMD_COMMENT | COMMENT | WS | MATHSTRING | COMMAND | ESC_SEQ | SOMETHING | SOMETHING1 )
-        int alt22 = 62;
+        // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:8: ( T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | ID | INT | FLOAT_WO_EXP | TIKZEDT_CMD_COMMENT | COMMENT | WS | MATHSTRING | COMMAND | ESC_SEQ | SOMETHING | SOMETHING1 )
+        int alt22 = 66;
         alt22 = dfa22.Predict(input);
         switch (alt22) 
         {
             case 1 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:10: T__39
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:10: T__39
                 {
                 	mT__39(); 
 
                 }
                 break;
             case 2 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:16: T__40
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:16: T__40
                 {
                 	mT__40(); 
 
                 }
                 break;
             case 3 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:22: T__41
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:22: T__41
                 {
                 	mT__41(); 
 
                 }
                 break;
             case 4 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:28: T__42
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:28: T__42
                 {
                 	mT__42(); 
 
                 }
                 break;
             case 5 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:34: T__43
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:34: T__43
                 {
                 	mT__43(); 
 
                 }
                 break;
             case 6 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:40: T__44
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:40: T__44
                 {
                 	mT__44(); 
 
                 }
                 break;
             case 7 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:46: T__45
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:46: T__45
                 {
                 	mT__45(); 
 
                 }
                 break;
             case 8 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:52: T__46
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:52: T__46
                 {
                 	mT__46(); 
 
                 }
                 break;
             case 9 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:58: T__47
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:58: T__47
                 {
                 	mT__47(); 
 
                 }
                 break;
             case 10 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:64: T__48
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:64: T__48
                 {
                 	mT__48(); 
 
                 }
                 break;
             case 11 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:70: T__49
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:70: T__49
                 {
                 	mT__49(); 
 
                 }
                 break;
             case 12 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:76: T__50
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:76: T__50
                 {
                 	mT__50(); 
 
                 }
                 break;
             case 13 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:82: T__51
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:82: T__51
                 {
                 	mT__51(); 
 
                 }
                 break;
             case 14 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:88: T__52
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:88: T__52
                 {
                 	mT__52(); 
 
                 }
                 break;
             case 15 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:94: T__53
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:94: T__53
                 {
                 	mT__53(); 
 
                 }
                 break;
             case 16 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:100: T__54
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:100: T__54
                 {
                 	mT__54(); 
 
                 }
                 break;
             case 17 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:106: T__55
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:106: T__55
                 {
                 	mT__55(); 
 
                 }
                 break;
             case 18 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:112: T__56
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:112: T__56
                 {
                 	mT__56(); 
 
                 }
                 break;
             case 19 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:118: T__57
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:118: T__57
                 {
                 	mT__57(); 
 
                 }
                 break;
             case 20 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:124: T__58
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:124: T__58
                 {
                 	mT__58(); 
 
                 }
                 break;
             case 21 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:130: T__59
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:130: T__59
                 {
                 	mT__59(); 
 
                 }
                 break;
             case 22 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:136: T__60
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:136: T__60
                 {
                 	mT__60(); 
 
                 }
                 break;
             case 23 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:142: T__61
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:142: T__61
                 {
                 	mT__61(); 
 
                 }
                 break;
             case 24 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:148: T__62
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:148: T__62
                 {
                 	mT__62(); 
 
                 }
                 break;
             case 25 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:154: T__63
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:154: T__63
                 {
                 	mT__63(); 
 
                 }
                 break;
             case 26 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:160: T__64
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:160: T__64
                 {
                 	mT__64(); 
 
                 }
                 break;
             case 27 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:166: T__65
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:166: T__65
                 {
                 	mT__65(); 
 
                 }
                 break;
             case 28 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:172: T__66
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:172: T__66
                 {
                 	mT__66(); 
 
                 }
                 break;
             case 29 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:178: T__67
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:178: T__67
                 {
                 	mT__67(); 
 
                 }
                 break;
             case 30 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:184: T__68
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:184: T__68
                 {
                 	mT__68(); 
 
                 }
                 break;
             case 31 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:190: T__69
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:190: T__69
                 {
                 	mT__69(); 
 
                 }
                 break;
             case 32 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:196: T__70
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:196: T__70
                 {
                 	mT__70(); 
 
                 }
                 break;
             case 33 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:202: T__71
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:202: T__71
                 {
                 	mT__71(); 
 
                 }
                 break;
             case 34 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:208: T__72
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:208: T__72
                 {
                 	mT__72(); 
 
                 }
                 break;
             case 35 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:214: T__73
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:214: T__73
                 {
                 	mT__73(); 
 
                 }
                 break;
             case 36 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:220: T__74
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:220: T__74
                 {
                 	mT__74(); 
 
                 }
                 break;
             case 37 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:226: T__75
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:226: T__75
                 {
                 	mT__75(); 
 
                 }
                 break;
             case 38 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:232: T__76
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:232: T__76
                 {
                 	mT__76(); 
 
                 }
                 break;
             case 39 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:238: T__77
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:238: T__77
                 {
                 	mT__77(); 
 
                 }
                 break;
             case 40 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:244: T__78
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:244: T__78
                 {
                 	mT__78(); 
 
                 }
                 break;
             case 41 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:250: T__79
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:250: T__79
                 {
                 	mT__79(); 
 
                 }
                 break;
             case 42 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:256: T__80
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:256: T__80
                 {
                 	mT__80(); 
 
                 }
                 break;
             case 43 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:262: T__81
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:262: T__81
                 {
                 	mT__81(); 
 
                 }
                 break;
             case 44 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:268: T__82
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:268: T__82
                 {
                 	mT__82(); 
 
                 }
                 break;
             case 45 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:274: T__83
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:274: T__83
                 {
                 	mT__83(); 
 
                 }
                 break;
             case 46 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:280: T__84
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:280: T__84
                 {
                 	mT__84(); 
 
                 }
                 break;
             case 47 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:286: T__85
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:286: T__85
                 {
                 	mT__85(); 
 
                 }
                 break;
             case 48 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:292: T__86
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:292: T__86
                 {
                 	mT__86(); 
 
                 }
                 break;
             case 49 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:298: T__87
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:298: T__87
                 {
                 	mT__87(); 
 
                 }
                 break;
             case 50 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:304: T__88
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:304: T__88
                 {
                 	mT__88(); 
 
                 }
                 break;
             case 51 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:310: T__89
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:310: T__89
                 {
                 	mT__89(); 
 
                 }
                 break;
             case 52 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:316: ID
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:316: T__90
+                {
+                	mT__90(); 
+
+                }
+                break;
+            case 53 :
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:322: T__91
+                {
+                	mT__91(); 
+
+                }
+                break;
+            case 54 :
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:328: T__92
+                {
+                	mT__92(); 
+
+                }
+                break;
+            case 55 :
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:334: T__93
+                {
+                	mT__93(); 
+
+                }
+                break;
+            case 56 :
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:340: ID
                 {
                 	mID(); 
 
                 }
                 break;
-            case 53 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:319: INT
+            case 57 :
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:343: INT
                 {
                 	mINT(); 
 
                 }
                 break;
-            case 54 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:323: FLOAT_WO_EXP
+            case 58 :
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:347: FLOAT_WO_EXP
                 {
                 	mFLOAT_WO_EXP(); 
 
                 }
                 break;
-            case 55 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:336: TIKZEDT_CMD_COMMENT
+            case 59 :
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:360: TIKZEDT_CMD_COMMENT
                 {
                 	mTIKZEDT_CMD_COMMENT(); 
 
                 }
                 break;
-            case 56 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:356: COMMENT
+            case 60 :
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:380: COMMENT
                 {
                 	mCOMMENT(); 
 
                 }
                 break;
-            case 57 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:364: WS
+            case 61 :
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:388: WS
                 {
                 	mWS(); 
 
                 }
                 break;
-            case 58 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:367: MATHSTRING
+            case 62 :
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:391: MATHSTRING
                 {
                 	mMATHSTRING(); 
 
                 }
                 break;
-            case 59 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:378: COMMAND
+            case 63 :
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:402: COMMAND
                 {
                 	mCOMMAND(); 
 
                 }
                 break;
-            case 60 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:386: ESC_SEQ
+            case 64 :
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:410: ESC_SEQ
                 {
                 	mESC_SEQ(); 
 
                 }
                 break;
-            case 61 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:394: SOMETHING
+            case 65 :
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:418: SOMETHING
                 {
                 	mSOMETHING(); 
 
                 }
                 break;
-            case 62 :
-                // C:\\Users\\alw\\Documents\\Visual Studio 2010\\Projects\\trunk\\TikzParser\\simpletikz.g:1:404: SOMETHING1
+            case 66 :
+                // C:\\Users\\thomas\\Documents\\Visual Studio 2010\\Projects\\tikzedt\\trunk\\TikzParser\\simpletikz.g:1:428: SOMETHING1
                 {
                 	mSOMETHING1(); 
 
@@ -2798,44 +2926,44 @@ public partial class simpletikzLexer : Lexer {
 	}
 
     const string DFA17_eotS =
-        "\x07\uffff\x01\x03\x0a\uffff";
+        "\x06\uffff\x01\x03\x0b\uffff";
     const string DFA17_eofS =
         "\x12\uffff";
     const string DFA17_minS =
-        "\x01\x25\x02\x00\x01\uffff\x06\x00\x01\uffff\x03\x00\x01\uffff"+
-        "\x03\x00";
+        "\x01\x25\x02\x00\x01\uffff\x05\x00\x01\uffff\x03\x00\x01\uffff"+
+        "\x04\x00";
     const string DFA17_maxS =
-        "\x01\x25\x02\uffff\x01\uffff\x06\uffff\x01\uffff\x03\uffff\x01"+
-        "\uffff\x03\uffff";
+        "\x01\x25\x02\uffff\x01\uffff\x05\uffff\x01\uffff\x03\uffff\x01"+
+        "\uffff\x04\uffff";
     const string DFA17_acceptS =
-        "\x03\uffff\x01\x01\x06\uffff\x01\x02\x03\uffff\x01\x01\x03\uffff";
+        "\x03\uffff\x01\x01\x05\uffff\x01\x02\x03\uffff\x01\x01\x04\uffff";
     const string DFA17_specialS =
-        "\x01\uffff\x01\x03\x01\x00\x01\uffff\x01\x01\x01\x0d\x01\x06\x01"+
-        "\x02\x01\x0b\x01\x0c\x01\uffff\x01\x04\x01\x09\x01\x08\x01\uffff"+
-        "\x01\x05\x01\x07\x01\x0a}>";
+        "\x01\uffff\x01\x08\x01\x07\x01\uffff\x01\x06\x01\x09\x01\x04\x01"+
+        "\x0b\x01\x0c\x01\uffff\x01\x0a\x01\x03\x01\x02\x01\uffff\x01\x0d"+
+        "\x01\x00\x01\x01\x01\x05}>";
     static readonly string[] DFA17_transitionS = {
             "\x01\x01",
             "\x2f\x03\x01\x02\uffd0\x03",
             "\x2a\x03\x01\x04\uffd5\x03",
             "",
-            "\x0a\x08\x01\x07\x02\x08\x01\x06\x17\x08\x01\x05\uffda\x08",
-            "\x0a\x08\x01\x07\x02\x08\x01\x06\x17\x08\x01\x05\x04\x08\x01"+
-            "\x09\uffd5\x08",
-            "\x0a\x0a\x01\x07\ufff5\x0a",
-            "\x00\x0a",
-            "\x0a\x08\x01\x07\x02\x08\x01\x06\x17\x08\x01\x05\uffda\x08",
-            "\x0a\x08\x01\x07\x02\x08\x01\x06\x17\x08\x01\x05\x09\x08\x01"+
+            "\x0a\x08\x01\x06\x02\x08\x01\x05\x17\x08\x01\x07\uffda\x08",
+            "\x0a\x09\x01\x06\ufff5\x09",
+            "\x00\x09",
+            "\x0a\x08\x01\x06\x02\x08\x01\x05\x17\x08\x01\x07\x04\x08\x01"+
+            "\x0a\uffd5\x08",
+            "\x0a\x08\x01\x06\x02\x08\x01\x05\x17\x08\x01\x07\uffda\x08",
+            "",
+            "\x0a\x08\x01\x06\x02\x08\x01\x05\x17\x08\x01\x07\x09\x08\x01"+
             "\x0b\uffd0\x08",
+            "\x0a\x0f\x01\x0d\x02\x0f\x01\x0c\x17\x0f\x01\x0e\uffda\x0f",
+            "\x0a\x09\x01\x0d\ufff5\x09",
             "",
-            "\x0a\x0f\x01\x0e\x02\x0f\x01\x0d\x17\x0f\x01\x0c\uffda\x0f",
-            "\x0a\x0f\x01\x0e\x02\x0f\x01\x0d\x17\x0f\x01\x0c\x04\x0f\x01"+
+            "\x0a\x0f\x01\x0d\x02\x0f\x01\x0c\x17\x0f\x01\x0e\x04\x0f\x01"+
             "\x10\uffd5\x0f",
-            "\x0a\x0a\x01\x0e\ufff5\x0a",
-            "",
-            "\x0a\x0f\x01\x0e\x02\x0f\x01\x0d\x17\x0f\x01\x0c\uffda\x0f",
-            "\x0a\x0f\x01\x0e\x02\x0f\x01\x0d\x17\x0f\x01\x0c\x09\x0f\x01"+
+            "\x0a\x0f\x01\x0d\x02\x0f\x01\x0c\x17\x0f\x01\x0e\uffda\x0f",
+            "\x0a\x0f\x01\x0d\x02\x0f\x01\x0c\x17\x0f\x01\x0e\x09\x0f\x01"+
             "\x11\uffd0\x0f",
-            "\x0a\x0f\x01\x0e\x02\x0f\x01\x0d\x17\x0f\x01\x0c\uffda\x0f"
+            "\x0a\x0f\x01\x0d\x02\x0f\x01\x0c\x17\x0f\x01\x0e\uffda\x0f"
     };
 
     static readonly short[] DFA17_eot = DFA.UnpackEncodedString(DFA17_eotS);
@@ -2877,6 +3005,98 @@ public partial class simpletikzLexer : Lexer {
         switch ( s )
         {
                	case 0 : 
+                   	int LA17_15 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA17_15 == '\r') ) { s = 12; }
+
+                   	else if ( (LA17_15 == '\n') ) { s = 13; }
+
+                   	else if ( (LA17_15 == '%') ) { s = 14; }
+
+                   	else if ( ((LA17_15 >= '\u0000' && LA17_15 <= '\t') || (LA17_15 >= '\u000B' && LA17_15 <= '\f') || (LA17_15 >= '\u000E' && LA17_15 <= '$') || (LA17_15 >= '&' && LA17_15 <= '\uFFFF')) ) { s = 15; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 1 : 
+                   	int LA17_16 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA17_16 == '/') ) { s = 17; }
+
+                   	else if ( (LA17_16 == '\r') ) { s = 12; }
+
+                   	else if ( (LA17_16 == '\n') ) { s = 13; }
+
+                   	else if ( (LA17_16 == '%') ) { s = 14; }
+
+                   	else if ( ((LA17_16 >= '\u0000' && LA17_16 <= '\t') || (LA17_16 >= '\u000B' && LA17_16 <= '\f') || (LA17_16 >= '\u000E' && LA17_16 <= '$') || (LA17_16 >= '&' && LA17_16 <= '.') || (LA17_16 >= '0' && LA17_16 <= '\uFFFF')) ) { s = 15; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 2 : 
+                   	int LA17_12 = input.LA(1);
+
+                   	s = -1;
+                   	if ( ((LA17_12 >= '\u0000' && LA17_12 <= '\t') || (LA17_12 >= '\u000B' && LA17_12 <= '\uFFFF')) ) { s = 9; }
+
+                   	else if ( (LA17_12 == '\n') ) { s = 13; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 3 : 
+                   	int LA17_11 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA17_11 == '\r') ) { s = 12; }
+
+                   	else if ( (LA17_11 == '\n') ) { s = 13; }
+
+                   	else if ( (LA17_11 == '%') ) { s = 14; }
+
+                   	else if ( ((LA17_11 >= '\u0000' && LA17_11 <= '\t') || (LA17_11 >= '\u000B' && LA17_11 <= '\f') || (LA17_11 >= '\u000E' && LA17_11 <= '$') || (LA17_11 >= '&' && LA17_11 <= '\uFFFF')) ) { s = 15; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 4 : 
+                   	int LA17_6 = input.LA(1);
+
+                   	s = -1;
+                   	if ( ((LA17_6 >= '\u0000' && LA17_6 <= '\uFFFF')) ) { s = 9; }
+
+                   	else s = 3;
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 5 : 
+                   	int LA17_17 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA17_17 == '\r') ) { s = 12; }
+
+                   	else if ( (LA17_17 == '\n') ) { s = 13; }
+
+                   	else if ( (LA17_17 == '%') ) { s = 14; }
+
+                   	else if ( ((LA17_17 >= '\u0000' && LA17_17 <= '\t') || (LA17_17 >= '\u000B' && LA17_17 <= '\f') || (LA17_17 >= '\u000E' && LA17_17 <= '$') || (LA17_17 >= '&' && LA17_17 <= '\uFFFF')) ) { s = 15; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 6 : 
+                   	int LA17_4 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA17_4 == '\r') ) { s = 5; }
+
+                   	else if ( (LA17_4 == '\n') ) { s = 6; }
+
+                   	else if ( (LA17_4 == '%') ) { s = 7; }
+
+                   	else if ( ((LA17_4 >= '\u0000' && LA17_4 <= '\t') || (LA17_4 >= '\u000B' && LA17_4 <= '\f') || (LA17_4 >= '\u000E' && LA17_4 <= '$') || (LA17_4 >= '&' && LA17_4 <= '\uFFFF')) ) { s = 8; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 7 : 
                    	int LA17_2 = input.LA(1);
 
                    	s = -1;
@@ -2886,31 +3106,7 @@ public partial class simpletikzLexer : Lexer {
 
                    	if ( s >= 0 ) return s;
                    	break;
-               	case 1 : 
-                   	int LA17_4 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA17_4 == '%') ) { s = 5; }
-
-                   	else if ( (LA17_4 == '\r') ) { s = 6; }
-
-                   	else if ( (LA17_4 == '\n') ) { s = 7; }
-
-                   	else if ( ((LA17_4 >= '\u0000' && LA17_4 <= '\t') || (LA17_4 >= '\u000B' && LA17_4 <= '\f') || (LA17_4 >= '\u000E' && LA17_4 <= '$') || (LA17_4 >= '&' && LA17_4 <= '\uFFFF')) ) { s = 8; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 2 : 
-                   	int LA17_7 = input.LA(1);
-
-                   	s = -1;
-                   	if ( ((LA17_7 >= '\u0000' && LA17_7 <= '\uFFFF')) ) { s = 10; }
-
-                   	else s = 3;
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 3 : 
+               	case 8 : 
                    	int LA17_1 = input.LA(1);
 
                    	s = -1;
@@ -2920,143 +3116,75 @@ public partial class simpletikzLexer : Lexer {
 
                    	if ( s >= 0 ) return s;
                    	break;
-               	case 4 : 
-                   	int LA17_11 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA17_11 == '%') ) { s = 12; }
-
-                   	else if ( (LA17_11 == '\r') ) { s = 13; }
-
-                   	else if ( (LA17_11 == '\n') ) { s = 14; }
-
-                   	else if ( ((LA17_11 >= '\u0000' && LA17_11 <= '\t') || (LA17_11 >= '\u000B' && LA17_11 <= '\f') || (LA17_11 >= '\u000E' && LA17_11 <= '$') || (LA17_11 >= '&' && LA17_11 <= '\uFFFF')) ) { s = 15; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 5 : 
-                   	int LA17_15 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA17_15 == '%') ) { s = 12; }
-
-                   	else if ( (LA17_15 == '\r') ) { s = 13; }
-
-                   	else if ( (LA17_15 == '\n') ) { s = 14; }
-
-                   	else if ( ((LA17_15 >= '\u0000' && LA17_15 <= '\t') || (LA17_15 >= '\u000B' && LA17_15 <= '\f') || (LA17_15 >= '\u000E' && LA17_15 <= '$') || (LA17_15 >= '&' && LA17_15 <= '\uFFFF')) ) { s = 15; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 6 : 
-                   	int LA17_6 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA17_6 == '\n') ) { s = 7; }
-
-                   	else if ( ((LA17_6 >= '\u0000' && LA17_6 <= '\t') || (LA17_6 >= '\u000B' && LA17_6 <= '\uFFFF')) ) { s = 10; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 7 : 
-                   	int LA17_16 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA17_16 == '/') ) { s = 17; }
-
-                   	else if ( (LA17_16 == '%') ) { s = 12; }
-
-                   	else if ( (LA17_16 == '\r') ) { s = 13; }
-
-                   	else if ( (LA17_16 == '\n') ) { s = 14; }
-
-                   	else if ( ((LA17_16 >= '\u0000' && LA17_16 <= '\t') || (LA17_16 >= '\u000B' && LA17_16 <= '\f') || (LA17_16 >= '\u000E' && LA17_16 <= '$') || (LA17_16 >= '&' && LA17_16 <= '.') || (LA17_16 >= '0' && LA17_16 <= '\uFFFF')) ) { s = 15; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 8 : 
-                   	int LA17_13 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA17_13 == '\n') ) { s = 14; }
-
-                   	else if ( ((LA17_13 >= '\u0000' && LA17_13 <= '\t') || (LA17_13 >= '\u000B' && LA17_13 <= '\uFFFF')) ) { s = 10; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
                	case 9 : 
-                   	int LA17_12 = input.LA(1);
+                   	int LA17_5 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_12 == '*') ) { s = 16; }
+                   	if ( ((LA17_5 >= '\u0000' && LA17_5 <= '\t') || (LA17_5 >= '\u000B' && LA17_5 <= '\uFFFF')) ) { s = 9; }
 
-                   	else if ( (LA17_12 == '%') ) { s = 12; }
-
-                   	else if ( (LA17_12 == '\r') ) { s = 13; }
-
-                   	else if ( (LA17_12 == '\n') ) { s = 14; }
-
-                   	else if ( ((LA17_12 >= '\u0000' && LA17_12 <= '\t') || (LA17_12 >= '\u000B' && LA17_12 <= '\f') || (LA17_12 >= '\u000E' && LA17_12 <= '$') || (LA17_12 >= '&' && LA17_12 <= ')') || (LA17_12 >= '+' && LA17_12 <= '\uFFFF')) ) { s = 15; }
+                   	else if ( (LA17_5 == '\n') ) { s = 6; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 10 : 
-                   	int LA17_17 = input.LA(1);
+                   	int LA17_10 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_17 == '%') ) { s = 12; }
+                   	if ( (LA17_10 == '/') ) { s = 11; }
 
-                   	else if ( (LA17_17 == '\r') ) { s = 13; }
+                   	else if ( (LA17_10 == '\r') ) { s = 5; }
 
-                   	else if ( (LA17_17 == '\n') ) { s = 14; }
+                   	else if ( (LA17_10 == '\n') ) { s = 6; }
 
-                   	else if ( ((LA17_17 >= '\u0000' && LA17_17 <= '\t') || (LA17_17 >= '\u000B' && LA17_17 <= '\f') || (LA17_17 >= '\u000E' && LA17_17 <= '$') || (LA17_17 >= '&' && LA17_17 <= '\uFFFF')) ) { s = 15; }
+                   	else if ( (LA17_10 == '%') ) { s = 7; }
+
+                   	else if ( ((LA17_10 >= '\u0000' && LA17_10 <= '\t') || (LA17_10 >= '\u000B' && LA17_10 <= '\f') || (LA17_10 >= '\u000E' && LA17_10 <= '$') || (LA17_10 >= '&' && LA17_10 <= '.') || (LA17_10 >= '0' && LA17_10 <= '\uFFFF')) ) { s = 8; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 11 : 
+                   	int LA17_7 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA17_7 == '*') ) { s = 10; }
+
+                   	else if ( (LA17_7 == '\r') ) { s = 5; }
+
+                   	else if ( (LA17_7 == '\n') ) { s = 6; }
+
+                   	else if ( (LA17_7 == '%') ) { s = 7; }
+
+                   	else if ( ((LA17_7 >= '\u0000' && LA17_7 <= '\t') || (LA17_7 >= '\u000B' && LA17_7 <= '\f') || (LA17_7 >= '\u000E' && LA17_7 <= '$') || (LA17_7 >= '&' && LA17_7 <= ')') || (LA17_7 >= '+' && LA17_7 <= '\uFFFF')) ) { s = 8; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 12 : 
                    	int LA17_8 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_8 == '%') ) { s = 5; }
+                   	if ( (LA17_8 == '\r') ) { s = 5; }
 
-                   	else if ( (LA17_8 == '\r') ) { s = 6; }
+                   	else if ( (LA17_8 == '\n') ) { s = 6; }
 
-                   	else if ( (LA17_8 == '\n') ) { s = 7; }
+                   	else if ( (LA17_8 == '%') ) { s = 7; }
 
                    	else if ( ((LA17_8 >= '\u0000' && LA17_8 <= '\t') || (LA17_8 >= '\u000B' && LA17_8 <= '\f') || (LA17_8 >= '\u000E' && LA17_8 <= '$') || (LA17_8 >= '&' && LA17_8 <= '\uFFFF')) ) { s = 8; }
 
                    	if ( s >= 0 ) return s;
                    	break;
-               	case 12 : 
-                   	int LA17_9 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA17_9 == '/') ) { s = 11; }
-
-                   	else if ( (LA17_9 == '%') ) { s = 5; }
-
-                   	else if ( (LA17_9 == '\r') ) { s = 6; }
-
-                   	else if ( (LA17_9 == '\n') ) { s = 7; }
-
-                   	else if ( ((LA17_9 >= '\u0000' && LA17_9 <= '\t') || (LA17_9 >= '\u000B' && LA17_9 <= '\f') || (LA17_9 >= '\u000E' && LA17_9 <= '$') || (LA17_9 >= '&' && LA17_9 <= '.') || (LA17_9 >= '0' && LA17_9 <= '\uFFFF')) ) { s = 8; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
                	case 13 : 
-                   	int LA17_5 = input.LA(1);
+                   	int LA17_14 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_5 == '*') ) { s = 9; }
+                   	if ( (LA17_14 == '*') ) { s = 16; }
 
-                   	else if ( (LA17_5 == '%') ) { s = 5; }
+                   	else if ( (LA17_14 == '\r') ) { s = 12; }
 
-                   	else if ( (LA17_5 == '\r') ) { s = 6; }
+                   	else if ( (LA17_14 == '\n') ) { s = 13; }
 
-                   	else if ( (LA17_5 == '\n') ) { s = 7; }
+                   	else if ( (LA17_14 == '%') ) { s = 14; }
 
-                   	else if ( ((LA17_5 >= '\u0000' && LA17_5 <= '\t') || (LA17_5 >= '\u000B' && LA17_5 <= '\f') || (LA17_5 >= '\u000E' && LA17_5 <= '$') || (LA17_5 >= '&' && LA17_5 <= ')') || (LA17_5 >= '+' && LA17_5 <= '\uFFFF')) ) { s = 8; }
+                   	else if ( ((LA17_14 >= '\u0000' && LA17_14 <= '\t') || (LA17_14 >= '\u000B' && LA17_14 <= '\f') || (LA17_14 >= '\u000E' && LA17_14 <= '$') || (LA17_14 >= '&' && LA17_14 <= ')') || (LA17_14 >= '+' && LA17_14 <= '\uFFFF')) ) { s = 15; }
 
                    	if ( s >= 0 ) return s;
                    	break;
@@ -3071,27 +3199,27 @@ public partial class simpletikzLexer : Lexer {
     const string DFA14_eofS =
         "\x0c\uffff";
     const string DFA14_minS =
-        "\x02\x00\x01\uffff\x04\x00\x01\uffff\x02\x00\x02\uffff";
+        "\x02\x00\x01\uffff\x05\x00\x01\uffff\x01\x00\x02\uffff";
     const string DFA14_maxS =
-        "\x02\uffff\x01\uffff\x04\uffff\x01\uffff\x02\uffff\x02\uffff";
+        "\x02\uffff\x01\uffff\x05\uffff\x01\uffff\x01\uffff\x02\uffff";
     const string DFA14_acceptS =
-        "\x02\uffff\x01\x01\x04\uffff\x01\x02\x02\uffff\x02\x02";
+        "\x02\uffff\x01\x01\x05\uffff\x01\x02\x01\uffff\x02\x02";
     const string DFA14_specialS =
-        "\x01\x06\x01\x01\x01\uffff\x01\x02\x01\x00\x01\x05\x01\x07\x01"+
-        "\uffff\x01\x04\x01\x03\x02\uffff}>";
+        "\x01\x02\x01\x04\x01\uffff\x01\x05\x01\x06\x01\x01\x01\x03\x01"+
+        "\x07\x01\uffff\x01\x00\x02\uffff}>";
     static readonly string[] DFA14_transitionS = {
             "\x25\x02\x01\x01\uffda\x02",
             "\x2a\x02\x01\x03\uffd5\x02",
             "",
             "\x2f\x02\x01\x04\uffd0\x02",
-            "\x0a\x08\x01\x07\x02\x08\x01\x06\x17\x08\x01\x05\uffda\x08",
-            "\x0a\x08\x01\x07\x02\x08\x01\x06\x17\x08\x01\x05\x04\x08\x01"+
-            "\x09\uffd5\x08",
-            "\x0a\x02\x01\x07\ufff5\x02",
+            "\x0a\x06\x01\x08\x02\x06\x01\x07\x17\x06\x01\x05\uffda\x06",
+            "\x0a\x06\x01\x08\x02\x06\x01\x07\x17\x06\x01\x05\x04\x06\x01"+
+            "\x09\uffd5\x06",
+            "\x0a\x06\x01\x08\x02\x06\x01\x07\x17\x06\x01\x05\uffda\x06",
+            "\x0a\x02\x01\x08\ufff5\x02",
             "",
-            "\x0a\x08\x01\x0a\x02\x08\x01\x06\x17\x08\x01\x05\uffda\x08",
-            "\x0a\x08\x01\x0a\x02\x08\x01\x06\x17\x08\x01\x05\x09\x08\x01"+
-            "\x0b\uffd0\x08",
+            "\x0a\x06\x01\x0b\x02\x06\x01\x07\x17\x06\x01\x05\x09\x06\x01"+
+            "\x0a\uffd0\x06",
             "",
             ""
     };
@@ -3135,86 +3263,38 @@ public partial class simpletikzLexer : Lexer {
         switch ( s )
         {
                	case 0 : 
-                   	int LA14_4 = input.LA(1);
+                   	int LA14_9 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA14_4 == '%') ) { s = 5; }
+                   	if ( (LA14_9 == '/') ) { s = 10; }
 
-                   	else if ( (LA14_4 == '\r') ) { s = 6; }
+                   	else if ( (LA14_9 == '\r') ) { s = 7; }
 
-                   	else if ( (LA14_4 == '\n') ) { s = 7; }
+                   	else if ( (LA14_9 == '\n') ) { s = 11; }
 
-                   	else if ( ((LA14_4 >= '\u0000' && LA14_4 <= '\t') || (LA14_4 >= '\u000B' && LA14_4 <= '\f') || (LA14_4 >= '\u000E' && LA14_4 <= '$') || (LA14_4 >= '&' && LA14_4 <= '\uFFFF')) ) { s = 8; }
+                   	else if ( (LA14_9 == '%') ) { s = 5; }
+
+                   	else if ( ((LA14_9 >= '\u0000' && LA14_9 <= '\t') || (LA14_9 >= '\u000B' && LA14_9 <= '\f') || (LA14_9 >= '\u000E' && LA14_9 <= '$') || (LA14_9 >= '&' && LA14_9 <= '.') || (LA14_9 >= '0' && LA14_9 <= '\uFFFF')) ) { s = 6; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 1 : 
-                   	int LA14_1 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA14_1 == '*') ) { s = 3; }
-
-                   	else if ( ((LA14_1 >= '\u0000' && LA14_1 <= ')') || (LA14_1 >= '+' && LA14_1 <= '\uFFFF')) ) { s = 2; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 2 : 
-                   	int LA14_3 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA14_3 == '/') ) { s = 4; }
-
-                   	else if ( ((LA14_3 >= '\u0000' && LA14_3 <= '.') || (LA14_3 >= '0' && LA14_3 <= '\uFFFF')) ) { s = 2; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 3 : 
-                   	int LA14_9 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA14_9 == '/') ) { s = 11; }
-
-                   	else if ( (LA14_9 == '%') ) { s = 5; }
-
-                   	else if ( (LA14_9 == '\r') ) { s = 6; }
-
-                   	else if ( (LA14_9 == '\n') ) { s = 10; }
-
-                   	else if ( ((LA14_9 >= '\u0000' && LA14_9 <= '\t') || (LA14_9 >= '\u000B' && LA14_9 <= '\f') || (LA14_9 >= '\u000E' && LA14_9 <= '$') || (LA14_9 >= '&' && LA14_9 <= '.') || (LA14_9 >= '0' && LA14_9 <= '\uFFFF')) ) { s = 8; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 4 : 
-                   	int LA14_8 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA14_8 == '%') ) { s = 5; }
-
-                   	else if ( (LA14_8 == '\r') ) { s = 6; }
-
-                   	else if ( (LA14_8 == '\n') ) { s = 10; }
-
-                   	else if ( ((LA14_8 >= '\u0000' && LA14_8 <= '\t') || (LA14_8 >= '\u000B' && LA14_8 <= '\f') || (LA14_8 >= '\u000E' && LA14_8 <= '$') || (LA14_8 >= '&' && LA14_8 <= '\uFFFF')) ) { s = 8; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 5 : 
                    	int LA14_5 = input.LA(1);
 
                    	s = -1;
                    	if ( (LA14_5 == '*') ) { s = 9; }
 
+                   	else if ( (LA14_5 == '\r') ) { s = 7; }
+
+                   	else if ( (LA14_5 == '\n') ) { s = 8; }
+
                    	else if ( (LA14_5 == '%') ) { s = 5; }
 
-                   	else if ( (LA14_5 == '\r') ) { s = 6; }
-
-                   	else if ( (LA14_5 == '\n') ) { s = 7; }
-
-                   	else if ( ((LA14_5 >= '\u0000' && LA14_5 <= '\t') || (LA14_5 >= '\u000B' && LA14_5 <= '\f') || (LA14_5 >= '\u000E' && LA14_5 <= '$') || (LA14_5 >= '&' && LA14_5 <= ')') || (LA14_5 >= '+' && LA14_5 <= '\uFFFF')) ) { s = 8; }
+                   	else if ( ((LA14_5 >= '\u0000' && LA14_5 <= '\t') || (LA14_5 >= '\u000B' && LA14_5 <= '\f') || (LA14_5 >= '\u000E' && LA14_5 <= '$') || (LA14_5 >= '&' && LA14_5 <= ')') || (LA14_5 >= '+' && LA14_5 <= '\uFFFF')) ) { s = 6; }
 
                    	if ( s >= 0 ) return s;
                    	break;
-               	case 6 : 
+               	case 2 : 
                    	int LA14_0 = input.LA(1);
 
                    	s = -1;
@@ -3224,13 +3304,61 @@ public partial class simpletikzLexer : Lexer {
 
                    	if ( s >= 0 ) return s;
                    	break;
-               	case 7 : 
+               	case 3 : 
                    	int LA14_6 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA14_6 == '\n') ) { s = 7; }
+                   	if ( (LA14_6 == '\r') ) { s = 7; }
 
-                   	else if ( ((LA14_6 >= '\u0000' && LA14_6 <= '\t') || (LA14_6 >= '\u000B' && LA14_6 <= '\uFFFF')) ) { s = 2; }
+                   	else if ( (LA14_6 == '\n') ) { s = 8; }
+
+                   	else if ( (LA14_6 == '%') ) { s = 5; }
+
+                   	else if ( ((LA14_6 >= '\u0000' && LA14_6 <= '\t') || (LA14_6 >= '\u000B' && LA14_6 <= '\f') || (LA14_6 >= '\u000E' && LA14_6 <= '$') || (LA14_6 >= '&' && LA14_6 <= '\uFFFF')) ) { s = 6; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 4 : 
+                   	int LA14_1 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA14_1 == '*') ) { s = 3; }
+
+                   	else if ( ((LA14_1 >= '\u0000' && LA14_1 <= ')') || (LA14_1 >= '+' && LA14_1 <= '\uFFFF')) ) { s = 2; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 5 : 
+                   	int LA14_3 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA14_3 == '/') ) { s = 4; }
+
+                   	else if ( ((LA14_3 >= '\u0000' && LA14_3 <= '.') || (LA14_3 >= '0' && LA14_3 <= '\uFFFF')) ) { s = 2; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 6 : 
+                   	int LA14_4 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA14_4 == '%') ) { s = 5; }
+
+                   	else if ( ((LA14_4 >= '\u0000' && LA14_4 <= '\t') || (LA14_4 >= '\u000B' && LA14_4 <= '\f') || (LA14_4 >= '\u000E' && LA14_4 <= '$') || (LA14_4 >= '&' && LA14_4 <= '\uFFFF')) ) { s = 6; }
+
+                   	else if ( (LA14_4 == '\r') ) { s = 7; }
+
+                   	else if ( (LA14_4 == '\n') ) { s = 8; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 7 : 
+                   	int LA14_7 = input.LA(1);
+
+                   	s = -1;
+                   	if ( ((LA14_7 >= '\u0000' && LA14_7 <= '\t') || (LA14_7 >= '\u000B' && LA14_7 <= '\uFFFF')) ) { s = 2; }
+
+                   	else if ( (LA14_7 == '\n') ) { s = 8; }
 
                    	if ( s >= 0 ) return s;
                    	break;
@@ -3241,101 +3369,113 @@ public partial class simpletikzLexer : Lexer {
         throw nvae;
     }
     const string DFA22_eotS =
-        "\x01\uffff\x01\x20\x03\uffff\x01\x31\x02\uffff\x01\x20\x01\x37"+
-        "\x05\uffff\x08\x37\x03\x20\x01\x37\x01\uffff\x01\x53\x01\x20\x01"+
-        "\uffff\x01\x20\x01\uffff\x09\x5b\x0a\uffff\x01\x67\x02\x37\x06\uffff"+
-        "\x01\x6a\x02\x37\x01\x6e\x01\x6f\x01\x70\x01\x37\x01\x72\x01\x73"+
-        "\x02\x37\x01\x76\x02\x37\x03\uffff\x01\x53\x03\uffff\x01\x37\x04"+
-        "\uffff\x01\x54\x02\uffff\x01\x5b\x01\uffff\x09\x5b\x02\x67\x01\uffff"+
-        "\x02\x37\x01\uffff\x03\x37\x03\uffff\x01\x37\x02\uffff\x01\u008e"+
-        "\x01\u008f\x01\uffff\x01\u0090\x02\x37\x02\uffff\x02\x5b\x01\u0096"+
-        "\x07\x5b\x02\x67\x06\x37\x03\uffff\x01\u00a6\x01\x37\x01\uffff\x01"+
-        "\x5b\x01\u00ab\x01\uffff\x01\u00ac\x02\x5b\x01\u00af\x01\u00b0\x01"+
-        "\u00b1\x01\u00b3\x02\x67\x01\u00b6\x01\u00b7\x04\x37\x01\uffff\x01"+
-        "\x37\x01\uffff\x01\u00be\x01\x5b\x02\uffff\x02\x5b\x03\uffff\x01"+
-        "\x5b\x01\uffff\x02\x67\x02\uffff\x02\x37\x01\u00c8\x02\x37\x02\uffff"+
-        "\x02\x5b\x01\u00ce\x02\x5b\x01\u00d1\x01\x67\x02\x37\x01\uffff\x01"+
-        "\u00d5\x01\x37\x01\uffff\x01\x5b\x01\u00d9\x01\uffff\x02\x5b\x01"+
-        "\uffff\x01\u00dc\x01\x37\x01\u00de\x01\uffff\x01\x37\x01\uffff\x01"+
-        "\x5b\x01\uffff\x01\x5b\x01\u00e3\x01\uffff\x01\x37\x01\uffff\x01"+
-        "\x37\x01\uffff\x01\u00e7\x01\x5b\x01\uffff\x01\u00e9\x01\x37\x02"+
-        "\uffff\x01\u00ee\x01\uffff\x01\u00ef\x05\uffff";
+        "\x01\uffff\x01\x20\x03\uffff\x01\x33\x02\uffff\x01\x20\x01\x39"+
+        "\x05\uffff\x08\x39\x03\x20\x01\x39\x01\uffff\x01\x55\x01\x20\x01"+
+        "\uffff\x01\x20\x01\uffff\x0b\x5d\x0a\uffff\x01\x6b\x02\x39\x06\uffff"+
+        "\x01\x6e\x02\x39\x01\x72\x01\x73\x01\x74\x01\x39\x01\x76\x01\x77"+
+        "\x02\x39\x01\x7a\x02\x39\x03\uffff\x01\x55\x03\uffff\x01\x39\x04"+
+        "\uffff\x01\x56\x02\uffff\x01\x5d\x01\uffff\x0b\x5d\x02\x6b\x01\uffff"+
+        "\x02\x39\x01\uffff\x03\x39\x03\uffff\x01\x39\x02\uffff\x01\u0094"+
+        "\x01\u0095\x01\uffff\x01\u0096\x02\x39\x02\uffff\x02\x5d\x01\u009c"+
+        "\x09\x5d\x02\x6b\x06\x39\x03\uffff\x01\u00af\x01\x39\x01\uffff\x01"+
+        "\x5d\x01\u00b4\x01\uffff\x01\u00b5\x02\x5d\x01\u00b8\x01\u00b9\x01"+
+        "\u00ba\x01\x5d\x01\u00bd\x02\x5d\x02\x6b\x01\u00c2\x01\u00c3\x04"+
+        "\x39\x01\uffff\x01\x39\x01\uffff\x01\u00ca\x01\x5d\x02\uffff\x02"+
+        "\x5d\x03\uffff\x02\x5d\x01\uffff\x01\u00d2\x01\x5d\x02\x6b\x02\uffff"+
+        "\x02\x39\x01\u00d8\x02\x39\x02\uffff\x02\x5d\x01\u00de\x04\x5d\x01"+
+        "\uffff\x01\x5d\x01\u00e4\x01\x6b\x02\x39\x01\uffff\x01\u00e8\x01"+
+        "\x39\x01\uffff\x01\x5d\x01\u00ec\x01\uffff\x01\x5d\x01\u00ee\x03"+
+        "\x5d\x01\uffff\x01\u00f2\x01\x39\x01\u00f4\x01\uffff\x01\x39\x01"+
+        "\uffff\x01\x5d\x01\uffff\x01\x5d\x01\uffff\x01\u00f9\x02\x5d\x01"+
+        "\uffff\x01\x39\x01\uffff\x01\x39\x01\uffff\x01\u00ff\x01\x5d\x01"+
+        "\uffff\x01\u0101\x01\x5d\x01\u0103\x01\x39\x02\uffff\x01\u0108\x01"+
+        "\uffff\x01\x5d\x01\uffff\x01\u010a\x04\uffff\x01\x5d\x01\uffff\x04"+
+        "\x5d\x01\u0110\x01\uffff";
     const string DFA22_eofS =
-        "\u00f0\uffff";
+        "\u0111\uffff";
     const string DFA22_minS =
         "\x02\x00\x03\uffff\x01\x2b\x02\uffff\x01\x2e\x01\x63\x05\uffff"+
         "\x01\x69\x01\x6e\x01\x6c\x01\x6d\x01\x74\x01\x65\x01\x6e\x01\x6f"+
         "\x02\x2d\x01\x2e\x01\x69\x01\uffff\x01\x2e\x01\x00\x01\uffff\x01"+
         "\x00\x01\uffff\x01\x65\x01\x69\x01\x6e\x01\x6f\x01\x61\x01\x6c\x01"+
-        "\x72\x01\x61\x01\x69\x0a\uffff\x01\x61\x01\x79\x01\x6f\x06\uffff"+
-        "\x01\x21\x01\x6e\x01\x72\x03\x21\x01\x6c\x02\x21\x01\x74\x01\x64"+
-        "\x01\x21\x01\x63\x01\x64\x03\uffff\x01\x2e\x03\uffff\x01\x6b\x02"+
-        "\uffff\x01\x00\x01\x0a\x01\x21\x02\uffff\x01\x67\x01\uffff\x01\x6b"+
-        "\x02\x64\x01\x74\x01\x6f\x01\x69\x01\x61\x01\x74\x01\x6c\x01\x74"+
-        "\x01\x70\x01\uffff\x01\x6c\x01\x70\x01\uffff\x01\x72\x01\x74\x01"+
-        "\x63\x03\uffff\x01\x69\x02\uffff\x02\x21\x01\uffff\x01\x21\x01\x65"+
-        "\x01\x7a\x01\x00\x01\uffff\x01\x69\x01\x7a\x01\x21\x01\x65\x02\x72"+
-        "\x01\x70\x01\x77\x01\x68\x01\x6c\x01\x79\x01\x70\x02\x65\x01\x64"+
-        "\x01\x72\x01\x6c\x01\x70\x03\uffff\x01\x21\x01\x70\x01\x00\x01\x6e"+
-        "\x01\x21\x01\uffff\x01\x21\x01\x69\x01\x64\x04\x21\x01\x6c\x01\x65"+
-        "\x02\x21\x01\x69\x01\x6f\x01\x65\x01\x73\x01\uffff\x01\x69\x01\x00"+
-        "\x01\x21\x01\x65\x02\uffff\x01\x78\x01\x69\x03\uffff\x01\x72\x01"+
-        "\uffff\x01\x65\x01\x6e\x02\uffff\x01\x6e\x01\x6c\x01\x21\x01\x65"+
-        "\x01\x63\x01\x00\x01\uffff\x01\x79\x01\x74\x01\x21\x01\x6e\x01\x61"+
-        "\x01\x41\x01\x64\x01\x61\x01\x73\x01\uffff\x01\x21\x01\x74\x01\x00"+
-        "\x01\x6c\x01\x21\x01\uffff\x01\x61\x01\x77\x01\uffff\x01\x41\x01"+
-        "\x74\x01\x21\x01\uffff\x01\x75\x01\x00\x01\x65\x01\uffff\x01\x74"+
-        "\x01\x21\x01\uffff\x01\x65\x01\uffff\x01\x72\x01\x00\x01\x21\x01"+
-        "\x65\x01\uffff\x01\x21\x01\x65\x01\x00\x01\uffff\x01\x21\x01\uffff"+
-        "\x01\x21\x01\x00\x01\x0a\x03\uffff";
+        "\x72\x01\x61\x01\x69\x01\x68\x01\x73\x0a\uffff\x01\x61\x01\x79\x01"+
+        "\x6f\x06\uffff\x01\x21\x01\x6e\x01\x72\x03\x21\x01\x6c\x02\x21\x01"+
+        "\x74\x01\x64\x01\x21\x01\x63\x01\x64\x03\uffff\x01\x2e\x03\uffff"+
+        "\x01\x6b\x02\uffff\x01\x00\x01\x0a\x01\x21\x02\uffff\x01\x67\x01"+
+        "\uffff\x01\x6b\x02\x64\x01\x74\x01\x6f\x01\x69\x01\x61\x01\x74\x01"+
+        "\x6c\x01\x61\x01\x65\x01\x74\x01\x70\x01\uffff\x01\x6c\x01\x70\x01"+
+        "\uffff\x01\x72\x01\x74\x01\x63\x03\uffff\x01\x69\x02\uffff\x02\x21"+
+        "\x01\uffff\x01\x21\x01\x65\x01\x7a\x01\x00\x01\uffff\x01\x69\x01"+
+        "\x7a\x01\x21\x01\x65\x02\x72\x01\x70\x01\x77\x01\x68\x01\x6c\x01"+
+        "\x64\x01\x61\x01\x79\x01\x70\x02\x65\x01\x64\x01\x72\x01\x6c\x01"+
+        "\x70\x03\uffff\x01\x21\x01\x70\x01\x00\x01\x6e\x01\x21\x01\uffff"+
+        "\x01\x21\x01\x69\x01\x64\x03\x21\x01\x65\x01\x21\x01\x65\x01\x73"+
+        "\x01\x6c\x01\x65\x02\x21\x01\x69\x01\x6f\x01\x65\x01\x73\x01\uffff"+
+        "\x01\x69\x01\x00\x01\x21\x01\x65\x02\uffff\x01\x78\x01\x69\x03\uffff"+
+        "\x02\x72\x01\uffff\x01\x21\x01\x62\x01\x65\x01\x6e\x02\uffff\x01"+
+        "\x6e\x01\x6c\x01\x21\x01\x65\x01\x63\x01\x00\x01\uffff\x01\x79\x01"+
+        "\x74\x01\x21\x02\x6e\x01\x61\x01\x72\x01\uffff\x01\x6f\x01\x41\x01"+
+        "\x64\x01\x61\x01\x73\x01\uffff\x01\x21\x01\x74\x01\x00\x01\x6c\x01"+
+        "\x21\x01\uffff\x01\x61\x01\x21\x01\x77\x01\x61\x01\x75\x01\uffff"+
+        "\x01\x41\x01\x74\x01\x21\x01\uffff\x01\x75\x01\x00\x01\x65\x01\uffff"+
+        "\x01\x74\x01\uffff\x01\x21\x01\x77\x01\x6e\x01\uffff\x01\x65\x01"+
+        "\uffff\x01\x72\x01\x00\x01\x21\x01\x65\x01\uffff\x01\x21\x01\x64"+
+        "\x01\x21\x01\x65\x01\x00\x01\uffff\x01\x21\x01\uffff\x01\x69\x01"+
+        "\uffff\x01\x21\x01\x0a\x01\uffff\x01\x00\x01\uffff\x01\x6e\x01\uffff"+
+        "\x01\x67\x01\x62\x01\x6f\x01\x78\x01\x21\x01\uffff";
     const string DFA22_maxS =
         "\x02\uffff\x03\uffff\x01\x3d\x02\uffff\x01\x2e\x01\x74\x05\uffff"+
         "\x01\x6f\x01\x6e\x01\x78\x01\x6d\x01\x74\x01\x65\x01\x74\x01\x6f"+
         "\x01\x7c\x01\x2d\x01\x39\x01\x69\x01\uffff\x01\x39\x01\uffff\x01"+
         "\uffff\x01\uffff\x01\uffff\x01\x65\x01\x69\x01\x6e\x01\x6f\x01\x61"+
-        "\x01\x6f\x01\x72\x01\x61\x01\x69\x0a\uffff\x01\x73\x01\x79\x01\x6f"+
-        "\x06\uffff\x01\x7a\x01\x6f\x01\x72\x03\x7a\x01\x6c\x02\x7a\x01\x74"+
-        "\x01\x64\x01\x7a\x01\x63\x01\x64\x03\uffff\x01\x39\x03\uffff\x01"+
-        "\x6b\x02\uffff\x01\uffff\x02\x21\x02\uffff\x01\x67\x01\uffff\x01"+
-        "\x6b\x02\x64\x01\x74\x01\x6f\x01\x69\x01\x61\x01\x74\x01\x6c\x01"+
-        "\x74\x01\x70\x01\uffff\x01\x6c\x01\x70\x01\uffff\x01\x72\x01\x74"+
-        "\x01\x63\x03\uffff\x01\x69\x02\uffff\x02\x7a\x01\uffff\x01\x7a\x01"+
-        "\x65\x01\x7a\x01\uffff\x01\uffff\x01\x69\x02\x7a\x01\x65\x02\x72"+
-        "\x01\x70\x01\x77\x01\x68\x01\x6c\x01\x79\x01\x70\x02\x65\x01\x64"+
-        "\x01\x72\x01\x6c\x01\x70\x03\uffff\x01\x7a\x01\x70\x01\uffff\x01"+
-        "\x6e\x01\x7a\x01\uffff\x01\x7a\x01\x69\x01\x64\x04\x7a\x01\x6c\x01"+
-        "\x65\x02\x7a\x01\x69\x01\x6f\x01\x65\x01\x73\x01\uffff\x01\x69\x01"+
-        "\uffff\x01\x7a\x01\x74\x02\uffff\x01\x78\x01\x69\x03\uffff\x01\x72"+
-        "\x01\uffff\x01\x65\x01\x6e\x02\uffff\x01\x6e\x01\x6c\x01\x7a\x01"+
-        "\x65\x01\x63\x01\uffff\x01\uffff\x01\x79\x01\x74\x01\x7a\x01\x6e"+
-        "\x01\x61\x01\x7a\x01\x64\x01\x61\x01\x73\x01\uffff\x01\x7a\x01\x74"+
-        "\x01\uffff\x01\x6c\x01\x7a\x01\uffff\x01\x61\x01\x77\x01\uffff\x01"+
-        "\x7a\x01\x74\x01\x7a\x01\uffff\x01\x75\x01\uffff\x01\x65\x01\uffff"+
-        "\x01\x74\x01\x7a\x01\uffff\x01\x65\x01\uffff\x01\x72\x01\uffff\x01"+
-        "\x7a\x01\x65\x01\uffff\x01\x7a\x01\x65\x01\uffff\x01\uffff\x01\x7a"+
-        "\x01\uffff\x01\x7a\x01\uffff\x01\x0a\x03\uffff";
+        "\x01\x6f\x01\x72\x01\x61\x01\x69\x01\x68\x01\x73\x0a\uffff\x01\x73"+
+        "\x01\x79\x01\x6f\x06\uffff\x01\x7a\x01\x6f\x01\x72\x03\x7a\x01\x6c"+
+        "\x02\x7a\x01\x74\x01\x64\x01\x7a\x01\x63\x01\x64\x03\uffff\x01\x39"+
+        "\x03\uffff\x01\x6b\x02\uffff\x01\uffff\x02\x21\x02\uffff\x01\x67"+
+        "\x01\uffff\x01\x6b\x02\x64\x01\x74\x01\x6f\x01\x69\x01\x61\x01\x74"+
+        "\x01\x6c\x01\x61\x01\x65\x01\x74\x01\x70\x01\uffff\x01\x6c\x01\x70"+
+        "\x01\uffff\x01\x72\x01\x74\x01\x63\x03\uffff\x01\x69\x02\uffff\x02"+
+        "\x7a\x01\uffff\x01\x7a\x01\x65\x01\x7a\x01\uffff\x01\uffff\x01\x69"+
+        "\x02\x7a\x01\x65\x02\x72\x01\x70\x01\x77\x01\x74\x01\x6c\x01\x64"+
+        "\x01\x61\x01\x79\x01\x70\x02\x65\x01\x64\x01\x72\x01\x6c\x01\x70"+
+        "\x03\uffff\x01\x7a\x01\x70\x01\uffff\x01\x6e\x01\x7a\x01\uffff\x01"+
+        "\x7a\x01\x69\x01\x64\x03\x7a\x01\x65\x01\x7a\x01\x65\x01\x73\x01"+
+        "\x6c\x01\x65\x02\x7a\x01\x69\x01\x6f\x01\x65\x01\x73\x01\uffff\x01"+
+        "\x69\x01\uffff\x01\x7a\x01\x74\x02\uffff\x01\x78\x01\x69\x03\uffff"+
+        "\x02\x72\x01\uffff\x01\x7a\x01\x62\x01\x65\x01\x6e\x02\uffff\x01"+
+        "\x6e\x01\x6c\x01\x7a\x01\x65\x01\x63\x01\uffff\x01\uffff\x01\x79"+
+        "\x01\x74\x01\x7a\x02\x6e\x01\x61\x01\x72\x01\uffff\x01\x6f\x01\x7a"+
+        "\x01\x64\x01\x61\x01\x73\x01\uffff\x01\x7a\x01\x74\x01\uffff\x01"+
+        "\x6c\x01\x7a\x01\uffff\x01\x61\x01\x7a\x01\x77\x01\x61\x01\x75\x01"+
+        "\uffff\x01\x7a\x01\x74\x01\x7a\x01\uffff\x01\x75\x01\uffff\x01\x65"+
+        "\x01\uffff\x01\x74\x01\uffff\x01\x7a\x01\x77\x01\x6e\x01\uffff\x01"+
+        "\x65\x01\uffff\x01\x72\x01\uffff\x01\x7a\x01\x65\x01\uffff\x01\x7a"+
+        "\x01\x64\x01\x7a\x01\x65\x01\uffff\x01\uffff\x01\x7a\x01\uffff\x01"+
+        "\x69\x01\uffff\x01\x7a\x01\x0a\x01\uffff\x01\uffff\x01\uffff\x01"+
+        "\x6e\x01\uffff\x01\x67\x01\x62\x01\x6f\x01\x78\x01\x7a\x01\uffff";
     const string DFA22_acceptS =
         "\x02\uffff\x01\x05\x01\x06\x01\x07\x01\uffff\x01\x09\x01\x0a\x02"+
-        "\uffff\x01\x0e\x01\x0f\x01\x10\x01\x11\x01\x12\x0c\uffff\x01\x34"+
-        "\x02\uffff\x01\x39\x01\uffff\x01\x3d\x09\uffff\x01\x3b\x01\x3c\x01"+
-        "\x05\x01\x06\x01\x07\x01\x08\x01\x2f\x01\x2e\x01\x09\x01\x0a\x03"+
-        "\uffff\x01\x34\x01\x0e\x01\x0f\x01\x10\x01\x11\x01\x12\x0e\uffff"+
-        "\x01\x2a\x01\x2b\x01\x2d\x01\uffff\x01\x36\x01\x2c\x01\x30\x01\uffff"+
-        "\x01\x35\x01\x38\x03\uffff\x01\x39\x01\x3a\x01\uffff\x01\x3b\x0b"+
-        "\uffff\x01\x3e\x02\uffff\x01\x13\x03\uffff\x01\x14\x01\x15\x01\x18"+
-        "\x01\uffff\x01\x16\x01\x17\x02\uffff\x01\x26\x04\uffff\x01\x37\x12"+
-        "\uffff\x01\x22\x01\x23\x01\x29\x05\uffff\x01\x19\x0f\uffff\x01\x25"+
-        "\x04\uffff\x01\x04\x01\x1a\x02\uffff\x01\x21\x01\x1d\x01\x1e\x01"+
-        "\uffff\x01\x20\x02\uffff\x01\x0d\x01\x33\x06\uffff\x01\x01\x09\uffff"+
-        "\x01\x27\x05\uffff\x01\x1b\x02\uffff\x01\x0b\x03\uffff\x01\x28\x03"+
-        "\uffff\x01\x03\x02\uffff\x01\x0c\x01\uffff\x01\x31\x04\uffff\x01"+
-        "\x1f\x03\uffff\x01\x02\x01\uffff\x01\x24\x03\uffff\x01\x37\x01\x1c"+
-        "\x01\x32";
+        "\uffff\x01\x0e\x01\x0f\x01\x10\x01\x11\x01\x12\x0c\uffff\x01\x38"+
+        "\x02\uffff\x01\x3d\x01\uffff\x01\x41\x0b\uffff\x01\x3f\x01\x40\x01"+
+        "\x05\x01\x06\x01\x07\x01\x08\x01\x33\x01\x32\x01\x09\x01\x0a\x03"+
+        "\uffff\x01\x38\x01\x0e\x01\x0f\x01\x10\x01\x11\x01\x12\x0e\uffff"+
+        "\x01\x2e\x01\x2f\x01\x31\x01\uffff\x01\x3a\x01\x30\x01\x34\x01\uffff"+
+        "\x01\x39\x01\x3c\x03\uffff\x01\x3d\x01\x3e\x01\uffff\x01\x3f\x0d"+
+        "\uffff\x01\x42\x02\uffff\x01\x13\x03\uffff\x01\x14\x01\x15\x01\x18"+
+        "\x01\uffff\x01\x16\x01\x17\x02\uffff\x01\x2a\x04\uffff\x01\x3b\x14"+
+        "\uffff\x01\x26\x01\x27\x01\x2d\x05\uffff\x01\x19\x12\uffff\x01\x29"+
+        "\x04\uffff\x01\x04\x01\x1a\x02\uffff\x01\x25\x01\x1d\x01\x1e\x02"+
+        "\uffff\x01\x24\x04\uffff\x01\x0d\x01\x37\x06\uffff\x01\x01\x07\uffff"+
+        "\x01\x21\x05\uffff\x01\x2b\x05\uffff\x01\x1b\x05\uffff\x01\x0b\x03"+
+        "\uffff\x01\x2c\x03\uffff\x01\x03\x01\uffff\x01\x20\x03\uffff\x01"+
+        "\x0c\x01\uffff\x01\x35\x04\uffff\x01\x1f\x05\uffff\x01\x02\x01\uffff"+
+        "\x01\x22\x01\uffff\x01\x28\x02\uffff\x01\x3b\x01\uffff\x01\x1c\x01"+
+        "\uffff\x01\x36\x05\uffff\x01\x23";
     const string DFA22_specialS =
-        "\x01\x0c\x01\x07\x1b\uffff\x01\x0d\x01\uffff\x01\x02\x35\uffff"+
-        "\x01\x00\x24\uffff\x01\x04\x18\uffff\x01\x03\x14\uffff\x01\x06\x14"+
-        "\uffff\x01\x05\x0d\uffff\x01\x08\x0b\uffff\x01\x09\x08\uffff\x01"+
-        "\x0a\x05\uffff\x01\x01\x04\uffff\x01\x0b\x04\uffff}>";
+        "\x01\x00\x01\x03\x1b\uffff\x01\x0d\x01\uffff\x01\x01\x37\uffff"+
+        "\x01\x0b\x26\uffff\x01\x06\x1a\uffff\x01\x04\x17\uffff\x01\x05\x17"+
+        "\uffff\x01\x09\x11\uffff\x01\x0a\x0e\uffff\x01\x07\x0b\uffff\x01"+
+        "\x08\x07\uffff\x01\x02\x08\uffff\x01\x0c\x09\uffff}>";
     static readonly string[] DFA22_transitionS = {
             "\x09\x20\x02\x1e\x02\x20\x01\x1e\x12\x20\x01\x1e\x03\x20\x01"+
             "\x1f\x01\x1d\x02\x20\x01\x0a\x01\x0b\x01\x20\x01\x05\x01\x06"+
@@ -3344,112 +3484,110 @@ public partial class simpletikzLexer : Lexer {
             "\x01\x20\x01\x15\x01\x1b\x01\x0f\x01\x1b\x01\x11\x03\x1b\x01"+
             "\x10\x02\x1b\x01\x14\x01\x12\x01\x16\x01\x1b\x01\x13\x02\x1b"+
             "\x01\x09\x01\x1a\x06\x1b\x01\x02\x01\x18\x01\x03\uff82\x20",
-            "\x41\x2b\x1a\x2a\x04\x2b\x01\x2a\x01\x2b\x01\x2a\x01\x21\x01"+
-            "\x26\x01\x27\x01\x23\x01\x29\x06\x2a\x01\x25\x01\x24\x01\x2a"+
-            "\x01\x28\x03\x2a\x01\x22\x06\x2a\uff85\x2b",
+            "\x41\x2d\x1a\x2c\x04\x2d\x01\x2c\x01\x2d\x01\x2c\x01\x21\x01"+
+            "\x26\x01\x27\x01\x23\x01\x29\x06\x2c\x01\x25\x01\x24\x01\x2c"+
+            "\x01\x28\x02\x2c\x01\x2a\x01\x22\x01\x2b\x05\x2c\uff85\x2d",
             "",
             "",
             "",
-            "\x01\x30\x11\uffff\x01\x2f",
+            "\x01\x32\x11\uffff\x01\x31",
             "",
             "",
-            "\x01\x34",
-            "\x01\x36\x10\uffff\x01\x35",
+            "\x01\x36",
+            "\x01\x38\x10\uffff\x01\x37",
             "",
             "",
             "",
             "",
             "",
-            "\x01\x3f\x03\uffff\x01\x3d\x01\uffff\x01\x3e",
-            "\x01\x40",
-            "\x01\x43\x01\x42\x0a\uffff\x01\x41",
-            "\x01\x44",
-            "\x01\x45",
+            "\x01\x41\x03\uffff\x01\x3f\x01\uffff\x01\x40",
+            "\x01\x42",
+            "\x01\x45\x01\x44\x0a\uffff\x01\x43",
             "\x01\x46",
-            "\x01\x47\x03\uffff\x01\x49\x01\uffff\x01\x48",
-            "\x01\x4a",
-            "\x01\x4b\x01\x4f\x01\uffff\x0a\x4e\x04\uffff\x01\x4c\x3d\uffff"+
-            "\x01\x4d",
-            "\x01\x50",
-            "\x01\x51\x01\uffff\x0a\x4f",
+            "\x01\x47",
+            "\x01\x48",
+            "\x01\x49\x03\uffff\x01\x4b\x01\uffff\x01\x4a",
+            "\x01\x4c",
+            "\x01\x4d\x01\x51\x01\uffff\x0a\x50\x04\uffff\x01\x4e\x3d\uffff"+
+            "\x01\x4f",
             "\x01\x52",
+            "\x01\x53\x01\uffff\x0a\x51",
+            "\x01\x54",
             "",
-            "\x01\x4f\x01\uffff\x0a\x4e",
-            "\x09\x54\x01\x55\x01\x57\x02\x54\x01\x56\x12\x54\x01\x55\uffdf"+
-            "\x54",
+            "\x01\x51\x01\uffff\x0a\x50",
+            "\x09\x56\x01\x57\x01\x59\x02\x56\x01\x58\x12\x56\x01\x57\uffdf"+
+            "\x56",
             "",
-            "\x00\x59",
+            "\x00\x5b",
             "",
-            "\x01\x5a",
             "\x01\x5c",
-            "\x01\x5d",
             "\x01\x5e",
             "\x01\x5f",
-            "\x01\x61\x02\uffff\x01\x60",
-            "\x01\x62",
-            "\x01\x63",
+            "\x01\x60",
+            "\x01\x61",
+            "\x01\x63\x02\uffff\x01\x62",
             "\x01\x64",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\x01\x66\x11\uffff\x01\x65",
+            "\x01\x65",
+            "\x01\x66",
+            "\x01\x67",
             "\x01\x68",
-            "\x01\x69",
             "",
             "",
             "",
             "",
             "",
             "",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
-            "\x01\x6c\x01\x6b",
+            "",
+            "",
+            "",
+            "",
+            "\x01\x6a\x11\uffff\x01\x69",
+            "\x01\x6c",
             "\x01\x6d",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\x70\x01\x6f",
             "\x01\x71",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
-            "\x01\x74",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "\x01\x75",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
-            "\x01\x77",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "\x01\x78",
-            "",
-            "",
-            "",
-            "\x01\x4f\x01\uffff\x0a\x4e",
-            "",
-            "",
-            "",
             "\x01\x79",
-            "",
-            "",
-            "\x21\x54\x01\x7a\uffde\x54",
-            "\x01\x54\x16\uffff\x01\x7b",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "\x01\x7b",
-            "",
-            "",
             "\x01\x7c",
             "",
+            "",
+            "",
+            "\x01\x51\x01\uffff\x0a\x50",
+            "",
+            "",
+            "",
             "\x01\x7d",
-            "\x01\x7e",
+            "",
+            "",
+            "\x21\x56\x01\x7e\uffde\x56",
+            "\x01\x56\x16\uffff\x01\x7f",
             "\x01\x7f",
+            "",
+            "",
             "\x01\u0080",
+            "",
             "\x01\u0081",
             "\x01\u0082",
             "\x01\u0083",
@@ -3457,166 +3595,205 @@ public partial class simpletikzLexer : Lexer {
             "\x01\u0085",
             "\x01\u0086",
             "\x01\u0087",
-            "",
             "\x01\u0088",
             "\x01\u0089",
-            "",
             "\x01\u008a",
             "\x01\u008b",
             "\x01\u008c",
-            "",
-            "",
-            "",
             "\x01\u008d",
             "",
+            "\x01\u008e",
+            "\x01\u008f",
             "",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
-            "",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
+            "\x01\u0090",
             "\x01\u0091",
             "\x01\u0092",
-            "\x54\x54\x01\u0093\uffab\x54",
             "",
-            "\x01\u0094",
-            "\x01\u0095",
-            "\x01\x5b\x0c\uffff\x01\x5b\x01\uffff\x0a\x5b\x07\uffff\x1a"+
-            "\x5b\x04\uffff\x01\x5b\x01\uffff\x1a\x5b",
+            "",
+            "",
+            "\x01\u0093",
+            "",
+            "",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "\x01\u0097",
             "\x01\u0098",
-            "\x01\u0099",
+            "\x54\x56\x01\u0099\uffab\x56",
+            "",
             "\x01\u009a",
             "\x01\u009b",
-            "\x01\u009c",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
             "\x01\u009d",
             "\x01\u009e",
             "\x01\u009f",
             "\x01\u00a0",
             "\x01\u00a1",
-            "\x01\u00a2",
-            "\x01\u00a3",
+            "\x01\u00a2\x0b\uffff\x01\u00a3",
             "\x01\u00a4",
             "\x01\u00a5",
-            "",
-            "",
-            "",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
+            "\x01\u00a6",
             "\x01\u00a7",
-            "\x49\x54\x01\u00a8\uffb6\x54",
+            "\x01\u00a8",
             "\x01\u00a9",
-            "\x01\x5b\x0c\uffff\x01\x5b\x01\uffff\x0a\x5b\x07\uffff\x1a"+
-            "\x5b\x04\uffff\x01\x5b\x01\uffff\x12\x5b\x01\u00aa\x07\x5b",
-            "",
-            "\x01\x5b\x0c\uffff\x01\x5b\x01\uffff\x0a\x5b\x07\uffff\x1a"+
-            "\x5b\x04\uffff\x01\x5b\x01\uffff\x1a\x5b",
+            "\x01\u00aa",
+            "\x01\u00ab",
+            "\x01\u00ac",
             "\x01\u00ad",
             "\x01\u00ae",
-            "\x01\x5b\x0c\uffff\x01\x5b\x01\uffff\x0a\x5b\x07\uffff\x1a"+
-            "\x5b\x04\uffff\x01\x5b\x01\uffff\x1a\x5b",
-            "\x01\x5b\x0c\uffff\x01\x5b\x01\uffff\x0a\x5b\x07\uffff\x1a"+
-            "\x5b\x04\uffff\x01\x5b\x01\uffff\x1a\x5b",
-            "\x01\x5b\x0c\uffff\x01\x5b\x01\uffff\x0a\x5b\x07\uffff\x1a"+
-            "\x5b\x04\uffff\x01\x5b\x01\uffff\x1a\x5b",
-            "\x01\x5b\x0c\uffff\x01\x5b\x01\uffff\x0a\x5b\x07\uffff\x1a"+
-            "\x5b\x04\uffff\x01\x5b\x01\uffff\x03\x5b\x01\u00b2\x16\x5b",
-            "\x01\u00b4",
-            "\x01\u00b5",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
-            "\x01\u00b8",
-            "\x01\u00b9",
-            "\x01\u00ba",
+            "",
+            "",
+            "",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\u00b0",
+            "\x49\x56\x01\u00b1\uffb6\x56",
+            "\x01\u00b2",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x12\x5d\x01\u00b3\x07\x5d",
+            "",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
+            "\x01\u00b6",
+            "\x01\u00b7",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
             "\x01\u00bb",
-            "",
-            "\x01\u00bc",
-            "\x4b\x54\x01\u00bd\uffb4\x54",
-            "\x01\x5b\x0c\uffff\x01\x5b\x01\uffff\x0a\x5b\x07\uffff\x1a"+
-            "\x5b\x04\uffff\x01\x5b\x01\uffff\x1a\x5b",
-            "\x01\u00c0\x0e\uffff\x01\u00bf",
-            "",
-            "",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x03\x5d\x01\u00bc\x16\x5d",
+            "\x01\u00be",
+            "\x01\u00bf",
+            "\x01\u00c0",
             "\x01\u00c1",
-            "\x01\u00c2",
-            "",
-            "",
-            "",
-            "\x01\u00c3",
-            "",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "\x01\u00c4",
             "\x01\u00c5",
-            "",
-            "",
             "\x01\u00c6",
             "\x01\u00c7",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
-            "\x01\u00c9",
-            "\x01\u00ca",
-            "\x5a\x54\x01\u00cb\uffa5\x54",
             "",
-            "\x01\u00cc",
+            "\x01\u00c8",
+            "\x4b\x56\x01\u00c9\uffb4\x56",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
+            "\x01\u00cc\x0e\uffff\x01\u00cb",
+            "",
+            "",
             "\x01\u00cd",
-            "\x01\x5b\x0c\uffff\x01\x5b\x01\uffff\x0a\x5b\x07\uffff\x1a"+
-            "\x5b\x04\uffff\x01\x5b\x01\uffff\x1a\x5b",
+            "\x01\u00ce",
+            "",
+            "",
+            "",
             "\x01\u00cf",
             "\x01\u00d0",
-            "\x1a\x67\x06\uffff\x1a\x67",
-            "\x01\u00d2",
+            "",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x03\x5d\x01\u00d1\x16\x5d",
             "\x01\u00d3",
             "\x01\u00d4",
+            "\x01\u00d5",
             "",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
+            "",
             "\x01\u00d6",
-            "\x45\x54\x01\u00d7\uffba\x54",
-            "\x01\u00d8",
-            "\x01\x5b\x0c\uffff\x01\x5b\x01\uffff\x0a\x5b\x07\uffff\x1a"+
-            "\x5b\x04\uffff\x01\x5b\x01\uffff\x1a\x5b",
-            "",
+            "\x01\u00d7",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\u00d9",
             "\x01\u00da",
-            "\x01\u00db",
+            "\x5a\x56\x01\u00db\uffa5\x56",
             "",
-            "\x1a\x67\x06\uffff\x1a\x67",
+            "\x01\u00dc",
             "\x01\u00dd",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
-            "",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
             "\x01\u00df",
-            "\x44\x54\x01\u00e0\uffbb\x54",
+            "\x01\u00e0",
             "\x01\u00e1",
-            "",
             "\x01\u00e2",
-            "\x01\x5b\x0c\uffff\x01\x5b\x01\uffff\x0a\x5b\x07\uffff\x1a"+
-            "\x5b\x04\uffff\x01\x5b\x01\uffff\x1a\x5b",
             "",
-            "\x01\u00e4",
-            "",
+            "\x01\u00e3",
+            "\x1a\x6b\x06\uffff\x1a\x6b",
             "\x01\u00e5",
-            "\x54\x54\x01\u00e6\uffab\x54",
-            "\x01\x5b\x0c\uffff\x01\x5b\x01\uffff\x0a\x5b\x07\uffff\x1a"+
-            "\x5b\x04\uffff\x01\x5b\x01\uffff\x1a\x5b",
-            "\x01\u00e8",
+            "\x01\u00e6",
+            "\x01\u00e7",
             "",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
-            "\x01\u00ea",
-            "\x0a\u00eb\x01\u00ed\x02\u00eb\x01\u00ec\ufff2\u00eb",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\u00e9",
+            "\x45\x56\x01\u00ea\uffba\x56",
+            "\x01\u00eb",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
             "",
-            "\x01\x5b\x0c\uffff\x01\x5b\x01\uffff\x0a\x5b\x07\uffff\x1a"+
-            "\x5b\x04\uffff\x01\x5b\x01\uffff\x1a\x5b",
-            "",
-            "\x01\x37\x0c\uffff\x01\x37\x01\uffff\x0a\x37\x07\uffff\x1a"+
-            "\x37\x04\uffff\x01\x37\x01\uffff\x1a\x37",
-            "\x0a\u00eb\x01\u00ed\x02\u00eb\x01\u00ec\ufff2\u00eb",
             "\x01\u00ed",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
+            "\x01\u00ef",
+            "\x01\u00f0",
+            "\x01\u00f1",
             "",
+            "\x1a\x6b\x06\uffff\x1a\x6b",
+            "\x01\u00f3",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "",
+            "\x01\u00f5",
+            "\x44\x56\x01\u00f6\uffbb\x56",
+            "\x01\u00f7",
+            "",
+            "\x01\u00f8",
+            "",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
+            "\x01\u00fa",
+            "\x01\u00fb",
+            "",
+            "\x01\u00fc",
+            "",
+            "\x01\u00fd",
+            "\x54\x56\x01\u00fe\uffab\x56",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
+            "\x01\u0100",
+            "",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
+            "\x01\u0102",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\u0104",
+            "\x0a\u0107\x01\u0106\x02\u0107\x01\u0105\ufff2\u0107",
+            "",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
+            "",
+            "\x01\u0109",
+            "",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\u0106",
+            "",
+            "\x0a\u0107\x01\u0106\x02\u0107\x01\u0105\ufff2\u0107",
+            "",
+            "\x01\u010b",
+            "",
+            "\x01\u010c",
+            "\x01\u010d",
+            "\x01\u010e",
+            "\x01\u010f",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
             ""
     };
 
@@ -3646,7 +3823,7 @@ public partial class simpletikzLexer : Lexer {
 
         override public string Description
         {
-            get { return "1:1: Tokens : ( T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | ID | INT | FLOAT_WO_EXP | TIKZEDT_CMD_COMMENT | COMMENT | WS | MATHSTRING | COMMAND | ESC_SEQ | SOMETHING | SOMETHING1 );"; }
+            get { return "1:1: Tokens : ( T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | ID | INT | FLOAT_WO_EXP | TIKZEDT_CMD_COMMENT | COMMENT | WS | MATHSTRING | COMMAND | ESC_SEQ | SOMETHING | SOMETHING1 );"; }
         }
 
     }
@@ -3659,150 +3836,6 @@ public partial class simpletikzLexer : Lexer {
         switch ( s )
         {
                	case 0 : 
-                   	int LA22_85 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA22_85 == '!') ) { s = 122; }
-
-                   	else if ( ((LA22_85 >= '\u0000' && LA22_85 <= ' ') || (LA22_85 >= '\"' && LA22_85 <= '\uFFFF')) ) { s = 84; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 1 : 
-                   	int LA22_230 = input.LA(1);
-
-                   	s = -1;
-                   	if ( ((LA22_230 >= '\u0000' && LA22_230 <= '\t') || (LA22_230 >= '\u000B' && LA22_230 <= '\f') || (LA22_230 >= '\u000E' && LA22_230 <= '\uFFFF')) ) { s = 235; }
-
-                   	else if ( (LA22_230 == '\r') ) { s = 236; }
-
-                   	else if ( (LA22_230 == '\n') ) { s = 237; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 2 : 
-                   	int LA22_31 = input.LA(1);
-
-                   	s = -1;
-                   	if ( ((LA22_31 >= '\u0000' && LA22_31 <= '\uFFFF')) ) { s = 89; }
-
-                   	else s = 32;
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 3 : 
-                   	int LA22_147 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA22_147 == 'I') ) { s = 168; }
-
-                   	else if ( ((LA22_147 >= '\u0000' && LA22_147 <= 'H') || (LA22_147 >= 'J' && LA22_147 <= '\uFFFF')) ) { s = 84; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 4 : 
-                   	int LA22_122 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA22_122 == 'T') ) { s = 147; }
-
-                   	else if ( ((LA22_122 >= '\u0000' && LA22_122 <= 'S') || (LA22_122 >= 'U' && LA22_122 <= '\uFFFF')) ) { s = 84; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 5 : 
-                   	int LA22_189 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA22_189 == 'Z') ) { s = 203; }
-
-                   	else if ( ((LA22_189 >= '\u0000' && LA22_189 <= 'Y') || (LA22_189 >= '[' && LA22_189 <= '\uFFFF')) ) { s = 84; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 6 : 
-                   	int LA22_168 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA22_168 == 'K') ) { s = 189; }
-
-                   	else if ( ((LA22_168 >= '\u0000' && LA22_168 <= 'J') || (LA22_168 >= 'L' && LA22_168 <= '\uFFFF')) ) { s = 84; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 7 : 
-                   	int LA22_1 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA22_1 == 'b') ) { s = 33; }
-
-                   	else if ( (LA22_1 == 't') ) { s = 34; }
-
-                   	else if ( (LA22_1 == 'e') ) { s = 35; }
-
-                   	else if ( (LA22_1 == 'n') ) { s = 36; }
-
-                   	else if ( (LA22_1 == 'm') ) { s = 37; }
-
-                   	else if ( (LA22_1 == 'c') ) { s = 38; }
-
-                   	else if ( (LA22_1 == 'd') ) { s = 39; }
-
-                   	else if ( (LA22_1 == 'p') ) { s = 40; }
-
-                   	else if ( (LA22_1 == 'f') ) { s = 41; }
-
-                   	else if ( ((LA22_1 >= 'A' && LA22_1 <= 'Z') || LA22_1 == '_' || LA22_1 == 'a' || (LA22_1 >= 'g' && LA22_1 <= 'l') || LA22_1 == 'o' || (LA22_1 >= 'q' && LA22_1 <= 's') || (LA22_1 >= 'u' && LA22_1 <= 'z')) ) { s = 42; }
-
-                   	else if ( ((LA22_1 >= '\u0000' && LA22_1 <= '@') || (LA22_1 >= '[' && LA22_1 <= '^') || LA22_1 == '`' || (LA22_1 >= '{' && LA22_1 <= '\uFFFF')) ) { s = 43; }
-
-                   	else s = 32;
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 8 : 
-                   	int LA22_203 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA22_203 == 'E') ) { s = 215; }
-
-                   	else if ( ((LA22_203 >= '\u0000' && LA22_203 <= 'D') || (LA22_203 >= 'F' && LA22_203 <= '\uFFFF')) ) { s = 84; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 9 : 
-                   	int LA22_215 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA22_215 == 'D') ) { s = 224; }
-
-                   	else if ( ((LA22_215 >= '\u0000' && LA22_215 <= 'C') || (LA22_215 >= 'E' && LA22_215 <= '\uFFFF')) ) { s = 84; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 10 : 
-                   	int LA22_224 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA22_224 == 'T') ) { s = 230; }
-
-                   	else if ( ((LA22_224 >= '\u0000' && LA22_224 <= 'S') || (LA22_224 >= 'U' && LA22_224 <= '\uFFFF')) ) { s = 84; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 11 : 
-                   	int LA22_235 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA22_235 == '\r') ) { s = 236; }
-
-                   	else if ( (LA22_235 == '\n') ) { s = 237; }
-
-                   	else if ( ((LA22_235 >= '\u0000' && LA22_235 <= '\t') || (LA22_235 >= '\u000B' && LA22_235 <= '\f') || (LA22_235 >= '\u000E' && LA22_235 <= '\uFFFF')) ) { s = 235; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 12 : 
                    	int LA22_0 = input.LA(1);
 
                    	s = -1;
@@ -3872,17 +3905,165 @@ public partial class simpletikzLexer : Lexer {
 
                    	if ( s >= 0 ) return s;
                    	break;
+               	case 1 : 
+                   	int LA22_31 = input.LA(1);
+
+                   	s = -1;
+                   	if ( ((LA22_31 >= '\u0000' && LA22_31 <= '\uFFFF')) ) { s = 91; }
+
+                   	else s = 32;
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 2 : 
+                   	int LA22_254 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA22_254 == '\r') ) { s = 261; }
+
+                   	else if ( (LA22_254 == '\n') ) { s = 262; }
+
+                   	else if ( ((LA22_254 >= '\u0000' && LA22_254 <= '\t') || (LA22_254 >= '\u000B' && LA22_254 <= '\f') || (LA22_254 >= '\u000E' && LA22_254 <= '\uFFFF')) ) { s = 263; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 3 : 
+                   	int LA22_1 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA22_1 == 'b') ) { s = 33; }
+
+                   	else if ( (LA22_1 == 't') ) { s = 34; }
+
+                   	else if ( (LA22_1 == 'e') ) { s = 35; }
+
+                   	else if ( (LA22_1 == 'n') ) { s = 36; }
+
+                   	else if ( (LA22_1 == 'm') ) { s = 37; }
+
+                   	else if ( (LA22_1 == 'c') ) { s = 38; }
+
+                   	else if ( (LA22_1 == 'd') ) { s = 39; }
+
+                   	else if ( (LA22_1 == 'p') ) { s = 40; }
+
+                   	else if ( (LA22_1 == 'f') ) { s = 41; }
+
+                   	else if ( (LA22_1 == 's') ) { s = 42; }
+
+                   	else if ( (LA22_1 == 'u') ) { s = 43; }
+
+                   	else if ( ((LA22_1 >= 'A' && LA22_1 <= 'Z') || LA22_1 == '_' || LA22_1 == 'a' || (LA22_1 >= 'g' && LA22_1 <= 'l') || LA22_1 == 'o' || (LA22_1 >= 'q' && LA22_1 <= 'r') || (LA22_1 >= 'v' && LA22_1 <= 'z')) ) { s = 44; }
+
+                   	else if ( ((LA22_1 >= '\u0000' && LA22_1 <= '@') || (LA22_1 >= '[' && LA22_1 <= '^') || LA22_1 == '`' || (LA22_1 >= '{' && LA22_1 <= '\uFFFF')) ) { s = 45; }
+
+                   	else s = 32;
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 4 : 
+                   	int LA22_153 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA22_153 == 'I') ) { s = 177; }
+
+                   	else if ( ((LA22_153 >= '\u0000' && LA22_153 <= 'H') || (LA22_153 >= 'J' && LA22_153 <= '\uFFFF')) ) { s = 86; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 5 : 
+                   	int LA22_177 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA22_177 == 'K') ) { s = 201; }
+
+                   	else if ( ((LA22_177 >= '\u0000' && LA22_177 <= 'J') || (LA22_177 >= 'L' && LA22_177 <= '\uFFFF')) ) { s = 86; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 6 : 
+                   	int LA22_126 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA22_126 == 'T') ) { s = 153; }
+
+                   	else if ( ((LA22_126 >= '\u0000' && LA22_126 <= 'S') || (LA22_126 >= 'U' && LA22_126 <= '\uFFFF')) ) { s = 86; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 7 : 
+                   	int LA22_234 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA22_234 == 'D') ) { s = 246; }
+
+                   	else if ( ((LA22_234 >= '\u0000' && LA22_234 <= 'C') || (LA22_234 >= 'E' && LA22_234 <= '\uFFFF')) ) { s = 86; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 8 : 
+                   	int LA22_246 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA22_246 == 'T') ) { s = 254; }
+
+                   	else if ( ((LA22_246 >= '\u0000' && LA22_246 <= 'S') || (LA22_246 >= 'U' && LA22_246 <= '\uFFFF')) ) { s = 86; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 9 : 
+                   	int LA22_201 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA22_201 == 'Z') ) { s = 219; }
+
+                   	else if ( ((LA22_201 >= '\u0000' && LA22_201 <= 'Y') || (LA22_201 >= '[' && LA22_201 <= '\uFFFF')) ) { s = 86; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 10 : 
+                   	int LA22_219 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA22_219 == 'E') ) { s = 234; }
+
+                   	else if ( ((LA22_219 >= '\u0000' && LA22_219 <= 'D') || (LA22_219 >= 'F' && LA22_219 <= '\uFFFF')) ) { s = 86; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 11 : 
+                   	int LA22_87 = input.LA(1);
+
+                   	s = -1;
+                   	if ( ((LA22_87 >= '\u0000' && LA22_87 <= ' ') || (LA22_87 >= '\"' && LA22_87 <= '\uFFFF')) ) { s = 86; }
+
+                   	else if ( (LA22_87 == '!') ) { s = 126; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 12 : 
+                   	int LA22_263 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA22_263 == '\r') ) { s = 261; }
+
+                   	else if ( (LA22_263 == '\n') ) { s = 262; }
+
+                   	else if ( ((LA22_263 >= '\u0000' && LA22_263 <= '\t') || (LA22_263 >= '\u000B' && LA22_263 <= '\f') || (LA22_263 >= '\u000E' && LA22_263 <= '\uFFFF')) ) { s = 263; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
                	case 13 : 
                    	int LA22_29 = input.LA(1);
 
                    	s = -1;
-                   	if ( ((LA22_29 >= '\u0000' && LA22_29 <= '\b') || (LA22_29 >= '\u000B' && LA22_29 <= '\f') || (LA22_29 >= '\u000E' && LA22_29 <= '\u001F') || (LA22_29 >= '!' && LA22_29 <= '\uFFFF')) ) { s = 84; }
+                   	if ( ((LA22_29 >= '\u0000' && LA22_29 <= '\b') || (LA22_29 >= '\u000B' && LA22_29 <= '\f') || (LA22_29 >= '\u000E' && LA22_29 <= '\u001F') || (LA22_29 >= '!' && LA22_29 <= '\uFFFF')) ) { s = 86; }
 
-                   	else if ( (LA22_29 == '\t' || LA22_29 == ' ') ) { s = 85; }
+                   	else if ( (LA22_29 == '\t' || LA22_29 == ' ') ) { s = 87; }
 
-                   	else if ( (LA22_29 == '\r') ) { s = 86; }
+                   	else if ( (LA22_29 == '\r') ) { s = 88; }
 
-                   	else if ( (LA22_29 == '\n') ) { s = 87; }
+                   	else if ( (LA22_29 == '\n') ) { s = 89; }
 
                    	else s = 32;
 
