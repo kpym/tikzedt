@@ -254,16 +254,16 @@ tikzbody2
 	;
 	
 dontcare_body_nobr2
-	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '[' |'{' | '}' ))	// necessary to prevent conflict with options
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\pattern' | '\\shade' | '\\shadedraw' | '\\useasboundingbox' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '[' |'{' | '}' ))	// necessary to prevent conflict with options
 	;	
 dontcare_body2
-	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' |'{' | '}'))   
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\pattern' | '\\shade' | '\\shadedraw' | '\\useasboundingbox' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' |'{' | '}'))   
 	;
 dontcare_body_nobr
-	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '[' ))	// necessary to prevent conflict with options
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\pattern' | '\\shade' | '\\shadedraw' | '\\useasboundingbox' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '[' ))	// necessary to prevent conflict with options
 	;	
 dontcare_body
-	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' ))   
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\pattern' | '\\shade' | '\\shadedraw' | '\\useasboundingbox' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' ))   
 	;
 otherend
 	:	'\\end' '{' idd2 '}'
@@ -570,7 +570,7 @@ coordinate_start
 	:	'\\coordinate' -> ^(IM_STARTTAG '\\coordinate')
 	;
 path_start_tag
-	:	'\\draw' | '\\fill' | '\\path' | '\\clip' | '\\filldraw'
+	:	'\\draw' | '\\fill' | '\\path' | '\\clip' | '\\filldraw' | '\\pattern' | '\\shade' | '\\shadedraw' | '\\useasboundingbox'
 	;
 
 ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'.'|'!')*
