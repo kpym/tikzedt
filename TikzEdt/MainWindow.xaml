@@ -204,7 +204,7 @@
                     <myC:AutoGrayImage Source2="/TikzEdt;component/Images/CopyHS.png"  Stretch="Fill" Height="16" Width="16"/>
                 </Button>
                 <Button Command="ApplicationCommands.Cut" ToolTip="Cut">
-                    <myC:AutoGrayImage Source2="/TikzEdt;component/Images/cut.png"  Stretch="Fill" Height="16" Width="16"/>
+                    <myC:AutoGrayImage Source2="/TikzEdt;component/Images/CutHS.png"  Stretch="Fill" Height="16" Width="16"  />
                 </Button>
                 <Separator/>
                 <Button Command="{Binding TheDocument.CompileCommand}">

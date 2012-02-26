@@ -38,31 +38,6 @@
     <NodeStyle> font={\huge\bfseries}, shape=circle, minimum size=0.5cm, circular drop shadow, text=black, very thick, draw=black!55, top color=white,bottom color=green!80, text width=0.5cm, align=center</NodeStyle>
   </SnippetsTable>
   <SnippetsTable>
-    <ID>3</ID>
-    <Name>scopetest</Name>
-    <Category>Test Cases</Category>
-    <Description>
-      Add descriptive text here
-      Will be displayed as tooltip
-    </Description>
-    <SnippetCode>
-      \begin{tikzpicture}
-      \begin{scope}[xshift=1cm]
-      \draw (1,1)--(3,3);
-      \end{scope}
-      \draw (1,1)--(3,3);
-      \end{tikzpicture}
-    </SnippetCode>
-    <SampleCode>
-      \begin{tikzpicture}
-      \begin{scope}[xshift=1cm]
-      \draw (1,1)--(3,3);
-      \end{scope}
-      \end{tikzpicture}
-    </SampleCode>
-    <Dependencies />
-  </SnippetsTable>
-  <SnippetsTable>
     <ID>4</ID>
     <Name>Zigzag</Name>
     <Category>Path decorations</Category>
@@ -76,96 +51,6 @@
     </SampleCode>
     <Dependencies>decorations.pathmorphing</Dependencies>
     <EdgeStyle>decorate,decoration=zigzag</EdgeStyle>
-  </SnippetsTable>
-  <SnippetsTable>
-    <ID>5</ID>
-    <Name>Double Scope test</Name>
-    <Category>Test Cases</Category>
-    <Description>
-      Add descriptive text here
-      Will be displayed as tooltip
-    </Description>
-    <SnippetCode>
-      \begin{tikzpicture}
-      \begin{scope}[xshift=1cm]
-      \begin{scope}[xshift=1cm, scale=1.5]
-      \draw (1,1)--(3,3);
-      \end{scope}
-      \end{scope}
-      \end{tikzpicture}
-    </SnippetCode>
-    <SampleCode>
-      \begin{tikzpicture}
-      \begin{scope}[xshift=1cm]
-      \begin{scope}[xshift=1cm, scale=1.5]
-      \draw (1,1)--(3,3);
-      \end{scope}
-      \end{scope}
-      \end{tikzpicture}
-    </SampleCode>
-    <Dependencies />
-  </SnippetsTable>
-  <SnippetsTable>
-    <ID>6</ID>
-    <Name>Relative coordinates test</Name>
-    <Category>Test Cases</Category>
-    <Description>
-      Add descriptive text here
-      Will be displayed as tooltip
-    </Description>
-    <SnippetCode>
-      \begin{tikzpicture}
-      \draw (1,1)-- ++(3,3) --+(2,0) -- +(0,2);
-      \end{tikzpicture}
-    </SnippetCode>
-    <SampleCode>
-      \begin{tikzpicture}
-      \draw (1,1)-- ++(3,3) --+(2,0) -- +(0,2);
-      \end{tikzpicture}
-    </SampleCode>
-    <Dependencies />
-  </SnippetsTable>
-  <SnippetsTable>
-    <ID>7</ID>
-    <Name>BB test</Name>
-    <Category>Test Cases</Category>
-    <Description>
-      Add descriptive text here
-      Will be displayed as tooltip
-    </Description>
-    <SnippetCode>
-      \begin{tikzpicture}
-      \draw (0,0)--(5,5);
-      \end{tikzpicture}
-    </SnippetCode>
-    <SampleCode>
-      \begin{tikzpicture}
-      \draw (0,0)--(5,5);
-      \end{tikzpicture}
-    </SampleCode>
-    <Dependencies>nothing</Dependencies>
-  </SnippetsTable>
-  <SnippetsTable>
-    <ID>8</ID>
-    <Name>Some text </Name>
-    <Category>Test Cases</Category>
-    <Description>
-      Add descriptive text here
-      Will be displayed as tooltip
-    </Description>
-    <SnippetCode>
-      \begin{tikzpicture}
-      \draw (1,1)--(3,3);
-      \node at (2,5) {\huge $\frac{\int_0^\pi x^2dx }{\sqrt{37 (x^2+y^2)}  }$};
-      \end{tikzpicture}
-    </SnippetCode>
-    <SampleCode>
-      \begin{tikzpicture}
-      \draw (1,1)--(3,3);
-      \node at (2,5) {\huge $\frac{\int_0^\pi x^2dx }{\sqrt{37 (x^2+y^2)}  }$};
-      \end{tikzpicture}
-    </SampleCode>
-    <Dependencies>c</Dependencies>
   </SnippetsTable>
   <SnippetsTable>
     <ID>10</ID>
@@ -315,38 +200,6 @@
     <Dependencies />
   </SnippetsTable>
   <SnippetsTable>
-    <ID>13</ID>
-    <Name>Standalone doc</Name>
-    <Category>Test Cases</Category>
-    <Description>
-      Add descriptive text here
-      Will be displayed as tooltip
-    </Description>
-    <SnippetCode>
-      \documentclass{article}
-      \usepackage{tikz}
-      \usepackage[active, tightpage]{preview}
-      \begin{document}
-      \PreviewEnvironment{tikzpicture}
-      \begin{tikzpicture}
-      \draw (1,1)--(3,3);
-      \end{tikzpicture}
-      \end{document}
-    </SnippetCode>
-    <SampleCode>
-      \documentclass{article}
-      \usepackage{tikz}
-      \usepackage[active, tightpage]{preview}
-      \begin{document}
-      \PreviewEnvironment{tikzpicture}
-      \begin{tikzpicture}
-      \draw (1,1)--(3,3);
-      \end{tikzpicture}
-      \end{document}
-    </SampleCode>
-    <Dependencies />
-  </SnippetsTable>
-  <SnippetsTable>
     <ID>14</ID>
     <Name>Orange thin</Name>
     <Category>Styles Edges</Category>
@@ -367,53 +220,6 @@
     </SampleCode>
     <Dependencies />
     <EdgeStyle>default_edge</EdgeStyle>
-  </SnippetsTable>
-  <SnippetsTable>
-    <ID>15</ID>
-    <Name>Errorcase</Name>
-    <Category>Test Cases</Category>
-    <Description>
-      Add descriptive text here
-      Will be displayed as tooltip
-    </Description>
-    <SnippetCode>
-      \begin{}
-      \begin{tikzpicture}
-      \draw (1,1)--(3,3);
-      \end{tikzpicture}
-    </SnippetCode>
-    <SampleCode>
-      \begin{tikzpicture}
-      \draw (1,1)--(3,3);
-      \end{tikzpicture}
-    </SampleCode>
-    <Dependencies>a</Dependencies>
-  </SnippetsTable>
-  <SnippetsTable>
-    <ID>16</ID>
-    <Name>With styles</Name>
-    <Category>Test Cases</Category>
-    <Description>
-      Add descriptive text here
-      Will be displayed as tooltip
-    </Description>
-    <SnippetCode>
-      \tikzstyle{redsox}=[draw=red, fill]
-      \tikzset{ jello/.style={fill=yellow} }
-      \begin{tikzpicture}
-      [bluewhale/.style={fill=blue}]
-      \draw (1,1)--(3,3);
-      \end{tikzpicture}
-    </SnippetCode>
-    <SampleCode>
-      \tikzstyle{redsox}=[draw=red, fill]
-      \tikzset{ jello/.style={fill=yellow} }
-      \begin{tikzpicture}
-      [bluewhale/.style={fill=blue}]
-      \draw (1,1)--(3,3);
-      \end{tikzpicture}
-    </SampleCode>
-    <Dependencies>b</Dependencies>
   </SnippetsTable>
   <SnippetsTable>
     <ID>17</ID>
@@ -781,74 +587,6 @@
     <EdgeStyle>green_arrow_edge</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
-    <ID>36</ID>
-    <Name>Polar</Name>
-    <Category>Test Cases</Category>
-    <Description>
-      Add descriptive text here
-      Will be displayed as tooltip
-    </Description>
-    <SnippetCode>
-      \begin{tikzpicture}
-      \draw (0,0)--(30:3)--+(180:5);
-      \end{tikzpicture}
-    </SnippetCode>
-    <SampleCode>
-      \begin{tikzpicture}
-      \draw (0,0)--(30:3)--+(180:5);
-      \end{tikzpicture}
-    </SampleCode>
-    <Dependencies />
-  </SnippetsTable>
-  <SnippetsTable>
-    <ID>37</ID>
-    <Name>Scope with scale</Name>
-    <Category>Test Cases</Category>
-    <Description>
-      Add descriptive text here
-      Will be displayed as tooltip
-    </Description>
-    <SnippetCode>
-      \begin{tikzpicture}
-      \begin{scope}[xshift=1.3cm, yshift=-.5cm,scale=1.7]
-      \draw (1,1)--(3,3);
-      \end{scope}
-      \end{tikzpicture}
-    </SnippetCode>
-    <SampleCode>
-      \begin{tikzpicture}
-      \begin{scope}[xshift=1.3cm, yshift=-.5cm,scale=1.7]
-      \draw (1,1)--(3,3);
-      \end{scope}
-      \end{tikzpicture}
-    </SampleCode>
-    <Dependencies />
-  </SnippetsTable>
-  <SnippetsTable>
-    <ID>38</ID>
-    <Name>Some coord transforms</Name>
-    <Category>Test Cases</Category>
-    <Description>
-      Add descriptive text here
-      Will be displayed as tooltip
-    </Description>
-    <SnippetCode>
-      \begin{tikzpicture}[scale=.5]
-      \begin{scope}[xshift=1.3cm, yshift=-.5cm,scale=1.7]
-      \draw[xshift=1cm] (0,3)--(5,8)[xshift=1cm] (1,1)--(5,4);
-      \end{scope}
-      \end{tikzpicture}
-    </SnippetCode>
-    <SampleCode>
-      \begin{tikzpicture}[scale=.5]
-      \begin{scope}[xshift=1.3cm, yshift=-.5cm,scale=1.7]
-      \draw[xshift=1cm] (0,3)--(5,8)[xshift=1cm] (1,1)--(5,4);
-      \end{scope}
-      \end{tikzpicture}
-    </SampleCode>
-    <Dependencies />
-  </SnippetsTable>
-  <SnippetsTable>
     <ID>40</ID>
     <Name>NOPREVIEW</Name>
     <Category>Standalone</Category>
@@ -1030,30 +768,30 @@
   </SnippetsTable>
   <SnippetsTable>
     <ID>47</ID>
-    <Name>false</Name>
+    <Name>sloped</Name>
     <Category>Edge Labels</Category>
     <Description>Add text label to edge. Insert directly after "edge" and before name or coordinate of destination of edge.</Description>
-    <SnippetCode> node[edge_label] {false}</SnippetCode>
+    <SnippetCode>node[sloped, below] {false}</SnippetCode>
     <SampleCode>
       \begin{tikzpicture}
       \node (v1) at (-2,1) {};
       \node (v2) at (-1,2) {};
-      \draw[-&gt;, draw=black, line width=2pt] (v1) edge  node[near start, draw=white, auto, outer sep=3,inner sep=0,minimum size=0, line width=2pt] {false}(v2);
+      \draw[-&gt;, draw=black, line width=2pt] (v1) edge  node[sloped, below] {false}(v2);
       \end{tikzpicture}
     </SampleCode>
     <Dependencies />
   </SnippetsTable>
   <SnippetsTable>
     <ID>48</ID>
-    <Name>true</Name>
+    <Name>edge node</Name>
     <Category>Edge Labels</Category>
     <Description>Add text label to edge. Insert directly after "edge" and before name or coordinate of destination of edge.</Description>
-    <SnippetCode> node[edge_label] {true}</SnippetCode>
+    <SnippetCode> node[near start, auto] {true}</SnippetCode>
     <SampleCode>
       \begin{tikzpicture}
       \node (v1) at (-2,1) {};
       \node (v2) at (-1,2) {};
-      \draw[-&gt;, draw=black, line width=2pt] (v1) edge  node[near start, draw=white, auto, outer sep=3,inner sep=0,minimum size=0, line width=2pt] {true}(v2);
+      \draw[-&gt;, draw=black, line width=2pt] (v1) edge  node[near start, auto] {true}(v2);
       \end{tikzpicture}
     </SampleCode>
     <Dependencies />
@@ -1080,28 +818,6 @@
       \end{tikzpicture}
     </SampleCode>
     <Dependencies />
-  </SnippetsTable>
-  <SnippetsTable>
-    <ID>51</ID>
-    <Name>simple</Name>
-    <Category>Test Cases</Category>
-    <Description>
-      Add descriptive text here
-      Will be displayed as tooltip
-    </Description>
-    <SnippetCode>
-      \begin{tikzpicture}
-      \draw (1,1)--(3,3);
-      \end{tikzpicture}
-    </SnippetCode>
-    <SampleCode>
-      \begin{tikzpicture}
-      \draw (1,1)--(3,3);
-      \end{tikzpicture}
-    </SampleCode>
-    <Dependencies />
-    <EdgeStyle />
-    <NodeStyle />
   </SnippetsTable>
   <SnippetsTable>
     <ID>52</ID>
@@ -1639,5 +1355,233 @@
     </SampleCode>
     <Dependencies>decorations.pathmorphing</Dependencies>
     <NodeStyle>fill=yellow!50,draw,thick, minimum height=1cm, minimum width=2cm, decorate, decoration={random steps,segment length=3pt,amplitude=1pt}</NodeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>86</ID>
+    <Name>Matrix</Name>
+    <Category>Matrices</Category>
+    <Description />
+    <SnippetCode>
+      \matrix (m) [matrix of nodes] {
+      A &amp; B &amp; C \\
+      a &amp; b &amp; c \\
+      };
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{matrix}
+      \begin{tikzpicture}
+      \matrix (m) [matrix of nodes] {
+      A &amp; B &amp; C \\
+      a &amp; b &amp; c \\
+      };
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>matrix</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>87</ID>
+    <Name>Column formatting and spacing</Name>
+    <Category>Matrices</Category>
+    <Description />
+    <SnippetCode>
+      \matrix (m) [matrix of math nodes] {
+      A &amp;[3mm] B &amp; |[red]| C \\
+      a &amp; b &amp; c \\
+      };
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{matrix}
+      \begin{tikzpicture}
+      \matrix (m) [matrix of math nodes] {
+      A &amp;[3mm] B &amp; |[red]| C \\
+      a &amp; b &amp; c \\
+      };
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>matrix</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>88</ID>
+    <Name>Matrix of math nodes</Name>
+    <Category>Matrices</Category>
+    <Description />
+    <SnippetCode>
+      \matrix (m) [matrix of math nodes] {
+      A &amp; B &amp; \sqrt{C} \\
+      a &amp; \int b &amp; c \\
+      };
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{matrix}
+      \begin{tikzpicture}
+      \matrix (m) [matrix of math nodes] {
+      B &amp; \sqrt{C} \\
+      \int b &amp; c \\
+      };
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>matrix</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>89</ID>
+    <Name>left/right delimiter</Name>
+    <Category>Matrices</Category>
+    <Description />
+    <SnippetCode>
+      \tikzset{every left delimiter/.style={red,xshift=1ex},every right delimiter/.style={xshift=-1ex}}
+      \matrix (m) [matrix of math nodes, left delimiter=(, right delimiter=\}] {
+      A &amp; B &amp; C \\
+      a &amp; b &amp; c \\
+      };
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{matrix}
+      \begin{tikzpicture}
+      \tikzset{every left delimiter/.style={red,xshift=1ex},every right delimiter/.style={xshift=-1ex}}
+      \matrix (m) [matrix of math nodes, left delimiter=(, right delimiter=\}] {
+      A &amp; B &amp; C \\
+      a &amp; b &amp; c \\
+      };
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>matrix</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>90</ID>
+    <Name>above/below delimiter</Name>
+    <Category>Matrices</Category>
+    <Description>
+      Add descriptive text here
+      Will be displayed as tooltip
+    </Description>
+    <SnippetCode>
+      \matrix (m) [matrix of math nodes, above delimiter=[, below delimiter=\}] {
+      A &amp;[5mm] B &amp; C \\
+      };
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{matrix}
+      \begin{tikzpicture}
+      \matrix (m) [matrix of math nodes, above delimiter=[, below delimiter=\}] {
+      A &amp;[5mm] B &amp; C \\
+      };
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>91</ID>
+    <Name>red!20</Name>
+    <Category>Objects and Patterns</Category>
+    <Description />
+    <SnippetCode>red!20</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \fill[red!20] (1,1) rectangle (3,2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle />
+    <NodeStyle />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>92</ID>
+    <Name>\draw</Name>
+    <Category>Path commands</Category>
+    <Description />
+    <SnippetCode>\draw (0,0) -- (2,1);</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw (0,0) -- (2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>93</ID>
+    <Name>\fill</Name>
+    <Category>Path commands</Category>
+    <Description />
+    <SnippetCode>\fill[blue] (1,1)--(3,2)--(3,1)--cycle;</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \fill[blue] (1,1)--(3,2)--(3,1)--cycle;
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>94</ID>
+    <Name>\filldraw</Name>
+    <Category>Path commands</Category>
+    <Description />
+    <SnippetCode>\filldraw[fill=green!20, draw=red, thick] (1,1)--(3,2)--(3,1)--cycle;</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \filldraw[fill=green!20, draw=red, thick] (1,1)--(3,2)--(3,1)--cycle;
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>95</ID>
+    <Name>\clip</Name>
+    <Category>Path commands</Category>
+    <Description />
+    <SnippetCode>\clip</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \clip (0,0) circle (1);
+      \fill[green] (-2,-.5) rectangle (2,.5);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>96</ID>
+    <Name>\shade</Name>
+    <Category>Path commands</Category>
+    <Description />
+    <SnippetCode> \shade[left color=yellow,right color=black] (1,1) rectangle (3,2);</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \shade[left color=yellow,right color=black] (1,1) rectangle (3,2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>97</ID>
+    <Name>\shadedraw</Name>
+    <Category>Path commands</Category>
+    <Description />
+    <SnippetCode>\shadedraw[inner color=yellow,outer color=black,draw=red, ultra thick, rounded corners] (6,0) rectangle +(2,1);</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \shadedraw[inner color=yellow,outer color=black,draw=red, ultra thick, rounded corners] (6,0) rectangle +(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>98</ID>
+    <Name>Positioning</Name>
+    <Category>Edge Labels</Category>
+    <Description>Specify the position along a path with pos=..., or using the attributes "at start", "very near start", "near start", "midway" (and same with end).</Description>
+    <SnippetCode>
+      \draw (1,1)--(3,1)
+      node[pos=.1, above] {a}
+      node[midway] {b}
+      node[very near end, below] {c};
+    </SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw (1,1)--(2.5,1)
+      node[pos=.1, above] {a}
+      node[midway] {b}
+      node[very near end, below] {c};
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
   </SnippetsTable>
 </SnippetsDataSet>
