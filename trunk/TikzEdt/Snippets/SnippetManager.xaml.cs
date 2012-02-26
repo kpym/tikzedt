@@ -349,8 +349,9 @@ namespace TikzEdt.Snippets
             if (e.Key == Key.Delete)
             {
                 if (lstSnippets.SelectedIndex >= 0)
-                    if (MessageBox.Show("Really delete the selected snippet?", "Delete", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                        cmdDeleteClick(sender, null);
+                    cmdDeleteClick(sender, null);
+                    //if (MessageBox.Show("Really delete the selected snippet?", "Delete", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                        
             }
         }
 
