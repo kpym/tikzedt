@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>  
 <!-- This file is used by the automatic update checker. Do not delete -->
 <tikzedt>
-  <latestversion>0.2</latestversion>  
+  <latestversion>0.2.1</latestversion>  
   <webpageurl>http://code.google.com/p/tikzedt/downloads/list</webpageurl>
-  <downloadurl>http://tikzedt.googlecode.com/files/TikzEdt0_2beta.msi</downloadurl> 
+  <downloadurl>http://tikzedt.googlecode.com/files/TikzEdtBeta0_2_1.msi</downloadurl> 
 </tikzedt>  
