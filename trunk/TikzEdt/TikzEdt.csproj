@@ -380,6 +380,9 @@
       <DependentUpon>SnippetsDataSet.xsd</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="SnippetThumbs.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="TikzEdt %28portable%29.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

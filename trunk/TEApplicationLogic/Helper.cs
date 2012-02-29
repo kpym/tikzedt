@@ -154,6 +154,8 @@ namespace TikzEdt
         public static string PreProc_CompilerOptions = "%!TEO";
         public static string PreProc_Include = "%!TEI";
         public static string PGFManualDownloadPath = @"http://www.ctan.org/tex-archive/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf";
+        public static string cSnippetThumbsZipfile = "SnippetThumbs.zip";
+        public static string cUnzipper = "Unzipper.exe";
     }
 
     /// <summary>
@@ -326,7 +328,7 @@ namespace TikzEdt
             return GetAppdataPath() + "\\" + Consts.cSettingsDir + "\\";
         }
         /// <summary>
-        /// Path where the snippetes are stored (usually \\img)
+        /// Path where the snippet thumbnails are stored (usually \\img)
         /// </summary>
         /// <returns></returns>
         public static string GetSnippetsPath()
