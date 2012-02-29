@@ -313,6 +313,58 @@ namespace TikzEdt
 
     }
 
+    /// <summary>
+    /// Converts int to bool saying whether the provided parameter matches the integer.
+    /// Conversely, true is converted to the parameter and false to -1
+    /// </summary>
+    [ValueConversion(typeof(int), typeof(bool))]
+    class IndexToBoolConverter : IValueConverter
+    {
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            int target;
+            if (!(parameter is string) || !(value is int) || !Int32.TryParse((string)parameter, out target) )
+                return false;
+
+            return ((int)value) == target;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            int target;
+            if (!(parameter is string) || !(value is bool) || !Int32.TryParse((string)parameter, out target))
+                return DependencyProperty.UnsetValue;
+
+            if ((bool)value)
+                return Int32.Parse((string)parameter);
+            else
+                return -1;
+        }
+    }
+
+    /// <summary>
+    /// Converts int to bool saying whether the provided parameter matches the integer.
+    /// Conversely, true is converted to the parameter and false to -1
+    /// </summary>
+    [ValueConversion(typeof(int), typeof(Visibility))]
+    class GEQZeroToVisibilityConverter : IValueConverter
+    {
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (!(value is int) || (int)value < 0)
+                return Visibility.Collapsed;
+            else
+                return Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     #endregion
 
 

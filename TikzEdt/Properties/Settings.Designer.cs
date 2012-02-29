@@ -202,7 +202,7 @@ namespace TikzEdt.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
         public double Raster_GridWidth {
             get {
                 return ((double)(this["Raster_GridWidth"]));
@@ -413,18 +413,6 @@ namespace TikzEdt.Properties {
             }
             set {
                 this["SourceColWidth"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool LeftToolsColVisible {
-            get {
-                return ((bool)(this["LeftToolsColVisible"]));
-            }
-            set {
-                this["LeftToolsColVisible"] = value;
             }
         }
         
@@ -701,6 +689,18 @@ namespace TikzEdt.Properties {
             }
             set {
                 this["TLB_ModeBand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int LeftToolsColSelectedIndex {
+            get {
+                return ((int)(this["LeftToolsColSelectedIndex"]));
+            }
+            set {
+                this["LeftToolsColSelectedIndex"] = value;
             }
         }
     }

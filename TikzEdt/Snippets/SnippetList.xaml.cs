@@ -82,22 +82,27 @@ namespace TikzEdt.Snippets
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))  // we don't want this to happen in the vs designer
             if (!Directory.Exists(Helper.GetSnippetsPath()))
             {
-                if (GlobalUI.ShowMessageBox("The Snippet Thumbnails do not seem to exist. Do you want them to be created now?\r\n"+
-                    "It may take some time, but it will happen in the background. You can also recompile them later from the Snippet Manager."+
-                    "Note: If you are missing some Latex packages, it is better to compile later", "Compile Thumbnails", 
-                    MessageBoxButton.YesNoCancel, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                CompileSnippets();
+            }            
+        }
+
+        public void CompileSnippets()
+        {
+            if (GlobalUI.ShowMessageBox("The Snippet Thumbnails do not seem to exist. Do you want them to be created now?\r\n" +
+    "It may take some time, but it will happen in the background. You can also recompile them later from the menu or the Snippet Manager." +
+    "Note: If you are missing some Latex packages, it is better to compile later", "Compile Thumbnails",
+    MessageBoxButton.YesNoCancel, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                // Compile
+                foreach (SnippetsDataSet.SnippetsTableRow r in snippetsTable.Rows)
                 {
-                    // Compile
-                    foreach (SnippetsDataSet.SnippetsTableRow r in snippetsTable.Rows)
+                    if (!r.IsNull(snippetsTable.SampleCodeColumn))
                     {
-                        if (!r.IsNull(snippetsTable.SampleCodeColumn))
-                        {
-                            string cFile = Helper.GetSnippetsPath() + r.ID;
-                            TikzToBMPFactory.Instance.AddJob(r.SampleCode, cFile + ".tex", new Rect(0, 0, 0, 0), r.Name, true);
-                        }
+                        string cFile = Helper.GetSnippetsPath() + r.ID;
+                        TikzToBMPFactory.Instance.AddJob(r.SampleCode, cFile + ".tex", new Rect(0, 0, 0, 0), r.Name, true);
                     }
                 }
-            }            
+            }
         }
 
         public void Reload()

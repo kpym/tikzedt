@@ -102,7 +102,7 @@
             <RowDefinition Height="0"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <Menu Height="23" HorizontalAlignment="Stretch" Name="menu1" VerticalAlignment="Top" Grid.Row="0" BorderThickness="0">
+        <Menu Height="23"  Name="menu1"  Grid.Row="0" BorderThickness="0" >
             <MenuItem Header="_File" >
                 <MenuItem Header="Open..." Command="ApplicationCommands.Open" />
                 <MenuItem Header="New" Command="ApplicationCommands.New" />
@@ -157,6 +157,7 @@
                           IsEnabled="{Binding Source={x:Static myApp:TikzToBMPFactory.Instance}, Path=Compiling, Mode=OneWay}"/>
                 <Separator/>
                 <MenuItem Header="(Re-)Generate precompiled headers" Click="GenerateHeadersClick"/>
+                <MenuItem Header="Compile snippet thumbnails..." Click="GenerateSnippetThumbsClick"/>
             </MenuItem>
             <MenuItem Header="_Settings">
                 <MenuItem Header="Snippet Manager..." Click="SnippetMenuClick"/>
@@ -568,20 +569,22 @@
         <DockPanel Grid.Row="2" Name="MainElements" LastChildFill="True">
         
             <StackPanel DockPanel.Dock="Left">
-                <ToggleButton Width="60" Name="cmdFiles" Checked="cmdSnippets_Checked" Unchecked="cmdSnippets_Unchecked" 
+                <ToggleButton Width="60" Name="cmdFiles" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=LeftToolsColSelectedIndex, Mode=TwoWay, Converter={StaticResource IndexToBool}, ConverterParameter=0 }" 
                               Focusable="False">
                     <ToggleButton.LayoutTransform>
                         <RotateTransform Angle="-90"/>
                     </ToggleButton.LayoutTransform>
                     Files
                 </ToggleButton>
-                <ToggleButton Width="60" Name="cmdSnippets" Checked="cmdSnippets_Checked" Unchecked="cmdSnippets_Unchecked" Focusable="False" IsChecked="True" >
+                <ToggleButton Width="60" Name="cmdSnippets" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=LeftToolsColSelectedIndex, Mode=TwoWay, Converter={StaticResource IndexToBool}, ConverterParameter=1 }"
+                              Focusable="False"  >
                     <ToggleButton.LayoutTransform>
                         <RotateTransform Angle="-90"/>
                     </ToggleButton.LayoutTransform>
                     Snippets
                 </ToggleButton>
-                <ToggleButton Width="60" Name="cmdDynPreamble" Checked="cmdSnippets_Checked" Unchecked="cmdSnippets_Unchecked" Focusable="False" IsChecked="False" >
+                <ToggleButton Width="60" Name="cmdDynPreamble" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=LeftToolsColSelectedIndex, Mode=TwoWay, Converter={StaticResource IndexToBool}, ConverterParameter=2 }"
+                              Focusable="False"  >
                     <ToggleButton.LayoutTransform>
                         <RotateTransform Angle="-90"/>
                     </ToggleButton.LayoutTransform>
@@ -590,8 +593,8 @@
             </StackPanel>            
 
             <!-- <GridSplitter Background="Gray" Grid.Column="2" Grid.Row="0" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />-->
-            <Grid Width="{Binding Path=LeftToolsColWidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" 
-                  Visibility="{Binding Path=LeftToolsColVisible, Source={x:Static p:Settings.Default},Converter={StaticResource boolToVis}}">
+            <Grid Width="{Binding Path=LeftToolsColWidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}"                   
+                  Visibility="{Binding Path=LeftToolsColSelectedIndex, Source={x:Static p:Settings.Default},Converter={StaticResource GEQZeroToVisibility}}">
             <mySnippets:SnippetList x:Name="snippetlist1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                     Grid.Column="1" Grid.Row="0" OnInsert="snippetlist1_OnInsert" 
                                     ShowThumbnails="{Binding Source={x:Static p:Settings.Default}, Path=Snippets_ShowThumbs, Mode=TwoWay}" 
@@ -621,7 +624,7 @@
                                          />
             </Grid>
             <myC:DockPanelSplitter DockPanel.Dock="Left" Thickness="5" Background="Gainsboro"
-                                   Visibility="{Binding Path=LeftToolsColVisible, Source={x:Static p:Settings.Default},Converter={StaticResource boolToVis}}"/>
+                                   Visibility="{Binding Path=LeftToolsColSelectedIndex, Source={x:Static p:Settings.Default},Converter={StaticResource GEQZeroToVisibility}}"/>
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" DockPanel.Dock="Right" Name="PreviewScrollViewer" 
                           Width="{Binding OverlayCanvasCol2WidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" >
                 <!-- 
@@ -741,6 +744,7 @@
                                        CompleteBegins="{Binding Source={x:Static p:Settings.Default}, Path=Editor_CompleteBegins}"                                       
                                        DynamicSnippets="{Binding TheDocument.TikzStyles}"
                                        DynamicSnippetsEnv="1"
+                                       MinWidth="20"
                                        Grid.Row="0"> <!-- ID=1 is currently the options environment  -->
                     <myEditor:TextEditorEx.ContextMenu>
                         <ContextMenu>
