@@ -1624,6 +1624,7 @@ namespace TikzEdt
         }
 
         //GridLength oldwidth;
+        /*
         private void cmdSnippets_Checked(object sender, RoutedEventArgs e)
         {
             if (cmdSnippets != null && cmdFiles != null && snippetlist1 != null)
@@ -1669,7 +1670,7 @@ namespace TikzEdt
                 //cmdFiles.IsChecked = false;
                 //snippetlist1.Visibility = System.Windows.Visibility.Hidden;
             }
-            if (cmdFiles.IsChecked == false && cmdSnippets.IsChecked == false)
+            if (cmdFiles.IsChecked == false && cmdSnippets.IsChecked == false && cmdDynPreamble.IsChecked == false)
             {
                 Properties.Settings.Default.LeftToolsColVisible = false;
                 //GridLengthConverter g = new GridLengthConverter();
@@ -1677,7 +1678,7 @@ namespace TikzEdt
                 //LeftToolsCol.Width = (GridLength)g.ConvertFrom(0);
                 //LeftSplitterCol.Width = (GridLength)g.ConvertFrom(0);                
             }
-        }
+        } */
 
         private void snippetlist1_OnInsert(string code, string dependencies)
         {
@@ -1852,7 +1853,10 @@ namespace TikzEdt
         {
             TheCompiler.GeneratePrecompiledHeaders();
         }
-       
+        private void GenerateSnippetThumbsClick(object sender, RoutedEventArgs e)
+        {
+            snippetlist1.CompileSnippets();
+        }       
   /*      private void chkFancyMode_Checked(object sender, RoutedEventArgs e)
         {
             if (isLoaded)

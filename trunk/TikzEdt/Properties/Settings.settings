@@ -54,7 +54,7 @@
       <Value Profile="(Default)">18</Value>
     </Setting>
     <Setting Name="Raster_GridWidth" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">1</Value>
+      <Value Profile="(Default)">0.5</Value>
     </Setting>
     <Setting Name="Raster_RadialOffset" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
@@ -106,9 +106,6 @@
     </Setting>
     <Setting Name="SourceColWidth" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">75</Value>
-    </Setting>
-    <Setting Name="LeftToolsColVisible" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="SplitterColWidthSetting" Type="System.Windows.GridLength" Scope="User">
       <Value Profile="(Default)">3</Value>
@@ -177,6 +174,9 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="TLB_ModeBand" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="LeftToolsColSelectedIndex" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>

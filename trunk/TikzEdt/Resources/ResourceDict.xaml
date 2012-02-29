@@ -27,4 +27,6 @@
     <my:CompareConverter x:Key="compareConverter"/>
     <my:EnumAndBooleanToVisibilityConverter x:Key="EnumBoolToVis"/>
     <my:RectToStringConverter x:Key="RectToString" />
+    <my:IndexToBoolConverter x:Key="IndexToBool" />
+    <my:GEQZeroToVisibilityConverter x:Key="GEQZeroToVisibility" />
 </ResourceDictionary>
