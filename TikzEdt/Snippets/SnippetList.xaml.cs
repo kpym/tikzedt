@@ -78,12 +78,37 @@ namespace TikzEdt.Snippets
 
             Reload();
 
-            // Do Thumbnails exist? -> Recompile
+            // Do Thumbnails exist? -> Unzip or Recompile
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))  // we don't want this to happen in the vs designer
-            if (!Directory.Exists(Helper.GetSnippetsPath()))
             {
-                CompileSnippets();
-            }            
+                if (!Directory.Exists(Helper.GetSnippetsPath()))
+                {
+                    // first try to unzip snippets
+                    string zip = System.IO.Path.Combine( Helper.GetAppDir(), Consts.cSnippetThumbsZipfile);
+                    string unzipper = System.IO.Path.Combine( Helper.GetAppDir(), Consts.cUnzipper);
+                    if (File.Exists(zip) && File.Exists(unzipper))
+                    {
+                        try
+                        {
+                            GlobalUI.AddStatusLine(this, "Unzipping snippet thumbnails from file " + zip +"....");
+                            System.Diagnostics.Process.Start( new System.Diagnostics.ProcessStartInfo()
+                                {
+                                    UseShellExecute = false,
+                                    FileName = unzipper,
+                                    Arguments = "\""+zip+"\" \""+Helper.GetAppdataPath()+"\"",
+                                    CreateNoWindow = true
+                                });
+                        }
+                        catch (Exception ex)
+                        {
+                            GlobalUI.AddStatusLine(this, "Unzipping snippet thumbnails failed: "+ex.Message , true);
+                            CompileSnippets();  // in case of failure, try to recompile snippets
+                        }
+                    }
+                    else
+                        CompileSnippets();
+                }
+            }
         }
 
         public void CompileSnippets()

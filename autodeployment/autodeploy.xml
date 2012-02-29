@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ConfigData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SummaryInstaller>Installer for Windows. Will ask you to install .NET 4.0 if you don't already have it. Requires a working Latex installation.</SummaryInstaller>
+  <LabelsZip>
+    <string>Type-Archive</string>
+    <string>OpSys-Windows</string>
+  </LabelsZip>
+  <LabelsInstaller>
+    <string>Type-Installer</string>
+    <string>OpSys-Windows</string>
+  </LabelsInstaller>
+  <UserName>t.willwacher</UserName>
+  <SummaryZip>Standalone zip file. Just unzip and run. Requires a working Latex installation and the .NET Framework 4.0 to run.</SummaryZip>
+  <InstallerPrefix>TikzEdtBeta</InstallerPrefix>
+  <RawFilesDir>..\TikzEdt1.0\ReleaseRaw</RawFilesDir>
+  <InstallerDir>..\TikzEdt1.0\Release</InstallerDir>
+  <ProjectName>tikzedt</ProjectName>
+  <VersionXML>..\VersionInfo.xml</VersionXML>
+  <VersionXMLTemplate>VersionInfo_tpl.xml</VersionXMLTemplate>
+</ConfigData>
