@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyRuntimeData", "CopyRunt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unzipper", "Unzipper\Unzipper.csproj", "{A5AE753E-3A06-4770-9AAC-4E902D1868E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "my_cmd", "InstallLatexPackages\my_cmd.csproj", "{6A871C81-F5C6-4CA7-8FEE-0A96610C6569}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -19,6 +21,10 @@ Global
 		{A5AE753E-3A06-4770-9AAC-4E902D1868E3}.Debug|x86.Build.0 = Debug|x86
 		{A5AE753E-3A06-4770-9AAC-4E902D1868E3}.Release|x86.ActiveCfg = Release|x86
 		{A5AE753E-3A06-4770-9AAC-4E902D1868E3}.Release|x86.Build.0 = Release|x86
+		{6A871C81-F5C6-4CA7-8FEE-0A96610C6569}.Debug|x86.ActiveCfg = Debug|x86
+		{6A871C81-F5C6-4CA7-8FEE-0A96610C6569}.Debug|x86.Build.0 = Debug|x86
+		{6A871C81-F5C6-4CA7-8FEE-0A96610C6569}.Release|x86.ActiveCfg = Release|x86
+		{6A871C81-F5C6-4CA7-8FEE-0A96610C6569}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

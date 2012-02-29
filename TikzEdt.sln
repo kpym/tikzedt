@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TESharedComponents", "TESha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TESharedComponentsTests", "TESharedComponentsTests\TESharedComponentsTests.csproj", "{245AAB5D-E043-43AC-8507-32FA02CC5696}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetupActions", "SetupActions\SetupActions.csproj", "{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = TikzEdt.vsmdi
@@ -423,6 +425,42 @@ Global
 		{245AAB5D-E043-43AC-8507-32FA02CC5696}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
 		{245AAB5D-E043-43AC-8507-32FA02CC5696}.SingleImage|x64.ActiveCfg = Release|Any CPU
 		{245AAB5D-E043-43AC-8507-32FA02CC5696}.SingleImage|x86.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.CD_ROM|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.CD_ROM|Mixed Platforms.Build.0 = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.CD_ROM|x64.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.CD_ROM|x86.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.DVD-5|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.DVD-5|Mixed Platforms.Build.0 = Debug|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.DVD-5|x64.ActiveCfg = Debug|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.DVD-5|x86.ActiveCfg = Debug|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.Release|x64.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.Release|x86.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.ReleaseRaw|Any CPU.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.ReleaseRaw|Any CPU.Build.0 = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.ReleaseRaw|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.ReleaseRaw|Mixed Platforms.Build.0 = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.ReleaseRaw|x64.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.ReleaseRaw|x86.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.SingleImage|x64.ActiveCfg = Release|Any CPU
+		{353D72AF-EBB6-4FA0-AA8A-53977E8B485F}.SingleImage|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
