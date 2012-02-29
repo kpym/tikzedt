@@ -1201,6 +1201,7 @@
       \end{tikzpicture}
     </SampleCode>
     <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=checkerboard,pattern color=black!30</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>76</ID>
@@ -1248,6 +1249,7 @@
       \end{tikzpicture}
     </SampleCode>
     <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=vertical lines</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>79</ID>
@@ -1262,6 +1264,7 @@
       \end{tikzpicture}
     </SampleCode>
     <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=horizontal lines</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>80</ID>
@@ -1276,6 +1279,7 @@
       \end{tikzpicture}
     </SampleCode>
     <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=north east lines</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>81</ID>
@@ -1290,6 +1294,7 @@
       \end{tikzpicture}
     </SampleCode>
     <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=dots</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>82</ID>
@@ -1307,6 +1312,7 @@
       \end{tikzpicture}
     </SampleCode>
     <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=bricks</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>83</ID>
@@ -1321,6 +1327,7 @@
       \end{tikzpicture}
     </SampleCode>
     <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=sixpointed stars</EdgeStyle>
   </SnippetsTable>
   <SnippetsTable>
     <ID>84</ID>
@@ -1472,7 +1479,7 @@
   <SnippetsTable>
     <ID>91</ID>
     <Name>red!20</Name>
-    <Category>Objects and Patterns</Category>
+    <Category>Colors</Category>
     <Description />
     <SnippetCode>red!20</SnippetCode>
     <SampleCode>
@@ -1481,7 +1488,7 @@
       \end{tikzpicture}
     </SampleCode>
     <Dependencies />
-    <EdgeStyle />
+    <EdgeStyle>red!20</EdgeStyle>
     <NodeStyle />
   </SnippetsTable>
   <SnippetsTable>
@@ -1583,5 +1590,459 @@
       \end{tikzpicture}
     </SampleCode>
     <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>99</ID>
+    <Name>dashed</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>dashed</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[dashed] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>dashed</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>100</ID>
+    <Name>dotted</Name>
+    <Category>Line Styles</Category>
+    <Description>
+      Add descriptive text here
+      Will be displayed as tooltip
+    </Description>
+    <SnippetCode>dotted</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[dotted] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>dotted</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>101</ID>
+    <Name>loosely dotted</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>loosely dotted</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[loosely dotted] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>loosely dotted</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>102</ID>
+    <Name>densely dotted</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>densely dotted</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[densely dotted] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>densely dotted</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>103</ID>
+    <Name>loosely dashed</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>loosely dashed</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[loosely dashed] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>loosely dashed</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>104</ID>
+    <Name>densely dashed</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>densely dashed</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[densely dashed] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>densely dashed</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>105</ID>
+    <Name>very thin</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>very thin</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[very thin] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>very thin</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>106</ID>
+    <Name>ultra thin</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>ultra thin</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[ultra thin] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>ultra thin</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>107</ID>
+    <Name>thin</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>thin</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[thin] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>thin</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>108</ID>
+    <Name>semithick</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>semithick</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[semithick] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>semithick</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>109</ID>
+    <Name>thick</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>thick</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[thick] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>thick</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>110</ID>
+    <Name>very thick</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>very thick</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[very thick] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>very thick</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>111</ID>
+    <Name>ultra thick</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>ultra thick</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[ultra thick] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>ultra thick</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>112</ID>
+    <Name>dashdotted</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>dashdotted</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[dashdotted] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>dashdotted</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>113</ID>
+    <Name>dashdotdotted</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>dashdotdotted</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[dashdotdotted] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>dashdotdotted</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>114</ID>
+    <Name>dash pattern</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>dash pattern=on 2pt off 3pt on 4pt off 4pt</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[dash pattern=on 2pt off 3pt on 4pt off 4pt] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>dash pattern=on 2pt off 3pt on 4pt off 4pt</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>115</ID>
+    <Name>double</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>double</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[double] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>double</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>116</ID>
+    <Name>double distance=2pt</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>double distance=2pt</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[double distance=2pt] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>double distance=2pt</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>117</ID>
+    <Name>Button</Name>
+    <Category>Styles Nodes</Category>
+    <Description>From the pgf manual.</Description>
+    <SnippetCode>
+      \tikzset{button/.style={
+      % First preaction: Fuzzy shadow
+      preaction={fill=black,path fading=circle with fuzzy edge 20 percent,
+      opacity=.5,transform canvas={xshift=1mm,yshift=-1mm}},
+      % Second preaction: Background pattern
+      preaction={pattern=#1,
+      path fading=circle with fuzzy edge 15 percent},
+      % Third preaction: Make background shiny
+      preaction={top color=white,
+      bottom color=black!50,
+      shading angle=45,
+      path fading=circle with fuzzy edge 15 percent,
+      opacity=0.2},
+      % Fourth preaction: Make edge especially shiny
+      preaction={path fading=fuzzy ring 15 percent,
+      top color=black!5,
+      bottom color=black!80,
+      shading angle=45},
+      inner sep=2ex
+      },
+      button/.default=horizontal lines light blue,
+      circle}
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{shadows, patterns}
+      \tikzset{button/.style={
+      % First preaction: Fuzzy shadow
+      preaction={fill=black,path fading=circle with fuzzy edge 20 percent,
+      opacity=.5,transform canvas={xshift=1mm,yshift=-1mm}},
+      % Second preaction: Background pattern
+      preaction={pattern=#1,
+      path fading=circle with fuzzy edge 15 percent},
+      % Third preaction: Make background shiny
+      preaction={top color=white,
+      bottom color=black!50,
+      shading angle=45,
+      path fading=circle with fuzzy edge 15 percent,
+      opacity=0.2},
+      % Fourth preaction: Make edge especially shiny
+      preaction={path fading=fuzzy ring 15 percent,
+      top color=black!5,
+      bottom color=black!80,
+      shading angle=45},
+      inner sep=2ex
+      },
+      button/.default=horizontal lines light blue,
+      circle}
+      \begin{tikzpicture}
+      \node [button] at (0,0) { Big};
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>shadows, patterns</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>118</ID>
+    <Name>green</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>green</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \fill[green] (1,1) rectangle (3,2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>green</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>119</ID>
+    <Name>gray</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>gray</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \fill[gray] (1,1) rectangle (3,2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>gray</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>120</ID>
+    <Name>blue</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>blue</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \fill[blue] (1,1) rectangle (3,2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>blue</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>121</ID>
+    <Name>yellow</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>yellow</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \fill[yellow] (1,1) rectangle (3,2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>yellow</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>122</ID>
+    <Name>orange</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>orange</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \fill[orange] (1,1) rectangle (3,2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>orange</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>123</ID>
+    <Name>black</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>black</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \fill[black] (1,1) rectangle (3,2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>black</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>124</ID>
+    <Name>magenta</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>magenta</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \fill[magenta] (1,1) rectangle (3,2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>magenta</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>125</ID>
+    <Name>pink</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>pink</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \fill[pink] (1,1) rectangle (3,2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>pink</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>126</ID>
+    <Name>cyan</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>cyan</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \fill[cyan] (1,1) rectangle (3,2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>cyan</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>127</ID>
+    <Name>purple</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>purple</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \fill[purple] (1,1) rectangle (3,2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>purple</EdgeStyle>
   </SnippetsTable>
 </SnippetsDataSet>
