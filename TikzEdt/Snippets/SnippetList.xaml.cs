@@ -58,6 +58,21 @@ namespace TikzEdt.Snippets
             set { SetValue(ShowThumbnailsProperty, value); }
         }
 
+
+
+        public double ThumbnailSize
+        {
+            get { return (double)GetValue(ThumbnailSizeProperty); }
+            set { SetValue(ThumbnailSizeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ThumbnailSize.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ThumbnailSizeProperty =
+            DependencyProperty.Register("ThumbnailSize", typeof(double), typeof(SnippetList), new UIPropertyMetadata(40.0));
+
+        
+
+
         public SnippetList()
         {
             InitializeComponent();

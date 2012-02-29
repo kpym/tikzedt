@@ -67,6 +67,8 @@
     
     <Grid DataContext="{StaticResource snippetsTableViewSource}">
 
+
+
         <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                  IsSynchronizedWithCurrentItem="True" x:Name="lstSnippets" ItemsSource="{Binding}" SelectedValuePath="ID" 
                  MouseDoubleClick="lstSnippets_MouseDoubleClick" HorizontalContentAlignment="Stretch" >     
@@ -77,6 +79,15 @@
                     <MenuItem Header="Insert Dependencies"  Click="InsertDependenciesClick"/>
                     <Separator/>
                     <MenuItem Header="Show Thumbnails" IsCheckable="True" IsChecked="{Binding ElementName=Myself, Path=ShowThumbnails}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0 0 5 0">Size: </TextBlock>
+                        <Slider Minimum="10" Maximum="400" Width="140" VerticalAlignment="Center" 
+                                Value="{Binding ElementName=Myself, Path=ThumbnailSize, Mode=TwoWay}">
+                            <Slider.LayoutTransform>
+                                <ScaleTransform ScaleX=".7" ScaleY=".7" />
+                            </Slider.LayoutTransform>
+                        </Slider>
+                    </StackPanel>
                 </ContextMenu>                
             </ListBox.ContextMenu>
             <ListBox.GroupStyle>
@@ -99,8 +110,9 @@
                                 </StackPanel>
                             </StackPanel>
                             </DockPanel.ToolTip>
-                        
-                        <Image DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10" Height="Auto" Width="40" 
+
+                        <Image DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10" Height="Auto" 
+                               Width="{Binding ElementName=Myself, Path=ThumbnailSize}" 
                                Source="{Binding Path=ID, Converter={StaticResource ImgConverter}}" HorizontalAlignment="Center" 
                                Visibility="{Binding ElementName=Myself, Path=ShowThumbnails, Converter={StaticResource boolToVis}}" />
                         <Button DockPanel.Dock="Right" ToolTip="Use this style with WYSIWYG tools&#xa;CTRL to add the style to the current one (rather than replace it)" Click="UseStyleButton_Click" >
@@ -140,8 +152,6 @@
                     </DockPanel>
                 </DataTemplate>
                 </ListBox.ItemTemplate>
-        </ListBox>
-
-
+        </ListBox>        
     </Grid>
 </UserControl>
