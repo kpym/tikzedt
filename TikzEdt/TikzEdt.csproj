@@ -223,7 +223,6 @@
     <Compile Include="TipsTricksWindow.xaml.cs">
       <DependentUpon>TipsTricksWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindowSetting.cs" />
     <Page Include="DynPreamble\DynPreambleEditDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -9,7 +9,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="Window_Width" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">800</Value>
+      <Value Profile="(Default)">944</Value>
     </Setting>
     <Setting Name="Window_Height" Type="System.Double" Scope="User">
       <Value Profile="(Default)">600</Value>
@@ -178,6 +178,15 @@
     </Setting>
     <Setting Name="LeftToolsColSelectedIndex" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="Window_Left" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Window_Top" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Window_State" Type="System.Windows.WindowState" Scope="User">
+      <Value Profile="(Default)">Normal</Value>
     </Setting>
   </Settings>
 </SettingsFile>

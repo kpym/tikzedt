@@ -85,7 +85,7 @@ namespace TikzEdt.ViewModels
             }
         }
 
-        double _RasterWidth = 1;
+        double _RasterWidth = .5;
         public double RasterWidth
         {
             get { return _RasterWidth; }
@@ -254,7 +254,7 @@ namespace TikzEdt.ViewModels
                 else
                     System.Diagnostics.Process.Start(exe_location);
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 GlobalUI.ShowMessageBox("Error: Couldn't start new instance of TikzEdt. (exe path read was: " + exe_location + ".", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
