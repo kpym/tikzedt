@@ -1224,7 +1224,7 @@ namespace TikzEdt.ViewModels
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception )
                     {
 
                     }

@@ -18,12 +18,15 @@
         xmlns:FLV="clr-namespace:FileListView;assembly=FileListView"
         Title="{Binding TheDocument.DisplayString, StringFormat=TikzEdt - {0}}" 
         Height="{Binding Source={x:Static p:Settings.Default}, Path=Window_Height, Mode=TwoWay}" 
-        Width="944" 
+        Left="{Binding Source={x:Static p:Settings.Default}, Path=Window_Left, Mode=TwoWay}"
+        Width="{Binding Source={x:Static p:Settings.Default}, Path=Window_Width, Mode=TwoWay}" 
+        Top="{Binding Source={x:Static p:Settings.Default}, Path=Window_Top, Mode=TwoWay}"
+        WindowState="{Binding Source={x:Static p:Settings.Default}, Path=Window_State, Mode=TwoWay}"
         Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico"        
-        xmlns:settings="clr-namespace:LogicaCMG.Settings"
-        settings:WindowSettings.Save="True"
-        UseLayoutRounding="True" AllowsTransparency="False" >
-    <!-- -->
+        UseLayoutRounding="True" AllowsTransparency="False" 
+        >
+    <!--         xmlns:settings="clr-namespace:LogicaCMG.Settings"
+        settings:WindowSettings.Save="True" -->
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -780,10 +783,19 @@
             <Separator DockPanel.Dock="Right"/>
             <StatusBarItem Name="StatusBarZoom" DockPanel.Dock="Right" HorizontalAlignment="Right" >
                 <StackPanel Orientation="Horizontal">
-                    <Button Click="cmdZoomOut2Click" ToolTip="Zoom out" Style="{StaticResource FlatButtonStyle}">
-                    <Image Source="/TikzEdt;component/Images/ZoomOutHSSmall.png"  Stretch="UniformToFill" Height="11" Width="11"/>
-                </Button>
-                <ComboBox Name="cmbZoom2"  Width="60" ItemsSource="{Binding}" Text="{Binding TheDocument.Resolution,Converter={StaticResource ZoomResConverter}}" 
+                    <Button Command="{x:Static Slider.DecreaseLarge}" CommandTarget="{Binding ElementName=ZoomSlider}" ToolTip="Zoom out" Style="{StaticResource FlatButtonStyle}">
+                        <Image Source="/TikzEdt;component/Images/ZoomOutHSSmall.png"  Stretch="UniformToFill" Height="11" Width="11"/>
+                    </Button>
+                    <Slider Name="ZoomSlider" Value="{Binding TheDocument.Resolution, Mode=TwoWay}" Width="120" Minimum="5" Maximum="200"
+                             TickPlacement="TopLeft" VerticalAlignment="Top" LargeChange="5">
+                        <Slider.LayoutTransform>
+                            <ScaleTransform ScaleX=".7" ScaleY=".7"/>                            
+                        </Slider.LayoutTransform>                        
+                    </Slider>
+                    <Button Command="{x:Static Slider.IncreaseLarge}" CommandTarget="{Binding ElementName=ZoomSlider}" ToolTip="Zoom in" Style="{StaticResource FlatButtonStyle}">
+                        <Image Source="/TikzEdt;component/Images/ZoomInHSSmall.png"  Stretch="UniformToFill" Height="11" Width="11"/>
+                    </Button>
+                    <ComboBox Name="cmbZoom2"  Width="60" ItemsSource="{Binding}" Text="{Binding TheDocument.Resolution,Converter={StaticResource ZoomResConverter}}" 
                           FontSize="9" SelectedIndex="3" IsEditable="True">
                     <ComboBoxItem Content="10%" />
                     <ComboBoxItem Content="50%" />
@@ -797,17 +809,14 @@
                     <ComboBoxItem Content="1000%" />
                     <ComboBoxItem Content="1500%" />
                     <ComboBoxItem Content="2000%" />
-                </ComboBox>
-                    <Button Click="cmdZoomIn2Click" ToolTip="Zoom in" Style="{StaticResource FlatButtonStyle}">
-                        <Image Source="/TikzEdt;component/Images/ZoomInHSSmall.png"  Stretch="UniformToFill" Height="11" Width="11"/>
-                </Button>
+                </ComboBox>                    
                 </StackPanel>
             </StatusBarItem>
 
             <StatusBarItem Name="StatusBarGrid" DockPanel.Dock="Right" HorizontalAlignment="Right" >
                 <StackPanel Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center" Margin="0 0 3 0" FontSize="11" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown_1">Grid:</TextBlock>
-                    <ComboBox Name="cmbGrid2"  Width="40" ItemsSource="{Binding}" SelectedIndex="4" IsEditable="True" FontSize="9"
+                    <ComboBox Name="cmbGrid2"  Width="40" ItemsSource="{Binding}" SelectedIndex="3" IsEditable="True" FontSize="9"
                           Text="{Binding RasterWidth}" ToolTip="Sets the grid spacing. Tip: ALT turns off the grid temporarily, ALT+SHIFT halves the grid spacing.">
                         <ComboBoxItem Content="0" />
                         <ComboBoxItem Content="0.1" />

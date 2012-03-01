@@ -1016,7 +1016,7 @@ namespace TikzEdt
     /// </summary>
     public class TikzToBMPFactory : TexCompiler 
     {
-        public static TikzToBMPFactory Instance = new TikzToBMPFactory();
+        public static TikzToBMPFactory Instance = new TikzToBMPFactory() { Resolution = 100 };
 
         static TikzToBMPFactory()
         {

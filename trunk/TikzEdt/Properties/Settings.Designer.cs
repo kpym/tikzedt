@@ -49,7 +49,7 @@ namespace TikzEdt.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        [global::System.Configuration.DefaultSettingValueAttribute("944")]
         public double Window_Width {
             get {
                 return ((double)(this["Window_Width"]));
@@ -701,6 +701,42 @@ namespace TikzEdt.Properties {
             }
             set {
                 this["LeftToolsColSelectedIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double Window_Left {
+            get {
+                return ((double)(this["Window_Left"]));
+            }
+            set {
+                this["Window_Left"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double Window_Top {
+            get {
+                return ((double)(this["Window_Top"]));
+            }
+            set {
+                this["Window_Top"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
+        public global::System.Windows.WindowState Window_State {
+            get {
+                return ((global::System.Windows.WindowState)(this["Window_State"]));
+            }
+            set {
+                this["Window_State"] = value;
             }
         }
     }

@@ -128,7 +128,7 @@ namespace TikzEdt.Snippets
 
         public void CompileSnippets()
         {
-            if (GlobalUI.ShowMessageBox("The Snippet Thumbnails do not seem to exist. Do you want them to be created now?\r\n" +
+            if (GlobalUI.ShowMessageBox("Do you want to create the Snippet Thumbnails now?\r\n" +
     "It may take some time, but it will happen in the background. You can also recompile them later from the menu or the Snippet Manager." +
     "Note: If you are missing some Latex packages, it is better to compile later", "Compile Thumbnails",
     MessageBoxButton.YesNoCancel, MessageBoxImage.Question) == MessageBoxResult.Yes)

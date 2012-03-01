@@ -204,7 +204,7 @@ namespace TikzEdt.DynPreamble
             element = Element;
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return Code;
         }
