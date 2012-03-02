@@ -326,6 +326,31 @@ namespace FindReplaceUnitTests
         }
 
         /// <summary>
+        ///A third test, ...checking it wraps around properly in reverse search
+        ///</summary>
+        [TestMethod()]
+        public void FindNextTest3()
+        {
+            FindReplaceMgr target = MakeSample("script\r\nscript\r\nend_script");
+
+            // basic Find
+            target.CaseSensitive = false;
+            target.TextToFind = "script";
+            target.SearchIn = FindReplaceMgr.SearchScope.CurrentDocument;
+            target.SearchUp = true;
+            target.FindNext();
+            Assert.AreEqual<int>(Editors[0].Text.Length, Editors[0].CaretOffset);
+            target.FindNext();
+            Assert.AreEqual<int>(14, Editors[0].CaretOffset);
+            target.FindNext();
+            Assert.AreEqual<int>(6, Editors[0].CaretOffset);
+            target.FindNext();
+            Assert.AreEqual<int>(Editors[0].Text.Length, Editors[0].CaretOffset);
+
+        }
+
+
+        /// <summary>
         /// Another test for FindNext
         ///</summary>
         [TestMethod()]

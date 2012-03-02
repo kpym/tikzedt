@@ -368,7 +368,7 @@ namespace FindReplace
                         if (CE == null) return;
                     }
                     if (r.Options.HasFlag(RegexOptions.RightToLeft))
-                        m = r.Match(CE.Text, CE.Text.Length - 1);
+                        m = r.Match(CE.Text, CE.Text.Length );
                     else
                         m = r.Match(CE.Text, 0);
                     if (m.Success)
