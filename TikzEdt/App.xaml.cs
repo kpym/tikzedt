@@ -43,7 +43,7 @@ namespace TikzEdt
             // load/store settings at a sensible location (not the standard cryptic one)
             RewireSettingsProvider(TikzEdt.Properties.Settings.Default);
 
-            // tie settings to Viewmodels
+            // tie settings to Viewmodels (TODO... maybe change to std dependency injection pattern)
             CompilerSettings.Instance = new PropertiesCompilerSettings();
             TikzEdt.Parser.ParserSettings.Instance = new PropertiesParserSettings();
 
@@ -92,10 +92,10 @@ namespace TikzEdt
             foreach (string file in InstallFiles)
             {
                 //check if file is in Helper.GetSettingsPath() if not try to copy it from exe dir.
-                if (!File.Exists(Helper.GetSettingsPath() + file))
+                if (!File.Exists(Path.Combine(Helper.GetSettingsPath(), file) ))
                 {
                     //if not there check if it is in exe dir
-                    if (!File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + "\\Editor\\" + file))
+                    if (!File.Exists(Path.Combine( System.AppDomain.CurrentDomain.BaseDirectory , "\\Editor\\" + file) ))
                     {
                         success = false;
                         missing = file;
@@ -122,6 +122,9 @@ namespace TikzEdt
             }
             else
             {
+                if (e == null || e.Exception == null)
+                    return;
+
                 System.Windows.Forms.DialogResult result = System.Windows.Forms.DialogResult.Cancel;
                 try
                 {
@@ -134,6 +137,8 @@ namespace TikzEdt
                         MessageBox.Show("An error occurred in TikzEdt. Sorry for the inconvenience. Please save and restart TikzEdt."+Environment.NewLine +
                             (e.Exception != null? e.Exception.Message : ""), "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Stop);
                     }
+                    catch (Exception)
+                    { }
                     finally
                     {
                         //System.Environment.Exit(1);
@@ -141,24 +146,30 @@ namespace TikzEdt
                     }
                 }
 
-                // Exits the program when the user clicks Abort.
-                if (result == System.Windows.Forms.DialogResult.Yes)
+                try
                 {
-                    System.Environment.Exit(1);
+                    // Exits the program when the user clicks Abort.
+                    if (result == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        System.Environment.Exit(1);
+                    }
+                    else if (result == System.Windows.Forms.DialogResult.No)
+                    {
+                        Application.Current.MainWindow.Close();
+                    }
+
                 }
-                else if (result == System.Windows.Forms.DialogResult.No)
-                {
-                    Application.Current.MainWindow.Close();
-                }
+                catch (Exception)
+                { }
 
                 e.Handled = true;
-            }
+            }            
         }
 
         // Creates the error message, displays and logs it.
         private System.Windows.Forms.DialogResult ShowThreadExceptionDialog(Exception e)
         {
-            string logfilepath = System.IO.Directory.GetCurrentDirectory() + "\\tikzedt_exception.log";
+            string logfilepath = System.IO.Path.Combine( Helper.GetAppdataPath(),  "tikzedt_exception.log");
 
             string firstline = "An error occurred. If it can be reproduced please inform the author of this program providing log file "+logfilepath+"\n\n";
             string errorMsg = e.Message;
@@ -174,13 +185,16 @@ namespace TikzEdt
             errorMsg += Environment.NewLine + Environment.NewLine + "Stack Trace:\n" + e.StackTrace;
             errorMsg += e.Message + Environment.NewLine + Environment.NewLine + "Terminate application immediately?";
             errorMsg += Environment.NewLine + "Click 'no' if you want to try close the main window gracefully, 'cancel' to ignore this exception.";
-
             errorMsg = firstline + errorMsg;
 
-            System.IO.File.AppendAllText(logfilepath, "========== TIKZEDT UNCAUGHT EXCEPTION ======" + Environment.NewLine);
-            System.IO.File.AppendAllText(logfilepath, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString() + Environment.NewLine);
-            System.IO.File.AppendAllText(logfilepath, e.Message + Environment.NewLine+ Environment.NewLine +"Stack Trace:" + Environment.NewLine + e.StackTrace + Environment.NewLine);
-            System.IO.File.AppendAllText(logfilepath, "===== END: TIKZEDT UNCAUGHT EXCEPTION ======" + Environment.NewLine);
+            try
+            {
+                System.IO.File.AppendAllText(logfilepath, "========== TIKZEDT UNCAUGHT EXCEPTION ======" + Environment.NewLine);
+                System.IO.File.AppendAllText(logfilepath, DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString() + Environment.NewLine);
+                System.IO.File.AppendAllText(logfilepath, e.Message + Environment.NewLine + Environment.NewLine + "Stack Trace:" + Environment.NewLine + e.StackTrace + Environment.NewLine);
+                System.IO.File.AppendAllText(logfilepath, "===== END: TIKZEDT UNCAUGHT EXCEPTION ======" + Environment.NewLine);
+            }
+            catch (Exception) { }
 
             return System.Windows.Forms.MessageBox.Show(errorMsg, "Application Error", System.Windows.Forms.MessageBoxButtons.YesNoCancel, System.Windows.Forms.MessageBoxIcon.Stop);
         }

@@ -100,6 +100,7 @@
                         <DockPanel.ToolTip>
                             <StackPanel>
                                 <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" />
+                                <TextBlock Text="{Binding Path=SnippetCode}" FontFamily="Courier New"/>
                                 <TextBlock Text="{Binding Path=Description}"/>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Sample: "/>

@@ -224,7 +224,7 @@ namespace TikzEdt
         {
             if (_AppdataPath == "")
             {
-
+                return System.Windows.Forms.Application.UserAppDataPath;
                 //throw new Exception("AppdataPath not set yet! Do it using SetAppdataPath() before calling GetAppdataPath().");
                 //int DOESNOTLETDESIGNSHOW = 3; //that is why this line is disabled.
             }
