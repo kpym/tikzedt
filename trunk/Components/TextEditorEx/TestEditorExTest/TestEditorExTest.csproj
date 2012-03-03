@@ -106,7 +106,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TextEditorEx\TextEditorEx.csproj">
       <Project>{15E848B4-F289-4580-BAEA-F818F2899E23}</Project>
-      <Name>TextEditorEx</Name>
+      <Name>TextEditorEx %28Components\TextEditorEx\TextEditorEx%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

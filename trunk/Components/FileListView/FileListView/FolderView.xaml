@@ -37,7 +37,7 @@
                 <my:AutoGrayImage  Width="16" Height="16" Style="{StaticResource toolbarImageStyle}" Source2="/FileListView;component/Images/forward.png"/>
             </Button>
             <Button Name="cmdUp" DockPanel.Dock="Left" Style="{StaticResource FlatButtonStyle}" ToolTip="Up" 
-                    Command="{x:Static NavigationCommands.BrowseBack}" CommandTarget="{Binding ElementName=lstFiles}">
+                    Command="{x:Static my:FListView.UpCommand}" CommandTarget="{Binding ElementName=lstFiles}">
                 <my:AutoGrayImage  Width="16" Height="16" Source2="/FileListView;component/Images/075b_UpFolder_16x16_72.png"/>
             </Button>
             <Button Name="cmdRefresh" DockPanel.Dock="Left" Style="{StaticResource FlatButtonStyle}" ToolTip="Refresh" 
