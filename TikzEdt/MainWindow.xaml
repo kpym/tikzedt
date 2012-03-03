@@ -10,8 +10,7 @@
         xmlns:myDynPreamble="clr-namespace:TikzEdt.DynPreamble"
         xmlns:p="clr-namespace:TikzEdt.Properties"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
-        xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-        xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
+        xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"        
         xmlns:myEditor="clr-namespace:TikzEdt.Editor;assembly=TextEditorEx"
         xmlns:CustomWPFColorPicker="clr-namespace:CustomWPFColorPicker;assembly=CustomWPFColorPicker"
         xmlns:myVM="clr-namespace:TikzEdt.ViewModels;assembly=TEApplicationLogic"
@@ -25,7 +24,8 @@
         Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico"        
         UseLayoutRounding="True" AllowsTransparency="False" 
         >
-    <!--         xmlns:settings="clr-namespace:LogicaCMG.Settings"
+    <!-- xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
+        xmlns:settings="clr-namespace:LogicaCMG.Settings"
         settings:WindowSettings.Save="True" -->
     <Window.Resources>
         <ResourceDictionary>
