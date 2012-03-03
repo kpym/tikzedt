@@ -287,10 +287,13 @@ namespace TikzEdt
         class AsyncReaderReturnType
         {
             public string stdout, stderr;
+            public TexOutputParser.ParseResult OutputParseResult;
         }
         void AsyncReaderWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
         //    GlobalUI.AddStatusLine(this, "asyncreader called");
+            Job job = e.Argument as Job;
+
             // read asynchronously from the process output
             StringWriter sw = new StringWriter();
             StringWriter ew = new StringWriter();
@@ -328,7 +331,17 @@ namespace TikzEdt
                 AsyncReaderReturnType ret = new AsyncReaderReturnType();
                 ret.stderr = ew.ToString();
                 ret.stdout = sw.ToString();
+                // Parse tex errors/warnings and display,... do this here b/c it takes some time and we don't want to bother the UI thread
+                ret.OutputParseResult = TexOutputParser.parseOutput(ret.stdout, job);
                 e.Result = ret;
+
+                if (texProcess.ExitCode == 0)
+                {
+                    if (job.BBWritten && !job.GeneratePrecompiledHeaders)
+                    {
+                        ReadBBFromFile(job);
+                    }
+                }
             }
         }
         void AsyncReaderWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -336,7 +349,7 @@ namespace TikzEdt
             //EventArgs ea = new EventArgs();
             //texProcess_Exited(texProcess, ea);
             AsyncReaderReturnType ret = e.Result as AsyncReaderReturnType;
-            texprocess_Exited(ret.stdout, ret.stderr); 
+            texprocess_Exited(ret.stdout, ret.stderr, ret.OutputParseResult); 
         }
 
         /// <summary>
@@ -632,7 +645,7 @@ namespace TikzEdt
                 //texProcess.BeginOutputReadLine();
                 //texProcess.BeginErrorReadLine(); // needed e.g. when %& "temp_preview_header" invalid.
                 //myPdflatexOutputParser.Clear();
-                AsyncReaderWorker.RunWorkerAsync();
+                AsyncReaderWorker.RunWorkerAsync(job);
             }
             catch (System.ComponentModel.Win32Exception)
             { 
@@ -788,28 +801,25 @@ namespace TikzEdt
         /// <param name="sender"></param>
         /// <param name="e"></param>
         //void texProcess_Exited(object sender, EventArgs e)
-        void texprocess_Exited(string StdOutput, string ErrOutput)
+        void texprocess_Exited(string StdOutput1, string ErrOutput1, TexOutputParser.ParseResult OutputParseResult)
         {
-            // HACK: make thread-safe
-            //Dispatcher.Invoke(new Action(
-            //delegate()
-            //{
             timer.Stop();
-  //   GlobalUI.AddStatusLine(this, "tex process returned");
+
+            // Note: Try to do as much work as possible in the backgroundworker, to not delay the UI thread
+                      
+
+            // Some tasks require synchronization, ... so do them here
             MyBackgroundWorker.BeginInvoke(Dispatcher, new Action(delegate()
             {
-            Job job = CurrentJob;       // todo_tex.Dequeue();
-            _JobNumberChanged.Raise(this, EventArgs.Empty);    // invoke here... it would also be possible to invoke on start of compilation...
-
-            // Parse tex errors/warnings and display
-            TexOutputParser.ParseResult OutputParseResult = TexOutputParser.parseOutput(StdOutput, job);            
-
+                Job job = CurrentJob;
+                _JobNumberChanged.Raise(this, EventArgs.Empty);    // invoke here... it would also be possible to invoke on start of compilation...
+                   
             if (texProcess.ExitCode == 0)
             {
-                if (job.BBWritten && !job.GeneratePrecompiledHeaders)
-                {
-                    ReadBBFromFile(job);
-                }
+               // if (job.BBWritten && !job.GeneratePrecompiledHeaders)
+               // {
+               //     ReadBBFromFile(job);
+               // }
 
                 _OnCompileEvent.Raise(this, new CompileEventArgs() { Message="Compilation done", Type=CompileEventType.Success });                
 
@@ -856,7 +866,7 @@ namespace TikzEdt
                     }
                 }
             }
-            else
+            else // ExitCode != 0 => Error
             {
                 
                 //if generating pre-compiled header failed. it will not work next time.
@@ -908,29 +918,29 @@ namespace TikzEdt
             string cMetaFile = Helper.RemoveFileExtension(job.path) + "_BB.txt";
             if (File.Exists(cMetaFile))
             {
-                StreamReader sr = new StreamReader(cMetaFile);;
                 try
                 {
-                    string s = sr.ReadLine();
-                    string[] arr = s.Split(new string[] {",", " ", "pt"}, StringSplitOptions.RemoveEmptyEntries);
-                    if (arr.Length == 4)
+                    using (StreamReader sr = new StreamReader(cMetaFile))
                     {
-                        Point p1 = new Point( Double.Parse(arr[0]) / Consts.ptspertikzunit, Double.Parse(arr[1]) / Consts.ptspertikzunit);
-                        Point p2 = new Point( Double.Parse(arr[2]) / Consts.ptspertikzunit, Double.Parse(arr[3]) / Consts.ptspertikzunit);                                             
+                        string s = sr.ReadLine();
+                        string[] arr = s.Split(new string[] { ",", " ", "pt" }, StringSplitOptions.RemoveEmptyEntries);
+                        if (arr.Length == 4)
+                        {
+                            Point p1 = new Point(Double.Parse(arr[0]) / Consts.ptspertikzunit, Double.Parse(arr[1]) / Consts.ptspertikzunit);
+                            Point p2 = new Point(Double.Parse(arr[2]) / Consts.ptspertikzunit, Double.Parse(arr[3]) / Consts.ptspertikzunit);
 
-                        job.BB = new Rect(p1, p2);
-                        if (job.BB.Width < 500 && job.BB.Height < 500)
-                            job.hasBB = true;
-                        else
-                            job.hasBB = false;
+                            job.BB = new Rect(p1, p2);
+                            if (job.BB.Width < 500 && job.BB.Height < 500)
+                                job.hasBB = true;
+                            else
+                                job.hasBB = false;
 
+                        }
                     }
                 }
-                finally
+                catch(Exception )
                 {
-                    sr.Close();
                 }
-
             }
         }
 

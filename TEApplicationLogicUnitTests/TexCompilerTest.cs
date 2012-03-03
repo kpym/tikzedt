@@ -172,7 +172,7 @@ namespace TEApplicationLogicUnitTests
             TexCompiler_Accessor target = new TexCompiler_Accessor(); // TODO: Initialize to an appropriate value
             string StdOutput = string.Empty; // TODO: Initialize to an appropriate value
             string ErrOutput = string.Empty; // TODO: Initialize to an appropriate value
-            target.texprocess_Exited(StdOutput, ErrOutput);
+            target.texprocess_Exited(StdOutput, ErrOutput, null);
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
 

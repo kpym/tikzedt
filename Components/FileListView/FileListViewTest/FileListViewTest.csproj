@@ -95,7 +95,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FileListView\FileListView.csproj">
       <Project>{1EDFF96E-0520-4D6C-8CBD-754510DB57D6}</Project>
-      <Name>FileListView</Name>
+      <Name>FileListView %28Components\FileListView\FileListView%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

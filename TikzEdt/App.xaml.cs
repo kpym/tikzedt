@@ -29,8 +29,9 @@ namespace TikzEdt
                 System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(
                   AppDispatcherUnhandledException);
 
-            // This shouldn't be necessary... but it is. On my machine there are rendering issues....
-            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            // This shouldn't be necessary... but it seems to be. On my machine there were rendering issues ....
+            if (!e.Args.Contains("-h"))
+                RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;            
 
             // set application data path and settings path          
             if (e.Args.Contains("-p") || e.Args.Contains("--portable"))

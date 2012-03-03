@@ -115,14 +115,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\DockPanelSplitter.dll</HintPath>
     </Reference>
-    <Reference Include="FileListView, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\FileListView.dll</HintPath>
-    </Reference>
-    <Reference Include="FindReplace, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\FindReplace.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.AvalonEdit, Version=4.1.0.7916, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\ICSharpCode.AvalonEdit.dll</HintPath>
@@ -146,10 +138,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="TextEditorEx, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\TextEditorEx.dll</HintPath>
     </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
@@ -629,6 +617,18 @@
     <Resource Include="Images\savePdf.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Components\FileListView\FileListView\FileListView.csproj">
+      <Project>{1EDFF96E-0520-4D6C-8CBD-754510DB57D6}</Project>
+      <Name>FileListView %28Components\FileListView\FileListView%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\FindReplaceTest\FindReplace\FindReplace.csproj">
+      <Project>{F6237B7D-9A3B-4F55-961B-72035B0DEA4D}</Project>
+      <Name>FindReplace %28Components\FindReplace\FindReplace%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\TextEditorEx\TextEditorEx\TextEditorEx.csproj">
+      <Project>{15E848B4-F289-4580-BAEA-F818F2899E23}</Project>
+      <Name>TextEditorEx %28Components\TextEditorEx\TextEditorEx%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TEApplicationLogic\TEApplicationLogic.csproj">
       <Project>{EB03FD23-3941-4B4B-964C-29CB265BA5EA}</Project>
       <Name>TEApplicationLogic</Name>
