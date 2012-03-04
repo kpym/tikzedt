@@ -22,9 +22,9 @@ body {
 #page {
   position:relative; /* */
     margin:10px;
-    background-color:white;
-    border-radius: 15px;
+    background-color:white;    
     padding: 10px;
+    margin-left:82px;
 }
 #nav {
 /*position:static;
@@ -39,8 +39,8 @@ body {
 #currentpagelink 
 {
     border-left:4px solid black;
+    padding-left:0px;
 }
-
 
 hr.mainsep 
 {
@@ -51,6 +51,12 @@ hr.mainsep
 html, body
 {
   height: 100%;
+}
+
+h2 
+{
+  font-family:Verdana,Arial,Helvetica,sans-serif; color:#000000;
+  font-weight :300;
 }
 
 p.headline {
@@ -108,6 +114,10 @@ table.navtable td {
    border-bottom:solid 1px black;   
    display:table-cell;
    padding:0px;
+   padding-left:4px;
+}
+
+table.navtable tr {
 }
 
 table.navtable td a 

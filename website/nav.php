@@ -3,48 +3,43 @@
   <td <?php if ($pagetitle=="Main") echo " id=\"currentpagelink\""; ?> >
     <a href="index.php" > Main</a>
   </td>
-  <td width="30"></td>
 </tr>
 <!-- <td><a href="http://code.google.com/p/tikzedt/downloads/list" target="_blank">Download</td> -->
 <tr>
   <td <?php if ($pagetitle=="Download") echo " id=\"currentpagelink\""; ?> colspan=2 >
     <a href="down.php">Download</a>
   </td>
-  <td bgcolor="red"></td>
 </tr>
 <tr>
   <td
     <?php if ($pagetitle=="Quick Tour") echo " id=\"currentpagelink\" colspan=2"; ?>>
       <a href="quicktour.php">Quick Tour</a>
   </td>
-  <td />
 </tr>
   <tr >
     <td <?php if ($pagetitle=="Screenshots") echo " id=\"currentpagelink\""; ?> >
         <a href="screenshots.php">Screenshots</a>
     </td>
-    <td />
   </tr>
   <tr>
     <td
       <?php if ($pagetitle=="Documentation") echo " id=\"currentpagelink\""; ?>>
       <a href="doc.php">Documentation</a>
     </td>
-    <td />
 </tr>
   <tr>
     <td <?php if ($pagetitle=="About") echo " id=\"currentpagelink\""; ?>>
         <a href="about.php">About</a>
     </td>
-    <td />
+  </tr>
+  <tr height="90px">
   </tr>
   <tr>
-    <td style="border-bottom:none;background-color:white;">
-      <a href="">
-        <img style="height:70px;margin-top:90px;margin-left:0px;" src="img/downloadbtn.png" alt="download"/>
-      </a>
-    </td>
-    <td />
-  </tr>
+      <td style="border-bottom:none;background-color:white;">
+        <a href="">
+          <img style="height:70px;margin-left:0px;" src="img/downloadbtn.png" alt="download"/>
+        </a>
+      </td>
+    </tr>
 <!--<td><a href="help.php">Help</td> -->
 </table>

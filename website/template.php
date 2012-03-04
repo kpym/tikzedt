@@ -6,7 +6,7 @@
 <title>TikzEdt. <?=$pagetitle?></title>
 </head>
 <body style="background-color:white">
-	<table width="900" align="center" border="0" cellspacing="0" cellpadding="0" style="height: 100%;" >
+	<table width="1000" align="center" border="0" cellspacing="0" cellpadding="0" style="height: 100%;" >
 		<tr>
 			<td style="border-bottom:solid 1px black;height:100px;">
 				 <? include "header.html" ?><!---->
