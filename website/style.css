@@ -9,7 +9,7 @@ body {
 #header {
   height:100px;
   margin:0px;
-  background-color:#ffffff;
+  background-color:#dcdcdc;
 }
 #box {
   max-width:800px;
@@ -21,22 +21,42 @@ body {
 }
 #page {
   position:relative; /* */
-    margin:20px 0;
-  background-color:#00ffff;
+    margin:10px;
+    background-color:white;
+    border-radius: 15px;
+    padding: 10px;
 }
 #nav {
 /*position:static;
   position:relative;*/
   margin=10px 10px;
-  background-color:#ffff00;
 }
 #hsep {
   background-color:#C0C0C0;
   height:5px;
 }
+
+#currentpagelink 
+{
+    border-left:4px solid black;
+}
+
+
+hr.mainsep 
+{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+html, body
+{
+  height: 100%;
+}
+
 p.headline {
   font-family:Verdana,Arial,Helvetica,sans-serif; color:#000000;
   font-size:2em;
+  margin-top: 0px;
   margin-bottom: 0px;
 }
 p.subheadline {
@@ -46,8 +66,11 @@ p.subheadline {
   margin-bottom: 0px;
 }
 p.navlink {
-font-weight:600;
+ font-weight :600;
   font-size:14px;
+  text-decoration : none;
+  height:100%;
+  display:block; 
 }
 p {
   font-family:Verdana,Arial,Helvetica,sans-serif; color:#000000;
@@ -80,6 +103,39 @@ table.texttable
 	background-color: white;
 	padding:15px;
 }
+
+table.navtable td {
+   border-bottom:solid 1px black;   
+   display:table-cell;
+   padding:0px;
+}
+
+table.navtable td a 
+{
+    text-decoration:none; 
+    display:block; 
+    padding:15px; 
+    height:100%;   
+    margin-bottom:0;
+    margin-top:0;
+    font-family:Verdana,Arial,Helvetica,sans-serif; 
+    color:#000000;
+    font-weight :600;
+    font-size :14px;
+}
+
+table.navtable td:hover {
+   border-bottom:solid 1px black; 
+   background-color:#F8F8F8;  
+   display:table-cell;
+}
+
+#maintable {
+	background-color: gainsboro;
+	box-shadow: 0 0 2px 2px #a0a0a0;
+	border-radius: 15px;
+}
+
 table.texttable th {
 	border-width: 1px;
 	padding: 0px;
