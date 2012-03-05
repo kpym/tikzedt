@@ -86,8 +86,8 @@
                     CanExecute="AlwaysTrue" />
     </Window.CommandBindings>
     <Window.InputBindings>
-        <KeyBinding Command="{x:Static custom:MainWindow.CommentCommand}" Key="D" Modifiers="Ctrl"/>
-        <KeyBinding Command="{x:Static custom:MainWindow.UnCommentCommand}" Key="D" Modifiers="Ctrl+Shift"/>
+        <KeyBinding Command="{x:Static custom:MainWindow.CommentCommand}" Key="T" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static custom:MainWindow.UnCommentCommand}" Key="T" Modifiers="Ctrl+Shift"/>
         <KeyBinding Command="NavigationCommands.Search" Key="F3"/>
         <KeyBinding Command="NavigationCommands.Search" CommandParameter="notnull" Key="F3" Modifiers="Shift"/>
      <!--   <KeyBinding Command="{x:Static custom:MainWindow.ShowCodeCompletionsCommand}" Key="SPACE"  Modifiers="Ctrl"/> -->
@@ -755,8 +755,8 @@
                             <MenuItem Header="Cut" Command="ApplicationCommands.Cut"/>
                             <MenuItem Header="Paste" Command="ApplicationCommands.Paste"/>
                             <Separator />
-                            <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}" InputGestureText="Ctrl+D"/>
-                            <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}" InputGestureText="Ctrl+Shift+D"/>
+                            <MenuItem Header="Comment" Command="{x:Static custom:MainWindow.CommentCommand}" InputGestureText="Ctrl+T"/>
+                            <MenuItem Header="Uncomment" Command="{x:Static custom:MainWindow.UnCommentCommand}" InputGestureText="Ctrl+Shift+T"/>
                             <MenuItem Header="En-Scope" Click="Enscope_Click"/>
                             <Separator/>
                             <MenuItem Header="Mark item in Overlay (if possible)" Click="MarkAtOffsetClick" />

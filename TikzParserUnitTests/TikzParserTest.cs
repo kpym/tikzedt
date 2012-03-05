@@ -107,6 +107,76 @@ namespace TikzParserUnitTests
             }            
         }
 
+        [TestMethod()]
+        public void ParseTest2()
+        {
+            string code =
+@"\begin{tikzpicture}
+\draw (1,2) -- (3,3);
+\end{tikzpicture}
+";
+            Tikz_ParseTree actual = TikzParser.Parse(code);
+
+            Tikz_Picture tp = actual.GetTikzPicture();
+            Assert.AreEqual(0, tp.StartPosition());
+            Tikz_Path tpa = tp.Children.Find(tpi => tpi is Tikz_Path) as Tikz_Path;
+
+            Assert.AreEqual(21, tpa.StartPosition());
+            Tikz_Coord tc = tpa.Children.Find(tpi => tpi is Tikz_Coord) as Tikz_Coord;
+
+            Assert.AreEqual(1, tc.uX.number);
+            Assert.AreEqual(2, tc.uY.number);
+
+            Assert.AreEqual(27, tc.StartPosition());
+
+        }
+
+        [TestMethod()]
+        public void ParseTest3()
+        {
+            string code =
+@"%some text
+\begin{tikzpicture}
+\draw (1,2) -- (3,3);
+\end{tikzpicture}
+";
+            Tikz_ParseTree actual = TikzParser.Parse(code);
+
+            Tikz_Picture tp = actual.GetTikzPicture();
+            Assert.AreEqual(12, tp.StartPosition());
+            Tikz_Path tpa = tp.Children.Find(tpi => tpi is Tikz_Path) as Tikz_Path;
+
+            Assert.AreEqual(33, tpa.StartPosition());
+            Tikz_Coord tc = tpa.Children.Find(tpi => tpi is Tikz_Coord) as Tikz_Coord;
+
+            Assert.AreEqual(1, tc.uX.number);
+            Assert.AreEqual(2, tc.uY.number);
+
+            Assert.AreEqual(39, tc.StartPosition());
+
+        }
+
+        [TestMethod()]
+        public void ParseTest4()
+        {
+            string code =
+@"%some text
+\begin{tikzpicture}[scale=2]
+\draw (1,2) node (v) {bla} -- (3,3);
+\end{tikzpicture}
+";
+            Tikz_ParseTree actual = TikzParser.Parse(code);
+
+            Tikz_Picture tp = actual.GetTikzPicture();
+            Tikz_Node n = tp.GetNodeByName("v");
+            System.Windows.Point p;
+            bool ret = n.GetAbsPos(out p);
+            Assert.IsTrue(ret);
+            Assert.AreEqual(2, p.X);
+            Assert.AreEqual(4, p.Y);
+            Assert.AreEqual("bla", n.label);
+        }
+
         /// <summary>
         /// A test for Parse.
         /// Loads one by one all files in testcases folder and tries to compile.
@@ -132,9 +202,6 @@ namespace TikzParserUnitTests
             for (int i=1;i<=5;i++)
                 Assert.IsTrue(T.styles.ContainsKey( "test "+i));
         }
-
-
-
 
 
     }
