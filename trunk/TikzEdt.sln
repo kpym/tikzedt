@@ -9,15 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TikzParser", "TikzParser\Ti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TikzParserUnitTests", "TikzParserUnitTests\TikzParserUnitTests.csproj", "{396A9DE0-2EE3-4F24-BE7F-70756EB5B4CE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C1C11997-1EA9-4D70-A118-598F39A1F404}"
-	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
-		Components\FindReplaceTest\Local.testsettings = Components\FindReplaceTest\Local.testsettings
-		TikzEdt.vsmdi = TikzEdt.vsmdi
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-		Components\FindReplaceTest\TraceAndTestImpact.testsettings = Components\FindReplaceTest\TraceAndTestImpact.testsettings
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TEApplicationLogic", "TEApplicationLogic\TEApplicationLogic.csproj", "{EB03FD23-3941-4B4B-964C-29CB265BA5EA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TEApplicationLogicUnitTests", "TEApplicationLogicUnitTests\TEApplicationLogicUnitTests.csproj", "{869F7503-52E5-4A0A-9D68-2AFABCE8DBDB}"
@@ -52,21 +43,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindReplace", "Components\F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindReplaceUnitTests", "Components\FindReplaceTest\FindReplaceUnitTests\FindReplaceUnitTests.csproj", "{D7C9CB53-C1D7-450B-9EF7-6D7449D57793}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C1C11997-1EA9-4D70-A118-598F39A1F404}"
-	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
-		Components\FindReplaceTest\Local.testsettings = Components\FindReplaceTest\Local.testsettings
-		TikzEdt.vsmdi = TikzEdt.vsmdi
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-		Components\FindReplaceTest\TraceAndTestImpact.testsettings = Components\FindReplaceTest\TraceAndTestImpact.testsettings
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindReplaceTestSDI", "Components\FindReplaceTest\FindReplaceTestSDI\FindReplaceTestSDI.csproj", "{AE872F09-9471-4684-9F68-85588B46496F}"
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = TikzEdt.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
 		CD_ROM|Mixed Platforms = CD_ROM|Mixed Platforms
@@ -761,7 +740,6 @@ Global
 		{4C64F7EC-CAB4-49BB-8FB9-AB936D027086} = {841A3488-E87C-42E8-826E-B692210FBB13}
 		{F6237B7D-9A3B-4F55-961B-72035B0DEA4D} = {841A3488-E87C-42E8-826E-B692210FBB13}
 		{D7C9CB53-C1D7-450B-9EF7-6D7449D57793} = {841A3488-E87C-42E8-826E-B692210FBB13}
-		{FF1BA857-E2BB-4241-8351-D4EC43E47F44} = {841A3488-E87C-42E8-826E-B692210FBB13}
 		{AE872F09-9471-4684-9F68-85588B46496F} = {841A3488-E87C-42E8-826E-B692210FBB13}
 	EndGlobalSection
 EndGlobal
