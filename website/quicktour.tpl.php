@@ -116,7 +116,7 @@
   <tr height="30"/>
   <tr>
     <td colspan="2" style="text-align:justify;">
-      <img src="img/Warning.png" width="50" align="left" style="padding:10px;"/>
+      <img src="img/warning.png" width="50" align="left" style="padding:10px;"/>
       Note: Parsing Latex/Tikz code is not a simple task. Tikzedt can understand a couple of Tikz constructs, in particular coordinate transformation and polar coordinates. But, yes, it can be fooled.... see the documentation for more details. (In the worst case, you may always turn off the parser and use TikzEdt as a text editor with instant preview.)
     </td>
   </tr>
