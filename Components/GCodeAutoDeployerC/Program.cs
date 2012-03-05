@@ -125,7 +125,7 @@ namespace GCodeAutoDeployerC
 
             Console.WriteLine("");
             Console.WriteLine("Creating version info file: '"+cf.VersionXML+"' ...");
-            CreateVersionInfoFile(cf.VersionXML, cf.VersionXMLTemplate, msi, v);
+            CreateVersionInfoFile(cf.VersionXML, cf.VersionXMLTemplate, msi, zipfile, v);
 
             WriteLineAndWait("Done.");
 
@@ -165,13 +165,14 @@ namespace GCodeAutoDeployerC
         /// </summary>
         /// <param name="target"></param>
         /// <param name="template"></param>
-        static void CreateVersionInfoFile(string target, string template, string msi, Version v)
+        static void CreateVersionInfoFile(string target, string template, string msi, string zipfile, Version v)
         {
             if (File.Exists(template))
             {
                 string tpl = File.ReadAllText(template);
                 tpl = tpl.Replace("VVVVV", v.ToString());
                 tpl = tpl.Replace("FFFFF", Path.GetFileName(msi));
+                tpl = tpl.Replace("ZZZZZ", Path.GetFileName(zipfile));
 
                 File.WriteAllText(target, tpl);
             }

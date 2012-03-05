@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unzipper", "Unzipper\Unzipp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "my_cmd", "InstallLatexPackages\my_cmd.csproj", "{6A871C81-F5C6-4CA7-8FEE-0A96610C6569}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeWebsiteStatic", "MakeWebsiteStatic\MakeWebsiteStatic.csproj", "{23AE0B0A-490C-4755-8A55-6B3FC28B0B98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -25,6 +27,10 @@ Global
 		{6A871C81-F5C6-4CA7-8FEE-0A96610C6569}.Debug|x86.Build.0 = Debug|x86
 		{6A871C81-F5C6-4CA7-8FEE-0A96610C6569}.Release|x86.ActiveCfg = Release|x86
 		{6A871C81-F5C6-4CA7-8FEE-0A96610C6569}.Release|x86.Build.0 = Release|x86
+		{23AE0B0A-490C-4755-8A55-6B3FC28B0B98}.Debug|x86.ActiveCfg = Debug|x86
+		{23AE0B0A-490C-4755-8A55-6B3FC28B0B98}.Debug|x86.Build.0 = Debug|x86
+		{23AE0B0A-490C-4755-8A55-6B3FC28B0B98}.Release|x86.ActiveCfg = Release|x86
+		{23AE0B0A-490C-4755-8A55-6B3FC28B0B98}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
