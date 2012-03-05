@@ -2,7 +2,9 @@ body {
   padding:0px;
   background-color:#a0a0a0;
   font-family:Verdana,Arial,Helvetica,sans-serif;
+  
   color:#000000;
+  font-size:13px;
 }
 #header {
   height:100px;
@@ -59,14 +61,14 @@ h2
 }
 
 p.headline {
-  font-family:Verdana,Arial,Helvetica,sans-serif; color:#000000;
-  font-size:2em;
+  font-family:Verdana,Arial,Helvetica,sans-serif; color:#000000;  
+  font-size:32px;
   margin-top: 0px;
   margin-bottom: 0px;
 }
 p.subheadline {
   font-family:Verdana,Arial,Helvetica,sans-serif; color:#000000;
-  font-size:1em;
+  font-size:16px;
   margin-top: 0px;
   margin-bottom: 0px;
 }
@@ -176,4 +178,57 @@ table.texttable td {
 	border-style: outset;
 	border-color: black;
 	background-color: white;
+}
+
+#ver-minimalist
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin: 45px;
+	width: 480px;
+	text-align: left;
+	border-collapse: collapse;
+}
+#ver-minimalist th
+{
+	padding: 8px 2px;
+	font-weight: normal;
+	font-size: 14px;
+	border-bottom: 2px solid #6678b1;
+	border-right: 30px solid #fff;
+	border-left: 30px solid #fff;
+	color: #039;
+}
+#ver-minimalist td
+{
+	padding: 12px 2px 0px 2px;
+	border-right: 30px solid #fff;
+	border-left: 30px solid #fff;
+	color: #669;
+}
+
+
+#hor-minimalist-b
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	background: #f0f0f0;
+	margin: 20px;
+	width: 90%;
+	border-collapse: collapse;
+	text-align: left;
+}
+#hor-minimalist-b th
+{
+	font-size: 14px;
+	font-weight: normal;
+	color: black;
+	padding: 10px 8px;
+	border-bottom: 2px solid black;
+}
+#hor-minimalist-b td
+{
+	border-bottom: 1px solid #ccc;
+	color: black;
+	padding: 6px 8px;
 }

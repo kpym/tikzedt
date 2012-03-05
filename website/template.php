@@ -1,3 +1,23 @@
+<?
+$xml = simplexml_load_file("VersionInfo.xml");
+$zipdownload = "http://code.google.com/p/tikzedt/downloads/list";
+$msidownload = "http://code.google.com/p/tikzedt/downloads/list";
+$teversion = "";
+
+foreach($xml->children() as $child)
+{
+   if ($child->getName()=="latestversion")
+     $teversion = $child;
+   else if ($child->getName()=="downloadurl")
+     $msidownload = $child;
+   else if ($child->getName()=="downloadurlzip")
+     $zipdownload = $child;
+}
+
+//$zipdownload = "http://tikzedt.googlecode.com/files/TikzEdtBeta0_2_1.zip";
+//$msidownload = "http://tikzedt.googlecode.com/files/TikzEdtBeta0_2_1.msi";
+//$teversion = "0.2.1";
+?>
 <!DOCTYPE html>
 <html>
 <head>

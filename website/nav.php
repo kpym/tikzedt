@@ -52,7 +52,7 @@
   </tr>
   <tr>
       <td style="border-bottom:none;background-color:white;">
-        <a href="">
+        <a href=<?="$msidownload"?>>
           <img style="height:70px;margin-left:0px;" src="img/downloadbtn.png" alt="download"/>
         </a>
       </td>

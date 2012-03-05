@@ -98,47 +98,46 @@ Except for the last, these features are pretty standard, so let us discuss only 
 <h4>
   <a name="tools"> The WYSIWYG tools </a>
 </h4>
-There are currently 6 WYSIWYG tools.
 
 <img src="img/toolstoolbar.png" />
 
-<table class="texttable">
+<table id="hor-minimalist-b">
   <tr>
-    <th> Name </th>
-    <th> Description. </th>
+    <th width="100"> Name </th>
+    <th> Description </th>
   </tr>
 <tr>
-<td> Move </td><td> This tool allows you to select and shift around coordinates. Just mark some items and drag and drop. </td>
+<td> 1 Move </td><td> This tool allows you to select and shift around coordinates. Just mark some items and drag and drop. </td>
 </tr><tr>
-<td> Node </td><td> Insert new nodes, like `\node at (3,4) {?}`. Replace the ? by whatever text you want to show at that position. </td>
+<td> 2 Node </td><td> Insert new nodes, like `\node at (3,4) {?}`. Replace the ? by whatever text you want to show at that position. </td>
 </tr><tr>
-<td> Edge </td><td> This tool connects two coordinates or nodes by a Tikz edge, like `\draw (v1) edge (mynode)`. If you select unnamed coordinates to connect, a `node` tag is inserted, with a unique name like `v13`.  </td>
+<td> 3 Edge </td><td> This tool connects two coordinates or nodes by a Tikz edge, like `\draw (v1) edge (mynode)`. If you select unnamed coordinates to connect, a `node` tag is inserted, with a unique name like `v13`.  </td>
 </tr><tr>
-<td> Path </td><td> This tool produces a series of lines.</td>
+<td> 4 Path </td><td> This tool produces a series of lines.</td>
 </tr>
   <tr>
-    <td> Smooth Curve </td>
+    <td> 5 Smooth Curve </td>
     <td> Draw a smooth curve through specified points. Double click to closethe curve, right click or press ESC to stop drawing and leave the curve open. </td>
   </tr>
   <tr>
-    <td> Bezier Curve </td>
+    <td> 6 Bezier Curve </td>
     <td> Draw a Bezier curve. </td>
   </tr>
   <tr>
-<td> Rectangle </td><td> Produces a rectangle, press CTRL to make a square. </td>
+<td> 7 Rectangle </td><td> Produces a rectangle, press CTRL to make a square. </td>
 </tr><tr>
-<td> Ellipse <td> Produces an ellipse, press CTRL to make a circle. </td>
+<td> 8 Ellipse <td> Produces an ellipse, press CTRL to make a circle. </td>
 </tr>
   <tr>
-    <td> Arc/Pie </td>
+    <td> 9 Arc/Pie </td>
     <td> Draw an arc segment. Press CTRL to draw a Pie segment instead. </td>
   </tr>
   <tr>
-    <td> Edit Arc/Pie </td>
+    <td> 10 Edit Arc/Pie </td>
     <td> Lets you edit arc segments in a better way than with the Move tool. </td>
   </tr>
   <tr>
-    <td> Grid </td>
+    <td> 11 Grid </td>
     <td> Draw a grid. </td>
   </tr>
 </table>
@@ -244,7 +243,20 @@ There are some additional features:
 <h2>
   <a name="cmdline"> Command line arguments </a>
 </h2>
-You can start TikzEdt with the -portable flag. 
+<table id="hor-minimalist-b">
+  <tr>
+    <th>Flag</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>-p, --portable</td>
+    <td>Use the application directory to store user settings. Note: the application directory must be writable.</td>
+  </tr>
+  <tr>
+    <td>-h</td>
+    <td>Turn on hardware rendering. This makes TikzEdt faster, but is less "safe" than software rendering.</td>
+  </tr>
+</table>
   
 <h2>
   <a name="FAQ"> FAQ</a> </h2>
@@ -254,7 +266,7 @@ Q: Latex reports an error "...default stile file not found ...".
 A: Compile->Regenerate precompiled headers 
 
 <h2><a name="shortcuts">List of shortcuts</a></h2>
-<table class="texttable">
+<table id="hor-minimalist-b">
   <tr>
     <th>Shortcut</th>
     <th>Description</th>
