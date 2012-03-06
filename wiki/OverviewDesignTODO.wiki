@@ -34,6 +34,7 @@
 
 === Snippetmanager ===
 *TODO*
+  * support using several snippet files, maybe with an external editor, to allow for users retaining their custom snippets and still be able to update the predefined library.
 
 === TexCompiler ===
 *TODO*
