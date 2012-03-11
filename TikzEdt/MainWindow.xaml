@@ -629,7 +629,8 @@
             <myC:DockPanelSplitter DockPanel.Dock="Left" Thickness="5" Background="Gainsboro"
                                    Visibility="{Binding Path=LeftToolsColSelectedIndex, Source={x:Static p:Settings.Default},Converter={StaticResource GEQZeroToVisibility}}"/>
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" DockPanel.Dock="Right" Name="PreviewScrollViewer" 
-                          Width="{Binding OverlayCanvasCol2WidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" >
+                          Width="{Binding OverlayCanvasCol2WidthSetting, Source={x:Static p:Settings.Default}, Mode=TwoWay}" 
+                          MouseDown="PreviewScrollViewer_MouseDown" MouseUp="PreviewScrollViewer_MouseUp" MouseMove="PreviewScrollViewer_MouseMove">
                 <!-- 
                 <Button Grid.Row="0" Grid.Column="0">Hallo Welt</Button> <my:PdfOverlay  HorizontalAlignment="Stretch" x:Name="pdfOverlay1" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" />
                 -->
