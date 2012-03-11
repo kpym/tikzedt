@@ -2730,6 +2730,47 @@ namespace TikzEdt
         {
             folderView.CurrentFolder = Directory.GetCurrentDirectory();
         }
+
+        Point PanningStart = new Point(0,0);
+        Point OffsetStart = new Point(0, 0);
+        private void PreviewScrollViewer_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            //if (this.isMoving == true) //Moving with a released wheel and pressing a button
+            //    this.CancelScrolling();
+            var sv = sender as ScrollViewer;
+            if (sv != null && e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
+            {
+                PreviewScrollViewer.Cursor = Cursors.SizeAll;
+                PanningStart = e.GetPosition(sv);
+                OffsetStart = new Point(sv.HorizontalOffset, sv.VerticalOffset);
+                PreviewScrollViewer.CaptureMouse(); // this causes MouseMove to be triggered
+            }
+
+        }
+
+        private void PreviewScrollViewer_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Released)
+            {
+                PreviewScrollViewer.ReleaseMouseCapture();
+                PreviewScrollViewer.Cursor = Cursors.Arrow;
+            }
+        }
+
+        private void PreviewScrollViewer_MouseMove(object sender, MouseEventArgs e)
+        {
+            var sv = sender as ScrollViewer;
+
+            if (sv != null && e.MiddleButton.HasFlag(MouseButtonState.Pressed))
+            {
+                var currentPosition = e.GetPosition(sv);
+                var NewPosition = OffsetStart - currentPosition + PanningStart;
+
+                sv.ScrollToHorizontalOffset(NewPosition.X);
+                sv.ScrollToVerticalOffset(NewPosition.Y);
+            }
+
+        }
        
     }
 }
