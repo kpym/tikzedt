@@ -12,7 +12,6 @@
   
 === Code editor (avalonedit) ===
 *TODO:*
-  * INSERT/REPLACE mode?
 
 == TikzDisplay ==
 *TODO*
