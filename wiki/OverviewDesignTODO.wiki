@@ -12,7 +12,6 @@
   
 === Code editor (avalonedit) ===
 *TODO:*
-  * Hotkey for Comment/Uncomment
   * INSERT/REPLACE mode?
 
 == TikzDisplay ==
@@ -30,7 +29,6 @@
 == PdfOverlay ==
 *TODO*
   * It seems that after undo the tool states are not reset
-  * Middle click drag
 
 === Snippetmanager ===
 *TODO*
@@ -48,7 +46,6 @@
 
 === Misc ===
 *TODO*
-  * Hotkey hints in menus
 
 === Vague things ===
   * improve workflow
