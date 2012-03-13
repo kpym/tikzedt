@@ -1978,7 +1978,7 @@ namespace TikzEdt
             }
             catch (Exception)
             {
-                AddStatusLine("Could not open " + Consts.HelpUrl);
+                AddStatusLine("Could not open " + Consts.HelpUrl, true);
             }
         }
 
@@ -2786,7 +2786,7 @@ namespace TikzEdt
             }
             catch (Exception)
             {
-                AddStatusLine("Could not open " + Consts.QuickTourUrl);
+                AddStatusLine("Could not open " + Consts.QuickTourUrl, true);
             }
         }
        
