@@ -9,6 +9,7 @@
   * look good 
 
 *TODO:*
+  * Add a matrix tool (nr cols/rows, name, left right, top, bottom delimiter, math nodes etc.)
   
 === Code editor (avalonedit) ===
 *TODO:*
