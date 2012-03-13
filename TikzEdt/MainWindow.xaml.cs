@@ -1971,9 +1971,15 @@ namespace TikzEdt
 
         private void HelpCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            // open the wiki main page
-            System.Diagnostics.Process.Start( new System.Diagnostics.ProcessStartInfo(
-                                        "http://code.google.com/p/tikzedt/wiki/WikiUserMain"));
+            // open the help page
+            try
+            {
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(Consts.HelpUrl));
+            }
+            catch (Exception)
+            {
+                AddStatusLine("Could not open " + Consts.HelpUrl);
+            }
         }
 
         private void ZoomoutCommandHandler(object sender, ExecutedRoutedEventArgs e)
@@ -2770,6 +2776,18 @@ namespace TikzEdt
                 sv.ScrollToVerticalOffset(NewPosition.Y);
             }
 
+        }
+
+        private void QuickTour_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(Consts.QuickTourUrl));
+            }
+            catch (Exception)
+            {
+                AddStatusLine("Could not open " + Consts.QuickTourUrl);
+            }
         }
        
     }
