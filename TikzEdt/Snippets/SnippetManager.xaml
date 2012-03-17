@@ -202,7 +202,7 @@
                     
                     <TextBlock Grid.Row="4" Grid.Column="0" Margin="3">Sample Code:</TextBlock>
                     <myEditor:TextEditorEx x:Name="txtSampleCode" Grid.Row="4" Grid.Column="1" Height="100" TextChanged="txtSnippetCode_TextChanged"
-                                           BorderBrush="Black" BorderThickness="1" 
+                                           BorderBrush="Black" BorderThickness="1" Margin="3"
                                            HDFile="{x:Static myApp:Consts.SyntaxFileFullPath}"
                                            CompletionsFile="{x:Static myApp:Consts.CompletionsFileFullPath}"/>
 
