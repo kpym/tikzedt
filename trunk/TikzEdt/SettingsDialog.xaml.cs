@@ -118,5 +118,18 @@ namespace TikzEdt
                 }
             }
         }
+
+        private void LinkToXSHDEditor_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            try
+            {
+                if (File.Exists("XSHDEditor.exe"))
+                    Process.Start("XSHDEditor.exe", "\"" + Consts.SyntaxFileFullPath + "\"");                    
+            }
+            catch (Exception)
+            {
+
+            }
+        }
     }
 }

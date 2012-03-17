@@ -7,9 +7,6 @@
         xmlns:p="clr-namespace:TikzEdt.Properties"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" >
 
-    <ItemsPanelTemplate x:Key="Virtualized">
-        <VirtualizingStackPanel IsItemsHost="True"/>
-    </ItemsPanelTemplate>
     <!--  <my:TheCompiler x:Key="TheCompiler2"/> -->
     <!-- El Cheapo hack to make images within disabled toolbar buttons appear 'grayed out'.  This doesn't
     gray them at all, but lowers their opacity so the (usually gray) background of the button shows through.

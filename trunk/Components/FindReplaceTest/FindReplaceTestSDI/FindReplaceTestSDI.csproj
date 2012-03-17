@@ -99,7 +99,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FindReplace\FindReplace.csproj">
       <Project>{F6237B7D-9A3B-4F55-961B-72035B0DEA4D}</Project>
-      <Name>FindReplace</Name>
+      <Name>FindReplace %28Components\FindReplace\FindReplace%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

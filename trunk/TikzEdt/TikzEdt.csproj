@@ -613,6 +613,14 @@
     <Resource Include="Images\savePdf.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Components\AuxiliaryPrograms\Unzipper\Unzipper.csproj">
+      <Project>{A5AE753E-3A06-4770-9AAC-4E902D1868E3}</Project>
+      <Name>Unzipper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\AuxiliaryPrograms\XSHDEditor\XSHDEditor.csproj">
+      <Project>{4FC9ABF5-F001-4439-9FF4-F516F428121A}</Project>
+      <Name>XSHDEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Components\FileListView\FileListView\FileListView.csproj">
       <Project>{1EDFF96E-0520-4D6C-8CBD-754510DB57D6}</Project>
       <Name>FileListView %28Components\FileListView\FileListView%29</Name>
@@ -688,6 +696,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\CutHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\matrix.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

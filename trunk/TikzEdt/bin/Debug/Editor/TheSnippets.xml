@@ -1222,10 +1222,7 @@
     <ID>77</ID>
     <Name>Crosshatch dots gray</Name>
     <Category>Objects and Patterns</Category>
-    <Description>
-      Add descriptive text here
-      Will be displayed as tooltip
-    </Description>
+    <Description />
     <SnippetCode>pattern=crosshatch dots gray</SnippetCode>
     <SampleCode>
       \usetikzlibrary{patterns}
@@ -1300,10 +1297,7 @@
     <ID>82</ID>
     <Name>Bricks</Name>
     <Category>Objects and Patterns</Category>
-    <Description>
-      Add descriptive text here
-      Will be displayed as tooltip
-    </Description>
+    <Description />
     <SnippetCode>pattern=bricks</SnippetCode>
     <SampleCode>
       \usetikzlibrary{patterns}
@@ -1984,5 +1978,26 @@ circle}
  \end{tikzpicture}</SampleCode>
     <Dependencies />
     <EdgeStyle>purple</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>128</ID>
+    <Name>Tree</Name>
+    <Category>Templates</Category>
+    <Description>From the Pgf manual.</Description>
+    <SnippetCode>\node {root} [grow'=up]
+child {node {left}}
+child {node {right}
+child {node {child}}
+child {node {child}}
+};</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+\node {root} [grow'=up]
+child {node {left}}
+child {node {right}
+child {node {child}}
+child {node {child}}
+};
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
   </SnippetsTable>
 </SnippetsDataSet>
