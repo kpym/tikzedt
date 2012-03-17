@@ -1,8 +1,9 @@
 ﻿<Window x:Class="TikzEdt.TikzEdtAbout"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="About" Height="250" Width="370" ResizeMode="NoResize" Icon="/TikzEdt;component/Images/tikzedt48.ico"
-        WindowStartupLocation="CenterOwner">
+        Title="About" Height="287" Width="383" ResizeMode="NoResize" Icon="/TikzEdt;component/Images/tikzedt48.ico"
+        WindowStartupLocation="CenterOwner"
+        Background="Gainsboro">
     <Grid>
         <DockPanel>
             <Image Height="120" DockPanel.Dock="Left" Name="image1" Stretch="Fill" VerticalAlignment="Center" Width="120" Margin="10" Source="/TikzEdt;component/Images/logotight.png" />
@@ -35,7 +36,13 @@
                         </Hyperlink>
                         </TextBlock>
                     </StackPanel>
-                    <TextBlock Margin="10 0 0 0">Check for updates on:</TextBlock>
+                    <TextBlock Margin="10 0 0 0">Official Website:</TextBlock>
+                    <TextBlock Margin="10 0 0 0">
+                        <Hyperlink NavigateUri="http://www.tikzedt.org/" RequestNavigate="Hyperlink_RequestNavigate">
+                            http://www.tikzedt.org
+                        </Hyperlink>
+                    </TextBlock>
+                    <TextBlock Margin="10 0 0 0">...or visit our Google code site:</TextBlock>
                     <TextBlock Margin="10 0 0 0">
                         <Hyperlink NavigateUri="http://code.google.com/p/tikzedt/" RequestNavigate="Hyperlink_RequestNavigate">
                             http://code.google.com/p/tikzedt/

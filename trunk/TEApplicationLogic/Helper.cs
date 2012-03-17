@@ -156,8 +156,9 @@ namespace TikzEdt
         public static string PGFManualDownloadPath = @"http://www.ctan.org/tex-archive/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf";
         public static string cSnippetThumbsZipfile = "SnippetThumbs.zip";
         public static string cUnzipper = "Unzipper.exe";
+        public static string cXSHDEditor = "XSHDEditor.exe";
         public static string HelpUrl = @"http://www.tikzedt.org/doc.html";
-        public static string QuickTourUrl = @"http://www.tikzedt.org/quicktour.html";
+        public static string QuickTourUrl = @"http://www.tikzedt.org/quicktour.html";        
     }
 
     /// <summary>

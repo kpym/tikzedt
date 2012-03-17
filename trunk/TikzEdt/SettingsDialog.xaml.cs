@@ -123,8 +123,9 @@ namespace TikzEdt
         {
             try
             {
-                if (File.Exists("XSHDEditor.exe"))
-                    Process.Start("XSHDEditor.exe", "\"" + Consts.SyntaxFileFullPath + "\"");                    
+                string xshedit = System.IO.Path.Combine(Helper.GetAppDir(), Consts.cXSHDEditor);
+                if (File.Exists(xshedit))
+                    Process.Start(xshedit, "\"" + Consts.SyntaxFileFullPath + "\"");                    
             }
             catch (Exception)
             {
