@@ -2788,7 +2788,18 @@ namespace TikzEdt
             {
                 AddStatusLine("Could not open " + Consts.QuickTourUrl, true);
             }
+            
         }
-       
+
+    /*    private void InsertMatrix_Click(object sender, RoutedEventArgs e)
+        {
+            Misc.InsertMatrixDialog dlg = new Misc.InsertMatrixDialog();
+            dlg.Owner = this;
+            if (dlg.ShowDialog() == true)
+            {
+                string toInsert = dlg.TextToInsert;
+                txtCode.Document.Insert(txtCode.CaretOffset, toInsert);
+            }
+        } */
     }
 }

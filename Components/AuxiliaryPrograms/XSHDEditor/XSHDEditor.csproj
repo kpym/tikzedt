@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4C64F7EC-CAB4-49BB-8FB9-AB936D027086}</ProjectGuid>
+    <ProjectGuid>{4FC9ABF5-F001-4439-9FF4-F516F428121A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FindReplaceTest</RootNamespace>
-    <AssemblyName>FindReplaceTest</AssemblyName>
+    <RootNamespace>XSHDEditor</RootNamespace>
+    <AssemblyName>XSHDEditor</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -36,14 +36,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.AvalonEdit, Version=4.1.0.7916, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\..\..\lib\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,13 +52,16 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\..\..\lib\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="XSHDModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -100,10 +100,22 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FindReplace\FindReplace.csproj">
-      <Project>{F6237B7D-9A3B-4F55-961B-72035B0DEA4D}</Project>
-      <Name>FindReplace %28Components\FindReplace\FindReplace%29</Name>
-    </ProjectReference>
+    <Resource Include="Images\037_Colorize_64x64_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\126_Edit_48x48_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\327_Options_48x48_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1415_Paintbrush_256x256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1460_PaintPalette_256x256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\personalization.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -93,10 +93,12 @@ namespace TikzEdt
             foreach (string file in InstallFiles)
             {
                 //check if file is in Helper.GetSettingsPath() if not try to copy it from exe dir.
-                if (!File.Exists(Path.Combine(Helper.GetSettingsPath(), file) ))
+                string SettingsDirFile = Path.Combine(Helper.GetSettingsPath(), file);
+                if (!File.Exists(SettingsDirFile ))
                 {
                     //if not there check if it is in exe dir
-                    if (!File.Exists(Path.Combine( System.AppDomain.CurrentDomain.BaseDirectory , "\\Editor\\" + file) ))
+                    string ExeDirFile = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "Editor\\" + file);
+                    if (!File.Exists(ExeDirFile))
                     {
                         success = false;
                         missing = file;
@@ -105,7 +107,7 @@ namespace TikzEdt
                     else
                     {
                         Directory.CreateDirectory(Helper.GetSettingsPath());
-                        File.Copy(System.AppDomain.CurrentDomain.BaseDirectory + "\\Editor\\" + file, Helper.GetSettingsPath() + file);
+                        File.Copy(ExeDirFile, SettingsDirFile);
                         //let global exception handler show exception to user.
                     }
                 }

@@ -3,8 +3,13 @@
     <Color name="Comment" foreground="Green" />
     <Color name="String" foreground="Gray" />
     <Color name="MathString" foreground="Red" />
-    
-    <!-- This is the main ruleset. -->
+    <Color name="TikzCommands" fontWeight="bold" foreground="Blue" />
+    <Color name="OtherCommands" foreground="Blue" fontStyle="italic" />
+    <Color name="TikzKeywords" foreground="Brown" />
+    <Color name="Environments" foreground="Red" />    
+    <Color name="Digits" foreground="DarkBlue" />  
+  
+  <!-- This is the main ruleset. -->
     <RuleSet>
         <Span color="Comment" begin="%" />
       <!--<Span color="Comment" multiline="true" 
@@ -25,7 +30,7 @@
         </Span>
 
       <!-- commands -->
-        <Keywords fontWeight="bold" foreground="Blue">
+        <Keywords color="TikzCommands">
             <Word>\begin</Word>
             <Word>\end</Word>
             <Word>\node</Word>
@@ -47,7 +52,7 @@
         </Keywords>
 
       <!-- path commands -->
-      <Keywords foreground="Brown">
+      <Keywords color="TikzKeywords">
         <Word>node</Word>
         <Word>circle</Word>
         <Word>grid</Word>
@@ -64,7 +69,7 @@
         <!-- ... -->
       </Keywords>
       <!-- allowed latex commands -->
-      <Keywords foreground="Blue" fontStyle="italic">
+      <Keywords color="OtherCommands">
         <Word>\documentclass</Word>
         <Word>\usepackage</Word>
         <Word>\usetikzlibrary</Word>
@@ -72,7 +77,7 @@
       </Keywords>
       
       <!-- environment names -->
-      <Keywords foreground="Red">
+      <Keywords color="Environments">
         <Word>tikzpicture</Word>
         <Word>equation</Word>
         <Word>scope</Word>
@@ -81,7 +86,7 @@
       </Keywords>
         
         <!-- Digits -->
-        <Rule foreground="DarkBlue">
+        <Rule color="Digits">
             \b0[xX][0-9a-fA-F]+  # hex number
         |    \b
             (    \d+(\.[0-9]+)?   #number with optional floating point

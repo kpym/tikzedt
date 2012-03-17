@@ -567,6 +567,17 @@
                         </StackPanel>
                     </Button.ToolTip>
                 </Button>
+          <!--       <Button Click="InsertMatrix_Click">
+                    <Image Source="/TikzEdt;component/Images/matrix.png"  Stretch="Fill" Height="16" Width="16" />
+                    <Button.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="Insert Matrix" FontWeight="Bold"></TextBlock>
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                Displays a dialog to insert a TikZ matrix.
+                            </TextBlock>
+                        </StackPanel>
+                    </Button.ToolTip>
+                </Button> -->
             </ToolBar>
             
         </ToolBarTray>
@@ -749,6 +760,8 @@
                                        CompleteBegins="{Binding Source={x:Static p:Settings.Default}, Path=Editor_CompleteBegins}"                                       
                                        DynamicSnippets="{Binding TheDocument.TikzStyles}"
                                        DynamicSnippetsEnv="1"
+                                       FontFamily ="{Binding Source={x:Static p:Settings.Default}, Path=Editor_FontFamily}"
+                                       FontSize="{Binding Source={x:Static p:Settings.Default}, Path=Editor_FontSize}"
                                        MinWidth="20"
                                        Grid.Row="0"> <!-- ID=1 is currently the options environment  -->
                     <myEditor:TextEditorEx.ContextMenu>
