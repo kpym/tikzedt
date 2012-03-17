@@ -161,16 +161,25 @@ namespace TikzEdt.Snippets
         {
             SnippetsDataSet.SnippetsTableRow r = snippetsTable.NewSnippetsTableRow();
             r.Name = "New Snippet";
-            r.Category = "Styles";            
+            r.Category = "Styles"; 
+            r.Description = "Add descriptive text here \r\nWill be displayed as tooltip";
+            r.SampleCode = "\\begin{tikzpicture}\r\n  \\draw (1,1)--(3,3);\r\n\\end{tikzpicture}";
+            r.SnippetCode = "draw";
+            r.Dependencies = "";      
             if (lstSnippets.SelectedItem != null)
             {
                 SnippetsDataSet.SnippetsTableRow curr = ((DataRowView)(lstSnippets.SelectedItem)).Row as SnippetsDataSet.SnippetsTableRow;
                 r.Category = curr.Category;
+
+                if (sender == cmdAddClone)
+                {
+                    // copy settings from current snippet
+                    r.Name = curr.Name; r.Description = curr.Description; r.SampleCode = curr.SampleCode;
+                    r.SnippetCode = curr.SnippetCode; r.Dependencies = curr.Dependencies;
+                    if (!curr.IsEdgeStyleNull()) r.EdgeStyle = curr.EdgeStyle;
+                    if (!curr.IsNodeStyleNull()) r.NodeStyle = curr.NodeStyle;                    
+                }
             }
-            r.Description = "Add descriptive text here \r\nWill be displayed as tooltip";
-            r.SampleCode = "\\begin{tikzpicture}\r\n  \\draw (1,1)--(3,3);\r\n\\end{tikzpicture}";
-            r.SnippetCode = "draw";
-            r.Dependencies = "";
 
             snippetsTable.Rows.Add(r);
             //make sure lstsnippets is update to date (i.e. just added r is shown)
@@ -196,17 +205,6 @@ namespace TikzEdt.Snippets
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             
-            FrameworkElement overflowGrid = tlbNewDelete.Template.FindName("OverflowGrid", tlbNewDelete) as FrameworkElement;
-            if (overflowGrid != null)
-            {
-                overflowGrid.Visibility = Visibility.Collapsed;
-            }
-            overflowGrid = tlbNewDelete.Template.FindName("OverflowGrid", tlbCompile) as FrameworkElement;
-            if (overflowGrid != null)
-            {
-                overflowGrid.Visibility = Visibility.Collapsed;
-            }
-
       /*      if (!File.Exists(Helper.GetSettingsPath() + Consts.cSyntaxFile))
             {
                 MessageBox.Show("Syntax definitions not found");

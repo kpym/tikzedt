@@ -700,6 +700,27 @@
   <ItemGroup>
     <Resource Include="Images\matrix.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1409_Monitor_256x256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1460_PaintPalette_256x256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Book_Green_256x256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Book_Journal_256x256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1460_PaintPalette_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Book_Green_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Book_Journal_48x48.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

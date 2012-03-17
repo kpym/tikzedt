@@ -8,9 +8,9 @@
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
         xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-        Title="Settings" Height="363" Width="470" Loaded="Window_Loaded" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico" 
+        Title="Settings" Height="370" Width="561" Loaded="Window_Loaded" Closing="Window_Closing" Icon="/TikzEdt;component/Images/tikzedt48.ico" 
         KeyDown="Window_KeyDown" UseLayoutRounding="True"
-        AllowsTransparency="False">
+        AllowsTransparency="False" Background="Gainsboro">
     <Window.Resources>
         <ResourceDictionary 
                   Source="Resources/ResourceDict.xaml">
@@ -19,9 +19,25 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListBox Grid.Column="0" Name="lstNav" Padding="0" Margin="5" Width="Auto" Background="Gray" Foreground="White">           
+        <Grid Width="70" Grid.Column="0">
+            <Image  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="8" Stretch="None" Source="/TikzEdt;component/Images/1460_PaintPalette_48x48.png" />
+            <TextBlock Foreground="White" FontWeight="Black" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0">
+                <TextBlock.LayoutTransform>
+                    <RotateTransform Angle="-90"/>
+                </TextBlock.LayoutTransform>
+                Settings
+            </TextBlock>
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                    <GradientStop Color="Gray" Offset="0.0" />
+                    <GradientStop Color="Gainsboro" Offset="1.0" />
+                </LinearGradientBrush>
+            </Grid.Background>
+        </Grid>
+        <ListBox Grid.Column="1" Name="lstNav" Padding="0" Margin="5" Width="Auto" Background="Gray" Foreground="White">           
             <ListBox.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="DodgerBlue"/>
                 <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="DodgerBlue"/>
@@ -60,7 +76,7 @@
                 </StackPanel>
             </ListBoxItem>
         </ListBox>
-        <TabControl Grid.Column="1" SelectedIndex="{Binding ElementName=lstNav, Path=SelectedIndex}" Background="White">
+        <TabControl Grid.Column="2" SelectedIndex="{Binding ElementName=lstNav, Path=SelectedIndex}" Background="White">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="{x:Type TabItem}">                    
                       <Setter Property="Visibility" Value="Collapsed"/>                    
