@@ -20,11 +20,13 @@ body {
   background-color:#ff00ff;
 }
 #page {
-  position:relative; /* */
+  /*position:relative;  */
+  width:550px;
     margin:10px;
     background-color:white;    
     padding: 10px;
     margin-left:82px;
+   /*background-color:Red;  margin-right:30px;*/
 }
 #nav {
 /*position:static;
@@ -68,8 +70,9 @@ p.headline {
 }
 p.subheadline {
   font-family:Verdana,Arial,Helvetica,sans-serif; color:#000000;
-  font-size:16px;
+  font-size:15px;
   margin-top: 0px;
+  margin-left: 0.3em;
   margin-bottom: 0px;
 }
 p.navlink {
@@ -147,8 +150,9 @@ table.navtable td:hover {
    display:table-cell;
 }
 
-#maintable {
-	width:1000px;
+#maintable 
+{
+	width:960px;
 	border: 0px;	
 	border-spacing: 0px;
 	padding: 0px;
@@ -159,10 +163,15 @@ table.navtable td:hover {
 	margin-right:auto;
 }
 
-img 
+img
 {
     border-width : 0;
-    max-width:600px;
+}
+
+#page img 
+{
+    border-width : 0;
+    max-width:100%;
 }
 
 table.texttable th {

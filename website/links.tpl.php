@@ -1,5 +1,5 @@
 <h4>Links</h4>
-<ul>
+<ul width="100%">
   <li>
     Please use <a href="http://code.google.com/p/tikzedt/issues/list">our google code site</a> to report bugs and send feature requests.
   </li>

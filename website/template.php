@@ -1,5 +1,5 @@
 <?
-$xml = simplexml_load_file("VersionInfo.xml");
+$xml = simplexml_load_file("http://tikzedt.googlecode.com/svn/trunk/VersionInfo.xml");
 $zipdownload = "http://code.google.com/p/tikzedt/downloads/list";
 $msidownload = "http://code.google.com/p/tikzedt/downloads/list";
 $teversion = "";
@@ -23,18 +23,18 @@ foreach($xml->children() as $child)
 <head>
 	<link href="style.css" rel="stylesheet" type="text/css" />
 	<link rel="icon" type="image/vnd.microsoft.icon" href="img/logo.ico" />
-<title>TikzEdt. <?=$pagetitle?></title>
+<title>TikzEdt - A WYSIWYG Tikz editor. <?=$pagetitle?></title>
 </head>
 <body>
-	<table id="maintable">
+	<table id="maintable" >
 		<tr>
-			<td style="border-bottom:solid 1px black;height:100px;">
+			<td style="border-bottom:solid 1px black;height:100px;" >
 				 <? include "header.html" ?><!---->
 			</td>
             <td style="border-bottom:solid 1px black; border-left:solid 1px black;" width="200"></td>
 		</tr>
 		<tr>			
-			<td style="vertical-align:top; margin-top:20px;">
+			<td style="vertical-align:top; margin-top:20px;" >
 			  <div id="page">
 				<? include $tpl ?>
 			  </div>

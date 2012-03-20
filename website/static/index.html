@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<link rel="icon" type="image/vnd.microsoft.icon" href="img/logo.ico" />
+<title>TikzEdt - A WYSIWYG Tikz editor. Main</title>
+</head>
+<body>
+	<table id="maintable" >
+		<tr>
+			<td style="border-bottom:solid 1px black;height:100px;" >
+				 <a href="index.html" style="text-decoration: none;">
+<table style="padding:0px">
+<tr>
+<td>
+<img src="img/logotightorig.png" height="70px" width="70px" alt="logo" style="margin-left:5px;"/>
+</td>
+<td style="vertical-align:middle;">
+<p class="headline"> TikzEdt</p>
+<p class="subheadline"> A semigraphical Tikz editor</p>
+</td>
+</tr>
+</table>
+</a><!---->
+			</td>
+            <td style="border-bottom:solid 1px black; border-left:solid 1px black;" width="200"></td>
+		</tr>
+		<tr>			
+			<td style="vertical-align:top; margin-top:20px;" >
+			  <div id="page">
+				<h2>Main</h2>
+
+TikzEdt is a combined WYSIWYG/text editor designed for editing <a href="http://en.wikipedia.org/wiki/PGF/TikZ">Tikz</a> code. Here is how the editor looks like:
+<img src ="img/instantpreview.png" width="600" style="margin-top:20px;"/>
+<table>
+  <tr>
+    <td width="50%">Here you can edit the Tikz code.</td>
+    <td width="50%">Here you see the compiled picture and may do WYSIWYG editing.</td>
+  </tr>
+</table>
+
+<h4>Features:</h4>
+<ul>
+<li>  Syntax highlighting and code completion, based on AvalonEdit.</li>
+<li>  Real time rendering, using pdflatex and mupdf.</li>
+<li>  It contains a Tikz parser, built using the Antlr parser generator.</li>
+<li>  Parsed coordinates are displayed as an overlay on the rendered image. The overlay can be edited with the mouse in a WYSIWYG manner. The source code is updated accordingly.</li>
+<li>  It comes with a snippet library to store frequently used commands and styles, containing many pre-defined examples. </li>
+<li>  Export to many common image formats.</li>
+</ul>
+
+
+
+<h4>What TikzEdt can and cannot do for you:</h4>
+<ul>
+  <li>It can help you draw simple Tikz diagrams quickly using WYSIWYG tools. You save time compared to writing the code by hand.</li>
+  <li>You can freely switch between code writing and WYSIWYG editing. In particular, you may choose to not use the WYSIWYG features and use TikzEdt purely as a text editor with instant preview.</li>
+  <li>Tikz/Pgf is a very rich language with lots of libraries. By far not all Tikz commands are available through WYSIWYG tools, and not all elements of a Tikz picture can be modified using the WYSIWYG interface alone. TikzEdt only lets you edit coordinates.
+      Hence TikzEdt does not spare you from learning Tikz, although it may help you in getting started.</li>
+  <li>If you are looking for a pure WYSIWYG vector graphics editor and don't care at all about Tikz/Latex, you might be better off using a program dedicated to that purpose, like Inkscape.</li>
+  <li>TikzEdt is currently (regrettably) only natively available for Windows.</li>
+</ul>
+
+
+Please use <a href="http://code.google.com/p/tikzedt/issues/list">our google code site</a> to report bugs.
+
+			  </div>
+		  </td>
+          <td style="border-left:solid 1px black;vertical-align:top;padding:0px;" width="200">				
+					<table cellspacing="0" cellpadding="0" width="100%" class="navtable" >
+<tr>
+  <td  id="currentpagelink" >
+    <a href="index.html"> Main</a>
+  </td>
+</tr>
+<!-- <td><a href="http://code.google.com/p/tikzedt/downloads/list" target="_blank">Download</td> -->
+<tr>
+  <td   >
+    <a href="down.html">Download</a>
+  </td>
+</tr>
+<tr>
+  <td
+    >
+      <a href="quicktour.html">Quick Tour</a>
+  </td>
+</tr>
+  <tr>
+    <td
+      >
+      <a href="usecases.html">Use Cases</a>
+    </td>
+  </tr>
+  <!-- 
+  <tr >
+    <td  >
+        <a href="screenshots.html">Screenshots</a>
+    </td>
+  </tr>
+  -->
+  <tr>
+    <td
+      >
+      <a href="doc.html">Documentation</a>
+    </td>
+</tr>
+  <tr>
+    <td
+      >
+      <a href="links.html">Links and Contact</a>
+    </td>
+  </tr>
+  <!-- 
+  <tr>
+    <td >
+        <a href="about.html">About</a>
+    </td>
+  </tr>
+  -->
+  <tr height="90px">
+  </tr>
+  <tr>
+      <td style="border-bottom:none;background-color:white;">
+        <a href=http://tikzedt.googlecode.com/files/TikzEdtBeta0_2_1.msi>
+          <img style="height:70px;margin-left:0px;" src="img/downloadbtn.png" alt="download"/>
+        </a>
+      </td>
+    </tr>
+<!--<td><a href="help.html">Help</td> -->
+</table>			<!-- <hr class="mainsep" />	<hr class="mainsep"/> -->
+			</td>
+		</tr>
+	</table>
+</body>
+</html>
