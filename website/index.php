@@ -3,7 +3,7 @@
 //include dirname($_SERVER['DOCUMENT_ROOT']).'/cfg/settings.php';
 //getting required data
 //$DATA=dbgetarr("SELECT * FROM links");
-$pagetitle = "Main";
+$pagetitle = "Home";
 //etc
 //and then call a template:
 $tpl = "index.tpl.php";

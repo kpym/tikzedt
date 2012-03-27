@@ -1,11 +1,11 @@
 <h2><?=$pagetitle?></h2>
 
 TikzEdt is a combined WYSIWYG/text editor designed for editing <a href="http://en.wikipedia.org/wiki/PGF/TikZ">Tikz</a> code. Here is how the editor looks like:
-<img src ="img/instantpreview.png" width="600" style="margin-top:20px;"/>
+<img src ="img/instantpreview.png" style="margin-top:20px;width:600px;" alt="Screenshot"/>
 <table>
   <tr>
-    <td width="50%">Here you can edit the Tikz code.</td>
-    <td width="50%">Here you see the compiled picture and may do WYSIWYG editing.</td>
+    <td style="width:50%;">Here you can edit the Tikz code.</td>
+    <td style="width:50%;">Here you see the compiled picture and may do WYSIWYG editing.</td>
   </tr>
 </table>
 

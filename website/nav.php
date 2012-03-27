@@ -1,7 +1,7 @@
-<table cellspacing="0" cellpadding="0" width="100%" class="navtable" >
+<table class="navtable" >
 <tr>
-  <td <?php if ($pagetitle=="Main") echo " id=\"currentpagelink\""; ?> >
-    <a href="index.php"> Main</a>
+  <td <?php if ($pagetitle=="Home") echo " id=\"currentpagelink\""; ?> >
+    <a href="index.php"> Home</a>
   </td>
 </tr>
 <!-- <td><a href="http://code.google.com/p/tikzedt/downloads/list" target="_blank">Download</td> -->
@@ -48,12 +48,13 @@
     </td>
   </tr>
   -->
-  <tr height="90px">
+  <tr style="height:90px;">
+    <td style="border-bottom:none;background-color:white;"></td>    
   </tr>
   <tr>
       <td style="border-bottom:none;background-color:white;">
         <a href=<?="$msidownload"?>>
-          <img style="height:70px;margin-left:0px;" src="img/downloadbtn.png" alt="download"/>
+          <img style="height:70px;margin-left:0px;" src="img/downloadbtn.png" alt="Download"/>
         </a>
       </td>
     </tr>

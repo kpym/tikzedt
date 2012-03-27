@@ -21,8 +21,10 @@ foreach($xml->children() as $child)
 <!DOCTYPE html>
 <html>
 <head>
-	<link href="style.css" rel="stylesheet" type="text/css" />
-	<link rel="icon" type="image/vnd.microsoft.icon" href="img/logo.ico" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />
+<link rel="icon" type="image/x-icon" href="img/logo.ico" />
+<link rel="shortcut icon" href="img/logo.ico">
 <title>TikzEdt - A WYSIWYG Tikz editor. <?=$pagetitle?></title>
 </head>
 <body>
@@ -31,7 +33,7 @@ foreach($xml->children() as $child)
 			<td style="border-bottom:solid 1px black;height:100px;" >
 				 <? include "header.html" ?><!---->
 			</td>
-            <td style="border-bottom:solid 1px black; border-left:solid 1px black;" width="200"></td>
+            <td style="border-bottom:solid 1px black; border-left:solid 1px black; width:200px;" ></td>
 		</tr>
 		<tr>			
 			<td style="vertical-align:top; margin-top:20px;" >
@@ -39,7 +41,7 @@ foreach($xml->children() as $child)
 				<? include $tpl ?>
 			  </div>
 		  </td>
-          <td style="border-left:solid 1px black;vertical-align:top;padding:0px;" width="200">				
+          <td style="border-left:solid 1px black;vertical-align:top;padding:0px;width:200px;" >				
 					<? include "nav.php" ?>
 			<!-- <hr class="mainsep" />	<hr class="mainsep"/> -->
 			</td>
