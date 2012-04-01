@@ -69,16 +69,40 @@ namespace TikzEdt
         /// <param name="p">The cursor position, in BOTTOM LEFT CENTERED pixel coordinates.</param>
         /// <param name="e"></param>
         public virtual void OnLeftMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e) { }
+        /// <summary>
+        /// LeftMouseButtonUp event, forwarded from the overlay control.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="p"></param>
         public virtual void OnLeftMouseButtonUp(MouseButtonEventArgs e, Point p) { }
         /// <summary>
         /// Set e.Handled if you want to turn off the default handling... like opening the context menu etc.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="item">The item on which the event occurred.</param>   
+        /// <param name="p">The cursor position, in BOTTOM LEFT CENTERED pixel coordinates.</param>
+        /// <param name="e"></param>       
         public virtual void OnRightMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e) { }
+        /// <summary>
+        /// "Raw" MouseButtonUp event, forwarded from the overlay control.
+        /// </summary>
+        /// <param name="e"></param>
         public virtual void OnRightMouseButtonUp(MouseButtonEventArgs e) { }
+        /// <summary>
+        /// MouseMove event, forwarded from the overlay control.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="e"></param>
         public virtual void OnMouseMove(Point p, MouseEventArgs e) { }
 
+        /// <summary>
+        /// KeyDown event, forwarded from the overlay control.
+        /// </summary>
+        /// <param name="e"></param>
         public virtual void KeyDown(KeyEventArgs e) { }
+        /// <summary>
+        /// KeyUp event, forwarded from the overlay control.
+        /// </summary>
+        /// <param name="e"></param>
         public virtual void KeyUp(KeyEventArgs e) { }
 
     }
@@ -117,7 +141,7 @@ namespace TikzEdt
         List<OverlayShape> TopLevelItems { get; }
 
         Canvas canvas { get; }
-        RasterControl Rasterizer { get; }
+        RasterControlModel Rasterizer { get; }
 
         OverlayScope CurEditing { get; set; }
         double Resolution { get; }

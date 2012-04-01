@@ -253,8 +253,8 @@ namespace TikzEdt
 
         public Canvas canvas { get { return canvas1; } }
 
-        private RasterControl _Rasterizer;
-        public RasterControl Rasterizer { get { return _Rasterizer; } set { _Rasterizer = value; } }
+        //private RasterControlModel _Rasterizer;
+        public RasterControlModel Rasterizer { get; set; }
 
         OverlayScope _CurEditing;
         /// <summary>
@@ -401,28 +401,13 @@ namespace TikzEdt
         #endregion
 
         /// <summary>
-        /// This method is called by the parsetree upon change.
-        /// It just redirects the event...
+        ///  Resets the current tool to the default (= the move tool).
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="oldtext"></param>
-    //    void _parsetree_TextChanged(object sender, ParseTreeTextChangedEventArgs e)
-    //    {
-    //        if (OnModified != null)
-    //            OnModified(sender, oldtext);
-    //    }
-
-        // resets tool to standard (= the move tool)
         public void ActivateDefaultTool()
         {
             Tool = OverlayToolType.move;
         }
         
-        //List<Control> objects = new List<Control>();
-
-        //System.Collections.ObjectModel.ObservableCollection<OverlayShape> SelectedItems = new System.Collections.ObjectModel.ObservableCollection<OverlayShape>();
-        //List<OverlayShape> SelectedItemsBak = new List<OverlayShape>();   // stores old selection during SelectionRect display
-
         public PdfOverlay()
         {
             InitializeComponent();
@@ -694,12 +679,12 @@ namespace TikzEdt
                 {
                     TikzMatrix M;
                     if (!tp.GetCurrentTransformAt(null, out M))
-                        Rasterizer.CoordinateTransform = new TikzMatrix();   // if the program gets here, the global coord. transformation could not be understood->ovelay should display nothing
+                        Rasterizer.View.CoordinateTransform = new TikzMatrix();   // if the program gets here, the global coord. transformation could not be understood->ovelay should display nothing
                     else
-                        Rasterizer.CoordinateTransform = M;
+                        Rasterizer.View.CoordinateTransform = M;
                     //rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
                     //rasterizer.RasterScale = M.m[1, 1];
-                    Rasterizer.IsCartesian = !UsePolarCoordinates;
+                    Rasterizer.View.IsCartesian = !UsePolarCoordinates;
                 }
             }
             else if (tpi is Tikz_Scope)
@@ -718,10 +703,10 @@ namespace TikzEdt
                     if (!ts.GetRasterTransform(out M))
                         M = new TikzMatrix();
                 }
-                Rasterizer.CoordinateTransform = M;
+                Rasterizer.View.CoordinateTransform = M;
                 //rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
                 //rasterizer.RasterScale = M.m[1, 1];
-                Rasterizer.IsCartesian = !IsParent || !UsePolarCoordinates;
+                Rasterizer.View.IsCartesian = !IsParent || !UsePolarCoordinates;
             }
             else if (tpi is Tikz_XYItem)
             {
@@ -736,8 +721,8 @@ namespace TikzEdt
                     M.m[0, 2] = offset.X;
                     M.m[1, 2] = offset.Y;
                     //rasterizer.RasterScale = M.m[1, 1];
-                    Rasterizer.CoordinateTransform = M;
-                    Rasterizer.IsCartesian = !(t.IsPolar());
+                    Rasterizer.View.CoordinateTransform = M;
+                    Rasterizer.View.IsCartesian = !(t.IsPolar());
                 }
                 else throw new Exception("In PdfOverlay: Encountered drawn item without valid coordinates");
             }
@@ -763,10 +748,10 @@ namespace TikzEdt
                     //if (!ts.GetRasterTransform(out M))
                     //    M = new TikzMatrix();
                 }
-                Rasterizer.CoordinateTransform = M;
+                Rasterizer.View.CoordinateTransform = M;
                 //rasterizer.RasterOrigin = M.Transform(new Point(0, 0));
                 //rasterizer.RasterScale = M.m[1, 1];
-                Rasterizer.IsCartesian = !IsParent || !UsePolarCoordinates;
+                Rasterizer.View.IsCartesian = !IsParent || !UsePolarCoordinates;
             }
             else
                 Debug.WriteLine("Error in SetCorrectRaster: unsupported type");//Rasterizer.IsCartesian = true;  // should not get here
@@ -967,8 +952,8 @@ namespace TikzEdt
             CurrentTool.KeyDown(e);
 
             // turn off raster on Alt
-            Rasterizer.OverrideWithZeroGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
-            Rasterizer.OverrideWithHalfGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
+            Rasterizer.View.OverrideWithZeroGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
+            Rasterizer.View.OverrideWithHalfGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
 
             if (e.Key == Key.LeftAlt || e.Key == Key.RightAlt)
                 e.Handled = true;
@@ -989,8 +974,8 @@ namespace TikzEdt
             CurrentTool.KeyUp(e);
 
             // turn on raster on Alt released
-            Rasterizer.OverrideWithZeroGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
-            Rasterizer.OverrideWithHalfGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
+            Rasterizer.View.OverrideWithZeroGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
+            Rasterizer.View.OverrideWithHalfGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
 
             if (e.Key == Key.LeftAlt || e.Key == Key.RightAlt)
                 e.Handled = true;
@@ -1076,8 +1061,8 @@ namespace TikzEdt
         private void canvas1_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             // in case the keyboard focus is lost while alt or shift+alt pressed, the raster has to be made reappear
-            Rasterizer.OverrideWithHalfGridWidth = false;
-            Rasterizer.OverrideWithZeroGridWidth = false; 
+            Rasterizer.View.OverrideWithHalfGridWidth = false;
+            Rasterizer.View.OverrideWithZeroGridWidth = false; 
         }
 
         private void mnuSelection_Click(object sender, RoutedEventArgs e)

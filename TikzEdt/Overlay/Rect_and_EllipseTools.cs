@@ -67,7 +67,7 @@ namespace TikzEdt
             PreviewRect.Width = PreviewRect.Height = 0;
 
             // adjust rotation in case we are in a rotated frame
-            double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.CoordinateTransform) * 180 / Math.PI;
+            double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.View.CoordinateTransform) * 180 / Math.PI;
             PreviewRect.RenderTransform = new RotateTransform(angle);
 
             if (!overlay.canvas.Children.Contains(PreviewRect))
@@ -88,7 +88,7 @@ namespace TikzEdt
                 Point firstpoint = overlay.ScreenToTikz(origin, true);
                 Point secondpoint = overlay.Rasterizer.RasterizePixelToTikz(p);
 
-                double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.CoordinateTransform);
+                double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.View.CoordinateTransform);
                 Matrix R = Matrix.Identity;
                 R.Rotate(angle * 180 / Math.PI);
                 Matrix RI = R;
@@ -176,7 +176,7 @@ namespace TikzEdt
             if (PreviewRect.Visibility == Visibility.Visible)
             {
                 // compute rotated diagonal
-                double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.CoordinateTransform) ;
+                double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.View.CoordinateTransform);
                 Matrix R = Matrix.Identity;
                 R.Rotate(-angle * 180 / Math.PI);
                 Vector newdiag = R.Transform(mousep-origin);
@@ -271,7 +271,7 @@ namespace TikzEdt
             Canvas.SetTop(PreviewEllipse, origin.Y);
             PreviewEllipse.Width = PreviewEllipse.Height = 0;
 
-            double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.CoordinateTransform) * 180 / Math.PI;
+            double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.View.CoordinateTransform) * 180 / Math.PI;
             PreviewEllipse.RenderTransform = new RotateTransform(angle);
 
             if (!overlay.canvas.Children.Contains(PreviewEllipse))
@@ -293,7 +293,7 @@ namespace TikzEdt
                 Point secondpoint = overlay.Rasterizer.RasterizePixelToTikz(p); // in axis aligned (untranformed) tikz coordinates
 
                 // compute rotated diagonal
-                double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.CoordinateTransform);
+                double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.View.CoordinateTransform);
                 Matrix R = Matrix.Identity;
                 R.Rotate(angle * 180 / Math.PI);
                 Vector newdiag = R.Transform(secondpoint - center);
@@ -370,7 +370,7 @@ namespace TikzEdt
             if (PreviewEllipse.Visibility == Visibility.Visible)
             {
                 // compute rotated diagonal
-                double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.CoordinateTransform);
+                double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.View.CoordinateTransform);
                 Matrix R = Matrix.Identity;
                 R.Rotate(-angle * 180 / Math.PI);
                 Vector newdiag = R.Transform(mousep - origin);
