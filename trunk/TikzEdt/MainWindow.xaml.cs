@@ -243,7 +243,7 @@ namespace TikzEdt
        //     CommandBinding ExportFileCommandBinding = new CommandBinding(ExportFileCommand, ExportFileHandler, AlwaysTrue);
             CommandBinding OpenPgfManualBinding = new CommandBinding(OpenPgfManualCommand, OpenPgfManualHandler, AlwaysTrue); 
             
-            pdfOverlay1.Rasterizer = rasterControl1;
+            pdfOverlay1.Rasterizer = rasterControl1.TheModel;
       //      EnsureFindDialogExists();
 
             TikzToBMPFactory.Instance.JobNumberChanged += TikzToBmpFactory_JobNumberChanged;

@@ -53,6 +53,9 @@ namespace MakeWebsiteStatic
             Console.WriteLine("Copying images");
             foreach (string f in Directory.GetFiles(localbasedirimg, "*.png"))
                 File.Copy(f, targetimgdir+ Path.GetFileName(f), true);
+            foreach (string f in Directory.GetFiles(localbasedirimg, "*.ico"))
+                File.Copy(f, targetimgdir + Path.GetFileName(f), true);
+
 
             Console.WriteLine("Please enter password for "+ username + " at " + ftpaddress);
             string pw = Console.ReadLine();

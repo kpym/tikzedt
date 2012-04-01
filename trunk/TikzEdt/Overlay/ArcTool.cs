@@ -81,7 +81,7 @@ namespace TikzEdt
         {
             base.OnDeactivate();
             PreviewPie.Visibility = PreviewArc.Visibility = Visibility.Collapsed;
-            overlay.Rasterizer.ForceRadiusTo = -1;
+            overlay.Rasterizer.View.ForceRadiusTo = -1;
             overlay.SetCorrectRaster(overlay.CurEditing, true); // don't keep our temporary polar raster
         }
         public override void OnActivate() 
@@ -129,11 +129,11 @@ namespace TikzEdt
                 center = ptikz;
 
                 // set raster to polar, and such that origin is at center
-                overlay.Rasterizer.IsCartesian = false;
-                TikzMatrix M = overlay.Rasterizer.CoordinateTransform;
+                overlay.Rasterizer.View.IsCartesian = false;
+                TikzMatrix M = overlay.Rasterizer.View.CoordinateTransform;
                 M.m[0, 2] = center.X;
                 M.m[1, 2] = center.Y;
-                overlay.Rasterizer.CoordinateTransform = M;
+                overlay.Rasterizer.View.CoordinateTransform = M;
                 pointcount = 1;
 
                 PreviewPie.center = PreviewArc.center = new Point(p.X, overlay.Height - p.Y);
@@ -150,9 +150,9 @@ namespace TikzEdt
                 PreviewPie.p1 = PreviewArc.p2 = new Point(p.X, overlay.Height - p.Y);
 
                 // compute radius 
-                TikzMatrix M = overlay.Rasterizer.CoordinateTransform;
+                TikzMatrix M = overlay.Rasterizer.View.CoordinateTransform;
                 Point ploc = M.Inverse().Transform(p1);
-                overlay.Rasterizer.ForceRadiusTo = (ploc - (new Point(0,0))).Length;
+                overlay.Rasterizer.View.ForceRadiusTo = (ploc - (new Point(0, 0))).Length;
 
             }
             else if (pointcount == 2)
@@ -205,7 +205,7 @@ namespace TikzEdt
 
                 // reset everything
                 pointcount = 0;
-                overlay.Rasterizer.ForceRadiusTo = -1;
+                overlay.Rasterizer.View.ForceRadiusTo = -1;
                 overlay.SetCorrectRaster(overlay.CurEditing, true);
             }
             //Point p = new Point(e.GetPosition(canvas1).X, Height - e.GetPosition(canvas1).Y);
