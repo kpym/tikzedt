@@ -150,7 +150,7 @@ namespace TikzEdt
             else return null;
         }
 
-        private Bitmap GetBitmap(double Resolution, bool Transparent = true)
+        public Bitmap GetBitmap(double Resolution, bool Transparent = true)
         {
             if (mypdfDoc != null && mypdfDoc.PageCount > 0)
             {
@@ -229,7 +229,7 @@ namespace TikzEdt
                 //Stopwatch s = new Stopwatch();
                 //s.Start();
 
-                BitmapSource ret = getBitmapSourceFromBitmap(_backbuffer);
+                BitmapSource ret = GetBitmapSourceFromBitmap(_backbuffer);
                 _backbuffer.Dispose();
 
                 //s.Stop();
@@ -295,7 +295,7 @@ namespace TikzEdt
                         b.MakeTransparent(System.Drawing.Color.FromArgb(255, 253, 253, 253));
                         b.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
                     }
-                    ret = getBitmapSourceFromBitmap(b);
+                    ret = GetBitmapSourceFromBitmap(b);
                     b.Save(@"C:\temp\temp.bmp");
                     b.Dispose();
                 }
@@ -334,7 +334,7 @@ namespace TikzEdt
         /// </summary>
         /// <param name="source">The System.Drawing.Bitmap</param>
         /// <returns>The same Bitmap, in Wpf format</returns>
-        private static BitmapSource getBitmapSourceFromBitmap(System.Drawing.Bitmap source)
+        public static BitmapSource GetBitmapSourceFromBitmap(System.Drawing.Bitmap source)
         {
 
             IntPtr ip = source.GetHbitmap();

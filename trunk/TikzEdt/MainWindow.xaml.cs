@@ -1332,143 +1332,16 @@ namespace TikzEdt
             e.CanExecute = true;
         }
 
-     /*   private void SaveCommandHandler(object sender, ExecutedRoutedEventArgs e)
-        {
-            SaveCurFile();
-        }
-
-        private void SaveAsCommandHandler(object sender, ExecutedRoutedEventArgs e)
-        {
-            SaveCurFile(true);            
-        }
-        */
         private void ExitCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
         }
-
-
-     /*   private void NewCommandHandler(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (!TryDisposeFile())
-                return;
-            
-            //all temporary files should be saved in the temporary folder.
-            Helper.SetCurrentWorkingDir(Helper.WorkingDirOptions.TempDir);
-            AddStatusLine("Working directory is now: " + Helper.GetCurrentWorkingDir());
-
-            CleanupForNewFile();
-            
-            // start with std code
-            txtCode.Document.BeginUpdate();
-            txtCode.Document.Insert(0, "\\begin{tikzpicture}" + Environment.NewLine + Environment.NewLine + "\\end{tikzpicture}");
-            txtCode.Document.EndUpdate();
-            ChangesMade = false;
-
-            ShowFilesOfCurrentDirectory(); 
-
-        }
-        private void CleanupForNewFile()
-        {
-            // stop listening for changes
-            fileWatcher.EnableRaisingEvents = false;
-            //isLoaded = false;
-            CurFileNeverSaved = true;
-            ChangesMade = false;  //Note: first set ChangesMade=false, then set CurFile.
-            CurFile = Consts.defaultCurFile;
-            txtCode.Text = "";
-            tikzDisplay1.SetUnavailable();
-            //pdfOverlay1.Clear();
-            //DetermineBB(null);
-            rasterControl1.ResetRaster();
-            pdfOverlay1.SetParseTree(null, currentBB);
-            pdfOverlay1.AllowEditing = true;
-            currentBB = new Rect(Properties.Settings.Default.BB_Std_X, Properties.Settings.Default.BB_Std_Y, Properties.Settings.Default.BB_Std_W, Properties.Settings.Default.BB_Std_H);
-            ClearStyleLists();
-
-            // Set new document ID
-            CurDocumentID = DateTime.Now.Ticks;
-        } */
-
-    /*    private void CompileCommandHandler(object sender, ExecutedRoutedEventArgs e)
-        {
-            Recompile();
-        }
-        */
-       // private void CompileClick(object sender, RoutedEventArgs e)
-      //  {
-       //     Recompile();
-       // }
 
         private void AbortCompilationClick(object sender, RoutedEventArgs e)
         {
             TheCompiler.Instance.AbortCompilation();
         }
 
-     /*   private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            string s = Clipboard.GetText();
-            simpletikzLexer lex = new simpletikzLexer(new ANTLRStringStream(s));
-            CommonTokenStream tokens = new CommonTokenStream(lex);
-
-            for (int i = 0; i < tokens.Count; i++)
-            {
-                string ds = tokens.Get(i).Text;
-                ds = ds + "eee";
-            }
-
-            simpletikzParser parser = new simpletikzParser(tokens);
-
-            //tikzgrammarParser.expr_return r =
-            simpletikzParser.tikzpath_return ret = parser.tikzpath();
-            
-            //CommonTreeAdaptor adaptor = new CommonTreeAdaptor();
-            CommonTree t = (CommonTree)ret.Tree;
-            MessageBox.Show(printTree(t,0));
-
-        }
-     
-
-
-        public string printTree(CommonTree t, int indent)
-        {
-            string s="";
-            if ( t != null ) {
-		        for ( int i = 0; i < indent; i++ )
-			        s = s+"   ";
-
-                string r = "";// s + t.ToString() + "\r\n";
-                
-                if (t.ChildCount >0)
-		            foreach ( object o in t.Children ) {
-			            r=r+s+o.ToString()+"\r\n" + printTree((CommonTree)o, indent+1);
-                    }
-
-                return r;
-            }  else return "";
-		}
- * */
-     /*    private void pdfOverlay1_OnModified(TikzParseItem sender, string oldtext)
-        {
-            // update code
-            //ProgrammaticTextChange = true; 
-
-            //txtCode.Text = pdfOverlay1.ParseTree.ToString();
-
-           int InsertAt = sender.StartPosition();
-            if (InsertAt > txtCode.Text.Length)
-            {
-                AddStatusLine("Trying to insert code \"" + sender.ToString().Replace(Environment.NewLine, "<NEWLINE>") + "\" to position " + sender.StartPosition() + " but document has only " + txtCode.Text.Length + " characters." 
-                +" Inserting code at end of document instead. Code does probably not compile now. Please correct or choose undo.", true);
-                InsertAt = txtCode.Text.Length;
-            }
-
-            txtCode.Document.Replace(InsertAt, oldtext.Length, sender.ToString());
-
-            //ProgrammaticTextChange = false; 
-            //MessageBox.Show(pdfOverlay1.ParseTree.ToString());
-        }
-*/
         private void CommentCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             txtCode.BeginChange();
