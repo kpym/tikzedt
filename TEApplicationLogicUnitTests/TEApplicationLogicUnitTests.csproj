@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="MainWindowVMTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RasterControlModelTest.cs" />
     <Compile Include="TEDocumentVMTest.cs" />
     <Compile Include="TexCompilerTest.cs" />
     <Compile Include="TexOutputParserTest.cs" />

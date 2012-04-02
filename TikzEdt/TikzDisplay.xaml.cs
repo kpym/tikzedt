@@ -40,15 +40,18 @@ namespace TikzEdt
     /// Interaction logic for TikzDisplay.xaml 
     /// NOT THREAD-SAFE SO FAR
     /// </summary>
-    public partial class TikzDisplay : UserControl
+    public partial class TikzDisplay : UserControl, TikzEdt.ITikzDisplayView
     {
-                
+
+        TikzDisplayModel<BitmapSource> TheModel { get; set; }
+
+        #region properties
         readonly public static DependencyProperty RenderTransparentProperty = DependencyProperty.Register(
                     "RenderTransparent", typeof(bool), typeof(TikzDisplay),
                     new PropertyMetadata(true, OnRenderTransparentChanged));
         static void OnRenderTransparentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as TikzDisplay).RedrawBMP(false);
+            (d as TikzDisplay).TheModel.RedrawBMP(false);
         }
         /// <summary>
         /// Indicates whether the pdf background should be rendered transparent
@@ -63,10 +66,9 @@ namespace TikzEdt
         readonly public static DependencyProperty ResolutionProperty = DependencyProperty.Register(
          "Resolution", typeof(double), typeof(TikzDisplay), new PropertyMetadata(Consts.ptspertikzunit,
              new PropertyChangedCallback(OnResolutionChanged)));
-       
-        
+               
         /// <summary>
-        /// The current bounding box.
+        /// The current resolution, in dots per cm (i.e., per Tikz unit).
         /// </summary>
         public double Resolution
         {
@@ -76,31 +78,20 @@ namespace TikzEdt
         static void OnResolutionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             TikzDisplay td = d as TikzDisplay;
-            td.RedrawBMP(false);
+            td.TheModel.RedrawBMP(false);
         }
 
         readonly public static DependencyProperty PdfPathProperty = DependencyProperty.Register(
             "PdfPath", typeof(string), typeof(TikzDisplay),
-            new PropertyMetadata("", OnPdfPathChanged, new CoerceValueCallback(OnPdfPathCoerce)));
+            new PropertyMetadata("", OnPdfPathChanged));
         static void OnPdfPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             TikzDisplay td = d as TikzDisplay;
-            if (td.PdfPath == "")
-            {
-                td.lblUnavailable.Visibility = Visibility.Visible;
-                td.image1.Visibility = Visibility.Collapsed;
-                td.NextBmpJob = null; // if manually set to unavailable-> clear pending bmp jobs
-                td.myPdfBmpDoc.UnloadPdf();
-            }
-            else
-                td.RedrawBMP(true);
-        }
-        static object OnPdfPathCoerce(DependencyObject d, object o)
-        {
-            return o;
+            td.TheModel.Refresh();
         }
 
         /// <summary>
+        /// The pdf file to be displayed.
         /// Set this property to "" to set the control to an unavailable state. 
         /// </summary>
         public string PdfPath
@@ -109,10 +100,8 @@ namespace TikzEdt
             set { SetValue(PdfPathProperty, value); }
         }
 
-
-
         /// <summary>
-        /// This dependency property is a hack to eneble signalling of a pdf reload from the viewmodel to this control.
+        /// This dependency property is a hack to enable signalling of a pdf reload from the viewmodel to this control.
         /// Whenever the value changes, the pdf is reloaded.
         /// </summary>
         public int ReloadPdf
@@ -125,178 +114,31 @@ namespace TikzEdt
         static void OnReloadChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             TikzDisplay td = d as TikzDisplay;
-            td.RedrawBMP(true);
+            td.TheModel.RedrawBMP(true);
         }
-        
 
-        //protected Process texProcess = new Process();
-        //protected String nextToCompile = "";
-        //Rect currentBB;
-        //public Rect BB
-        //{
-          //  get { return currentBB; }
-           // set
-            //{
-              //  currentBB = value;
-                //RecalcSize();
-            //}
-        //}
-
-        PdfToBmp myPdfBmpDoc;
-
-        BackgroundWorker AsyncBmpGenerator = new BackgroundWorker();
-        class AsyncBmpData
-        {
-            public double Resolution;
-            public bool RenderTransparent, Reload;
-            public string File;
-            
-
-            public BitmapSource bmp; // this contains the bmp after return
-        }
-        private AsyncBmpData _NextBmpJob = null;
-        AsyncBmpData NextBmpJob
-        {
-            get { return _NextBmpJob; }
-            set
-            {
-                _NextBmpJob = value;
-                if (_NextBmpJob != null && !AsyncBmpGenerator.IsBusy)
-                {
-                    AsyncBmpGenerator.RunWorkerAsync(NextBmpJob);
-                    _NextBmpJob = null;
-                }
-            }
-        }
+        #endregion        
 
         public TikzDisplay()
-        {
+        {            
             InitializeComponent();
 
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {
-                myPdfBmpDoc = new PdfToBmp();
-                AsyncBmpGenerator.DoWork += new DoWorkEventHandler(AsyncBmpGenerator_DoWork);
-                AsyncBmpGenerator.RunWorkerCompleted += new RunWorkerCompletedEventHandler(AsyncBmpGenerator_RunWorkerCompleted);
+                TheModel = new TikzDisplayModel<BitmapSource>(this,
+                    (b) =>
+                    {
+                        if (b == null) return null;
+                        BitmapSource bmps = PdfToBmp.GetBitmapSourceFromBitmap(b);
+                        if (bmps != null)
+                            bmps.Freeze();  // this is important because we want to access it in a different thread
+                        return bmps;
+                    });
+
+                image1.DataContext = TheModel;
+                lblUnavailable.DataContext = TheModel;
             }
         }
-
-        void AsyncBmpGenerator_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            AsyncBmpData data = e.Result as AsyncBmpData;
-            // if filename has changed while the bmp was generated-> don't display
-            if (data.File == PdfPath)
-            {                
-                // if returned bitmap null or error -> set unavailable
-                if (e.Error == null && data.bmp != null)
-                {
-                    image1.Source = data.bmp;
-                    image1.Visibility = Visibility.Visible;
-                    lblUnavailable.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    image1.Source = null;
-                    image1.Visibility = Visibility.Collapsed;
-                    lblUnavailable.Visibility = Visibility.Visible;
-                }
-            }
-            // restart compilation if job pending
-            NextBmpJob = NextBmpJob;
-        }
-
-        void AsyncBmpGenerator_DoWork(object sender, DoWorkEventArgs e)
-        {
-            AsyncBmpData data = e.Argument as AsyncBmpData;
-            if (data.File != null)
-            {
-                myPdfBmpDoc.LoadPdf(data.File);
-            }
-            // this is not optimal since the pdf might be changing when called.... pass PdfWrapper instead to remedy....
-            data.bmp = myPdfBmpDoc.GetBitmapSource(data.Resolution, data.RenderTransparent);
-            //data.bmp = myPdfBmpDoc.GetBitmapSourceOld(data.Resolution, data.RenderTransparent);
-            if (data.bmp != null)
-                data.bmp.Freeze();  // this is important because we want to access it in a different thread
-            e.Result = data;
-        }
-
-        /// <summary>
-        /// Reload the PDF file. This is called only when the pdf file changes on disk.
-        /// It is not called, for example, when the pdf just needs to be redrawn, e.g., due to 
-        /// a changed display size.
-        /// </summary>
-       /* void RefreshPDF(string cFile)
-        {
-            //mypdfDoc.LoadPdf(Consts.cTempFile + ".pdf");
-            if (cFile == "")
-            {
-                lblUnavailable.Visibility = Visibility.Visible;
-                image1.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                lblUnavailable.Visibility = Visibility.Collapsed;
-                myPdfBmpDoc.LoadPdf(cFile);                
-                image1.Visibility = Visibility.Visible;                
-            }
-            RedrawBMP();
-            //RecalcSize();            
-        } */
-        public void SetUnavailable()
-        {
-            PdfPath = "";            
-            //here it would be nice to release the handle to the pdf document
-            //so it can be deleted. but how?
-        }
-
-
-        /// <summary>
-        /// This method draws the currently loaded Pdf into a bitmap, and displays this bitmap in the image control.
-        /// It is called, e.g., when the size of the TikzDisplay control changes
-        /// Warning: It does _not_ reload the Pdf. 
-        /// </summary>
-        public void RedrawBMP(bool ReloadFile)
-        {
-            
-            if (myPdfBmpDoc != null)
-            {
-                AsyncBmpData data = new AsyncBmpData();
-                data.Resolution = Resolution;
-                data.RenderTransparent = RenderTransparent;
-                data.File = PdfPath;
-                data.Reload = ReloadFile;
-
-                NextBmpJob = data;
-
-                return;
-
-        /*        //check version of PDFLibNet, if the old 1.0.6.6 use old GetBitmap
-                System.Reflection.Assembly a = System.Reflection.Assembly.GetAssembly(typeof(PDFWrapper));
-                if(a.GetName().Version.Major == 1)
-                    if(a.GetName().Version.Minor == 0)
-                        if(a.GetName().Version.Build == 6)
-                            if (a.GetName().Version.Revision == 6)
-                            {
-                                BitmapSource bitmap = myPdfBmpDoc.GetBitmapSourceOld(Resolution, RenderTransparent); // mypdfDoc.GetBitmap(currentBB, Resolution);                
-                                if (bitmap != null)
-                                  image1.Source = bitmap;
-                                return;
-                            }
-                 
-                //otherwise the new Bitmap2 function
-                
-                image1.Source = null;
-                //myPdfBmpDoc.GetBitmap2(Resolution, currentBB.Width * currentBB.Height > 0); ;
-                //image1.Source = myPdfBmpDoc.GetBitmapSource(Resolution, RenderTransparent); ;   
-                image1.Source = myPdfBmpDoc.GetBitmapSourceOld(Resolution, RenderTransparent); ;        */        
-            }
-
-        }
-
-       // private void image1_SizeChanged(object sender, SizeChangedEventArgs e)
-       // {
-            //RedrawBMP();
-        //}
 
     }
 

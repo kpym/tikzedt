@@ -6,6 +6,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="boolToVis"/>
+    </UserControl.Resources>
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -15,8 +18,10 @@
         </WindowsFormsHost>
         -->
         <Image Grid.Row="0" HorizontalAlignment="Stretch" Name="image1" Stretch="None" VerticalAlignment="Stretch" 
-               SnapsToDevicePixels="True"/>
+               SnapsToDevicePixels="True" Visibility="{Binding IsImageVisible, Converter={StaticResource boolToVis}}"
+               Source="{Binding Bmp}"/>
         <TextBox Text="&lt;unavailable&gt;" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"
-                 FontWeight="Bold" Foreground="Silver" Name="lblUnavailable" BorderThickness="0" />
+                 FontWeight="Bold" Foreground="Silver" Name="lblUnavailable" BorderThickness="0" 
+                 Visibility="{Binding IsUnavailable, Converter={StaticResource boolToVis}}"/>
     </Grid>
 </UserControl>

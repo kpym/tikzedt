@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * This class is derived from LatexRunner.java which is part of the Latex plugin Texclipse for Eclipse.
  * 
  * From LatexRunner.java:
@@ -19,19 +19,8 @@ using System.IO;
 
 namespace TikzEdt
 {
-    /*public class TexError
-        {
-            // TODO
-            int _Line;
-            public int Line { get {return _Line; } set { _Line = value; }}
-            string _Message;
-            public string Message { get {return _Message; } set { _Message = value; }}
-            Severity _type;
-            public Severity type { get { return _type; } set { _type = value; } }
-        }*/
-        
-
-   /// <summary>
+       
+    /// <summary>
     /// StringTokenizer is a minimal port of Java's StringTokenizer class. Only here needed functions are implemented.
     /// </summary>
     public class StringTokenizer
