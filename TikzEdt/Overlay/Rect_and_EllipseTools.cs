@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using TikzEdt.Parser;
+using TikzEdt.Overlay;
 
 namespace TikzEdt
 {
@@ -33,7 +34,7 @@ namespace TikzEdt
         // this is overwritten in GridTool
         protected string codeToInsert = " rectangle ";
 
-        public RectangleTool()
+        public RectangleTool(OverlayInterface overlay) : base(overlay)
         {
             PreviewRect.Visibility = Visibility.Collapsed;
             PreviewRect.Stroke = Brushes.Black;
@@ -238,7 +239,8 @@ namespace TikzEdt
         // the rectangle to be shown on drawing
         Ellipse PreviewEllipse = new Ellipse();
 
-        public EllipseTool()
+        public EllipseTool(OverlayInterface overlay)
+            : base(overlay)
         {
             PreviewEllipse.Visibility = Visibility.Collapsed;
             PreviewEllipse.Stroke = Brushes.Black;
@@ -481,7 +483,8 @@ namespace TikzEdt
             return ret;
         }
 
-        public GridTool()
+        public GridTool(OverlayInterface overlay)
+            : base(overlay)
         {
             codeToInsert = " grid ";
             PreviewRect = new PreviewGrid();

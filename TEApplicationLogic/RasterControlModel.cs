@@ -192,7 +192,7 @@ namespace TikzEdt
             return View.CoordinateTransform.Transform(pstd_rast, IsRelative);
         }
         /// <summary>
-        /// 
+        /// The method rasterizes an input point, given in screen coordinates (not in Tikz coordinates).
         /// </summary>
         /// <param name="p">The point, in Cartesian screen coordinates. (bottom left centered)</param>
         /// <returns>The rasterized point, in Cartesian screen coordinates. </returns>
@@ -214,6 +214,7 @@ namespace TikzEdt
             return new Point((pp.X) * View.Resolution, (pp.Y) * View.Resolution);
         }
         /// <summary>
+        /// The method rasterizes an input point, given in screen coordinates.
         /// The output is in absolute Cartesian Tikz coordinates (It disregards 
         /// the coordinate tranformation and Polar setting.)
         /// </summary>

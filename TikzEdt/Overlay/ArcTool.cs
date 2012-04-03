@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using TikzEdt.Parser;
+using TikzEdt.Overlay;
 
 namespace TikzEdt
 {
@@ -71,7 +72,7 @@ namespace TikzEdt
         Point center, p1;
         ThreePointArc PreviewArc = new ThreePointArc(), PreviewPie = new ThreePointArc();
 
-        public ArcTool()
+        public ArcTool(OverlayInterface overlay) : base(overlay)
         {
             PreviewArc.Stroke = PreviewPie.Stroke = Brushes.Black;
             PreviewPie.Visibility = PreviewArc.Visibility = Visibility.Collapsed;

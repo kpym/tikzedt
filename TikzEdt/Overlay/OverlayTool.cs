@@ -23,6 +23,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using TikzEdt.Parser;
+using TikzEdt.Overlay;
 
 namespace TikzEdt
 {
@@ -37,13 +38,17 @@ namespace TikzEdt
     ///     3. Clean up when deselected!
     ///     
     /// </summary>
-    class OverlayTool
+    public class OverlayTool
     {       
 
         /// <summary>
-        /// Access to the PdfOverlay. It will be set before the first call to OnActivate().
+        /// Access to the PdfOverlay. It will be set in the constructor.
         /// </summary>
-        public OverlayInterface overlay;
+        protected OverlayInterface overlay;
+        public OverlayTool(OverlayInterface overlay)
+        {
+            this.overlay = overlay;
+        }
 
         /// <summary>
         /// This method is called when the tool is selected by the user.
@@ -113,7 +118,7 @@ namespace TikzEdt
     /// It is used to hide the many irrelevant public members of PdfOverlay from
     /// tools.
     /// </summary>
-    interface OverlayInterface
+    public interface OverlayInterface
     {
         Parser.Tikz_ParseTree ParseTree { get;  }
         //void SetParseTree(
@@ -162,6 +167,9 @@ namespace TikzEdt
         bool UsePolarCoordinates { get; }
 
         void JumpToSourceDoIt(OverlayShape o);
+
+        IOverlayShapeFactory ShapeFactory { get; }
+        IEnumerable<OverlayShape> GetAllDescendants(OverlayShape OfParent = null);
     }
 
   
@@ -169,6 +177,8 @@ namespace TikzEdt
 
     class PathTool : OverlayAdderTool
     {
+        public PathTool(OverlayInterface overlay) : base(overlay) { }
+
         public override void OnActivate() 
         {
             base.OnActivate();
@@ -267,6 +277,8 @@ namespace TikzEdt
 
     class NodeTool : OverlayAdderTool
     {
+        public NodeTool(OverlayInterface overlay) : base(overlay) { }
+
         public override void OnActivate()
         {
             overlay.canvas.Cursor = Cursors.Cross;
@@ -328,6 +340,8 @@ namespace TikzEdt
 
     class EdgeTool : OverlayAdderTool
     {
+        public EdgeTool(OverlayInterface overlay) : base(overlay) { }
+
         OverlayNode _curSel;
         /// <summary>
         /// Holds the node from which the edge is to be drawn
@@ -478,6 +492,8 @@ namespace TikzEdt
     /// </summary>
     class OverlayAdderTool : OverlayTool
     {
+        public OverlayAdderTool(OverlayInterface overlay) : base(overlay) { } 
+
         /// <summary>
         /// When adding multiple things in a row, this remembers the path object
         /// the segments are to be added to. 

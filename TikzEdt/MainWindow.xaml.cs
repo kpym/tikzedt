@@ -1975,7 +1975,7 @@ namespace TikzEdt
             {
                 txtCode.CaretOffset = mousepos_whenmenuopened; 
             }
-            pdfOverlay1.MarkObjectAt(txtCode.CaretOffset);
+            pdfOverlay1.TheModel.MarkObjectAt(txtCode.CaretOffset);
         }
 
         private void ShowPdfHandler(object sender, ExecutedRoutedEventArgs e)

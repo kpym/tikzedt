@@ -24,6 +24,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using TikzEdt.Parser;
+using TikzEdt.Overlay;
 
 namespace TikzEdt
 {
@@ -37,17 +38,13 @@ namespace TikzEdt
     /// then the coordinates (2,2) in the code are not changed, but this means that the 
     /// (2,2)-node in the preview changes position since it is given in relative coordinates.
     /// </summary>
-    class SelectionTool : OverlayTool
+    public class SelectionTool : OverlayTool
     {
-        Rectangle SelectionRect = new Rectangle();
+        IRectangleShape SelectionRect;
 
-        public SelectionTool()
+        public SelectionTool(OverlayInterface overlay) : base(overlay)
         {
-            SelectionRect.Stroke = Brushes.Blue;
-            SelectionRect.StrokeThickness = 1;
-            SelectionRect.Visibility = Visibility.Collapsed;
-            SelectionRect.Fill = new SolidColorBrush(Color.FromArgb(0x23, 0x00, 0x8A, 0xCA));
-            SelectionRect.Fill.Freeze();
+            SelectionRect = overlay.ShapeFactory.GetSelectionRect();
         }
 
         HashSet<OverlayShape> SelectedItems = new HashSet<OverlayShape>();
@@ -148,8 +145,9 @@ namespace TikzEdt
         {
             foreach (OverlayShape o in SelectedItems)
             {
-                Canvas.SetLeft(o, Canvas.GetLeft(o) + RelShift.X);
-                Canvas.SetBottom(o, Canvas.GetBottom(o) + RelShift.Y);
+                ////Canvas.SetLeft(o, Canvas.GetLeft(o) + RelShift.X);
+                ////Canvas.SetBottom(o, Canvas.GetBottom(o) + RelShift.Y);
+                o.View.SetPosition(RelShift.X, RelShift.Y, true);
             }
         }
 
@@ -202,10 +200,10 @@ namespace TikzEdt
             {
                 // initiate a drag/drop operation
                 curDragged = (OverlayShape)item;
-                DragOrigin = e.GetPosition(item);
-                DragOrigin = new Point(DragOrigin.X, (item as OverlayShape).Height - DragOrigin.Y);
+                DragOrigin = (Point)((new Point(item.View.GetLeft(), item.View.GetBottom()))-p); ////e.GetPosition(item);
+                ////DragOrigin = new Point(DragOrigin.X, (item as OverlayShape).Height - DragOrigin.Y);
                 DragOriginC = p;
-                DragOriginO = new Point(Canvas.GetLeft(curDragged), Canvas.GetBottom(curDragged));
+                DragOriginO = new Point(curDragged.View.GetLeft(), curDragged.View.GetBottom());
                 movedenough = false;
                 //MessageBox.Show(o.ToString());
 
@@ -237,14 +235,16 @@ namespace TikzEdt
                 // display selection rectangle
                 SelectionRectOrigin = e.GetPosition(overlay.canvas);
                 //SelectionRect.RenderTransform = new TranslateTransform(SelectionRectOrigin.X, SelectionRectOrigin.Y);
-                Canvas.SetLeft(SelectionRect, SelectionRectOrigin.X);
-                Canvas.SetTop(SelectionRect, SelectionRectOrigin.Y);
-                SelectionRect.Width = 0;
-                SelectionRect.Height = 0;
-                Canvas.SetZIndex(SelectionRect, overlay.canvas.Children.Count);
-                if (!overlay.canvas.Children.Contains(SelectionRect))
-                    overlay.canvas.Children.Add(SelectionRect);
-                SelectionRect.Visibility = System.Windows.Visibility.Visible;
+                SelectionRect.SetPosition(SelectionRectOrigin.X, SelectionRectOrigin.Y,0,0);
+                ////Canvas.SetLeft(SelectionRect, SelectionRectOrigin.X);
+                ////Canvas.SetTop(SelectionRect, SelectionRectOrigin.Y);
+                ////SelectionRect.Width = 0;
+                ////SelectionRect.Height = 0;
+                ////Canvas.SetZIndex(SelectionRect, overlay.canvas.Children.Count);
+                ////if (!overlay.canvas.Children.Contains(SelectionRect))
+                ////    overlay.canvas.Children.Add(SelectionRect);
+                ////SelectionRect.Visibility = System.Windows.Visibility.Visible;
+                SelectionRect.Visible = true;
                 if (!overlay.canvas.IsMouseCaptured)
                     overlay.canvas.CaptureMouse();
 
@@ -257,20 +257,21 @@ namespace TikzEdt
         public override void OnMouseMove(Point p, MouseEventArgs e)
         {
             Point mousep = e.GetPosition(overlay.canvas);
-            if (SelectionRect.Visibility == Visibility.Visible)
+            if (SelectionRect.Visible)
             {
                 // update the size of the selection rect
                 double x = Math.Min(mousep.X, SelectionRectOrigin.X),
                        y = Math.Min(mousep.Y, SelectionRectOrigin.Y);
                 //SelectionRect.RenderTransform = new TranslateTransform(x, y);
-                Canvas.SetLeft(SelectionRect, x);
-                Canvas.SetTop(SelectionRect, y);
-                SelectionRect.Width = Math.Abs(mousep.X - SelectionRectOrigin.X);
-                SelectionRect.Height = Math.Abs(mousep.Y - SelectionRectOrigin.Y);
+                ////Canvas.SetLeft(SelectionRect, x);
+                ////Canvas.SetTop(SelectionRect, y);
+                ////SelectionRect.Width = Math.Abs(mousep.X - SelectionRectOrigin.X);
+                ////SelectionRect.Height = Math.Abs(mousep.Y - SelectionRectOrigin.Y);
+                SelectionRect.SetPosition(x, y, Math.Abs(mousep.X - SelectionRectOrigin.X), Math.Abs(mousep.Y - SelectionRectOrigin.Y));
 
                 // update current selection
-                Rect selr = System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(SelectionRect); // this is BB of selection rect
-                UpdateSelection(selr, Keyboard.Modifiers.HasFlag(ModifierKeys.Control), overlay.canvas.Children);
+                Rect selr = SelectionRect.GetBB();////System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(SelectionRect); // this is BB of selection rect
+                UpdateSelection(selr, Keyboard.Modifiers.HasFlag(ModifierKeys.Control));
 
             }
 
@@ -288,8 +289,8 @@ namespace TikzEdt
                     relshift_pixel = overlay.Rasterizer.RasterizePixelRelative(relshift_pixel);
                     // shift yet to be done
                     Point relshift_tobedone = new Point(
-                         DragOriginO.X + relshift_pixel.X - Canvas.GetLeft(curDragged),
-                         DragOriginO.Y + relshift_pixel.Y - Canvas.GetBottom(curDragged)
+                         DragOriginO.X + relshift_pixel.X - curDragged.View.GetLeft(),
+                         DragOriginO.Y + relshift_pixel.Y - curDragged.View.GetBottom()
                         );
 
                     ShiftSelItemsOnScreen(relshift_tobedone);
@@ -297,15 +298,17 @@ namespace TikzEdt
                 else if (curDragged is OverlayNode)
                 {
                     // use width instead actual width
-                    Point center_pixel = new Point(p.X - DragOrigin.X + curDragged.Width / 2,
-                                                   p.Y - DragOrigin.Y + curDragged.Height / 2);
+                    ////Point center_pixel = new Point(p.X - DragOrigin.X + curDragged.Width / 2,
+                    ////                               p.Y - DragOrigin.Y + curDragged.Height / 2);
+                    Point center_pixel = new Point(p.X - DragOrigin.X,
+                                                   p.Y - DragOrigin.Y);
                     // the center pixel of the node should go here
                     center_pixel = overlay.Rasterizer.RasterizePixel(center_pixel);
 
                     // shift yet to be done
                     Point relshift_tobedone = new Point(
-                         center_pixel.X - Canvas.GetLeft(curDragged) - curDragged.Width / 2,
-                         center_pixel.Y - Canvas.GetBottom(curDragged) - curDragged.Height / 2
+                         center_pixel.X - curDragged.View.GetLeft(),
+                         center_pixel.Y - curDragged.View.GetBottom()
                         );
                     ShiftSelItemsOnScreen(relshift_tobedone);
 
@@ -315,9 +318,9 @@ namespace TikzEdt
 
         public override void OnLeftMouseButtonUp(MouseButtonEventArgs e, Point p)
         {
-            if (SelectionRect.Visibility == Visibility.Visible)
+            if (SelectionRect.Visible)
             {
-                SelectionRect.Visibility = Visibility.Collapsed;
+                SelectionRect.Visible = false;
             }
 
             // adjust position of dragged item (in parsetree)
@@ -325,7 +328,7 @@ namespace TikzEdt
             {
                 overlay.BeginUpdate();
                 // determine the relative shift
-                Point relshift = new Point(Canvas.GetLeft(curDragged) - DragOriginO.X, Canvas.GetBottom(curDragged) - DragOriginO.Y);
+                Point relshift = new Point(curDragged.View.GetLeft() - DragOriginO.X, curDragged.View.GetBottom() - DragOriginO.Y);
                 Point relshift_tikz = new Point(relshift.X / overlay.Resolution, relshift.Y / overlay.Resolution);
                 ShiftSelItemsInParseTree(relshift_tikz, overlay.TopLevelItems);
                 /*
@@ -417,38 +420,36 @@ namespace TikzEdt
 
             SelectedItemsBak = new HashSet<OverlayShape>(SelectedItems);
         }
-        public void UpdateSelection(Rect SelectionRect, bool CtrlPressed, UIElementCollection Elements)
+        public void UpdateSelection(Rect SelectionRect, bool CtrlPressed)
         {
-            foreach (FrameworkElement o in Elements)
+            foreach (OverlayShape o in overlay.GetAllDescendants())
             {
-                if (o is OverlayShape)
+                Rect r = o.View.GetBB();////System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(o);
+                bool nowsel = r.IntersectsWith(SelectionRect);
+                // for overlayscope, we do not want select it when it it contains completely the selection rect
+                if (o is OverlayScope)
                 {
-                    Rect r = System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(o);
-                    bool nowsel = r.IntersectsWith(SelectionRect);
-                    // for overlayscope, we do not want select it when it it contains completely the selection rect
-                    if (o is OverlayScope)
-                    {
-                        double framewidth = (o as OverlayScope).StrokeThickness;
-                        r.Inflate(-framewidth, -framewidth);
-                        if (r.Contains(SelectionRect))
-                            nowsel = false;
-                    }
-                    bool shouldbeselected;
-                    if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
-                    {
-                        if (nowsel)
-                            shouldbeselected = !SelectedItemsBak.Contains(o);
-                        else
-                            shouldbeselected = SelectedItemsBak.Contains(o);
-                    }
-                    else
-                        shouldbeselected = nowsel;
-
-                    if (shouldbeselected)
-                        AddItem(o as OverlayShape);
-                    else
-                        RemoveItem(o as OverlayShape);
+                    double framewidth = 10;/// (o as OverlayScope).StrokeThickness; //approximate guess for framewidth
+                    r.Inflate(-framewidth, -framewidth);
+                    if (r.Contains(SelectionRect))
+                        nowsel = false;
                 }
+                bool shouldbeselected;
+                if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+                {
+                    if (nowsel)
+                        shouldbeselected = !SelectedItemsBak.Contains(o);
+                    else
+                        shouldbeselected = SelectedItemsBak.Contains(o);
+                }
+                else
+                    shouldbeselected = nowsel;
+
+                if (shouldbeselected)
+                    AddItem(o as OverlayShape);
+                else
+                    RemoveItem(o as OverlayShape);
+
             }
         }
 
