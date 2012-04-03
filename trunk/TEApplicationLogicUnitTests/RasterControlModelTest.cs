@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Windows;
+using Rhino.Mocks;
+using System.Collections.Generic;
 
 namespace TEApplicationLogicUnitTests
 {
@@ -71,12 +73,21 @@ namespace TEApplicationLogicUnitTests
         [TestMethod()]
         public void DrawRasterTest()
         {
-            IRasterControlView View = null; // TODO: Initialize to an appropriate value
-            RasterControlModel target = new RasterControlModel(View); // TODO: Initialize to an appropriate value
-            Action<Point, Point> LineDrawMethod = null; // TODO: Initialize to an appropriate value
-            Action<double, double> EllipseDrawMethod = null; // TODO: Initialize to an appropriate value
+            IRasterControlView View = MockRepository.GenerateStub<IRasterControlView>();
+            View.Resolution = 100;
+            View.RasterWidth = 1;
+            View.IsCartesian = true;
+            View.BB = new Rect(0, 0, 10, 10);
+            View.CoordinateTransform = new TikzEdt.Parser.TikzMatrix();
+
+            RasterControlModel target = new RasterControlModel(View);
+            List<Point> lstpts = new List<Point>();
+            List<double> lstrads = new List<double>();
+            Action<Point, Point> LineDrawMethod = (p1,p2)=>lstpts.Add(p1);
+            Action<double, double> EllipseDrawMethod = (r1,r2)=>lstrads.Add(r1); 
             target.DrawRaster(LineDrawMethod, EllipseDrawMethod);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue( lstpts.TrueForAll(p=> p.X == Math.Round(p.X) &&   p.Y == Math.Round(p.Y)));
+            Assert.AreEqual(0, lstrads.Count);
         }
 
         /// <summary>
@@ -85,14 +96,19 @@ namespace TEApplicationLogicUnitTests
         [TestMethod()]
         public void RasterizePixelToTikzTest()
         {
-            IRasterControlView View = null; // TODO: Initialize to an appropriate value
-            RasterControlModel target = new RasterControlModel(View); // TODO: Initialize to an appropriate value
-            Point p = new Point(); // TODO: Initialize to an appropriate value
-            Point expected = new Point(); // TODO: Initialize to an appropriate value
+            IRasterControlView View = MockRepository.GenerateStub<IRasterControlView>();
+            View.Resolution = 100;
+            View.RasterWidth = 1;
+            View.IsCartesian = true;
+            View.BB = new Rect(0, 0, 10, 10);
+            View.CoordinateTransform = new TikzEdt.Parser.TikzMatrix();
+
+            RasterControlModel target = new RasterControlModel(View);
+            Point p = new Point(30, 70);
+            Point expected = new Point(0, 1);
             Point actual;
             actual = target.RasterizePixelToTikz(p);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -101,14 +117,19 @@ namespace TEApplicationLogicUnitTests
         [TestMethod()]
         public void RasterizePixelRelativeTest()
         {
-            IRasterControlView View = null; // TODO: Initialize to an appropriate value
-            RasterControlModel target = new RasterControlModel(View); // TODO: Initialize to an appropriate value
-            Point p = new Point(); // TODO: Initialize to an appropriate value
-            Point expected = new Point(); // TODO: Initialize to an appropriate value
+            IRasterControlView View = MockRepository.GenerateStub<IRasterControlView>();
+            View.Resolution = 100;
+            View.RasterWidth = 1;
+            View.IsCartesian = true;
+            View.BB = new Rect(0, 0, 10, 10);
+            View.CoordinateTransform = new TikzEdt.Parser.TikzMatrix();
+
+            RasterControlModel target = new RasterControlModel(View);
+            Point p = new Point(30, 70);
+            Point expected = new Point(0, 100);
             Point actual;
             actual = target.RasterizePixelRelative(p);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -118,13 +139,18 @@ namespace TEApplicationLogicUnitTests
         [DeploymentItem("TEApplicationLogic.dll")]
         public void EstimateRasterStepsTest()
         {
-            PrivateObject param0 = null; // TODO: Initialize to an appropriate value
-            RasterControlModel_Accessor target = new RasterControlModel_Accessor(param0); // TODO: Initialize to an appropriate value
-            int expected = 0; // TODO: Initialize to an appropriate value
+            IRasterControlView View = MockRepository.GenerateStub<IRasterControlView>();
+            View.Resolution = 100;
+            View.RasterWidth = 1;
+            View.IsCartesian = true;
+            View.BB = new Rect(0, 0, 10, 10);
+            View.CoordinateTransform = new TikzEdt.Parser.TikzMatrix();
+
+            RasterControlModel_Accessor target = new RasterControlModel_Accessor(View);             
             int actual;
             actual = target.EstimateRasterSteps();
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsTrue(actual >= 10);
+            Assert.IsTrue(actual <= 20);
         }
 
         /// <summary>
@@ -133,14 +159,21 @@ namespace TEApplicationLogicUnitTests
         [TestMethod()]
         public void RasterizePixelTest()
         {
-            IRasterControlView View = null; // TODO: Initialize to an appropriate value
-            RasterControlModel target = new RasterControlModel(View); // TODO: Initialize to an appropriate value
-            Point p = new Point(); // TODO: Initialize to an appropriate value
-            Point expected = new Point(); // TODO: Initialize to an appropriate value
+            IRasterControlView View = MockRepository.GenerateStub<IRasterControlView>();
+            View.Resolution = 100;
+            View.RasterWidth = 1;
+            View.IsCartesian = true;
+            View.BB = new Rect(0, 0, 10, 10);
+            View.CoordinateTransform = new TikzEdt.Parser.TikzMatrix();
+
+            RasterControlModel target = new RasterControlModel(View);
+            Point p = new Point(30, 70); 
+            Point expected = new Point(0, 100); 
             Point actual;
             actual = target.RasterizePixel(p);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+           
+
         }
 
         /// <summary>
@@ -149,15 +182,30 @@ namespace TEApplicationLogicUnitTests
         [TestMethod()]
         public void RasterizeTest()
         {
-            IRasterControlView View = null; // TODO: Initialize to an appropriate value
-            RasterControlModel target = new RasterControlModel(View); // TODO: Initialize to an appropriate value
-            Point p = new Point(); // TODO: Initialize to an appropriate value
-            bool IsRelative = false; // TODO: Initialize to an appropriate value
-            Point expected = new Point(); // TODO: Initialize to an appropriate value
+            IRasterControlView View = MockRepository.GenerateStub<IRasterControlView>();
+            View.Resolution = 100;
+            View.RasterWidth = 1;
+            View.IsCartesian = true;
+            View.BB = new Rect(0.5, 0.5, 10, 10);
+            View.CoordinateTransform = new TikzEdt.Parser.TikzMatrix();
+
+            RasterControlModel target = new RasterControlModel(View);
+            Point p = new Point(3, 3); // TODO: Initialize to an appropriate value
+            Point expected = new Point(3, 3); // TODO: Initialize to an appropriate value
             Point actual;
-            actual = target.Rasterize(p, IsRelative);
+            actual = target.Rasterize(p);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+
+            p = new Point(3.2, 3.7);
+            expected = new Point(3, 4);
+            actual = target.Rasterize(p);
+            Assert.AreEqual(expected, actual);
+
+            p = new Point(3.2, 3.5);
+            expected = new Point(3, 4);
+            actual = target.Rasterize(p);
+            Assert.AreEqual(expected, actual);
+            
         }
     }
 }

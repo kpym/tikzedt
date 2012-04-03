@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using TikzEdt.Parser;
+using TikzEdt.Overlay;
 
 namespace TikzEdt
 {
@@ -17,7 +18,7 @@ namespace TikzEdt
         Ellipse Preview_CP1 = new Ellipse(), Preview_CP2 = new Ellipse();
         int CPCount = 0;
 
-        public BezierTool()
+        public BezierTool(OverlayInterface overlay) : base(overlay)
         {
             Preview_CP1.Width = Preview_CP1.Height = Preview_CP2.Width = Preview_CP2.Height = 10;
             Preview_CP1.Stroke = Preview_CP2.Stroke = Brushes.Red;

@@ -23,6 +23,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using TikzEdt.Parser;
+using TikzEdt.Overlay;
 
 namespace TikzEdt
 {
@@ -54,7 +55,8 @@ namespace TikzEdt
         // in absolute tikz coordinates
         Point center_tikz;
 
-        public ArcEditTool()
+        public ArcEditTool(OverlayInterface overlay)
+            : base(overlay)
         {
             PreviewArc.Stroke = Brushes.Black;
             PreviewArc.StrokeDashArray = new DoubleCollection(new double[] { 4, 4 });
@@ -87,10 +89,11 @@ namespace TikzEdt
             {
                 // initiate a drag/drop operation
                 curDragged = (OverlayShape)item;
-                DragOrigin = e.GetPosition(item);
-                DragOrigin = new Point(DragOrigin.X, (item as OverlayShape).Height - DragOrigin.Y);
+                DragOrigin = (new Point(item.View.GetLeft(), item.View.GetBottom()))-(Vector)p ;
+                ////DragOrigin = e.GetPosition(item);
+                ////DragOrigin = new Point(DragOrigin.X, (item as OverlayShape).Height - DragOrigin.Y);
                 DragOriginC = p;
-                DragOriginO = new Point(Canvas.GetLeft(curDragged), Canvas.GetBottom(curDragged));
+                DragOriginO = new Point(curDragged.View.GetLeft(), curDragged.View.GetBottom());
                 movedenough = false;
                 //MessageBox.Show(o.ToString());
 
@@ -155,20 +158,19 @@ namespace TikzEdt
                 else if (curDragged is OverlayNode)
                 {
                     // use width instead actual width
-                    Point center_pixel = new Point(p.X - DragOrigin.X + curDragged.Width / 2,
-                                                   p.Y - DragOrigin.Y + curDragged.Height / 2);
+                    Point center_pixel = new Point(p.X - DragOrigin.X ,
+                                                   p.Y - DragOrigin.Y );
                     // the center pixel of the node should go here
                     center_pixel = overlay.Rasterizer.RasterizePixel(center_pixel);
 
                     // shift yet to be done
                     Point relshift_tobedone = new Point(
-                         center_pixel.X - Canvas.GetLeft(curDragged) - curDragged.Width / 2,
-                         center_pixel.Y - Canvas.GetBottom(curDragged) - curDragged.Height / 2
+                         center_pixel.X - curDragged.View.GetLeft(),
+                         center_pixel.Y - curDragged.View.GetBottom() 
                         );
                     //ShiftSelItemsOnScreen(relshift_tobedone);
 
-                    Canvas.SetLeft(curDragged, center_pixel.X - curDragged.Width / 2);
-                    Canvas.SetBottom(curDragged, center_pixel.Y - curDragged.Height / 2);
+                    curDragged.View.SetPosition(center_pixel.X, center_pixel.Y);
 
                     AdjustPreviewPos(center_pixel);
                     
@@ -191,7 +193,7 @@ namespace TikzEdt
 
                 overlay.BeginUpdate();
                 // determine the relative shift
-                Vector relshift = new Vector(Canvas.GetLeft(curDragged) - DragOriginO.X, Canvas.GetBottom(curDragged) - DragOriginO.Y);
+                Vector relshift = new Vector(curDragged.View.GetLeft() - DragOriginO.X, curDragged.View.GetBottom() - DragOriginO.Y);
                 Vector relshift_tikz = relshift / overlay.Resolution;
 
                 // compute new radius 

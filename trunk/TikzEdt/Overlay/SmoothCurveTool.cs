@@ -23,11 +23,14 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using TikzEdt.Parser;
+using TikzEdt.Overlay;
 
 namespace TikzEdt
 {
     class SmoothCurveTool : OverlayAdderTool
     {
+        public SmoothCurveTool(OverlayInterface overlay) : base(overlay) { }
+
         public override void OnActivate() 
         {
             base.OnActivate();

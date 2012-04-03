@@ -169,11 +169,14 @@
     <Compile Include="Overlay\InputMessageBox.xaml.cs">
       <DependentUpon>InputMessageBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Overlay\OverlayShape.cs" />
+    <Compile Include="Overlay\OverlayShapeViews.cs" />
     <Compile Include="Overlay\OverlayTool.cs" />
     <Compile Include="Overlay\PdfOverlay.xaml.cs">
       <DependentUpon>PdfOverlay.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Overlay\PdfOverlayModel.cs" />
     <Compile Include="Overlay\SelectionTool.cs" />
     <Compile Include="Overlay\Rect_and_EllipseTools.cs" />
     <Compile Include="Overlay\SmoothCurveTool.cs" />
