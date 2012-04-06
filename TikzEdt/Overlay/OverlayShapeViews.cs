@@ -420,7 +420,7 @@ namespace TikzEdt
             return System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(TheRectangle);
         }
 
-        public void SetPosition(double Top, double Left, double Width, double Height)
+        public void SetPosition(double Left, double Top, double Width, double Height)
         {
             Canvas.SetTop(TheRectangle, Top);
             Canvas.SetLeft(TheRectangle, Left);
@@ -429,4 +429,45 @@ namespace TikzEdt
         }
     }
 
+
+    class WPFEllipse : IEllipseShape
+    {
+        Canvas TheCanvas;
+        public Ellipse TheEllipse = new Ellipse();
+        public WPFEllipse(Canvas TheCanvas)
+        {
+            this.TheCanvas = TheCanvas;
+        }
+
+        public bool Visible
+        {
+            get
+            {
+                return TheEllipse.Visibility == Visibility.Visible;
+            }
+            set
+            {
+                if (value)
+                {
+                    if (!TheCanvas.Children.Contains(TheEllipse))
+                        TheCanvas.Children.Add(TheEllipse);
+                    Canvas.SetZIndex(TheEllipse, TheCanvas.Children.Count);
+                    TheEllipse.Visibility = Visibility.Visible;
+                }
+                else
+                    TheEllipse.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        public Rect GetBB()
+        {
+            return System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(TheEllipse);
+        }
+
+        public void SetPosition(double Left, double Bottom)
+        {
+            Canvas.SetBottom(TheEllipse, Bottom - TheEllipse.Height / 2);
+            Canvas.SetLeft(TheEllipse, Left - TheEllipse.Width/ 2);
+        }
+    }
 }

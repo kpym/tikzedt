@@ -66,7 +66,8 @@ namespace TikzEdt
 
         public override void OnActivate()
         {
-            overlay.canvas.Cursor = Cursors.Arrow;
+            ////overlay.canvas.Cursor = Cursors.Arrow;
+            overlay.SetCursor(System.Windows.Forms.Cursors.Arrow);
         }
         public override void OnDeactivate()
         {

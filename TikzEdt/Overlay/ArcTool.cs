@@ -88,7 +88,8 @@ namespace TikzEdt
         public override void OnActivate() 
         {
             base.OnActivate();
-            overlay.canvas.Cursor = Cursors.Cross;
+            ////overlay.canvas.Cursor = Cursors.Cross;
+            overlay.SetCursor(System.Windows.Forms.Cursors.Cross);
             overlay.SetCorrectRaster(overlay.CurEditing, true);
 
             pointcount = 0;

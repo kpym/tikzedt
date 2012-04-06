@@ -4,6 +4,7 @@ using System.Windows;
 using TikzEdt.Parser;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace TikzEdt.Overlay
 {
@@ -22,6 +23,7 @@ namespace TikzEdt.Overlay
 
         void MarkObject(IOverlayShapeView v);
         void Clear();
+        void SetCursor(Cursor cursor);
     }
 
     public interface IOverlayShapeView
@@ -32,6 +34,7 @@ namespace TikzEdt.Overlay
         /// </summary>
         /// <param name="left"></param>
         /// <param name="bottom"></param>
+        /// <param name="Relative"></param>
         void SetPosition(double left, double bottom, bool Relative=false);
         double GetLeft();
         double GetBottom();
@@ -71,12 +74,20 @@ namespace TikzEdt.Overlay
         IOverlayScopeView NewScopeView();
         IOverlayCPView NewCPView();
         IRectangleShape GetSelectionRect();
+        IEllipseShape GetCPCircle();
+
     }
 
     public interface IRectangleShape
     {
         Rect GetBB();
-        void SetPosition(double Top, double Left, double Width, double Height);
+        void SetPosition(double Left, double Top, double Width, double Height); 
+        bool Visible { get; set; }
+    }
+    public interface IEllipseShape
+    {
+        Rect GetBB();
+        void SetPosition(double Left, double Bottom); // sets the center
         bool Visible { get; set; }
     }
 
@@ -178,7 +189,7 @@ namespace TikzEdt.Overlay
                                            new BezierTool(this), new RectangleTool(this), new EllipseTool(this), new GridTool(this), new ArcTool(this), new ArcEditTool(this) };
             ////foreach (OverlayTool t in ToolList)
             ////    t.overlay = this;
-        }
+        }       
 
         public enum AssignStyleType { AssignNewStyle, ChangeToNewStyle, AssignCurrentNodeStyle, ChangeToCurrentNodeStyle }
         public void AssignStyle(AssignStyleType type)
@@ -200,7 +211,7 @@ namespace TikzEdt.Overlay
                     return;
                 if (ParseTree.styles.ContainsKey(cStyle))
                 {
-                    MessageBox.Show("Error: Style name '" + cStyle + "' already exists.", "Style exists", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    GlobalUI.ShowMessageBox("Error: Style name '" + cStyle + "' already exists.", "Style exists", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
@@ -686,6 +697,12 @@ namespace TikzEdt.Overlay
             return null;
         }
 
+
+
+        public void SetCursor(System.Windows.Forms.Cursor cursor)
+        {
+            View.SetCursor(cursor);
+        }
     }
 
 }

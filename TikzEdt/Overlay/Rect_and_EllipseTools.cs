@@ -44,7 +44,7 @@ namespace TikzEdt
         public override void OnActivate()
         {
             base.OnActivate();
-            overlay.canvas.Cursor = Cursors.Cross;
+            overlay.SetCursor(System.Windows.Forms.Cursors.Cross);
         }
         public override void OnDeactivate()
         {
@@ -71,9 +71,10 @@ namespace TikzEdt
             double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.View.CoordinateTransform) * 180 / Math.PI;
             PreviewRect.RenderTransform = new RotateTransform(angle);
 
-            if (!overlay.canvas.Children.Contains(PreviewRect))
-                overlay.canvas.Children.Add(PreviewRect);
-            PreviewRect.Visibility = Visibility.Visible;
+            ////if (!overlay.canvas.Children.Contains(PreviewRect))
+            ////    overlay.canvas.Children.Add(PreviewRect);
+            /////PreviewRect.Visibility = Visibility.Visible;
+            PreviewRect.Visible = true;
 
             if (!overlay.canvas.IsMouseCaptured)
                 overlay.canvas.CaptureMouse();
