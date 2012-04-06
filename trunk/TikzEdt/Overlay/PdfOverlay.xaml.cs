@@ -771,6 +771,29 @@ namespace TikzEdt
             return SelectionRect;
         }
 
+
+
+        public void SetCursor(System.Windows.Forms.Cursor cursor)
+        {
+            Cursor c;
+                if (cursor == System.Windows.Forms.Cursors.Arrow) c = Cursors.Arrow; 
+                else if (cursor ==  System.Windows.Forms.Cursors.Hand) c= Cursors.Hand;
+                else if (cursor ==  System.Windows.Forms.Cursors.UpArrow) c= Cursors.UpArrow; 
+                else if (cursor ==  System.Windows.Forms.Cursors.Cross) c= Cursors.Cross;
+                else throw new NotImplementedException();
+            
+            canvas1.Cursor = c;
+        }
+
+
+        IEllipseShape IOverlayShapeFactory.GetCPCircle()
+        {
+            WPFEllipse e = new WPFEllipse(canvas1);
+            e.TheEllipse.Width = e.TheEllipse.Height = 10;
+            e.TheEllipse.Stroke = Brushes.Red;
+            e.TheEllipse.Fill = Brushes.Gray;
+            return e;
+        }
     }
 
 

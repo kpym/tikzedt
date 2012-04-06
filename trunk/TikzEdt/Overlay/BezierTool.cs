@@ -15,27 +15,27 @@ namespace TikzEdt
     class BezierTool : OverlayAdderTool
     {
         Point CP1, CP2; // the control points
-        Ellipse Preview_CP1 = new Ellipse(), Preview_CP2 = new Ellipse();
+        IEllipseShape Preview_CP1, Preview_CP2;
         int CPCount = 0;
 
         public BezierTool(OverlayInterface overlay) : base(overlay)
         {
-            Preview_CP1.Width = Preview_CP1.Height = Preview_CP2.Width = Preview_CP2.Height = 10;
-            Preview_CP1.Stroke = Preview_CP2.Stroke = Brushes.Red;
-            Preview_CP1.Fill = Preview_CP2.Fill = Brushes.Gray;
+            Preview_CP1 = overlay.ShapeFactory.GetCPCircle();
+            Preview_CP2 = overlay.ShapeFactory.GetCPCircle();
         }
 
         public override void OnActivate()
         {
             base.OnActivate();
-            overlay.canvas.Cursor = Cursors.Cross;
+            ////overlay.canvas.Cursor = Cursors.Cross;
+            overlay.SetCursor(System.Windows.Forms.Cursors.Cross);
             CPCount = 0;            
         }
 
         public override void OnDeactivate()
         {
             base.OnDeactivate();
-            Preview_CP1.Visibility = Preview_CP2.Visibility = Visibility.Collapsed;
+            Preview_CP1.Visible = Preview_CP2.Visible = false;
         }
 
         public override void OnLeftMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e)
@@ -97,7 +97,7 @@ namespace TikzEdt
                         overlay.AddToDisplayTree(tcont);
 
                         CPCount = 0;
-                        Preview_CP1.Visibility = Preview_CP2.Visibility = Visibility.Collapsed;
+                        Preview_CP1.Visible = Preview_CP2.Visible = false;
                     }
                     else if (lcreated)
                     {
@@ -120,20 +120,24 @@ namespace TikzEdt
                         {
                             CP1 = p;
 
-                            Canvas.SetLeft(Preview_CP1, prast.X - Preview_CP1.Width / 2);
-                            Canvas.SetBottom(Preview_CP1, prast.Y - Preview_CP1.Height / 2);
-                            if (!overlay.canvas.Children.Contains(Preview_CP1))
-                                overlay.canvas.Children.Add(Preview_CP1);
-                            Preview_CP1.Visibility = Visibility.Visible;
+                            Preview_CP1.SetPosition(prast.X, prast.Y);
+                            ////Canvas.SetLeft(Preview_CP1, prast.X - Preview_CP1.Width / 2);
+                            ////Canvas.SetBottom(Preview_CP1, prast.Y - Preview_CP1.Height / 2);
+                            ////if (!overlay.canvas.Children.Contains(Preview_CP1))
+                            ////    overlay.canvas.Children.Add(Preview_CP1);
+                            ////Preview_CP1.Visibility = Visibility.Visible;
+                            Preview_CP1.Visible = true;
                         }
                         else if (CPCount == 1)
                         {
                             CP2 = p;
-                            Canvas.SetLeft(Preview_CP2, prast.X - Preview_CP2.Width / 2);
-                            Canvas.SetBottom(Preview_CP2, prast.Y - Preview_CP2.Height / 2);
-                            if (!overlay.canvas.Children.Contains(Preview_CP2))
-                                overlay.canvas.Children.Add(Preview_CP2);
-                            Preview_CP2.Visibility = Visibility.Visible;
+                            Preview_CP2.SetPosition(prast.X, prast.Y);
+                            ////Canvas.SetLeft(Preview_CP2, prast.X - Preview_CP2.Width / 2);
+                            ////Canvas.SetBottom(Preview_CP2, prast.Y - Preview_CP2.Height / 2);
+                            ////if (!overlay.canvas.Children.Contains(Preview_CP2))
+                            ////    overlay.canvas.Children.Add(Preview_CP2);
+                            ////Preview_CP2.Visibility = Visibility.Visible;
+                            Preview_CP2.Visible = true;
                         }
                         CPCount++;
                     }

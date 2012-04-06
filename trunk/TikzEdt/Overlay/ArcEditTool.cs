@@ -65,11 +65,13 @@ namespace TikzEdt
 
         public void SetCursorDefault()
         {
-            overlay.canvas.Cursor = Cursors.Arrow;
+            ////overlay.canvas.Cursor = Cursors.Arrow;
+            overlay.SetCursor(System.Windows.Forms.Cursors.Arrow);
         }
         public void SetCursorNo()
         {
-            overlay.canvas.Cursor = Cursors.No;
+            ////overlay.canvas.Cursor = Cursors.No;
+            overlay.SetCursor(System.Windows.Forms.Cursors.No);
         }
         public override void OnActivate()
         {

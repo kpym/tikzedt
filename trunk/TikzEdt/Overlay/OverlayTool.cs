@@ -137,7 +137,7 @@ namespace TikzEdt
         void SetCorrectRaster(TikzParseItem tpi, bool IsParent = false);
 
         /// <summary>
-        /// De-activates the current tool, and activates the default tool (select/move)
+        /// De-activates the current tool, and activates the default tool (i.e., select/move)
         /// </summary>
         void ActivateDefaultTool();
 
@@ -145,7 +145,8 @@ namespace TikzEdt
 
         List<OverlayShape> TopLevelItems { get; }
 
-        Canvas canvas { get; }
+
+        ////Canvas canvas { get; }
         RasterControlModel Rasterizer { get; }
 
         OverlayScope CurEditing { get; set; }
@@ -170,6 +171,7 @@ namespace TikzEdt
 
         IOverlayShapeFactory ShapeFactory { get; }
         IEnumerable<OverlayShape> GetAllDescendants(OverlayShape OfParent = null);
+        void SetCursor(System.Windows.Forms.Cursor cursor);
     }
 
   
