@@ -24,6 +24,8 @@ namespace TikzEdt.Overlay
         void MarkObject(IOverlayShapeView v);
         void Clear();
         void SetCursor(Cursor cursor);
+
+        bool MouseCaptured { set; }
     }
 
     public interface IOverlayShapeView
@@ -70,25 +72,38 @@ namespace TikzEdt.Overlay
 
     public interface IOverlayShapeFactory
     {
+        // the following methods create views of objects in the parse tree
         IOverlayShapeView NewNodeView();
         IOverlayScopeView NewScopeView();
         IOverlayCPView NewCPView();
+
+        // the following methods produce geometric shapes for (preview) use in the tools
+        // they are not backed by an object in the parsetree
         IRectangleShape GetSelectionRect();
-        IEllipseShape GetCPCircle();
-
+        IRectangleShape GetCPCircle();
+        IRectangleShape GetPreviewEllipse();
+        IRectangleShape GetPreviewRectangle();
+        IFanShape GetPreviewFan();
+        IRectangleShape GetPreviewGrid();
     }
 
-    public interface IRectangleShape
+    public interface IPreviewShape
     {
         Rect GetBB();
-        void SetPosition(double Left, double Top, double Width, double Height); 
         bool Visible { get; set; }
     }
-    public interface IEllipseShape
+
+    public interface IRectangleShape : IPreviewShape
     {
-        Rect GetBB();
-        void SetPosition(double Left, double Bottom); // sets the center
-        bool Visible { get; set; }
+        void SetPosition(double Left, double Top, double Width, double Height);
+        void SetCenter(double Left, double Bottom);
+    }
+
+    public interface IFanShape : IPreviewShape
+    {
+        double R { get; set; }
+        Point Center { get; set; }
+        List<double> Spokes { get; set; } 
     }
 
 
@@ -702,6 +717,12 @@ namespace TikzEdt.Overlay
         public void SetCursor(System.Windows.Forms.Cursor cursor)
         {
             View.SetCursor(cursor);
+        }
+
+
+        public bool MouseCaptured
+        {
+            set { View.MouseCaptured = value; }
         }
     }
 
