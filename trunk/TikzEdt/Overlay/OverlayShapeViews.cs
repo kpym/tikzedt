@@ -4,6 +4,8 @@ using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using TikzEdt.Overlay;
+using System;
+using System.Collections.Generic;
 
 
 
@@ -385,12 +387,11 @@ namespace TikzEdt
         }
     }
 
-
-    class WPFRectangle : IRectangleShape
+    class WPFShapeBase<T> : IPreviewShape where T : Shape, new()
     {
         Canvas TheCanvas;
-        public Rectangle TheRectangle = new Rectangle();
-        public WPFRectangle(Canvas TheCanvas)
+        public T TheShape = new T();
+        public WPFShapeBase(Canvas TheCanvas)
         {
             this.TheCanvas = TheCanvas;
         }
@@ -399,75 +400,215 @@ namespace TikzEdt
         {
             get
             {
-                return TheRectangle.Visibility == Visibility.Visible;
+                return TheShape.Visibility == Visibility.Visible;
             }
             set
             {
                 if (value)
                 {
-                    if (!TheCanvas.Children.Contains(TheRectangle))
-                        TheCanvas.Children.Add(TheRectangle);
-                    Canvas.SetZIndex(TheRectangle, TheCanvas.Children.Count);
-                    TheRectangle.Visibility = Visibility.Visible;
+                    if (!TheCanvas.Children.Contains(TheShape))
+                        TheCanvas.Children.Add(TheShape);
+                    Canvas.SetZIndex(TheShape, TheCanvas.Children.Count);
+                    TheShape.Visibility = Visibility.Visible;
                 }
                 else
-                    TheRectangle.Visibility = Visibility.Collapsed;
+                    TheShape.Visibility = Visibility.Collapsed;
             }
         }
 
         public Rect GetBB()
         {
-            return System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(TheRectangle);
+            return System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(TheShape);
         }
+
+    }
+
+    class WPFRectangleShape<T> : WPFShapeBase<T>, IRectangleShape where T:Shape, new()
+    {
+        public WPFRectangleShape(Canvas TheCanvas) : base(TheCanvas)
+        {  }
 
         public void SetPosition(double Left, double Top, double Width, double Height)
         {
-            Canvas.SetTop(TheRectangle, Top);
-            Canvas.SetLeft(TheRectangle, Left);
-            TheRectangle.Width = Width;
-            TheRectangle.Height = Height;
+            Canvas.SetTop(TheShape, Top);
+            Canvas.SetLeft(TheShape, Left);
+            TheShape.Width = Width;
+            TheShape.Height = Height;
+        }
+
+        public void SetCenter(double Left, double Bottom)
+        {
+            Canvas.SetBottom(TheShape, Bottom - TheShape.Height / 2);
+            Canvas.SetLeft(TheShape, Left - TheShape.Width / 2);
         }
     }
 
-
-    class WPFEllipse : IEllipseShape
+    class WPFFanshape : WPFShapeBase<FanShape>, IFanShape
     {
-        Canvas TheCanvas;
-        public Ellipse TheEllipse = new Ellipse();
-        public WPFEllipse(Canvas TheCanvas)
-        {
-            this.TheCanvas = TheCanvas;
-        }
+        public WPFFanshape(Canvas TheCanvas) : base(TheCanvas) { }
 
-        public bool Visible
+        public double R { get { return TheShape.R; } set { TheShape.R = value; } }
+        public Point Center { get { return TheShape.Center; } set { TheShape.Center = value; } }
+        public List<double> Spokes { get { return TheShape.Spokes; } set { TheShape.Spokes = value; } }    // the angles of the spokes, in radians
+    }
+
+
+    /// <summary>
+    /// Describes a fan, i.e., a pie segment with multiple "spokes"
+    /// 
+    /// It describe by a center point Center, a Radius and the various spokes
+    /// </summary>
+    class FanShape : Shape
+    {
+        public double R { get; set; }
+        public Point Center { get; set; }
+        public List<double> Spokes { get; set; }    // the angles of the spokes, in radians
+
+        //public OverlayInterface overlay;
+
+        /// <summary>
+        /// Sets the parameters according to the Tikz_Arc's parameters
+        /// </summary>
+        /// <param name="arc"></param>
+        /*public void AdjustPos(Tikz_Arc arc)
+        {
+            Point p;
+            if (!arc.GetStartPointAbs(out p))
+                throw new Exception("Broken Arc.");
+
+            p = overlay.TikzToScreen(p);
+
+            X = p.X;
+            Y = p.Y;
+            phi1 = Math.PI * arc.phi1.GetInCM() / 180;
+            phi2 = Math.PI * arc.phi2.GetInCM() / 180;
+
+            Point c;
+            arc.GetArcCenterAbs(out c);
+            c = overlay.TikzToScreen(c);
+            r = (c - p).Length;
+
+            InvalidateVisual();
+        } */
+
+        /* public Point center
         {
             get
             {
-                return TheEllipse.Visibility == Visibility.Visible;
+                return new Point(X - r * Math.Cos(phi1), Y - r * Math.Sin(phi1));
             }
-            set
+        } */
+        /// <summary>
+        /// Adjusts whether to display larger/smaller arc
+        /// </summary>
+        /*public void AdjustPreviewPos()
+        {
+            double d = phi2 - phi1;
+            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) != (Math.Abs(d) > Math.PI))
+                d -= 2 * Math.PI * Math.Sign(d);
+            phi2 = phi1 + d;
+            InvalidateVisual();
+        } */
+        /*public void AdjustPreviewPos(Point p)
+        {
+            double newa = Math.Atan2(p.Y - center.Y, p.X - center.X);
+            phi2 = newa;
+            AdjustPreviewPos();
+        }*/
+
+        /// <summary>
+        /// In pixel coordinates, not upside down!
+        /// </summary>
+        /*Point EndPoint
+        {
+            get
             {
-                if (value)
+                return new Point(X + r * Math.Cos(phi2) - r * Math.Cos(phi1), overlay.Height - (Y + r * Math.Sin(phi2) - r * Math.Sin(phi1)));
+            }
+        } */
+
+        protected override Geometry DefiningGeometry
+        {
+            get
+            {
+                // Create a StreamGeometry for describing the shape
+                StreamGeometry geometry = new StreamGeometry();
+                geometry.FillRule = FillRule.EvenOdd;
+
+                using (StreamGeometryContext context = geometry.Open())
                 {
-                    if (!TheCanvas.Children.Contains(TheEllipse))
-                        TheCanvas.Children.Add(TheEllipse);
-                    Canvas.SetZIndex(TheEllipse, TheCanvas.Children.Count);
-                    TheEllipse.Visibility = Visibility.Visible;
+                    InternalDrawNodeGeometry(context);
+                }
+
+                // Freeze the geometry for performance benefits
+                //geometry.Freeze();
+
+                return geometry;
+            }
+        }
+
+
+        Point spokep(int i)
+        {
+            return Center + R * (new Vector(Math.Cos(Spokes[i]), -Math.Sin(Spokes[i])));
+        }
+
+        /// <summary>
+        /// Draw an arc
+        /// </summary>
+        /// <param name="context"></param>
+        private void InternalDrawNodeGeometry(StreamGeometryContext context)
+        {
+            if (R == 0 || Spokes == null || Spokes.Count() < 2)
+                return;
+
+            context.BeginFigure(Center, false, false);
+
+            context.LineTo(spokep(0), true, false);
+
+            for (int i = 1; i < Spokes.Count(); i++)
+            {
+                if (Math.Abs(Spokes[i] - Spokes[i - 1]) > 2 * Math.PI - .001)
+                {
+                    // Display a circle
+                    double ControlPointRatio = (Math.Sqrt(2) - 1) * 4 / 3;
+
+                    var x0 = Center.X - R;
+                    var x1 = Center.X - R * ControlPointRatio;
+                    var x2 = Center.X;
+                    var x3 = Center.X + R * ControlPointRatio;
+                    var x4 = Center.X + R;
+
+                    var y0 = Center.Y - R;
+                    var y1 = Center.Y - R * ControlPointRatio;
+                    var y2 = Center.Y;
+                    var y3 = Center.Y + R * ControlPointRatio;
+                    var y4 = Center.Y + R;
+
+                    context.BeginFigure(new Point(x2, y0), true, true);
+                    context.BezierTo(new Point(x3, y0), new Point(x4, y1), new Point(x4, y2), true, true);
+                    context.BezierTo(new Point(x4, y3), new Point(x3, y4), new Point(x2, y4), true, true);
+                    context.BezierTo(new Point(x1, y4), new Point(x0, y3), new Point(x0, y2), true, true);
+                    context.BezierTo(new Point(x0, y1), new Point(x1, y0), new Point(x2, y0), true, true);
+
                 }
                 else
-                    TheEllipse.Visibility = Visibility.Collapsed;
+                {
+                    bool largearc = Math.Abs(Spokes[i] - Spokes[i - 1]) > Math.PI;
+                    SweepDirection sd = SweepDirection.Counterclockwise;
+                    if (Spokes[i] < Spokes[i - 1])
+                        sd = SweepDirection.Clockwise;
+
+                    context.ArcTo(spokep(i), new Size(R, R), 0, largearc, sd, true, false);
+                }
+
+                context.BeginFigure(Center, false, false);
+                context.LineTo(spokep(i), true, false);
+
             }
+
         }
 
-        public Rect GetBB()
-        {
-            return System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(TheEllipse);
-        }
-
-        public void SetPosition(double Left, double Bottom)
-        {
-            Canvas.SetBottom(TheEllipse, Bottom - TheEllipse.Height / 2);
-            Canvas.SetLeft(TheEllipse, Left - TheEllipse.Width/ 2);
-        }
     }
+
 }

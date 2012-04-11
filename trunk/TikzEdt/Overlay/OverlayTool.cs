@@ -172,6 +172,8 @@ namespace TikzEdt
         IOverlayShapeFactory ShapeFactory { get; }
         IEnumerable<OverlayShape> GetAllDescendants(OverlayShape OfParent = null);
         void SetCursor(System.Windows.Forms.Cursor cursor);
+
+        bool MouseCaptured { set; }
     }
 
   

@@ -786,13 +786,48 @@ namespace TikzEdt
         }
 
 
-        IEllipseShape IOverlayShapeFactory.GetCPCircle()
+        IRectangleShape IOverlayShapeFactory.GetCPCircle()
         {
             WPFEllipse e = new WPFEllipse(canvas1);
             e.TheEllipse.Width = e.TheEllipse.Height = 10;
             e.TheEllipse.Stroke = Brushes.Red;
             e.TheEllipse.Fill = Brushes.Gray;
             return e;
+        }
+
+        IRectangleShape IOverlayShapeFactory.GetPreviewEllipse()
+        {
+            throw new NotImplementedException();
+        }
+
+        IRectangleShape IOverlayShapeFactory.GetPreviewRectangle()
+        {
+            throw new NotImplementedException();
+        }
+
+        IFanShape IOverlayShapeFactory.GetPreviewFan()
+        {
+
+            PreviewArc.Stroke = Brushes.Black;
+            PreviewArc.StrokeDashArray = new DoubleCollection(new double[] { 4, 4 });
+            PreviewArc.Visibility = Visibility.Collapsed;
+        }
+
+        IRectangleShape IOverlayShapeFactory.GetPreviewGrid()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public bool MouseCaptured
+        {
+            set 
+            {
+                if (value && !canvas1.IsMouseCaptured)
+                    canvas1.CaptureMouse();
+                if (!value && canvas1.IsMouseCaptured)
+                    canvas1.ReleaseMouseCapture();
+            }
         }
     }
 

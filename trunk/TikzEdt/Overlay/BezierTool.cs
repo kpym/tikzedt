@@ -15,7 +15,7 @@ namespace TikzEdt
     class BezierTool : OverlayAdderTool
     {
         Point CP1, CP2; // the control points
-        IEllipseShape Preview_CP1, Preview_CP2;
+        IRectangleShape Preview_CP1, Preview_CP2;
         int CPCount = 0;
 
         public BezierTool(OverlayInterface overlay) : base(overlay)
