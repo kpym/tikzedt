@@ -12,58 +12,6 @@ using TikzEdt.Overlay;
 
 namespace TikzEdt
 {
-    class ThreePointArc : Shape
-    {
-        public Point p1, p2, center;
-        public bool IsPie {get; set; }       
- 
-        protected override Geometry DefiningGeometry
-        {
-            get
-            {
-                // Create a StreamGeometry for describing the shape
-                StreamGeometry geometry = new StreamGeometry();
-                geometry.FillRule = FillRule.EvenOdd;
-
-                using (StreamGeometryContext context = geometry.Open())
-                {
-                    InternalDrawNodeGeometry(context);
-                }
-
-                // Freeze the geometry for performance benefits
-                //geometry.Freeze();
-
-                return geometry;
-            }
-        }
-
-        double r { get { return (p1 - center).Length; } }
-        public bool LargeArc { get; set; } 
-
-        /// <summary>
-        /// Draw an arc
-        /// </summary>
-        /// <param name="context"></param>
-        private void InternalDrawNodeGeometry(StreamGeometryContext context)
-        {
-            context.BeginFigure(p1, false, IsPie);
-            Vector v1 = p1 - center, v2 = p2 - center;
-            SweepDirection sd;
-            if ((v1.X*v2.Y - v1.Y*v2.X > 0) != LargeArc)
-                sd = SweepDirection.Clockwise;
-            else 
-                sd = SweepDirection.Counterclockwise;            
-
-            context.ArcTo(p2, new Size(r, r), 0, LargeArc, sd, true, false);
-            if (IsPie)
-            {
-                context.LineTo(center, true, false);
-                context.LineTo(p1, true, false);
-            }
-
-        }
-
-    }
 
     class ArcTool : OverlayAdderTool
     {
@@ -140,10 +88,10 @@ namespace TikzEdt
 
                 PreviewPie.center = PreviewArc.center = new Point(p.X, overlay.Height - p.Y);
 
-                if (!overlay.canvas.Children.Contains(PreviewArc))
-                    overlay.canvas.Children.Add(PreviewArc);
-                if (!overlay.canvas.Children.Contains(PreviewPie))
-                    overlay.canvas.Children.Add(PreviewPie);
+                ////if (!overlay.canvas.Children.Contains(PreviewArc))
+                ////    overlay.canvas.Children.Add(PreviewArc);
+                ////if (!overlay.canvas.Children.Contains(PreviewPie))
+                ////    overlay.canvas.Children.Add(PreviewPie);
             }
             else if (pointcount == 1)
             {
