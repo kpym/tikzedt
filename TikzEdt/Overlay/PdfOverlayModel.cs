@@ -45,7 +45,7 @@ namespace TikzEdt.Overlay
         double GetBottom();
         
         /// <summary>
-        /// In upside down coordinates, i.e., X,Y determine the lower left corner.
+        /// In top left centric coordinates.
         /// </summary>
         Rect GetBB();
         void SetStdColor();
@@ -70,8 +70,8 @@ namespace TikzEdt.Overlay
         /// </summary>
         /// <param name="Left"></param>
         /// <param name="Bottom"></param>
-        void SetOrigin1(double Left, double Bottom);
-        void SetOrigin2(double Left, double Bottom);
+        void SetOrigin1(double Left, double Top, double CanvasHeight);
+        void SetOrigin2(double Left, double Top, double CanvasHeight);
     }
 
     public interface IOverlayShapeFactory

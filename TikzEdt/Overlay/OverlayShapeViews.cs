@@ -22,12 +22,7 @@ namespace TikzEdt
         // in upside down coordinates
         public virtual Rect GetBB()
         {
-            Rect r = new Rect();
-            r.X = Canvas.GetLeft(this);
-            r.Y = Canvas.GetBottom(this);
-            r.Width = Width;
-            r.Height = Height;
-            return r;
+            return System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(this); ;
         }
 
         public void SetToolTip(string Text)
@@ -63,8 +58,6 @@ namespace TikzEdt
                 Canvas.SetBottom(this, Bottom - Height / 2);
             }
         }
-
-
 
         public abstract void SetStdColor();
         public abstract void SetSelColor();
@@ -141,16 +134,6 @@ namespace TikzEdt
 
     class OverlayScopeView : OverlayShapeView, Overlay.IOverlayScopeView
     {
-        // in upside down coordinates
-        public override Rect GetBB()
-        {
-            Rect r = new Rect();
-            r.X = Canvas.GetLeft(this);
-            r.Y = Canvas.GetBottom(this);
-            r.Width = Width;
-            r.Height = Height;
-            return r;
-        }
 
         public override void SetSelColor()
         {
@@ -256,17 +239,6 @@ namespace TikzEdt
         public Line lineToOrigin1 = new Line() { Stroke = Brushes.Gray, StrokeDashArray = new DoubleCollection(new double[] { 4, 4 }) };
         public Line lineToOrigin2 = new Line() { Stroke = Brushes.Gray, StrokeDashArray = new DoubleCollection(new double[] { 4, 4 }) };
 
-        // in upside down coordinates
-        public Rect GetBB()
-        {
-            Rect r = new Rect();
-            r.X = Canvas.GetLeft(this);
-            r.Y = Canvas.GetBottom(this);
-            r.Width = Width;
-            r.Height = Height;
-            return r;
-        }
-
         protected override Geometry DefiningGeometry
         {
             get
@@ -287,37 +259,30 @@ namespace TikzEdt
         {
             Width = 10;
             Height = 10;
-            Fill = Brushes.Gray;            
+            Fill = Brushes.Gray;
+            SetStdColor();
             Canvas.SetZIndex(lineToOrigin1, -1);
             Canvas.SetZIndex(lineToOrigin2, -1);
         }
 
-        public void SetOrigin1(double Left, double Bottom)
+        public void SetOrigin1(double Left, double Top, double CanvasHeight)
         {
-            Canvas parent = Parent as Canvas;
-            if (parent == null)
-                return;
-
-            lineToOrigin1.X1 = Canvas.GetLeft(this) - Width/2;
-            lineToOrigin1.Y1 = parent.ActualHeight - Canvas.GetBottom(this) - Height / 2;
+            lineToOrigin1.X1 = Canvas.GetLeft(this) + Width/2;
+            lineToOrigin1.Y1 = CanvasHeight - Canvas.GetBottom(this) - Height / 2;
 
             lineToOrigin1.X2 = Left;
-            lineToOrigin1.Y2 = parent.ActualHeight - Bottom;
+            lineToOrigin1.Y2 = Top;
 
             lineToOrigin1.Visibility = Visibility.Visible;
         }
 
-        public void SetOrigin2(double Left, double Bottom)
+        public void SetOrigin2(double Left, double Top, double CanvasHeight)
         {
-            Canvas parent = Parent as Canvas;
-            if (parent == null)
-                return;
-
-            lineToOrigin2.X1 = Canvas.GetLeft(this) - Width / 2;
-            lineToOrigin2.Y1 = parent.ActualHeight - Canvas.GetBottom(this) - Height / 2;
+            lineToOrigin2.X1 = Canvas.GetLeft(this) + Width / 2;
+            lineToOrigin2.Y1 = CanvasHeight - Canvas.GetBottom(this) - Height / 2;
 
             lineToOrigin2.X2 = Left;
-            lineToOrigin2.Y2 = parent.ActualHeight - Bottom;
+            lineToOrigin2.Y2 = Top;
 
             lineToOrigin2.Visibility = Visibility.Visible;
         }

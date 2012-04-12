@@ -197,10 +197,10 @@ namespace TikzEdt.Overlay
         void on_PositionChanged(OverlayNode sender)
         {
             if (Origin1 != null)
-                View.SetOrigin1(Origin1.View.GetLeft(), Origin1.View.GetBottom());
+                View.SetOrigin1(Origin1.View.GetLeft(), pol.Height - Origin1.View.GetBottom(), pol.Height);
 
             if (Origin2 != null)
-                View.SetOrigin2(Origin2.View.GetLeft(), Origin2.View.GetBottom());        
+                View.SetOrigin2(Origin2.View.GetLeft(), pol.Height - Origin2.View.GetBottom(), pol.Height);        
         }
 
         public OverlayControlPoint(IOverlayCPView View) : base(View)
