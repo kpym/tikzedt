@@ -176,6 +176,7 @@ namespace TikzEdt
         bool MouseCaptured { set; }
 
         Point CursorPosition { get; }
+        OverlayShape ObjectAtCursor { get; }
     }
 
   
@@ -188,7 +189,7 @@ namespace TikzEdt
         public override void OnActivate() 
         {
             base.OnActivate();
-            overlay.canvas.Cursor = Cursors.Cross;
+            overlay.SetCursor(System.Windows.Forms.Cursors.Cross);
         }
         
         public override void OnLeftMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e) 
@@ -367,7 +368,7 @@ namespace TikzEdt
         public override void OnActivate()
         {
             base.OnActivate();
-            overlay.canvas.Cursor = Cursors.UpArrow;
+            overlay.SetCursor(System.Windows.Forms.Cursors.UpArrow);
         }
         public override void OnDeactivate()
         {
@@ -379,7 +380,6 @@ namespace TikzEdt
         public override void OnLeftMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e) 
         {
 
-            //IInputElement o = canvas1.InputHitTest(e.GetPosition(canvas1));
             if (!(item is OverlayNode))
             {
                 curSel = null;

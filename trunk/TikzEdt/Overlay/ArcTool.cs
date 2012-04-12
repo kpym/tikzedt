@@ -18,18 +18,17 @@ namespace TikzEdt
         int pointcount = 0;
         // points are in Tikz coordinates
         Point center, p1;
-        ThreePointArc PreviewArc = new ThreePointArc(), PreviewPie = new ThreePointArc();
+        IArcShape PreviewArc, PreviewPie;
 
         public ArcTool(OverlayInterface overlay) : base(overlay)
         {
-            PreviewArc.Stroke = PreviewPie.Stroke = Brushes.Black;
-            PreviewPie.Visibility = PreviewArc.Visibility = Visibility.Collapsed;
-            PreviewPie.IsPie = true;
+            PreviewArc = overlay.ShapeFactory.GetPreviewArc();
+            PreviewPie = overlay.ShapeFactory.GetPreviewPie();
         }
         public override void OnDeactivate()
         {
             base.OnDeactivate();
-            PreviewPie.Visibility = PreviewArc.Visibility = Visibility.Collapsed;
+            PreviewPie.Visible = PreviewArc.Visible = false;
             overlay.Rasterizer.View.ForceRadiusTo = -1;
             overlay.SetCorrectRaster(overlay.CurEditing, true); // don't keep our temporary polar raster
         }
@@ -187,27 +186,25 @@ namespace TikzEdt
         {
             if (pointcount == 0)
             {
-                PreviewArc.Visibility = PreviewPie.Visibility = Visibility.Hidden;
+                PreviewArc.Visible = PreviewPie.Visible = false;
             }
             else 
             {
-                PreviewArc.LargeArc = PreviewPie.LargeArc = IsLargeArc;
+                PreviewArc.IsLargeArc = PreviewPie.IsLargeArc = IsLargeArc;
                 if (IsPie)
                 {
-                    PreviewPie.StrokeDashArray = null;
-                    PreviewPie.Stroke = Brushes.Black;
-                    PreviewPie.Visibility = Visibility.Visible;
-                    PreviewArc.Visibility = Visibility.Collapsed;
+                    PreviewPie.IsDashed = false;
+                    PreviewPie.Visible = true;
+                    PreviewArc.Visible = false;
                 }
                 else
                 {
-                    PreviewPie.StrokeDashArray = new DoubleCollection(new double[] { 4, 4 });
-                    PreviewPie.Stroke = Brushes.Gray;
-                    PreviewPie.Visibility = Visibility.Visible;
-                    PreviewArc.Visibility = Visibility.Visible;
+                    PreviewPie.IsDashed = true;
+                    PreviewPie.Visible = true;
+                    PreviewArc.Visible = true;  
                 }
-                PreviewArc.InvalidateVisual();
-                PreviewPie.InvalidateVisual();
+                PreviewArc.Refresh();
+                PreviewPie.Refresh();
             }
         }
 

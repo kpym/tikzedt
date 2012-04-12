@@ -201,14 +201,8 @@ namespace CLAParser
             ro = ro | RegexOptions.Multiline;            
             Regex ParseCmdLine = new Regex(CorrectCmdLineRegEx, ro);
 
-            ///For test and debug purposes function Matches() is used which returns
-            ///a MatchCollection. However, there should never be more than one entry.
-            /*MatchCollection mc = ParseCmdLine.Matches(ArgumentLine.ToString());            
-            if (mc.Count > 1)
-                throw new Exception("Internal Exception: MatchCollection contains more than 1 entry!");
-            foreach (Match m in mc)*/
 
-            ///By default use Match() because in case of no match raising ExceptionSyntaxError would be skipped by Matches() and foreach.
+            // By default use Match() because in case of no match raising ExceptionSyntaxError would be skipped by Matches() and foreach.
             Match m = ParseCmdLine.Match(ArgumentLine.ToString());
             {
 

@@ -12,8 +12,13 @@ using System.Collections.Generic;
 namespace TikzEdt
 {
 
-    abstract class OverlayShapeView : Shape
+    abstract class OverlayShapeView : Shape, IOverlayShapeView
     {
+        /// <summary>
+        /// Stores the underlying OverlayShape displayed by this view.
+        /// </summary>
+        public OverlayShape TheUnderlyingShape {get; set; }
+
         // in upside down coordinates
         public virtual Rect GetBB()
         {
@@ -59,6 +64,11 @@ namespace TikzEdt
             }
         }
 
+
+
+        public abstract void SetStdColor();
+        public abstract void SetSelColor();
+
     }
 
     class OverlayNodeView : OverlayShapeView, Overlay.IOverlayShapeView
@@ -72,11 +82,11 @@ namespace TikzEdt
             Canvas.SetBottom(this, bottom - Height / 2);
         }*/
 
-        public void SetSelColor()
+        public override void SetSelColor()
         {
             Stroke = new SolidColorBrush(Properties.Settings.Default.Overlay_CoordSelColor);
         }
-        public void SetStdColor()
+        public override void SetStdColor()
         {
             Stroke = new SolidColorBrush(Properties.Settings.Default.Overlay_CoordColor);
         }
@@ -142,11 +152,11 @@ namespace TikzEdt
             return r;
         }
 
-        public void SetSelColor()
+        public override void SetSelColor()
         {
             Stroke = new SolidColorBrush(Properties.Settings.Default.Overlay_ScopeSelColor);
         }
-        public void SetStdColor()
+        public override void SetStdColor()
         {
             Stroke = new SolidColorBrush(Properties.Settings.Default.Overlay_ScopeColor);
         }
@@ -230,12 +240,12 @@ namespace TikzEdt
             }
         }
 
-        public double GetLeft()
+        public override double GetLeft()
         {
             return Canvas.GetLeft(this);
         }
 
-        public double GetBottom()
+        public override double GetBottom()
         {
             return Canvas.GetBottom(this);
         }
@@ -289,10 +299,10 @@ namespace TikzEdt
                 return;
 
             lineToOrigin1.X1 = Canvas.GetLeft(this) - Width/2;
-            lineToOrigin1.Y1 = parent.Height - Canvas.GetBottom(this) - Height / 2;
+            lineToOrigin1.Y1 = parent.ActualHeight - Canvas.GetBottom(this) - Height / 2;
 
             lineToOrigin1.X2 = Left;
-            lineToOrigin1.Y2 = parent.Height - Bottom;
+            lineToOrigin1.Y2 = parent.ActualHeight - Bottom;
 
             lineToOrigin1.Visibility = Visibility.Visible;
         }
@@ -304,10 +314,10 @@ namespace TikzEdt
                 return;
 
             lineToOrigin2.X1 = Canvas.GetLeft(this) - Width / 2;
-            lineToOrigin2.Y1 = parent.Height - Canvas.GetBottom(this) - Height / 2;
+            lineToOrigin2.Y1 = parent.ActualHeight - Canvas.GetBottom(this) - Height / 2;
 
             lineToOrigin2.X2 = Left;
-            lineToOrigin2.Y2 = parent.Height - Bottom;
+            lineToOrigin2.Y2 = parent.ActualHeight - Bottom;
 
             lineToOrigin2.Visibility = Visibility.Visible;
         }
@@ -321,11 +331,11 @@ namespace TikzEdt
 
         }
 
-        public void SetSelColor()
+        public override void SetSelColor()
         {
             Stroke = new SolidColorBrush(Properties.Settings.Default.Overlay_CoordSelColor);
         }
-        public void SetStdColor()
+        public override void SetStdColor()
         {
             Stroke = new SolidColorBrush(Properties.Settings.Default.Overlay_CoordColor);
         }
@@ -427,6 +437,11 @@ namespace TikzEdt
         {
             set { TheShape.RenderTransform = new RotateTransform(value); }
         }
+
+        public void Refresh()
+        {
+            TheShape.InvalidateVisual();
+        }
     }
 
     class WPFRectangleShape<T> : WPFShapeBase<T>, IRectangleShape where T:Shape, new()
@@ -470,69 +485,6 @@ namespace TikzEdt
         public Point Center { get; set; }
         public List<double> Spokes { get; set; }    // the angles of the spokes, in radians
 
-        //public OverlayInterface overlay;
-
-        /// <summary>
-        /// Sets the parameters according to the Tikz_Arc's parameters
-        /// </summary>
-        /// <param name="arc"></param>
-        /*public void AdjustPos(Tikz_Arc arc)
-        {
-            Point p;
-            if (!arc.GetStartPointAbs(out p))
-                throw new Exception("Broken Arc.");
-
-            p = overlay.TikzToScreen(p);
-
-            X = p.X;
-            Y = p.Y;
-            phi1 = Math.PI * arc.phi1.GetInCM() / 180;
-            phi2 = Math.PI * arc.phi2.GetInCM() / 180;
-
-            Point c;
-            arc.GetArcCenterAbs(out c);
-            c = overlay.TikzToScreen(c);
-            r = (c - p).Length;
-
-            InvalidateVisual();
-        } */
-
-        /* public Point center
-        {
-            get
-            {
-                return new Point(X - r * Math.Cos(phi1), Y - r * Math.Sin(phi1));
-            }
-        } */
-        /// <summary>
-        /// Adjusts whether to display larger/smaller arc
-        /// </summary>
-        /*public void AdjustPreviewPos()
-        {
-            double d = phi2 - phi1;
-            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) != (Math.Abs(d) > Math.PI))
-                d -= 2 * Math.PI * Math.Sign(d);
-            phi2 = phi1 + d;
-            InvalidateVisual();
-        } */
-        /*public void AdjustPreviewPos(Point p)
-        {
-            double newa = Math.Atan2(p.Y - center.Y, p.X - center.X);
-            phi2 = newa;
-            AdjustPreviewPos();
-        }*/
-
-        /// <summary>
-        /// In pixel coordinates, not upside down!
-        /// </summary>
-        /*Point EndPoint
-        {
-            get
-            {
-                return new Point(X + r * Math.Cos(phi2) - r * Math.Cos(phi1), overlay.Height - (Y + r * Math.Sin(phi2) - r * Math.Sin(phi1)));
-            }
-        } */
-
         protected override Geometry DefiningGeometry
         {
             get
@@ -565,14 +517,14 @@ namespace TikzEdt
         /// <param name="context"></param>
         private void InternalDrawNodeGeometry(StreamGeometryContext context)
         {
-            if (R == 0 || Spokes == null || Spokes.Count() < 2)
+            if (R == 0 || Spokes == null || Spokes.Count < 2)
                 return;
 
             context.BeginFigure(Center, false, false);
 
             context.LineTo(spokep(0), true, false);
 
-            for (int i = 1; i < Spokes.Count(); i++)
+            for (int i = 1; i < Spokes.Count; i++)
             {
                 if (Math.Abs(Spokes[i] - Spokes[i - 1]) > 2 * Math.PI - .001)
                 {
@@ -664,6 +616,34 @@ namespace TikzEdt
         }
     }
 
+    class WPFArcShape : WPFShapeBase<ThreePointArc>, IArcShape
+    {
+        public Point p1 { get {return TheShape.p1; } set {TheShape.p1 = value; } }
+        public Point p2 { get {return TheShape.p2; } set {TheShape.p2 = value; } }
+        public Point center { get {return TheShape.center; } set {TheShape.center = value; } }
+        public bool IsLargeArc { get { return TheShape.LargeArc; } set { TheShape.LargeArc = value; } }
+        public bool IsDashed
+        {
+            set
+            {
+                if (value)
+                {
+                    TheShape.StrokeDashArray = new DoubleCollection(new double[] { 4, 4 });
+                    TheShape.Stroke = Brushes.Gray;
+                }
+                else
+                {
+                    TheShape.StrokeDashArray = null;
+                    TheShape.Stroke = Brushes.Black;
+                }
+            }
+        }
+
+        public WPFArcShape(Canvas TheCanvas) : base(TheCanvas)
+        {
+
+        }
+    }
 
     class ThreePointArc : Shape
     {

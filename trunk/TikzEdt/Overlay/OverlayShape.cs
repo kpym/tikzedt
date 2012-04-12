@@ -91,6 +91,7 @@ namespace TikzEdt.Overlay
         public OverlayScope(IOverlayScopeView View)
         {
             this.View = View;
+            View.TheUnderlyingShape = this;
         }
     }
 
@@ -142,6 +143,7 @@ namespace TikzEdt.Overlay
         public OverlayNode(IOverlayShapeView View)
         {
             this.View = View;
+            View.TheUnderlyingShape = this;
         }
 
     }
@@ -158,7 +160,7 @@ namespace TikzEdt.Overlay
             if (tikzitem.parent is Tikz_Controls) //lineToOrigin1 == null && lineToOrigin2 == null &&
             {
                 Tikz_Controls pa = tikzitem.parent as Tikz_Controls;
-                foreach (object o in pol.canvas.Children)
+                foreach (OverlayShape o in pol.GetAllDescendants(null))
                     if (o is OverlayNode)
                     {
                         if ((o as OverlayNode).tikzitem == pa.CoordBefore)
@@ -204,6 +206,7 @@ namespace TikzEdt.Overlay
         public OverlayControlPoint(IOverlayCPView View) : base(View)
         {
             this.View = View;
+            View.TheUnderlyingShape = this;
             PositionChanged += on_PositionChanged;
         }
     }

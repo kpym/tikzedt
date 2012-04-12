@@ -104,14 +104,7 @@ namespace TikzEdt
             public IEnumerable<TexError> Errors; 
         }
 
-        /// <summary>
-        /// For each problem (NOTICE, ERROR, WARNING) found in the output of pdflatex
-        /// when parseOutput() will trigger the addProblem event. Register for this event 
-        /// to receive these problems.
-        /// </summary>
-//        public event TexErrorHandler OnTexError;
-//        public delegate void TexErrorHandler(Object sender, TexError e, TexCompiler.Job job);
-        
+ 
         /// <summary>
         /// Private function that is called for each found problem in output of pdflatex when
         /// calling parseOutput(). addProblemMarker() fits the arguments into addProblemEventArgs
@@ -494,85 +487,6 @@ namespace TikzEdt
             return sw.ToString();
         }
 
-        /// <summary>
-        /// Adds one line of pdflatex output to text that will be parsed
-        /// when calling parseOutput()
-        /// Make sure a complete line is added!
-        /// (Combine segments if segement length is a multiple of 79 and it does not end with ...)
-        /// </summary>
-        /// <param name="Line">Line to add.</param>
-//        public void addLine(String Line)
-//        {
-//            WholeOutput += Line + Environment.NewLine;
-//        }
-
-             
-        //static const int MAX_LINE_LENGTH = 79;
-        ///// <summary>
-        ///// Some lines in the pdflatex output are broken by "..." markers.
-        ///// Remove those.
-        ///// </summary>
-        ///// <param name="WholeOutput">The latex output</param>
-        ///// <returns>The latex output, with lines appropraitely joined together.</returns>
-        //private static string DebreakLines(string WholeOutput)
-        //{
-        //    StringReader sr = new StringReader(WholeOutput);
-        //    StringWriter sw = new StringWriter();
-        //    private string OnTexOutputBufferString = "";
-        //    string line;
-
-            
-        //                string Message = line;
-        //                if (Message == null)
-        //                    return;
-
-        //                if (OnTexOutputBufferString != "")
-        //                {
-        //                    Message = OnTexOutputBufferString + Message;
-        //                    OnTexOutputBufferString = "";
-        //                }
-
-        //                // add tex output
-        //                if (Message != "")
-        //                {
-        //                    //Add more lines if line length is a multiple of 79 and
-        //                    //it does not end with "...", '"', or ')'
-        //                    //[These are the common line endings of lines with variable length]
-        //                    if (!Message.EndsWith("...") && !Message.EndsWith("\"") && !Message.EndsWith(")")
-        //                        && Message.Length % MAX_LINE_LENGTH == 0)
-        //                    {
-        //                        OnTexOutputBufferString = Message;
-        //                        //Message will be processed upon next call of this function.
-        //                        return;
-        //                    }
-        //                }
-
-
-        //                _OnTexOutput.Raise(this, new CompileEventArgs(Message));
-
-        //                //add warning and errors to
-        //                myPdflatexOutputParser.addLine(Message);
-
-        //                // Note: parsing is now started in texprocess_exited 
-        //                //if this was the last output line, start parsing.
-        //                //if (Message.Contains("Transcript written on"))
-        //                //    myPdflatexOutputParser.parseOutput();
-
-        //}
-
-
-        /// <summary>
-        /// Parses pdflatex output line by line and calls for each error, warning, or notice
-        /// addProblemEventHandler()
-        /// </summary>
-        /// <param name="line">One complete line of pdflatex.exe output</param>
- /*       public void parseLine(string line)
-        {
-            
-            
-        }
-        */
-
         /**
          * Updates the stack that determines which file we are currently
          * parsing, so that errors can be annotated in the correct file. 
@@ -659,18 +573,6 @@ namespace TikzEdt
             }
             return null;
         }
-
-        /// <summary>
-        /// Helper method for optional output PdflatexOutputParser has to say.
-        /// 
-        /// NOTE: rather use global static MainWindow.AddStatusLine()
-        /// </summary>
-        /// <param name="text">what is to say</param>
-        /// <param name="lError">defines it an error</param>
-        //private void AddStatusLine(string text, bool lError = false)
-        //{
-        //    MainWindow)Application.Current.Windows[0]).AddStatusLine(text, lError);                    
-        //}
 
     }
 }

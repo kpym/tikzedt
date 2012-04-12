@@ -115,19 +115,7 @@ namespace TikzEdt
             }
         }
         */
-        /// <summary>
-        /// The document ID uniquely identifies the current document. It is used to assure that results of 
-        /// asynchronous operations (parser & pdflatex) can be matched with the document they belong to.
-        /// Note that a problem arises, e.g., when
-        ///     one changes the file-> it gets compiled with pdflatex-> now one hits newfile
-        ///     -> the compiler returns -> if careless, the wrong file is displayed.
-        /// 
-        /// </summary>
-    //    long CurDocumentID=0;
-
-        /// <summary>
-        /// indicates whether current file has never been saved (=created with new file and not yet saved)
-        /// </summary>
+  
   //      bool CurFileNeverSaved = false;
         // indicates whether changes (that need to be saved) are made to the current file
    /*     private bool _ChangesMade = false;

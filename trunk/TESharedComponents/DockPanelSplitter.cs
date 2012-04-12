@@ -40,9 +40,9 @@ namespace TikzEdt
     ///
     /// Step 2)
     /// Go ahead and use your control in the XAML file.
-    ///
+    /// <code>
     ///     <MyNamespace:DockPanelSplitter/>
-    ///
+    /// </code>
     /// </summary>
 
     public class DockPanelSplitter : Panel

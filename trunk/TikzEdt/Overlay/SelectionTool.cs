@@ -187,7 +187,6 @@ namespace TikzEdt
 
         public override void OnLeftMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e)
         {
-            //IInputElement o = canvas1.InputHitTest(e.GetPosition(canvas1));
 
             if (e.ClickCount == 2 && (item is OverlayScope)) // Select for editing
             {
@@ -226,15 +225,15 @@ namespace TikzEdt
                 overlay.SetCorrectRaster(curDragged);
 
                 // capture mouse. this is important if the user drags sth. outside canvas1's bounds
-                if (curDragged != null && !overlay.canvas.IsMouseCaptured)
-                    overlay.canvas.CaptureMouse();
+                if (curDragged != null)
+                    overlay.MouseCaptured = true;
             }
             else if (item == null)
             {
                 BeginSelectionChange(Keyboard.Modifiers.HasFlag(ModifierKeys.Control));
 
                 // display selection rectangle
-                SelectionRectOrigin = e.GetPosition(overlay.canvas);
+                SelectionRectOrigin = overlay.CursorPosition;
                 //SelectionRect.RenderTransform = new TranslateTransform(SelectionRectOrigin.X, SelectionRectOrigin.Y);
                 SelectionRect.SetPosition(SelectionRectOrigin.X, SelectionRectOrigin.Y,0,0);
                 ////Canvas.SetLeft(SelectionRect, SelectionRectOrigin.X);
@@ -256,7 +255,7 @@ namespace TikzEdt
 
         public override void OnMouseMove(Point p, MouseEventArgs e)
         {
-            Point mousep = e.GetPosition(overlay.canvas);
+            Point mousep = overlay.CursorPosition;
             if (SelectionRect.Visible)
             {
                 // update the size of the selection rect
@@ -426,10 +425,10 @@ namespace TikzEdt
             {
                 Rect r = o.View.GetBB();////System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(o);
                 bool nowsel = r.IntersectsWith(SelectionRect);
-                // for overlayscope, we do not want select it when it it contains completely the selection rect
+                // for overlayscope, we do not want to select it when it it contains the selection rect completely.
                 if (o is OverlayScope)
                 {
-                    double framewidth = 10;/// (o as OverlayScope).StrokeThickness; //approximate guess for framewidth
+                    double framewidth = 10; // approximate guess for framewidth
                     r.Inflate(-framewidth, -framewidth);
                     if (r.Contains(SelectionRect))
                         nowsel = false;
