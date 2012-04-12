@@ -22,11 +22,13 @@ namespace TikzEdt.Overlay
         OverlayToolType Tool { get; set; }
 
         void MarkObject(IOverlayShapeView v);
+        void JumpToSourceDoIt(OverlayShape o);
         void Clear();
         void SetCursor(Cursor cursor);
 
         bool MouseCaptured { set; }
         Point CursorPosition { get; }
+        OverlayShape ObjectAtCursor { get; }
     }
 
     public interface IOverlayShapeView
@@ -41,11 +43,7 @@ namespace TikzEdt.Overlay
         void SetPosition(double left, double bottom, bool Relative=false);
         double GetLeft();
         double GetBottom();
-        /// <summary>
-        /// In bottom left centered pixel coordinates
-        /// </summary>
-        /// <returns></returns>
-        //Point GetPosition();
+        
         /// <summary>
         /// In upside down coordinates, i.e., X,Y determine the lower left corner.
         /// </summary>
@@ -53,6 +51,11 @@ namespace TikzEdt.Overlay
         void SetStdColor();
         void SetSelColor();
         void SetToolTip(string Text);
+
+        /// <summary>
+        /// The underlying OverlayShape. Mustbe filled by the OverlayShape that creates the View.
+        /// </summary>
+        OverlayShape TheUnderlyingShape { get; set; }
     }
     public interface IOverlayScopeView : IOverlayShapeView
     {
@@ -97,7 +100,9 @@ namespace TikzEdt.Overlay
         /// <summary>
         /// Determines the rotation of the shape in radians.
         /// </summary>
-        double Rotation { set; } 
+        double Rotation { set; }
+
+        void Refresh();
     }
 
     public interface IRectangleShape : IPreviewShape
@@ -118,6 +123,11 @@ namespace TikzEdt.Overlay
         Point p1 {get; set;} 
         Point p2 {get; set;} 
         Point center {get; set;}
+        bool IsLargeArc { get; set; }
+        /// <summary>
+        /// Makes shape dashed and Gray instead of solid black
+        /// </summary>
+        bool IsDashed { set; }
     }
 
     public class PdfOverlayModel : ViewModels.ViewModelBase, OverlayInterface
@@ -351,6 +361,7 @@ namespace TikzEdt.Overlay
         }
 
         public Point CursorPosition { get { return View.CursorPosition; } }
+        public OverlayShape ObjectAtCursor { get { return View.ObjectAtCursor; } }
 
         /// <summary>
         /// Draws the TikzParseItem tpi, if it is drawn, or its children, if they can be drawn, 
@@ -612,7 +623,7 @@ namespace TikzEdt.Overlay
 
         public bool AllowEditing
         {
-            get { throw new NotImplementedException(); }
+            get { return View.AllowEditing; }
         }
 
         public void BeginUpdate()
@@ -629,17 +640,12 @@ namespace TikzEdt.Overlay
 
         public void ActivateDefaultTool()
         {
-            throw new NotImplementedException();
-        }
-
-        public System.Windows.Controls.Canvas canvas
-        {
-            get { throw new NotImplementedException(); }
+            View.Tool = OverlayToolType.move;
         }
 
         public RasterControlModel Rasterizer
         {
-            get { throw new NotImplementedException(); }
+            get { return View.Rasterizer; }
         }
 
         public double Resolution
@@ -679,7 +685,7 @@ namespace TikzEdt.Overlay
 
         public void JumpToSourceDoIt(OverlayShape o)
         {
-            throw new NotImplementedException();
+            View.JumpToSourceDoIt(o);
         }
 
         #endregion

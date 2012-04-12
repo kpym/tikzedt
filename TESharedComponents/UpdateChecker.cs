@@ -12,13 +12,14 @@ namespace TESharedComponents
     /// determine whether there is a new version, and, if so, provides the download link.
     /// 
     /// The format of the xml file is like this:
+    /// <code>
     /// <?xml version="1.0" encoding="utf-8"?>  
     /// <tikzedt>
     ///   <latestversion>0.1.3</latestversion>  
     ///   <webpageurl>http://code.google.com/p/tikzedt/</webpageurl>
     ///   <downloadurl>http://tikzedt.googlecode.com/files/TikzEdt0_1_3beta.msi</downloadurl> 
     /// </tikzedt>
-    /// 
+    /// </code>
     /// 
     /// It (currently) does not automatically download and install the update, although this might be an option for later
     /// </summary>

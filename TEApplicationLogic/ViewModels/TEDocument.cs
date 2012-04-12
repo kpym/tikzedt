@@ -623,7 +623,7 @@ namespace TikzEdt.ViewModels
 
         /// <summary>
         /// The document ID uniquely identifies the current document. It is used to assure that results of 
-        /// asynchronous operations (parser & pdflatex) can be matched with the document they belong to.
+        /// asynchronous operations (parser and pdflatex) can be matched with the document they belong to.
         /// Note that a problem arises, e.g., when
         ///     one changes the file-> it gets compiled with pdflatex-> now one hits newfile
         ///     -> the compiler returns -> if careless, the wrong file is displayed.
@@ -652,6 +652,8 @@ namespace TikzEdt.ViewModels
         /// <summary>
         /// If cFile != null, the new Document will be loaded from file
         /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="compiler"></param>
         /// <param name="cFile"></param>
         public TEDocumentVM(MainWindowVM parent, TexCompiler compiler, string cFile = null)
         {

@@ -74,7 +74,7 @@ namespace TikzEdt
 
             // adjust rotation in case we are in a rotated frame
             double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.View.CoordinateTransform) * 180 / Math.PI;
-            PreviewRect.RenderTransform = new RotateTransform(angle);
+            PreviewRect.Rotation = angle;
 
             ////if (!overlay.canvas.Children.Contains(PreviewRect))
             ////    overlay.canvas.Children.Add(PreviewRect);
@@ -147,7 +147,7 @@ namespace TikzEdt
                         tc1.nameref = tn.name;
                     }
 
-                    object hit = overlay.canvas.InputHitTest(e.GetPosition(overlay.canvas));
+                    OverlayShape hit = overlay.ObjectAtCursor;
                     if ((hit is OverlayNode) && IsReferenceable(hit as OverlayNode))
                     {
                         Tikz_Node tn = MakeReferenceableNode((hit as OverlayNode).tikzitem);
@@ -178,7 +178,8 @@ namespace TikzEdt
 
             //Point mousep = e.GetPosition(overlay.canvas);
             Point mousep = overlay.Rasterizer.RasterizePixel(p);
-            mousep = new Point(mousep.X, overlay.canvas.ActualHeight - mousep.Y);
+            ////mousep = new Point(mousep.X, overlay.canvas.ActualHeight - mousep.Y);
+            mousep = new Point(mousep.X, overlay.Height - mousep.Y);
             if (PreviewRect.Visible)
             {
                 // compute rotated diagonal
@@ -366,7 +367,8 @@ namespace TikzEdt
 
             //Point mousep = e.GetPosition(overlay.canvas);
             Point mousep = overlay.Rasterizer.RasterizePixel(p);
-            mousep = new Point(mousep.X, overlay.canvas.ActualHeight - mousep.Y);
+            ////mousep = new Point(mousep.X, overlay.canvas.ActualHeight - mousep.Y);
+            mousep = new Point(mousep.X, overlay.Height - mousep.Y);
             if (PreviewEllipse.Visible)
             {
                 // compute rotated diagonal
@@ -393,7 +395,7 @@ namespace TikzEdt
             // refresh preview rect size in case CTRL was pressed
             if (PreviewEllipse.Visible)
             {
-                Point p = new Point(Mouse.GetPosition(overlay.canvas).X, overlay.Height - Mouse.GetPosition(overlay.canvas).Y);
+                Point p = new Point(overlay.CursorPosition.X, overlay.Height - overlay.CursorPosition.Y);
                 OnMouseMove(p, null);
             }
         }
@@ -403,7 +405,7 @@ namespace TikzEdt
             // refresh preview rect size in case CTRL was pressed
             if (PreviewEllipse.Visible)
             {
-                Point p = new Point(Mouse.GetPosition(overlay.canvas).X, overlay.Height - Mouse.GetPosition(overlay.canvas).Y);
+                Point p = new Point(overlay.CursorPosition.X, overlay.Height - overlay.CursorPosition.Y);
                 OnMouseMove(p, null);
             }
         }

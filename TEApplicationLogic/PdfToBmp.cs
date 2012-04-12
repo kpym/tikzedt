@@ -182,7 +182,7 @@ namespace TikzEdt
                 mypdfDoc.CurrentY = 0;
                 mypdfDoc.ClientBounds = new System.Drawing.Rectangle(0, 0, width + safetymargin, height + safetymargin);//new Rectangle(0, 0, mypdfDoc.PageWidth, mypdfDoc.PageHeight);
 
-                mypdfDoc.RenderPage(IntPtr.Zero, true); ///pic.Handle); // it works with zero, very strange!!!
+                mypdfDoc.RenderPage(IntPtr.Zero, true); ////pic.Handle); // it works with zero, very strange!!!
 
 
                 //Bitmap bbb = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit, false);

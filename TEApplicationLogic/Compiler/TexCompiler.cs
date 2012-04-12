@@ -218,8 +218,8 @@ namespace TikzEdt
             /// Automatically clears itself when called with LineNumber==0.
             /// Note: PositionOfAddedLine==1 means at the very top was something inserted.
             /// </summary>
-            /// <param name="LineNumber">indicates where lines are added</param>
-            /// <param name="LineCount">indicates how many line are added at that location</param>
+            /// <param name="PositionOfAddedLine">indicates where lines are added</param>
+            /// <param name="NumberOfAddedLines">indicates how many line are added at that location</param>
             public void AddOffset(int PositionOfAddedLine, int NumberOfAddedLines)
             {
 
@@ -356,8 +356,10 @@ namespace TikzEdt
         /// Adds some tikz code to the internal TODO list, to be compiled as soon as possible.
         /// </summary>
         /// <param name="code">Tikz Code to compile</param>
-        /// <param name="path">Path, without ending, e.g. img\myfile </param>
-        /// <param name="BB">The bounding box</param>
+        /// <param name="path">Path, without ending, e.g. img\myfile.</param>
+        /// <param name="BB">The bounding box.</param>
+        /// <param name="name">The job's name.</param>
+        /// <param name="CreateBMP">Whether a bitmap should be created after compilation.</param>
         public void AddJob(string code, string path, Rect BB, string name, bool CreateBMP)
         {
             Job job = new Job();
@@ -389,13 +391,15 @@ namespace TikzEdt
             job.GeneratePrecompiledHeaders = true;
             return job;
         }
+
         /// <summary>
         /// Same as AddJob, but deletes all other pending jobs first.
         /// </summary>
         /// <param name="code"></param>
         /// <param name="path"></param>
-        /// <param name="BB"></param>
-        /// <param name="name"></param>
+        /// <param name="BBShallBeWritten"></param>
+        /// <param name="DocumentID"></param>
+        /// <param name="InitialLineOffset"></param>
         public void AddJobExclusive(string code, string path, bool BBShallBeWritten, long DocumentID = 0, int InitialLineOffset=0)
         {
             Job job = new Job();
@@ -715,15 +719,15 @@ namespace TikzEdt
                 GlobalUI.AddStatusLine(this, "Please wait. pdflatex seems to be installing some required package.");
             }
         }
-        /// <summary>
+  /*        /// <summary>
         /// Adds a rectangle to the Tikzcode in the size specified by BB. 
         /// The rectangle is added as the last command before the \end{tikzpicture} 
         /// </summary>
         /// <param name="code">The Tikz Code. Must contain an "\end{tikzpicture}" </param>
         /// <param name="BB">The bounding box (= size of rectangle to be written) </param>
         /// <param name="succeeded">Returns success, i.e., whether the string "\end{tikzpicture}" has been found</param>
-        /// <returns>The Tikzcode, with the "\draw rectangle ...." inserted </returns>
- /*       string writeBBtoTikz(string code, Rect BB, out bool succeeded)
+        /// <returns> The Tikzcode, with the "\draw rectangle ...." inserted </returns>
+      string writeBBtoTikz(string code, Rect BB, out bool succeeded)
         {
             // hack
             string cend = @"\end{tikzpicture}";
@@ -951,7 +955,7 @@ namespace TikzEdt
         /// Code is standalone if
         /// 1) defined by !TIKZEDT STANDALONE command or
         /// 2) it contains string "\documentclass" or
-        /// 3) if it starts with string "%&". (Precompiled header)
+        /// 3) if it starts with string "%&amp;". (Precompiled header)
         /// </summary>
         /// <returns></returns>
         public static bool IsStandalone(string code)

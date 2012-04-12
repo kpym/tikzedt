@@ -281,7 +281,7 @@ namespace TikzEdt
         /// </summary>
         public void ActivateDefaultTool()
         {
-            Tool = OverlayToolType.move;
+            TheModel.ActivateDefaultTool();
         }
         
         public PdfOverlay()
@@ -360,10 +360,8 @@ namespace TikzEdt
             
             // call left down-method in the current tool
             Point mousep = e.GetPosition(canvas1);
-            object oo = canvas1.InputHitTest(mousep);
-            if (! ( oo is OverlayShape))
-                oo = null;
-            TheModel.CurrentTool.OnLeftMouseButtonDown(oo as OverlayShape, new Point(mousep.X, Height - mousep.Y), e);
+            var oo = ObjectAtPosition(mousep);
+            TheModel.CurrentTool.OnLeftMouseButtonDown(oo, new Point(mousep.X, Height - mousep.Y), e);
         }
 
 
@@ -391,12 +389,7 @@ namespace TikzEdt
             if (sender != mnuJumpSource)
             {
                 // jump to object at mouse position
-                IInputElement o = canvas1.InputHitTest(Mouse.GetPosition(canvas1));
-                if (o is OverlayShape)
-                {
-                    mnuJumpSource.Tag = o;
-                }
-                else mnuJumpSource.Tag = null;
+                mnuJumpSource.Tag = ObjectAtCursor;
             }
 
             if (mnuJumpSource.Tag != null)
@@ -463,17 +456,13 @@ namespace TikzEdt
             mnuAddPath.IsChecked = (Tool == OverlayToolType.addpath);
 
             
-            IInputElement o = canvas1.InputHitTest(Mouse.GetPosition(canvas1));
+            var o = ObjectAtCursor;
 
             // some commands in the context menu (Jump to source, editing) operate on the object at mouse position
             // when the contextmenu opens. Since this position is lost when clicking the menu item, the object there 
             // has to be stored somewhere -> in the mnuJumpSource.Tag
-            if (o is OverlayShape)
-            {
-                mnuJumpSource.Tag = o;
-            }
-            else mnuJumpSource.Tag = null;
-            mnuJumpSource.IsEnabled = (mnuJumpSource.Tag != null);
+            mnuJumpSource.Tag = o;
+            mnuJumpSource.IsEnabled = (o != null);
             mnuEdit.IsEnabled = (o is OverlayScope);
         }
 
@@ -489,10 +478,8 @@ namespace TikzEdt
         {
             // call right down-method in the current tool
             Point mousep = e.GetPosition(canvas1);
-            object oo = canvas1.InputHitTest(mousep);
-            if (!(oo is OverlayShape))
-                oo = null;
-            TheModel.CurrentTool.OnRightMouseButtonDown(oo as OverlayShape, new Point(mousep.X, Height - mousep.Y), e);
+            var oo = ObjectAtPosition(mousep);
+            TheModel.CurrentTool.OnRightMouseButtonDown(oo, new Point(mousep.X, Height - mousep.Y), e);
             
             // if the tool didn't use the click-> proceed with standard handling
             if (!e.Handled)
@@ -771,7 +758,22 @@ namespace TikzEdt
             return SelectionRect;
         }
 
+        /// <summary>
+        /// Finds the OverlayShape corresponding to the View at the specified point.
+        /// </summary>
+        /// <param name="p">The point, in top left centric coordinates.</param>
+        /// <returns></returns>
+        private OverlayShape ObjectAtPosition(Point p)
+        {
+            var o = canvas1.InputHitTest(p);
+            var oo = o as IOverlayShapeView;
+            if (oo == null)
+                return null;
+            else return oo.TheUnderlyingShape;
 
+        }
+
+        public OverlayShape ObjectAtCursor { get { return ObjectAtPosition(Mouse.GetPosition(canvas1)); } }
 
         public void SetCursor(System.Windows.Forms.Cursor cursor)
         {
@@ -780,6 +782,7 @@ namespace TikzEdt
                 else if (cursor ==  System.Windows.Forms.Cursors.Hand) c= Cursors.Hand;
                 else if (cursor ==  System.Windows.Forms.Cursors.UpArrow) c= Cursors.UpArrow; 
                 else if (cursor ==  System.Windows.Forms.Cursors.Cross) c= Cursors.Cross;
+                else if (cursor == System.Windows.Forms.Cursors.No) c = Cursors.No;
                 else throw new NotImplementedException();
             
             canvas1.Cursor = c;
@@ -845,12 +848,17 @@ namespace TikzEdt
 
         IArcShape IOverlayShapeFactory.GetPreviewArc()
         {
-            
+            WPFArcShape PreviewArc = new WPFArcShape(canvas1);
+            PreviewArc.TheShape.Stroke = Brushes.Black;
+            return PreviewArc;
         }
 
         IArcShape IOverlayShapeFactory.GetPreviewPie()
         {
-            throw new NotImplementedException();
+            WPFArcShape PreviewPie = new WPFArcShape(canvas1);
+            PreviewPie.TheShape.Stroke = Brushes.Black;
+            PreviewPie.TheShape.IsPie = true;
+            return PreviewPie;
         }
     }
 

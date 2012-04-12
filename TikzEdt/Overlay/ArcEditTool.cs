@@ -83,7 +83,6 @@ namespace TikzEdt
 
         public override void OnLeftMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e)
         {
-            //IInputElement o = canvas1.InputHitTest(e.GetPosition(canvas1));
 
             if (item != null)
             {
@@ -141,7 +140,7 @@ namespace TikzEdt
 
         public override void OnMouseMove(Point p, MouseEventArgs e)
         {
-            Point mousep = e.GetPosition(overlay.canvas);
+            Point mousep = overlay.CursorPosition;
 
             // start a drag operation only after the mouse moved at least xx pixels to avoid accidental moving
             if ((DragOriginC - p).Length > 5)
@@ -436,7 +435,7 @@ namespace TikzEdt
             }*/
 
 
-            PreviewArc.InvalidateVisual();
+            PreviewArc.Refresh();
         } 
         /// <summary>
         /// Adjusts the radius of the preview to arc to the current mouse position.        
