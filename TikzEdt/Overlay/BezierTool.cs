@@ -120,7 +120,7 @@ namespace TikzEdt
                         {
                             CP1 = p;
 
-                            Preview_CP1.SetPosition(prast.X, prast.Y);
+                            Preview_CP1.SetCenter(prast.X, prast.Y);
                             ////Canvas.SetLeft(Preview_CP1, prast.X - Preview_CP1.Width / 2);
                             ////Canvas.SetBottom(Preview_CP1, prast.Y - Preview_CP1.Height / 2);
                             ////if (!overlay.canvas.Children.Contains(Preview_CP1))
@@ -131,7 +131,7 @@ namespace TikzEdt
                         else if (CPCount == 1)
                         {
                             CP2 = p;
-                            Preview_CP2.SetPosition(prast.X, prast.Y);
+                            Preview_CP2.SetCenter(prast.X, prast.Y);
                             ////Canvas.SetLeft(Preview_CP2, prast.X - Preview_CP2.Width / 2);
                             ////Canvas.SetBottom(Preview_CP2, prast.Y - Preview_CP2.Height / 2);
                             ////if (!overlay.canvas.Children.Contains(Preview_CP2))

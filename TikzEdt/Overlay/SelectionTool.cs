@@ -246,8 +246,7 @@ namespace TikzEdt
                 ////    overlay.canvas.Children.Add(SelectionRect);
                 ////SelectionRect.Visibility = System.Windows.Visibility.Visible;
                 SelectionRect.Visible = true;
-                if (!overlay.canvas.IsMouseCaptured)
-                    overlay.canvas.CaptureMouse();
+                overlay.MouseCaptured = true;
 
             }
 

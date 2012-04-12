@@ -30,15 +30,22 @@ namespace TikzEdt
         protected bool ForcePointsBLTR = false;
 
         // the rectangle to be shown on drawing
-        protected Shape PreviewRect = new Rectangle();
+        protected IRectangleShape PreviewRect;
         // this is overwritten in GridTool
         protected string codeToInsert = " rectangle ";
 
+        /// <summary>
+        /// Creates the shape used for preview. Override in subclasses to display different shapes (ellipse, grid).
+        /// </summary>
+        /// <returns>An interface to the created shape.</returns>
+        protected virtual IRectangleShape CreatePreviewShape()
+        {
+            return overlay.ShapeFactory.GetPreviewRectangle();
+        }
+
         public RectangleTool(OverlayInterface overlay) : base(overlay)
         {
-            PreviewRect.Visibility = Visibility.Collapsed;
-            PreviewRect.Stroke = Brushes.Black;
-
+            PreviewRect = CreatePreviewShape();
         }
 
         public override void OnActivate()
@@ -49,7 +56,7 @@ namespace TikzEdt
         public override void OnDeactivate()
         {
             base.OnDeactivate();
-            PreviewRect.Visibility = Visibility.Collapsed;
+            PreviewRect.Visible = false;
         }
 
         public override void OnLeftMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e)
@@ -63,9 +70,7 @@ namespace TikzEdt
             else
                 originRef = null;
 
-            Canvas.SetLeft(PreviewRect, origin.X);
-            Canvas.SetTop(PreviewRect, origin.Y);
-            PreviewRect.Width = PreviewRect.Height = 0;
+            PreviewRect.SetPosition(origin.X, origin.Y, 0,0);
 
             // adjust rotation in case we are in a rotated frame
             double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.View.CoordinateTransform) * 180 / Math.PI;
@@ -76,13 +81,12 @@ namespace TikzEdt
             /////PreviewRect.Visibility = Visibility.Visible;
             PreviewRect.Visible = true;
 
-            if (!overlay.canvas.IsMouseCaptured)
-                overlay.canvas.CaptureMouse();
+            overlay.MouseCaptured = true;
         }
         public override void OnLeftMouseButtonUp(MouseButtonEventArgs e, Point p)
         {
             // add the rectangle
-            if (PreviewRect.Visibility == Visibility.Visible)
+            if (PreviewRect.Visible)
             {
                 if (!EnsureParseTreeExists())
                     return;
@@ -162,7 +166,7 @@ namespace TikzEdt
 
                 overlay.EndUpdate();
 
-                PreviewRect.Visibility = Visibility.Collapsed;
+                PreviewRect.Visible = false;
             }
         }
 
@@ -175,7 +179,7 @@ namespace TikzEdt
             //Point mousep = e.GetPosition(overlay.canvas);
             Point mousep = overlay.Rasterizer.RasterizePixel(p);
             mousep = new Point(mousep.X, overlay.canvas.ActualHeight - mousep.Y);
-            if (PreviewRect.Visibility == Visibility.Visible)
+            if (PreviewRect.Visible)
             {
                 // compute rotated diagonal
                 double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.View.CoordinateTransform);
@@ -184,16 +188,17 @@ namespace TikzEdt
                 Vector newdiag = R.Transform(mousep-origin);
 
                 // update the size and position of the preview rect
+                double width, height;
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
                 {
                     // both sides the same
-                    PreviewRect.Width = PreviewRect.Height = Math.Max(Math.Abs(newdiag.X), Math.Abs(newdiag.Y));
-                    newdiag = new Vector(Math.Sign(newdiag.X) * PreviewRect.Width, Math.Sign(newdiag.Y) * PreviewRect.Height);
+                    width = height = Math.Max(Math.Abs(newdiag.X), Math.Abs(newdiag.Y));
+                    newdiag = new Vector(Math.Sign(newdiag.X) * width, Math.Sign(newdiag.Y) * height);
                 }
                 else
                 {
-                    PreviewRect.Width = Math.Abs(newdiag.X);
-                    PreviewRect.Height = Math.Abs(newdiag.Y);
+                    width = Math.Abs(newdiag.X);
+                    height = Math.Abs(newdiag.Y);
                 }
                
                 R.Invert();
@@ -202,8 +207,7 @@ namespace TikzEdt
                 //double x = (newdiag.X<0 ?  mousep.X : origin.X),
                 //       y = (newdiag.Y<0 ?  mousep.Y : origin.Y);
                 //SelectionRect.RenderTransform = new TranslateTransform(x, y);
-                Canvas.SetLeft(PreviewRect, topleft.X);
-                Canvas.SetTop(PreviewRect, topleft.Y);
+                PreviewRect.SetPosition(topleft.X, topleft.Y, width, height);
 
             }
         }
@@ -212,9 +216,9 @@ namespace TikzEdt
         {
             base.KeyDown(e);
             // refresh preview rect size in case CTRL was pressed
-            if (PreviewRect.Visibility == Visibility.Visible)
+            if (PreviewRect.Visible)
             {
-                Point p = new Point(Mouse.GetPosition(overlay.canvas).X, overlay.Height - Mouse.GetPosition(overlay.canvas).Y);
+                Point p = new Point(overlay.CursorPosition.X, overlay.Height - overlay.CursorPosition.Y);
                 OnMouseMove(p, null);
             }
         }
@@ -222,9 +226,9 @@ namespace TikzEdt
         {
             base.KeyUp(e);
             // refresh preview rect size in case CTRL was pressed
-            if (PreviewRect.Visibility == Visibility.Visible)
+            if (PreviewRect.Visible)
             {
-                Point p = new Point(Mouse.GetPosition(overlay.canvas).X, overlay.Height - Mouse.GetPosition(overlay.canvas).Y);
+                Point p = new Point(overlay.CursorPosition.X, overlay.Height - overlay.CursorPosition.Y);
                 OnMouseMove(p, null);
             }
         }
@@ -238,25 +242,23 @@ namespace TikzEdt
         OverlayShape originRef = null;  // the reference to the coordinate at origin... if there is one.
 
         // the rectangle to be shown on drawing
-        Ellipse PreviewEllipse = new Ellipse();
+        IRectangleShape PreviewEllipse;
 
         public EllipseTool(OverlayInterface overlay)
             : base(overlay)
         {
-            PreviewEllipse.Visibility = Visibility.Collapsed;
-            PreviewEllipse.Stroke = Brushes.Black;
-
+            PreviewEllipse = overlay.ShapeFactory.GetPreviewEllipse();
         }
 
         public override void OnActivate()
         {
             base.OnActivate();
-            overlay.canvas.Cursor = Cursors.Cross;
+            overlay.SetCursor( System.Windows.Forms.Cursors.Cross );
         }
         public override void OnDeactivate()
         {
             base.OnDeactivate();
-            PreviewEllipse.Visibility = Visibility.Collapsed;
+            PreviewEllipse.Visible = false;
         }
 
         public override void OnLeftMouseButtonDown(OverlayShape item, Point p, MouseButtonEventArgs e)
@@ -270,24 +272,19 @@ namespace TikzEdt
             else
                 originRef = null;
 
-            Canvas.SetLeft(PreviewEllipse, origin.X);
-            Canvas.SetTop(PreviewEllipse, origin.Y);
-            PreviewEllipse.Width = PreviewEllipse.Height = 0;
+            PreviewEllipse.SetPosition(origin.X,origin.Y,0,0);
 
             double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.View.CoordinateTransform) * 180 / Math.PI;
-            PreviewEllipse.RenderTransform = new RotateTransform(angle);
+            PreviewEllipse.Rotation = angle;
 
-            if (!overlay.canvas.Children.Contains(PreviewEllipse))
-                overlay.canvas.Children.Add(PreviewEllipse);
-            PreviewEllipse.Visibility = Visibility.Visible;
+            PreviewEllipse.Visible = true;
 
-            if (!overlay.canvas.IsMouseCaptured)
-                overlay.canvas.CaptureMouse();
+            overlay.MouseCaptured = true;
         }
         public override void OnLeftMouseButtonUp(MouseButtonEventArgs e, Point p)
         {
             // add the rectangle
-            if (PreviewEllipse.Visibility == Visibility.Visible)
+            if (PreviewEllipse.Visible)
             {
                 if (!EnsureParseTreeExists())
                     return;
@@ -357,7 +354,7 @@ namespace TikzEdt
 
                 overlay.EndUpdate();
 
-                PreviewEllipse.Visibility = Visibility.Collapsed;
+                PreviewEllipse.Visible = false;
             }
         }
 
@@ -370,7 +367,7 @@ namespace TikzEdt
             //Point mousep = e.GetPosition(overlay.canvas);
             Point mousep = overlay.Rasterizer.RasterizePixel(p);
             mousep = new Point(mousep.X, overlay.canvas.ActualHeight - mousep.Y);
-            if (PreviewEllipse.Visibility == Visibility.Visible)
+            if (PreviewEllipse.Visible)
             {
                 // compute rotated diagonal
                 double angle = -Helper.RotationFromMatrix(overlay.Rasterizer.View.CoordinateTransform);
@@ -382,15 +379,11 @@ namespace TikzEdt
                        height = Math.Abs(newdiag.Y);
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
                     width = height = Math.Max(width, height);
-                PreviewEllipse.Width = 2 * width;
-                PreviewEllipse.Height = 2 * height;
 
                 R.Invert();
                 Point topleft = origin + R.Transform(new Vector(-width, -height));
 
-                Canvas.SetLeft(PreviewEllipse, topleft.X);
-                Canvas.SetTop(PreviewEllipse, topleft.Y);
-
+                PreviewEllipse.SetPosition(topleft.X, topleft.Y, 2 * width, 2 * height);
             }
         }
 
@@ -398,7 +391,7 @@ namespace TikzEdt
         {
             base.KeyDown(e);
             // refresh preview rect size in case CTRL was pressed
-            if (PreviewEllipse.Visibility == Visibility.Visible)
+            if (PreviewEllipse.Visible)
             {
                 Point p = new Point(Mouse.GetPosition(overlay.canvas).X, overlay.Height - Mouse.GetPosition(overlay.canvas).Y);
                 OnMouseMove(p, null);
@@ -408,7 +401,7 @@ namespace TikzEdt
         {
             base.KeyUp(e);
             // refresh preview rect size in case CTRL was pressed
-            if (PreviewEllipse.Visibility == Visibility.Visible)
+            if (PreviewEllipse.Visible)
             {
                 Point p = new Point(Mouse.GetPosition(overlay.canvas).X, overlay.Height - Mouse.GetPosition(overlay.canvas).Y);
                 OnMouseMove(p, null);
@@ -418,51 +411,9 @@ namespace TikzEdt
 
     class GridTool : RectangleTool
     {
-        class PreviewGrid : Shape
+        protected override IRectangleShape CreatePreviewShape()
         {
-            public PreviewGrid()
-            {
-                StrokeThickness = 1;
-                StrokeDashArray = new DoubleCollection(new double[] { 4, 4 } );
-            }
-
-            protected override Geometry DefiningGeometry
-            {
-                get
-                {
-                    // Create a StreamGeometry for describing the shape
-                    StreamGeometry geometry = new StreamGeometry();
-                    geometry.FillRule = FillRule.EvenOdd;
-
-                    using (StreamGeometryContext context = geometry.Open())
-                    {
-                        InternalDrawNodeGeometry(context);
-                    }
-
-                    // Freeze the geometry for performance benefits
-                    geometry.Freeze();
-
-                    return geometry;
-                }
-            }
-
-            /// <summary>
-            /// Draw a rectangle
-            /// </summary>
-            /// <param name="context"></param>
-            private void InternalDrawNodeGeometry(StreamGeometryContext context)
-            {
-                context.BeginFigure(new Point(0, 0), true, true);
-                context.LineTo(new Point(Width, 0), true, false);
-                context.LineTo(new Point(Width, Height), true, false);
-                context.LineTo(new Point(0, Height), true, false);
-
-                context.BeginFigure(new Point(Width/2, 0), true, true);
-                context.LineTo(new Point(Width / 2, Height), true, false);
-
-                context.BeginFigure(new Point(0, Height/2), true, true);
-                context.LineTo(new Point(Width, Height/2), true, false);
-            }
+            return overlay.ShapeFactory.GetPreviewGrid();
         }
 
         protected override bool AddNewCurAddTo()
@@ -488,9 +439,6 @@ namespace TikzEdt
             : base(overlay)
         {
             codeToInsert = " grid ";
-            PreviewRect = new PreviewGrid();
-            PreviewRect.Visibility = Visibility.Collapsed;
-            PreviewRect.Stroke = Brushes.Black;
             ForcePointsBLTR = true;
         }
     }

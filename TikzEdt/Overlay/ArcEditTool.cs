@@ -184,7 +184,7 @@ namespace TikzEdt
                 return;
             }
 
-            PreviewArc.Visibility = Visibility.Collapsed;
+            PreviewArc.Visible = false;
             // adjust position of dragged item (in parsetree)
             if (curDragged != null && movedenough && curDragged.item is Tikz_XYItem)
             {                

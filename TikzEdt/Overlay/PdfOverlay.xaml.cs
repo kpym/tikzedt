@@ -761,13 +761,13 @@ namespace TikzEdt
 
         IRectangleShape IOverlayShapeFactory.GetSelectionRect()
         {
-            WPFRectangle SelectionRect = new WPFRectangle(canvas1);
+            WPFRectangleShape<Rectangle> SelectionRect = new WPFRectangleShape<Rectangle>(canvas1);
 
-            SelectionRect.TheRectangle.Stroke = Brushes.Blue;
-            SelectionRect.TheRectangle.StrokeThickness = 1;
-            SelectionRect.TheRectangle.Visibility = Visibility.Collapsed;
-            SelectionRect.TheRectangle.Fill = new SolidColorBrush(Color.FromArgb(0x23, 0x00, 0x8A, 0xCA));
-            SelectionRect.TheRectangle.Fill.Freeze();
+            SelectionRect.TheShape.Stroke = Brushes.Blue;
+            SelectionRect.TheShape.StrokeThickness = 1;
+            SelectionRect.TheShape.Visibility = Visibility.Collapsed;
+            SelectionRect.TheShape.Fill = new SolidColorBrush(Color.FromArgb(0x23, 0x00, 0x8A, 0xCA));
+            SelectionRect.TheShape.Fill.Freeze();
             return SelectionRect;
         }
 
@@ -788,34 +788,40 @@ namespace TikzEdt
 
         IRectangleShape IOverlayShapeFactory.GetCPCircle()
         {
-            WPFEllipse e = new WPFEllipse(canvas1);
-            e.TheEllipse.Width = e.TheEllipse.Height = 10;
-            e.TheEllipse.Stroke = Brushes.Red;
-            e.TheEllipse.Fill = Brushes.Gray;
+            WPFRectangleShape<Ellipse> e = new WPFRectangleShape<Ellipse>(canvas1);
+            e.TheShape.Width = e.TheShape.Height = 10;
+            e.TheShape.Stroke = Brushes.Red;
+            e.TheShape.Fill = Brushes.Gray;
             return e;
         }
 
         IRectangleShape IOverlayShapeFactory.GetPreviewEllipse()
         {
-            throw new NotImplementedException();
+            WPFRectangleShape<Ellipse> PreviewEllipse = new WPFRectangleShape<Ellipse>(canvas1);
+            PreviewEllipse.TheShape.Stroke = Brushes.Black;
+            return PreviewEllipse;
         }
 
         IRectangleShape IOverlayShapeFactory.GetPreviewRectangle()
         {
-            throw new NotImplementedException();
+            WPFRectangleShape<Rectangle> PreviewRect = new WPFRectangleShape<Rectangle>(canvas1);
+            PreviewRect.TheShape.Stroke = Brushes.Black;
+            return PreviewRect;
         }
 
         IFanShape IOverlayShapeFactory.GetPreviewFan()
         {
-
-            PreviewArc.Stroke = Brushes.Black;
-            PreviewArc.StrokeDashArray = new DoubleCollection(new double[] { 4, 4 });
-            PreviewArc.Visibility = Visibility.Collapsed;
+            WPFFanshape PreviewArc = new WPFFanshape(canvas1);
+            PreviewArc.TheShape.Stroke = Brushes.Black;
+            PreviewArc.TheShape.StrokeDashArray = new DoubleCollection(new double[] { 4, 4 });
+            return PreviewArc;
         }
 
         IRectangleShape IOverlayShapeFactory.GetPreviewGrid()
         {
-            throw new NotImplementedException();
+            WPFRectangleShape<PreviewGridShape> PreviewRect = new WPFRectangleShape<PreviewGridShape>(canvas1);
+            PreviewRect.TheShape.Stroke = Brushes.Black;
+            return PreviewRect;
         }
 
 
@@ -828,6 +834,23 @@ namespace TikzEdt
                 if (!value && canvas1.IsMouseCaptured)
                     canvas1.ReleaseMouseCapture();
             }
+        }
+
+
+        public Point CursorPosition
+        {
+            get { return Mouse.GetPosition(canvas1); }
+        }
+
+
+        IArcShape IOverlayShapeFactory.GetPreviewArc()
+        {
+            
+        }
+
+        IArcShape IOverlayShapeFactory.GetPreviewPie()
+        {
+            throw new NotImplementedException();
         }
     }
 

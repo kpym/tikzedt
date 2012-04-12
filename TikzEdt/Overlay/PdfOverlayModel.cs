@@ -26,6 +26,7 @@ namespace TikzEdt.Overlay
         void SetCursor(Cursor cursor);
 
         bool MouseCaptured { set; }
+        Point CursorPosition { get; }
     }
 
     public interface IOverlayShapeView
@@ -85,12 +86,18 @@ namespace TikzEdt.Overlay
         IRectangleShape GetPreviewRectangle();
         IFanShape GetPreviewFan();
         IRectangleShape GetPreviewGrid();
+        IArcShape GetPreviewArc();
+        IArcShape GetPreviewPie();
     }
 
     public interface IPreviewShape
     {
         Rect GetBB();
         bool Visible { get; set; }
+        /// <summary>
+        /// Determines the rotation of the shape in radians.
+        /// </summary>
+        double Rotation { set; } 
     }
 
     public interface IRectangleShape : IPreviewShape
@@ -106,6 +113,12 @@ namespace TikzEdt.Overlay
         List<double> Spokes { get; set; } 
     }
 
+    public interface IArcShape : IPreviewShape
+    {
+        Point p1 {get; set;} 
+        Point p2 {get; set;} 
+        Point center {get; set;}
+    }
 
     public class PdfOverlayModel : ViewModels.ViewModelBase, OverlayInterface
     {
@@ -336,6 +349,8 @@ namespace TikzEdt.Overlay
                 MainWindow.AddStatusLine("Error in Overlay rendering: '" + e.Message + "' Overlay disabled for now.", true);
             }
         }
+
+        public Point CursorPosition { get { return View.CursorPosition; } }
 
         /// <summary>
         /// Draws the TikzParseItem tpi, if it is drawn, or its children, if they can be drawn, 
