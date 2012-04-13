@@ -70,18 +70,20 @@ namespace TikzEdt
 
         #endregion
 
-        Func<Bitmap, T> BmpConverter;
-        public TikzDisplayModel(ITikzDisplayView View, Func<Bitmap, T> BmpConverter)
+        //Func<Bitmap, T> BmpConverter;
+        //public TikzDisplayModel(ITikzDisplayView View, Func<Bitmap, T> BmpConverter)
+        public TikzDisplayModel(ITikzDisplayView View, IPdfToBmp<T> PdfBmpConverter)
         {
             this.View = View;
-            this.BmpConverter = BmpConverter;
+            //this.BmpConverter = BmpConverter;
 
-            myPdfBmpDoc = new PdfToBmp();
+            //myPdfBmpDoc = new PdfToBmp();
+            myPdfBmpDoc = PdfBmpConverter; //new PdfToBmpExtWinForms();
             AsyncBmpGenerator.DoWork += new DoWorkEventHandler(AsyncBmpGenerator_DoWork);
             AsyncBmpGenerator.RunWorkerCompleted += new RunWorkerCompletedEventHandler(AsyncBmpGenerator_RunWorkerCompleted);
         }
 
-        PdfToBmp myPdfBmpDoc;
+        IPdfToBmp<T> myPdfBmpDoc;
 
         BackgroundWorker AsyncBmpGenerator = new BackgroundWorker();
         class AsyncBmpData
@@ -135,22 +137,23 @@ namespace TikzEdt
         void AsyncBmpGenerator_DoWork(object sender, DoWorkEventArgs e)
         {
             AsyncBmpData data = e.Argument as AsyncBmpData;
-            if (data.File != null)
+            if (data.File != null )//&& data.Reload)
             {
                 myPdfBmpDoc.LoadPdf(data.File);
             }
             // this is not optimal since the pdf might be changing when called.... pass PdfWrapper instead to remedy....
             //data.bmp = myPdfBmpDoc.GetBitmapSource(data.Resolution, data.RenderTransparent);
 
-            Bitmap _backbuffer = myPdfBmpDoc.GetBitmap(data.Resolution, data.RenderTransparent);
-            if (_backbuffer != null)
+            data.bmp = myPdfBmpDoc.GetBitmap(data.Resolution, data.RenderTransparent);
+          /*  if (_backbuffer != null)
             {
                 T ret = BmpConverter(_backbuffer);
                 _backbuffer.Dispose();
                 data.bmp = ret;
             }
             else data.bmp = null;
-
+            * 
+            */
             e.Result = data;
         }
 
