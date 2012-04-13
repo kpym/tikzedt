@@ -2359,7 +2359,7 @@ namespace TikzEdt
         {
             if (pdfOverlay1.ParseTree == null) return;
             string colorName = "";
-            if (Overlay.InputMessageBox.ShowInputDialog("New color...", "Please enter a unique color name", out colorName) != MessageBoxResult.OK)
+            if (GlobalUI.ShowInputDialog("New color...", "Please enter a unique color name", out colorName) != MessageBoxResult.OK)
                 return;
             string colordef = @"\definecolor{"+colorName+"}{HTML}{" + ColorPicker1.CurrentColor.ToString().Substring(3) + "}" + Environment.NewLine;
             Tikz_Picture tp = pdfOverlay1.ParseTree.GetTikzPicture();

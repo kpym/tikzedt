@@ -162,6 +162,8 @@ namespace TikzEdt
         public override string Path_pdflatex { get { return Properties.Settings.Default.Path_pdflatex; } }
         public override string Path_htlatex { get { return Properties.Settings.Default.Path_htlatex; } }
 
+
+        public override uint RoundToDecimals { get { return Properties.Settings.Default.RoundToDecimals; } }
     }
 
 

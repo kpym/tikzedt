@@ -243,7 +243,8 @@ namespace TikzEdt.Overlay
 
             if (type == AssignStyleType.AssignNewStyle || type == AssignStyleType.ChangeToNewStyle)
             {
-                if (Overlay.InputMessageBox.ShowInputDialog("New style...", "Please enter a unique style name", out cStyle) != MessageBoxResult.OK)
+                
+                if (GlobalUI.ShowInputDialog("New style...", "Please enter a unique style name", out cStyle) != MessageBoxResult.OK)
                     return;
                 cStyle = cStyle.Trim();
                 // check if style name is valid and unique
@@ -358,7 +359,7 @@ namespace TikzEdt.Overlay
                 // produce errors.
                 Clear();
                 View.AllowEditing = false;
-                MainWindow.AddStatusLine("Error in Overlay rendering: '" + e.Message + "' Overlay disabled for now.", true);
+                GlobalUI.AddStatusLine(this, "Error in Overlay rendering: '" + e.Message + "' Overlay disabled for now.", true);
             }
         }
 

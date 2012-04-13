@@ -44,6 +44,20 @@ namespace TikzEdt.Parser
             ret.m[0, 0] = 0; ret.m[1, 1] = 0;
             return ret;
         }
+
+        /// <summary>
+        /// Creates a 2D rotation.
+        /// </summary>
+        /// <param name="angle">The angle in radians.</param>
+        /// <returns></returns>
+        public static TikzMatrix RotationMatrix(double angle)
+        {
+            TikzMatrix ret = new TikzMatrix();
+            ret.m[0, 0] = ret.m[1, 1] =Math.Cos(angle);
+            ret.m[0, 1] = -Math.Sin(angle);
+            ret.m[1, 0] = -ret.m[0, 1];
+            return ret;
+        }
         
         public static TikzMatrix operator *(TikzMatrix M1, TikzMatrix M2)
         {

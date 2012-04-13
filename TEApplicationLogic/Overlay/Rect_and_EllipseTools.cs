@@ -318,11 +318,11 @@ namespace TikzEdt
                     }
                     else
                     {
-                        MainWindow.AddStatusLine("Warning: Couldn't compute tranform at insertion position. Coordinates might be wrong.", true);
+                        GlobalUI.AddStatusLine(this, "Warning: Couldn't compute tranform at insertion position. Coordinates might be wrong.", true);
                     }
 
-                    width = Math.Round(width, (int)Properties.Settings.Default.RoundToDecimals);
-                    height = Math.Round(height, (int)Properties.Settings.Default.RoundToDecimals);
+                    width = Math.Round(width, (int)CompilerSettings.Instance.RoundToDecimals);
+                    height = Math.Round(height, (int)CompilerSettings.Instance.RoundToDecimals);
 
                     if (overlay.KeyboardModifiers.HasFlag(TEModifierKeys.Control) && width == height)
                         curAddTo.AddChild(new Parser.Tikz_Something(" circle (" + width + ")" ));
