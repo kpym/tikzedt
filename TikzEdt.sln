@@ -63,6 +63,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfSpecificComponents", "WpfSpecificComponents\WpfSpecificComponents.csproj", "{09025834-E5F7-4D1A-A2B7-130E4C45BE13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TikzEdtWForms", "TikzEdtWForms\TikzEdtWForms.csproj", "{51D62C9C-9978-4494-8367-73070707A986}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = TikzEdt1.vsmdi
@@ -926,6 +928,42 @@ Global
 		{09025834-E5F7-4D1A-A2B7-130E4C45BE13}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
 		{09025834-E5F7-4D1A-A2B7-130E4C45BE13}.SingleImage|x64.ActiveCfg = Release|Any CPU
 		{09025834-E5F7-4D1A-A2B7-130E4C45BE13}.SingleImage|x86.ActiveCfg = Release|Any CPU
+		{51D62C9C-9978-4494-8367-73070707A986}.CD_ROM|Any CPU.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.CD_ROM|Mixed Platforms.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.CD_ROM|Mixed Platforms.Build.0 = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.CD_ROM|x64.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.CD_ROM|x86.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.CD_ROM|x86.Build.0 = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.Debug|x64.ActiveCfg = Debug|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.Debug|x86.ActiveCfg = Debug|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.Debug|x86.Build.0 = Debug|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.DVD-5|Any CPU.ActiveCfg = Debug|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.DVD-5|Mixed Platforms.ActiveCfg = Debug|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.DVD-5|Mixed Platforms.Build.0 = Debug|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.DVD-5|x64.ActiveCfg = Debug|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.DVD-5|x86.ActiveCfg = Debug|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.DVD-5|x86.Build.0 = Debug|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.Release|Any CPU.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.Release|Mixed Platforms.Build.0 = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.Release|x64.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.Release|x86.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.Release|x86.Build.0 = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.ReleaseRaw|Any CPU.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.ReleaseRaw|Mixed Platforms.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.ReleaseRaw|Mixed Platforms.Build.0 = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.ReleaseRaw|x64.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.ReleaseRaw|x86.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.ReleaseRaw|x86.Build.0 = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.SingleImage|Any CPU.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.SingleImage|Mixed Platforms.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.SingleImage|Mixed Platforms.Build.0 = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.SingleImage|x64.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.SingleImage|x86.ActiveCfg = Release|x86
+		{51D62C9C-9978-4494-8367-73070707A986}.SingleImage|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

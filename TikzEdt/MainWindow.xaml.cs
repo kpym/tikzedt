@@ -220,6 +220,8 @@ namespace TikzEdt
             CommandBindings.Add(TheVM.OpenCommandBinding);
             CommandBindings.Add(TheVM.SaveCommandBinding);
             CommandBindings.Add(TheVM.SaveAsCommandBinding);
+
+            //ICSharpCode.AvalonEdit.Document.TextDocument doc; doc.
             
             CommandBinding CommentCommandBinding = new CommandBinding(CommentCommand, CommentCommandHandler, AlwaysTrue);
             CommandBinding UnCommentCommandBinding = new CommandBinding(UnCommentCommand, UnCommentCommandHandler, AlwaysTrue);
