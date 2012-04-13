@@ -125,15 +125,15 @@ namespace TikzEdt
 
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {
-                TheModel = new TikzDisplayModel<BitmapSource>(this,
-                    (b) =>
+                TheModel = new TikzDisplayModel<BitmapSource>(this, new PdfToBmpExtWPF());
+                   /* (b) =>
                     {
                         if (b == null) return null;
                         BitmapSource bmps = PdfToBmp.GetBitmapSourceFromBitmap(b);
                         if (bmps != null)
                             bmps.Freeze();  // this is important because we want to access it in a different thread
                         return bmps;
-                    });
+                    });*/
 
                 image1.DataContext = TheModel;
                 lblUnavailable.DataContext = TheModel;

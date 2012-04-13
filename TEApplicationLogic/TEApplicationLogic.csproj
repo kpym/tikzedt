@@ -83,6 +83,7 @@
     <Compile Include="Helper.cs" />
     <Compile Include="OverlayToolType.cs" />
     <Compile Include="PdfToBmp.cs" />
+    <Compile Include="PdfToBmpExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RasterControlModel.cs" />
     <Compile Include="TikzDisplayModel.cs" />

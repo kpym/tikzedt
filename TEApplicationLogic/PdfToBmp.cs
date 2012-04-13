@@ -25,7 +25,7 @@ namespace TikzEdt
 /// The job of this class is to load a pdf file and render it into bitmaps of
 /// possibly varying resolutions. Internally it uses pdflibnet. to do the conversion.
 /// </summary>
-    public class PdfToBmp
+    public class PdfToBmp : IPdfToBmp<Bitmap>
     {
         /// <summary>
         /// Holds the pdflibnet PdfWrapper, which does the conversion.
