@@ -202,19 +202,19 @@ namespace TikzEdt.ViewModels
                 doc = new TEDocumentVM(this, Compiler, cFile);
                 //doc.OnClose += new EventHandler(doc_OnClose);
                // TEDocumentView view = new TEDocumentView(doc);
-                doc.OnSaved += ( (s, e) => GlobalUI.RaiseRecentFileEvent(s, (s as TEDocumentVM).FilePath, true) );
+                doc.OnSaved += ((s, e) => GlobalUI.UI.RaiseRecentFileEvent(s, (s as TEDocumentVM).FilePath, true));
                 //Documents.Insert(0, view);
                 //ActiveView = view;
                 if (cFile != null)
-                    GlobalUI.RaiseRecentFileEvent(doc, cFile, true);
+                    GlobalUI.UI.RaiseRecentFileEvent(doc, cFile, true);
 
                 TheDocument = doc;
             }
             catch (Exception ex)
             {
-                GlobalUI.ShowMessageBox(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                GlobalUI.UI.ShowMessageBox(ex.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Warning);
                 if (cFile != null)
-                    GlobalUI.RaiseRecentFileEvent(this, cFile, false);
+                    GlobalUI.UI.RaiseRecentFileEvent(this, cFile, false);
             }
         }
 
@@ -234,7 +234,7 @@ namespace TikzEdt.ViewModels
                 if (TheDocument == null || TheDocument.TryDisposeFile())
                 {
                     TheDocument = new TEDocumentVM(this, Compiler);
-                    TheDocument.OnSaved += ((s, args) => GlobalUI.RaiseRecentFileEvent(s, (s as TEDocumentVM).FilePath, true));
+                    TheDocument.OnSaved += ((s, args) => GlobalUI.UI.RaiseRecentFileEvent(s, (s as TEDocumentVM).FilePath, true));
                 }
             }
 
@@ -256,7 +256,7 @@ namespace TikzEdt.ViewModels
             }
             catch (Exception )
             {
-                GlobalUI.ShowMessageBox("Error: Couldn't start new instance of TikzEdt. (exe path read was: " + exe_location + ".", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                GlobalUI.UI.ShowMessageBox("Error: Couldn't start new instance of TikzEdt. (exe path read was: " + exe_location + ".", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
         }
 
@@ -269,8 +269,8 @@ namespace TikzEdt.ViewModels
         {
             string filename;
             if (e.Parameter != null)
-            {                
-                if (GlobalUI.ShowOpenFileDialog(out filename) == true)
+            {
+                if (GlobalUI.UI.ShowOpenFileDialog(out filename) == true)
                 {
                     // open a new instance
                     StartNewTEInstance("\""+filename+"\"");
@@ -279,7 +279,7 @@ namespace TikzEdt.ViewModels
             else
             {
                 if (TheDocument == null || TheDocument.TryDisposeFile())
-                    if (GlobalUI.ShowOpenFileDialog(out filename) == true)
+                    if (GlobalUI.UI.ShowOpenFileDialog(out filename) == true)
                        LoadFile(filename);
             }
         }

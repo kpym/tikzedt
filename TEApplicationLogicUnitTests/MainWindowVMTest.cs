@@ -11,6 +11,7 @@ using System.Threading;
 using System.Security.Permissions;
 using System.Windows.Threading;
 using TESharedComponents;
+using System.Windows.Forms;
 
 namespace TEApplicationLogicUnitTests
 {
@@ -51,9 +52,12 @@ namespace TEApplicationLogicUnitTests
         public static void MyClassInitialize(TestContext testContext)
         {
             Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
-            GlobalUI.OnGlobalStatus += (s,e) => Debug.WriteLine("*** "+e.StatusLine);
+            GlobalUI.UI = GlobUI = new GlobalUIMock();
+            GlobalUI.UI.OnGlobalStatus += (s,e) => Debug.WriteLine("*** "+e.StatusLine);
             MyBackgroundWorker.IsSynchronous = true;
         }
+
+        static GlobalUIMock GlobUI;
         
         //Use ClassCleanup to run code after all tests in a class have run
         //[ClassCleanup()]
@@ -111,11 +115,11 @@ namespace TEApplicationLogicUnitTests
 
             // create a new file 
             ApplicationCommands.New.Execute(null, dummy);
-            GlobalUI.LastMessage = "";
-            GlobalUI.MockResult = MessageBoxResult.Cancel;
+            GlobUI.LastMessage = "";
+            GlobUI.MockResult = DialogResult.Cancel;
             // create a new file again, the file was not changed, so the use should not be asked to save
             ApplicationCommands.New.Execute(null, dummy);
-            Assert.AreEqual(GlobalUI.LastMessage, "");
+            Assert.AreEqual(GlobUI.LastMessage, "");
             //Application.DoEvents();
         //    Thread.Sleep(1000);
             //DispatcherUtil.DoEvents();
@@ -130,7 +134,7 @@ namespace TEApplicationLogicUnitTests
             // try to override again
             ApplicationCommands.New.Execute(null, dummy);
             // now a messagebox must have been shown, and the file contents should be unchanged
-            Assert.IsTrue(GlobalUI.LastMessage != "");
+            Assert.IsTrue(GlobUI.LastMessage != "");
             Assert.AreEqual(target.TheDocument.Document.Text, oldText);
 
         //    Thread.Sleep(1000);
@@ -144,8 +148,8 @@ namespace TEApplicationLogicUnitTests
        //     Thread.Sleep(1000);
            // DispatcherUtil.DoEvents();
 
-            GlobalUI.MockFileDialogFileName = filename;
-            GlobalUI.MockFileDialogResult = true;
+            GlobUI.MockFileDialogFileName = filename;
+            GlobUI.MockFileDialogResult = true;
             ApplicationCommands.SaveAs.Execute(null, dummy);
             Assert.IsTrue(File.Exists(filename));
 
@@ -161,7 +165,7 @@ namespace TEApplicationLogicUnitTests
             //Assert.IsFalse(File.Exists("temp.tex.preview.aux"));
             
             // change file on disk... change should be detected, and user asked to reload file
-            GlobalUI.MockResult = MessageBoxResult.Yes; // reload the file
+            GlobUI.MockResult = DialogResult.Yes; // reload the file
             File.WriteAllText(filename, "\\begin{tikzpicture} \r\n blabla\r\n \\end{tikzpicture}");
             System.Threading.Thread.Sleep(1000);
             DispatcherUtil.DoEvents();

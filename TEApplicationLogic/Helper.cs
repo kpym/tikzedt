@@ -18,16 +18,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-//using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-//using System.Windows.Shapes;
-//using System.Drawing;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Threading;
@@ -388,34 +378,6 @@ namespace TikzEdt
             return ".tex";
         }
 
-       /* public static void GeneratePrecompiledHeaders()
-        {
-            //StreamWriter s = new StreamWriter(Consts.cTempImgFile + "pre.tex");
-            //s.WriteLine(Consts.ImgHeader);
-            //s.Close();bool ImgHeader=false
-
-            //System.Diagnostics.Process p = new System.Diagnostics.Process();
-            //System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("latex");
-            //psi.Arguments = Consts.precompilation_args_img;
-            //psi.CreateNoWindow = true;
-            //p.StartInfo = psi;
-            //p.Start();
-            
-            StreamWriter s = new StreamWriter(Consts.cTempFile + "pre.tex");
-            s.WriteLine(Properties.Settings.Default.Tex_Preamble);
-            s.Close();
-
-            System.Diagnostics.Process p = new System.Diagnostics.Process();
-            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("pdflatex");
-            psi.Arguments = Consts.precompilation_args;
-            psi.CreateNoWindow = true;
-            p.StartInfo = psi;
-            //p.Exited +=new EventHandler(Helper.precompilation_Exited);
-            //needs non-static callback function.
-            //however, since this function is static it cannot reach anything non-static.
-            p.Start();
-        } */
-
         public static string RemoveFileExtension(string file)
         {
             if (file == null)
@@ -500,6 +462,7 @@ namespace TikzEdt
             return Math.Atan2(M.m[1, 0], M.m[0, 0]);
         }
 
+        /* */
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         public static extern int GetShortPathName(
             [MarshalAs(UnmanagedType.LPTStr)]
@@ -509,133 +472,16 @@ namespace TikzEdt
             int shortPathLength
             );
 
+        
         public static string LongPathToShort(string LongPath)
         {
             StringBuilder shortPath = new StringBuilder(255);
             GetShortPathName(LongPath, shortPath, shortPath.Capacity);
             return shortPath.ToString();
-        }
+        } 
+         
     }
      
-
-    /// <summary>
-    /// The purpose of this class is to channel the (limited) Viewmodel user interaction,
-    /// so that the viewmodel can be tested in unit tests.
-    /// 
-    /// Also acts as mediator with the main window
-    /// </summary>
-    public static class GlobalUI
-    {
-
-        /// <summary>
-        /// For unit testing the IO, set this to the desired result. 
-        /// Otherwise leave null, then a modal message box is displayed.
-        /// </summary>
-        public static MessageBoxResult? MockResult = null;
-        public static string LastMessage = ""; // stores the last messagebox text for testing
-        public static Window MessageBoxOwner;        
-        public static MessageBoxResult ShowMessageBox(string Text, string Caption, MessageBoxButton Button, MessageBoxImage Icon)
-        {
-            if (MockResult == null)
-                return MessageBox.Show(MessageBoxOwner, Text, Caption, Button, Icon);
-            else
-            {
-                LastMessage = Text;
-                return (MessageBoxResult)MockResult;
-            }
-        }
-
-        /// <summary>
-        /// To enable unit testing, queries for filenames by the viewmodels are channeled through these methods
-        /// </summary>
-        public static bool? MockFileDialogResult = null;
-        public static string MockFileDialogFileName = null;
-        public static bool? ShowOpenFileDialog(out string FileName, string Filter = Consts.StdFileDialogFilter)
-        {
-            if (MockFileDialogFileName == null)
-            {
-                ofd.InitialDirectory = Directory.GetCurrentDirectory();
-                ofd.Filter = Filter;
-                bool? ret = ofd.ShowDialog();
-                FileName = ofd.FileName;
-                return ret;
-            }
-            else
-            {
-                FileName = MockFileDialogFileName;
-                return MockFileDialogResult;
-            }
-                
-        }
-        public static bool? ShowSaveFileDialog(out string FileName, string InitFilename, string Filter = Consts.StdFileDialogFilter)
-        {
-            if (MockFileDialogFileName == null)
-            {
-                sfd.InitialDirectory = Directory.GetCurrentDirectory();
-                sfd.FileName = InitFilename;
-                sfd.Filter = Filter;
-                bool? ret = sfd.ShowDialog();
-                FileName = sfd.FileName;
-                return ret;
-            }
-            else
-            {
-                FileName = MockFileDialogFileName;
-                return MockFileDialogResult;
-            }
-        }
-        static OpenFileDialog ofd = new OpenFileDialog() { CheckFileExists=true, CheckPathExists=true };
-        static SaveFileDialog sfd = new SaveFileDialog() { OverwritePrompt=true, ValidateNames = true, AddExtension = true };
-
-
-        # region Events (mediator part)
-        public class RecentFileEventData : EventArgs
-        {
-            public string FileName;
-            public bool IsInsert; // if false it means the file should be removed
-        }
-        public static event EventHandler<RecentFileEventData> OnRecentFileEvent;
-        public class GlobalStatusEventData : EventArgs
-        {
-            public string StatusLine;
-            public bool IsError;
-        }
-        public static event EventHandler<GlobalStatusEventData> OnGlobalStatus;
-        public class ExportCompileEventData : EventArgs
-        {
-            public string Code;
-            public string File;
-        }
-        public static event EventHandler<ExportCompileEventData> OnExportCompile;
-
-
-        public static void AddStatusLine(object sender, string line, bool error=false)
-        {
-            if (OnGlobalStatus != null)
-                OnGlobalStatus(sender, new GlobalStatusEventData() { StatusLine=line, IsError=error });
-        }
-
-        public static void RaiseRecentFileEvent(object sender, string file, bool insert)
-        {
-            if (OnRecentFileEvent != null)
-                OnRecentFileEvent(sender, new RecentFileEventData() { FileName = file, IsInsert = insert });
-        }
-
-        public static void ShowExportCompileDialog(object sender, string code, string file)
-        {
-            if (OnExportCompile != null)
-                OnExportCompile(sender, new ExportCompileEventData() { File = file, Code = code });
-        }
-        #endregion
-
-        public static MessageBoxResult ShowInputDialog(string Title, string Message, out string Text)
-        {
-            return TESharedComponents.InputMessageBox.ShowInputDialog(Title, Message, out Text);
-
-            //Text = "";
-            //return MessageBoxResult.Cancel;
-        }
-    }
 
     /// <summary>
     /// Since we are in an assembly different from the main one, we cannot directly access the application settings (w/o doing a hack at least).

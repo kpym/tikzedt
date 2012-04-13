@@ -33,6 +33,9 @@ namespace TikzEdt
             if (!e.Args.Contains("-h"))
                 RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;            
 
+            // Set Global UI service
+            GlobalUI.UI = new GlobalUIWPF();
+
             // set application data path and settings path          
             if (e.Args.Contains("-p") || e.Args.Contains("--portable"))
             {

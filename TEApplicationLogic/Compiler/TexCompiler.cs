@@ -20,22 +20,16 @@ using System.Text;
 using System.Windows;
 //using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 //using System.Windows.Shapes;
 //using System.Drawing;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Threading;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using SmartWeakEvent;
 using TESharedComponents;
+using System.Windows.Forms;
 
 namespace TikzEdt
 {
@@ -323,7 +317,7 @@ namespace TikzEdt
             catch (ThreadAbortException)
             {
                 // process terminated by user
-                GlobalUI.AddStatusLine(this, "PdfLatex: process terminated by user.", true);
+                GlobalUI.UI.AddStatusLine(this, "PdfLatex: process terminated by user.", true);
             }
             finally
             {
@@ -545,7 +539,7 @@ namespace TikzEdt
 
                                 string PreviewEnvCode = Environment.NewLine + @"\usepackage[active,tightpage]{preview}" + Environment.NewLine
                                                         + @"\PreviewEnvironment{tikzpicture}";// +Environment.NewLine + Environment.NewLine;
-                                GlobalUI.AddStatusLine(this, "Warning: No PreviewEnvironment code found, overlay might be misaligned. Insert:"
+                                GlobalUI.UI.AddStatusLine(this, "Warning: No PreviewEnvironment code found, overlay might be misaligned. Insert:"
                                       + PreviewEnvCode);
                                 /*int PosBeginDoc = ((MainWindow)Application.Current.Windows[0]).txtCode.Text.IndexOf(@"\begin{document}");
                         
@@ -603,7 +597,7 @@ namespace TikzEdt
                 //texProcess.StartInfo.Arguments = "-ini -jobname=\"" + job.name
                 //    + "\" \"&pdflatex " + System.IO.Path.GetFileName(job.path) + "\\dump\"";          
 
-                GlobalUI.AddStatusLine(this, "compiling header... " + job.path);
+                GlobalUI.UI.AddStatusLine(this, "compiling header... " + job.path);
             }
             else
             {
@@ -661,8 +655,8 @@ namespace TikzEdt
                 SetCompiling(false);
                 _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Cannot find pdf compiler pdflatex. Please install and/or add to PATH variable.", Type = CompileEventType.Error });
                 _JobDone.Raise(this, new JobEventArgs(job, null, -1) );
-                GlobalUI.ShowMessageBox("It seems that you do not have Latex installed. TikzEdt cannot work without Latex. Please download a Latex distribution, e.g., MikTeX or TexLive. "+
-                    "If you did install it, please check that pdflatex is in the %PATH% or that the path in the settings is set correctly.", "Error running pdflatex",  MessageBoxButton.OK, MessageBoxImage.Error);
+                GlobalUI.UI.ShowMessageBox("It seems that you do not have Latex installed. TikzEdt cannot work without Latex. Please download a Latex distribution, e.g., MikTeX or TexLive. " +
+                    "If you did install it, please check that pdflatex is in the %PATH% or that the path in the settings is set correctly.", "Error running pdflatex",  MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
         }
@@ -711,12 +705,12 @@ namespace TikzEdt
 
             if (InstallingPacket == false)
             {
-                GlobalUI.AddStatusLine(this, "Timeout. Compilation aborted", true);
+                GlobalUI.UI.AddStatusLine(this, "Timeout. Compilation aborted", true);
                 AbortCompilation();
             }
             else 
             {
-                GlobalUI.AddStatusLine(this, "Please wait. pdflatex seems to be installing some required package.");
+                GlobalUI.UI.AddStatusLine(this, "Please wait. pdflatex seems to be installing some required package.");
             }
         }
   /*        /// <summary>
@@ -835,12 +829,12 @@ namespace TikzEdt
                     if (!mypdfDoc.LoadPdf(pathnoext + ".pdf"))
                     {
                         //GlobalUI.ShowMessageBox("Couldn't load pdf " + pathnoext + ".pdf", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        GlobalUI.AddStatusLine(this, "Couldn't load pdf " + pathnoext + ".pdf", true);
+                        GlobalUI.UI.AddStatusLine(this, "Couldn't load pdf " + pathnoext + ".pdf", true);
                     }
                     else if (mypdfDoc.IsEmpty())
                     {
                        // MessageBox.Show("Image is empty. Did you fill out the sample code block?" public static MessageBoxResult ShowMessageBox);
-                        GlobalUI.AddStatusLine(this, "Image is empty. Did you fill out the sample code block?");
+                        GlobalUI.UI.AddStatusLine(this, "Image is empty. Did you fill out the sample code block?");
                     }
                     else
                     {
@@ -1044,7 +1038,7 @@ namespace TikzEdt
             {
                 string msg = "Compilation of the Codesnippet-Thumbnail " + e.job.path + " (" + e.job.name + ") failed.\r\nPlease re-check the code.";
                 msg += Environment.NewLine + Environment.NewLine + "cmdline: " + e.job.cmdline;
-                GlobalUI.AddStatusLine(null, msg, true);
+                GlobalUI.UI.AddStatusLine(null, msg, true);
             }
         }
 

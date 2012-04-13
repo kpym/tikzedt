@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:myEditor="clr-namespace:TikzEdt.Editor;assembly=TextEditorEx"
              xmlns:myApp="clr-namespace:TikzEdt;assembly=TEApplicationLogic"
-             xmlns:myC="clr-namespace:TikzEdt;assembly=TESharedComponents"
+             xmlns:myC="clr-namespace:TikzEdt;assembly=WpfSpecificComponents"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" >
     <UserControl.Resources>

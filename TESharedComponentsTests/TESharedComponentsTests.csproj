@@ -79,6 +79,10 @@
       <Project>{67D51221-DEBE-4A44-9C67-F09DEAA69368}</Project>
       <Name>TESharedComponents</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WpfSpecificComponents\WpfSpecificComponents.csproj">
+      <Project>{09025834-E5F7-4D1A-A2B7-130E4C45BE13}</Project>
+      <Name>WpfSpecificComponents</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

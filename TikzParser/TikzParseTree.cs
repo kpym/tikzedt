@@ -22,7 +22,6 @@ using System.Windows;
 
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
-using System.Windows.Media;
 
 namespace TikzEdt.Parser
 {
@@ -124,12 +123,6 @@ namespace TikzEdt.Parser
             return M;
         }
 
-        public Matrix ToWpfMatrix()
-        {
-            // Which is correct? I think the first
-            return new Matrix(m[0, 0], m[1, 0], m[0, 1], m[1, 1], m[0, 2], m[1, 2]);
-            //return new Matrix(m[0, 0], m[0, 1], m[1, 0], m[1, 1], m[0, 2], m[1, 2]);
-        }
     }
 
 

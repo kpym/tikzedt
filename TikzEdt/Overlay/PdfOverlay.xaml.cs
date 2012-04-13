@@ -249,6 +249,25 @@ namespace TikzEdt
             set { SetValue(toolProperty, value); }
         }
 
+        public OverlayShape ObjectAtCursor { get { return ObjectAtPosition(Mouse.GetPosition(canvas1)); } }
+
+        public bool MouseCaptured
+        {
+            set
+            {
+                if (value && !canvas1.IsMouseCaptured)
+                    canvas1.CaptureMouse();
+                if (!value && canvas1.IsMouseCaptured)
+                    canvas1.ReleaseMouseCapture();
+            }
+        }
+
+
+        public Point CursorPosition
+        {
+            get { return Mouse.GetPosition(canvas1); }
+        }
+
         #endregion
 
         #region MarkObjectAt
@@ -289,14 +308,16 @@ namespace TikzEdt
         }
         #endregion
 
-        /// <summary>
+
+   /*     /// <summary>
         ///  Resets the current tool to the default (= the move tool).
         /// </summary>
-        public void ActivateDefaultTool()
+        private void ActivateDefaultTool()
         {
             TheModel.ActivateDefaultTool();
         }
-        
+       */ 
+
         public PdfOverlay()
         {          
             InitializeComponent();
@@ -313,6 +334,8 @@ namespace TikzEdt
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, PasteCommandHandler));
             
         }
+
+        #region Commandhandlers
 
         void DeleteCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
@@ -331,12 +354,15 @@ namespace TikzEdt
             MessageBox.Show("Pasting in the WYSIWYG part is not supported. Please paste directly into the text editor on the left.", "Paste", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
+        #endregion
+
+        /* 
         /// <summary>
         /// Sets the current parsetree and updates the overlay.
         /// </summary>
         /// <param name="t">The new parsetree.</param>
         /// <param name="tBB">The new bounding box.</param>
-  /*      public void SetParseTree(Tikz_ParseTree t, Rect tBB)
+       public void SetParseTree(Tikz_ParseTree t, Rect tBB)
         {
             BB = tBB;
             ParseTree = t;
@@ -346,43 +372,15 @@ namespace TikzEdt
             RedrawObjects();
         } */
 
-        /// <summary>
-        /// Packages the Mouse event arguments into UI framework independent format.
-        /// </summary>
-        /// <param name="e"></param>
-        /// <returns></returns>
-        private TEMouseArgs MouseEventArgsToState(MouseEventArgs e)
-        {
-            return new TEMouseArgs() { LeftButtonPressed = (e.LeftButton == MouseButtonState.Pressed),
-                                      RightButtonPressed = (e.RightButton == MouseButtonState.Pressed),
-                                      MiddleButtonPressed = (e.MiddleButton == MouseButtonState.Pressed),
-                                      Handled = e.Handled,
-                                      ClickCount = -1
-            };
-        }
-        private TEMouseArgs MouseButtonEventArgsToState(MouseButtonEventArgs e)
-        {
-            TEMouseArgs ee = MouseEventArgsToState(e);
-            ee.ClickCount = e.ClickCount;
-            return ee;
-        }
 
-        private TEKeyArgs KeyEventArgsToTEKeyArgs(KeyEventArgs e)
-        {
-            return new TEKeyArgs()
-            {
-                Handled = e.Handled,
-                KeyCode = (System.Windows.Forms.Keys)KeyInterop.VirtualKeyFromKey(e.Key),
-            };
-        }
-
+        #region Events forwarded to Current tool
         private void canvas1_MouseMove(object sender, MouseEventArgs e)
         {
             Point mousep = e.GetPosition(canvas1);
             // convert to bottom left coordinates
             Point p = new Point(mousep.X, Height - mousep.Y);
 
-            TEMouseArgs ee = MouseEventArgsToState(e);
+            TEMouseArgs ee = e.ToTEMouseArgs();
             TheModel.CurrentTool.OnMouseMove(p, ee);
             e.Handled = ee.Handled;
 
@@ -406,7 +404,7 @@ namespace TikzEdt
             // call left down-method in the current tool
             Point mousep = e.GetPosition(canvas1);
             var oo = ObjectAtPosition(mousep);
-            TEMouseArgs ee = MouseButtonEventArgsToState(e);
+            TEMouseArgs ee = e.ToTEMouseArgs();
             TheModel.CurrentTool.OnLeftMouseButtonDown(oo, new Point(mousep.X, Height - mousep.Y), ee);
             e.Handled = ee.Handled;
         }
@@ -418,12 +416,233 @@ namespace TikzEdt
             if (canvas1.IsMouseCaptured)
                 canvas1.ReleaseMouseCapture();  // release mouse capture here to make sure the tools cannot forget
             Point mousep = e.GetPosition(canvas1);
-            TEMouseArgs ee = MouseButtonEventArgsToState(e);
+            TEMouseArgs ee = e.ToTEMouseArgs();
             TheModel.CurrentTool.OnLeftMouseButtonUp(new Point(mousep.X, Height - mousep.Y), ee);
             e.Handled = ee.Handled;
         }
 
+        /// <summary>
+        /// The standard handling of right click is as follows (with this priority): 
+        ///   1. The current tool uses the click.
+        ///   2. Set the tool to the standard tool (move)
+        ///   3. Deselect the CurEditing item.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void canvas1_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // call right down-method in the current tool
+            Point mousep = e.GetPosition(canvas1);
+            var oo = ObjectAtPosition(mousep);
+            TEMouseArgs ee = e.ToTEMouseArgs();
+            TheModel.CurrentTool.OnRightMouseButtonDown(oo, new Point(mousep.X, Height - mousep.Y), ee);
+            e.Handled = ee.Handled;
 
+            // if the tool didn't use the click-> proceed with standard handling
+            if (!e.Handled)
+            {
+                if (Tool == OverlayToolType.move)
+                {
+                    //canvas1.ContextMenu.IsEnabled = true;
+                    if (TheModel.CurEditing != null)
+                    {
+                        TheModel.CurEditing = null;
+                        PreventContextMenuOpening = true;
+                    }
+                }
+                else
+                {
+                    Tool = OverlayToolType.move;
+                    PreventContextMenuOpening = true;
+                }
+            }
+            else
+                PreventContextMenuOpening = true;
+        }
+
+        private void canvas1_KeyDown(object sender, KeyEventArgs e)
+        {
+            // route event to current tool
+            TEKeyArgs ee = e.ToTEKeyArgs();
+            TheModel.CurrentTool.KeyDown(ee);
+            e.Handled = ee.Handled;
+
+            // turn off raster on Alt
+            Rasterizer.View.OverrideWithZeroGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
+            Rasterizer.View.OverrideWithHalfGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
+
+            if (e.Key == Key.LeftAlt || e.Key == Key.RightAlt)
+                e.Handled = true;
+
+            if (!e.Handled)
+            {
+                // escape cancels current operation
+                if (e.Key == Key.Escape)
+                    TheModel.ActivateDefaultTool();
+
+            }
+
+        }
+
+        private void canvas1_KeyUp(object sender, KeyEventArgs e)
+        {
+            // route event to current tool
+            TEKeyArgs ee = e.ToTEKeyArgs();
+            TheModel.CurrentTool.KeyUp(ee);
+            e.Handled = ee.Handled;
+
+            // turn on raster on Alt released
+            Rasterizer.View.OverrideWithZeroGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
+            Rasterizer.View.OverrideWithHalfGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
+
+            if (e.Key == Key.LeftAlt || e.Key == Key.RightAlt)
+                e.Handled = true;
+        }
+
+        #endregion
+
+ 
+
+        #region IPdfOverlayView Methods
+
+        void IPdfOverlayView.Clear()
+        {
+            canvas1.Children.Clear();
+        }
+
+        void IPdfOverlayView.SetCursor(System.Windows.Forms.Cursor cursor)
+        {
+            Cursor c;
+            if (cursor == System.Windows.Forms.Cursors.Arrow) c = Cursors.Arrow;
+            else if (cursor == System.Windows.Forms.Cursors.Hand) c = Cursors.Hand;
+            else if (cursor == System.Windows.Forms.Cursors.UpArrow) c = Cursors.UpArrow;
+            else if (cursor == System.Windows.Forms.Cursors.Cross) c = Cursors.Cross;
+            else if (cursor == System.Windows.Forms.Cursors.No) c = Cursors.No;
+            else throw new NotImplementedException();
+
+            canvas1.Cursor = c;
+        }
+
+        void IPdfOverlayView.JumpToSourceDoIt(OverlayShape o)
+        {
+            if (JumpToSource != null)
+            {
+                TikzParseItem tpi = o.item;
+                if (tpi != null)
+                    JumpToSource(this, new JumpToSourceEventArgs() { JumpToPos = tpi.StartPosition(), SelectionLength = tpi.Length });
+            }
+        }
+
+        #endregion
+
+        #region IOverlayShapeFactory
+
+        Overlay.IOverlayShapeView Overlay.IOverlayShapeFactory.NewNodeView()
+        {
+            OverlayNodeView v = new OverlayNodeView();
+            canvas1.Children.Add(v);
+            return v;
+        }
+
+        Overlay.IOverlayScopeView Overlay.IOverlayShapeFactory.NewScopeView()
+        {
+            OverlayScopeView v = new OverlayScopeView();
+            canvas1.Children.Add(v);
+            return v;
+        }
+
+        Overlay.IOverlayCPView Overlay.IOverlayShapeFactory.NewCPView()
+        {
+            OverlayCPView v = new OverlayCPView();
+            canvas1.Children.Add(v);
+            canvas1.Children.Add(v.lineToOrigin1);
+            canvas1.Children.Add(v.lineToOrigin2);
+            return v;
+        }
+
+        IRectangleShape IOverlayShapeFactory.GetSelectionRect()
+        {
+            WPFRectangleShape<Rectangle> SelectionRect = new WPFRectangleShape<Rectangle>(canvas1);
+
+            SelectionRect.TheShape.Stroke = Brushes.Blue;
+            SelectionRect.TheShape.StrokeThickness = 1;
+            SelectionRect.TheShape.Visibility = Visibility.Collapsed;
+            SelectionRect.TheShape.Fill = new SolidColorBrush(Color.FromArgb(0x23, 0x00, 0x8A, 0xCA));
+            SelectionRect.TheShape.Fill.Freeze();
+            return SelectionRect;
+        }
+
+        IRectangleShape IOverlayShapeFactory.GetCPCircle()
+        {
+            WPFRectangleShape<Ellipse> e = new WPFRectangleShape<Ellipse>(canvas1);
+            e.TheShape.Width = e.TheShape.Height = 10;
+            e.TheShape.Stroke = Brushes.Red;
+            e.TheShape.Fill = Brushes.Gray;
+            return e;
+        }
+
+        IRectangleShape IOverlayShapeFactory.GetPreviewEllipse()
+        {
+            WPFRectangleShape<Ellipse> PreviewEllipse = new WPFRectangleShape<Ellipse>(canvas1);
+            PreviewEllipse.TheShape.Stroke = Brushes.Black;
+            return PreviewEllipse;
+        }
+
+        IRectangleShape IOverlayShapeFactory.GetPreviewRectangle()
+        {
+            WPFRectangleShape<Rectangle> PreviewRect = new WPFRectangleShape<Rectangle>(canvas1);
+            PreviewRect.TheShape.Stroke = Brushes.Black;
+            return PreviewRect;
+        }
+
+        IFanShape IOverlayShapeFactory.GetPreviewFan()
+        {
+            WPFFanshape PreviewArc = new WPFFanshape(canvas1);
+            PreviewArc.TheShape.Stroke = Brushes.Black;
+            PreviewArc.TheShape.StrokeDashArray = new DoubleCollection(new double[] { 4, 4 });
+            return PreviewArc;
+        }
+
+        IRectangleShape IOverlayShapeFactory.GetPreviewGrid()
+        {
+            WPFRectangleShape<PreviewGridShape> PreviewRect = new WPFRectangleShape<PreviewGridShape>(canvas1);
+            PreviewRect.TheShape.Stroke = Brushes.Black;
+            return PreviewRect;
+        }
+
+        IArcShape IOverlayShapeFactory.GetPreviewArc()
+        {
+            WPFArcShape PreviewArc = new WPFArcShape(canvas1);
+            PreviewArc.TheShape.Stroke = Brushes.Black;
+            return PreviewArc;
+        }
+
+        IArcShape IOverlayShapeFactory.GetPreviewPie()
+        {
+            WPFArcShape PreviewPie = new WPFArcShape(canvas1);
+            PreviewPie.TheShape.Stroke = Brushes.Black;
+            PreviewPie.TheShape.IsPie = true;
+            return PreviewPie;
+        }
+
+#endregion
+
+        /// <summary>
+        /// Finds the OverlayShape corresponding to the View at the specified point.
+        /// </summary>
+        /// <param name="p">The point, in top left centric coordinates.</param>
+        /// <returns></returns>
+        private OverlayShape ObjectAtPosition(Point p)
+        {
+            var o = canvas1.InputHitTest(p);
+            var oo = o as IOverlayShapeView;
+            if (oo == null)
+                return null;
+            else return oo.TheUnderlyingShape;
+
+        }
+
+        /* */
         /// <summary>
         /// Raises the Jumptosource event.
         /// Note that the object to be jumped to might not be at the current mouse position.
@@ -442,18 +661,10 @@ namespace TikzEdt
 
             if (mnuJumpSource.Tag != null)
             {
-                JumpToSourceDoIt(mnuJumpSource.Tag as OverlayShape);
+                TheModel.JumpToSourceDoIt(mnuJumpSource.Tag as OverlayShape);
             }
         }
-        public void JumpToSourceDoIt(OverlayShape o)
-        {
-            if (JumpToSource != null)
-            {
-                TikzParseItem tpi = o.item; 
-                if (tpi != null)
-                    JumpToSource(this, new JumpToSourceEventArgs() { JumpToPos = tpi.StartPosition(), SelectionLength = tpi.Length });
-            }
-        }
+
         private void contextmenuClick(object sender, RoutedEventArgs e)
         {
             if (sender == mnuMove)
@@ -503,7 +714,7 @@ namespace TikzEdt
             mnuAddEdge.IsChecked = (Tool == OverlayToolType.addedge);
             mnuAddPath.IsChecked = (Tool == OverlayToolType.addpath);
 
-            
+
             var o = ObjectAtCursor;
 
             // some commands in the context menu (Jump to source, editing) operate on the object at mouse position
@@ -514,101 +725,23 @@ namespace TikzEdt
             mnuEdit.IsEnabled = (o is OverlayScope);
         }
 
-        /// <summary>
-        /// The standard handling of right click is as follows (with this priority): 
-        ///   1. The current tool uses the click.
-        ///   2. Set the tool to the standard tool (move)
-        ///   3. Deselect the CurEditing item.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void canvas1_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            // call right down-method in the current tool
-            Point mousep = e.GetPosition(canvas1);
-            var oo = ObjectAtPosition(mousep);
-            TEMouseArgs ee = MouseButtonEventArgsToState(e);
-            TheModel.CurrentTool.OnRightMouseButtonDown(oo, new Point(mousep.X, Height - mousep.Y), ee);
-            e.Handled = ee.Handled;
-            
-            // if the tool didn't use the click-> proceed with standard handling
-            if (!e.Handled)
-            {
-                if (Tool == OverlayToolType.move)
-                {
-                    //canvas1.ContextMenu.IsEnabled = true;
-                    if (TheModel.CurEditing != null)
-                    {
-                        TheModel.CurEditing = null;
-                        PreventContextMenuOpening = true;
-                    }
-                }
-                else
-                {
-                    Tool = OverlayToolType.move;
-                    PreventContextMenuOpening = true;
-                }
-            }
-            else 
-                PreventContextMenuOpening = true;
-        }
-
-        private void canvas1_KeyDown(object sender, KeyEventArgs e)
-        {
-            // route event to current tool
-            TEKeyArgs ee = KeyEventArgsToTEKeyArgs(e);
-            TheModel.CurrentTool.KeyDown(ee);
-            e.Handled = ee.Handled;
-
-            // turn off raster on Alt
-            Rasterizer.View.OverrideWithZeroGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
-            Rasterizer.View.OverrideWithHalfGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
-
-            if (e.Key == Key.LeftAlt || e.Key == Key.RightAlt)
-                e.Handled = true;
-
-            if (!e.Handled)
-            {
-                // escape cancels current operation
-                if (e.Key == Key.Escape)
-                    ActivateDefaultTool();
-               
-            }
-
-        }
-
-        private void canvas1_KeyUp(object sender, KeyEventArgs e)
-        {
-            // route event to current tool
-            TEKeyArgs ee = KeyEventArgsToTEKeyArgs(e);
-            TheModel.CurrentTool.KeyUp(ee);
-            e.Handled = ee.Handled;
-
-            // turn on raster on Alt released
-            Rasterizer.View.OverrideWithZeroGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
-            Rasterizer.View.OverrideWithHalfGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
-
-            if (e.Key == Key.LeftAlt || e.Key == Key.RightAlt)
-                e.Handled = true;
-        }
-
         private void mnuAssignStyle_Click(object sender, RoutedEventArgs e)
         {
             if (sender == mnuAssignCurrentNodeStyle)
-                TheModel.AssignStyle(PdfOverlayModel.AssignStyleType.AssignCurrentNodeStyle );
+                TheModel.AssignStyle(PdfOverlayModel.AssignStyleType.AssignCurrentNodeStyle);
             else if (sender == mnuAssignNewStyle)
-                TheModel.AssignStyle(PdfOverlayModel.AssignStyleType.AssignNewStyle );
+                TheModel.AssignStyle(PdfOverlayModel.AssignStyleType.AssignNewStyle);
             else if (sender == mnuChangeToCurrentNodeStyle)
-                TheModel.AssignStyle(PdfOverlayModel.AssignStyleType.ChangeToCurrentNodeStyle );
+                TheModel.AssignStyle(PdfOverlayModel.AssignStyleType.ChangeToCurrentNodeStyle);
             else if (sender == mnuChangeToNewStyle)
-                TheModel.AssignStyle(PdfOverlayModel.AssignStyleType.ChangeToNewStyle );
+                TheModel.AssignStyle(PdfOverlayModel.AssignStyleType.ChangeToNewStyle);
         }
 
         private void canvas1_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             // in case the keyboard focus is lost while alt or shift+alt pressed, the raster has to be made reappear
             Rasterizer.View.OverrideWithHalfGridWidth = false;
-            Rasterizer.View.OverrideWithZeroGridWidth = false; 
+            Rasterizer.View.OverrideWithZeroGridWidth = false;
         }
 
         private void mnuSelection_Click(object sender, RoutedEventArgs e)
@@ -622,7 +755,7 @@ namespace TikzEdt
                 return;
 
             // get codeblock text
-            string cbtext = "", cbtextE="";
+            string cbtext = "", cbtextE = "";
             foreach (var tpi in FullSelection)
                 cbtext += tpi.ToString() + Environment.NewLine;
 
@@ -670,7 +803,7 @@ namespace TikzEdt
                     // text to insert (text of selected nodes, gathered together, optionally enscoped
                     if (sender == mnuSelectionCollect)
                     {
-                        ReplacementList.Add(new ReplaceTextEventArgs.ReplaceData() 
+                        ReplacementList.Add(new ReplaceTextEventArgs.ReplaceData()
                         {
                             StartPosition = FullSelection.First().StartPosition(),
                             Length = 0,
@@ -764,160 +897,61 @@ namespace TikzEdt
 
         private void mnuCodeBlockWhatsThis_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("The Wysiwyg interface is \"aware of\" coordinates in the code, but not about other Tikz objects (rectangles etc.). "+
-                "If you mark some coordinates and press delete (for example), Tikzedt has no way to know what part of the Tikz code exactly you want to delete. "+
-                "It uses a heuristic to determine what to do."+
-                "This might or might not be waht you expect. If not, you have to undo and edit the code manually."+
+            MessageBox.Show("The Wysiwyg interface is \"aware of\" coordinates in the code, but not about other Tikz objects (rectangles etc.). " +
+                "If you mark some coordinates and press delete (for example), Tikzedt has no way to know what part of the Tikz code exactly you want to delete. " +
+                "It uses a heuristic to determine what to do." +
+                "This might or might not be waht you expect. If not, you have to undo and edit the code manually." +
                 "Note also that the Delete/Cut/Collect operations may produce a non-compiling Tikzfile, depending on what you delete/cut/collect.",
                 "This is not doing what you want?", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        public void Clear()
-        {
-            canvas1.Children.Clear();
-        }
-
-        Overlay.IOverlayShapeView Overlay.IOverlayShapeFactory.NewNodeView()
-        {
-            OverlayNodeView v = new OverlayNodeView();
-            canvas1.Children.Add(v);
-            return v;
-        }
-
-        Overlay.IOverlayScopeView Overlay.IOverlayShapeFactory.NewScopeView()
-        {
-            OverlayScopeView v = new OverlayScopeView();
-            canvas1.Children.Add(v);
-            return v;
-        }
-
-        Overlay.IOverlayCPView Overlay.IOverlayShapeFactory.NewCPView()
-        {
-            OverlayCPView v = new OverlayCPView();
-            canvas1.Children.Add(v);
-            canvas1.Children.Add(v.lineToOrigin1);
-            canvas1.Children.Add(v.lineToOrigin2);
-            return v;
-        }
-
-        IRectangleShape IOverlayShapeFactory.GetSelectionRect()
-        {
-            WPFRectangleShape<Rectangle> SelectionRect = new WPFRectangleShape<Rectangle>(canvas1);
-
-            SelectionRect.TheShape.Stroke = Brushes.Blue;
-            SelectionRect.TheShape.StrokeThickness = 1;
-            SelectionRect.TheShape.Visibility = Visibility.Collapsed;
-            SelectionRect.TheShape.Fill = new SolidColorBrush(Color.FromArgb(0x23, 0x00, 0x8A, 0xCA));
-            SelectionRect.TheShape.Fill.Freeze();
-            return SelectionRect;
-        }
-
-        /// <summary>
-        /// Finds the OverlayShape corresponding to the View at the specified point.
-        /// </summary>
-        /// <param name="p">The point, in top left centric coordinates.</param>
-        /// <returns></returns>
-        private OverlayShape ObjectAtPosition(Point p)
-        {
-            var o = canvas1.InputHitTest(p);
-            var oo = o as IOverlayShapeView;
-            if (oo == null)
-                return null;
-            else return oo.TheUnderlyingShape;
-
-        }
-
-        public OverlayShape ObjectAtCursor { get { return ObjectAtPosition(Mouse.GetPosition(canvas1)); } }
-
-        public void SetCursor(System.Windows.Forms.Cursor cursor)
-        {
-            Cursor c;
-                if (cursor == System.Windows.Forms.Cursors.Arrow) c = Cursors.Arrow; 
-                else if (cursor ==  System.Windows.Forms.Cursors.Hand) c= Cursors.Hand;
-                else if (cursor ==  System.Windows.Forms.Cursors.UpArrow) c= Cursors.UpArrow; 
-                else if (cursor ==  System.Windows.Forms.Cursors.Cross) c= Cursors.Cross;
-                else if (cursor == System.Windows.Forms.Cursors.No) c = Cursors.No;
-                else throw new NotImplementedException();
-            
-            canvas1.Cursor = c;
-        }
-
-
-        IRectangleShape IOverlayShapeFactory.GetCPCircle()
-        {
-            WPFRectangleShape<Ellipse> e = new WPFRectangleShape<Ellipse>(canvas1);
-            e.TheShape.Width = e.TheShape.Height = 10;
-            e.TheShape.Stroke = Brushes.Red;
-            e.TheShape.Fill = Brushes.Gray;
-            return e;
-        }
-
-        IRectangleShape IOverlayShapeFactory.GetPreviewEllipse()
-        {
-            WPFRectangleShape<Ellipse> PreviewEllipse = new WPFRectangleShape<Ellipse>(canvas1);
-            PreviewEllipse.TheShape.Stroke = Brushes.Black;
-            return PreviewEllipse;
-        }
-
-        IRectangleShape IOverlayShapeFactory.GetPreviewRectangle()
-        {
-            WPFRectangleShape<Rectangle> PreviewRect = new WPFRectangleShape<Rectangle>(canvas1);
-            PreviewRect.TheShape.Stroke = Brushes.Black;
-            return PreviewRect;
-        }
-
-        IFanShape IOverlayShapeFactory.GetPreviewFan()
-        {
-            WPFFanshape PreviewArc = new WPFFanshape(canvas1);
-            PreviewArc.TheShape.Stroke = Brushes.Black;
-            PreviewArc.TheShape.StrokeDashArray = new DoubleCollection(new double[] { 4, 4 });
-            return PreviewArc;
-        }
-
-        IRectangleShape IOverlayShapeFactory.GetPreviewGrid()
-        {
-            WPFRectangleShape<PreviewGridShape> PreviewRect = new WPFRectangleShape<PreviewGridShape>(canvas1);
-            PreviewRect.TheShape.Stroke = Brushes.Black;
-            return PreviewRect;
-        }
-
-
-        public bool MouseCaptured
-        {
-            set 
-            {
-                if (value && !canvas1.IsMouseCaptured)
-                    canvas1.CaptureMouse();
-                if (!value && canvas1.IsMouseCaptured)
-                    canvas1.ReleaseMouseCapture();
-            }
-        }
-
-
-        public Point CursorPosition
-        {
-            get { return Mouse.GetPosition(canvas1); }
-        }
-
-
-        IArcShape IOverlayShapeFactory.GetPreviewArc()
-        {
-            WPFArcShape PreviewArc = new WPFArcShape(canvas1);
-            PreviewArc.TheShape.Stroke = Brushes.Black;
-            return PreviewArc;
-        }
-
-        IArcShape IOverlayShapeFactory.GetPreviewPie()
-        {
-            WPFArcShape PreviewPie = new WPFArcShape(canvas1);
-            PreviewPie.TheShape.Stroke = Brushes.Black;
-            PreviewPie.TheShape.IsPie = true;
-            return PreviewPie;
-        }
     }
 
 
 
-    
+    public static class EventArgsConversion
+    {
+
+        /// <summary>
+        /// Packages the Mouse event arguments into UI framework independent format.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public static TEMouseArgs ToTEMouseArgs(this MouseEventArgs e)
+        {
+            return new TEMouseArgs()
+            {
+                LeftButtonPressed = (e.LeftButton == MouseButtonState.Pressed),
+                RightButtonPressed = (e.RightButton == MouseButtonState.Pressed),
+                MiddleButtonPressed = (e.MiddleButton == MouseButtonState.Pressed),
+                Handled = e.Handled,
+                ClickCount = -1
+            };
+        }
+        /// <summary>
+        /// Packages the Mouse event arguments into UI framework independent format.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public static TEMouseArgs ToTEMouseArgs(this MouseButtonEventArgs e)
+        {
+            TEMouseArgs ee = (e as MouseEventArgs).ToTEMouseArgs();
+            ee.ClickCount = e.ClickCount;
+            return ee;
+        }
+        /// <summary>
+        /// Packages the Keyboard event arguments into UI framework independent format.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public static TEKeyArgs ToTEKeyArgs(this KeyEventArgs e)
+        {
+            return new TEKeyArgs()
+            {
+                Handled = e.Handled,
+                KeyCode = (System.Windows.Forms.Keys)KeyInterop.VirtualKeyFromKey(e.Key),
+            };
+        }
+    }
 
 }

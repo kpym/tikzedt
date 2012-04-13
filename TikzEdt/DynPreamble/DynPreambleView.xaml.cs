@@ -100,7 +100,7 @@ namespace TikzEdt.DynPreamble
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (GlobalUI.ShowMessageBox("This will reload the dynamic preamble file from disk. You lose all changes. Are you sure?", "Reload Dynamic Preamble", System.Windows.MessageBoxButton.YesNoCancel, System.Windows.MessageBoxImage.Warning) == System.Windows.MessageBoxResult.Yes)
+            if (GlobalUI.UI.ShowMessageBox("This will reload the dynamic preamble file from disk. You lose all changes. Are you sure?", "Reload Dynamic Preamble", System.Windows.Forms.MessageBoxButtons.YesNoCancel, System.Windows.Forms.MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
                 TheVM.LoadPreambles(PreamblesFile);
         }
 
