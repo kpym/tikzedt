@@ -409,7 +409,7 @@ namespace TikzEdt
             // make sure a referenceable item is selected... otherwise we cannot add an edge
             if (!IsReferenceable(item))
             {
-                MainWindow.AddStatusLine("Only items that are referenceable (=can be given names) can be connected with the edge tool.");
+                GlobalUI.AddStatusLine(this, "Only items that are referenceable (=can be given names) can be connected with the edge tool.");
                 return;
             }
 

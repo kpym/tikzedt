@@ -627,6 +627,14 @@ namespace TikzEdt
                 OnExportCompile(sender, new ExportCompileEventData() { File = file, Code = code });
         }
         #endregion
+
+        public static MessageBoxResult ShowInputDialog(string Title, string Message, out string Text)
+        {
+            return TESharedComponents.InputMessageBox.ShowInputDialog(Title, Message, out Text);
+
+            //Text = "";
+            //return MessageBoxResult.Cancel;
+        }
     }
 
     /// <summary>
@@ -673,6 +681,8 @@ namespace TikzEdt
         public virtual int Compiler_Timeout { get { return 0; } }
         public virtual string Path_pdflatex { get { return "pdflatex"; } }
         public virtual string Path_htlatex { get { return "htlatex"; } }
+
+        public virtual uint RoundToDecimals { get { return 4; } }
     }
    
 

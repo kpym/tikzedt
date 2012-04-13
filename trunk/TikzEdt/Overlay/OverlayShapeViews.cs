@@ -164,7 +164,7 @@ namespace TikzEdt
             }
         }
 
-        public void SetPosition(double left, double bottom, bool Relative=false)
+        public override void SetPosition(double left, double bottom, bool Relative=false)
         {
             if (Relative)
             {

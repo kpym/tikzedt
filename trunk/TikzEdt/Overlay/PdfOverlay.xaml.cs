@@ -147,6 +147,8 @@ namespace TikzEdt
         /// This property determines when the overlay can be edited by the user.
         /// For TikzEdt, it is should be set to false whenever the document is out of sync with the current parsetree.
         /// This happens (i) while parsing a recent change and (ii) upon parse error
+        /// 
+        /// TODO
         /// </summary>
         public bool AllowEditing
         {
@@ -216,8 +218,19 @@ namespace TikzEdt
         }
 
 
+        public TEModifierKeys KeyboardModifiers 
+        { 
+            get
+            { 
+                TEModifierKeys ret = TEModifierKeys.None;
+                if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control)) ret |= TEModifierKeys.Control;
+                if (Keyboard.Modifiers.HasFlag(ModifierKeys.Alt)) ret |= TEModifierKeys.Alt;
+                if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift)) ret |= TEModifierKeys.Shift;
+                return ret; 
+            }
+        }
 
-        public Canvas canvas { get { return canvas1; } }
+        //public Canvas canvas { get { return canvas1; } }
         
         public RasterControlModel Rasterizer { get; set; }
 
@@ -291,7 +304,7 @@ namespace TikzEdt
             TheModel = new Overlay.PdfOverlayModel(this, this); // call this after InitializeComponent() so that UI is available
 
             // allow to gain keyboard focus
-            canvas.Focusable = true;
+            canvas1.Focusable = true;
             
             // handle delete event
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Delete, DeleteCommandHandler));
@@ -333,6 +346,35 @@ namespace TikzEdt
             RedrawObjects();
         } */
 
+        /// <summary>
+        /// Packages the Mouse event arguments into UI framework independent format.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private TEMouseArgs MouseEventArgsToState(MouseEventArgs e)
+        {
+            return new TEMouseArgs() { LeftButtonPressed = (e.LeftButton == MouseButtonState.Pressed),
+                                      RightButtonPressed = (e.RightButton == MouseButtonState.Pressed),
+                                      MiddleButtonPressed = (e.MiddleButton == MouseButtonState.Pressed),
+                                      Handled = e.Handled,
+                                      ClickCount = -1
+            };
+        }
+        private TEMouseArgs MouseButtonEventArgsToState(MouseButtonEventArgs e)
+        {
+            TEMouseArgs ee = MouseEventArgsToState(e);
+            ee.ClickCount = e.ClickCount;
+            return ee;
+        }
+
+        private TEKeyArgs KeyEventArgsToTEKeyArgs(KeyEventArgs e)
+        {
+            return new TEKeyArgs()
+            {
+                Handled = e.Handled,
+                KeyCode = (System.Windows.Forms.Keys)KeyInterop.VirtualKeyFromKey(e.Key),
+            };
+        }
 
         private void canvas1_MouseMove(object sender, MouseEventArgs e)
         {
@@ -340,7 +382,10 @@ namespace TikzEdt
             // convert to bottom left coordinates
             Point p = new Point(mousep.X, Height - mousep.Y);
 
-            TheModel.CurrentTool.OnMouseMove(p, e);
+            TEMouseArgs ee = MouseEventArgsToState(e);
+            TheModel.CurrentTool.OnMouseMove(p, ee);
+            e.Handled = ee.Handled;
+
             
             // display the current mouse position
          /*   p.Y /= Resolution;
@@ -356,12 +401,14 @@ namespace TikzEdt
         private void canvas1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {            
             // for some unknown reason the focus has to be set using the dispatcher...
-            Dispatcher.BeginInvoke(new Action(delegate() { Keyboard.Focus(canvas); }));            
+            Dispatcher.BeginInvoke(new Action(delegate() { Keyboard.Focus(canvas1); }));            
             
             // call left down-method in the current tool
             Point mousep = e.GetPosition(canvas1);
             var oo = ObjectAtPosition(mousep);
-            TheModel.CurrentTool.OnLeftMouseButtonDown(oo, new Point(mousep.X, Height - mousep.Y), e);
+            TEMouseArgs ee = MouseButtonEventArgsToState(e);
+            TheModel.CurrentTool.OnLeftMouseButtonDown(oo, new Point(mousep.X, Height - mousep.Y), ee);
+            e.Handled = ee.Handled;
         }
 
 
@@ -371,8 +418,9 @@ namespace TikzEdt
             if (canvas1.IsMouseCaptured)
                 canvas1.ReleaseMouseCapture();  // release mouse capture here to make sure the tools cannot forget
             Point mousep = e.GetPosition(canvas1);
-            TheModel.CurrentTool.OnLeftMouseButtonUp(e, new Point(mousep.X, Height - mousep.Y));
-
+            TEMouseArgs ee = MouseButtonEventArgsToState(e);
+            TheModel.CurrentTool.OnLeftMouseButtonUp(new Point(mousep.X, Height - mousep.Y), ee);
+            e.Handled = ee.Handled;
         }
 
 
@@ -479,7 +527,9 @@ namespace TikzEdt
             // call right down-method in the current tool
             Point mousep = e.GetPosition(canvas1);
             var oo = ObjectAtPosition(mousep);
-            TheModel.CurrentTool.OnRightMouseButtonDown(oo, new Point(mousep.X, Height - mousep.Y), e);
+            TEMouseArgs ee = MouseButtonEventArgsToState(e);
+            TheModel.CurrentTool.OnRightMouseButtonDown(oo, new Point(mousep.X, Height - mousep.Y), ee);
+            e.Handled = ee.Handled;
             
             // if the tool didn't use the click-> proceed with standard handling
             if (!e.Handled)
@@ -506,7 +556,9 @@ namespace TikzEdt
         private void canvas1_KeyDown(object sender, KeyEventArgs e)
         {
             // route event to current tool
-            TheModel.CurrentTool.KeyDown(e);
+            TEKeyArgs ee = KeyEventArgsToTEKeyArgs(e);
+            TheModel.CurrentTool.KeyDown(ee);
+            e.Handled = ee.Handled;
 
             // turn off raster on Alt
             Rasterizer.View.OverrideWithZeroGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
@@ -528,7 +580,9 @@ namespace TikzEdt
         private void canvas1_KeyUp(object sender, KeyEventArgs e)
         {
             // route event to current tool
-            TheModel.CurrentTool.KeyUp(e);
+            TEKeyArgs ee = KeyEventArgsToTEKeyArgs(e);
+            TheModel.CurrentTool.KeyUp(ee);
+            e.Handled = ee.Handled;
 
             // turn on raster on Alt released
             Rasterizer.View.OverrideWithZeroGridWidth = Keyboard.Modifiers.HasFlag(ModifierKeys.Alt) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);

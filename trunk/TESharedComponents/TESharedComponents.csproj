@@ -68,6 +68,9 @@
     <Compile Include="CmdLineArgumentParser.cs" />
     <Compile Include="DockPanelSplitter.cs" />
     <Compile Include="FileDownloader.cs" />
+    <Compile Include="InputMessageBox.xaml.cs">
+      <DependentUpon>InputMessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MyBackgroundWorker.cs" />
     <Compile Include="MyMessageBox.xaml.cs">
       <DependentUpon>MyMessageBox.xaml</DependentUpon>
@@ -78,6 +81,10 @@
     <Compile Include="UpdateChecker.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="InputMessageBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MyMessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
