@@ -16,6 +16,8 @@
 
 == TikzDisplay ==
 *TODO*
+  * check mupdf licensing and deploy mudraw correctly
+  * maybe add option to choose between pdflibnet and mudraw rendering
 
 == Rasterizer ==
 *TODO*
