@@ -45,6 +45,7 @@ using System.Windows.Interop;
 using TESharedComponents;
 using System.Diagnostics;
 using System.ComponentModel;
+using TikzEdt.WpfSpecificComponents;
 
 namespace TikzEdt
 {
@@ -205,10 +206,11 @@ namespace TikzEdt
             InitializeComponent();
             
             // register GlobalUI events 
-            GlobalUI.OnGlobalStatus += (s, e) => AddStatusLine(e.StatusLine, e.IsError);
-            GlobalUI.OnExportCompile += (s, e) => ExportCompiler.ExportCompileDialog.Export(e.Code, e.File);
-            GlobalUI.OnRecentFileEvent += (s, e) => { if (e.IsInsert) recentFileList.InsertFile(e.FileName); else recentFileList.RemoveFile(e.FileName); };
-            GlobalUI.MessageBoxOwner = this;
+            GlobalUIWPF GlobUI = (GlobalUIWPF)GlobalUI.UI;
+            GlobUI.OnGlobalStatus += (s, e) => AddStatusLine(e.StatusLine, e.IsError);
+            GlobUI.OnExportCompile += (s, e) => ExportCompiler.ExportCompileDialog.Export(e.Code, e.File);
+            GlobUI.OnRecentFileEvent += (s, e) => { if (e.IsInsert) recentFileList.InsertFile(e.FileName); else recentFileList.RemoveFile(e.FileName); };
+            GlobUI.MessageBoxOwner = this;
 
             //make sure that double to string is converted with decimal point (not comma!)       
             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
@@ -338,8 +340,8 @@ namespace TikzEdt
             {
                 AddStatusLine("TikzEdt is up to date. The current version is "+e.CurrentVersion+".");
 
-                GlobalUI.ShowMessageBox("Your current version of TikzEdt ("+e.CurrentVersion+ ") is the latest available.", "TikzEdt up to date",
-                    MessageBoxButton.OK, MessageBoxImage.Information );
+                GlobalUI.UI.ShowMessageBox("Your current version of TikzEdt (" + e.CurrentVersion + ") is the latest available.", "TikzEdt up to date",
+                    System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information );
             }
         }
 
@@ -2241,7 +2243,7 @@ namespace TikzEdt
                         TheVM.LoadFile(files[0]);
                 }
                 else
-                    GlobalUI.ShowMessageBox("Only one file at a time allowed via drag&drop.", "Too many files", MessageBoxButton.OK, MessageBoxImage.Information);
+                    GlobalUI.UI.ShowMessageBox("Only one file at a time allowed via drag&drop.", "Too many files", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
                         
             }
             
@@ -2359,7 +2361,7 @@ namespace TikzEdt
         {
             if (pdfOverlay1.ParseTree == null) return;
             string colorName = "";
-            if (GlobalUI.ShowInputDialog("New color...", "Please enter a unique color name", out colorName) != MessageBoxResult.OK)
+            if (GlobalUI.UI.ShowInputDialog("New color...", "Please enter a unique color name", out colorName) != System.Windows.Forms.DialogResult.OK)
                 return;
             string colordef = @"\definecolor{"+colorName+"}{HTML}{" + ColorPicker1.CurrentColor.ToString().Substring(3) + "}" + Environment.NewLine;
             Tikz_Picture tp = pdfOverlay1.ParseTree.GetTikzPicture();
@@ -2498,7 +2500,7 @@ namespace TikzEdt
                 }
                 catch (Exception)
                 {
-                    GlobalUI.ShowMessageBox("Couldn't open file: " + e.FileName + ".", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    GlobalUI.UI.ShowMessageBox("Couldn't open file: " + e.FileName + ".", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 }
             }
         }
@@ -2589,7 +2591,7 @@ namespace TikzEdt
             }
             catch (Exception)
             {
-                GlobalUI.ShowMessageBox("Could not start the package installation script (InstallPackages_XXX.bat). Maybe the installation is broken.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                GlobalUI.UI.ShowMessageBox("Could not start the package installation script (InstallPackages_XXX.bat). Maybe the installation is broken.", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
         }
 

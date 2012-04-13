@@ -243,8 +243,8 @@ namespace TikzEdt.Overlay
 
             if (type == AssignStyleType.AssignNewStyle || type == AssignStyleType.ChangeToNewStyle)
             {
-                
-                if (GlobalUI.ShowInputDialog("New style...", "Please enter a unique style name", out cStyle) != MessageBoxResult.OK)
+
+                if (GlobalUI.UI.ShowInputDialog("New style...", "Please enter a unique style name", out cStyle) != DialogResult.OK)
                     return;
                 cStyle = cStyle.Trim();
                 // check if style name is valid and unique
@@ -252,7 +252,7 @@ namespace TikzEdt.Overlay
                     return;
                 if (ParseTree.styles.ContainsKey(cStyle))
                 {
-                    GlobalUI.ShowMessageBox("Error: Style name '" + cStyle + "' already exists.", "Style exists", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    GlobalUI.UI.ShowMessageBox("Error: Style name '" + cStyle + "' already exists.", "Style exists", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -359,7 +359,7 @@ namespace TikzEdt.Overlay
                 // produce errors.
                 Clear();
                 View.AllowEditing = false;
-                GlobalUI.AddStatusLine(this, "Error in Overlay rendering: '" + e.Message + "' Overlay disabled for now.", true);
+                GlobalUI.UI.AddStatusLine(this, "Error in Overlay rendering: '" + e.Message + "' Overlay disabled for now.", true);
             }
         }
 

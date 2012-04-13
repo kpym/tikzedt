@@ -24,9 +24,9 @@ namespace TikzEdt.DynPreamble
         }); } }
         public ICommand DeleteCommand { get { return new RelayCommand(o => 
         {
-            if (CurrentIndex >= 0 && CurrentIndex < ElementList.Count) 
-                if (GlobalUI.ShowMessageBox("Really delete the dynamic preamble '"+ElementList[CurrentIndex].Name +"'?", "Delete",
-                    System.Windows.MessageBoxButton.YesNoCancel, System.Windows.MessageBoxImage.Warning) == System.Windows.MessageBoxResult.Yes)            
+            if (CurrentIndex >= 0 && CurrentIndex < ElementList.Count)
+                if (GlobalUI.UI.ShowMessageBox("Really delete the dynamic preamble '" + ElementList[CurrentIndex].Name + "'?", "Delete",
+                    System.Windows.Forms.MessageBoxButtons.YesNoCancel, System.Windows.Forms.MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)            
                     ElementList.RemoveAt(CurrentIndex); 
         }); } }
         public ICommand EditCommand { get { return new RelayCommand(o => { if (CurrentIndex >= 0 && CurrentIndex < ElementList.Count) ElementList[CurrentIndex].Edit(); } ); } }

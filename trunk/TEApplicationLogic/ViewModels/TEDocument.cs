@@ -10,7 +10,6 @@ using System.Windows;
 using System.IO;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
-using System.Windows.Media.Imaging;
 using System.Windows.Input;
 using System.Text.RegularExpressions;
 using Antlr.Runtime;
@@ -396,7 +395,7 @@ namespace TikzEdt.ViewModels
                 int InsertAt = e.ChangedItem.StartPosition();
                 if (InsertAt > Document.Text.Length)
                 {
-                    GlobalUI.AddStatusLine(this, "Trying to insert code \"" + e.ChangedItem.ToString().Replace(Environment.NewLine, "<NEWLINE>") + "\" to position " + e.ChangedItem.StartPosition() + " but document has only " + Document.Text.Length + " characters."
+                    GlobalUI.UI.AddStatusLine(this, "Trying to insert code \"" + e.ChangedItem.ToString().Replace(Environment.NewLine, "<NEWLINE>") + "\" to position " + e.ChangedItem.StartPosition() + " but document has only " + Document.Text.Length + " characters."
                     + " Inserting code at end of document instead. Code does probably not compile now. Please correct or choose undo.", true);
                     InsertAt = Document.Text.Length;
                 }
@@ -472,15 +471,15 @@ namespace TikzEdt.ViewModels
                 // there is a well-known issue with filewatcher raising multiple events... so, as a hack, stop wtaching
                 fileWatcher.EnableRaisingEvents = false;
                 // the currently watched file was changed -> ask the user to reload
-                switch (GlobalUI.ShowMessageBox("The currently open file was modified outside the editor.\r\nDo you want to reload the file from disk?",
-                    "Modified outside TikzEdt", MessageBoxButton.YesNo, MessageBoxImage.Warning))
+                switch (GlobalUI.UI.ShowMessageBox("The currently open file was modified outside the editor.\r\nDo you want to reload the file from disk?",
+                    "Modified outside TikzEdt", System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Warning))
                 {
-                    case MessageBoxResult.Yes:
+                    case System.Windows.Forms.DialogResult.Yes:
                         ChangesMade = false;
                         LoadFile(FilePath); // here the filewatcher is turned on again implicitly
                         Recompile();
                         break;
-                    case MessageBoxResult.No:
+                    case System.Windows.Forms.DialogResult.No:
                         ChangesMade = true;
                         fileWatcher.EnableRaisingEvents = true;
                         break;
@@ -506,7 +505,7 @@ namespace TikzEdt.ViewModels
             {
                 RecognitionException ex = Result.Error as RecognitionException;
                 string errmsg = ANTLRErrorMsg.ToString(ex, simpletikzParser.tokenNames);
-                GlobalUI.AddStatusLine(this, "Couldn't parse code. " + errmsg, true);
+                GlobalUI.UI.AddStatusLine(this, "Couldn't parse code. " + errmsg, true);
                 if (ex.Line == 0 && ex.CharPositionInLine == -1)
                 {
                     addProblemMarker(errmsg, Document.LineCount, 0, Severity.PARSERERROR, ShortFileName);
@@ -524,7 +523,7 @@ namespace TikzEdt.ViewModels
                 string errmsg = Result.Error.GetType().ToString();
                 if (Result.Error is Exception)
                     errmsg += ":" + ((Exception)Result.Error).Message;
-                GlobalUI.AddStatusLine(this, "Couldn't parse code. " + errmsg, true);
+                GlobalUI.UI.AddStatusLine(this, "Couldn't parse code. " + errmsg, true);
                 ParseTree = null;
                 TikzStyles.Clear();
             }
@@ -545,7 +544,7 @@ namespace TikzEdt.ViewModels
                 {
                     RecognitionException ex = Result.Warning as RecognitionException;
                     string errmsg = ANTLRErrorMsg.ToString(ex, simpletikzParser.tokenNames);
-                    GlobalUI.AddStatusLine(this, "Couldn't parse included file. " + errmsg, true);
+                    GlobalUI.UI.AddStatusLine(this, "Couldn't parse included file. " + errmsg, true);
                     if (ex.Line == 0 && ex.CharPositionInLine == -1)
                     {
                         addProblemMarker(errmsg, Document.LineCount, 0, Severity.PARSERWARNING, Result.WarningSource);
@@ -565,7 +564,7 @@ namespace TikzEdt.ViewModels
                 else if (Result.Warning != null && Result.Warning is Exception)
                 {
                     string errmsg = ((Exception)Result.Warning).Message;
-                    GlobalUI.AddStatusLine(this, "Couldn't parse included file " + Result.WarningSource + ". " + errmsg, true);
+                    GlobalUI.UI.AddStatusLine(this, "Couldn't parse included file " + Result.WarningSource + ". " + errmsg, true);
                 }
                 
             }
@@ -744,13 +743,13 @@ namespace TikzEdt.ViewModels
         {
             if (ChangesMade)
             {
-                switch (GlobalUI.ShowMessageBox("Save changes to " + ShortFileName + "?", "Changes need to be saved",
-                    MessageBoxButton.YesNoCancel, MessageBoxImage.Warning))
+                switch (GlobalUI.UI.ShowMessageBox("Save changes to " + ShortFileName + "?", "Changes need to be saved",
+                    System.Windows.Forms.MessageBoxButtons.YesNoCancel, System.Windows.Forms.MessageBoxIcon.Warning))
                 {
-                    case (MessageBoxResult.Yes):
+                    case (System.Windows.Forms.DialogResult.Yes):
                         if (!SaveCurFile()) return false;
                         break;
-                    case (MessageBoxResult.Cancel):
+                    case (System.Windows.Forms.DialogResult.Cancel):
                         return false;
                 }
             }
@@ -832,7 +831,7 @@ namespace TikzEdt.ViewModels
             bool WeNeedRecompilationAfterSave = false;
             if (CurFileNeverSaved || saveas)
             {
-                if (GlobalUI.ShowSaveFileDialog(out filename, ShortFileName) != true)
+                if (GlobalUI.UI.ShowSaveFileDialog(out filename, ShortFileName) != true)
                     return false;
                 
                 FilePath = filename; 
@@ -848,7 +847,7 @@ namespace TikzEdt.ViewModels
             ChangesMade = false;
             //CurFileNeverSaved = false;
 
-            GlobalUI.AddStatusLine(this, "File saved to " + FilePath + ".");
+            GlobalUI.UI.AddStatusLine(this, "File saved to " + FilePath + ".");
             if (OnSaved != null)
                 OnSaved(this, new EventArgs());
 
@@ -955,7 +954,7 @@ namespace TikzEdt.ViewModels
         {
             if (SaveAs == false && CurFileNeverSaved)
             {
-                GlobalUI.AddStatusLine(this, "Please save document first", true);
+                GlobalUI.UI.AddStatusLine(this, "Please save document first", true);
                 return "";
             }
 
@@ -973,7 +972,7 @@ namespace TikzEdt.ViewModels
                 // change file extension to .pdf
                 initFileName = Helper.RemoveFileExtension(initFileName) + ".pdf";
                 //sfd.InitialDirectory = System.IO.Path.GetDirectoryName(FilePath);
-                if (GlobalUI.ShowSaveFileDialog(out outFileName, initFileName, filter) != true)
+                if (GlobalUI.UI.ShowSaveFileDialog(out outFileName, initFileName, filter) != true)
                     return "";
                 NewPdfFilePath = outFileName;
             }
@@ -984,11 +983,11 @@ namespace TikzEdt.ViewModels
             }
             catch (Exception Ex)
             {
-                GlobalUI.AddStatusLine(this, "Could not save PDF. " + Ex.Message, true);
+                GlobalUI.UI.AddStatusLine(this, "Could not save PDF. " + Ex.Message, true);
                 return "";
             }
 
-            GlobalUI.AddStatusLine(this, "Preview PDF file saved as " + NewPdfFilePath);
+            GlobalUI.UI.AddStatusLine(this, "Preview PDF file saved as " + NewPdfFilePath);
             return NewPdfFilePath;
         }
         /// <summary>
@@ -999,7 +998,7 @@ namespace TikzEdt.ViewModels
         {
             if (!File.Exists(PdfPath))
             {
-                GlobalUI.AddStatusLine(this, "Please compile document first", true);
+                GlobalUI.UI.AddStatusLine(this, "Please compile document first", true);
                 return;
             }
 
@@ -1016,7 +1015,7 @@ namespace TikzEdt.ViewModels
 
             // change file extension to .pdf            
             //sfd.InitialDirectory = System.IO.Path.GetDirectoryName(TheFilePath);
-            if (GlobalUI.ShowSaveFileDialog(out outFileName, initFileName, filter) != true)
+            if (GlobalUI.UI.ShowSaveFileDialog(out outFileName, initFileName, filter) != true)
                 return;
            
             try
@@ -1053,10 +1052,10 @@ namespace TikzEdt.ViewModels
                     case ".html":
                     case ".htm":
                         // The file will be compiled and exported by ExportCompileDialog
-                        GlobalUI.ShowExportCompileDialog(this, CodeWithPreamble, outFileName);
+                        GlobalUI.UI.ShowExportCompileDialog(this, CodeWithPreamble, outFileName);
                         return;
                     default:
-                        GlobalUI.AddStatusLine(this, "Could not export file: Unknown file extension.", true);
+                        GlobalUI.UI.AddStatusLine(this, "Could not export file: Unknown file extension.", true);
                         return;
                 }
 
@@ -1066,11 +1065,11 @@ namespace TikzEdt.ViewModels
             }
             catch (Exception Ex)
             {
-                GlobalUI.AddStatusLine(this, "Could not export file. " + Ex.Message, true);
+                GlobalUI.UI.AddStatusLine(this, "Could not export file. " + Ex.Message, true);
                 return;
             }
 
-            GlobalUI.AddStatusLine(this, "File exported as " + outFileName);
+            GlobalUI.UI.AddStatusLine(this, "File exported as " + outFileName);
         }
 
   /*      private string SavePdf(bool SaveAs)

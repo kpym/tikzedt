@@ -318,7 +318,7 @@ namespace TikzEdt
                     }
                     else
                     {
-                        GlobalUI.AddStatusLine(this, "Warning: Couldn't compute tranform at insertion position. Coordinates might be wrong.", true);
+                        GlobalUI.UI.AddStatusLine(this, "Warning: Couldn't compute tranform at insertion position. Coordinates might be wrong.", true);
                     }
 
                     width = Math.Round(width, (int)CompilerSettings.Instance.RoundToDecimals);

@@ -105,7 +105,7 @@ namespace TikzEdt.Snippets
                     {
                         try
                         {
-                            GlobalUI.AddStatusLine(this, "Unzipping snippet thumbnails from file " + zip +"....");
+                            GlobalUI.UI.AddStatusLine(this, "Unzipping snippet thumbnails from file " + zip + "....");
                             System.Diagnostics.Process.Start( new System.Diagnostics.ProcessStartInfo()
                                 {
                                     UseShellExecute = false,
@@ -116,7 +116,7 @@ namespace TikzEdt.Snippets
                         }
                         catch (Exception ex)
                         {
-                            GlobalUI.AddStatusLine(this, "Unzipping snippet thumbnails failed: "+ex.Message , true);
+                            GlobalUI.UI.AddStatusLine(this, "Unzipping snippet thumbnails failed: " + ex.Message, true);
                             CompileSnippets();  // in case of failure, try to recompile snippets
                         }
                     }
@@ -128,10 +128,10 @@ namespace TikzEdt.Snippets
 
         public void CompileSnippets()
         {
-            if (GlobalUI.ShowMessageBox("Do you want to create the Snippet Thumbnails now?\r\n" +
+            if (GlobalUI.UI.ShowMessageBox("Do you want to create the Snippet Thumbnails now?\r\n" +
     "It may take some time, but it will happen in the background. You can also recompile them later from the menu or the Snippet Manager." +
     "Note: If you are missing some Latex packages, it is better to compile later", "Compile Thumbnails",
-    MessageBoxButton.YesNoCancel, MessageBoxImage.Question) == MessageBoxResult.Yes)
+    System.Windows.Forms.MessageBoxButtons.YesNoCancel, System.Windows.Forms.MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
                 // Compile
                 foreach (SnippetsDataSet.SnippetsTableRow r in snippetsTable.Rows)

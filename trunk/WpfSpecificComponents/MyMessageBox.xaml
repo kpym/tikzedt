@@ -1,0 +1,26 @@
+﻿<Window x:Class="TikzEdt.WpfSpecificComponents.MyMessageBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             ShowInTaskbar="False" ResizeMode="NoResize" 
+             SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
+             KeyDown="Window_KeyDown">
+    <StackPanel>
+        <DockPanel>
+            <Image DockPanel.Dock="Left" Margin="20 20 0 20" Name="imgIcon" Width="32" Height="32" VerticalAlignment="Top"></Image>
+            <ContentControl Name="TheContent">
+                <TextBlock Margin="20">adafdf sdf dsf sdf sd f df dsf sdf sdf sd fsd fs fds 
+                    fsd fsd sfd fsdf sdf <LineBreak/> asdfdfsdfdsfsdf sdf sd sd 
+                    fsdf sdf sdf sd 
+                </TextBlock>
+            </ContentControl>
+        </DockPanel>
+        <DockPanel LastChildFill="False" Background="#FFEFEFEF" Name="ButtonPanel">
+            <Button MinWidth="80" MinHeight="25" Margin="0 10 10 10" DockPanel.Dock="Right" Click="Button_Click">Cancel</Button>
+            <Button MinWidth="80" Margin="0 10 10 10" DockPanel.Dock="Right">No</Button>
+            <Button MinWidth="80" Margin="0 10 10 10" DockPanel.Dock="Right">Yes</Button>            
+        </DockPanel>
+    </StackPanel>
+</Window>

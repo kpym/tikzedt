@@ -24,7 +24,8 @@ using System.Windows.Forms;
 
 namespace TikzEdt
 {
-    //public enum OverlayToolType { move, addvert, addedge, addpath, smooth, bezier, rectangle, ellipse, grid, arc, arcedit } 
+
+    public enum OverlayToolType { move, addvert, addedge, addpath, smooth, bezier, rectangle, ellipse, grid, arc, arcedit } 
 
     /// <summary>
     /// This is the abstract base class of tools for the PdfOverlay.
@@ -409,7 +410,7 @@ namespace TikzEdt
             // make sure a referenceable item is selected... otherwise we cannot add an edge
             if (!IsReferenceable(item))
             {
-                GlobalUI.AddStatusLine(this, "Only items that are referenceable (=can be given names) can be connected with the edge tool.");
+                GlobalUI.UI.AddStatusLine(this, "Only items that are referenceable (=can be given names) can be connected with the edge tool.");
                 return;
             }
 
@@ -722,7 +723,7 @@ namespace TikzEdt
             bool contin = true;
             if (p.X < -100 || p.X > 100 || p.Y < -100 || p.Y > 100)
             {
-                if (MessageBoxResult.Cancel == GlobalUI.ShowMessageBox("Warning! Image seems to be very big. TikzEdt might not be able to handle this.", "Image very big", MessageBoxButton.OKCancel, MessageBoxImage.Warning))
+                if (DialogResult.Cancel == GlobalUI.UI.ShowMessageBox("Warning! Image seems to be very big. TikzEdt might not be able to handle this.", "Image very big", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning))
                     contin = false;
             }
             return contin;
@@ -758,7 +759,7 @@ namespace TikzEdt
                 }
                 else
                 {
-                    GlobalUI.ShowMessageBox("Parse tree could not be created. Please correct all parser errors in the code and try again.", "Function not available", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    GlobalUI.UI.ShowMessageBox("Parse tree could not be created. Please correct all parser errors in the code and try again.", "Function not available", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return false;
                 }
             }

@@ -5,6 +5,6 @@ using System.Text;
 
 namespace TikzEdt
 {
-    public enum OverlayToolType { move, addvert, addedge, addpath, smooth, bezier, rectangle, ellipse, grid, arc, arcedit } 
+   
 
 }

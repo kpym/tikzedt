@@ -59,6 +59,7 @@
     <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\lib\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PDFLibNet">
       <HintPath>..\lib\PDFLibNet.dll</HintPath>
     </Reference>
@@ -80,8 +81,8 @@
     <Compile Include="Compiler\TexCompiler.cs" />
     <Compile Include="Compiler\TexOutputParser.cs" />
     <Compile Include="FastSmartWeakEvent.cs" />
+    <Compile Include="GlobalUI.cs" />
     <Compile Include="Helper.cs" />
-    <Compile Include="OverlayToolType.cs" />
     <Compile Include="Overlay\ArcEditTool.cs" />
     <Compile Include="Overlay\ArcTool.cs" />
     <Compile Include="Overlay\BezierTool.cs" />

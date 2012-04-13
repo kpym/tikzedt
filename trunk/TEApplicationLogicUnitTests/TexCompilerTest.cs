@@ -72,7 +72,11 @@ namespace TEApplicationLogicUnitTests
         public static void MyClassInitialize(TestContext testContext)
         {
             MyBackgroundWorker.IsSynchronous = true;
+            GlobalUI.UI = GlobUI = new GlobalUIMock();
+            GlobalUI.UI.OnGlobalStatus += (s, e) => Debug.WriteLine("*** " + e.StatusLine);
+
         }
+        static GlobalUIMock GlobUI;
         //
         //Use ClassCleanup to run code after all tests in a class have run
         //[ClassCleanup()]

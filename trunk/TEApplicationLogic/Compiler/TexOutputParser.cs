@@ -300,7 +300,7 @@ namespace TikzEdt
                         // prepare to re-run latex
                         /*TexlipseProperties.setSessionProperty(resource.getProject(),
                                 TexlipseProperties.SESSION_LATEX_RERUN, "true");*/
-                        GlobalUI.AddStatusLine(null, "SHOULD RERUN LATEX.", true);
+                        GlobalUI.UI.AddStatusLine(null, "SHOULD RERUN LATEX.", true);
                         continue;
                     }
                     else if (line.IndexOf("There were undefined") > -1)
@@ -310,7 +310,7 @@ namespace TikzEdt
                             // prepare to run bibtex
                             /*TexlipseProperties.setSessionProperty(resource.getProject(),
                                     TexlipseProperties.SESSION_BIBTEX_RERUN, "true");*/
-                            GlobalUI.AddStatusLine(null, "SHOULD RERUN BIBTEX.", true);
+                            GlobalUI.UI.AddStatusLine(null, "SHOULD RERUN BIBTEX.", true);
                         }
                         continue;
                     }
@@ -388,14 +388,14 @@ namespace TikzEdt
                 if (m.Success)
                 {
                     // prepare to run bibtex
-                    GlobalUI.AddStatusLine(null, "SHOULD RUN BIBTEX.", true);
+                    GlobalUI.UI.AddStatusLine(null, "SHOULD RUN BIBTEX.", true);
                     continue;
                 }
                 m = NOTOCFILE.Match(line);
                 if (m.Success)
                 {
                     // prepare to re-run latex
-                    GlobalUI.AddStatusLine(null, "SHOULD RERUN LATEX.", true);
+                    GlobalUI.UI.AddStatusLine(null, "SHOULD RERUN LATEX.", true);
                     continue;
                 }
                 m = ATLINE.Match(line);                
@@ -518,7 +518,7 @@ namespace TikzEdt
                     // There was a parsing error, this is very rare
                     string err = "Error while parsing the LaTeX output. " +
                             "Please consult the console output";
-                    GlobalUI.AddStatusLine(null, err, true);
+                    GlobalUI.UI.AddStatusLine(null, err, true);
                     addProblemMarker(err, "file", 0, Severity.ERROR, job, ErrorList);
                 }
             }

@@ -632,6 +632,10 @@
       <Project>{DCEE85EE-19E0-46F4-8C94-BB044075561F}</Project>
       <Name>TikzParser</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WpfSpecificComponents\WpfSpecificComponents.csproj">
+      <Project>{09025834-E5F7-4D1A-A2B7-130E4C45BE13}</Project>
+      <Name>WpfSpecificComponents</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <SplashScreen Include="TESplashScreen.png" />

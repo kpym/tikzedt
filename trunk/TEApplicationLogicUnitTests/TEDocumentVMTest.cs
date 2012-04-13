@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Threading;
 using TESharedComponents;
+using System.Diagnostics;
 
 namespace TEApplicationLogicUnitTests
 {
@@ -47,7 +48,11 @@ namespace TEApplicationLogicUnitTests
         public static void MyClassInitialize(TestContext testContext)
         {
             MyBackgroundWorker.IsSynchronous = true;
+            GlobalUI.UI = GlobUI = new GlobalUIMock();
+            GlobalUI.UI.OnGlobalStatus += (s, e) => Debug.WriteLine("*** " + e.StatusLine);
         }
+
+        static GlobalUIMock GlobUI;
         //
         //Use ClassCleanup to run code after all tests in a class have run
         //[ClassCleanup()]
@@ -81,8 +86,8 @@ namespace TEApplicationLogicUnitTests
             //MainWindowVM parent = new MainWindowVM(tc); // TODO: Initialize to an appropriate value
             string cFile = string.Empty; // TODO: Initialize to an appropriate value
             TEDocumentVM target = new TEDocumentVM(null, tc); 
-            string filename = GlobalUI.MockFileDialogFileName = Directory.GetCurrentDirectory() + "\\" + "temp2.tex";
-            GlobalUI.MockFileDialogResult = true;
+            string filename = GlobUI.MockFileDialogFileName = Directory.GetCurrentDirectory() + "\\" + "temp2.tex";
+            GlobUI.MockFileDialogResult = true;
             target.SaveCurFile();
             
             Thread.Sleep(1000);
