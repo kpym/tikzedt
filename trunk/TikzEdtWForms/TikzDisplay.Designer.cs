@@ -1,0 +1,73 @@
+﻿namespace TikzEdtWForms
+{
+    partial class TikzDisplay
+    {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.lblUnavailable = new System.Windows.Forms.Label();
+            this.imgImage = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.imgImage)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // lblUnavailable
+            // 
+            this.lblUnavailable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblUnavailable.Location = new System.Drawing.Point(0, 0);
+            this.lblUnavailable.Name = "lblUnavailable";
+            this.lblUnavailable.Size = new System.Drawing.Size(259, 270);
+            this.lblUnavailable.TabIndex = 0;
+            this.lblUnavailable.Text = "<Unavailable>";
+            this.lblUnavailable.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // imgImage
+            // 
+            this.imgImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imgImage.Location = new System.Drawing.Point(0, 0);
+            this.imgImage.Name = "imgImage";
+            this.imgImage.Size = new System.Drawing.Size(259, 270);
+            this.imgImage.TabIndex = 1;
+            this.imgImage.TabStop = false;
+            // 
+            // TikzDisplay
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.imgImage);
+            this.Controls.Add(this.lblUnavailable);
+            this.Name = "TikzDisplay";
+            this.Size = new System.Drawing.Size(259, 270);
+            ((System.ComponentModel.ISupportInitialize)(this.imgImage)).EndInit();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Label lblUnavailable;
+        private System.Windows.Forms.PictureBox imgImage;
+    }
+}

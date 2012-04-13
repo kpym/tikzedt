@@ -48,11 +48,7 @@ namespace TikzEdt
         #region properties
         readonly public static DependencyProperty RenderTransparentProperty = DependencyProperty.Register(
                     "RenderTransparent", typeof(bool), typeof(TikzDisplay),
-                    new PropertyMetadata(true, OnRenderTransparentChanged));
-        static void OnRenderTransparentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            (d as TikzDisplay).TheModel.RedrawBMP(false);
-        }
+                    new PropertyMetadata(true, OnResolutionChanged));
         /// <summary>
         /// Indicates whether the pdf background should be rendered transparent
         /// </summary>
