@@ -1,0 +1,84 @@
+MUDRAW(1)                                                            MUDRAW(1)
+
+
+
+NAME
+       mudraw - render PDF/XPS/CBZ documents
+
+SYNOPSIS
+       mudraw [options] input.{pdf,xps,cbz} [pages]
+
+DESCRIPTION
+       mudraw  will  render a document of a supported document format to image
+       files.  The supported document formats are: pdf, xps and cbz.  The sup‐
+       ported  image  formats are: pgm, ppm, pam and png.  Select the pages to
+       be rendered by specifying a comma separated list of ranges and individ‐
+       ual  page  numbers (for example: 1,5,10-15).  In no pages are specified
+       all the pages will be rendered.
+
+OPTIONS
+       -o output
+              The image format is deduced from the output file name.  Embed %d
+              in   the   name  to  indicate  the  page  number  (for  example:
+              "page%d.png").
+
+       -p password
+              Use the specified password if the file is encrypted.
+
+       -r resolution
+              Render the page at the specified resolution.  The default  reso‐
+              lution is 72 dpi.
+
+       -w width
+              Render  the  page  at the specified width (or, if the -r flag is
+              used, render with a maximum width).
+
+       -h height
+              Render the page at the specified height (or, if the -r  flag  is
+              used, render with a maximum height).
+
+       -f
+
+       -R angle
+              Rotate clockwise by given number of degrees.
+
+       -a     Save  the alpha channel.  The default behavior is to render each
+              page with a white background.  With this option, the page  back‐
+              ground  is  transparent.   Only supported for pam and png output
+              formats.
+
+       -g     Render in grayscale.  The default is to render a full color  RGB
+              image.   If  the  output  format  is  pgm  or ppm this option is
+              ignored.
+
+       -m     Show timing information.  Take the time it takes for  each  page
+              to render and print a summary at the end.
+
+       -5     Print an MD5 checksum of the rendered image data for each page.
+
+       -t     Print  the  text  contents of each page in UTF-8 encoding.  Give
+              the option twice to print detailed information about  the  loca‐
+              tion of each character in XML format.
+
+       -x     Print the display list used to render each page.
+
+       -A     Disable the use of accelerated functions.
+
+       -G gamma
+              Gamma  correct the output image.  Some typical values are 0.7 or
+              1.4 to thin or darken text rendering.
+
+       -I     Invert the output image colors.
+
+       pages  Comma separated list of ranges to render.
+
+SEE ALSO
+       mupdf(1), mupdfclean(1).  mupdfshow(1).
+
+AUTHOR
+       MuPDF was written by Tor  Andersson  <tor@ghostscript.com>.   MuPDF  is
+       Copyright 2006-2012 Artifex Software, Inc.
+
+
+
+                                March 28, 2012                       MUDRAW(1)

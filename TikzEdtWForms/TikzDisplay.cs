@@ -22,6 +22,18 @@ namespace TikzEdtWForms
             this.BackColor = Color.Transparent;
             lblUnavailable.BackColor = Color.Transparent;
             imgImage.BackColor = Color.Transparent;
+            //BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            //imgImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            imgImage.SizeMode = PictureBoxSizeMode.AutoSize;
+            imgImage.Dock = DockStyle.None;
+            //imgImage.Anchor = AnchorStyles.None;
+            Margin = new Padding(0);
+            imgImage.Margin = new Padding(0);
+            imgImage.Left = imgImage.Top = 0;
+            AutoSize = true;
+            AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+
+
 
             if (this.DesignMode)
                 return;

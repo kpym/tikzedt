@@ -247,5 +247,41 @@ namespace TikzEdtWForms
         {
             return new PointF((float)p.X, (float)p.Y);
         }
+
+        public static System.Windows.Point ToPoint(this Point p)
+        {
+            return new System.Windows.Point(p.X,p.Y);
+        }
+
+        public static System.Drawing.RectangleF ToRectangleF(this System.Windows.Rect r)
+        {
+            return new RectangleF((float)r.X, (float)r.Y, (float)r.Width, (float)r.Height);
+        }
+
+        public static System.Drawing.PointF TopLeft(this RectangleF r)
+        {
+            return new PointF(r.X, r.Y);
+        }
+        public static System.Drawing.PointF TopRight(this RectangleF r)
+        {
+            return new PointF(r.X+r.Width, r.Y);
+        }
+        public static System.Drawing.PointF BottomLeft(this RectangleF r)
+        {
+            return new PointF(r.X, r.Y+r.Height);
+        }
+        public static System.Drawing.PointF BottomRight(this RectangleF r)
+        {
+            return new PointF(r.X + r.Width, r.Y + r.Height);
+        }
+        public static System.Drawing.PointF Center(this RectangleF r)
+        {
+            return new PointF(r.X + r.Width/2, r.Y + r.Height/2);
+        }
+
+        public static void DrawRectangle(this Graphics G, Pen p, RectangleF r)
+        {
+            G.DrawRectangle(p, r.X, r.Y, r.Width, r.Height);
+        }
     }
 }

@@ -25,6 +25,8 @@ namespace TikzEdtWForms
             rasterControl1 = new RasterControl();
             splitContainer2.Panel2.Controls.Add(rasterControl1);
 
+            tikzDisplay1.Parent = rasterControl1;
+
             rasterControl1.Visible = true;
             //rasterControl1.Anchor = AnchorStyles.None;
             //rasterControl1.OverrideWithZeroGridWidth = true;
@@ -33,7 +35,7 @@ namespace TikzEdtWForms
 
             splitContainer2.Panel2.Resize += new EventHandler(Panel2_Resize);
             rasterControl1.Resize += new EventHandler(Panel2_Resize);
-
+            tikzDisplay1.Resize += new EventHandler(Panel2_Resize);
 
             if (DesignMode)
                 return;
@@ -73,11 +75,13 @@ namespace TikzEdtWForms
 
         void Panel2_Resize(object sender, EventArgs e)
         {
-            rasterControl1.Left = (splitContainer2.Panel2.ClientSize.Width - rasterControl1.Width) / 2;
-            rasterControl1.Top = (splitContainer2.Panel2.Height - rasterControl1.Height) / 2;
+            //rasterControl1.Left = (splitContainer2.Panel2.ClientSize.Width - rasterControl1.Width) / 2;
+            //rasterControl1.Top = (splitContainer2.Panel2.Height - rasterControl1.Height) / 2;
+            tikzDisplay1.Left = (rasterControl1.ClientSize.Width - tikzDisplay1.Width) / 2;
+            tikzDisplay1.Top = (rasterControl1.ClientSize.Height - tikzDisplay1.Height) / 2;
 
-            tikzDisplay1.Left = (splitContainer2.Panel2.ClientSize.Width - tikzDisplay1.Width) / 2;
-            tikzDisplay1.Top = (splitContainer2.Panel2.Height - tikzDisplay1.Height) / 2;
+            rasterControl1.Left = (splitContainer2.Panel2.ClientSize.Width - rasterControl1.Width) / 2;
+            rasterControl1.Top = (splitContainer2.Panel2.ClientSize.Height - rasterControl1.Height) / 2;
 
 
         }
@@ -96,6 +100,8 @@ namespace TikzEdtWForms
                 txtStatus.SelectionLength = 0;
                 txtStatus.SelectionColor = IsError ? Color.Red : Color.Black;
                 txtStatus.AppendText(StatusLine + Environment.NewLine);
+                txtStatus.SelectionStart = txtStatus.Text.Length - 1;
+                txtStatus.ScrollToCaret();
             }));
         }
 
