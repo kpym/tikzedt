@@ -23,7 +23,7 @@ namespace TikzEdtWForms
         protected Control Parent;
 
         // in upside down coordinates
-        public abstract System.Windows.Rect GetBB()
+        public virtual System.Windows.Rect GetBB()
         {
             return new System.Windows.Rect(BB.X, Parent.Height - BB.Y - BB.Height, BB.Width, BB.Height);
         }
@@ -221,9 +221,9 @@ namespace TikzEdtWForms
 
             // draw lines
             if (L1Visible)
-                dc.DrawLine(DashedPen, L1Origin.ToPointF(), lBB.Center();
+                dc.DrawLine(DashedPen, L1Origin.ToPointF(), lBB.Center());
             if (L2Visible)
-                dc.DrawLine(DashedPen, L2Origin.ToPointF(), lBB.Center();
+                dc.DrawLine(DashedPen, L2Origin.ToPointF(), lBB.Center());
 
             // draw CP
             dc.FillEllipse(Brushes.Gray, lBB);
@@ -234,7 +234,7 @@ namespace TikzEdtWForms
     }
 
 
-    class WPFShapeBase : IPreviewShape
+    public abstract class WPFShapeBase : IPreviewShape
     {
         Control TheCanvas;
         
@@ -328,6 +328,8 @@ namespace TikzEdtWForms
             if (ThePen != null)
                 dc.DrawEllipse(ThePen, BB.ToRectangleF());
         }
+
+        public WPFEllipseShape(Control C) : base(C) { }
     }
 
     /// <summary>
@@ -434,74 +436,37 @@ namespace TikzEdtWForms
             dc.DrawLine(DashedPen, lBB.X + lBB.Width / 2, lBB.Y, lBB.X + lBB.Width / 2, lBB.Y + lBB.Height);
             dc.DrawLine(DashedPen, lBB.X, lBB.Y + lBB.Height/2, lBB.X + lBB.Width , lBB.Y + lBB.Height/2);
         }
+
+        public WFPreviewGridShape(Control C) : base(C) { }
     }
 
     class WPFArcShape : WPFShapeBase, IArcShape
     {
-        public Point p1, p2, center;
+        public System.Windows.Point p1  {get; set;}
+        public System.Windows.Point p2  {get; set;}
+        public System.Windows.Point center {get; set;}
         public bool IsPie { get; set; }
-        public bool LargeArc { get; set; }
+        public bool IsLargeArc { get; set; }
 
-
-        public bool IsDashed
-        {
-            set
-            {
-                if (value)
-                {
-                    ThePen = new 
-                    TheShape.StrokeDashArray = new DoubleCollection(new double[] { 4, 4 });
-                    TheShape.Stroke = Brushes.Gray;
-                }
-                else
-                {
-                    TheShape.StrokeDashArray = null;
-                    TheShape.Stroke = Brushes.Black;
-                }
-            }
-        }
-
-        public WPFArcShape(Canvas TheCanvas)
-            : base(TheCanvas)
-        {
-            ThePen 
-        }
-    }
-
-    class ThreePointArc : Shape
-    {
-        public Point p1, p2, center;
-        public bool IsPie { get; set; }
-
-        protected override Geometry DefiningGeometry
-        {
-            get
-            {
-                // Create a StreamGeometry for describing the shape
-                StreamGeometry geometry = new StreamGeometry();
-                geometry.FillRule = FillRule.EvenOdd;
-
-                using (StreamGeometryContext context = geometry.Open())
-                {
-                    InternalDrawNodeGeometry(context);
-                }
-
-                // Freeze the geometry for performance benefits
-                //geometry.Freeze();
-
-                return geometry;
-            }
-        }
+        static Pen DashedPen = new Pen(Brushes.Black) { DashPattern = new float[] { 4, 4 } };
 
         double r { get { return (p1 - center).Length; } }
 
-
-        /// <summary>
-        /// Draw an arc
-        /// </summary>
-        /// <param name="context"></param>
-        private void InternalDrawNodeGeometry(StreamGeometryContext context)
+        public bool IsDashed
         {
+            get;
+            set;
+        }
+
+        public WPFArcShape(Control TheCanvas)
+            : base(TheCanvas)
+        {
+            ThePen = Pens.Black;
+        }
+
+        public override void Draw(Graphics dc)
+        {
+            /* TODO
             context.BeginFigure(p1, false, IsPie);
             Vector v1 = p1 - center, v2 = p2 - center;
             SweepDirection sd;
@@ -516,8 +481,9 @@ namespace TikzEdtWForms
                 context.LineTo(center, true, false);
                 context.LineTo(p1, true, false);
             }
-
+            */
         }
-
     }
+
+    
 }
