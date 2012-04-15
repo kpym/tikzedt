@@ -34,9 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.TextEditor">
-      <HintPath>..\lib\ICSharpCode.TextEditor.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -56,8 +53,16 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ICommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RasterControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RasterControl.Designer.cs">
+      <DependentUpon>RasterControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextEditorDocumentWrapper.cs" />
     <Compile Include="TikzDisplay.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -90,9 +95,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Components\ICSharpCode.TextEditor\Project\ICSharpCode.TextEditor.csproj">
+      <Project>{2D18BE89-D210-49EB-A9DD-2246FBB3DF6D}</Project>
+      <Name>ICSharpCode.TextEditor %28Components\ICSharpcode.TextEditor\ICSharpCode.TextEditor%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TEApplicationLogic\TEApplicationLogic.csproj">
       <Project>{EB03FD23-3941-4B4B-964C-29CB265BA5EA}</Project>
       <Name>TEApplicationLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TikzParser\TikzParser.csproj">
+      <Project>{DCEE85EE-19E0-46F4-8C94-BB044075561F}</Project>
+      <Name>TikzParser</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

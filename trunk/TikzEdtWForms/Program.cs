@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using TikzEdt;
 
 namespace TikzEdtWForms
 {
@@ -13,6 +14,8 @@ namespace TikzEdtWForms
         [STAThread]
         static void Main()
         {
+            GlobalUI.UI = new GlobalUIWinForms();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

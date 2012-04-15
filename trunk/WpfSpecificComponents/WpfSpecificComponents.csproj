@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=4.1.0.7916, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
     <Reference Include="PDFLibNet">
       <HintPath>..\lib\PDFLibNet.dll</HintPath>
     </Reference>
@@ -50,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoGrayImage.cs" />
+    <Compile Include="AvalonDocumentWrapper.cs" />
     <Compile Include="DockPanelSplitter.cs" />
     <Compile Include="GlobalUIWPF.cs" />
     <Compile Include="InputMessageBox.xaml.cs">

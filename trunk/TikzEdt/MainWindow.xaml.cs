@@ -54,7 +54,7 @@ namespace TikzEdt
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static MainWindowVM TheVM { get; set; }
+        public static MainWindowVM<AvalonDocumentWrapper> TheVM { get; set; }
         public static Common.RecentFileList recentFileList;               
 
     //    public static RoutedCommand CompileCommand = new RoutedCommand();
@@ -202,7 +202,7 @@ namespace TikzEdt
    //     public FileSystemWatcher fileWatcher = new FileSystemWatcher();
         public MainWindow()
         {
-            this.DataContext = TheVM = new ViewModels.MainWindowVM(TheCompiler.Instance);
+            this.DataContext = TheVM = new ViewModels.MainWindowVM<AvalonDocumentWrapper>(TheCompiler.Instance);
             InitializeComponent();
             
             // register GlobalUI events 
@@ -211,6 +211,10 @@ namespace TikzEdt
             GlobUI.OnExportCompile += (s, e) => ExportCompiler.ExportCompileDialog.Export(e.Code, e.File);
             GlobUI.OnRecentFileEvent += (s, e) => { if (e.IsInsert) recentFileList.InsertFile(e.FileName); else recentFileList.RemoveFile(e.FileName); };
             GlobUI.MessageBoxOwner = this;
+
+            // Register events with the global compiler
+            TheCompiler.Instance.OnCompileEvent += TexCompiler_OnCompileEvent;
+            TheCompiler.Instance.OnTexOutput += TexCompiler_OnTexOutput;
 
             //make sure that double to string is converted with decimal point (not comma!)       
             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
@@ -263,13 +267,6 @@ namespace TikzEdt
 
             this.KeyDown += new KeyEventHandler(MainWindow_KeyDown);
 
-            // Register events with the global compiler
-            TheCompiler.Instance.OnCompileEvent += TexCompiler_OnCompileEvent;
-      //      TheCompiler.Instance.JobSucceeded += new TexCompiler.JobEventHandler(TheCompiler_JobSucceeded);
-      //      TheCompiler.Instance.OnTexError += new TexCompiler.TexErrorHandler(addProblemMarker);
-            TheCompiler.Instance.OnTexOutput += TexCompiler_OnTexOutput;
-            //tikzDisplay1.TexCompilerToListen = TheCompiler.Instance;
-
             // manually bind dynamic preamble
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(DynPreamble.DynPreambleView.PreambleProperty, typeof(DynPreamble.DynPreambleView) );
             if (dpd != null)
@@ -302,7 +299,7 @@ namespace TikzEdt
 
             RecentFileList.MenuClick += (s, e) => {
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
-                    MainWindowVM.StartNewTEInstance( "\"" + e.Filepath + "\"");
+                    MainWindowVM<AvalonDocumentWrapper>.StartNewTEInstance( "\"" + e.Filepath + "\"");
                 else if (TheVM.TheDocument.TryDisposeFile()) 
                     TheVM.LoadFile(e.Filepath); 
             };            
@@ -692,7 +689,7 @@ namespace TikzEdt
         } */
 
 
-        public static void AddStatusLine(string text, bool lError = false)
+        static void AddStatusLine(string text, bool lError = false)
         {
             if (Application.Current.Dispatcher.CheckAccess())
             {
@@ -2493,7 +2490,7 @@ namespace TikzEdt
                     TheVM.LoadFile(e.FileName);
             }
             else if ((string)e.CommandParameter == "newinstance")
-                MainWindowVM.StartNewTEInstance( "\"" + e.FileName + "\"");
+                MainWindowVM<AvalonDocumentWrapper>.StartNewTEInstance( "\"" + e.FileName + "\"");
             else if ((string)e.CommandParameter == "externalviewer")
             {
                 try
