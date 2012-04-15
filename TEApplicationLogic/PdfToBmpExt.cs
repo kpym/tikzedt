@@ -29,15 +29,15 @@ namespace TikzEdt
             double dpi = 72 * Resolution / Consts.ptspertikzunit;
             //dpi = Math.Round(dpi, 10);
             string transp_arg = Transparent ? " -a" : "";
-            Process p = Process.Start(
-                new ProcessStartInfo()
+            var psi = new ProcessStartInfo()
                 {
                     FileName = "mudraw.exe",
-                    Arguments = "-o " + "\""+PngFile+"\" -r " +dpi+ transp_arg +" \""+PdfFile+"\" 1",
+                    Arguments = "-o " + "\"" + PngFile + "\" -r " + dpi + transp_arg + " \"" + PdfFile + "\" 1",
                     UseShellExecute = false,
                     CreateNoWindow = true
-                }
-                );
+                };
+            GlobalUI.UI.AddStatusLine(this, "Rendering: " + psi.FileName + " " + psi.Arguments);
+            Process p = Process.Start(psi);
 
             p.WaitForExit();
             return (p.ExitCode == 0);
@@ -60,8 +60,21 @@ namespace TikzEdt
         public Bitmap GetBitmap(double Resolution, bool Transparent = true)
         {
             if (CallExternalRenderer(Resolution, Transparent) && File.Exists(PngFile))
-                return (Bitmap)Bitmap.FromFile(PngFile);
-            else return null;
+            {
+                try
+                {
+                    Bitmap ret = null;
+                    using (var fs = new FileStream(PngFile, FileMode.Open))
+                    {
+                        ret = (Bitmap)Image.FromStream(fs);
+                    }
+                    return ret;
+                }
+                catch (Exception ) {}
+            }
+
+
+            return null;
         }
     }
 

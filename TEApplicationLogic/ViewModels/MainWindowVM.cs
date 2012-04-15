@@ -13,7 +13,7 @@ using System.IO;
 
 namespace TikzEdt.ViewModels
 {
-    public class MainWindowVM : ViewModelBase
+    public class MainWindowVM<T> : ViewModelBase where T : class, ITEDoc, new()
     {
         /*  public ObservableCollection<TEDocumentView> Documents { get; private set; }
 
@@ -40,11 +40,11 @@ namespace TikzEdt.ViewModels
             set;
         }
 
-        private TEDocumentVM _TheDocument; // = new TEDocumentVM();
+        private TEDocumentVM<T> _TheDocument; // = new TEDocumentVM();
         /// <summary>
         /// The currently active document.
         /// </summary>
-        public TEDocumentVM TheDocument
+        public TEDocumentVM<T> TheDocument
         {
             get {return _TheDocument; }
             private set 
@@ -158,6 +158,8 @@ namespace TikzEdt.ViewModels
         {
             get { return new CommandBinding(ApplicationCommands.SaveAs, SaveAsCommandHandler); }
         }
+
+        //public ICommand NewCommand { get { return new RelayCommand(o =>  CreateNewFile(o != null) ); } }
         #endregion
 
         //ObservableCollection<AvalonDock.DocumentContent> _DocumentsAD = new ObservableCollection<AvalonDock.DocumentContent>();
@@ -196,13 +198,13 @@ namespace TikzEdt.ViewModels
         /// <param name="cFile"></param>
         public void LoadFile(string cFile = null)
         {
-            TEDocumentVM doc;
+            TEDocumentVM<T> doc;
             try
             {
-                doc = new TEDocumentVM(this, Compiler, cFile);
+                doc = new TEDocumentVM<T>(this, Compiler, cFile);
                 //doc.OnClose += new EventHandler(doc_OnClose);
                // TEDocumentView view = new TEDocumentView(doc);
-                doc.OnSaved += ((s, e) => GlobalUI.UI.RaiseRecentFileEvent(s, (s as TEDocumentVM).FilePath, true));
+                doc.OnSaved += ((s, e) => GlobalUI.UI.RaiseRecentFileEvent(s, (s as TEDocumentVM<T>).FilePath, true));
                 //Documents.Insert(0, view);
                 //ActiveView = view;
                 if (cFile != null)
@@ -222,9 +224,19 @@ namespace TikzEdt.ViewModels
         /// Tries to create a new file. Is the command parameter is not null, then a new instance of TikzEdt is opened.
         /// If the current file is unsaved, the user has to be asked to save.
         /// </summary>
-        private void NewCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        void NewCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            if (e.Parameter != null)
+            CreateNewFile(e.Parameter != null);
+        }
+
+        /// <summary>
+        /// Tries to cretae a new File.
+        /// (If the current file contains changes and the user rejects to discard/save them, no file is created).
+        /// </summary>
+        /// <param name="InNewInstance">Whether to open a new instance of TikzEdt.</param>
+        public void CreateNewFile(bool InNewInstance = false)
+        {
+            if (InNewInstance)
             {
                 // open a new instance (TODO: in the same folder...)
                 StartNewTEInstance();
@@ -233,12 +245,13 @@ namespace TikzEdt.ViewModels
             {
                 if (TheDocument == null || TheDocument.TryDisposeFile())
                 {
-                    TheDocument = new TEDocumentVM(this, Compiler);
-                    TheDocument.OnSaved += ((s, args) => GlobalUI.UI.RaiseRecentFileEvent(s, (s as TEDocumentVM).FilePath, true));
+                    TheDocument = new TEDocumentVM<T>(this, Compiler);
+                    TheDocument.OnSaved += ((s, args) => GlobalUI.UI.RaiseRecentFileEvent(s, (s as TEDocumentVM<T>).FilePath, true));
                 }
             }
-
         }
+
+        
 
         /// <summary>
         /// Starts a new instance of TikzEdt

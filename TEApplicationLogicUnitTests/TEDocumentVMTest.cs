@@ -85,7 +85,7 @@ namespace TEApplicationLogicUnitTests
             TexCompiler tc = new TexCompiler();
             //MainWindowVM parent = new MainWindowVM(tc); // TODO: Initialize to an appropriate value
             string cFile = string.Empty; // TODO: Initialize to an appropriate value
-            TEDocumentVM target = new TEDocumentVM(null, tc); 
+            TEDocumentVM<AvalonDocumentWrapper> target = new TEDocumentVM<AvalonDocumentWrapper>(null, tc); 
             string filename = GlobUI.MockFileDialogFileName = Directory.GetCurrentDirectory() + "\\" + "temp2.tex";
             GlobUI.MockFileDialogResult = true;
             target.SaveCurFile();

@@ -20,7 +20,7 @@ namespace TikzEdt.ViewModels
     /// <summary>
     /// The viewmodel for a single TikzEdt document.
     /// </summary>
-    public class TEDocumentVM : ViewModelBase
+    public class TEDocumentVM<T> : ViewModelBase where T : class, TikzEdt.ViewModels.ITEDoc, new()
     {
         #region Commands
         RelayCommand _CompileCommand;
@@ -148,17 +148,19 @@ namespace TikzEdt.ViewModels
                 return c;
             }
         }
-        private TextDocument _Document = null;
-        public TextDocument Document
+        private T _Document = null;
+        public T Document
         {
             get { return _Document; }
             private set
             {
                 if (_Document != null)
-                    Document.Changed -= new EventHandler<DocumentChangeEventArgs>(Document_TextChanged);
+                    Document.Changed -= new EventHandler(Document_TextChanged);
+                    //Document.Changed -= new EventHandler<DocumentChangeEventArgs>(Document_TextChanged);
                 _Document = value;
                 if (_Document != null)
-                    Document.Changed += new EventHandler<DocumentChangeEventArgs>(Document_TextChanged);
+                    Document.Changed += new EventHandler(Document_TextChanged);
+                    //Document.Changed += new EventHandler<DocumentChangeEventArgs>(Document_TextChanged);
                 NotifyPropertyChanged("Document");
             }
         }
@@ -452,7 +454,7 @@ namespace TikzEdt.ViewModels
             //SourceManager.Instance.SourceCode.Text = txtCode.Document.Text;
 
             ChangesMade = true;
-
+            
             // no auto-compilation in Production Mode (no Auto saving)
             //if (chkProductionMode.IsChecked == false)
             if (TheVM == null || TheVM.EditorMode != TEMode.Production)
@@ -578,7 +580,7 @@ namespace TikzEdt.ViewModels
 
         #region private fields
 
-        MainWindowVM TheVM;
+        MainWindowVM<T> TheVM;
         TexCompiler Compiler;
 
         FileSystemWatcher fileWatcher = new FileSystemWatcher();
@@ -654,7 +656,7 @@ namespace TikzEdt.ViewModels
         /// <param name="parent"></param>
         /// <param name="compiler"></param>
         /// <param name="cFile"></param>
-        public TEDocumentVM(MainWindowVM parent, TexCompiler compiler, string cFile = null)
+        public TEDocumentVM(MainWindowVM<T> parent, TexCompiler compiler, string cFile = null)
         {
             TheVM = parent;
             Compiler = compiler;
@@ -677,7 +679,9 @@ namespace TikzEdt.ViewModels
             ChangesMade = false;
 
             if (cFile == null)
-                Document = new TextDocument(Consts.DefaultTikzCode);
+            {
+                T doc = new T(); doc.Text = Consts.DefaultTikzCode; Document = doc;
+            }
             else
                 LoadFile(cFile);
 
@@ -810,7 +814,8 @@ namespace TikzEdt.ViewModels
             ChangesMade = false;
             //CurFileNeverSaved = false;
 
-            Document = new TextDocument(newcode);
+            T doc = new T(); doc.Text = newcode; Document = doc;
+            
             //Document.Insert(0, newcode);
             ChangesMade = false;  // set here since txtCode sets ChangesMade on Text change        
             

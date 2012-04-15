@@ -105,7 +105,7 @@ namespace TEApplicationLogicUnitTests
             this.Dispatcher.Invoke(DispatcherPriority.Send, new Action(delegate()
             {
 
-            MainWindowVM_Accessor target = new MainWindowVM_Accessor(TheCompiler.Instance); 
+                MainWindowVM_Accessor<AvalonDocumentWrapper> target = new MainWindowVM_Accessor<AvalonDocumentWrapper>(TheCompiler.Instance); 
             // To execute commands, we need to take a detour and bind them in a dummy
             StackPanel dummy = new StackPanel();
             dummy.CommandBindings.Add(target.SaveAsCommandBinding);
@@ -125,7 +125,7 @@ namespace TEApplicationLogicUnitTests
             //DispatcherUtil.DoEvents();
 
             // now change the file a bit
-            target.TheDocument.Document.Insert(0, "   ");
+            target.TheDocument.Document.Replace(0, 0, "   ");
             string oldText = target.TheDocument.Document.Text;
 
        //     Thread.Sleep(1000);

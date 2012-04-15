@@ -19,34 +19,56 @@ namespace TikzEdtWForms
         {
             InitializeComponent();
 
+            this.BackColor = Color.Transparent;
+            lblUnavailable.BackColor = Color.Transparent;
+            imgImage.BackColor = Color.Transparent;
+
+            if (this.DesignMode)
+                return;
+
             TheModel = new TikzDisplayModel<Bitmap>(this, new PdfToBmpExtWinForms() );
             
-            //lblUnavailable.DataBindings.Add(;
+            lblUnavailable.DataBindings.Add("Visible", TheModel, "IsUnavailable");
+            imgImage.DataBindings.Add("Visible", TheModel, "IsImageVisible");
+            //imgImage.Image
+            Binding b = new Binding("Image", TheModel, "Bmp", true, DataSourceUpdateMode.Never);
+            b.Format += new ConvertEventHandler(b_Format);
+            imgImage.DataBindings.Add(b);
+
+            this.AutoSize = true;
+            this.imgImage.SizeMode = PictureBoxSizeMode.AutoSize;
 
         }
 
-        string _PdfPath;
-        string ITikzDisplayView.PdfPath
+        void b_Format(object sender, ConvertEventArgs e)
+        {
+            Bitmap bmp = e.Value as Bitmap;
+            e.Value = bmp as Image;
+        }
+
+        string _PdfPath = null;
+        public string PdfPath
         {
             get { return _PdfPath; }
             set { _PdfPath = value; TheModel.Refresh(); }
         }
 
-        int ITikzDisplayView.ReloadPdf
+        //int ITikzDisplayView.ReloadPdf
+        public int ReloadPdf
         {
             get { return 0; }
             set { TheModel.RedrawBMP(true); }
         }
 
-        bool _RenderTransparent;
-        bool ITikzDisplayView.RenderTransparent
+        bool _RenderTransparent = true;
+        public bool RenderTransparent
         {
             get { return _RenderTransparent; }
             set { _RenderTransparent = value; TheModel.RedrawBMP(false); }
         }
 
-        double _Resolution;
-        double ITikzDisplayView.Resolution
+        double _Resolution = Consts.ptspertikzunit;
+        public double Resolution
         {
             get { return _Resolution; }
             set { _Resolution = value; TheModel.RedrawBMP(false); }
