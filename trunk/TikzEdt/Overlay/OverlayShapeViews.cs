@@ -32,8 +32,8 @@ namespace TikzEdt
             this.ToolTip = tip;
         }
 
-        double ParentHeight { get { return (Parent as Canvas).Height; } }
-        double ParentWidth { get { return (Parent as Canvas).Width; } }
+        //double ParentHeight { get { return (Parent as Canvas).Height; } }
+        //double ParentWidth { get { return (Parent as Canvas).Width; } }
 
         public virtual double GetLeft()
         {

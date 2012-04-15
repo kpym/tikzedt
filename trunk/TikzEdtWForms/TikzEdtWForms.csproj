@@ -54,6 +54,13 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="ICommand.cs" />
+    <Compile Include="OverlayShapeViews.cs" />
+    <Compile Include="PdfOverlay.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PdfOverlay.Designer.cs">
+      <DependentUpon>PdfOverlay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RasterControl.cs">
