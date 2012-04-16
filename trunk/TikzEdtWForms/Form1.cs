@@ -16,6 +16,7 @@ namespace TikzEdtWForms
         MainWindowVM<TextEditorDocumentWrapper> TheVM = new MainWindowVM<TextEditorDocumentWrapper>(TheCompiler.Instance);
 
         RasterControl rasterControl1;
+        PdfOverlay pdfOverlay1;
 
         public Form1()
         {
@@ -24,8 +25,17 @@ namespace TikzEdtWForms
             splitContainer2.Panel2.BackColor = Color.DarkGray;
             rasterControl1 = new RasterControl();
             splitContainer2.Panel2.Controls.Add(rasterControl1);
-
+            tikzDisplay1.Visible = false;
             tikzDisplay1.Parent = rasterControl1;
+
+            pdfOverlay1 = new PdfOverlay();
+            pdfOverlay1.Left = 0;
+            pdfOverlay1.Top = 0;
+            pdfOverlay1.Parent = tikzDisplay1;
+            pdfOverlay1.BringToFront();
+            pdfOverlay1.Visible = true;
+            //pdfOverlay1.Rasterizer = rasterControl1.TheRasterModel;
+            rasterControl1.Rasterizer = rasterControl1.TheRasterModel;
 
             rasterControl1.Visible = true;
             //rasterControl1.Anchor = AnchorStyles.None;
@@ -35,7 +45,7 @@ namespace TikzEdtWForms
 
             splitContainer2.Panel2.Resize += new EventHandler(Panel2_Resize);
             rasterControl1.Resize += new EventHandler(Panel2_Resize);
-            tikzDisplay1.Resize += new EventHandler(Panel2_Resize);
+      //      tikzDisplay1.Resize += new EventHandler(Panel2_Resize);
 
             if (DesignMode)
                 return;
@@ -56,22 +66,43 @@ namespace TikzEdtWForms
             txtCode.Document = TheVM.TheDocument.Document.Document;
 
             b = new Binding("ReloadPdf", bs, "TheDocument.ReloadPdf", false, DataSourceUpdateMode.Never);
-            tikzDisplay1.DataBindings.Add(b);
+            rasterControl1.DataBindings.Add(b);
             //TheVM.TheDocument.
             //tikzDisplay1.Bou
             b = new Binding("PdfPath", bs, "TheDocument.PdfPath", false, DataSourceUpdateMode.Never);
-            tikzDisplay1.DataBindings.Add(b);
-            b = new Binding("Resolution", bs, "TheDocument.Resolution", false, DataSourceUpdateMode.Never);
-            tikzDisplay1.DataBindings.Add(b);
+            rasterControl1.DataBindings.Add(b);
+        //    b = new Binding("Resolution", bs, "TheDocument.Resolution", false, DataSourceUpdateMode.Never);
+       //     tikzDisplay1.DataBindings.Add(b);
 
             
             b = new Binding("Resolution", bs, "TheDocument.Resolution", false, DataSourceUpdateMode.Never);
             rasterControl1.DataBindings.Add(b);
-
             b = new Binding("BB", bs, "TheDocument.CurrentBB", false, DataSourceUpdateMode.Never);
             rasterControl1.DataBindings.Add(b);
 
+        //    b = new Binding("BB", bs, "TheDocument.CurrentBB", false, DataSourceUpdateMode.Never);
+        //    pdfOverlay1.DataBindings.Add(b);
+            b = new Binding("Tool", bs, "CurrentTool", false, DataSourceUpdateMode.OnPropertyChanged);
+            rasterControl1.DataBindings.Add(b);
+     //       b = new Binding("Resolution", bs, "TheDocument.Resolution", false, DataSourceUpdateMode.Never);
+      //      pdfOverlay1.DataBindings.Add(b);
+            b = new Binding("AllowEditing", bs, "TheDocument.AllowEditing", false, DataSourceUpdateMode.Never);
+            rasterControl1.DataBindings.Add(b);
+            //b = new Binding("ParseTree", bs, "TheDocument.ParseTree", false, DataSourceUpdateMode.Never);
+            //pdfOverlay1.DataBindings.Add(b);
+            //TheVM.TheDocument.Parse
+            //pdfOverlay1.Pars
+
+            var sp = BindingFactory.CreateProvider(TheVM, "TheDocument", vm => vm.TheDocument);
+            BindingFactory.CreateBindingSP(sp, "ParseTree", doc => rasterControl1.ParseTree = doc.ParseTree, () => rasterControl1.ParseTree = null);
+
+
+/* * 
+ * */
+
         }
+
+        
 
         void Panel2_Resize(object sender, EventArgs e)
         {

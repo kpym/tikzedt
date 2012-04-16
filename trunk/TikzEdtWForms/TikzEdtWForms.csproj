@@ -54,6 +54,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="ICommand.cs" />
+    <Compile Include="MyBinding.cs" />
     <Compile Include="OverlayShapeViews.cs" />
     <Compile Include="PdfOverlay.cs">
       <SubType>Component</SubType>

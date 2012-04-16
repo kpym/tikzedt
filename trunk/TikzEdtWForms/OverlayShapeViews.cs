@@ -5,6 +5,7 @@ using System.Text;
 using TikzEdt.Overlay;
 using System.Windows.Forms;
 using System.Drawing;
+using TikzEdt;
 
 namespace TikzEdtWForms
 {
@@ -32,6 +33,24 @@ namespace TikzEdtWForms
         public void SetToolTip(string Text)
         {
             this.ToolTip = Text;
+        }
+
+
+        /// <summary>
+        /// Tests whether the point p (in TL centric coordinates) lies within the object.
+        /// If yes returns a "distance", based on which the object is selected. (smallest distance wins)
+        /// If no returns a large value (1000000)
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public virtual double HitTest(double x, double y)
+        {
+            var lBB = GetBB();
+            if (lBB.Contains(x, y))
+            {
+                return (new System.Windows.Point(x, y) - lBB.Center()).Length;
+            }
+            else return 1000000;
         }
 
         //double ParentHeight { get { return (Parent as Canvas).Height; } }
@@ -137,6 +156,17 @@ namespace TikzEdtWForms
 
         }
 
+        public override double HitTest(double x, double y)
+        {
+            var lBB = GetBB();
+            var lBBs = GetBB();
+            lBBs.Inflate(10,10);
+            if (lBB.Contains(x, y) && lBBs.Contains(x, y))
+                return 10;
+            else
+                return 1000000;
+        }
+
         public void SetSize(double Width, double Height)
         {
             BB.Width = Width;
@@ -234,11 +264,11 @@ namespace TikzEdtWForms
     }
 
 
-    public abstract class WPFShapeBase : IPreviewShape
+    public abstract class WFShapeBase : IPreviewShape
     {
         Control TheCanvas;
         
-        public WPFShapeBase(Control TheCanvas)
+        public WFShapeBase(Control TheCanvas)
         {
             this.TheCanvas = TheCanvas;
         }
@@ -252,9 +282,9 @@ namespace TikzEdtWForms
             }
             set
             {
-                if (value != Visible)
+                if (value != _Visible)
                 {
-                    Visible = value;
+                    _Visible = value;
                     TheCanvas.Invalidate();
                 }
             }
@@ -286,9 +316,9 @@ namespace TikzEdtWForms
         public abstract void Draw(Graphics dc);
     }
 
-    class WPFRectangleShape : WPFShapeBase, IRectangleShape
+    class WFRectangleShape : WFShapeBase, IRectangleShape
     {
-        public WPFRectangleShape(Control TheCanvas)
+        public WFRectangleShape(Control TheCanvas)
             : base(TheCanvas)
         { }
 
@@ -298,6 +328,8 @@ namespace TikzEdtWForms
             BB.Y = Top;
             BB.Width = Width;
             BB.Height = Height;
+            //GlobalUI.UI.AddStatusLine(this, "setpos");
+            Refresh();
         }
 
         /// <summary>
@@ -315,11 +347,16 @@ namespace TikzEdtWForms
             if (TheFill != null)
                 dc.FillRectangle(TheFill, BB.ToRectangleF());
             if (ThePen != null)
-                dc.DrawRectangle(ThePen, BB.ToRectangleF());
+            {
+                var r = BB.ToRectangleF();
+                dc.DrawRectangle(ThePen, r);
+                //dc.DrawRectangle(Pens.Green, new RectangleF(20, 20, 200, 200));
+                //GlobalUI.UI.AddStatusLine(this, "p " + BB.Width + " " + BB.Height + " " + r);
+            }
         }
     }
 
-    class WPFEllipseShape : WPFRectangleShape
+    class WFEllipseShape : WFRectangleShape
     {
         public override void Draw(Graphics dc)
         {
@@ -329,7 +366,7 @@ namespace TikzEdtWForms
                 dc.DrawEllipse(ThePen, BB.ToRectangleF());
         }
 
-        public WPFEllipseShape(Control C) : base(C) { }
+        public WFEllipseShape(Control C) : base(C) { }
     }
 
     /// <summary>
@@ -337,9 +374,9 @@ namespace TikzEdtWForms
     /// 
     /// It describe by a center point Center, a Radius and the various spokes
     /// </summary>
-    class WPFFanshape : WPFShapeBase, IFanShape
+    class WFFanshape : WFShapeBase, IFanShape
     {
-        public WPFFanshape(Control TheCanvas) : base(TheCanvas) { }
+        public WFFanshape(Control TheCanvas) : base(TheCanvas) { }
 
         public double R { get; set; }
         public System.Windows.Point Center { get; set; }
@@ -419,7 +456,7 @@ namespace TikzEdtWForms
 
 
 
-    class WFPreviewGridShape : WPFRectangleShape
+    class WFPreviewGridShape : WFRectangleShape
     {
 
         static Pen DashedPen = new Pen(Brushes.Black) { DashPattern = new float[] { 4, 4 } };
@@ -440,7 +477,7 @@ namespace TikzEdtWForms
         public WFPreviewGridShape(Control C) : base(C) { }
     }
 
-    class WPFArcShape : WPFShapeBase, IArcShape
+    class WFArcShape : WFShapeBase, IArcShape
     {
         public System.Windows.Point p1  {get; set;}
         public System.Windows.Point p2  {get; set;}
@@ -458,7 +495,7 @@ namespace TikzEdtWForms
             set;
         }
 
-        public WPFArcShape(Control TheCanvas)
+        public WFArcShape(Control TheCanvas)
             : base(TheCanvas)
         {
             ThePen = Pens.Black;
