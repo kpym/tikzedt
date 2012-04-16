@@ -272,7 +272,7 @@ namespace TikzEdt
                         tc.SetAbsPos(new Point(p.X, p.Y)); //hack
 
                         // if a nonempty node style is selected, also add a node with that style
-                        if (overlay.NodeStyle.Trim() != "")
+                        if (!String.IsNullOrWhiteSpace( overlay.NodeStyle))
                         {
                             Tikz_Node tn = new Tikz_Node()
                             {
@@ -332,7 +332,7 @@ namespace TikzEdt
                 Parser.Tikz_Node tn = new Parser.Tikz_Node();
                 tn.label = "";
                 tn.coord = new Parser.Tikz_Coord();
-                if (overlay.NodeStyle != "")
+                if (!String.IsNullOrEmpty( overlay.NodeStyle ))
                     tn.options = "[" + overlay.NodeStyle + "]";
 
                 Parser.Tikz_Path tp = new Parser.Tikz_Path();
@@ -560,7 +560,7 @@ namespace TikzEdt
             Parser.Tikz_Path tp = new Parser.Tikz_Path();
             tp.starttag = @"\draw ";
             tp.endtag = ";";
-            if (overlay.EdgeStyle != "")
+            if (!String.IsNullOrEmpty(overlay.EdgeStyle))
             {
                 Parser.Tikz_Options topt = new Parser.Tikz_Options();
                 topt.starttag = "[";

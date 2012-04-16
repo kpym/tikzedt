@@ -398,6 +398,7 @@ namespace TikzEdtWForms
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
+            this.Focus();
 
             if (e.Button.HasFlag(MouseButtons.Left))
             {
@@ -474,6 +475,47 @@ namespace TikzEdtWForms
 
             }
 
+        }
+
+        protected override void  OnKeyDown(KeyEventArgs e)
+        {
+            //base.OnKeyDown(e);
+            TEKeyArgs ee = e.ToTEKeyArgs();
+            TheOverlayModel.CurrentTool.KeyDown(ee);
+            e.Handled = ee.Handled;
+
+            // turn off raster on Alt
+            Rasterizer.View.OverrideWithZeroGridWidth = Control.ModifierKeys.HasFlag(Keys.Alt) && !Control.ModifierKeys.HasFlag(Keys.Shift);
+            Rasterizer.View.OverrideWithHalfGridWidth = Control.ModifierKeys.HasFlag(Keys.Alt) && Control.ModifierKeys.HasFlag(Keys.Shift);
+
+            if (e.KeyCode == Keys.Alt )
+                e.Handled = true;
+
+            if (!e.Handled)
+            {
+                // escape cancels current operation
+                if (e.KeyCode == Keys.Escape)
+                    TheOverlayModel.ActivateDefaultTool();
+
+            }
+
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            //base.OnKeyUp(e);
+
+            // route event to current tool
+            TEKeyArgs ee = e.ToTEKeyArgs();
+            TheOverlayModel.CurrentTool.KeyUp(ee);
+            e.Handled = ee.Handled;
+
+            // turn on raster on Alt released
+            Rasterizer.View.OverrideWithZeroGridWidth = Control.ModifierKeys.HasFlag(Keys.Alt) && !Control.ModifierKeys.HasFlag(Keys.Shift);
+            Rasterizer.View.OverrideWithHalfGridWidth = Control.ModifierKeys.HasFlag(Keys.Alt) && Control.ModifierKeys.HasFlag(Keys.Shift);
+
+            if (e.KeyCode == Keys.Alt )
+                e.Handled = true;
         }
 
         #endregion
@@ -639,8 +681,14 @@ namespace TikzEdtWForms
             set
             {
                 TheOverlayModel.ToolList[(int)_Tool].OnDeactivate();
-                _Tool = value;
+                if (_Tool != value)
+                {
+                    _Tool = value;
+                    if (ToolChanged != null)
+                        ToolChanged(this, new EventArgs());
+                }
                 TheOverlayModel.CurrentTool.OnActivate();
+                
             }
         }
         public event EventHandler ToolChanged;

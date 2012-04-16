@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using TikzEdt.ViewModels;
 using TikzEdt;
+using System.Diagnostics;
 
 namespace TikzEdtWForms
 {
@@ -16,24 +17,31 @@ namespace TikzEdtWForms
         MainWindowVM<TextEditorDocumentWrapper> TheVM = new MainWindowVM<TextEditorDocumentWrapper>(TheCompiler.Instance);
 
         RasterControl rasterControl1;
-        PdfOverlay pdfOverlay1;
+        //PdfOverlay pdfOverlay1;
 
         public Form1()
         {
             InitializeComponent();
 
+            if (DesignMode)
+                return;
+            
+            // The order should be exactly the same as that in the OverlayToolType enum!!!
+            ToolButtons = new List<ToolStripButton> { cmdMove, cmdNode, cmdEdge, cmdPath, cmdSmoothCurve, cmdBezier, cmdRectangle, cmdEllipse, cmdGrid, cmdArc, cmdArcEdit };
+
             splitContainer2.Panel2.BackColor = Color.DarkGray;
             rasterControl1 = new RasterControl();
             splitContainer2.Panel2.Controls.Add(rasterControl1);
-            tikzDisplay1.Visible = false;
-            tikzDisplay1.Parent = rasterControl1;
+      //      tikzDisplay1.Visible = false;
+     //       tikzDisplay1.Parent = rasterControl1;
 
-            pdfOverlay1 = new PdfOverlay();
+
+       /*     pdfOverlay1 = new PdfOverlay();
             pdfOverlay1.Left = 0;
             pdfOverlay1.Top = 0;
             pdfOverlay1.Parent = tikzDisplay1;
             pdfOverlay1.BringToFront();
-            pdfOverlay1.Visible = true;
+            pdfOverlay1.Visible = true; */
             //pdfOverlay1.Rasterizer = rasterControl1.TheRasterModel;
             rasterControl1.Rasterizer = rasterControl1.TheRasterModel;
 
@@ -47,8 +55,7 @@ namespace TikzEdtWForms
             rasterControl1.Resize += new EventHandler(Panel2_Resize);
       //      tikzDisplay1.Resize += new EventHandler(Panel2_Resize);
 
-            if (DesignMode)
-                return;
+
 
             //TheVM.NewCommandHandler(this, new System.Windows.Input.ExecutedRoutedEventArgs()) ;
             TheVM.CreateNewFile(false);
@@ -88,6 +95,12 @@ namespace TikzEdtWForms
       //      pdfOverlay1.DataBindings.Add(b);
             b = new Binding("AllowEditing", bs, "TheDocument.AllowEditing", false, DataSourceUpdateMode.Never);
             rasterControl1.DataBindings.Add(b);
+
+      //      b = new Binding("Text", bs, "TheDocument.EdgeStyle", false, DataSourceUpdateMode.Never);
+      //      cmbEdgeStyle.DataBindings.Add(b);
+      //      b = new Binding("Text", bs, "TheDocument.NodeStyle", false, DataSourceUpdateMode.Never);
+      //      cmbNodeStyle.DataBindings.Add(b);
+
             //b = new Binding("ParseTree", bs, "TheDocument.ParseTree", false, DataSourceUpdateMode.Never);
             //pdfOverlay1.DataBindings.Add(b);
             //TheVM.TheDocument.Parse
@@ -95,21 +108,28 @@ namespace TikzEdtWForms
 
             var sp = BindingFactory.CreateProvider(TheVM, "TheDocument", vm => vm.TheDocument);
             BindingFactory.CreateBindingSP(sp, "ParseTree", doc => rasterControl1.ParseTree = doc.ParseTree, () => rasterControl1.ParseTree = null);
+            
+
+            MyBindings.Add( BindingFactory.CreateBinding(TheVM, "CurrentTool", 
+                vm => {
+                    ToolButtons.Each( (tsb, i) => tsb.Checked = ( (int)vm.CurrentTool == i ) );
+                }, null) );
 
 
+            MyBindings.Add(sp);
 /* * 
  * */
 
         }
 
-        
+        List<object> MyBindings = new List<object>();
 
         void Panel2_Resize(object sender, EventArgs e)
         {
             //rasterControl1.Left = (splitContainer2.Panel2.ClientSize.Width - rasterControl1.Width) / 2;
             //rasterControl1.Top = (splitContainer2.Panel2.Height - rasterControl1.Height) / 2;
-            tikzDisplay1.Left = (rasterControl1.ClientSize.Width - tikzDisplay1.Width) / 2;
-            tikzDisplay1.Top = (rasterControl1.ClientSize.Height - tikzDisplay1.Height) / 2;
+            //tikzDisplay1.Left = (rasterControl1.ClientSize.Width - tikzDisplay1.Width) / 2;
+            //tikzDisplay1.Top = (rasterControl1.ClientSize.Height - tikzDisplay1.Height) / 2;
 
             rasterControl1.Left = (splitContainer2.Panel2.ClientSize.Width - rasterControl1.Width) / 2;
             rasterControl1.Top = (splitContainer2.Panel2.ClientSize.Height - rasterControl1.Height) / 2;
@@ -193,6 +213,76 @@ namespace TikzEdtWForms
         private void recompileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TheVM.TheDocument.Recompile();
+        }
+
+        List<ToolStripButton> ToolButtons;
+        private void cmdToolClick_Click(object sender, EventArgs e)
+        {
+            OverlayToolType t = (OverlayToolType)ToolButtons.IndexOf(sender as ToolStripButton);
+            TheVM.CurrentTool = t;
+        }
+
+        private void cmdSavePdf_Click(object sender, EventArgs e)
+        {
+            TheVM.TheDocument.SavePdf(false);
+        }
+
+        private void cmdCompile_Click(object sender, EventArgs e)
+        {
+            TheVM.TheDocument.Recompile();
+        }
+
+        private void cmdAbortCompile_Click(object sender, EventArgs e)
+        {
+            TheCompiler.Instance.AbortCompilation();
+        }
+
+        private void regeneratePrecompiledHeadersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TheCompiler.GeneratePrecompiledHeaders();
+        }
+
+        private void openInExternalViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string PdfPath = TheVM.TheDocument.SavePdf(false);
+
+            if (PdfPath == "") return;
+
+        //    if (Properties.Settings.Default.Path_externalviewer.Trim() == "")
+            {
+                System.Diagnostics.Process.Start(PdfPath);
+            }
+        //    else
+            {
+         //       System.Diagnostics.Process.Start(Properties.Settings.Default.Path_externalviewer, PdfPath);
+            }
+        }
+
+        void FillErrorsList()
+        {
+            lstErrors.Clear();
+
+            foreach (var err in TheVM.TheDocument.TexErrors)
+            {
+                ListViewItem lvi = new ListViewItem(err.Message);
+                lvi.SubItems.Add(err.Line.ToString());
+                lvi.SubItems.Add(err.Pos.ToString());
+                lvi.SubItems.Add(err.causingSourceFile);
+
+                switch (err.severity)
+                {
+                    case Severity.PARSERERROR: // todo: set status image
+                    case Severity.ERROR:
+                        lvi.ImageIndex = 0;
+                        break;
+                    case Severity.PARSERWARNING:
+                    case Severity.WARNING:
+                        lvi.ImageIndex = 1;
+                        break;
+                }
+
+                lstErrors.Items.Add(lvi);
+            }
         }
     }
 }

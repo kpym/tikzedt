@@ -418,7 +418,7 @@ namespace TikzEdt.Overlay
 
                     // add tooltip
                     Tikz_Node nref = TikzParseTreeHelper.GetReferenceableNode(tpi as Tikz_XYItem, ParseTree.GetTikzPicture());
-                    if (nref != null && nref.name != "")
+                    if (nref != null && !String.IsNullOrWhiteSpace(nref.name) )
                     {
                         el.View.SetToolTip(nref.name);                        
                     }
