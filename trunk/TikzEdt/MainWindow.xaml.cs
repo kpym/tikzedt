@@ -2379,7 +2379,7 @@ namespace TikzEdt
         {            
             try
             {
-                if (lib.Trim() != "")
+                if (!String.IsNullOrWhiteSpace(lib ))
                 {
                     // check if library already used (... it is a bit of a hack) 
                     Regex r = new Regex(@"\\usetikzlibrary(\s*)\{(\s*)" + lib + @"(\s*)\}", RegexOptions.IgnorePatternWhitespace);
@@ -2460,12 +2460,12 @@ namespace TikzEdt
         {
             InsertUseTikzLibrary(e.dependencies);
 
-            if (cmbEdgeStyles.Text.Trim() != "" && e.InAddition)
+            if (!String.IsNullOrWhiteSpace(cmbEdgeStyles.Text) && e.InAddition)
                 cmbEdgeStyles.Text = MergeStyles(cmbEdgeStyles.Text, e.edgestyle);
             else
                 cmbEdgeStyles.Text = e.edgestyle;
 
-            if (cmbNodeStyles.Text.Trim() != "" && e.InAddition)
+            if (!String.IsNullOrWhiteSpace(cmbNodeStyles.Text) && e.InAddition)
                 cmbNodeStyles.Text = MergeStyles(cmbNodeStyles.Text, e.nodestyle);
             else
                 cmbNodeStyles.Text = e.nodestyle;

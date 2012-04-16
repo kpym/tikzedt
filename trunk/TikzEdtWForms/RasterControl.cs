@@ -23,7 +23,8 @@ namespace TikzEdtWForms
             if (DesignMode)
                 return;
 
-            this.SetStyle(  ControlStyles.AllPaintingInWmPaint |  ControlStyles.UserPaint |  ControlStyles.DoubleBuffer, true);
+            //this.CanFocus = true;
+            this.SetStyle(  ControlStyles.AllPaintingInWmPaint |  ControlStyles.UserPaint |  ControlStyles.DoubleBuffer | ControlStyles.Selectable, true);
 
             TheRasterModel = new RasterControlModel(this);
 
@@ -60,7 +61,7 @@ namespace TikzEdtWForms
                 (r1, r2) =>
                 {
                     float rr1=(float)r1, rr2=(float)r2;
-                    dc.DrawEllipse(pen, -rr1, -rr2, rr1, rr2);
+                    dc.DrawEllipse(pen, -rr1, -rr2, 2*rr1, 2*rr2);
                 });
 
             dc.ResetTransform();
@@ -383,5 +384,21 @@ namespace TikzEdtWForms
                 MiddleButtonPressed = e.Button.HasFlag(MouseButtons.Middle)
             };
         }
+
+        public static TEKeyArgs ToTEKeyArgs(this KeyEventArgs e)
+        {
+            return new TEKeyArgs()
+            {
+                Handled = e.Handled,
+                KeyCode = e.KeyCode
+            };
+        }
+
+        public static void Each<T>(this IEnumerable<T> ie, Action<T, int> action)
+        {
+            var i = 0;
+            foreach (var e in ie) action(e, i++);
+        }
+
     }
 }

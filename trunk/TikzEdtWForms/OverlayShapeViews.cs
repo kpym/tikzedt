@@ -308,6 +308,7 @@ namespace TikzEdtWForms
         public void Refresh()
         {
             TheCanvas.Invalidate();
+            GlobalUI.UI.AddStatusLine(this, "R" + DateTime.Now.Ticks);
         }
 
         public Pen ThePen = null;
@@ -503,22 +504,43 @@ namespace TikzEdtWForms
 
         public override void Draw(Graphics dc)
         {
+            Pen p = IsDashed ? DashedPen : ThePen;
+            float R = (float) (center-p1).Length;   // the radius of the circle
+            var diag = new System.Windows.Vector(R,R);
+            RectangleF re = new System.Windows.Rect(center+diag, center-diag).ToRectangleF();  // BB of the circle
+            System.Windows.Vector v1 = p1 - center, v2 = p2 - center;
+
+
+            if (IsPie)
+            {
+                dc.DrawLine(p, center.ToPointF(), p1.ToPointF());
+                dc.DrawLine(p, center.ToPointF(), p2.ToPointF());
+            }
+
+            float angle2 = (float)( Math.Atan2(v2.Y, v2.X) *180 / Math.PI);
+            float angle1 = (float)( Math.Atan2(v1.Y, v1.X) *180 / Math.PI);
+            float angle = angle2 - angle1;
+            float bngle = angle + (angle>0?-360:360);
+
+
+            if (     ( IsLargeArc && Math.Abs(angle) < 180)
+                 ||  (!IsLargeArc && Math.Abs(angle) > 180) )
+                angle = bngle;
+
+            if (re.Height * re.Width > 0)
+                dc.DrawArc(p, re, angle1, angle );
             /* TODO
             context.BeginFigure(p1, false, IsPie);
-            Vector v1 = p1 - center, v2 = p2 - center;
+            
             SweepDirection sd;
             if ((v1.X * v2.Y - v1.Y * v2.X > 0) != LargeArc)
                 sd = SweepDirection.Clockwise;
             else
                 sd = SweepDirection.Counterclockwise;
 
-            context.ArcTo(p2, new Size(r, r), 0, LargeArc, sd, true, false);
-            if (IsPie)
-            {
-                context.LineTo(center, true, false);
-                context.LineTo(p1, true, false);
-            }
-            */
+            context.ArcTo(p2, new Size(r, r), 0, LargeArc, sd, true, false);*/
+
+            
         }
     }
 

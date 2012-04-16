@@ -180,6 +180,7 @@ namespace TikzEdt
         }
         void UpdatePreviewDisplay()
         {
+            //GlobalUI.UI.AddStatusLine(this, "UPD");
             if (pointcount == 0)
             {
                 PreviewArc.Visible = PreviewPie.Visible = false;
