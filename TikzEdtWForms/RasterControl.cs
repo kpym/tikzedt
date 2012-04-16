@@ -8,37 +8,54 @@ using System.Text;
 using System.Windows.Forms;
 using TikzEdt;
 using System.Drawing.Drawing2D;
+using TikzEdt.Overlay;
 
 namespace TikzEdtWForms
 {
-    public partial class RasterControl : Control, IRasterControlView
+    public partial class RasterControl : Control, IRasterControlView, ITikzDisplayView, TikzEdt.Overlay.IPdfOverlayView, TikzEdt.Overlay.IOverlayShapeFactory
     {
-        RasterControlModel TheModel;
+        public RasterControlModel TheRasterModel;
 
         public RasterControl()
         {
             InitializeComponent();
 
-            TheModel = new RasterControlModel(this);
+            if (DesignMode)
+                return;
+
+            this.SetStyle(  ControlStyles.AllPaintingInWmPaint |  ControlStyles.UserPaint |  ControlStyles.DoubleBuffer, true);
+
+            TheRasterModel = new RasterControlModel(this);
+
+            TheDisplayModel = new TikzDisplayModel<Bitmap>(this, new PdfToBmpExtWinForms());
+
+            TheOverlayModel = new PdfOverlayModel(this, this);
+
+            // listen to Bitmap changes
+            MyBindings.Add( BindingFactory.CreateBinding(TheDisplayModel, "Bmp", (o)=>this.Invalidate(), null) );
+
         }
+
+        List<object> MyBindings = new List<object>();
 
         protected override void OnPaint(PaintEventArgs pe)
         {
             //base.OnPaint(pe);
 
-            // Draw background
+            // Draw white background
             Graphics dc = pe.Graphics;
             dc.ResetTransform();
             dc.FillRectangle(Brushes.White, 0, 0, Width, Height);
             
-            Matrix t = TheModel.GetTikzToScreenTransform().ToMatrix();
+            // Draw the raster
+            Matrix t = TheRasterModel.GetTikzToScreenTransform().ToMatrix();
             //t.Freeze();
             
             Pen pen = new Pen(Brushes.WhiteSmoke, 0.000001f);
             //pen.Freeze();   
             dc.Transform = t;
 
-            TheModel.DrawRaster(
+            TheRasterModel.DrawRaster(
                 (p1, p2) => dc.DrawLine(pen, p1.ToPointF(), p2.ToPointF()),
                 (r1, r2) =>
                 {
@@ -46,6 +63,31 @@ namespace TikzEdtWForms
                     dc.DrawEllipse(pen, -rr1, -rr2, rr1, rr2);
                 });
 
+            dc.ResetTransform();
+
+            // draw unavailable note
+            if (TheDisplayModel.IsUnavailable)
+            {
+                StringFormat f = new StringFormat();
+                f.Alignment = StringAlignment.Center;
+                f.LineAlignment = StringAlignment.Center;
+                dc.DrawString("<Unavailable>", new Font("Arial", 16), Brushes.Black, ClientRectangle, f);
+            }
+
+            // draw the pdf image
+            if (TheDisplayModel.IsImageVisible && TheDisplayModel.Bmp != null)
+            {
+                Point p = new Point((Width - TheDisplayModel.Bmp.Width)/2, (Height- TheDisplayModel.Bmp.Height)/2);
+                dc.DrawImageUnscaled(TheDisplayModel.Bmp, p);
+            }
+
+            // draw shapes from parsetree
+            foreach (var osv in OSViews)
+                osv.Draw(pe.Graphics);
+
+            // draw (visible) auxiliary shapes
+            foreach (var ps in PreviewShapes.Where(o => o.Visible))
+                ps.Draw(pe.Graphics);
         }
 
         /// <summary>
@@ -61,6 +103,7 @@ namespace TikzEdtWForms
             Width = Convert.ToInt32(Resolution * BB.Width);
             Height = Convert.ToInt32(Resolution * BB.Height);
             DrawRaster();
+            TheOverlayModel.AdjustPositions();
         }
 
         #region Properties
@@ -200,6 +243,7 @@ namespace TikzEdtWForms
             {
                 _Resolution = value;
                 AdjustSize();
+                TheDisplayModel.RedrawBMP(false);
             }
         }
 
@@ -257,6 +301,10 @@ namespace TikzEdtWForms
         {
             return new RectangleF((float)r.X, (float)r.Y, (float)r.Width, (float)r.Height);
         }
+        public static System.Drawing.RectangleF ToRectangleF(this Rectangle r)
+        {
+            return new RectangleF((float)r.X, (float)r.Y, (float)r.Width, (float)r.Height);
+        }
 
         public static System.Drawing.PointF TopLeft(this RectangleF r)
         {
@@ -278,10 +326,62 @@ namespace TikzEdtWForms
         {
             return new PointF(r.X + r.Width/2, r.Y + r.Height/2);
         }
+        public static System.Windows.Point Center(this System.Windows.Rect r)
+        {
+            return new System.Windows.Point(r.X + r.Width / 2, r.Y + r.Height / 2);
+        }
 
         public static void DrawRectangle(this Graphics G, Pen p, RectangleF r)
         {
             G.DrawRectangle(p, r.X, r.Y, r.Width, r.Height);
+        }
+
+        public static Pair<TSource, TKey> MinBy<TSource, TKey>(this IEnumerable<TSource> source,
+                    Func<TSource, TKey> selector)
+        {
+            return source.MinBy(selector, Comparer<TKey>.Default);
+        }
+
+        public static Pair<TSource, TKey> MinBy<TSource, TKey>(this IEnumerable<TSource> source,
+            Func<TSource, TKey> selector, IComparer<TKey> comparer)
+        {
+            //source.ThrowIfNull("source");
+            //selector.ThrowIfNull("selector");
+            //comparer.ThrowIfNull("comparer");
+            using (IEnumerator<TSource> sourceIterator = source.GetEnumerator())
+            {
+                if (!sourceIterator.MoveNext())
+                {
+                    throw new InvalidOperationException("Sequence was empty");
+                }
+                TSource min = sourceIterator.Current;
+                TKey minKey = selector(min);
+                while (sourceIterator.MoveNext())
+                {
+                    TSource candidate = sourceIterator.Current;
+                    TKey candidateProjected = selector(candidate);
+                    if (comparer.Compare(candidateProjected, minKey) < 0)
+                    {
+                        min = candidate;
+                        minKey = candidateProjected;
+                    }
+                }
+                return new Pair<TSource, TKey>(min, minKey);
+            }
+
+        }
+
+
+        public static TEMouseArgs ToTEMouseArgs(this MouseEventArgs e)
+        {
+            return new TEMouseArgs()
+            {
+                ClickCount = e.Clicks,
+                Handled = false,
+                LeftButtonPressed = e.Button.HasFlag(MouseButtons.Left),
+                RightButtonPressed = e.Button.HasFlag(MouseButtons.Right),
+                MiddleButtonPressed = e.Button.HasFlag(MouseButtons.Middle)
+            };
         }
     }
 }

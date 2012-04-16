@@ -164,7 +164,7 @@ namespace TikzEdt.Overlay
             return ret;
         }
 
-        OverlayScope _CurEditing;
+        OverlayScope _CurEditing = null;
         /// <summary>
         /// This is a link to the scope currently selected for editing.
         /// New nodes/paths are added to this scope.
@@ -338,7 +338,7 @@ namespace TikzEdt.Overlay
             View.Clear();
             //curSel = null;
             CurEditing = null;
-            View.Tool = View.Tool;    // this deactivates + reactivates the current tool to reset its status
+            View.Tool = View.Tool;    // this deactivates + reactivates the current tool to reset its status... TODO: does this really work?
             TopLevelItems = new List<OverlayShape>();
 
             if (ParseTree == null)
