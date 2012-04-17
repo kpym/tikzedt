@@ -2372,85 +2372,6 @@ namespace TikzEdt
         }
 
         /// <summary>
-        /// Tries to insert a \usetikzlibrary{lib} into the code, if it is not present
-        /// </summary>
-        /// <param name="lib"></param>
-        void InsertUseTikzLibrary(string lib)
-        {            
-            try
-            {
-                if (!String.IsNullOrWhiteSpace(lib ))
-                {
-                    // check if library already used (... it is a bit of a hack) 
-                    Regex r = new Regex(@"\\usetikzlibrary(\s*)\{(\s*)" + lib + @"(\s*)\}", RegexOptions.IgnorePatternWhitespace);
-                    if (!r.IsMatch(txtCode.Text))
-                    {
-                        Regex rr = new Regex(@"\\begin(\s*)\{(\s*)tikzpicture(\s*)}");
-                        Match m = rr.Match(txtCode.Text);
-                        if (m.Success)
-                            txtCode.Document.Insert(m.Index, @"\usetikzlibrary{"+lib+"}"+Environment.NewLine);
-                    }
-                }
-            } catch (Exception) 
-            {
-                // failed -> dont bother
-            }
-
-        }
-
-        /// <summary>
-        /// Merges the two styles. If some style contains an arrow (i.e., contains -), the 
-        /// arrow head/tail are copied together.
-        /// For instance, -> + >- = >->
-        /// (the way it is implemented is a bit of a hack)
-        /// </summary>
-        /// <param name="s1"></param>
-        /// <param name="s2"></param>
-        /// <returns></returns>
-        string MergeStyles(string s1, string s2)
-        {           
-
-            List<string> sl1 = new List<string>(s1.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries));
-            List<string> sl2 = new List<string>(s2.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries));
-
-            foreach (string s in sl2)
-            {
-                if (s.Contains("-"))
-                {
-                    string[] ar2 = s.Split('-');
-                    if (ar2.Length == 2)
-                    {
-                        // arrow style,... check if other arrow style exists
-                        int ind = sl1.FindIndex(v => v.Contains("-"));
-                        if (ind >= 0)
-                        {
-                            string[] ar1 = sl1[ind].Split('-');
-                            if (ar1.Length == 2)
-                            {
-                                if (ar1[0].Trim() == "" && ar2[1].Trim() == "")
-                                {
-                                    sl1[ind] = ar2[0] + "-" + ar1[1];
-                                    continue;
-                                }
-                                else if (ar1[1].Trim() == "" && ar2[0].Trim() == "")
-                                {
-                                    sl1[ind] = ar1[0] + "-" + ar2[1];
-                                    continue;
-                                }
-                            }
-                        }
-                    }
-                }
-                
-                if (!sl1.Contains(s))
-                    sl1.Add(s);
-
-            }
-
-            return String.Join(", ", sl1);
-        }
-
-        /// <summary>
         /// Changes the specified style to the one currently used.
         /// If e.InAddition is true, instead the style is added
         /// </summary>
@@ -2458,15 +2379,15 @@ namespace TikzEdt
         /// <param name="e"></param>
         private void snippetlist1_OnUseStyles(object sender, Snippets.UseStylesEventArgs e)
         {
-            InsertUseTikzLibrary(e.dependencies);
+            TheVM.TheDocument.InsertUseTikzLibrary(e.dependencies);
 
             if (!String.IsNullOrWhiteSpace(cmbEdgeStyles.Text) && e.InAddition)
-                cmbEdgeStyles.Text = MergeStyles(cmbEdgeStyles.Text, e.edgestyle);
+                cmbEdgeStyles.Text = Helper.MergeStyles(cmbEdgeStyles.Text, e.edgestyle);
             else
                 cmbEdgeStyles.Text = e.edgestyle;
 
             if (!String.IsNullOrWhiteSpace(cmbNodeStyles.Text) && e.InAddition)
-                cmbNodeStyles.Text = MergeStyles(cmbNodeStyles.Text, e.nodestyle);
+                cmbNodeStyles.Text = Helper.MergeStyles(cmbNodeStyles.Text, e.nodestyle);
             else
                 cmbNodeStyles.Text = e.nodestyle;
 

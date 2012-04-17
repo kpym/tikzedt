@@ -59,10 +59,17 @@ namespace TikzEdtWForms
             rasterControl1.Resize += new EventHandler(Panel2_Resize);
       //      tikzDisplay1.Resize += new EventHandler(Panel2_Resize);
 
+            cmbEdgeStyle.TextChanged += (s, e) => TheVM.TheDocument.EdgeStyle = cmbEdgeStyle.Text;
+            cmbNodeStyle.TextChanged += (s, e) => TheVM.TheDocument.NodeStyle = cmbNodeStyle.Text;
+            cmbEdgeStyle.DropDown += (s, e) => { cmbEdgeStyle.Items.Clear(); cmbEdgeStyle.Items.AddRange(TheVM.TheDocument.TikzStyles.ToArray()); };
+            cmbNodeStyle.DropDown += (s, e) => { cmbNodeStyle.Items.Clear(); cmbNodeStyle.Items.AddRange(TheVM.TheDocument.TikzStyles.ToArray()); };
+
             snippetList1 = new SnippetList();
             snippetList1.Parent = splitContainer1.Panel1;
             snippetList1.Visible = true;
             snippetList1.Dock = DockStyle.Fill;
+            snippetList1.OnInsert += new EventHandler<TikzEdt.Snippets.InsertEventArgs>(snippetList1_OnInsert);
+            snippetList1.OnUseStyles += new EventHandler<TikzEdt.Snippets.UseStylesEventArgs>(snippetList1_OnUseStyles);
 
 
 
@@ -105,6 +112,11 @@ namespace TikzEdtWForms
             b = new Binding("AllowEditing", bs, "TheDocument.AllowEditing", false, DataSourceUpdateMode.Never);
             rasterControl1.DataBindings.Add(b);
 
+            b = new Binding("EdgeStyle", bs, "TheDocument.EdgeStyle", false, DataSourceUpdateMode.Never);
+            rasterControl1.DataBindings.Add(b);
+            b = new Binding("NodeStyle", bs, "TheDocument.NodeStyle", false, DataSourceUpdateMode.Never);
+            rasterControl1.DataBindings.Add(b);
+
       //      b = new Binding("Text", bs, "TheDocument.EdgeStyle", false, DataSourceUpdateMode.Never);
       //      cmbEdgeStyle.DataBindings.Add(b);
       //      b = new Binding("Text", bs, "TheDocument.NodeStyle", false, DataSourceUpdateMode.Never);
@@ -132,6 +144,26 @@ namespace TikzEdtWForms
  * */
             txtCode.SetHighlighting("Tikz");
             //txtCode.
+        }
+
+        void snippetList1_OnUseStyles(object sender, TikzEdt.Snippets.UseStylesEventArgs e)
+        {
+            TheVM.TheDocument.InsertUseTikzLibrary(e.dependencies);
+
+            if (!String.IsNullOrWhiteSpace(cmbEdgeStyle.Text) && e.InAddition)
+                cmbEdgeStyle.Text = Helper.MergeStyles(cmbEdgeStyle.Text, e.edgestyle);
+            else
+                cmbEdgeStyle.Text = e.edgestyle;
+
+            if (!String.IsNullOrWhiteSpace(cmbNodeStyle.Text) && e.InAddition)
+                cmbNodeStyle.Text = Helper.MergeStyles(cmbNodeStyle.Text, e.nodestyle);
+            else
+                cmbNodeStyle.Text = e.nodestyle;
+        }
+
+        void snippetList1_OnInsert(object sender, TikzEdt.Snippets.InsertEventArgs e)
+        {
+            txtCode.Document.Insert(txtCode.ActiveTextAreaControl.Caret.Offset, e.code);
         }
 
         //List<object> MyBindings = new List<object>();

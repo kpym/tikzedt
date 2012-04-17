@@ -1300,6 +1300,34 @@ namespace TikzEdt.ViewModels
 
         #endregion
 
+        /// <summary>
+        /// Tries to insert a \usetikzlibrary{lib} into the code, if it is not present
+        /// </summary>
+        /// <param name="lib"></param>
+        public void InsertUseTikzLibrary(string lib)
+        {
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(lib))
+                {
+                    // check if library already used (... it is a bit of a hack) 
+                    Regex r = new Regex(@"\\usetikzlibrary(\s*)\{(\s*)" + lib + @"(\s*)\}", RegexOptions.IgnorePatternWhitespace);
+                    if (!r.IsMatch(Document.Text))
+                    {
+                        Regex rr = new Regex(@"\\begin(\s*)\{(\s*)tikzpicture(\s*)}");
+                        Match m = rr.Match(Document.Text);
+                        if (m.Success)
+                            Document.Replace(m.Index, 0, @"\usetikzlibrary{" + lib + "}" + Environment.NewLine);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // failed -> dont bother
+            }
+
+        }
+
     /*    public static implicit operator TEDocumentContent(TEDocumentVM m)
         {
             // code to convert from MyType to int

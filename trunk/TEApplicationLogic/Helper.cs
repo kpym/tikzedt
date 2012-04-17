@@ -482,8 +482,61 @@ namespace TikzEdt
             StringBuilder shortPath = new StringBuilder(255);
             GetShortPathName(LongPath, shortPath, shortPath.Capacity);
             return shortPath.ToString();
-        } 
-         
+        }
+
+
+        /// <summary>
+        /// Merges the two styles. If some style contains an arrow (i.e., contains -), the 
+        /// arrow head/tail are copied together.
+        /// For instance, -> + >- = >->
+        /// (the way it is implemented is a bit of a hack)
+        /// </summary>
+        /// <param name="s1"></param>
+        /// <param name="s2"></param>
+        /// <returns></returns>
+        public static string MergeStyles(string s1, string s2)
+        {
+
+            List<string> sl1 = new List<string>(s1.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+            List<string> sl2 = new List<string>(s2.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+
+            foreach (string s in sl2)
+            {
+                if (s.Contains("-"))
+                {
+                    string[] ar2 = s.Split('-');
+                    if (ar2.Length == 2)
+                    {
+                        // arrow style,... check if other arrow style exists
+                        int ind = sl1.FindIndex(v => v.Contains("-"));
+                        if (ind >= 0)
+                        {
+                            string[] ar1 = sl1[ind].Split('-');
+                            if (ar1.Length == 2)
+                            {
+                                if (ar1[0].Trim() == "" && ar2[1].Trim() == "")
+                                {
+                                    sl1[ind] = ar2[0] + "-" + ar1[1];
+                                    continue;
+                                }
+                                else if (ar1[1].Trim() == "" && ar2[0].Trim() == "")
+                                {
+                                    sl1[ind] = ar1[0] + "-" + ar2[1];
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!sl1.Contains(s))
+                    sl1.Add(s);
+
+            }
+
+            return String.Join(", ", sl1);
+        }
+
     }
      
 
