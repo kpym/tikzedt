@@ -280,30 +280,38 @@ namespace TikzEdt.ViewModels
         /// </summary>
         private void OpenCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
+            Open(e.Parameter != null);
+        }
+
+        public void Open(bool InNewInstance = false)
+        {
             string filename;
-            if (e.Parameter != null)
+            if (InNewInstance)
             {
                 if (GlobalUI.UI.ShowOpenFileDialog(out filename) == true)
                 {
                     // open a new instance
-                    StartNewTEInstance("\""+filename+"\"");
+                    StartNewTEInstance("\"" + filename + "\"");
                 }
             }
             else
             {
                 if (TheDocument == null || TheDocument.TryDisposeFile())
                     if (GlobalUI.UI.ShowOpenFileDialog(out filename) == true)
-                       LoadFile(filename);
+                        LoadFile(filename);
             }
         }
 
+        public void Save() { TheDocument.SaveCurFile(); }
+        public void SaveAs() { TheDocument.SaveCurFile(true); }
+
         private void SaveCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            TheDocument.SaveCurFile();
+            Save();
         }
         private void SaveAsCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            TheDocument.SaveCurFile(true);
+            SaveAs();
         }
 
 
