@@ -4,6 +4,7 @@
         xmlns:local="clr-namespace:TikzEdt"
         xmlns:myEditor="clr-namespace:TikzEdt.Editor;assembly=TextEditorEx"
         xmlns:mySnippets="clr-namespace:TikzEdt.Snippets"
+        xmlns:mySnippetsAL="clr-namespace:TikzEdt.Snippets;assembly=TEApplicationLogic"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         Title="SnippetManager" Height="607" Width="747" Closing="Window_Closing" 
@@ -15,7 +16,7 @@
         <Style BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
             <Setter Property="Focusable" Value="False" />
         </Style>
-        <mySnippets:SnippetsDataSet x:Key="snippetsDataSet" />
+        <mySnippetsAL:SnippetsDataSet x:Key="snippetsDataSet" />
         <CollectionViewSource x:Key="snippetsTableViewSource" Source="{Binding Path=SnippetsTable, Source={StaticResource snippetsDataSet}}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Category" Direction="Ascending"/>

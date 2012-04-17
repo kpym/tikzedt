@@ -71,6 +71,15 @@
     <Compile Include="RasterControl.Designer.cs">
       <DependentUpon>RasterControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="SnippetEntry.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SnippetEntry.Designer.cs">
+      <DependentUpon>SnippetEntry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SnippetList.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="TextEditorDocumentWrapper.cs" />
     <Compile Include="TikzDisplay.cs">
       <SubType>UserControl</SubType>
@@ -90,6 +99,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SnippetEntry.resx">
+      <DependentUpon>SnippetEntry.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TikzDisplay.resx">
       <DependentUpon>TikzDisplay.cs</DependentUpon>
     </EmbeddedResource>
@@ -102,8 +114,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="SnippetThumbs.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Components\AuxiliaryPrograms\Unzipper\Unzipper.csproj">
+      <Project>{A5AE753E-3A06-4770-9AAC-4E902D1868E3}</Project>
+      <Name>Unzipper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Components\ICSharpCode.TextEditor\Project\ICSharpCode.TextEditor.csproj">
       <Project>{2D18BE89-D210-49EB-A9DD-2246FBB3DF6D}</Project>
       <Name>ICSharpCode.TextEditor %28Components\ICSharpcode.TextEditor\ICSharpCode.TextEditor%29</Name>

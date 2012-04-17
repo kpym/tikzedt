@@ -73,6 +73,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.txtCode = new ICSharpCode.TextEditor.TextEditorControl();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.txtStatus = new System.Windows.Forms.RichTextBox();
@@ -85,10 +86,10 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.txtTexOutput = new System.Windows.Forms.TextBox();
-            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.tlbToolPane = new System.Windows.Forms.ToolStrip();
+            this.cmdSnippets = new System.Windows.Forms.ToolStripButton();
+            this.cmdFiles = new System.Windows.Forms.ToolStripButton();
+            this.cmdDynPreamble = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
@@ -127,7 +128,6 @@
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
-            this.txtCode = new ICSharpCode.TextEditor.TextEditorControl();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -147,7 +147,7 @@
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.toolStrip3.SuspendLayout();
+            this.tlbToolPane.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
@@ -464,7 +464,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.toolStrip3);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.tlbToolPane);
             this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1105, 540);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
@@ -529,6 +529,16 @@
             this.splitContainer3.Size = new System.Drawing.Size(432, 540);
             this.splitContainer3.SplitterDistance = 370;
             this.splitContainer3.TabIndex = 0;
+            // 
+            // txtCode
+            // 
+            this.txtCode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtCode.IsReadOnly = false;
+            this.txtCode.Location = new System.Drawing.Point(0, 0);
+            this.txtCode.Name = "txtCode";
+            this.txtCode.Size = new System.Drawing.Size(432, 370);
+            this.txtCode.TabIndex = 0;
+            this.txtCode.Text = "textEditorControl1";
             // 
             // tabControl1
             // 
@@ -643,47 +653,57 @@
             this.txtTexOutput.Size = new System.Drawing.Size(418, 134);
             this.txtTexOutput.TabIndex = 0;
             // 
-            // toolStrip3
+            // tlbToolPane
             // 
-            this.toolStrip3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.toolStrip3.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton4,
-            this.toolStripButton5,
-            this.toolStripButton6});
-            this.toolStrip3.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(24, 540);
-            this.toolStrip3.TabIndex = 0;
-            this.toolStrip3.Text = "toolStrip3";
+            this.tlbToolPane.Dock = System.Windows.Forms.DockStyle.Left;
+            this.tlbToolPane.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.tlbToolPane.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmdSnippets,
+            this.cmdFiles,
+            this.cmdDynPreamble});
+            this.tlbToolPane.Location = new System.Drawing.Point(0, 0);
+            this.tlbToolPane.Name = "tlbToolPane";
+            this.tlbToolPane.Size = new System.Drawing.Size(24, 540);
+            this.tlbToolPane.TabIndex = 0;
+            this.tlbToolPane.Text = "toolStrip3";
             // 
-            // toolStripButton4
+            // cmdSnippets
             // 
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(21, 20);
-            this.toolStripButton4.Text = "toolStripButton4";
+            this.cmdSnippets.Checked = true;
+            this.cmdSnippets.CheckOnClick = true;
+            this.cmdSnippets.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cmdSnippets.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.cmdSnippets.Image = ((System.Drawing.Image)(resources.GetObject("cmdSnippets.Image")));
+            this.cmdSnippets.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cmdSnippets.Name = "cmdSnippets";
+            this.cmdSnippets.Size = new System.Drawing.Size(21, 56);
+            this.cmdSnippets.Text = "Snippets";
+            this.cmdSnippets.TextDirection = System.Windows.Forms.ToolStripTextDirection.Vertical270;
+            this.cmdSnippets.Click += new System.EventHandler(this.cmdSnippets_Click);
             // 
-            // toolStripButton5
+            // cmdFiles
             // 
-            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(21, 20);
-            this.toolStripButton5.Text = "toolStripButton5";
+            this.cmdFiles.CheckOnClick = true;
+            this.cmdFiles.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.cmdFiles.Image = ((System.Drawing.Image)(resources.GetObject("cmdFiles.Image")));
+            this.cmdFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cmdFiles.Name = "cmdFiles";
+            this.cmdFiles.Size = new System.Drawing.Size(21, 34);
+            this.cmdFiles.Text = "Files";
+            this.cmdFiles.TextDirection = System.Windows.Forms.ToolStripTextDirection.Vertical270;
+            this.cmdFiles.Click += new System.EventHandler(this.cmdSnippets_Click);
             // 
-            // toolStripButton6
+            // cmdDynPreamble
             // 
-            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(21, 20);
-            this.toolStripButton6.Text = "toolStripButton6";
-            this.toolStripButton6.Click += new System.EventHandler(this.toolStripButton6_Click);
+            this.cmdDynPreamble.CheckOnClick = true;
+            this.cmdDynPreamble.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.cmdDynPreamble.Image = ((System.Drawing.Image)(resources.GetObject("cmdDynPreamble.Image")));
+            this.cmdDynPreamble.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cmdDynPreamble.Name = "cmdDynPreamble";
+            this.cmdDynPreamble.Size = new System.Drawing.Size(21, 111);
+            this.cmdDynPreamble.Text = "Dynamic Preamble";
+            this.cmdDynPreamble.TextDirection = System.Windows.Forms.ToolStripTextDirection.Vertical270;
+            this.cmdDynPreamble.Click += new System.EventHandler(this.cmdSnippets_Click);
             // 
             // toolStrip1
             // 
@@ -1006,6 +1026,7 @@
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton2.Text = "toolStripButton2";
+            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
             // toolStripLabel1
             // 
@@ -1026,6 +1047,7 @@
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // toolStripButton3
             // 
@@ -1059,16 +1081,6 @@
             this.toolStripButton10.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton10.Text = "toolStripButton10";
             // 
-            // txtCode
-            // 
-            this.txtCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtCode.IsReadOnly = false;
-            this.txtCode.Location = new System.Drawing.Point(0, 0);
-            this.txtCode.Name = "txtCode";
-            this.txtCode.Size = new System.Drawing.Size(432, 370);
-            this.txtCode.TabIndex = 0;
-            this.txtCode.Text = "textEditorControl1";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1077,9 +1089,10 @@
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "TikzEdt";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -1104,8 +1117,8 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            this.toolStrip3.ResumeLayout(false);
-            this.toolStrip3.PerformLayout();
+            this.tlbToolPane.ResumeLayout(false);
+            this.tlbToolPane.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
@@ -1160,10 +1173,10 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TextBox txtTexOutput;
-        private System.Windows.Forms.ToolStrip toolStrip3;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
-        private System.Windows.Forms.ToolStripButton toolStripButton6;
+        private System.Windows.Forms.ToolStrip tlbToolPane;
+        private System.Windows.Forms.ToolStripButton cmdSnippets;
+        private System.Windows.Forms.ToolStripButton cmdFiles;
+        private System.Windows.Forms.ToolStripButton cmdDynPreamble;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton newToolStripButton;
         private System.Windows.Forms.ToolStripButton cmdOpen;

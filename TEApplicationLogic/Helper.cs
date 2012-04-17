@@ -328,6 +328,10 @@ namespace TikzEdt
         {
             return GetAppdataPath() + "\\" + Consts.cSnippetThumbsDir  + "\\";
         }
+        /// <summary>
+        /// The file extension to be added to snippet samples before compilation.
+        /// </summary>
+        /// <returns></returns>
         public static string GetSnippetsExt()
         {
             return ".tex";

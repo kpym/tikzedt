@@ -11,8 +11,8 @@
              d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVis" />
-        <mySnippets:SnippetsDataSet x:Key="snippetsDataSet" />
-        <CollectionViewSource x:Key="snippetsTableViewSource" Source="{Binding Path=SnippetsTable, Source={StaticResource snippetsDataSet}}" >
+        <!-- <mySnippets:SnippetsDataSet x:Key="snippetsDataSet" /> -->
+        <CollectionViewSource x:Key="snippetsTableViewSource" >
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="Category"/>
             </CollectionViewSource.GroupDescriptions>

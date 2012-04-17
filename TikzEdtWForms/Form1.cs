@@ -17,6 +17,7 @@ namespace TikzEdtWForms
         MainWindowVM<TextEditorDocumentWrapper> TheVM = new MainWindowVM<TextEditorDocumentWrapper>(TheCompiler.Instance);
 
         RasterControl rasterControl1;
+        SnippetList snippetList1;
         //PdfOverlay pdfOverlay1;
 
         public Form1()
@@ -30,6 +31,7 @@ namespace TikzEdtWForms
             
             // The order should be exactly the same as that in the OverlayToolType enum!!!
             ToolButtons = new List<ToolStripButton> { cmdMove, cmdNode, cmdEdge, cmdPath, cmdSmoothCurve, cmdBezier, cmdRectangle, cmdEllipse, cmdGrid, cmdArc, cmdArcEdit };
+            ToolPaneButtons = new List<ToolStripButton> { cmdSnippets, cmdFiles, cmdDynPreamble };
 
             splitContainer2.Panel2.BackColor = Color.DarkGray;
             rasterControl1 = new RasterControl();
@@ -56,6 +58,11 @@ namespace TikzEdtWForms
             splitContainer2.Panel2.Resize += new EventHandler(Panel2_Resize);
             rasterControl1.Resize += new EventHandler(Panel2_Resize);
       //      tikzDisplay1.Resize += new EventHandler(Panel2_Resize);
+
+            snippetList1 = new SnippetList();
+            snippetList1.Parent = splitContainer1.Panel1;
+            snippetList1.Visible = true;
+            snippetList1.Dock = DockStyle.Fill;
 
 
 
@@ -324,6 +331,30 @@ namespace TikzEdtWForms
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+
+        List<ToolStripButton> ToolPaneButtons;
+        private void cmdSnippets_Click(object sender, EventArgs e)
+        {
+            foreach (var b in ToolPaneButtons)
+            {
+                if (b != sender)
+                    b.Checked = false;
+            }
+
+            splitContainer1.Panel1Collapsed = ToolPaneButtons.TrueForAll(b => !b.Checked);
+
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            cmbNodeStyle.Text = "";
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            cmbEdgeStyle.Text = "";
         }
     }
 }
