@@ -37,10 +37,19 @@ namespace TikzEdt
                     CreateNoWindow = true
                 };
             GlobalUI.UI.AddStatusLine(this, "Rendering: " + psi.FileName + " " + psi.Arguments);
-            Process p = Process.Start(psi);
 
-            p.WaitForExit();
-            return (p.ExitCode == 0);
+            try
+            {
+                Process p = Process.Start(psi);
+
+                p.WaitForExit();
+                return (p.ExitCode == 0);
+            }
+            catch (Exception e)
+            {
+                GlobalUI.UI.AddStatusLine(this, "Couldn't render pdf. Probably mudraw was not found.", true);
+                return false;
+            }
         }
 
         public bool  UnloadPdf()

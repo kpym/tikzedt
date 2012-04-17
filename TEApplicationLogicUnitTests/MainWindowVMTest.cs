@@ -108,10 +108,10 @@ namespace TEApplicationLogicUnitTests
                 MainWindowVM_Accessor<AvalonDocumentWrapper> target = new MainWindowVM_Accessor<AvalonDocumentWrapper>(TheCompiler.Instance); 
             // To execute commands, we need to take a detour and bind them in a dummy
             StackPanel dummy = new StackPanel();
-            dummy.CommandBindings.Add(target.SaveAsCommandBinding);
-            dummy.CommandBindings.Add(target.NewCommandBinding);
-            dummy.CommandBindings.Add(target.SaveCommandBinding);
-            dummy.CommandBindings.Add(target.OpenCommandBinding);
+            dummy.CommandBindings.Add((target.Target as MainWindowVM<AvalonDocumentWrapper>).GetSaveAsCommandBinding());
+            dummy.CommandBindings.Add((target.Target as MainWindowVM<AvalonDocumentWrapper>).GetNewCommandBinding());
+            dummy.CommandBindings.Add((target.Target as MainWindowVM<AvalonDocumentWrapper>).GetSaveCommandBinding());
+            dummy.CommandBindings.Add((target.Target as MainWindowVM<AvalonDocumentWrapper>).GetOpenCommandBinding());
 
             // create a new file 
             ApplicationCommands.New.Execute(null, dummy);

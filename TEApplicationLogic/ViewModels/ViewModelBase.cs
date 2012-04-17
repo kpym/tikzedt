@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace TikzEdt.ViewModels
 {
-    public class ViewModelBase : DispatcherObject, INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

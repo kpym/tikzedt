@@ -756,7 +756,7 @@
                                        HDFile="{x:Static myApp:Consts.SyntaxFileFullPath}"
                                        CompletionsFile="{x:Static myApp:Consts.CompletionsFileFullPath}"
                                        EnableCodeCompletion="{Binding Source={x:Static p:Settings.Default}, Path=Editor_CodeCompletion}"
-                                       Document2="{Binding TheDocument.Document}"
+                                       Document2="{Binding TheDocument.Document.Document, Mode=OneWay}"
                                        CompleteBegins="{Binding Source={x:Static p:Settings.Default}, Path=Editor_CompleteBegins}"                                       
                                        DynamicSnippets="{Binding TheDocument.TikzStyles}"
                                        DynamicSnippetsEnv="1"

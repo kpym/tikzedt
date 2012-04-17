@@ -14,12 +14,12 @@ namespace TESharedComponents
     /// </summary>
     public class MyBackgroundWorker
     {
-        public static void Invoke(Dispatcher dispatcher, Action action)
+        public static void Invoke(Action action)
         {
             if (IsSynchronous)
                 action();
             else
-                dispatcher.Invoke(action);
+                TikzEdt.GlobalUI.UI.InvokeInUIThread(action);
         }
 
         public static void BeginInvoke(Dispatcher dispatcher, Action action)
