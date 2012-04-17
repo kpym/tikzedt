@@ -1481,7 +1481,7 @@ namespace TikzEdt
                 s.Owner = this;
                 s.ShowDialog();
                 // reload snippets
-                snippetlist1.Reload();
+                snippetlist1.TheModel.Reload();
             }
         }
 
@@ -1542,13 +1542,13 @@ namespace TikzEdt
             }
         } */
 
-        private void snippetlist1_OnInsert(string code, string dependencies)
+        private void snippetlist1_OnInsert(object sender, Snippets.InsertEventArgs e)
         {
             //txtCode.BeginChange();
             //string s = txtCode.Text, a=s.Substring(0,txtCode.CaretOffset), b=s.Substring(txtCode.CaretOffset);
             //txtCode.Text = a + code + b;            
             //txtCode.EndChange();
-            txtCode.Document.Insert(txtCode.CaretOffset, code);
+            txtCode.Document.Insert(txtCode.CaretOffset, e.code);
             
         }
 
@@ -1717,7 +1717,7 @@ namespace TikzEdt
         }
         private void GenerateSnippetThumbsClick(object sender, RoutedEventArgs e)
         {
-            snippetlist1.CompileSnippets();
+            snippetlist1.TheModel.CompileSnippets();
         }       
   /*      private void chkFancyMode_Checked(object sender, RoutedEventArgs e)
         {
@@ -2456,7 +2456,7 @@ namespace TikzEdt
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void snippetlist1_OnUseStyles(object sender, Snippets.SnippetList.UseStylesEventArgs e)
+        private void snippetlist1_OnUseStyles(object sender, Snippets.UseStylesEventArgs e)
         {
             InsertUseTikzLibrary(e.dependencies);
 

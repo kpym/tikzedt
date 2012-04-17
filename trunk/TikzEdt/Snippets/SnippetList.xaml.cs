@@ -35,21 +35,19 @@ namespace TikzEdt.Snippets
     /// <summary>
     /// Interaction logic for SnippetList.xaml
     /// </summary>
-    public partial class SnippetList : UserControl
-    {        
-        public delegate void InsertEventHandler(string code, string dependencies);
-        public event InsertEventHandler OnInsert;
+    public partial class SnippetList : UserControl, ISnippetListView
+    {
+        public SnippetListModel TheModel { get; private set; }
 
-        public class UseStylesEventArgs : EventArgs
-        {
-            public string nodestyle="", edgestyle="", dependencies="";
-            /// <summary>
-            /// Indicates whether the style should be used in addition to the ones present
-            /// </summary>
-            public bool InAddition = false;
-        }        
+        #region Exposed Events
+        //public delegate void InsertEventHandler(string code, string dependencies);
+        public event EventHandler<InsertEventArgs> OnInsert;
+
         public event EventHandler<UseStylesEventArgs> OnUseStyles;
 
+        #endregion
+
+        #region Properties
         readonly public static DependencyProperty ShowThumbnailsProperty = DependencyProperty.Register(
          "ShowThumbnails", typeof(bool), typeof(SnippetList), new PropertyMetadata(true));
         public bool ShowThumbnails
@@ -57,8 +55,6 @@ namespace TikzEdt.Snippets
             get { return (bool)GetValue(ShowThumbnailsProperty); }
             set { SetValue(ShowThumbnailsProperty, value); }
         }
-
-
 
         public double ThumbnailSize
         {
@@ -70,114 +66,48 @@ namespace TikzEdt.Snippets
         public static readonly DependencyProperty ThumbnailSizeProperty =
             DependencyProperty.Register("ThumbnailSize", typeof(double), typeof(SnippetList), new UIPropertyMetadata(40.0));
 
-        
+        #endregion
 
 
         public SnippetList()
         {
             InitializeComponent();
 
+            TheModel = new SnippetListModel(this);
+
             // there is a binding problem (bug) that makes the following line necessary
             NameScope.SetNameScope(contextMenu, NameScope.GetNameScope(this));
 
         }
 
-        SnippetsDataSet snippetsDataSet;
+        //SnippetsDataSet snippetsDataSet;
         CollectionViewSource snippetsTableViewSource;
-        SnippetsDataSet.SnippetsTableDataTable snippetsTable;
+        //SnippetsDataSet.SnippetsTableDataTable snippetsTable;
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {            
-            snippetsDataSet = ((SnippetsDataSet)(this.FindResource("snippetsDataSet")));
-            snippetsTable = snippetsDataSet.Tables["SnippetsTable"] as SnippetsDataSet.SnippetsTableDataTable;
+     //       snippetsDataSet = ((SnippetsDataSet)(this.FindResource("snippetsDataSet")));
+     //       snippetsTable = snippetsDataSet.Tables["SnippetsTable"] as SnippetsDataSet.SnippetsTableDataTable;
             snippetsTableViewSource = (CollectionViewSource)this.FindResource("snippetsTableViewSource");
+            // add source binding
+            Binding b = new Binding("SnippetsTable")
+            {
+                Source = TheModel.snippetsDataSet
+            };
+            BindingOperations.SetBinding(snippetsTableViewSource, CollectionViewSource.SourceProperty, b);
 
-            Reload();
+            TheModel.Reload();
 
-            // Do Thumbnails exist? -> Unzip or Recompile
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))  // we don't want this to happen in the vs designer
-            {
-                if (!Directory.Exists(Helper.GetSnippetsPath()))
-                {
-                    // first try to unzip snippets
-                    string zip = System.IO.Path.Combine( Helper.GetAppDir(), Consts.cSnippetThumbsZipfile);
-                    string unzipper = System.IO.Path.Combine( Helper.GetAppDir(), Consts.cUnzipper);
-                    if (File.Exists(zip) && File.Exists(unzipper))
-                    {
-                        try
-                        {
-                            GlobalUI.UI.AddStatusLine(this, "Unzipping snippet thumbnails from file " + zip + "....");
-                            System.Diagnostics.Process.Start( new System.Diagnostics.ProcessStartInfo()
-                                {
-                                    UseShellExecute = false,
-                                    FileName = unzipper,
-                                    Arguments = "\""+zip+"\" \""+Helper.GetAppdataPath()+"\"",
-                                    CreateNoWindow = true
-                                });
-                        }
-                        catch (Exception ex)
-                        {
-                            GlobalUI.UI.AddStatusLine(this, "Unzipping snippet thumbnails failed: " + ex.Message, true);
-                            CompileSnippets();  // in case of failure, try to recompile snippets
-                        }
-                    }
-                    else
-                        CompileSnippets();
-                }
-            }
-        }
-
-        public void CompileSnippets()
-        {
-            if (GlobalUI.UI.ShowMessageBox("Do you want to create the Snippet Thumbnails now?\r\n" +
-    "It may take some time, but it will happen in the background. You can also recompile them later from the menu or the Snippet Manager." +
-    "Note: If you are missing some Latex packages, it is better to compile later", "Compile Thumbnails",
-    System.Windows.Forms.MessageBoxButtons.YesNoCancel, System.Windows.Forms.MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-            {
-                // Compile
-                foreach (SnippetsDataSet.SnippetsTableRow r in snippetsTable.Rows)
-                {
-                    if (!r.IsNull(snippetsTable.SampleCodeColumn))
-                    {
-                        string cFile = Helper.GetSnippetsPath() + r.ID;
-                        TikzToBMPFactory.Instance.AddJob(r.SampleCode, cFile + ".tex", new Rect(0, 0, 0, 0), r.Name, true);
-                    }
-                }
-            }
-        }
-
-        public void Reload()
-        {
-            if (File.Exists(Helper.GetSettingsPath() + Consts.cSnippetsFile))
-            {
-                snippetsDataSet.Clear();
-                snippetsDataSet.ReadXml(Helper.GetSettingsPath() + Consts.cSnippetsFile);
-                snippetsTableViewSource.View.Refresh();
-                //snippetsTableViewSource.SortDescriptions.Clear();
-                //snippetsTableViewSource.SortDescriptions.Add(new System.ComponentModel.SortDescription("Category", System.ComponentModel.ListSortDirection.Ascending));
-                //snippetsTableViewSource.SortDescriptions.Add(new System.ComponentModel.SortDescription("Name", System.ComponentModel.ListSortDirection.Ascending));
-                //lstSnippets.ItemsSource = from rows in snippetsTable
-                //                          orderby rows.Name
-                //                          group rows by rows.Category into g
-                //                          select g;
-                                          //group rows by rows.Category into g
-                                          //orderby g.Key
-                                          //select g;
-            }
+               TheModel.CheckForThumbnails();
+ 
         }
 
         private void lstSnippets_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (lstSnippets.SelectedItem != null)
             {
-                string c="", d="";
                 SnippetsDataSet.SnippetsTableRow r = ((DataRowView)lstSnippets.SelectedItem).Row as SnippetsDataSet.SnippetsTableRow;
-                if (!r.IsNull(snippetsTable.SnippetCodeColumn))
-                    c = r.SnippetCode;
-                if (!r.IsNull(snippetsTable.DependenciesColumn))
-                    d = r.Dependencies;
-
-                if (OnInsert!= null)
-                    OnInsert(c,d);
+                TheModel.HandleMouseDoubleClick(r);
             }
         }
 
@@ -185,15 +115,8 @@ namespace TikzEdt.Snippets
         {
             if (lstSnippets.SelectedItem != null)
             {
-                string c="", d="";
                 SnippetsDataSet.SnippetsTableRow r = ((DataRowView)lstSnippets.SelectedItem).Row as SnippetsDataSet.SnippetsTableRow;
-                if (!r.IsNull(snippetsTable.SnippetCodeColumn))
-                    c = r.SnippetCode;
-                if (!r.IsNull(snippetsTable.DependenciesColumn))
-                    d = r.Dependencies;
-
-                if (OnInsert!= null)
-                    OnInsert(c,d);
+                TheModel.HandleInsertSnippetClick(r);
             }
         }
 
@@ -201,15 +124,8 @@ namespace TikzEdt.Snippets
         {
             if (lstSnippets.SelectedItem != null)
             {
-                string c = "", d = "";
                 SnippetsDataSet.SnippetsTableRow r = ((DataRowView)lstSnippets.SelectedItem).Row as SnippetsDataSet.SnippetsTableRow;
-                if (!r.IsNull(snippetsTable.SampleCodeColumn))
-                    c = r.SampleCode;
-                if (!r.IsNull(snippetsTable.DependenciesColumn))
-                    d = r.Dependencies;
-
-                if (OnInsert != null)
-                    OnInsert(c, d);
+                TheModel.HandleInsertFullCodeClick(r);
             }
         }
 
@@ -217,13 +133,8 @@ namespace TikzEdt.Snippets
         {
             if (lstSnippets.SelectedItem != null)
             {
-                string d = "";
                 SnippetsDataSet.SnippetsTableRow r = ((DataRowView)lstSnippets.SelectedItem).Row as SnippetsDataSet.SnippetsTableRow;
-                if (!r.IsNull(snippetsTable.DependenciesColumn))
-                    d = r.Dependencies;
-
-                if (OnInsert != null && d.Trim()!="")
-                    OnInsert(@"\usetikzlibrary{"+d+"}"+Environment.NewLine, d);
+                TheModel.HandleInsertDependenciesClick(r);
             }
         }
 
@@ -233,17 +144,8 @@ namespace TikzEdt.Snippets
             object curItem = ((ListBoxItem)lstSnippets.ContainerFromElement((Button)sender)).Content;
             if (curItem != null)
             {
-                string toinsert = "", dependencies="";
                 SnippetsDataSet.SnippetsTableRow r = (curItem as DataRowView).Row as SnippetsDataSet.SnippetsTableRow;
-                if (!r.IsNull(snippetsTable.NodeStyleColumn) && ! (r.NodeStyle.Trim()=="") )
-                    toinsert += "\\tikzstyle{mynodestyle} = ["+ r.NodeStyle +"]"+Environment.NewLine;
-                if (!r.IsNull(snippetsTable.EdgeStyleColumn) && !(r.EdgeStyle.Trim() == ""))
-                    toinsert += "\\tikzstyle{myedgestyle} = [" + r.EdgeStyle + "]" + Environment.NewLine;
-                if (!r.IsNull(snippetsTable.DependenciesColumn))
-                    dependencies = r.Dependencies;
-                
-                if (OnInsert != null)
-                    OnInsert(toinsert, dependencies);
+                TheModel.HandleInsertAsTikzStyleClick(r);
             }
             
         }
@@ -254,19 +156,27 @@ namespace TikzEdt.Snippets
             object curItem = ((ListBoxItem)lstSnippets.ContainerFromElement((Button)sender)).Content;
             if (curItem != null)
             {
-                UseStylesEventArgs args = new UseStylesEventArgs();
                 SnippetsDataSet.SnippetsTableRow r = (curItem as DataRowView).Row as SnippetsDataSet.SnippetsTableRow;
-                if (!r.IsNull(snippetsTable.NodeStyleColumn))
-                    args.nodestyle = r.NodeStyle;
-                if (!r.IsNull(snippetsTable.EdgeStyleColumn))
-                    args.edgestyle = r.EdgeStyle;
-                if (!r.IsNull(snippetsTable.DependenciesColumn))
-                    args.dependencies = r.Dependencies;
-                args.InAddition = Keyboard.Modifiers.HasFlag(ModifierKeys.Control);
-
-                if (OnUseStyles != null)
-                    OnUseStyles(this, args);
+                TheModel.HandleUseStyleButtonClick(r);
             }
+        }
+
+        void ISnippetListView.Refresh()
+        {
+            snippetsTableViewSource.View.Refresh();
+        }
+
+
+        void ISnippetListView.RaiseOnInsert(InsertEventArgs e)
+        {
+            if (OnInsert != null)
+                OnInsert(this, e);
+        }
+
+        void ISnippetListView.RaiseOnUseStyle(UseStylesEventArgs e)
+        {
+            if (OnUseStyles != null)
+                OnUseStyles(this, e);
         }
     }
 

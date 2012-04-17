@@ -81,7 +81,7 @@ namespace TikzEdtWForms
                 codeCompletionWindow = CodeCompletionWindow.ShowCompletionWindow(
                     mainForm,					// The parent window for the completion window
                     editor, 					// The text editor to show the window for
-                    MainForm.DummyFileName,		// Filename - will be passed back to the provider
+                    "",//MainForm.DummyFileName,		// Filename - will be passed back to the provider
                     completionDataProvider,		// Provider to get the list of possible completions
                     key							// Key pressed - will be passed to the provider
                 );
@@ -139,6 +139,11 @@ namespace TikzEdtWForms
         public ICompletionData[] GenerateCompletionData(string fileName, TextArea textArea, char charTyped)
         {
             return null;
+        }
+
+        public CodeCompletionProvider(Form mainForm)
+        {
+
         }
     }
 
