@@ -25,6 +25,8 @@ namespace TikzEdtWForms
 
             if (DesignMode)
                 return;
+
+            TextEditorDocumentWrapper.TheOneAndOnly = txtCode;
             
             // The order should be exactly the same as that in the OverlayToolType enum!!!
             ToolButtons = new List<ToolStripButton> { cmdMove, cmdNode, cmdEdge, cmdPath, cmdSmoothCurve, cmdBezier, cmdRectangle, cmdEllipse, cmdGrid, cmdArc, cmdArcEdit };
@@ -108,21 +110,24 @@ namespace TikzEdtWForms
 
             var sp = BindingFactory.CreateProvider(TheVM, "TheDocument", vm => vm.TheDocument);
             BindingFactory.CreateBindingSP(sp, "ParseTree", doc => rasterControl1.ParseTree = doc.ParseTree, () => rasterControl1.ParseTree = null);
+            var errlistsp = BindingFactory.CreateProviderSP(sp, "TexErrors", doc => doc.TexErrors);
+            BindingFactory.CreateCollectionBindingSP(errlistsp, (s, e) => FillErrorsList());
+
+            BindingFactory.CreateBinding(TheVM, "CurrentTool",
+                vm =>
+                {
+                    ToolButtons.Each((tsb, i) => tsb.Checked = ((int)vm.CurrentTool == i));
+                }, null);
+
+
             
-
-            MyBindings.Add( BindingFactory.CreateBinding(TheVM, "CurrentTool", 
-                vm => {
-                    ToolButtons.Each( (tsb, i) => tsb.Checked = ( (int)vm.CurrentTool == i ) );
-                }, null) );
-
-
-            MyBindings.Add(sp);
 /* * 
  * */
-
+            txtCode.SetHighlighting("Tikz");
+            //txtCode.
         }
 
-        List<object> MyBindings = new List<object>();
+        //List<object> MyBindings = new List<object>();
 
         void Panel2_Resize(object sender, EventArgs e)
         {
@@ -260,7 +265,8 @@ namespace TikzEdtWForms
 
         void FillErrorsList()
         {
-            lstErrors.Clear();
+            //return;
+            lstErrors.Items.Clear();
 
             foreach (var err in TheVM.TheDocument.TexErrors)
             {
@@ -283,6 +289,41 @@ namespace TikzEdtWForms
 
                 lstErrors.Items.Add(lvi);
             }
+        }
+
+        private void newToolStripButton_Click(object sender, EventArgs e)
+        {
+            TheVM.CreateNewFile();
+        }
+
+        private void cmdNewInNew(object sender, EventArgs e)
+        {
+            TheVM.CreateNewFile(true);
+        }
+
+        private void cmdOpen_Click(object sender, EventArgs e)
+        {
+            TheVM.Open();
+        }
+
+        private void cmdOpenInNew_Click(object sender, EventArgs e)
+        {
+            TheVM.Open(true);
+        }
+
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            TheVM.Save();
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TheVM.SaveAs();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
