@@ -25,7 +25,7 @@ namespace TikzEdt
         {
                 ofd.InitialDirectory = Directory.GetCurrentDirectory();
                 ofd.Filter = Filter;
-                bool? ret = ofd.ShowDialog();
+                bool? ret = ofd.ShowDialog(MessageBoxOwner);
                 FileName = ofd.FileName;
                 return ret;
         }
@@ -34,7 +34,7 @@ namespace TikzEdt
                 sfd.InitialDirectory = Directory.GetCurrentDirectory();
                 sfd.FileName = InitFilename;
                 sfd.Filter = Filter;
-                bool? ret = sfd.ShowDialog();
+                bool? ret = sfd.ShowDialog(MessageBoxOwner);
                 FileName = sfd.FileName;
                 return ret;
         }
@@ -47,6 +47,17 @@ namespace TikzEdt
 
             //Text = "";
             //return MessageBoxResult.Cancel;
+        }
+
+
+        public void InvokeInUIThread(Action a)
+        {
+            System.Windows.Application.Current.Dispatcher.Invoke(a);
+        }
+
+        public void BeginInvokeInUIThread(Action a)
+        {
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(a);
         }
     }
 

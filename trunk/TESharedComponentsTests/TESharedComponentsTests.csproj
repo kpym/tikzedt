@@ -75,6 +75,10 @@
     <Compile Include="UpdateCheckerTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TEApplicationLogic\TEApplicationLogic.csproj">
+      <Project>{EB03FD23-3941-4B4B-964C-29CB265BA5EA}</Project>
+      <Name>TEApplicationLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TESharedComponents\TESharedComponents.csproj">
       <Project>{67D51221-DEBE-4A44-9C67-F09DEAA69368}</Project>
       <Name>TESharedComponents</Name>

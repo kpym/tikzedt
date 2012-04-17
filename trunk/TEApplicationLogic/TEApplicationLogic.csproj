@@ -84,6 +84,7 @@
     <Compile Include="FastSmartWeakEvent.cs" />
     <Compile Include="GlobalUI.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="MyBackgroundWorker.cs" />
     <Compile Include="Overlay\ArcEditTool.cs" />
     <Compile Include="Overlay\ArcTool.cs" />
     <Compile Include="Overlay\BezierTool.cs" />
@@ -106,6 +107,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="TikzDisplayModel.cs" />
+    <Compile Include="UpdateChecker.cs" />
     <Compile Include="ViewModels\ITEDoc.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />

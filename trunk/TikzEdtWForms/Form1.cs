@@ -22,6 +22,8 @@ namespace TikzEdtWForms
 
         public Form1()
         {
+            (GlobalUI.UI as GlobalUIWinForms).MainForm = this;
+
             InitializeComponent();
 
             if (DesignMode)
@@ -387,6 +389,30 @@ namespace TikzEdtWForms
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             cmbEdgeStyle.Text = "";
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!DesignMode)
+            {
+                //ad// dockManager.SaveLayout(Helper.GetLayoutConfigFilepath());
+                Properties.Settings.Default.Save();
+
+                if (!TheVM.TheDocument.TryDisposeFile())
+                    e.Cancel = true;
+                else
+                {
+                    // Set closing flag
+         //           isClosing = true;
+                    //FindDialog.txtCode = null;
+                    //     if (FindDialog != null)
+                    //        FindDialog.Close();
+
+                    // Exit running pdflatex instances
+                    TheCompiler.Instance.AbortCompilation();
+                    TikzToBMPFactory.Instance.AbortCompilation();
+                }
+            }
         }
     }
 }

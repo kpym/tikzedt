@@ -468,7 +468,7 @@ namespace TikzEdt.ViewModels
         void fileWatcher_Changed(object sender, FileSystemEventArgs e)
         {
             //return;
-            Dispatcher.Invoke( new Action(delegate()
+            GlobalUI.UI.BeginInvokeInUIThread( new Action(delegate()
             {
                 // there is a well-known issue with filewatcher raising multiple events... so, as a hack, stop wtaching
                 fileWatcher.EnableRaisingEvents = false;

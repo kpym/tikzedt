@@ -220,10 +220,10 @@ namespace TikzEdt
             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
 
             // set up command bindings
-            CommandBindings.Add(TheVM.NewCommandBinding);
-            CommandBindings.Add(TheVM.OpenCommandBinding);
-            CommandBindings.Add(TheVM.SaveCommandBinding);
-            CommandBindings.Add(TheVM.SaveAsCommandBinding);
+            CommandBindings.Add(TheVM.GetNewCommandBinding());
+            CommandBindings.Add(TheVM.GetOpenCommandBinding());
+            CommandBindings.Add(TheVM.GetSaveCommandBinding());
+            CommandBindings.Add(TheVM.GetSaveAsCommandBinding());
 
             //ICSharpCode.AvalonEdit.Document.TextDocument doc; doc.
             

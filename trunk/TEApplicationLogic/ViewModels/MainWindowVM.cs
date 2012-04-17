@@ -141,27 +141,6 @@ namespace TikzEdt.ViewModels
 
         #endregion
 
-        # region Commands and Command Bindings
-        public CommandBinding NewCommandBinding
-        {
-            get { return new CommandBinding(ApplicationCommands.New, NewCommandHandler); }
-        }
-        public CommandBinding OpenCommandBinding
-        {
-            get { return new CommandBinding(ApplicationCommands.Open, OpenCommandHandler); }
-        }
-        public CommandBinding SaveCommandBinding
-        {
-            get { return new CommandBinding(ApplicationCommands.Save, SaveCommandHandler); }
-        }
-        public CommandBinding SaveAsCommandBinding
-        {
-            get { return new CommandBinding(ApplicationCommands.SaveAs, SaveAsCommandHandler); }
-        }
-
-        //public ICommand NewCommand { get { return new RelayCommand(o =>  CreateNewFile(o != null) ); } }
-        #endregion
-
         //ObservableCollection<AvalonDock.DocumentContent> _DocumentsAD = new ObservableCollection<AvalonDock.DocumentContent>();
         //[CLSCompliant(false)]
         //public ObservableCollection<AvalonDock.DocumentContent> DocumentsAD { get { return _DocumentsAD; } set { DocumentsAD = value; } }
@@ -219,15 +198,15 @@ namespace TikzEdt.ViewModels
                     GlobalUI.UI.RaiseRecentFileEvent(this, cFile, false);
             }
         }
-
+/*
         /// <summary>
         /// Tries to create a new file. Is the command parameter is not null, then a new instance of TikzEdt is opened.
         /// If the current file is unsaved, the user has to be asked to save.
         /// </summary>
-        void NewCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        public void NewCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             CreateNewFile(e.Parameter != null);
-        }
+        } */
 
         /// <summary>
         /// Tries to cretae a new File.
@@ -274,15 +253,19 @@ namespace TikzEdt.ViewModels
         }
 
 
-        /// <summary>
+   /*     /// <summary>
         /// Tries to create a new file. Is the command parameter is true, then a new instance of TikzEdt is opened.
         /// If the current file is unsaved, the user has to be asked to save.
         /// </summary>
         private void OpenCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             Open(e.Parameter != null);
-        }
+        } */
 
+        /// <summary>
+        /// Tries to create a new file. Is the command parameter is true, then a new instance of TikzEdt is opened.
+        /// If the current file is unsaved, the user has to be asked to save.
+        /// </summary>
         public void Open(bool InNewInstance = false)
         {
             string filename;
@@ -305,14 +288,14 @@ namespace TikzEdt.ViewModels
         public void Save() { TheDocument.SaveCurFile(); }
         public void SaveAs() { TheDocument.SaveCurFile(true); }
 
-        private void SaveCommandHandler(object sender, ExecutedRoutedEventArgs e)
+   /*     private void SaveCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             Save();
         }
         private void SaveAsCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             SaveAs();
-        }
+        }*/
 
 
     /*    public void OpenFile()

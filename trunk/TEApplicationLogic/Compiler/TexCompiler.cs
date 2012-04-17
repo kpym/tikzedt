@@ -302,7 +302,7 @@ namespace TikzEdt
                     // call handler
                     //texProcess_OutputDataReceived(texProcess, line);
                     string line2 = line; // we need a new variable in the closure below
-                    MyBackgroundWorker.BeginInvoke(Dispatcher, () => _OnTexOutput.Raise(this, new CompileEventArgs(line2)) );
+                    MyBackgroundWorker.BeginInvoke(() => _OnTexOutput.Raise(this, new CompileEventArgs(line2)));
                 }
         //        GlobalUI.AddStatusLine(this, "asyncreader 1");
                 // read all output from stderr
@@ -311,7 +311,7 @@ namespace TikzEdt
                 {
                     ew.WriteLine(line);
                     // call handler
-                    MyBackgroundWorker.BeginInvoke(Dispatcher, () => _OnTexOutput.Raise(this, new CompileEventArgs(line)));
+                    MyBackgroundWorker.BeginInvoke(() => _OnTexOutput.Raise(this, new CompileEventArgs(line)));
                 }
             }
             catch (ThreadAbortException)
@@ -807,97 +807,101 @@ namespace TikzEdt
                       
 
             // Some tasks require synchronization, ... so do them here
-            MyBackgroundWorker.BeginInvoke(Dispatcher, new Action(delegate()
+            MyBackgroundWorker.BeginInvoke(new Action(delegate()
             {
                 Job job = CurrentJob;
                 _JobNumberChanged.Raise(this, EventArgs.Empty);    // invoke here... it would also be possible to invoke on start of compilation...
-                   
-            if (texProcess.ExitCode == 0)
-            {
-               // if (job.BBWritten && !job.GeneratePrecompiledHeaders)
-               // {
-               //     ReadBBFromFile(job);
-               // }
 
-                _OnCompileEvent.Raise(this, new CompileEventArgs() { Message="Compilation done", Type=CompileEventType.Success });                
-
-                //for thumbnail generation
-                if (job.CreateBMP && !job.GeneratePrecompiledHeaders)
+                if (texProcess.ExitCode == 0)
                 {
-                    string pathnoext = Helper.RemoveFileExtension(job.path);
+                    // if (job.BBWritten && !job.GeneratePrecompiledHeaders)
+                    // {
+                    //     ReadBBFromFile(job);
+                    // }
 
-                    if (!mypdfDoc.LoadPdf(pathnoext + ".pdf"))
+                    _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Compilation done", Type = CompileEventType.Success });
+
+                    //for thumbnail generation
+                    if (job.CreateBMP && !job.GeneratePrecompiledHeaders)
                     {
-                        //GlobalUI.ShowMessageBox("Couldn't load pdf " + pathnoext + ".pdf", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        GlobalUI.UI.AddStatusLine(this, "Couldn't load pdf " + pathnoext + ".pdf", true);
+                        string pathnoext = Helper.RemoveFileExtension(job.path);
+
+                        if (!mypdfDoc.LoadPdf(pathnoext + ".pdf"))
+                        {
+                            //GlobalUI.ShowMessageBox("Couldn't load pdf " + pathnoext + ".pdf", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            GlobalUI.UI.AddStatusLine(this, "Couldn't load pdf " + pathnoext + ".pdf", true);
+                        }
+                        else if (mypdfDoc.IsEmpty())
+                        {
+                            // MessageBox.Show("Image is empty. Did you fill out the sample code block?" public static MessageBoxResult ShowMessageBox);
+                            GlobalUI.UI.AddStatusLine(this, "Image is empty. Did you fill out the sample code block?");
+                        }
+                        else
+                        {
+                            //mypdfDoc.SaveBmp(pathnoext + ".bmp", Resolution);
+                            mypdfDoc.SaveBmp(pathnoext + ".png", Resolution, true, System.Drawing.Imaging.ImageFormat.Png);
+                            _BitmapGenerated.Raise(this, EventArgs.Empty);
+                        }
                     }
-                    else if (mypdfDoc.IsEmpty())
-                    {
-                       // MessageBox.Show("Image is empty. Did you fill out the sample code block?" public static MessageBoxResult ShowMessageBox);
-                        GlobalUI.UI.AddStatusLine(this, "Image is empty. Did you fill out the sample code block?");
-                    }
-                    else
-                    {
-                        //mypdfDoc.SaveBmp(pathnoext + ".bmp", Resolution);
-                        mypdfDoc.SaveBmp(pathnoext + ".png", Resolution, true, System.Drawing.Imaging.ImageFormat.Png);
-                        _BitmapGenerated.Raise(this, EventArgs.Empty);
+                    else if (job.GeneratePrecompiledHeaders == true)
+                    {   //if the header should have been generated but it was not
+                        if (!File.Exists(Helper.GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename()) + ".fmt"))
+                        {
+                            todo_tex.Clear();
+                            _OnCompileEvent.Raise(this, new CompileEventArgs()
+                            {
+                                Message = "Compilation of pre-compiled header succeded but the pre-compiled header file could not be found." +
+                                    " It is supposed to be here: " + Helper.GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename()) + ".fmt" +
+                                    Environment.NewLine + "Compilation of main document stopped. Check settings and read/write permissions!",
+                                Type = CompileEventType.Error
+                            });
+                        }
+                        else
+                        {
+                            //clear source and temp files of compilation of header                        
+                            //note: the .tex file must not be deleted!
+                            Helper.DeleteTemporaryFiles(job.path, false);
+                        }
                     }
                 }
-                else if (job.GeneratePrecompiledHeaders == true)
-                {   //if the header should have been generated but it was not
-                    if (!File.Exists(Helper.GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename()) + ".fmt"))
+                else // ExitCode != 0 => Error
+                {
+
+                    //if generating pre-compiled header failed. it will not work next time.
+                    //so clear job queue and tell user to fix header code.
+                    if (job.GeneratePrecompiledHeaders == true)
                     {
                         todo_tex.Clear();
                         _OnCompileEvent.Raise(this, new CompileEventArgs()
                         {
-                            Message = "Compilation of pre-compiled header succeded but the pre-compiled header file could not be found." +
-                                " It is supposed to be here: " + Helper.GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename()) + ".fmt" +
-                                Environment.NewLine + "Compilation of main document stopped. Check settings and read/write permissions!",
+                            Message = "Compilation of pre-compiled header failed with exit code " + texProcess.ExitCode +
+                                ". Compilation of main document stopped. Check that all necessary packages are installed and that the pre-compiled header code (in the settings) has no errors!",
                             Type = CompileEventType.Error
                         });
+                        _JobNumberChanged.Raise(this, EventArgs.Empty);
                     }
                     else
-                    { 
-                        //clear source and temp files of compilation of header                        
-                        //note: the .tex file must not be deleted!
-                        Helper.DeleteTemporaryFiles(job.path, false);
+                    {
+                        _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Compilation failed with exit code " + texProcess.ExitCode, Type = CompileEventType.Error });
                     }
-                }
-            }
-            else // ExitCode != 0 => Error
-            {
-                
-                //if generating pre-compiled header failed. it will not work next time.
-                //so clear job queue and tell user to fix header code.
-                if (job.GeneratePrecompiledHeaders == true)
-                {
-                    todo_tex.Clear();
-                    _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Compilation of pre-compiled header failed with exit code " + texProcess.ExitCode + 
-                        ". Compilation of main document stopped. Check that all necessary packages are installed and that the pre-compiled header code (in the settings) has no errors!", Type = CompileEventType.Error });
-                    _JobNumberChanged.Raise(this, EventArgs.Empty);
-                }
-                else
-                {
-                    _OnCompileEvent.Raise(this, new CompileEventArgs() { Message = "Compilation failed with exit code " + texProcess.ExitCode, Type = CompileEventType.Error });
+
+                    //_JobFailed.Raise(this, new JobEventArgs( job, OutputParseResult ));                
+
                 }
 
-                //_JobFailed.Raise(this, new JobEventArgs( job, OutputParseResult ));                
+                _JobDone.Raise(this, new JobEventArgs(job, OutputParseResult, texProcess.ExitCode));
 
-            }
+                //parse output from pdflatex.
+                //myPdflatexOutputParser.parseOutput();
+                //This does not work because something texProcess_Exited is called
+                //before the complete output was received by texProcess_OutputDataReceived().
 
-            _JobDone.Raise(this, new JobEventArgs(job, OutputParseResult, texProcess.ExitCode));
-            
-            //parse output from pdflatex.
-            //myPdflatexOutputParser.parseOutput();
-            //This does not work because something texProcess_Exited is called
-            //before the complete output was received by texProcess_OutputDataReceived().
+                //isRunning = false;
+                //SetValue(CompilingPropertyKey, false);
+                SetCompiling(false);
 
-            //isRunning = false;
-            //SetValue(CompilingPropertyKey, false);
-            SetCompiling(false);
- 
-            if (todo_tex.Count > 0)
-                doCompile();
+                if (todo_tex.Count > 0)
+                    doCompile();
 
             }));
         }

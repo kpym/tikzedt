@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="AutoGrayImage.cs" />
     <Compile Include="AvalonDocumentWrapper.cs" />
+    <Compile Include="CommandBindingExtensions.cs" />
     <Compile Include="DockPanelSplitter.cs" />
     <Compile Include="GlobalUIWPF.cs" />
     <Compile Include="InputMessageBox.xaml.cs">
