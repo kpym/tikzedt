@@ -48,6 +48,8 @@
 
 === Misc ===
 *TODO*
+  * create all icons of correct size
+  * wforms version parser error mark overlay
 
 === Vague things ===
   * improve workflow
