@@ -27,7 +27,7 @@ namespace TikzEdt
             //these files need to be in the appdata path.
             List<String> InstallFiles = new List<string>();
             InstallFiles.Add(Consts.cCompletionsFile);
-            InstallFiles.Add(Consts.cSyntaxFile);
+			InstallFiles.Add(Consts.cSyntaxFile);
             InstallFiles.Add(Consts.cSnippetsFile);
 
             foreach (string file in InstallFiles)
@@ -37,7 +37,7 @@ namespace TikzEdt
                 if (!File.Exists(SettingsDirFile))
                 {
                     //if not there check if it is in exe dir
-                    string ExeDirFile = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "Editor\\" + file);
+                    string ExeDirFile = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "Editor", file);
                     if (!File.Exists(ExeDirFile))
                     {
                         success = false;

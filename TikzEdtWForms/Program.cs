@@ -19,7 +19,7 @@ namespace TikzEdtWForms
             GlobalUI.UI = new GlobalUIWinForms();
 
             // set application data path and settings path          
-            if (Args.Contains("-p") || Args.Contains("--portable"))
+            if (true) //(Args.Contains("-p") || Args.Contains("--portable"))
             {
                 Helper.SetAppdataPath(Helper.AppdataPathOptions.ExeDir);
             }

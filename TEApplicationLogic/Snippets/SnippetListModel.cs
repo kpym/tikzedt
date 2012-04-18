@@ -68,10 +68,11 @@ namespace TikzEdt.Snippets
 
         public void Reload()
         {
-            if (File.Exists(Helper.GetSettingsPath() + Consts.cSnippetsFile))
+			string cSnippetsFile = Path.Combine(Helper.GetSettingsPath(), Consts.cSnippetsFile);
+            if (File.Exists( cSnippetsFile ))
             {
                 snippetsDataSet.Clear();
-                snippetsDataSet.ReadXml(Helper.GetSettingsPath() + Consts.cSnippetsFile);
+                snippetsDataSet.ReadXml(cSnippetsFile);
                 snippetsTable = snippetsDataSet.SnippetsTable;
 
                 TheView.Refresh();

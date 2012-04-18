@@ -135,9 +135,9 @@ namespace TikzEdt
 
         //Todo: the following creates a problem on first load
   //      public static string AppDataPath { get { return  System.Windows.Forms.Application.UserAppDataPath; } } 
-        public static string SyntaxFileFullPath { get { return Helper.GetAppdataPath() + "\\" + Consts.cSettingsDir + "\\" + Consts.cSyntaxFile; } }
-        public static string CompletionsFileFullPath { get { return Helper.GetAppdataPath() + "\\" + Consts.cSettingsDir + "\\" + Consts.cCompletionsFile; } }
-        public static string DynPreamblesFileFullPath { get { return Helper.GetAppdataPath() + "\\" + Consts.cSettingsDir + "\\" + Consts.cDynPreamblesFile; } }
+        public static string SyntaxFileFullPath { get { return Path.Combine( Helper.GetAppdataPath() , Consts.cSettingsDir , Consts.cSyntaxFile); } }
+        public static string CompletionsFileFullPath { get { return Path.Combine(Helper.GetAppdataPath() , Consts.cSettingsDir , Consts.cCompletionsFile); } }
+        public static string DynPreamblesFileFullPath { get { return Path.Combine(Helper.GetAppdataPath() , Consts.cSettingsDir , Consts.cDynPreamblesFile); } }
 
         // TE preprocessor commands
         public static string PreProc_Comment = "%!TE%";
@@ -202,7 +202,7 @@ namespace TikzEdt
 
         public static string GetLayoutConfigFilepath()
         {
-            return GetAppdataPath() + "\\TikzEdtLayout.xml";
+            return Path.Combine ( GetAppdataPath() , "TikzEdtLayout.xml");
         }
         public enum AppdataPathOptions { AppData, ExeDir };
         private static string _AppdataPath = System.Windows.Forms.Application.UserAppDataPath;
@@ -318,7 +318,7 @@ namespace TikzEdt
         /// <returns></returns>
         public static string GetSettingsPath()
         {
-            return GetAppdataPath() + "\\" + Consts.cSettingsDir + "\\";
+            return Path.Combine( GetAppdataPath() , Consts.cSettingsDir) + Path.DirectorySeparatorChar;
         }
         /// <summary>
         /// Path where the snippet thumbnails are stored (usually \\img)
@@ -326,7 +326,7 @@ namespace TikzEdt
         /// <returns></returns>
         public static string GetSnippetsPath()
         {
-            return GetAppdataPath() + "\\" + Consts.cSnippetThumbsDir  + "\\";
+            return Path.Combine( GetAppdataPath() , Consts.cSnippetThumbsDir)  + Path.DirectorySeparatorChar;
         }
         /// <summary>
         /// The file extension to be added to snippet samples before compilation.
@@ -341,10 +341,10 @@ namespace TikzEdt
         public static string GetPrecompiledHeaderPath()
         {
             string s = GetAppdataPath();
-            if (s.EndsWith("\\"))
+            if (s.EndsWith(Path.DirectorySeparatorChar.ToString()))
                 return s;
             else
-                return s + "\\";
+                return s + Path.DirectorySeparatorChar;
         }
         public static string GetPrecompiledHeaderFilename()
         {
