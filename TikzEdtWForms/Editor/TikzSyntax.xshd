@@ -1,0 +1,98 @@
+﻿<SyntaxDefinition name="tikz"
+        xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+    <Color name="Comment" foreground="Green" />
+    <Color name="String" foreground="Gray" />
+    <Color name="MathString" foreground="Red" />
+    <Color name="TikzCommands" fontWeight="bold" foreground="Blue" />
+    <Color name="OtherCommands" foreground="Blue" fontStyle="italic" />
+    <Color name="TikzKeywords" foreground="Brown" />
+    <Color name="Environments" foreground="Red" />    
+    <Color name="Digits" foreground="DarkBlue" />  
+  
+  <!-- This is the main ruleset. -->
+    <RuleSet>
+        <Span color="Comment" begin="%" />
+      <!--<Span color="Comment" multiline="true" 
+           begin="/\*" end="\*/" />-->
+        <Span color="MathString" multiline="true" begin="\$" end="\$"> 
+          <RuleSet>
+            <!-- nested span for escape sequences -->
+            <Span begin="\\" end="." />
+          </RuleSet>
+        </Span> 
+        <Span color="String">
+            <Begin>"</Begin>
+            <End>"</End>
+            <RuleSet>
+                <!-- nested span for escape sequences -->
+                <Span begin="\\" end="." />
+            </RuleSet>
+        </Span>
+
+      <!-- commands -->
+        <Keywords color="TikzCommands">
+            <Word>\begin</Word>
+            <Word>\end</Word>
+            <Word>\node</Word>
+            <Word>\coordinate</Word>
+            <Word>\draw</Word>
+            <Word>\fill</Word>
+            <Word>\filldraw</Word>
+            <Word>\pattern</Word>
+            <Word>\useasboundingbox</Word>
+            <Word>\shade</Word>
+            <Word>\shadedraw</Word>
+            <Word>\clip</Word>
+            <Word>\path</Word>
+            <Word>\matrix</Word>
+            <Word>\tikzset</Word>
+            <Word>\tikzstyle</Word>
+            <Word>\definecolor</Word>
+            <!-- ... -->
+        </Keywords>
+
+      <!-- path commands -->
+      <Keywords color="TikzKeywords">
+        <Word>node</Word>
+        <Word>circle</Word>
+        <Word>grid</Word>
+        <Word>rectangle</Word>
+        <Word>ellipse</Word>
+        <Word>edge</Word>
+        <Word>at</Word>
+        <Word>--</Word>
+        <Word>-></Word>
+        <Word>-|</Word>
+        <Word>|-</Word>
+        <Word>to</Word>
+
+        <!-- ... -->
+      </Keywords>
+      <!-- allowed latex commands -->
+      <Keywords color="OtherCommands">
+        <Word>\documentclass</Word>
+        <Word>\usepackage</Word>
+        <Word>\usetikzlibrary</Word>
+        <!-- ... -->
+      </Keywords>
+      
+      <!-- environment names -->
+      <Keywords color="Environments">
+        <Word>tikzpicture</Word>
+        <Word>equation</Word>
+        <Word>scope</Word>
+        
+        <!-- ... -->
+      </Keywords>
+        
+        <!-- Digits -->
+        <Rule color="Digits">
+            \b0[xX][0-9a-fA-F]+  # hex number
+        |    \b
+            (    \d+(\.[0-9]+)?   #number with optional floating point
+            |    \.[0-9]+         #or just starting with floating point
+            )
+            ([eE][+-]?[0-9]+)? # optional exponent
+        </Rule>
+    </RuleSet>
+</SyntaxDefinition>

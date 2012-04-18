@@ -1,0 +1,2003 @@
+<?xml version="1.0" standalone="yes"?>
+<SnippetsDataSet xmlns="http://tempuri.org/SnippetsDataSet.xsd">
+  <SnippetsTable>
+    <ID>1</ID>
+    <Name>Gray block</Name>
+    <Category>Styles Nodes</Category>
+    <Description />
+    <SnippetCode>
+      \tikzstyle{gray_block} = [draw,outer sep=7,inner sep=7,minimum size=57,line width=1, very thick, draw=black!55, top color=white,bottom color=black!20]
+    </SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \tikzstyle{gray_block} = [draw,outer sep=7,inner sep=7,minimum size=57,line width=1, very thick, draw=black!55, top color=white,bottom color=black!20]
+      \node [gray_block] at (-0,0) {};
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <NodeStyle>draw,outer sep=7,inner sep=7,minimum size=57,line width=1, very thick, draw=black!55, top color=white,bottom color=black!20</NodeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>2</ID>
+    <Name>Green circle</Name>
+    <Category>Styles Nodes</Category>
+    <Description />
+    <SnippetCode>
+      \tikzstyle{green_circle} = [  font={\huge\bfseries}, shape=circle, minimum size=0.5cm, circular drop shadow, text=black, very thick, draw=black!55, top color=white,bottom color=green!80, text width=0.5cm, align=center]
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{shadows}
+      \begin{tikzpicture}
+      \tikzstyle{green_circle} = [  font={\huge\bfseries}, shape=circle, minimum size=0.5cm, circular drop shadow, text=black, very thick, draw=black!55, top color=white,bottom color=green!80, text width=0.5cm, align=center]
+      \node at (0,0) [green_circle] {};
+      \foreach \border in {0.09}
+      \useasboundingbox (current bounding box.south west)+(-\border,-\border) rectangle (current bounding box.north east)+(\border,\border);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>shadows</Dependencies>
+    <NodeStyle> font={\huge\bfseries}, shape=circle, minimum size=0.5cm, circular drop shadow, text=black, very thick, draw=black!55, top color=white,bottom color=green!80, text width=0.5cm, align=center</NodeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>4</ID>
+    <Name>Zigzag</Name>
+    <Category>Path decorations</Category>
+    <Description>A zigzag path</Description>
+    <SnippetCode>decorate,decoration=zigzag</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{decorations.pathmorphing}
+      \begin{tikzpicture}
+      \draw[decorate,decoration=zigzag] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>decorations.pathmorphing</Dependencies>
+    <EdgeStyle>decorate,decoration=zigzag</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>10</ID>
+    <Name>Standalone document</Name>
+    <Category>Standalone</Category>
+    <Description>This is a complete TeX document including a TikzPicture. This TikzEdt can handle.</Description>
+    <SnippetCode>
+      % !TEX TS-program = pdflatex
+      % !TEX encoding = ISOLatin2
+      % !TIKZEDT STANDALONE
+      % !TIKZEDT NOPREVIEW
+
+      \documentclass[10pt,a4paper,parskip]{scrbook}
+      \usepackage[T1]{fontenc}
+      \usepackage{tikz}
+      \usetikzlibrary{shapes,shadows,arrows,patterns,trees,automata,positioning,snakes}
+
+      \usepackage[active,tightpage]{preview}
+      \PreviewEnvironment{tikzpicture}
+
+      \begin{document}
+
+
+      \tikzstyle{node} = [shape=circle, minimum size=0.5cm, circular drop shadow, text=black, very thick, draw=orange!55, top color=white,bottom color=orange!20, text width=0.3cm, align=center]
+      \tikzstyle{building} = [draw,outer sep=7,inner sep=7,minimum size=57,line width=1, very thick, draw=black!55, top color=white,bottom color=black!20]
+
+      \tikzstyle{start} = [  font={\huge\bfseries}, shape=circle, minimum size=0.5cm, circular drop shadow, text=black, very thick, draw=black!55, top color=white,bottom color=red!80, text width=0.5cm, align=center]
+      \tikzstyle{goal} = [font={\huge\bfseries}, shape=circle, minimum size=0.5cm, circular drop shadow, text=black, very thick, draw=black!55, top color=white,bottom color=green!80, text width=0.5cm, align=center]
+
+      \tikzstyle{default_edge} = [draw=orange!55, line width=2]
+      \tikzstyle{greedy routing edge} = [-&gt;, draw=green!55, line width=5]
+      \tikzstyle{face routing edge} = [-&gt;, draw=red!55, line width=5]
+
+
+      \begin{tikzpicture}[ every label/.style={ font={\LARGE}}]
+
+      \node (v84) at (5,8) [goal] {D};
+      \node [building] (v144) at (15,5) {move me!};
+      \node (v136) at (7,8) [building] {};
+      \node (v102) at (11,6) [building] {};
+      \node (v91) at (14.5,8) [node] {};
+      \node [node] (v79) at (15,1) {};
+      \node (v97) at (10,3) [building] {shift me!};
+      \node (v99) at (7.5,4.5) [node] {R};
+      \node (v100) at (12,4.5) [node] {};
+      \node (v101) at (7,6) [building] {drag me!};
+      \node [start] (v104) at (19,5) {S};
+      \node [node] (v120) at (5,4) {};
+      \node [node] (v121) at (8,1) {};
+      \node (v122) at (10,8) [node] {L};
+      \node (v138) at (9,6) [building] {};
+      \node (v150) at (13,7) [node] {};
+
+      \draw[default_edge] (v79) to (v121);
+      \draw[greedy routing edge] (v91) to (v122);
+      \draw[default_edge] (v104) to (v79);
+      \draw[greedy routing edge] (v104) to (v91);
+      \draw[default_edge] (v150) to (v91);
+      \draw[default_edge] (v100) to (v79);
+      \draw[greedy routing edge] (v99) to (v120);
+      \draw[greedy routing edge] (v120) to (v84);
+      \draw[face routing edge] (v100) to (v99);
+      \draw[default_edge] (v99) to (v121);
+      \draw[face routing edge] (v122) to (v150);
+      \draw[face routing edge] (v150) to (v100);
+      \draw[default_edge] (v100) to (v91);
+
+
+      %add border
+      \foreach \border in {1}
+      \useasboundingbox (current bounding box.south west)+(-\border,-\border) rectangle (current bounding box.north east)+(\border,\border);
+
+      \end{tikzpicture}
+
+      \end{document}
+    </SnippetCode>
+    <SampleCode>
+      % !TEX TS-program = pdflatex
+      % !TEX encoding = ISOLatin2
+      % !TIKZEDT STANDALONE
+      % !TIKZEDT NOPREVIEW
+
+      \documentclass[10pt,a4paper,parskip]{scrbook}
+      \usepackage[T1]{fontenc}
+      \usepackage{tikz}
+      \usetikzlibrary{shapes,shadows,arrows,patterns,trees,automata,positioning,snakes}
+
+      \usepackage[active,tightpage]{preview}
+      \PreviewEnvironment{tikzpicture}
+
+      \begin{document}
+
+
+      \tikzstyle{node} = [shape=circle, minimum size=0.5cm, circular drop shadow, text=black, very thick, draw=orange!55, top color=white,bottom color=orange!20, text width=0.3cm, align=center]
+      \tikzstyle{building} = [draw,outer sep=7,inner sep=7,minimum size=57,line width=1, very thick, draw=black!55, top color=white,bottom color=black!20]
+
+      \tikzstyle{start} = [  font={\huge\bfseries}, shape=circle, minimum size=0.5cm, circular drop shadow, text=black, very thick, draw=black!55, top color=white,bottom color=red!80, text width=0.5cm, align=center]
+      \tikzstyle{goal} = [font={\huge\bfseries}, shape=circle, minimum size=0.5cm, circular drop shadow, text=black, very thick, draw=black!55, top color=white,bottom color=green!80, text width=0.5cm, align=center]
+
+      \tikzstyle{default_edge} = [draw=orange!55, line width=2]
+      \tikzstyle{greedy routing edge} = [-&gt;, draw=green!55, line width=5]
+      \tikzstyle{face routing edge} = [-&gt;, draw=red!55, line width=5]
+
+
+      \begin{tikzpicture}[ every label/.style={ font={\LARGE}}]
+      \useasboundingbox (9,9) rectangle (14,2);
+      \node (v84) at (5,8) [goal] {D};
+      \node [building] (v144) at (15,5) {move me!};
+      \node (v136) at (7,8) [building] {};
+      \node (v102) at (11,6) [building] {};
+      \node (v91) at (14.5,8) [node] {};
+      \node [node] (v79) at (15,1) {};
+      \node (v97) at (10,3) [building] {shift me!};
+      \node (v99) at (7.5,4.5) [node] {R};
+      \node (v100) at (12,4.5) [node] {};
+      \node (v101) at (7,6) [building] {drag me!};
+      \node [start] (v104) at (19,5) {S};
+      \node [node] (v120) at (5,4) {};
+      \node [node] (v121) at (8,1) {};
+      \node (v122) at (10,8) [node] {L};
+      \node (v138) at (9,6) [building] {};
+      \node (v150) at (13,7) [node] {};
+
+      \draw[default_edge] (v79) to (v121);
+      \draw[greedy routing edge] (v91) to (v122);
+      \draw[default_edge] (v104) to (v79);
+      \draw[greedy routing edge] (v104) to (v91);
+      \draw[default_edge] (v150) to (v91);
+      \draw[default_edge] (v100) to (v79);
+      \draw[greedy routing edge] (v99) to (v120);
+      \draw[greedy routing edge] (v120) to (v84);
+      \draw[face routing edge] (v100) to (v99);
+      \draw[default_edge] (v99) to (v121);
+      \draw[face routing edge] (v122) to (v150);
+      \draw[face routing edge] (v150) to (v100);
+      \draw[default_edge] (v100) to (v91);
+
+
+      %add border
+      \foreach \border in {1}
+      \useasboundingbox (current bounding box.south west)+(-\border,-\border) rectangle (current bounding box.north east)+(\border,\border);
+
+      \end{tikzpicture}
+
+      \end{document}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>14</ID>
+    <Name>Orange thin</Name>
+    <Category>Styles Edges</Category>
+    <Description>
+      Add descriptive text here
+      Will be displayed as tooltip
+    </Description>
+    <SnippetCode>
+      \tikzstyle{default_edge} = [draw=orange!55, line width=2]
+    </SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \tikzstyle{default_edge} = [draw=orange!55, line width=2]
+      \node (v1) at (-1,1) {?};
+      \node (v2) at (1,1) {?};
+      \draw[default_edge] (v1) edge (v2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>default_edge</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>17</ID>
+    <Name>Footprints</Name>
+    <Category>Path decorations</Category>
+    <Description>Prints a trace of footprints.</Description>
+    <SnippetCode>decorate, decoration=footprints</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{decorations.footprints}
+      \begin{tikzpicture}
+      \fill[decorate, decoration=footprints] (1,1)--(3,3);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>decorations.footprints</Dependencies>
+    <EdgeStyle>decorate, decoration=footprints</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>18</ID>
+    <Name>Saw</Name>
+    <Category>Path decorations</Category>
+    <Description>Saw decoration</Description>
+    <SnippetCode>decorate,decoration=saw</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{decorations.pathmorphing}
+      \begin{tikzpicture}
+      \draw[decorate, decoration=saw] (0,0)--(1,0);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>decorations.pathmorphing</Dependencies>
+    <EdgeStyle>decorate, decoration=saw</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>19</ID>
+    <Name>Textpath</Name>
+    <Category>Path decorations</Category>
+    <Description>
+      The text flows along the path.
+      I copied it from http://www.texample.net/tikz/examples/pgf-version-2/
+    </Description>
+    <SnippetCode>
+      decorate,decoration={text along path,
+      text={Lorem ipsum bla bla bla bla bla bla bla bla bla bla bla bla}}
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{decorations.text}
+      \begin{tikzpicture}
+      \path [decorate,decoration={text along path,
+      text={Lorem ipsum bla bla bla bla bla bla bla bla bla bla bla bla}}]
+      (0,0) sin (1,1) cos (2,0) sin (3,-1) cos (4,0) sin (7,-1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>decorations.text</Dependencies>
+    <EdgeStyle>decorate,decoration={text along path, text={bla bla}}</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>20</ID>
+    <Name>Brace</Name>
+    <Category>Path decorations</Category>
+    <Description />
+    <SnippetCode>decorate, decoration={brace, amplitude=5pt}</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{decorations.pathreplacing}
+      \begin{tikzpicture}
+      \draw[decorate, decoration={brace, amplitude=5pt}] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>decorations.pathreplacing</Dependencies>
+    <EdgeStyle>decorate, decoration={brace, amplitude=5pt}</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>21</ID>
+    <Name>Coil</Name>
+    <Category>Path decorations</Category>
+    <Description>
+      Add descriptive text here
+      Will be displayed as tooltip
+    </Description>
+    <SnippetCode>decorate,decoration={coil,segment length=4pt}</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{decorations.pathmorphing}
+      \begin{tikzpicture}
+      \draw[decorate,decoration={coil,segment length=4pt}] (0,1) -- (1,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>decorations.pathmorphing</Dependencies>
+    <EdgeStyle>decorate,decoration={coil,segment length=4pt}</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>22</ID>
+    <Name>Plain</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>-&gt;</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      % only for bounding box
+      \draw[white] (1,.9) rectangle (2,1.1);
+      \draw[-&gt;] (1,1) -- (2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>-&gt;</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>23</ID>
+    <Name>latex</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>latex</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{arrows}
+      \begin{tikzpicture}
+      % only for bounding box
+      \draw[white] (1,.9) rectangle (2,1.1);
+      \draw[-latex] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>arrows</Dependencies>
+    <EdgeStyle>-latex</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>24</ID>
+    <Name>circles</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>o-*</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{arrows}
+      \begin{tikzpicture}
+      % only for bounding box
+      \draw[white] (1,.9) rectangle (2,1.1);
+      \draw[o-*] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>arrows</Dependencies>
+    <EdgeStyle>o-*</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>25</ID>
+    <Name>open triangle 45</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>open triangle 45</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{arrows}
+      \begin{tikzpicture}
+      % only for bounding box
+      \draw[white] (1,.9) rectangle (2,1.1);
+      \draw[-open triangle 45] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>arrows</Dependencies>
+    <EdgeStyle>-open triangle 45</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>26</ID>
+    <Name>triangle 90</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>triangle 90</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{arrows}
+      \begin{tikzpicture}
+      % only for bounding box
+      \draw[white] (1,.9) rectangle (2,1.1);
+      \draw[-triangle 90] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>arrows</Dependencies>
+    <EdgeStyle>-triangle 90</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>27</ID>
+    <Name>triangle 60</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>triangle 60</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{arrows}
+      \begin{tikzpicture}
+      % only for bounding box
+      \draw[white] (1,.9) rectangle (2,1.1);
+      \draw[-triangle 60] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>arrows</Dependencies>
+    <EdgeStyle>-triangle 60</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>28</ID>
+    <Name>diamond</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>diamond-open diamond</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{arrows}
+      \begin{tikzpicture}
+      % only for bounding box
+      \draw[white] (1,.9) rectangle (2,1.1);
+      \draw[diamond-open diamond] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>arrows</Dependencies>
+    <EdgeStyle>diamond-open diamond</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>29</ID>
+    <Name>squares</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>square-open square</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{arrows}
+      \begin{tikzpicture}
+      % only for bounding box
+      \draw[white] (1,.9) rectangle (2,1.1);
+      \draw[square-open square] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>arrows</Dependencies>
+    <EdgeStyle>square-open square</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>30</ID>
+    <Name>stealth</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>stealth</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{arrows}
+      \begin{tikzpicture}
+      % only for bounding box
+      \draw[white] (1,.9) rectangle (2,1.1);
+      \draw[-stealth] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>arrows</Dependencies>
+    <EdgeStyle>-stealth</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>31</ID>
+    <Name>Commutative diagram</Name>
+    <Category>Matrices</Category>
+    <Description>
+      A basic commutative diagram
+      More information -&gt; http://www.felixl.de/commu.pdf
+    </Description>
+    <SnippetCode>
+      \usetikzlibrary{matrix,arrows}
+      \begin{tikzpicture}[description/.style={fill=white,inner sep=2pt}]
+      \matrix (m) [matrix of math nodes, row sep=3em,
+      column sep=2.5em, text height=1.5ex, text depth=0.25ex]
+      { A &amp; &amp; B \\
+      &amp; C &amp; \\ };
+      \path[-&gt;,font=\scriptsize]
+      (m-1-1) edge node[auto] {$ \varphi $} (m-1-3)
+      edge node[description] {$ \Psi $} (m-2-2)
+      (m-1-3) edge node[auto] {$ \Phi $} (m-2-2);
+      \end{tikzpicture}
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{matrix,arrows}
+      \begin{tikzpicture}[description/.style={fill=white,inner sep=2pt}]
+      \matrix (m) [matrix of math nodes, row sep=3em,
+      column sep=2.5em, text height=1.5ex, text depth=0.25ex]
+      { A &amp; &amp; B \\
+      &amp; C &amp; \\ };
+      \path[-&gt;,font=\scriptsize]
+      (m-1-1) edge node[auto] {$ \varphi $} (m-1-3)
+      edge node[description] {$ \Psi $} (m-2-2)
+      (m-1-3) edge node[auto] {$ \Phi $} (m-2-2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>matrix, arrows</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>32</ID>
+    <Name>Circuit Diagram</Name>
+    <Category>Templates</Category>
+    <Description />
+    <SnippetCode>
+      \usetikzlibrary{circuits.logic.US,circuits.logic.IEC}
+      \begin{tikzpicture}[circuit logic US]
+      \matrix[column sep=7mm]
+      {
+      \node (i0) {0}; &amp; &amp; \\
+      &amp; \node [and gate] (a1) {}; &amp; \\
+      \node (i1) {0}; &amp; &amp; \node [or gate] (o) {};\\
+      &amp; \node [nand gate] (a2) {}; &amp; \\
+      \node (i2) {1}; &amp; &amp; \\
+      };
+      \draw (i0.east) -- ++(right:3mm) |- (a1.input 1);
+      \draw (i1.east) -- ++(right:3mm) |- (a1.input 2);
+      \draw (i1.east) -- ++(right:3mm) |- (a2.input 1);
+      \draw (i2.east) -- ++(right:3mm) |- (a2.input 2);
+      \draw (a1.output) -- ++(right:3mm) |- (o.input 1);
+      \draw (a2.output) -- ++(right:3mm) |- (o.input 2);
+      \draw (o.output) -- ++(right:3mm);
+      \end{tikzpicture}
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{circuits.logic.US,circuits.logic.IEC}
+      \begin{tikzpicture}[circuit logic US]
+      \matrix[column sep=7mm]
+      {
+      \node (i0) {0}; &amp; &amp; \\
+      &amp; \node [and gate] (a1) {}; &amp; \\
+      \node (i1) {0}; &amp; &amp; \node [or gate] (o) {};\\
+      &amp; \node [nand gate] (a2) {}; &amp; \\
+      \node (i2) {1}; &amp; &amp; \\
+      };
+      \draw (i0.east) -- ++(right:3mm) |- (a1.input 1);
+      \draw (i1.east) -- ++(right:3mm) |- (a1.input 2);
+      \draw (i1.east) -- ++(right:3mm) |- (a2.input 1);
+      \draw (i2.east) -- ++(right:3mm) |- (a2.input 2);
+      \draw (a1.output) -- ++(right:3mm) |- (o.input 1);
+      \draw (a2.output) -- ++(right:3mm) |- (o.input 2);
+      \draw (o.output) -- ++(right:3mm);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>circuits.logic.US</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>33</ID>
+    <Name>Mindmap</Name>
+    <Category>Templates</Category>
+    <Description>Example copied from the Tikz manual</Description>
+    <SnippetCode>
+      \usetikzlibrary{mindmap}
+      % !TIKZEDT BOUNDINGBOX = -3 -3 8 5
+      \begin{tikzpicture}[mindmap,concept color=blue!80]
+      \node [concept] {Root concept}
+      child[concept color=red,grow=30] {node[concept] {Child concept}}
+      child[concept color=orange,grow=0] {node[concept] {Child concept}};
+      \end{tikzpicture}
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{mindmap}
+      % !TIKZEDT BOUNDINGBOX = -3 -3 8 5
+      \begin{tikzpicture}[mindmap,concept color=blue!80]
+      \node [concept] {Root concept}
+      child[concept color=red,grow=30] {node[concept] {Child concept}}
+      child[concept color=orange,grow=0] {node[concept] {Child concept}};
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>mindmap</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>35</ID>
+    <Name>Green arrow</Name>
+    <Category>Styles Edges</Category>
+    <Description />
+    <SnippetCode>
+      \tikzstyle{green_arrow_edge} = [-&gt;, draw=green!55, line width=5]
+    </SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \tikzstyle{green_arrow_edge} = [-&gt;, draw=green!55, line width=5]
+      \node (v1) at (-1,1) {?};
+      \node (v2) at (1,1) {?};
+      \draw[green_arrow_edge] (v1) edge (v2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>green_arrow_edge</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>40</ID>
+    <Name>NOPREVIEW</Name>
+    <Category>Standalone</Category>
+    <Description>
+      Prevent TikzEdt from inserting \PreviewEnvironment command.
+
+      Insert at head of document.
+    </Description>
+    <SnippetCode>
+      % !TIKZEDT NOPREVIEW
+    </SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \node at (6,6) {HEAD};
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>41</ID>
+    <Name>STANDALONE</Name>
+    <Category>Standalone</Category>
+    <Description>
+      Tell TikzEdt that this document is standalone if not detected automatically. Document is compiled as is.
+      This option is useful if the \begin{document} command is included via an input file.
+
+      Insert at head of document.
+    </Description>
+    <SnippetCode>
+      % !TIKZEDT STANDALONE
+    </SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \node at (6,6) {HEAD};
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>42</ID>
+    <Name>Invisible</Name>
+    <Category>Styles Nodes</Category>
+    <Description>Node for creating anchors for edges.</Description>
+    <SnippetCode>
+      \tikzstyle{invisible} = [outer sep=0,inner sep=0,minimum size=0]
+    </SnippetCode>
+    <SampleCode>
+      \tikzstyle{invisible} = [outer sep=0,inner sep=0,minimum size=0]
+      \tikzstyle{bordered} = [draw,outer sep=0,inner sep=1,minimum size=10]
+
+      \begin{tikzpicture}
+      \node[invisible]  (v4) at (4,8) {};
+
+      \node [bordered] (v1) at (4,9) {?};
+      \node [bordered] (v2) at (5,8) {?};
+      \draw (v1) edge (v4);
+      \draw (v2) edge (v4);
+
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <NodeStyle>outer sep=0,inner sep=0,minimum size=0</NodeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>43</ID>
+    <Name>Bordered</Name>
+    <Category>Styles Nodes</Category>
+    <Description />
+    <SnippetCode>
+      \tikzstyle{bordered} = [draw,outer sep=0,inner sep=1,minimum size=10]
+    </SnippetCode>
+    <SampleCode>
+      \tikzstyle{bordered} = [draw,outer sep=0,inner sep=1,minimum size=10]
+
+      \begin{tikzpicture}
+      \node [bordered] (v1) at (4,9) {node};
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <NodeStyle>draw,outer sep=0,inner sep=1,minimum size=10</NodeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>44</ID>
+    <Name>Document</Name>
+    <Category>Styles Nodes</Category>
+    <Description>Node in shape of document (with little corner)</Description>
+    <SnippetCode>draw</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw (1,1)--(3,3);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>45</ID>
+    <Name>Message</Name>
+    <Category>Styles Nodes</Category>
+    <Description>Node with shape of a UML note</Description>
+    <SnippetCode>
+      \makeatletter
+      \pgfdeclareshape{document}{
+      \inheritsavedanchors[from=rectangle] % this is nearly a rectangle
+      \inheritanchorborder[from=rectangle]
+      \inheritanchor[from=rectangle]{center}
+      \inheritanchor[from=rectangle]{north}
+      \inheritanchor[from=rectangle]{south}
+      \inheritanchor[from=rectangle]{west}
+      \inheritanchor[from=rectangle]{east}
+      % ... and possibly more
+      \backgroundpath{% this is new
+      % store lower right in xa/ya and upper right in xb/yb
+      \southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+      \northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+      % compute corner of ``flipped page''
+      \pgf@xc=\pgf@xb \advance\pgf@xc by-5pt % this should be a parameter
+      \pgf@yc=\pgf@yb \advance\pgf@yc by-5pt
+      % construct main path
+      \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+      \pgfpathlineto{\pgfpoint{\pgf@xa}{\pgf@yb}}
+      \pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yb}}
+      \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yc}}
+      \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@ya}}
+      \pgfpathclose
+      % add little corner
+      \pgfpathmoveto{\pgfpoint{\pgf@xc}{\pgf@yb}}
+      \pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yc}}
+      \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yc}}
+      \pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yc}}
+      }
+      }
+      \tikzstyle{message} = [shape=document, thick, draw=black, minimum width=2cm]
+    </SnippetCode>
+    <SampleCode>
+      \makeatletter
+      \pgfdeclareshape{document}{
+      \inheritsavedanchors[from=rectangle] % this is nearly a rectangle
+      \inheritanchorborder[from=rectangle]
+      \inheritanchor[from=rectangle]{center}
+      \inheritanchor[from=rectangle]{north}
+      \inheritanchor[from=rectangle]{south}
+      \inheritanchor[from=rectangle]{west}
+      \inheritanchor[from=rectangle]{east}
+      % ... and possibly more
+      \backgroundpath{% this is new
+      % store lower right in xa/ya and upper right in xb/yb
+      \southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+      \northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+      % compute corner of ``flipped page''
+      \pgf@xc=\pgf@xb \advance\pgf@xc by-5pt % this should be a parameter
+      \pgf@yc=\pgf@yb \advance\pgf@yc by-5pt
+      % construct main path
+      \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+      \pgfpathlineto{\pgfpoint{\pgf@xa}{\pgf@yb}}
+      \pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yb}}
+      \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yc}}
+      \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@ya}}
+      \pgfpathclose
+      % add little corner
+      \pgfpathmoveto{\pgfpoint{\pgf@xc}{\pgf@yb}}
+      \pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yc}}
+      \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yc}}
+      \pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yc}}
+      }
+      }
+      \tikzstyle{message} = [shape=document, thick, draw=black, minimum width=2cm]
+
+
+      \begin{tikzpicture}
+
+      \node [message] at (-6,11) {Message};
+
+      \end{tikzpicture}
+
+
+    </SampleCode>
+    <Dependencies />
+    <NodeStyle>message</NodeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>47</ID>
+    <Name>sloped</Name>
+    <Category>Edge Labels</Category>
+    <Description>Add text label to edge. Insert directly after "edge" and before name or coordinate of destination of edge.</Description>
+    <SnippetCode>node[sloped, below] {false}</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \node (v1) at (-2,1) {};
+      \node (v2) at (-1,2) {};
+      \draw[-&gt;, draw=black, line width=2pt] (v1) edge  node[sloped, below] {false}(v2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>48</ID>
+    <Name>edge node</Name>
+    <Category>Edge Labels</Category>
+    <Description>Add text label to edge. Insert directly after "edge" and before name or coordinate of destination of edge.</Description>
+    <SnippetCode> node[near start, auto] {true}</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \node (v1) at (-2,1) {};
+      \node (v2) at (-1,2) {};
+      \draw[-&gt;, draw=black, line width=2pt] (v1) edge  node[near start, auto] {true}(v2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>50</ID>
+    <Name>Node within Node</Name>
+    <Category>Templates</Category>
+    <Description>Nested node example</Description>
+    <SnippetCode>
+      \node [matrix] at (0,0)
+      {
+      \draw (0,0) circle (4mm); &amp; \node {node}; \\
+      \node {new line}; &amp; \node {next column}; \\
+      };
+    </SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \node [matrix,fill=red!20,draw=blue,very thick] (my matrix) at (2,1)
+      {
+      \draw (0,0) circle (4mm); &amp; \node[rotate=10] {Hello}; \\
+      \draw (0.3,0) circle (2mm); &amp; \fill[red] (0,0) circle (3mm); \\
+      };
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>52</ID>
+    <Name>Compiler options</Name>
+    <Category>Preprocessor Commands</Category>
+    <Description>
+      The command
+      %!TEO &lt;bla&gt;
+      adds the pdflatex compiler option &lt;bla&gt;.
+    </Description>
+    <SnippetCode>%!TEO -include-directory=..</SnippetCode>
+    <SampleCode>
+      %!TEO -include-directory=..
+      \begin{tikzpicture}
+      \node at (0,0) {\%!TE};
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>53</ID>
+    <Name>(Un)Comment</Name>
+    <Category>Preprocessor Commands</Category>
+    <Description>
+      The string "%!TE%" is removed by TikzEdt prior to compilation.
+      Use this (for example) to include further input files.
+    </Description>
+    <SnippetCode>%!TE% something</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \node at (0,0) {\%!TE};
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>54</ID>
+    <Name>TE Input</Name>
+    <Category>Preprocessor Commands</Category>
+    <Description>
+      Use this to include files only in TikzEdt.
+      The standard use-case is that you input multiple tikzpictures in some master tex-file and you want to use a common set of commands or styles.
+    </Description>
+    <SnippetCode>%!TEI myfile.tex</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \node at (0,0) {\%!TE};
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>55</ID>
+    <Name>Parser Ignore</Name>
+    <Category>Preprocessor Commands</Category>
+    <Description>Use %/* ... %*/ to hide some lines of code from the Parser in case it reports an error in an otherwise correctly compiling tikz file.</Description>
+    <SnippetCode>
+      %/*
+      This line is ignored by the TE parser.
+      %*/
+    </SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      %/*
+      This line is ignored by the TE parser.
+      %*/
+      \node at (0,0) {\%/* ... \%*/ };
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>56</ID>
+    <Name>double arrow</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>-&gt;&gt;</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      % only for bounding box
+      \draw[white] (1,.9) rectangle (2,1.1);
+      \draw[-&gt;&gt;] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>-&gt;&gt;</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>57</ID>
+    <Name>bracket</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>{]-]}</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      % only for bounding box
+      \draw[white] (1,.9) rectangle (2,1.1);
+      \draw[ {]-]}] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>{]-]}</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>58</ID>
+    <Name>hooks</Name>
+    <Category>Arrow Tips</Category>
+    <Description />
+    <SnippetCode>-hooks</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      % only for bounding box
+      \draw[white] (1,.9) rectangle (2,1.1);
+      \draw[-hooks] (1,1)--(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>-hooks</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>59</ID>
+    <Name>Triangles</Name>
+    <Category>Path decorations</Category>
+    <Description />
+    <SnippetCode>decorate,decoration=triangles</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{decorations.shapes}
+      \begin{tikzpicture}
+      \draw[decorate,decoration=triangles] (0,1) -- (1,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>decorations.shapes</Dependencies>
+    <EdgeStyle>decorate,decoration=triangles</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>60</ID>
+    <Name>Expanding waves</Name>
+    <Category>Path decorations</Category>
+    <Description />
+    <SnippetCode>decorate,decoration={expanding waves, angle=7}</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{decorations.pathreplacing}
+      \begin{tikzpicture}
+      \draw[decorate,decoration={expanding waves, angle=7}] (0,1) -- (1.5,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>decorations.pathreplacing</Dependencies>
+    <EdgeStyle>decorate,decoration={expanding waves, angle=7}</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>61</ID>
+    <Name>Crosses</Name>
+    <Category>Path decorations</Category>
+    <Description />
+    <SnippetCode>decorate,decoration={crosses,segment length=2mm}</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{decorations.shapes}
+      \begin{tikzpicture}
+      \draw[decorate,decoration={crosses,segment length=2mm}] (0,1) -- (1,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>decorate,decoration={crosses,segment length=2mm}</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>62</ID>
+    <Name>Forbidden</Name>
+    <Category>Styles Nodes</Category>
+    <Description />
+    <SnippetCode>\node at (0,0) [forbidden sign,line width=2ex,draw=red,fill=white] {Smoking};</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \node at (0,0) [forbidden sign,line width=2ex,draw=red,fill=white] {Smoking};
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <NodeStyle>forbidden sign,line width=2ex,draw=red,fill=white</NodeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>63</ID>
+    <Name>Function plot</Name>
+    <Category>Function Plots</Category>
+    <Description />
+    <SnippetCode>
+      \begin{tikzpicture}[domain=0:4]
+      \draw[very thin,color=gray] (-0.1,-1.1) grid (3.9,3.9);
+      \draw[-&gt;] (-0.2,0) -- (4.2,0) node[right] {$x$};
+      \draw[-&gt;] (0,-1.2) -- (0,4.2) node[above] {$f(x)$};
+      \draw[color=red] plot (\x,\x) node[right] {$f(x) =x$};
+      \draw[color=blue] plot (\x,{sin(\x r)}) node[right] {$f(x) = \sin x$};
+      \draw[color=orange] plot (\x,{0.05*exp(\x)}) node[right] {$f(x) = \frac{1}{20} \mathrm e^x$};
+      \end{tikzpicture}
+    </SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}[scale=.2, domain=0:4]
+      \draw[very thin,color=gray] (-0.1,-1.1) grid (3.9,3.9);
+      \draw[-&gt;] (-0.2,0) -- (4.2,0) node[right] {$x$};
+      \draw[-&gt;] (0,-1.2) -- (0,4.2) node[above] {$f(x)$};
+      \draw[color=red] plot (\x,\x) node[right] {$f(x) =x$};
+      \draw[color=blue] plot (\x,{sin(\x r)}) node[right] {$f(x) = \sin x$};
+      \draw[color=orange] plot (\x,{0.05*exp(\x)}) node[right] {$f(x) = \frac{1}{20} \mathrm e^x$};
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>64</ID>
+    <Name>Function plot (parametric)</Name>
+    <Category>Function Plots</Category>
+    <Description />
+    <SnippetCode>
+      \draw[scale=0.5,domain=-3.141:3.141,smooth,variable=\t]
+      plot ({\t*sin(\t r)},{\t*cos(\t r)});
+    </SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[scale=0.5,domain=-3.141:3.141,smooth,variable=\t]
+      plot ({\t*cos(\t r)},{\t*sin(\t r)});
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>65</ID>
+    <Name>Bar plot</Name>
+    <Category>Function Plots</Category>
+    <Description />
+    <SnippetCode>
+      \begin{tikzpicture}[ybar]
+      \draw[color=red,fill=red!80,bar width=6pt]
+      plot coordinates{(0,1) (.5,1.2) (1,.6) (1.5,.7) (2,.9)};
+      \draw[color=red!50,fill=red!20,bar width=4pt,bar shift=3pt]
+      plot coordinates{(0,1.2) (.5,1.3) (1,.5) (1.5,.2) (2,.5)};
+      \end{tikzpicture}
+    </SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}[ybar]
+      \draw[color=red,fill=red!80,bar width=6pt]
+      plot coordinates{(0,1) (.5,1.2) (1,.6) (1.5,.7) (2,.9)};
+      \draw[color=red!50,fill=red!20,bar width=4pt,bar shift=3pt]
+      plot coordinates{(0,1.2) (.5,1.3) (1,.5) (1.5,.2) (2,.5)};
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>66</ID>
+    <Name>Resistor</Name>
+    <Category>Circuit diagrams</Category>
+    <Description />
+    <SnippetCode>resistor</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary {circuits.ee.IEC}
+      \begin{tikzpicture}[circuit ee IEC]
+      \draw (0,0) to [resistor={ohm=5}] (1.5,0);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>circuit.ee.IEC</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>67</ID>
+    <Name>Inductor</Name>
+    <Category>Circuit diagrams</Category>
+    <Description />
+    <SnippetCode>inductor</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary {circuits.ee.IEC}
+      \begin{tikzpicture}[circuit ee IEC]
+      \draw (0,0) to [inductor] (1.5,0);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>circuits.ee.IEC</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>68</ID>
+    <Name>Capacitor</Name>
+    <Category>Circuit diagrams</Category>
+    <Description />
+    <SnippetCode>capacitor</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary {circuits.ee.IEC}
+      \begin{tikzpicture}[circuit ee IEC]
+      \draw (0,0) to [capacitor] (1,0);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>circuits.ee.IEC</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>69</ID>
+    <Name>Battery</Name>
+    <Category>Circuit diagrams</Category>
+    <Description />
+    <SnippetCode>battery</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary {circuits.ee.IEC}
+      \begin{tikzpicture}[circuit ee IEC]
+      \draw (0,0) to [battery] (1,0);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>circuits.ee.IEC</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>70</ID>
+    <Name>Diode</Name>
+    <Category>Circuit diagrams</Category>
+    <Description />
+    <SnippetCode>diode</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary {circuits.ee.IEC}
+      \begin{tikzpicture}[circuit ee IEC]
+      \draw (0,0) to [diode] (1,0);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>circuits.ee.IEC</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>71</ID>
+    <Name>LED</Name>
+    <Category>Circuit diagrams</Category>
+    <Description />
+    <SnippetCode>diode={light emitting}</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary {circuits.ee.IEC}
+      \begin{tikzpicture}[circuit ee IEC]
+      \draw (0,0) to [diode={light emitting}] (1,0);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>circuits.ee.IEC</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>72</ID>
+    <Name>Zener diode</Name>
+    <Category>Circuit diagrams</Category>
+    <Description />
+    <SnippetCode>Zener diode</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary {circuits.ee.IEC}
+      \begin{tikzpicture}[circuit ee IEC]
+      \draw (0,0) to [Zener diode] (1,0);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>circuits.ee.IEC</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>73</ID>
+    <Name>Info</Name>
+    <Category>Circuit diagrams</Category>
+    <Description>Labels can be placed using the info and info' tags.</Description>
+    <SnippetCode>breakdown diode={info=some, info'=more}</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary {circuits.ee.IEC}
+      \begin{tikzpicture}[circuit ee IEC]
+      \draw (0,0) to [breakdown diode={info=some, info'=more}] (1,0);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>circuits.ee.IEC</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>74</ID>
+    <Name>Ball</Name>
+    <Category>Objects and Patterns</Category>
+    <Description />
+    <SnippetCode>\draw[ball color=blue] (0,0) circle (.5);</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw[ball color=blue] (0,0) circle (.5);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>75</ID>
+    <Name>Checkerboard</Name>
+    <Category>Objects and Patterns</Category>
+    <Description />
+    <SnippetCode>\path [pattern=checkerboard,pattern color=black!30] (0,0) rectangle (2,1);</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{patterns}
+      \begin{tikzpicture}
+      \path [pattern=checkerboard,pattern color=black!30] (0,0) rectangle (2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=checkerboard,pattern color=black!30</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>76</ID>
+    <Name>Crosshatch</Name>
+    <Category>Objects and Patterns</Category>
+    <Description />
+    <SnippetCode>pattern=crosshatch,pattern color=black!30</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{patterns}
+      \begin{tikzpicture}
+      \path [pattern=crosshatch,pattern color=black!30] (0,0) rectangle (2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=crosshatch,pattern color=black!30</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>77</ID>
+    <Name>Crosshatch dots gray</Name>
+    <Category>Objects and Patterns</Category>
+    <Description />
+    <SnippetCode>pattern=crosshatch dots gray</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{patterns}
+      \begin{tikzpicture}
+      \path [pattern=crosshatch dots gray] (0,0) rectangle (2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=crosshatch dots gray</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>78</ID>
+    <Name>Vertical lines</Name>
+    <Category>Objects and Patterns</Category>
+    <Description />
+    <SnippetCode>pattern=vertical lines</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{patterns}
+      \begin{tikzpicture}
+      \path [pattern=vertical lines] (0,0) rectangle (2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=vertical lines</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>79</ID>
+    <Name>Horizontal lines</Name>
+    <Category>Objects and Patterns</Category>
+    <Description />
+    <SnippetCode>pattern=horizontal lines</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{patterns}
+      \begin{tikzpicture}
+      \path [pattern=horizontal lines] (0,0) rectangle (2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=horizontal lines</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>80</ID>
+    <Name>North east lines</Name>
+    <Category>Objects and Patterns</Category>
+    <Description />
+    <SnippetCode>pattern=north east lines</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{patterns}
+      \begin{tikzpicture}
+      \path [pattern=north east lines] (0,0) rectangle (2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=north east lines</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>81</ID>
+    <Name>Dots</Name>
+    <Category>Objects and Patterns</Category>
+    <Description />
+    <SnippetCode>pattern=dots</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{patterns}
+      \begin{tikzpicture}
+      \path [pattern=dots] (0,0) rectangle (2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=dots</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>82</ID>
+    <Name>Bricks</Name>
+    <Category>Objects and Patterns</Category>
+    <Description />
+    <SnippetCode>pattern=bricks</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{patterns}
+      \begin{tikzpicture}
+      \path [pattern=bricks] (0,0) rectangle (2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=bricks</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>83</ID>
+    <Name>Sixpointed stars</Name>
+    <Category>Objects and Patterns</Category>
+    <Description />
+    <SnippetCode>pattern=sixpointed stars</SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{patterns}
+      \begin{tikzpicture}
+      \path [pattern=sixpointed stars] (0,0) rectangle (2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>patterns</Dependencies>
+    <EdgeStyle>pattern=sixpointed stars</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>84</ID>
+    <Name>Shadedraw</Name>
+    <Category>Objects and Patterns</Category>
+    <Description />
+    <SnippetCode>\shadedraw [left color=red,right color=blue] (0,0) rectangle (2,1);</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \shadedraw [left color=red,right color=blue] (0,0) rectangle (2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>85</ID>
+    <Name>Random steps border</Name>
+    <Category>Styles Nodes</Category>
+    <Description />
+    <SnippetCode>
+      \node [fill=yellow!50,draw,thick, minimum height=1cm, minimum width=2cm,
+      decorate, decoration={random steps,segment length=3pt,amplitude=1pt}]
+      {Note};
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{decorations.pathmorphing}
+      \begin{tikzpicture}
+      \node [fill=yellow!50,draw,thick, minimum height=1cm, minimum width=2cm,
+      decorate, decoration={random steps,segment length=3pt,amplitude=1pt}]
+      {Note};
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>decorations.pathmorphing</Dependencies>
+    <NodeStyle>fill=yellow!50,draw,thick, minimum height=1cm, minimum width=2cm, decorate, decoration={random steps,segment length=3pt,amplitude=1pt}</NodeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>86</ID>
+    <Name>Matrix</Name>
+    <Category>Matrices</Category>
+    <Description />
+    <SnippetCode>
+      \matrix (m) [matrix of nodes] {
+      A &amp; B &amp; C \\
+      a &amp; b &amp; c \\
+      };
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{matrix}
+      \begin{tikzpicture}
+      \matrix (m) [matrix of nodes] {
+      A &amp; B &amp; C \\
+      a &amp; b &amp; c \\
+      };
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>matrix</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>87</ID>
+    <Name>Column formatting and spacing</Name>
+    <Category>Matrices</Category>
+    <Description />
+    <SnippetCode>
+      \matrix (m) [matrix of math nodes] {
+      A &amp;[3mm] B &amp; |[red]| C \\
+      a &amp; b &amp; c \\
+      };
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{matrix}
+      \begin{tikzpicture}
+      \matrix (m) [matrix of math nodes] {
+      A &amp;[3mm] B &amp; |[red]| C \\
+      a &amp; b &amp; c \\
+      };
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>matrix</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>88</ID>
+    <Name>Matrix of math nodes</Name>
+    <Category>Matrices</Category>
+    <Description />
+    <SnippetCode>
+      \matrix (m) [matrix of math nodes] {
+      A &amp; B &amp; \sqrt{C} \\
+      a &amp; \int b &amp; c \\
+      };
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{matrix}
+      \begin{tikzpicture}
+      \matrix (m) [matrix of math nodes] {
+      B &amp; \sqrt{C} \\
+      \int b &amp; c \\
+      };
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>matrix</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>89</ID>
+    <Name>left/right delimiter</Name>
+    <Category>Matrices</Category>
+    <Description />
+    <SnippetCode>
+      \tikzset{every left delimiter/.style={red,xshift=1ex},every right delimiter/.style={xshift=-1ex}}
+      \matrix (m) [matrix of math nodes, left delimiter=(, right delimiter=\}] {
+      A &amp; B &amp; C \\
+      a &amp; b &amp; c \\
+      };
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{matrix}
+      \begin{tikzpicture}
+      \tikzset{every left delimiter/.style={red,xshift=1ex},every right delimiter/.style={xshift=-1ex}}
+      \matrix (m) [matrix of math nodes, left delimiter=(, right delimiter=\}] {
+      A &amp; B &amp; C \\
+      a &amp; b &amp; c \\
+      };
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies>matrix</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>90</ID>
+    <Name>above/below delimiter</Name>
+    <Category>Matrices</Category>
+    <Description>
+      Add descriptive text here
+      Will be displayed as tooltip
+    </Description>
+    <SnippetCode>
+      \matrix (m) [matrix of math nodes, above delimiter=[, below delimiter=\}] {
+      A &amp;[5mm] B &amp; C \\
+      };
+    </SnippetCode>
+    <SampleCode>
+      \usetikzlibrary{matrix}
+      \begin{tikzpicture}
+      \matrix (m) [matrix of math nodes, above delimiter=[, below delimiter=\}] {
+      A &amp;[5mm] B &amp; C \\
+      };
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>91</ID>
+    <Name>red!20</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>red!20</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \fill[red!20] (1,1) rectangle (3,2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+    <EdgeStyle>red!20</EdgeStyle>
+    <NodeStyle />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>92</ID>
+    <Name>\draw</Name>
+    <Category>Path commands</Category>
+    <Description />
+    <SnippetCode>\draw (0,0) -- (2,1);</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw (0,0) -- (2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>93</ID>
+    <Name>\fill</Name>
+    <Category>Path commands</Category>
+    <Description />
+    <SnippetCode>\fill[blue] (1,1)--(3,2)--(3,1)--cycle;</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \fill[blue] (1,1)--(3,2)--(3,1)--cycle;
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>94</ID>
+    <Name>\filldraw</Name>
+    <Category>Path commands</Category>
+    <Description />
+    <SnippetCode>\filldraw[fill=green!20, draw=red, thick] (1,1)--(3,2)--(3,1)--cycle;</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \filldraw[fill=green!20, draw=red, thick] (1,1)--(3,2)--(3,1)--cycle;
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>95</ID>
+    <Name>\clip</Name>
+    <Category>Path commands</Category>
+    <Description />
+    <SnippetCode>\clip</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \clip (0,0) circle (1);
+      \fill[green] (-2,-.5) rectangle (2,.5);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>96</ID>
+    <Name>\shade</Name>
+    <Category>Path commands</Category>
+    <Description />
+    <SnippetCode> \shade[left color=yellow,right color=black] (1,1) rectangle (3,2);</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \shade[left color=yellow,right color=black] (1,1) rectangle (3,2);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>97</ID>
+    <Name>\shadedraw</Name>
+    <Category>Path commands</Category>
+    <Description />
+    <SnippetCode>\shadedraw[inner color=yellow,outer color=black,draw=red, ultra thick, rounded corners] (6,0) rectangle +(2,1);</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \shadedraw[inner color=yellow,outer color=black,draw=red, ultra thick, rounded corners] (6,0) rectangle +(2,1);
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>98</ID>
+    <Name>Positioning</Name>
+    <Category>Edge Labels</Category>
+    <Description>Specify the position along a path with pos=..., or using the attributes "at start", "very near start", "near start", "midway" (and same with end).</Description>
+    <SnippetCode>
+      \draw (1,1)--(3,1)
+      node[pos=.1, above] {a}
+      node[midway] {b}
+      node[very near end, below] {c};
+    </SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \draw (1,1)--(2.5,1)
+      node[pos=.1, above] {a}
+      node[midway] {b}
+      node[very near end, below] {c};
+      \end{tikzpicture}
+    </SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>99</ID>
+    <Name>dashed</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>dashed</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[dashed] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>dashed</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>100</ID>
+    <Name>dotted</Name>
+    <Category>Line Styles</Category>
+    <Description>Add descriptive text here 
+Will be displayed as tooltip</Description>
+    <SnippetCode>dotted</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[dotted] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>dotted</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>101</ID>
+    <Name>loosely dotted</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>loosely dotted</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[loosely dotted] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>loosely dotted</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>102</ID>
+    <Name>densely dotted</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>densely dotted</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[densely dotted] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>densely dotted</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>103</ID>
+    <Name>loosely dashed</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>loosely dashed</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[loosely dashed] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>loosely dashed</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>104</ID>
+    <Name>densely dashed</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>densely dashed</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[densely dashed] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>densely dashed</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>105</ID>
+    <Name>very thin</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>very thin</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[very thin] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>very thin</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>106</ID>
+    <Name>ultra thin</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>ultra thin</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[ultra thin] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>ultra thin</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>107</ID>
+    <Name>thin</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>thin</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[thin] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>thin</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>108</ID>
+    <Name>semithick</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>semithick</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[semithick] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>semithick</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>109</ID>
+    <Name>thick</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>thick</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[thick] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>thick</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>110</ID>
+    <Name>very thick</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>very thick</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[very thick] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>very thick</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>111</ID>
+    <Name>ultra thick</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>ultra thick</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[ultra thick] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>ultra thick</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>112</ID>
+    <Name>dashdotted</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>dashdotted</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[dashdotted] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>dashdotted</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>113</ID>
+    <Name>dashdotdotted</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>dashdotdotted</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[dashdotdotted] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>dashdotdotted</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>114</ID>
+    <Name>dash pattern</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>dash pattern=on 2pt off 3pt on 4pt off 4pt</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[dash pattern=on 2pt off 3pt on 4pt off 4pt] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>dash pattern=on 2pt off 3pt on 4pt off 4pt</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>115</ID>
+    <Name>double</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>double</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[double] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>double</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>116</ID>
+    <Name>double distance=2pt</Name>
+    <Category>Line Styles</Category>
+    <Description />
+    <SnippetCode>double distance=2pt</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+  \draw[double distance=2pt] (1,1)--(2,1);
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>double distance=2pt</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>117</ID>
+    <Name>Button</Name>
+    <Category>Styles Nodes</Category>
+    <Description>From the pgf manual.</Description>
+    <SnippetCode>\tikzset{button/.style={
+% First preaction: Fuzzy shadow
+preaction={fill=black,path fading=circle with fuzzy edge 20 percent,
+opacity=.5,transform canvas={xshift=1mm,yshift=-1mm}},
+% Second preaction: Background pattern
+preaction={pattern=#1,
+path fading=circle with fuzzy edge 15 percent},
+% Third preaction: Make background shiny
+preaction={top color=white,
+bottom color=black!50,
+shading angle=45,
+path fading=circle with fuzzy edge 15 percent,
+opacity=0.2},
+% Fourth preaction: Make edge especially shiny
+preaction={path fading=fuzzy ring 15 percent,
+top color=black!5,
+bottom color=black!80,
+shading angle=45},
+inner sep=2ex
+},
+button/.default=horizontal lines light blue,
+circle}</SnippetCode>
+    <SampleCode>\usetikzlibrary{shadows, patterns}
+\tikzset{button/.style={
+% First preaction: Fuzzy shadow
+preaction={fill=black,path fading=circle with fuzzy edge 20 percent,
+opacity=.5,transform canvas={xshift=1mm,yshift=-1mm}},
+% Second preaction: Background pattern
+preaction={pattern=#1,
+path fading=circle with fuzzy edge 15 percent},
+% Third preaction: Make background shiny
+preaction={top color=white,
+bottom color=black!50,
+shading angle=45,
+path fading=circle with fuzzy edge 15 percent,
+opacity=0.2},
+% Fourth preaction: Make edge especially shiny
+preaction={path fading=fuzzy ring 15 percent,
+top color=black!5,
+bottom color=black!80,
+shading angle=45},
+inner sep=2ex
+},
+button/.default=horizontal lines light blue,
+circle}
+\begin{tikzpicture}
+\node [button] at (0,0) { Big};
+\end{tikzpicture}
+</SampleCode>
+    <Dependencies>shadows, patterns</Dependencies>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>118</ID>
+    <Name>green</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>green</SnippetCode>
+    <SampleCode>
+      \begin{tikzpicture}
+      \fill[green] (1,1) rectangle (3,2);
+      \end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>green</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>119</ID>
+    <Name>gray</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>gray</SnippetCode>
+    <SampleCode> \begin{tikzpicture}
+ \fill[gray] (1,1) rectangle (3,2);
+ \end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>gray</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>120</ID>
+    <Name>blue</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>blue</SnippetCode>
+    <SampleCode> \begin{tikzpicture}
+ \fill[blue] (1,1) rectangle (3,2);
+ \end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>blue</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>121</ID>
+    <Name>yellow</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>yellow</SnippetCode>
+    <SampleCode> \begin{tikzpicture}
+ \fill[yellow] (1,1) rectangle (3,2);
+ \end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>yellow</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>122</ID>
+    <Name>orange</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>orange</SnippetCode>
+    <SampleCode> \begin{tikzpicture}
+ \fill[orange] (1,1) rectangle (3,2);
+ \end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>orange</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>123</ID>
+    <Name>black</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>black</SnippetCode>
+    <SampleCode> \begin{tikzpicture}
+ \fill[black] (1,1) rectangle (3,2);
+ \end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>black</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>124</ID>
+    <Name>magenta</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>magenta</SnippetCode>
+    <SampleCode> \begin{tikzpicture}
+ \fill[magenta] (1,1) rectangle (3,2);
+ \end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>magenta</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>125</ID>
+    <Name>pink</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>pink</SnippetCode>
+    <SampleCode> \begin{tikzpicture}
+ \fill[pink] (1,1) rectangle (3,2);
+ \end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>pink</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>126</ID>
+    <Name>cyan</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>cyan</SnippetCode>
+    <SampleCode> \begin{tikzpicture}
+ \fill[cyan] (1,1) rectangle (3,2);
+ \end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>cyan</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>127</ID>
+    <Name>purple</Name>
+    <Category>Colors</Category>
+    <Description />
+    <SnippetCode>purple</SnippetCode>
+    <SampleCode> \begin{tikzpicture}
+ \fill[purple] (1,1) rectangle (3,2);
+ \end{tikzpicture}</SampleCode>
+    <Dependencies />
+    <EdgeStyle>purple</EdgeStyle>
+  </SnippetsTable>
+  <SnippetsTable>
+    <ID>128</ID>
+    <Name>Tree</Name>
+    <Category>Templates</Category>
+    <Description>From the Pgf manual.</Description>
+    <SnippetCode>\node {root} [grow'=up]
+child {node {left}}
+child {node {right}
+child {node {child}}
+child {node {child}}
+};</SnippetCode>
+    <SampleCode>\begin{tikzpicture}
+\node {root} [grow'=up]
+child {node {left}}
+child {node {right}
+child {node {child}}
+child {node {child}}
+};
+\end{tikzpicture}</SampleCode>
+    <Dependencies />
+  </SnippetsTable>
+</SnippetsDataSet>
