@@ -27,5 +27,12 @@ namespace TikzEdt
                 return null;
         }
 
+        public void SaveBmp(string cFile, double Resolution, bool Transparent, System.Drawing.Imaging.ImageFormat imgFormat)
+        {
+            //BitmapSource b = GetBitmap(Resolution, Transparent);
+            
+            // TODO: implement
+        }
+
     }
 }

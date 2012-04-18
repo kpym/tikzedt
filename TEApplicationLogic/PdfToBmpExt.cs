@@ -11,7 +11,9 @@ namespace TikzEdt
     public interface IPdfToBmp<T>
     {
         T GetBitmap(double Resolution, bool Transparent = true);
-        
+        void SaveBmp(string cFile, double Resolution, bool Transparent, System.Drawing.Imaging.ImageFormat imgFormat);
+        bool IsEmpty();
+
         bool UnloadPdf();
         bool LoadPdf(string cfile);
 
@@ -62,6 +64,13 @@ namespace TikzEdt
  	        PdfFile = cfile;
             return true;
         }
+
+        public bool IsEmpty()
+        {
+            // HACK
+            return File.Exists(PdfFile);
+        }
+
     }
 
     public class PdfToBmpExtWinForms : PdfToBmpExtBase, IPdfToBmp<Bitmap>
@@ -85,6 +94,18 @@ namespace TikzEdt
 
             return null;
         }
+
+
+        public void SaveBmp(string cFile, double Resolution, bool Transparent, System.Drawing.Imaging.ImageFormat imgFormat)
+        {
+            Bitmap b = GetBitmap(Resolution, Transparent);
+            if (b != null)
+            {
+                b.Save(cFile, imgFormat);
+                b.Dispose();
+            };
+        }
+
     }
 
 }

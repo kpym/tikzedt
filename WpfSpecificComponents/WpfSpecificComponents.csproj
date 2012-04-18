@@ -57,6 +57,7 @@
     <Compile Include="AvalonDocumentWrapper.cs" />
     <Compile Include="CommandBindingExtensions.cs" />
     <Compile Include="DockPanelSplitter.cs" />
+    <Compile Include="FastSmartWeakEvent.cs" />
     <Compile Include="GlobalUIWPF.cs" />
     <Compile Include="InputMessageBox.xaml.cs">
       <DependentUpon>InputMessageBox.xaml</DependentUpon>
