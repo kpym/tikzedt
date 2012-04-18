@@ -23,33 +23,33 @@ namespace TikzEdt.ViewModels
     public class TEDocumentVM<T> : ViewModelBase where T : class, TikzEdt.ViewModels.ITEDoc, new()
     {
         #region Commands
-        RelayCommand _CompileCommand;
-        public ICommand CompileCommand
+        TERelayCommand _CompileCommand;
+        public TERelayCommand CompileCommand
         {
             get
             {
                  if (_CompileCommand == null)
-                    _CompileCommand = new RelayCommand(o => Recompile(), o => true );
+                     _CompileCommand = new TERelayCommand(o => Recompile(), o => true);
                 return _CompileCommand;
             }
         }
-        RelayCommand _SavePdfCommand;
-        public ICommand SavePdfCommand
+        TERelayCommand _SavePdfCommand;
+        public TERelayCommand SavePdfCommand
         {
             get
             {
                 if (_SavePdfCommand == null)
-                    _SavePdfCommand = new RelayCommand(o => SavePdf(o != null), o => true);
+                    _SavePdfCommand = new TERelayCommand(o => SavePdf(o != null), o => true);
                 return _SavePdfCommand;
             }
         }
-        RelayCommand _ExportFileCommand;
-        public ICommand ExportFileCommand
+        TERelayCommand _ExportFileCommand;
+        public TERelayCommand ExportFileCommand
         {
             get
             {
                 if (_ExportFileCommand == null)
-                    _ExportFileCommand = new RelayCommand(o => ExportFile());
+                    _ExportFileCommand = new TERelayCommand(o => ExportFile());
                 return _ExportFileCommand;
             }
         }
@@ -61,7 +61,7 @@ namespace TikzEdt.ViewModels
         }
 
         //public RelayCommand CloseCommand { get { return new RelayCommand((e); } } 
-        public RelayCommand CloseCommand { get { return new RelayCommand((object sender) => RequestCloseFile()); } }
+        public TERelayCommand CloseCommand { get { return new TERelayCommand((object sender) => RequestCloseFile()); } }
         void RequestCloseFile()
         {
             if (TryDisposeFile())

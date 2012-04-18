@@ -21,6 +21,7 @@ using System.Security.Permissions;
 using System.Security;
 using Microsoft.Win32;
 using System.Globalization;
+using TikzEdt.ViewModels;
 
 namespace TikzEdt
 {
@@ -357,6 +358,24 @@ namespace TikzEdt
                 return Visibility.Collapsed;
             else
                 return Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(TERelayCommand), typeof(ICommand))]
+    class TERelayCommandICommandConverter : IValueConverter
+    {
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            TERelayCommand tec = value as TERelayCommand;
+            if (tec == null) return null;
+            else return new RelayCommand(tec._execute, tec._canExecute);
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
