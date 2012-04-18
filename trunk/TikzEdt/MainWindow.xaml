@@ -91,9 +91,9 @@
         <KeyBinding Command="NavigationCommands.Search" Key="F3"/>
         <KeyBinding Command="NavigationCommands.Search" CommandParameter="notnull" Key="F3" Modifiers="Shift"/>
      <!--   <KeyBinding Command="{x:Static custom:MainWindow.ShowCodeCompletionsCommand}" Key="SPACE"  Modifiers="Ctrl"/> -->
-        <KeyBinding Command="{Binding TheDocument.CompileCommand}" Key="F5"/>
+        <KeyBinding Command="{Binding TheDocument.CompileCommand, Converter={StaticResource TERCRCC}}" Key="F5"/>
         <KeyBinding Command="{x:Static custom:MainWindow.ShowPdfCommand}" Key="F6"/>
-        <KeyBinding Command="{Binding TheDocument.SavePdfCommand}" Key="S" Modifiers="Ctrl+Shift"/>
+        <KeyBinding Command="{Binding TheDocument.SavePdfCommand, Converter={StaticResource TERCRCC}}" Key="S" Modifiers="Ctrl+Shift"/>
         <KeyBinding Command="{x:Static custom:MainWindow.OpenPgfManualCommand}" Key="F2"/>
     
     </Window.InputBindings>
@@ -114,9 +114,9 @@
                 <MenuItem Header="Save" Command="ApplicationCommands.Save" />
                 <MenuItem Header="Save As..."  Command="ApplicationCommands.SaveAs" />
                 <Separator/>
-                <MenuItem Header="Save Pdf" Command="{Binding TheDocument.SavePdfCommand}" InputGestureText="Ctrl+Shift+S"/>
-                <MenuItem Header="Save Pdf As..." Command="{Binding TheDocument.SavePdfCommand}" CommandParameter="notnull"/>
-                <MenuItem Header="Export File As..." Command="{Binding TheDocument.ExportFileCommand}"/>
+                <MenuItem Header="Save Pdf" Command="{Binding TheDocument.SavePdfCommand, Converter={StaticResource TERCRCC}}" InputGestureText="Ctrl+Shift+S"/>
+                <MenuItem Header="Save Pdf As..." Command="{Binding TheDocument.SavePdfCommand, Converter={StaticResource TERCRCC}}" CommandParameter="notnull"/>
+                <MenuItem Header="Export File As..." Command="{Binding TheDocument.ExportFileCommand, Converter={StaticResource TERCRCC}}"/>
                 <common:RecentFileList x:Name="RecentFileList" />                
                 <MenuItem Header="Quit" Command="ApplicationCommands.Close"  />
             </MenuItem>
@@ -153,7 +153,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Compilation">
-                <MenuItem Header="Compile" Command="{Binding TheDocument.CompileCommand}" InputGestureText="F5"/>
+                <MenuItem Header="Compile" Command="{Binding TheDocument.CompileCommand, Converter={StaticResource TERCRCC}}" InputGestureText="F5"/>
                 <MenuItem Name="mnuAbort" Header="Abort" Click="AbortCompilationClick"
                           IsEnabled="{Binding Source={x:Static myApp:TheCompiler.Instance}, Path=Compiling, Mode=OneWay}"/>
                 <MenuItem Name="mnuAbortSnippet" Header="Abort current snippet compilation" Click="AbortSnippetCompilationClick"
@@ -198,7 +198,7 @@
                 <Button Command="ApplicationCommands.Save"  ToolTip="Save file">
                     <Image Source="/TikzEdt;component/Images/saveHS.png"  Stretch="Fill" Height="16" Width="16" />
                 </Button>
-                <Button Command="{Binding TheDocument.SavePdfCommand}"  ToolTip="Save Pdf">
+                <Button Command="{Binding TheDocument.SavePdfCommand, Converter={StaticResource TERCRCC}}"  ToolTip="Save Pdf">
                     <Image Source="/TikzEdt;component/Images/savePdf.png"  Stretch="Fill" Height="16" Width="16" />
                 </Button>
                 <Separator/>
@@ -212,7 +212,7 @@
                     <myC:AutoGrayImage Source2="/TikzEdt;component/Images/CutHS.png"  Stretch="Fill" Height="16" Width="16"  />
                 </Button>
                 <Separator/>
-                <Button Command="{Binding TheDocument.CompileCommand}">
+                <Button Command="{Binding TheDocument.CompileCommand, Converter={StaticResource TERCRCC}}">
                     <Image Source="/TikzEdt;component/Images/PlayHS.png"  Stretch="Fill" Height="16" Width="16"/>
                     <Button.ToolTip>
                         Compile the file (F5)

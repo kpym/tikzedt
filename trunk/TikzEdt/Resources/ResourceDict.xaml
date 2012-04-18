@@ -31,4 +31,5 @@
     <my:RectToStringConverter x:Key="RectToString" />
     <my:IndexToBoolConverter x:Key="IndexToBool" />
     <my:GEQZeroToVisibilityConverter x:Key="GEQZeroToVisibility" />
+    <my:TERelayCommandICommandConverter x:Key="TERCRCC" />
 </ResourceDictionary>

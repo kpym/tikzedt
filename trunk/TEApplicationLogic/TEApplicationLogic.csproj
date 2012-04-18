@@ -110,8 +110,8 @@
     <Compile Include="UpdateChecker.cs" />
     <Compile Include="ViewModels\ITEDoc.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
-    <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\TEDocument.cs" />
+    <Compile Include="ViewModels\TERelayCommand.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

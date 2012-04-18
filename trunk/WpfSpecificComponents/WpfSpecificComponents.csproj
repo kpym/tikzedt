@@ -69,6 +69,7 @@
     <Compile Include="PdfToBmpWPF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecentFileList.cs" />
+    <Compile Include="RelayCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TEApplicationLogic\TEApplicationLogic.csproj">
