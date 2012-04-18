@@ -20,7 +20,7 @@ namespace TikzEdt.ViewModels
     /// <summary>
     /// The viewmodel for a single TikzEdt document.
     /// </summary>
-    public class TEDocumentVM<T> : ViewModelBase where T : class, TikzEdt.ViewModels.ITEDoc, new()
+    public class TEDocumentVM<T> : ViewModelBase, IDisposable where T : class, TikzEdt.ViewModels.ITEDoc, new()
     {
         #region Commands
         TERelayCommand _CompileCommand;
@@ -149,6 +149,10 @@ namespace TikzEdt.ViewModels
             }
         }
         private T _Document = null;
+        /// <summary>
+        /// This is an instance of the document wrapped by TEDocument.
+        /// It is set during construction and not supposed to change suring the lifetime of TEDocument.
+        /// </summary>
         public T Document
         {
             get { return _Document; }
@@ -1342,6 +1346,14 @@ namespace TikzEdt.ViewModels
             }
         }
         */
+
+        public void Dispose()
+        {
+            //Document = null;
+            TheCompiler.Instance.JobDone -= TheCompiler_JobDone;
+            fileWatcher.EnableRaisingEvents = false;
+            ParseTree = null;
+        }
     }
 
   /*  public class TEDocumentContent : AvalonDock.DocumentContent

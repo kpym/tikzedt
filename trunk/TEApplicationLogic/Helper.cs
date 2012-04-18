@@ -479,9 +479,14 @@ namespace TikzEdt
         
         public static string LongPathToShort(string LongPath)
         {
-            StringBuilder shortPath = new StringBuilder(255);
-            GetShortPathName(LongPath, shortPath, shortPath.Capacity);
-            return shortPath.ToString();
+            if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX)
+                return LongPath;
+            else
+            {
+                StringBuilder shortPath = new StringBuilder(255);
+                GetShortPathName(LongPath, shortPath, shortPath.Capacity);
+                return shortPath.ToString();
+            }
         }
 
 
