@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-using ICSharpCode.AvalonEdit;
+//using ICSharpCode.AvalonEdit;
 using TikzEdt.Parser;
-using ICSharpCode.AvalonEdit.Document;
+//using ICSharpCode.AvalonEdit.Document;
 using System.Windows;
 using System.IO;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
+//using System.Windows.Input;
 using System.Text.RegularExpressions;
 using Antlr.Runtime;
 using TESharedComponents;
@@ -55,10 +55,10 @@ namespace TikzEdt.ViewModels
         }
 
         //CommandBinding CompileCommandBinding { get { return new CommandBinding(CompileCommand, CompileCommandHandler); } }
-        private void CompileCommandHandler(object sender, ExecutedRoutedEventArgs e)
+  /*      private void CompileCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             Recompile();
-        }
+        } */
 
         //public RelayCommand CloseCommand { get { return new RelayCommand((e); } } 
         public TERelayCommand CloseCommand { get { return new TERelayCommand((object sender) => RequestCloseFile()); } }
