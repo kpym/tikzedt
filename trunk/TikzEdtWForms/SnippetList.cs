@@ -67,9 +67,10 @@ namespace TikzEdtWForms
 
         void SnippetList_Resize(object sender, EventArgs e)
         {
+			SuspendLayout();
             foreach (var c in this.Controls)
                 (c as Control).Width = ClientSize.Width * 98 / 100;
-
+			ResumeLayout();
         }
 
         List<SnippetEntry> Children = new List<SnippetEntry>();
@@ -77,6 +78,7 @@ namespace TikzEdtWForms
         void ISnippetListView.Refresh()
         {
             Controls.Clear();
+			SuspendLayout();
 
             List<Snippet> L = new List<Snippet>();
 
@@ -120,7 +122,8 @@ namespace TikzEdtWForms
                     Controls.Add(o);
                 }
             }
-
+			
+			ResumeLayout();
         }
 
         void o_InsertAsStyle(object sender, EventArgs e)
