@@ -1,0 +1,164 @@
+﻿<?xml version="1.0"?>
+<!-- syntaxdefinition for TeX document 2001 by Mike Krueger (gleaned from Jedit) -->
+
+<SyntaxDefinition name = "Tikz" extensions = ".tikz">
+
+  <Digits   name = "Digits" bold = "false" italic = "false" color = "Black"/>
+
+  <RuleSets>
+    <RuleSet ignorecase = "false">
+      <Delimiters>&amp;~!@%^*()-+=|\#/{}[]:;"'&lt;&gt; , .?</Delimiters>
+
+      <Span name = "LineComment" bold = "false" italic = "true" color = "SlateGray" stopateol = "true">
+        <Begin>%</Begin>
+      </Span>
+
+      <Span name = "MathMode" rule = "MathMode" bold = "false" italic = "false" color = "Black" stopateol = "false">
+        <Begin>$$</Begin>
+        <End>$$</End>
+      </Span>
+      <Span name = "LatexMathMode" rule = "MathMode" bold = "false" italic = "false" color = "Black" stopateol = "false">
+        <Begin>\[</Begin>
+        <End>\]</End>
+      </Span>
+
+      <!-- \... commands -->
+      <MarkFollowing markmarker ="true" bold = "true" italic = "false" color = "MidnightBlue">\</MarkFollowing>
+
+      <!-- some commands must be handled specially -->
+      <KeyWords name = "Keyword1" bold = "false" italic = "false" color = "Blue">
+        <Key word = "\$" />
+        <Key word = "\\" />
+        <Key word = "\%" />
+      </KeyWords>
+
+      <KeyWords name = "KeyWords2" bold="true" italic="false" color="Green">
+        <Key word = ")" />
+        <Key word = ")" />
+        <Key word = "{" />
+        <Key word = "}" />
+        <Key word = "[" />
+        <Key word = "]" />
+        <Key word = "=" />
+        <Key word = "!" />
+        <Key word = "+" />
+        <Key word = "-" />
+        <Key word = "/" />
+        <Key word = "*" />
+        <Key word = "&gt;" />
+        <Key word = "&lt;" />
+        <Key word = "&amp;" />
+        <Key word = "|" />
+        <Key word = "^" />
+        <Key word = "~" />
+        <Key word = "." />
+        <Key word = "," />
+        <Key word = ";" />
+        <Key word = "?" />
+        <Key word = ":" />
+        <Key word = "'" />
+        <!--			    <Key word = """ />-->
+        <Key word = "`" />
+      </KeyWords>
+
+      <!-- environment names -->
+      <KeyWords name="Environments" bold="false" italic="true" color="Black">
+        <Key word = "tikzpicture" />
+        <Key word = "equation" />
+        <Key word = "scope" />
+
+        <!-- ... -->
+      </KeyWords>
+
+      <!-- path commands -->
+      <KeyWords name="TikzKeywords" bold="false" italic="false" color="Brown">
+        <Key word = "node" />
+        <Key word = "circle" />
+        <Key word = "grid" />
+        <Key word = "rectangle" />
+        <Key word = "ellipse" />
+        <Key word = "edge" />
+        <Key word = "at" />
+        <Key word = "--" />
+        <Key word = "->" />
+        <Key word = "-|" />
+        <Key word = "|-" />
+        <Key word = "to" />
+
+        <!-- ... -->
+      </KeyWords>
+      <!-- allowed latex commands -->
+      <KeyWords name="OtherCommands" bold="false" italic="true" color="Blue">
+        <Key word = "\documentclass" />
+        <Key word = "\usepackage" />
+        <Key word = "\usetikzlibrary" />
+        <!-- ... -->
+      </KeyWords>
+
+      <KeyWords name="TikzCommands" bold="true" italic="false" color="Blue">
+        <Key word = "\begin" />
+        <Key word = "\end" />
+        <Key word = "\node" />
+        <Key word = "\coordinate" />
+        <Key word = "\draw" />
+        <Key word = "\fill" />
+        <Key word = "\filldraw" />
+        <Key word = "\pattern" />
+        <Key word = "\useasboundingbox" />
+        <Key word = "\shade" />
+        <Key word = "\shadedraw" />
+        <Key word = "\clip" />
+        <Key word = "\path" />
+        <Key word = "\matrix" />
+        <Key word = "\tikzset" />
+        <Key word = "\tikzstyle" />
+        <Key word = "\definecolor" />
+        <!-- ... -->
+      </KeyWords>
+      
+    </RuleSet>
+
+    <RuleSet name = "MathMode" ignorecase = "false">
+      <Delimiters>&amp;~!@%^*()-+=|\#/{}[]:;"'&lt;&gt; , .?</Delimiters>
+
+
+      <Span name = "LineComment" bold = "false" italic = "true" color = "SlateGray" stopateol = "true">
+        <Begin>%</Begin>
+      </Span>
+
+      <!-- \... commands -->
+      <MarkFollowing markmarker ="true" bold = "true" italic = "false" color = "MidnightBlue">\</MarkFollowing>
+
+      <KeyWords name = "KeyWords2" bold="true" italic="false" color="Green">
+        <Key word = ")" />
+        <Key word = ")" />
+        <Key word = "{" />
+        <Key word = "}" />
+        <Key word = "[" />
+        <Key word = "]" />
+        <Key word = "=" />
+        <Key word = "!" />
+        <Key word = "+" />
+        <Key word = "-" />
+        <Key word = "/" />
+        <Key word = "*" />
+        <Key word = "&gt;" />
+        <Key word = "&lt;" />
+        <Key word = "&amp;" />
+        <Key word = "|" />
+        <Key word = "^" />
+        <Key word = "~" />
+        <Key word = "." />
+        <Key word = "," />
+        <Key word = ";" />
+        <Key word = "?" />
+        <Key word = ":" />
+        <Key word = "'" />
+        <!--			    <Key word = """ />-->
+        <Key word = "`" />
+      </KeyWords>
+    </RuleSet>
+  </RuleSets>
+
+</SyntaxDefinition>
+
