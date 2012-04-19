@@ -141,6 +141,7 @@
     <None Include="Editor\TikzSyntax.xshd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="pdfdraw" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Components\AuxiliaryPrograms\Unzipper\Unzipper.csproj">
