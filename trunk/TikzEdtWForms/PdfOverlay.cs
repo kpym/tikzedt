@@ -392,6 +392,14 @@ namespace TikzEdtWForms
 
         PdfOverlayModel TheOverlayModel;
 
+        private bool _ShowOverlay=true;
+
+        public bool ShowOverlay
+        {
+            get { return _ShowOverlay; }
+            set { _ShowOverlay = value; Invalidate(); }
+        }
+        
 
         #region Mouse and Keyboard Event handling
 

@@ -10,6 +10,8 @@ using Microsoft.Win32;
 //using TikzEdt.Views;
 using System.Windows.Threading;
 using System.IO;
+using FileDownloaderApp;
+using System.Windows.Forms;
 
 namespace TikzEdt.ViewModels
 {
@@ -290,6 +292,61 @@ namespace TikzEdt.ViewModels
         public void Save() { TheDocument.SaveCurFile(); }
         public void SaveAs() { TheDocument.SaveCurFile(true); }
 
+        private FileDownloader downloader;
+        /// <summary>
+        /// Tries to open the pgf manual. If it is not present, downloads it.
+        /// </summary>
+        public void OpenPgfManual()
+        {
+            String pgfmanualurl = Consts.PGFManualDownloadPath;
+
+            //open file if it exists and downloader is not busy downloading it (then file is not complete)
+            string PgfManualPath = Path.Combine(Helper.GetAppdataPath(), "pgfmanual.pdf");
+            if (File.Exists(PgfManualPath)
+                && (downloader == null || (downloader != null && !downloader.IsBusy && downloader.CurrentFile.Path == pgfmanualurl)))
+                System.Diagnostics.Process.Start(PgfManualPath);
+            else
+            {
+                // Creating a new instance of a FileDownloader
+                if (downloader == null)
+                {
+                    downloader = new FileDownloader();
+                    downloader.LocalDirectory = Helper.GetAppdataPath();
+                    downloader.FileDownloadStarted += ((s, args) => GlobalUI.UI.AddStatusLine(this,"Download of Tikz/Pgf manual started. Please be patient."));
+                    downloader.FileDownloadSucceeded += ((s, args) => GlobalUI.UI.AddStatusLine(this, "Download of Tikz/Pgf manual succeeded."));
+                    downloader.FileDownloadFailed += ((s, args) => GlobalUI.UI.AddStatusLine(this, "Download of Tikz/Pgf manual failed.", true));
+
+                }
+
+                //if downloader is downloading file show status.
+                if (downloader.IsBusy)
+                {
+                    String msg = String.Format("Downloaded {0} of {1} ({2}%)",
+                           FileDownloader.FormatSizeBinary(downloader.CurrentFileProgress),
+                           FileDownloader.FormatSizeBinary(downloader.CurrentFileSize),
+                           downloader.CurrentFilePercentage()) + String.Format(" - {0}/s",
+                           FileDownloader.FormatSizeBinary(downloader.DownloadSpeed));
+                    if (DialogResult.Cancel == GlobalUI.UI.ShowMessageBox(msg + Environment.NewLine + "Press cancel to abort download.", "Download in progress", 
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Information))
+                        downloader.Stop();
+                }
+                //else ask user to download file
+                else
+                {
+                    FileDownloader.FileInfo loadfile = new FileDownloader.FileInfo(pgfmanualurl);
+
+                    String msg = "Tikz/Pgf manual not found. Do you want to download it now?";
+                    if (DialogResult.Yes == GlobalUI.UI.ShowMessageBox(msg, "Start download?", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+                    {
+                        if (!downloader.Files.Contains(loadfile))
+                            downloader.Files.Add(loadfile);
+                        GlobalUI.UI.AddStatusLine(this, "Starting download of Pgf manual from " + pgfmanualurl + " ...  (F2 for status)");
+                        downloader.Start();
+                    }
+                }
+            }
+        }
+
    /*     private void SaveCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             Save();
@@ -328,6 +385,22 @@ namespace TikzEdt.ViewModels
            // return Documents.FirstOrDefault(view => (view.TheVM == vm));
             return null;
         } */
+
+        /// <summary>
+        /// Tries to open the help page on the web.
+        /// </summary>
+        public void ShowHelp()
+        {
+            // open the help page
+            try
+            {
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(Consts.HelpUrl));
+            }
+            catch (Exception)
+            {
+                GlobalUI.UI.AddStatusLine(this, "Could not open " + Consts.HelpUrl, true);
+            }
+        }
     }
 
     /// <summary>
