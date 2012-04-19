@@ -33,7 +33,7 @@ namespace TikzEdt
             string transp_arg = Transparent ? " -a" : "";
             var psi = new ProcessStartInfo()
                 {
-                    FileName = "mudraw.exe",
+                    FileName = Path.Combine(Helper.GetAppDir(),  "mudraw.exe"),
                     Arguments = "-o " + "\"" + PngFile + "\" -r " + dpi + transp_arg + " \"" + PdfFile + "\" 1",
                     UseShellExecute = false,
                     CreateNoWindow = true
