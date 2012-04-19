@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using TEApplicationLogic.Snippets;
 using TikzEdt;
+using System.IO;
 
 namespace TikzEdtWForms
 {
@@ -31,7 +32,7 @@ namespace TikzEdtWForms
 
             lblName.Text = TheSnippet.Name;
 
-            imgImage.ImageLocation = Helper.GetSnippetsPath() + TheSnippet.Key + ".png";
+            imgImage.ImageLocation = Path.Combine(Helper.GetSnippetsPath() ,  TheSnippet.Key + ".png");
             
 
         }
