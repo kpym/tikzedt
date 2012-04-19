@@ -1338,35 +1338,7 @@ namespace TikzEdt
                 endline = txtCode.Document.GetLocation(txtCode.SelectionStart+txtCode.SelectionLength).Line;
             for (int i = startline; i <= endline; i++)
                 txtCode.Document.Insert(txtCode.Document.Lines[i-1].Offset, "% ");
-            txtCode.EndChange();
-
-            /*string[] lines = txtCode.Text.Split(new char[] { '\n' }), newstr = new string[lines.Length];
-            int curpos = 0, sels = txtCode.SelectionStart, sellength = txtCode.SelectionLength;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                if (curpos + lines[i].Length >= txtCode.SelectionStart && curpos <= txtCode.SelectionStart + txtCode.SelectionLength)
-                {
-                    newstr[i] = "% " + lines[i];
-                    if (curpos <= txtCode.SelectionStart)
-                        sels += 2;
-                    else
-                        sellength += 2;
-                }
-                else
-                    newstr[i] = lines[i];
-                curpos += lines[i].Length + 1;
-            }
-
-            txtCode.Text = String.Join("\n", newstr);
-            // set selection
-            txtCode.SelectionStart = sels;
-            txtCode.SelectionLength = sellength;
-            */
-            // Comment all currently selected lines //todo: nothing selected?          
-            //string s =  txtCode.SelectedText.Replace("\n", "\n% ");
-            //if (txtCode.SelectionStart == 0 || txtCode.Text[SelectionStart-1]=='\n')
-            //    s= "% "+s;
-            //txtCode.SelectedText = s;  
+            txtCode.EndChange();  
         }
 
         private void UnCommentCommandHandler(object sender, ExecutedRoutedEventArgs e)
@@ -1383,40 +1355,7 @@ namespace TikzEdt
                     txtCode.Document.Remove(txtCode.Document.Lines[i - 1].Offset, 1);
             }
             txtCode.EndChange();
-
-            /*string[] lines = txtCode.Text.Split(new char[] { '\n' }), newstr = new string[lines.Length];
-            int curpos = 0, sels = txtCode.SelectionStart, sellength = txtCode.SelectionLength;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                if (curpos + lines[i].Length >= txtCode.SelectionStart && curpos <= txtCode.SelectionStart + txtCode.SelectionLength)
-                {
-                    if (lines[i].StartsWith("% "))
-                    {
-                        newstr[i] = lines[i].Remove(0, 2);
-                        if (curpos <= txtCode.SelectionStart)
-                            sels -= 2;
-                        else
-                            sellength -= 2;
-                    }
-                    else if (lines[i].StartsWith("%"))
-                    {
-                        newstr[i] = lines[i].Remove(0, 1);
-                        if (curpos <= txtCode.SelectionStart)
-                            sels -= 1;
-                        else
-                            sellength -= 1;
-                    }
-                    else newstr[i] = lines[i];
-                }
-                else
-                    newstr[i] = lines[i];
-                curpos += lines[i].Length + 1;
-            }
-
-            txtCode.Text = String.Join("\n", newstr);
-            // set selection
-            txtCode.SelectionStart = sels;
-            txtCode.SelectionLength = sellength; */
+ 
         }
 
     /*    private void cmbGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1833,15 +1772,7 @@ namespace TikzEdt
 
         private void HelpCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            // open the help page
-            try
-            {
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(Consts.HelpUrl));
-            }
-            catch (Exception)
-            {
-                AddStatusLine("Could not open " + Consts.HelpUrl, true);
-            }
+            TheVM.ShowHelp();
         }
 
         private void ZoomoutCommandHandler(object sender, ExecutedRoutedEventArgs e)
@@ -1993,55 +1924,9 @@ namespace TikzEdt
             SavePdf(true);
         } */
 
-      
-        private FileDownloader downloader;
-        private void OpenPgfManualHandler(object sender, ExecutedRoutedEventArgs e)
+        void OpenPgfManualHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            String pgfmanualurl = Consts.PGFManualDownloadPath;
-            
-            //open file if it exists and downloader is not busy downloading it (then file is not complete)
-            if (File.Exists(Helper.GetAppdataPath() + "\\" + "pgfmanual.pdf")
-                && (downloader==null || (downloader != null && !downloader.IsBusy && downloader.CurrentFile.Path == pgfmanualurl)))
-                System.Diagnostics.Process.Start(Helper.GetAppdataPath() + "\\" + "pgfmanual.pdf");
-            else
-            {
-                // Creating a new instance of a FileDownloader
-                if (downloader == null)
-                {
-                    downloader = new FileDownloader();
-                    downloader.LocalDirectory = Helper.GetAppdataPath();
-                    downloader.FileDownloadStarted += ((s, args) => AddStatusLine("Download of Tikz/Pgf manual started. Please be patient."));
-                    downloader.FileDownloadSucceeded += ((s, args) => AddStatusLine("Download of Tikz/Pgf manual succeeded."));
-                    downloader.FileDownloadFailed += ((s, args) => AddStatusLine("Download of Tikz/Pgf manual failed.", true));
-                    
-                }
-
-                //if downloader is downloading file show status.
-                if (downloader.IsBusy)
-                {
-                    String msg = String.Format("Downloaded {0} of {1} ({2}%)",
-                           FileDownloader.FormatSizeBinary(downloader.CurrentFileProgress),
-                           FileDownloader.FormatSizeBinary(downloader.CurrentFileSize),
-                           downloader.CurrentFilePercentage()) + String.Format(" - {0}/s",
-                           FileDownloader.FormatSizeBinary(downloader.DownloadSpeed));
-                    if (MessageBoxResult.Cancel == MessageBox.Show(msg + Environment.NewLine + "Press cancel to abort download.", "Download in progress", MessageBoxButton.OKCancel, MessageBoxImage.Information, MessageBoxResult.OK))
-                        downloader.Stop();
-                }
-                //else ask user to download file
-                else
-                {
-                    FileDownloader.FileInfo loadfile = new FileDownloader.FileInfo(pgfmanualurl);
-            
-                    String msg = "Tikz/Pgf manual not found. Do you want to download it now?";
-                    if (MessageBoxResult.Yes == MessageBox.Show(msg, "Start download?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes))
-                    {
-                        if (!downloader.Files.Contains(loadfile))
-                            downloader.Files.Add(loadfile);
-                        AddStatusLine("Starting download of Pgf manual from " + pgfmanualurl + " ...  (F2 for status)");
-                        downloader.Start();                        
-                    }
-                }
-            }
+            TheVM.OpenPgfManual();
         }
 
         /// <summary>

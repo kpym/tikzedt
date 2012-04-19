@@ -82,13 +82,17 @@ namespace TikzEdtWForms
                 dc.DrawImageUnscaled(TheDisplayModel.Bmp, p);
             }
 
-            // draw shapes from parsetree
-            foreach (var osv in OSViews)
-                osv.Draw(pe.Graphics);
+            if (ShowOverlay)
+            {
+                // draw shapes from parsetree
+                foreach (var osv in OSViews)
+                    osv.Draw(pe.Graphics);
 
-            // draw (visible) auxiliary shapes
-            foreach (var ps in PreviewShapes.Where(o => o.Visible))
-                ps.Draw(pe.Graphics);
+                // draw (visible) auxiliary shapes
+                foreach (var ps in PreviewShapes.Where(o => o.Visible))
+                    ps.Draw(pe.Graphics);
+
+            }
         }
 
         /// <summary>

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using TikzEdt.ViewModels;
 using TikzEdt;
 using System.Diagnostics;
+using ICSharpCode.TextEditor;
 
 namespace TikzEdtWForms
 {
@@ -119,6 +120,10 @@ namespace TikzEdtWForms
             b = new Binding("NodeStyle", bs, "TheDocument.NodeStyle", false, DataSourceUpdateMode.Never);
             rasterControl1.DataBindings.Add(b);
 
+            rasterControl1.DataBindings.Add("ShowOverlay", cmdShowOverlay, "Checked");
+            rasterControl1.DataBindings.Add("UsePolarCoordinates", chkUsePolar, "Checked");
+            
+
       //      b = new Binding("Text", bs, "TheDocument.EdgeStyle", false, DataSourceUpdateMode.Never);
       //      cmbEdgeStyle.DataBindings.Add(b);
       //      b = new Binding("Text", bs, "TheDocument.NodeStyle", false, DataSourceUpdateMode.Never);
@@ -140,7 +145,9 @@ namespace TikzEdtWForms
                     ToolButtons.Each((tsb, i) => tsb.Checked = ((int)vm.CurrentTool == i));
                 }, null);
 
-
+            BindingFactory.CreateBinding(TheCompiler.Instance, "Compiling", 
+                (c) => { cmdAbortCompile.Enabled = abortCompilationToolStripMenuItem.Enabled = c.Compiling; },
+                () => { cmdAbortCompile.Enabled = abortCompilationToolStripMenuItem.Enabled = true; });
             
 /* * 
  * */
@@ -194,9 +201,14 @@ namespace TikzEdtWForms
         {
             this.BeginInvoke(new InvokeDelegate(() =>
             {
-                txtStatus.SelectionLength = 0;
+                int length = txtStatus.TextLength;  // at end of text
+                string toAppend = StatusLine + Environment.NewLine;
+                txtStatus.AppendText(toAppend);
+                txtStatus.SelectionStart = length;
+                txtStatus.SelectionLength = toAppend.Length;
                 txtStatus.SelectionColor = IsError ? Color.Red : Color.Black;
-                txtStatus.AppendText(StatusLine + Environment.NewLine);
+                txtStatus.SelectionLength = 0;
+                
                 txtStatus.SelectionStart = txtStatus.Text.Length - 1;
                 txtStatus.ScrollToCaret();
             }));
@@ -379,6 +391,7 @@ namespace TikzEdtWForms
 
             splitContainer1.Panel1Collapsed = ToolPaneButtons.TrueForAll(b => !b.Checked);
 
+            snippetList1.Visible = cmdSnippets.Checked;
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
@@ -413,6 +426,229 @@ namespace TikzEdtWForms
                     TikzToBMPFactory.Instance.AbortCompilation();
                 }
             }
+        }
+
+        private void toolStripButton7_Click(object sender, EventArgs e)
+        {
+            string colorname;
+            if (colorDialog1.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+                if (GlobalUI.UI.ShowInputDialog("New color", "Please enter a unique color name.", out colorname) == System.Windows.Forms.DialogResult.OK)
+                {
+                    string colorcode = ColorTranslator.ToHtml(colorDialog1.Color).Substring(1);
+                    txtCode.Document.Insert(txtCode.ActiveTextAreaControl.Caret.Offset,
+                        @"\definecolor{" + colorname + "}{HTML}{" + colorcode + "}" + Environment.NewLine);
+                }
+        }
+
+        private void indexToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TheVM.OpenPgfManual();
+        }
+
+        private void contentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TheVM.ShowHelp();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox1 a = new AboutBox1();
+            a.ShowDialog();
+            a.Dispose();
+        }
+
+        private void copyToolStripButton_Click(object sender, EventArgs e)
+        {
+            Control ctrl = this.ActiveControl;
+
+            if (ctrl != null)
+            {
+                if (ctrl is TextBox)
+                {
+                    TextBox tx = (TextBox)ctrl;
+                    tx.Copy();
+                }
+
+                if (ctrl is ComboBox)
+                {
+                    ComboBox cb = (ComboBox)ctrl;
+                    cb.Copy();
+                }
+
+            }
+        }
+
+        private void cutToolStripButton_Click(object sender, EventArgs e)
+        {
+            Control ctrl = this.ActiveControl;
+
+            if (ctrl != null)
+            {
+
+                string copied = "";
+
+                int sPos;
+
+                if (ctrl is TextBox)
+                {
+                    TextBox tx = (TextBox)ctrl;
+                    tx.Cut();
+                }
+
+                if (ctrl is ComboBox)
+                {
+                    ComboBox cb = (ComboBox)ctrl;
+                    cb.Cut();
+                }
+            }
+        }
+
+        private void pasteToolStripButton_Click(object sender, EventArgs e)
+        {
+            Control ctrl = this.ActiveControl;
+
+            if (ctrl != null)
+            {
+                if (ctrl is TextBox)
+                {
+                    TextBox tx = (TextBox)ctrl;
+                    tx.Paste();
+                }
+
+                if (ctrl is ComboBox)
+                {
+                    ComboBox cb = (ComboBox)ctrl;
+                    cb.Paste();
+                }
+                else if (ctrl is TextArea)
+                {
+                    
+                }
+
+            }
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Control ctrl = this.ActiveControl;
+
+            if (ctrl is TextBox)
+            {
+                TextBox tx = (TextBox)ctrl;
+                tx.Undo();
+            }
+            else if (ctrl is ComboBox)
+            {
+
+                ComboBox cb = (ComboBox)ctrl;
+
+                cb.Undo();
+
+            }
+            else if (ctrl is TextArea)
+            {
+                txtCode.Undo();
+            }
+        }
+
+        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Control ctrl = this.ActiveControl;
+
+            if (ctrl is TextBox)
+            {
+                TextBox tx = (TextBox)ctrl;
+                //tx.Redo();
+            }
+
+            if (ctrl is ComboBox)
+            {
+                ComboBox cb = (ComboBox)ctrl;
+                //cb.Redo();
+            }
+        }
+
+        private void commentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            /*
+            txtCode.BeginUpdate();
+            int startline = txtCode.Document.GetLocation(txtCode.SelectionStart).Line,
+                endline = txtCode.Document.GetLocation(txtCode.SelectionStart + txtCode.SelectionLength).Line;
+            for (int i = startline; i <= endline; i++)
+                txtCode.Document.Insert(txtCode.Document.Lines[i - 1].Offset, "% ");
+            txtCode.EndUpdate(); */
+        }
+
+        private void uncommentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+          /*  txtCode.BeginChange();
+            int startline = txtCode.Document.GetLocation(txtCode.SelectionStart).Line,
+                endline = txtCode.Document.GetLocation(txtCode.SelectionStart + txtCode.SelectionLength).Line;
+            for (int i = startline; i <= endline; i++)
+            {
+                string s = txtCode.Document.GetText(txtCode.Document.Lines[i - 1].Offset, txtCode.Document.Lines[i - 1].Length);
+                if (s.StartsWith("% "))
+                    txtCode.Document.Remove(txtCode.Document.Lines[i - 1].Offset, 2);
+                else if (s.StartsWith("%"))
+                    txtCode.Document.Remove(txtCode.Document.Lines[i - 1].Offset, 1);
+            }
+            txtCode.EndChange(); */
+        }
+
+
+
+
+    }
+
+
+    public static class ControlExtensions
+    {
+        public static void Undo(this ComboBox cb)
+        {
+            // not supported
+        }
+
+        public static void Copy(this ComboBox cb)
+        {
+            if (cb.SelectedText != string.Empty)
+            {
+                Clipboard.SetText(cb.SelectedText);
+            }
+
+        }
+
+        public static void Paste(this ComboBox cb)
+        {
+            string txtInClip = Clipboard.GetText();
+
+            int sPos = cb.SelectionStart;
+
+            if (cb.SelectedText != string.Empty)
+            {
+                cb.SelectedText = txtInClip;
+            }
+            else
+            {
+                cb.Text = cb.Text.Insert(cb.SelectionStart, txtInClip);
+                cb.SelectionStart = sPos + txtInClip.Length;
+            }
+        }
+
+        public static void Cut(this ComboBox cb)
+        {
+            if (cb.SelectedText != string.Empty)
+            {
+                //set old text of combox, this value is need when undo
+                //cb.oldText = cb.Text;
+                string copied = cb.SelectedText;
+                //int sPos = cb.SelectionStart, l = cb.SelectionLength;
+                cb.SelectedText = "";
+                //cb.SelectionStart = sPos;
+
+                Clipboard.SetText(copied);
+
+            }
+
         }
     }
 }

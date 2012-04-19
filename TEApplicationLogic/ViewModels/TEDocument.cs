@@ -1081,6 +1081,21 @@ namespace TikzEdt.ViewModels
             GlobalUI.UI.AddStatusLine(this, "File exported as " + outFileName);
         }
 
+        /// <summary>
+        /// Comments out the selected lines TODO
+        /// </summary>
+        /// <param name="SelectionStart"></param>
+        /// <param name="SelectionLength"></param>
+        public void CommentLines(int SelectionStart, int SelectionLength)
+        {
+           /* Document.BeginUpdate();
+            int startline = Document.GetLocation(SelectionStart).Line,
+                endline = Document.GetLocation(SelectionStart + SelectionLength).Line;
+            for (int i = startline; i <= endline; i++)
+                Document.Replace(Document.Lines[i - 1].Offset, 0, "% ");
+            Document.EndUpdate();*/
+        }
+
   /*      private string SavePdf(bool SaveAs)
         {
             if (SaveAs == false && CurFileNeverSaved)
@@ -1331,6 +1346,7 @@ namespace TikzEdt.ViewModels
             }
 
         }
+
 
     /*    public static implicit operator TEDocumentContent(TEDocumentVM m)
         {

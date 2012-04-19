@@ -156,7 +156,7 @@ namespace TikzEdt
 				if (Helper.IsLinux())
 					return "pdfdraw";
 				else 
-					return "mupdf.exe";
+					return "mudraw.exe";
 			}
 		}
 				
@@ -495,7 +495,7 @@ namespace TikzEdt
         
         public static string LongPathToShort(string LongPath)
         {
-            if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX)
+            if (Helper.IsLinux())
                 return LongPath;
             else
             {
