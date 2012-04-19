@@ -86,11 +86,14 @@ namespace ICSharpCode.TextEditor
 			}
 		}
 		
+		bool IsCreated = false;
 		public TextAreaControl(TextEditorControl motherTextEditorControl)
 		{
+			
 			this.motherTextEditorControl = motherTextEditorControl;
 			
 			this.textArea                = new TextArea(motherTextEditorControl, this);
+			
 			Controls.Add(textArea);
 			
 			vScrollBar.ValueChanged += new EventHandler(VScrollBarValueChanged);
@@ -99,7 +102,9 @@ namespace ICSharpCode.TextEditor
 			hScrollBar.ValueChanged += new EventHandler(HScrollBarValueChanged);
 			Controls.Add(this.hScrollBar);
 			ResizeRedraw = true;
-
+			
+			IsCreated = true;
+			
             AttachToDocumentEvents();
 		}
 
@@ -231,6 +236,9 @@ namespace ICSharpCode.TextEditor
 		
 		public void AdjustScrollBars()
 		{
+			if (this.textArea == null)
+				return;
+			
 			adjustScrollBarsOnNextUpdate = false;
 			vScrollBar.Minimum = 0;
 			// number of visible lines in document (folding!)

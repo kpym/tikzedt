@@ -31,9 +31,10 @@ namespace TikzEdt
             double dpi = 72 * Resolution / Consts.ptspertikzunit;
             //dpi = Math.Round(dpi, 10);
             string transp_arg = Transparent ? " -a" : "";
+			string mudraw = Path.Combine(Helper.GetAppDir(), Consts.Mudraw);
             var psi = new ProcessStartInfo()
                 {
-                    FileName = Path.Combine(Helper.GetAppDir(),  "mudraw.exe"),
+                    FileName = mudraw,
                     Arguments = "-o " + "\"" + PngFile + "\" -r " + dpi + transp_arg + " \"" + PdfFile + "\" 1",
                     UseShellExecute = false,
                     CreateNoWindow = true

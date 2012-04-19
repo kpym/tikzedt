@@ -670,7 +670,7 @@ namespace TikzEdt.ViewModels
             TikzStyles = new ObservableCollection<string>();
             TexErrors = new ObservableCollection<TexOutputParser.TexError>();
             // TODO: strong coupling, introduces mem leaks
-            TheCompiler.Instance.JobDone += TheCompiler_JobDone;
+            Compiler.JobDone += TheCompiler_JobDone;
 
             AsyncParser.DoWork += new System.ComponentModel.DoWorkEventHandler(AsyncParser_DoWork);
             AsyncParser.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(AsyncParser_RunWorkerCompleted);

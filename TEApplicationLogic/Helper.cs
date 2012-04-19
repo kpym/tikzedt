@@ -148,7 +148,18 @@ namespace TikzEdt
         public static string cUnzipper = "Unzipper.exe";
         public static string cXSHDEditor = "XSHDEditor.exe";
         public static string HelpUrl = @"http://www.tikzedt.org/doc.html";
-        public static string QuickTourUrl = @"http://www.tikzedt.org/quicktour.html";        
+        public static string QuickTourUrl = @"http://www.tikzedt.org/quicktour.html";     
+		
+		public static string Mudraw {
+			get
+			{
+				if (Helper.IsLinux())
+					return "pdfdraw";
+				else 
+					return "mupdf.exe";
+			}
+		}
+				
     }
 
     /// <summary>
@@ -156,6 +167,11 @@ namespace TikzEdt
     /// </summary>
     public static class Helper
     {
+		public static bool IsLinux()
+		{
+			return Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX;
+		}
+		
         /// <summary>
         /// This function takes a string and removes all trailing and leading and all multiple whitespace.
         /// E.g. "  brown    fox  " -> "brown fox"
