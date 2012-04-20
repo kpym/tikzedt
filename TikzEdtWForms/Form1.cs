@@ -10,6 +10,7 @@ using TikzEdt.ViewModels;
 using TikzEdt;
 using System.Diagnostics;
 using ICSharpCode.TextEditor;
+using System.Windows.Forms.Design;
 
 namespace TikzEdtWForms
 {
@@ -37,7 +38,7 @@ namespace TikzEdtWForms
             ToolButtons = new List<ToolStripButton> { cmdMove, cmdNode, cmdEdge, cmdPath, cmdSmoothCurve, cmdBezier, cmdRectangle, cmdEllipse, cmdGrid, cmdArc, cmdArcEdit };
             ToolPaneButtons = new List<ToolStripButton> { cmdSnippets, cmdFiles, cmdDynPreamble };
 
-            splitContainer2.Panel2.BackColor = Color.DarkGray;
+            splitContainer2.Panel2.BackColor = Color.FromArgb(0x30,0x30,0x30 );
             rasterControl1 = new RasterControl();
             splitContainer2.Panel2.Controls.Add(rasterControl1);
       //      tikzDisplay1.Visible = false;
@@ -62,6 +63,8 @@ namespace TikzEdtWForms
             splitContainer2.Panel2.Resize += new EventHandler(Panel2_Resize);
             rasterControl1.Resize += new EventHandler(Panel2_Resize);
       //      tikzDisplay1.Resize += new EventHandler(Panel2_Resize);
+            rasterControl1.MouseMove += new MouseEventHandler(rasterControl1_MouseMove);
+            rasterControl1.MouseWheel += new MouseEventHandler(rasterControl1_MouseWheel);
 
             cmbEdgeStyle.TextChanged += (s, e) => TheVM.TheDocument.EdgeStyle = cmbEdgeStyle.Text;
             cmbNodeStyle.TextChanged += (s, e) => TheVM.TheDocument.NodeStyle = cmbNodeStyle.Text;
@@ -145,6 +148,8 @@ namespace TikzEdtWForms
 			BindingFactory.CreateBindingSP(sp, "AllowEditing", doc => rasterControl1.AllowEditing = doc.AllowEditing, null);
 			BindingFactory.CreateBindingSP(sp, "EdgeStyle", doc => rasterControl1.EdgeStyle = doc.EdgeStyle, null);
 			BindingFactory.CreateBindingSP(sp, "NodeStyle", doc => rasterControl1.NodeStyle = doc.NodeStyle, null);
+            BindingFactory.CreateBindingSP(sp, "Resolution", doc => toolStripZoomCtrlItem1.ZoomCtrl.Value = Convert.ToInt32(doc.Resolution), null);
+            toolStripZoomCtrlItem1.ZoomCtrl.ValueChanged += (s, e) => TheVM.TheDocument.Resolution = toolStripZoomCtrlItem1.ZoomCtrl.Value;
 
 			BindingFactory.CreateBinding(TheVM, "CurrentTool", vm => rasterControl1.Tool = vm.CurrentTool, null);
 			rasterControl1.ToolChanged += (sender, e) => TheVM.CurrentTool = rasterControl1.Tool;
@@ -184,8 +189,25 @@ namespace TikzEdtWForms
             splitContainer2.SplitterMoved += (s, e) => Properties.Settings.Default.OverlayCanvasCol2WidthSetting = splitContainer2.SplitterDistance;
             splitContainer1.SplitterMoved += (s, e) => Properties.Settings.Default.LeftToolsColSelectedIndex = splitContainer1.SplitterDistance;
 
-            
-			
+            BindingFactory.CreateBinding(S, "Editor_ShowLineNumbers", s => txtCode.ShowLineNumbers = s.Editor_ShowLineNumbers, null);
+            BindingFactory.CreateBinding(S, "Editor_Font", s => txtCode.Font = s.Editor_Font, null);
+            BindingFactory.CreateBinding(S, "Snippets_ShowThumbs", s => snippetList1.ShowThumbnails = s.Snippets_ShowThumbs, null);
+
+            BindingFactory.CreateBinding(S, "Snippets_ShowThumbs", s =>
+            {
+                autoCompilationOnChangeToolStripMenuItem.Checked = s.AutoCompileOnDocumentChange;
+                TheVM.AutoCompileOnDocumentChange = s.AutoCompileOnDocumentChange;
+            }, null);
+            autoCompilationOnChangeToolStripMenuItem.CheckedChanged += (s, e) =>
+                {
+                    S.AutoCompileOnDocumentChange = TheVM.AutoCompileOnDocumentChange = autoCompilationOnChangeToolStripMenuItem.Checked;
+                };
+
+
+            //BindingFactory.CreateBinding(S, "Snippets_ShowThumbs", s => snippetList1.ShowThumbnails = s.thu, null);
+
+            //BindingFactory.CreateBinding(S, "Editor_ShowLineNumbers", s => txtCode.ShowLineNumbers = s.Editor_ShowLineNumbers, null);
+
 			//test
 			//TheVM.TheDocument.OnPdfReady += (sender, e) => rasterControl1.ReloadPdf++;
 			
@@ -193,6 +215,43 @@ namespace TikzEdtWForms
  * */
             txtCode.SetHighlighting("Tikz");
             //txtCode.
+        }
+
+        void rasterControl1_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (Control.ModifierKeys.HasFlag(Keys.Control))
+            {          
+                double factor = e.Delta > 0 ? 1.1 : .9;
+                TheVM.TheDocument.Resolution *= factor;
+
+                // get Mouse pos for correct scrolling
+                //Point p = e.Location;
+
+                // adjust scroll ... wish to but seems impossible in winforms
+                //splitContainer2.Panel2.Vert
+                //PreviewScrollViewer.ScrollToHorizontalOffset(PreviewScrollViewer.HorizontalOffset * factor + p.X * (factor - 1));
+                //PreviewScrollViewer.ScrollToVerticalOffset(PreviewScrollViewer.VerticalOffset * factor + p.Y * (factor - 1));
+
+                //e. = true;
+                //if (cmbZoom.SelectedIndex + step > 0 && cmbZoom.SelectedIndex + step < count)
+                //cmbZoom.SelectedIndex += step;
+            }
+        }
+
+        void rasterControl1_MouseMove(object sender, MouseEventArgs e)
+        {
+            // convert to bottom left coordinates
+            System.Windows.Point p = new System.Windows.Point(e.Location.X, rasterControl1.Height - e.Location.Y);            
+
+            // display the current mouse position
+            p.Y /= rasterControl1.Resolution;
+            p.X /= rasterControl1.Resolution;
+            p.X += rasterControl1.BB.X;
+            p.Y += rasterControl1.BB.Y;
+
+            String s = "(" + String.Format("{0:f1}", p.X) + ", " + String.Format("{0:f1}", p.Y) + ")";
+            lblMousePos.Text = s;
+        
         }
 
         void snippetList1_OnUseStyles(object sender, TikzEdt.Snippets.UseStylesEventArgs e)
@@ -698,4 +757,24 @@ namespace TikzEdtWForms
 
         }
     }
+
+    /// <summary>
+    /// Adds trackbar to toolstrip stuff
+    /// </summary>
+    [
+    ToolStripItemDesignerAvailability
+        (ToolStripItemDesignerAvailability.ToolStrip | ToolStripItemDesignerAvailability.StatusStrip)
+    ]
+    public class ToolStripZoomCtrlItem : ToolStripControlHost
+    {
+        public ToolStripZoomCtrlItem()
+            : base(new ZoomCtrl())
+        {
+            ZoomCtrl = this.Control as ZoomCtrl;
+        }
+
+        public readonly ZoomCtrl ZoomCtrl;
+    }
+
+
 }

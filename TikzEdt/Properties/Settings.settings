@@ -194,5 +194,8 @@
     <Setting Name="Editor_FontSize" Type="System.Double" Scope="User">
       <Value Profile="(Default)">12</Value>
     </Setting>
+    <Setting Name="AutoCompileOnDocumentChange" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

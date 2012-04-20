@@ -93,6 +93,7 @@
     <Compile Include="SettingsDialog.Designer.cs">
       <DependentUpon>SettingsDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="SettingsRelay.cs" />
     <Compile Include="SnippetEntry.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -108,6 +109,12 @@
     </Compile>
     <Compile Include="TikzDisplay.Designer.cs">
       <DependentUpon>TikzDisplay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ZoomCtrl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ZoomCtrl.Designer.cs">
+      <DependentUpon>ZoomCtrl.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AboutBox1.resx">
       <DependentUpon>AboutBox1.cs</DependentUpon>
@@ -126,6 +133,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="SettingsDialog.resx">
       <DependentUpon>SettingsDialog.cs</DependentUpon>
@@ -135,6 +143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TikzDisplay.resx">
       <DependentUpon>TikzDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZoomCtrl.resx">
+      <DependentUpon>ZoomCtrl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

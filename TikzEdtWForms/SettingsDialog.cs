@@ -30,7 +30,6 @@ namespace TikzEdtWForms
                 chkBeginCompletion.Checked != S.Editor_CompleteBegins ||
                 chkCodeCompletion.Checked != S.Editor_CodeCompletion ||
                 chkShowLineNr.Checked != S.Editor_ShowLineNumbers ||
-                chkWordWrap.Checked != S.Editor_WordWrap ||
                 cmdColorNode.BackColor != S.Overlay_CoordColor ||
                 cmdColorScope.BackColor != S.Overlay_ScopeColor ||
                 cmdColorSNode.BackColor != S.Overlay_CoordSelColor ||
@@ -60,7 +59,6 @@ namespace TikzEdtWForms
             chkBeginCompletion.Checked = S.Editor_CompleteBegins;
             chkCodeCompletion.Checked = S.Editor_CodeCompletion;
             chkShowLineNr.Checked = S.Editor_ShowLineNumbers;
-            chkWordWrap.Checked = S.Editor_WordWrap;
             
             cmdColorNode.BackColor = S.Overlay_CoordColor;
             cmdColorScope.BackColor = S.Overlay_ScopeColor;
@@ -91,7 +89,6 @@ namespace TikzEdtWForms
             S.Editor_CompleteBegins = chkBeginCompletion.Checked ;
             S.Editor_CodeCompletion = chkCodeCompletion.Checked;
             S.Editor_ShowLineNumbers = chkShowLineNr.Checked;
-            S.Editor_WordWrap = chkWordWrap.Checked;
 
             S.Overlay_CoordColor = cmdColorNode.BackColor;
             S.Overlay_ScopeColor = cmdColorScope.BackColor;

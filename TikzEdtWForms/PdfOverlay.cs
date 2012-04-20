@@ -392,6 +392,8 @@ namespace TikzEdtWForms
 
         PdfOverlayModel TheOverlayModel;
 
+        Panel disablerPanel;
+
         private bool _ShowOverlay=true;
 
         public bool ShowOverlay
@@ -626,7 +628,10 @@ namespace TikzEdtWForms
         public bool AllowEditing
         {
             get { return _AllowEditing; }
-            set { _AllowEditing = value; }
+            set { 
+                _AllowEditing = value;
+                disablerPanel.Visible = !AllowEditing;
+            }
         }
 
 

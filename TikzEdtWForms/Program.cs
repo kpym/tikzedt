@@ -30,8 +30,8 @@ namespace TikzEdtWForms
             //RewireSettingsProvider(TikzEdt.Properties.Settings.Default);
 
             // tie settings to Viewmodels (TODO... maybe change to std dependency injection pattern)
-            //CompilerSettings.Instance = new PropertiesCompilerSettings();
-            //TikzEdt.Parser.ParserSettings.Instance = new PropertiesParserSettings();
+            CompilerSettings.Instance = new PropertiesCompilerSettings();
+            TikzEdt.Parser.ParserSettings.Instance = new PropertiesParserSettings();
 
             // check that necessary config files are in place
             string missingfile = "";

@@ -158,6 +158,7 @@
                           IsEnabled="{Binding Source={x:Static myApp:TheCompiler.Instance}, Path=Compiling, Mode=OneWay}"/>
                 <MenuItem Name="mnuAbortSnippet" Header="Abort current snippet compilation" Click="AbortSnippetCompilationClick"
                           IsEnabled="{Binding Source={x:Static myApp:TikzToBMPFactory.Instance}, Path=Compiling, Mode=OneWay}"/>
+                <MenuItem Name="mnuAutoCompile" Header="Auto compilation on text change" IsChecked="{Binding AutoCompileOnDocumentChange, Mode=TwoWay}" IsCheckable="True"/>
                 <Separator/>
                 <MenuItem Header="(Re-)Generate precompiled headers" Click="GenerateHeadersClick"/>
                 <MenuItem Header="Compile snippet thumbnails..." Click="GenerateSnippetThumbsClick"/>

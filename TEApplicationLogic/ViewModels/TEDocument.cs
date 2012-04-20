@@ -406,7 +406,9 @@ namespace TikzEdt.ViewModels
                     InsertAt = Document.Text.Length;
                 }
 
+                WYSIWYGTextChange = true;
                 Document.Replace(InsertAt, e.OldText.Length, e.ChangedItem.ToString());
+                WYSIWYGTextChange = false;
             }
         }
 
@@ -462,8 +464,15 @@ namespace TikzEdt.ViewModels
             // no auto-compilation in Production Mode (no Auto saving)
             //if (chkProductionMode.IsChecked == false)
             if (TheVM == null || TheVM.EditorMode != TEMode.Production)
-                if (ParseTree == null || !ParseTree.MoreChangesToCome)
-                    Recompile();
+            {
+                if (TheVM.AutoCompileOnDocumentChange || WYSIWYGTextChange)
+                {
+                    if (ParseTree == null || !ParseTree.MoreChangesToCome)
+                        Recompile();
+                }
+                else
+                    AllowEditing = false; // out of sync -> disable editing
+            }
 
             //}
         }
@@ -895,6 +904,7 @@ namespace TikzEdt.ViewModels
         }
 
         public bool ProgrammaticTextChange = false;
+        bool WYSIWYGTextChange = false;
         /// <summary>
         /// If the tex code is changed, this method Reompiles it.
         /// The action taken depends upon the currently active mode:

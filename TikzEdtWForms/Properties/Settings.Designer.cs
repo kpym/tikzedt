@@ -923,7 +923,7 @@ namespace TikzEdtWForms.Properties
 
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Segoe UI, 8 pt")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Courier New; 10pt")]
         public global::System.Drawing.Font Editor_Font
         {
             get
@@ -932,7 +932,22 @@ namespace TikzEdtWForms.Properties
             }
             set
             {
-                this["Editor_FontFamily"] = value;
+                this["Editor_Font"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoCompileOnDocumentChange
+        {
+            get
+            {
+                return ((bool)(this["AutoCompileOnDocumentChange"]));
+            }
+            set
+            {
+                this["AutoCompileOnDocumentChange"] = value;
             }
         }
     }
