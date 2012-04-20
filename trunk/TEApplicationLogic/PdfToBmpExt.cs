@@ -25,6 +25,12 @@ namespace TikzEdt
         protected string PngFile;
         protected bool CallExternalRenderer(double Resolution, bool Transparent = true)
         {
+			if (!File.Exists(PdfFile))
+			{
+				GlobalUI.UI.AddStatusLine(this, "Couldn't render pdf. No pdf file to render.", true);
+				return false;
+			}
+				
             //try
             //{
             PngFile = PdfFile+".png";
@@ -35,6 +41,7 @@ namespace TikzEdt
             var psi = new ProcessStartInfo()
                 {
                     FileName = mudraw,
+					WorkingDirectory = Path.GetDirectoryName(PdfFile),
                     Arguments = "-o " + "\"" + PngFile + "\" -r " + dpi + transp_arg + " \"" + PdfFile + "\" 1",
                     UseShellExecute = false,
                     CreateNoWindow = true
@@ -50,7 +57,8 @@ namespace TikzEdt
             }
             catch (Exception e)
             {
-                GlobalUI.UI.AddStatusLine(this, "Couldn't render pdf. Probably mudraw was not found.", true);
+                GlobalUI.UI.AddStatusLine(this, "Couldn't render pdf. Probably mudraw was not found: "
+					+ e.Message, true);
                 return false;
             }
         }

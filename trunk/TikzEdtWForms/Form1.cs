@@ -89,36 +89,36 @@ namespace TikzEdtWForms
                 else e.Value = W.Document;
             });
       //      txtCode.DataBindings.Add(b);
-            txtCode.Document = TheVM.TheDocument.Document.Document;
+      //      txtCode.Document = TheVM.TheDocument.Document.Document;
 
-            b = new Binding("ReloadPdf", bs, "TheDocument.ReloadPdf", false, DataSourceUpdateMode.Never);
-            rasterControl1.DataBindings.Add(b);
+     //       b = new Binding("ReloadPdf", bs, "TheDocument.ReloadPdf", false, DataSourceUpdateMode.Never);
+     //       rasterControl1.DataBindings.Add(b);
             //TheVM.TheDocument.
             //tikzDisplay1.Bou
-            b = new Binding("PdfPath", bs, "TheDocument.PdfPath", false, DataSourceUpdateMode.Never);
-            rasterControl1.DataBindings.Add(b);
+     //       b = new Binding("PdfPath", bs, "TheDocument.PdfPath", false, DataSourceUpdateMode.Never);
+     //       rasterControl1.DataBindings.Add(b);
         //    b = new Binding("Resolution", bs, "TheDocument.Resolution", false, DataSourceUpdateMode.Never);
        //     tikzDisplay1.DataBindings.Add(b);
 
             
-            b = new Binding("Resolution", bs, "TheDocument.Resolution", false, DataSourceUpdateMode.Never);
-            rasterControl1.DataBindings.Add(b);
-            b = new Binding("BB", bs, "TheDocument.CurrentBB", false, DataSourceUpdateMode.Never);
-            rasterControl1.DataBindings.Add(b);
+     //       b = new Binding("Resolution", bs, "TheDocument.Resolution", false, DataSourceUpdateMode.Never);
+     //       rasterControl1.DataBindings.Add(b);
+     //       b = new Binding("BB", bs, "TheDocument.CurrentBB", false, DataSourceUpdateMode.Never);
+     //       rasterControl1.DataBindings.Add(b);
 
         //    b = new Binding("BB", bs, "TheDocument.CurrentBB", false, DataSourceUpdateMode.Never);
         //    pdfOverlay1.DataBindings.Add(b);
-            b = new Binding("Tool", bs, "CurrentTool", false, DataSourceUpdateMode.OnPropertyChanged);
-            rasterControl1.DataBindings.Add(b);
+       //     b = new Binding("Tool", bs, "CurrentTool", false, DataSourceUpdateMode.OnPropertyChanged);
+       //     rasterControl1.DataBindings.Add(b);
      //       b = new Binding("Resolution", bs, "TheDocument.Resolution", false, DataSourceUpdateMode.Never);
       //      pdfOverlay1.DataBindings.Add(b);
-            b = new Binding("AllowEditing", bs, "TheDocument.AllowEditing", false, DataSourceUpdateMode.Never);
-            rasterControl1.DataBindings.Add(b);
+      //      b = new Binding("AllowEditing", bs, "TheDocument.AllowEditing", false, DataSourceUpdateMode.Never);
+      //      rasterControl1.DataBindings.Add(b);
 
-            b = new Binding("EdgeStyle", bs, "TheDocument.EdgeStyle", false, DataSourceUpdateMode.Never);
-            rasterControl1.DataBindings.Add(b);
-            b = new Binding("NodeStyle", bs, "TheDocument.NodeStyle", false, DataSourceUpdateMode.Never);
-            rasterControl1.DataBindings.Add(b);
+      //      b = new Binding("EdgeStyle", bs, "TheDocument.EdgeStyle", false, DataSourceUpdateMode.Never);
+      //      rasterControl1.DataBindings.Add(b);
+      //      b = new Binding("NodeStyle", bs, "TheDocument.NodeStyle", false, DataSourceUpdateMode.Never);
+      //      rasterControl1.DataBindings.Add(b);
 
             rasterControl1.DataBindings.Add("ShowOverlay", cmdShowOverlay, "Checked");
             rasterControl1.DataBindings.Add("UsePolarCoordinates", chkUsePolar, "Checked");
@@ -136,6 +136,18 @@ namespace TikzEdtWForms
 
             var sp = BindingFactory.CreateProvider(TheVM, "TheDocument", vm => vm.TheDocument);
             BindingFactory.CreateBindingSP(sp, "ParseTree", doc => rasterControl1.ParseTree = doc.ParseTree, () => rasterControl1.ParseTree = null);
+			
+			BindingFactory.CreateBindingSP(sp, "PdfPath", doc => rasterControl1.PdfPath = doc.PdfPath, () => rasterControl1.PdfPath = "");
+			BindingFactory.CreateBindingSP(sp, "ReloadPdf", doc => rasterControl1.ReloadPdf = doc.ReloadPdf, null);
+			BindingFactory.CreateBindingSP(sp, "Resolution", doc => rasterControl1.Resolution = doc.Resolution, null);
+			BindingFactory.CreateBindingSP(sp, "CurrentBB", doc => rasterControl1.BB = doc.CurrentBB, null);
+			BindingFactory.CreateBindingSP(sp, "AllowEditing", doc => rasterControl1.AllowEditing = doc.AllowEditing, null);
+			BindingFactory.CreateBindingSP(sp, "EdgeStyle", doc => rasterControl1.EdgeStyle = doc.EdgeStyle, null);
+			BindingFactory.CreateBindingSP(sp, "NodeStyle", doc => rasterControl1.NodeStyle = doc.NodeStyle, null);
+			
+			BindingFactory.CreateBinding(TheVM, "CurrentTool", vm => rasterControl1.Tool = vm.CurrentTool, null);
+			rasterControl1.ToolChanged += (sender, e) => TheVM.CurrentTool = rasterControl1.Tool;
+			
             var errlistsp = BindingFactory.CreateProviderSP(sp, "TexErrors", doc => doc.TexErrors);
             BindingFactory.CreateCollectionBindingSP(errlistsp, (s, e) => FillErrorsList());
 
@@ -149,6 +161,10 @@ namespace TikzEdtWForms
                 (c) => { cmdAbortCompile.Enabled = abortCompilationToolStripMenuItem.Enabled = c.Compiling; },
                 () => { cmdAbortCompile.Enabled = abortCompilationToolStripMenuItem.Enabled = true; });
             
+			
+			//test
+			//TheVM.TheDocument.OnPdfReady += (sender, e) => rasterControl1.ReloadPdf++;
+			
 /* * 
  * */
             txtCode.SetHighlighting("Tikz");
