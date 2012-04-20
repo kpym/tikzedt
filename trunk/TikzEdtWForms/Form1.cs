@@ -15,7 +15,7 @@ namespace TikzEdtWForms
 {
     public partial class Form1 : Form
     {
-        MainWindowVM<TextEditorDocumentWrapper> TheVM = new MainWindowVM<TextEditorDocumentWrapper>(TheCompiler.Instance);
+        MainWindowVM<TextEditorDocumentWrapper> TheVM;
 
         RasterControl rasterControl1;
         SnippetList snippetList1;
@@ -24,6 +24,7 @@ namespace TikzEdtWForms
         public Form1()
         {
             (GlobalUI.UI as GlobalUIWinForms).MainForm = this;
+            TheVM = new MainWindowVM<TextEditorDocumentWrapper>(TheCompiler.Instance);
 
             InitializeComponent();
 
@@ -144,7 +145,7 @@ namespace TikzEdtWForms
 			BindingFactory.CreateBindingSP(sp, "AllowEditing", doc => rasterControl1.AllowEditing = doc.AllowEditing, null);
 			BindingFactory.CreateBindingSP(sp, "EdgeStyle", doc => rasterControl1.EdgeStyle = doc.EdgeStyle, null);
 			BindingFactory.CreateBindingSP(sp, "NodeStyle", doc => rasterControl1.NodeStyle = doc.NodeStyle, null);
-			
+
 			BindingFactory.CreateBinding(TheVM, "CurrentTool", vm => rasterControl1.Tool = vm.CurrentTool, null);
 			rasterControl1.ToolChanged += (sender, e) => TheVM.CurrentTool = rasterControl1.Tool;
 			
@@ -160,6 +161,29 @@ namespace TikzEdtWForms
             BindingFactory.CreateBinding(TheCompiler.Instance, "Compiling", 
                 (c) => { cmdAbortCompile.Enabled = abortCompilationToolStripMenuItem.Enabled = c.Compiling; },
                 () => { cmdAbortCompile.Enabled = abortCompilationToolStripMenuItem.Enabled = true; });
+
+            // load settings
+            var S = Properties.Settings.Default;
+            Width = S.Window_Width;
+            Height = S.Window_Height;
+            SizeChanged += (s, e) => { Properties.Settings.Default.Window_Height = Height; Properties.Settings.Default.Window_Width = Width; };
+
+            this.Left = S.Window_Left;
+            this.Top = S.Window_Top;
+            LocationChanged += (s, e) => { Properties.Settings.Default.Window_Top = Top; Properties.Settings.Default.Window_Left = Left; };
+
+            WindowState = S.Window_State;
+            ClientSizeChanged += (s,e) => Properties.Settings.Default.Window_State = this.WindowState;
+
+            try
+            {
+                splitContainer2.SplitterDistance = S.OverlayCanvasCol2WidthSetting;
+                splitContainer1.SplitterDistance = S.LeftToolsColWidthSetting;
+            }
+            catch (Exception) { }
+            splitContainer2.SplitterMoved += (s, e) => Properties.Settings.Default.OverlayCanvasCol2WidthSetting = splitContainer2.SplitterDistance;
+            splitContainer1.SplitterMoved += (s, e) => Properties.Settings.Default.LeftToolsColSelectedIndex = splitContainer1.SplitterDistance;
+
             
 			
 			//test
@@ -609,6 +633,13 @@ namespace TikzEdtWForms
                     txtCode.Document.Remove(txtCode.Document.Lines[i - 1].Offset, 1);
             }
             txtCode.EndChange(); */
+        }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingsDialog sd = new SettingsDialog();
+            sd.ShowDialog();
+            sd.Dispose();
         }
 
 

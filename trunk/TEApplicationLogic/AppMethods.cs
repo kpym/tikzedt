@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Configuration;
 
 namespace TikzEdt
 {
@@ -55,7 +56,27 @@ namespace TikzEdt
             return success;
         }
 
-        // Creates the error message, displays and logs it.
+
+        /// <summary>
+        /// Changes the settings provider so as to store settings in Helper.GetAppdataPath(), not some cryptic directory as is standard.
+        /// </summary>
+        /// <param name="settings"></param>
+        public static void RewireSettingsProvider(ApplicationSettingsBase settings)
+        {
+            var portableSettingsProvider =
+                new TESettingsProvider(Path.Combine(Helper.GetAppdataPath(), "TikzEdt.settings"));
+            settings.Providers.Add(portableSettingsProvider);
+            foreach (System.Configuration.SettingsProperty prop in settings.Properties)
+                prop.Provider = portableSettingsProvider;
+            settings.Reload();
+        }
+
+
+        /// <summary>
+        /// Creates the error message, displays and logs it.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
         public static System.Windows.Forms.DialogResult ShowThreadExceptionDialog(Exception e)
         {
             string logfilepath = System.IO.Path.Combine(Helper.GetAppdataPath(), "tikzedt_exception.log");

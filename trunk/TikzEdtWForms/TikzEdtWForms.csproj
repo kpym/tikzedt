@@ -86,6 +86,13 @@
     <Compile Include="RasterControl.Designer.cs">
       <DependentUpon>RasterControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="SettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingsDialog.Designer.cs">
+      <DependentUpon>SettingsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="SnippetEntry.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -120,6 +127,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SettingsDialog.resx">
+      <DependentUpon>SettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SnippetEntry.resx">
       <DependentUpon>SnippetEntry.cs</DependentUpon>
     </EmbeddedResource>

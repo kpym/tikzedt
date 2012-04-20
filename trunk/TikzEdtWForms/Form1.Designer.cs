@@ -99,7 +99,7 @@
             this.cmdSnippets = new System.Windows.Forms.ToolStripButton();
             this.cmdFiles = new System.Windows.Forms.ToolStripButton();
             this.cmdDynPreamble = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.tlbMain = new System.Windows.Forms.ToolStrip();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.cmdOpen = new System.Windows.Forms.ToolStripButton();
@@ -115,7 +115,7 @@
             this.cmdAbortCompile = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.cmdShowOverlay = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.tlbWysiwyg = new System.Windows.Forms.ToolStrip();
             this.cmdMove = new System.Windows.Forms.ToolStripButton();
             this.cmdNode = new System.Windows.Forms.ToolStripButton();
             this.cmdEdge = new System.Windows.Forms.ToolStripButton();
@@ -144,13 +144,13 @@
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-  //          ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-  //          ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-  //          ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -159,8 +159,8 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tlbToolPane.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
+            this.tlbMain.SuspendLayout();
+            this.tlbWysiwyg.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -475,6 +475,7 @@
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -561,8 +562,8 @@
             // 
             // toolStripContainer1.TopToolStripPanel
             // 
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.tlbMain);
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.tlbWysiwyg);
             // 
             // splitContainer1
             // 
@@ -788,10 +789,10 @@
             this.cmdDynPreamble.Text = "Dynamic Preamble";
             this.cmdDynPreamble.Click += new System.EventHandler(this.cmdSnippets_Click);
             // 
-            // toolStrip1
+            // tlbMain
             // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tlbMain.Dock = System.Windows.Forms.DockStyle.None;
+            this.tlbMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripButton,
             this.toolStripButton8,
             this.cmdOpen,
@@ -807,10 +808,10 @@
             this.cmdAbortCompile,
             this.toolStripSeparator9,
             this.cmdShowOverlay});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(334, 25);
-            this.toolStrip1.TabIndex = 0;
+            this.tlbMain.Location = new System.Drawing.Point(3, 0);
+            this.tlbMain.Name = "tlbMain";
+            this.tlbMain.Size = new System.Drawing.Size(334, 25);
+            this.tlbMain.TabIndex = 0;
             // 
             // newToolStripButton
             // 
@@ -955,10 +956,10 @@
             this.cmdShowOverlay.Text = "Overlay";
             this.cmdShowOverlay.ToolTipText = "Toggle display of the Pdf overlay (WYSIWYG layer)";
             // 
-            // toolStrip2
+            // tlbWysiwyg
             // 
-            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tlbWysiwyg.Dock = System.Windows.Forms.DockStyle.None;
+            this.tlbWysiwyg.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cmdMove,
             this.cmdNode,
             this.cmdEdge,
@@ -981,10 +982,10 @@
             this.toolStripSeparator10,
             this.toolStripButton7,
             this.toolStripButton10});
-            this.toolStrip2.Location = new System.Drawing.Point(3, 25);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(763, 25);
-            this.toolStrip2.TabIndex = 1;
+            this.tlbWysiwyg.Location = new System.Drawing.Point(3, 25);
+            this.tlbWysiwyg.Name = "tlbWysiwyg";
+            this.tlbWysiwyg.Size = new System.Drawing.Size(763, 25);
+            this.tlbWysiwyg.TabIndex = 1;
             // 
             // cmdMove
             // 
@@ -1215,14 +1216,14 @@
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
- //           ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
- //           ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
-   //         ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -1231,10 +1232,10 @@
             this.tabPage3.PerformLayout();
             this.tlbToolPane.ResumeLayout(false);
             this.tlbToolPane.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
+            this.tlbMain.ResumeLayout(false);
+            this.tlbMain.PerformLayout();
+            this.tlbWysiwyg.ResumeLayout(false);
+            this.tlbWysiwyg.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1287,7 +1288,7 @@
         private System.Windows.Forms.ToolStripButton cmdSnippets;
         private System.Windows.Forms.ToolStripButton cmdFiles;
         private System.Windows.Forms.ToolStripButton cmdDynPreamble;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip tlbMain;
         private System.Windows.Forms.ToolStripButton newToolStripButton;
         private System.Windows.Forms.ToolStripButton cmdOpen;
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
@@ -1296,7 +1297,7 @@
         private System.Windows.Forms.ToolStripButton copyToolStripButton;
         private System.Windows.Forms.ToolStripButton pasteToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStrip tlbWysiwyg;
         private System.Windows.Forms.ToolStripButton cmdPath;
         private System.Windows.Forms.ToolStripButton cmdSmoothCurve;
         private System.Windows.Forms.ToolStripButton chkUsePolar;
