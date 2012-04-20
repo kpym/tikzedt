@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>tikzedt48.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -171,6 +174,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="tikzedt48.ico" />
     <EmbeddedResource Include="Images\042b_AddCategory_32x32_72.png" />
     <Content Include="Images\112_ArrowReturnLeft_Blue_48x48_72.png" />
     <Content Include="Images\112_ArrowReturnRight_Blue_48x48_72.png" />
