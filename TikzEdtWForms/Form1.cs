@@ -237,7 +237,8 @@ namespace TikzEdtWForms
                 //cmbZoom.SelectedIndex += step;
             }
         }
-
+		
+		
         void rasterControl1_MouseMove(object sender, MouseEventArgs e)
         {
             // convert to bottom left coordinates
@@ -296,7 +297,7 @@ namespace TikzEdtWForms
                 txtTexOutput.Clear();
         }
 
-        void AddStatusLine(string StatusLine, bool IsError)
+        void AddStatusLine(string StatusLine, bool IsError=false)
         {
             this.BeginInvoke(new InvokeDelegate(() =>
             {
@@ -330,7 +331,11 @@ namespace TikzEdtWForms
         {
             if (DesignMode)
                 return;
-
+			
+			AddStatusLine("Welcome to TikzEdt!");
+			AddStatusLine("Application data is stored in "+Helper.GetAppdataPath()+".");
+				
+			
             GlobalUI.UI.OnGlobalStatus += new EventHandler<GlobalStatusEventData>(UI_OnGlobalStatus);
             TheCompiler.Instance.OnTexOutput += new EventHandler<TexCompiler.CompileEventArgs>(Instance_OnTexOutput);
             TheCompiler.Instance.OnCompileEvent += new EventHandler<TexCompiler.CompileEventArgs>(Instance_OnCompileEvent);
