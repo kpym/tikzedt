@@ -51,7 +51,7 @@ namespace TikzEdt.ViewModels
             get {return _TheDocument; }
             private set 
             {
-                if (_TheDocument != null)
+                if (_TheDocument != null && _TheDocument != value)
                     _TheDocument.Dispose();
                 _TheDocument = value;
                 NotifyPropertyChanged("TheDocument");
