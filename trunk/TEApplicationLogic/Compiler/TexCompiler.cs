@@ -656,7 +656,7 @@ namespace TikzEdt
                 //myPdflatexOutputParser.Clear();
                 AsyncReaderWorker.RunWorkerAsync(job);
             }
-            catch (System.ComponentModel.Win32Exception)
+            catch (Exception)
             { 
                 //texprocess_Exited("", "Cannot find pdf compiler pdflatex.");
                 //ex.NativeErrorCode == 2
@@ -666,7 +666,7 @@ namespace TikzEdt
                 SetCompiling(false);
                 if (OnCompileEvent != null) OnCompileEvent(this, new CompileEventArgs() { Message = "Cannot find pdf compiler pdflatex. Please install and/or add to PATH variable.", Type = CompileEventType.Error });
                 if (JobDone != null) JobDone(this, new JobEventArgs(job, null, -1) );
-                GlobalUI.UI.ShowMessageBox("It seems that you do not have Latex installed. TikzEdt cannot work without Latex. Please download a Latex distribution, e.g., MikTeX or TexLive. " +
+                GlobalUI.UI.ShowMessageBox("It might be that you do not have Latex installed, or the wrong pdflatex path is provided in the settings. TikzEdt cannot work without Latex. Please download a Latex distribution, e.g., MikTeX or TexLive. " +
                     "If you did install it, please check that pdflatex is in the %PATH% or that the path in the settings is set correctly.", "Error running pdflatex",  MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
