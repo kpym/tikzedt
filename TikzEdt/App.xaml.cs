@@ -46,7 +46,7 @@ namespace TikzEdt
                 Helper.SetAppdataPath(Helper.AppdataPathOptions.AppData);           
 
             // load/store settings at a sensible location (not the standard cryptic one)
-            RewireSettingsProvider(TikzEdt.Properties.Settings.Default);
+            AppMethods.RewireSettingsProvider(TikzEdt.Properties.Settings.Default);
 
             // tie settings to Viewmodels (TODO... maybe change to std dependency injection pattern)
             CompilerSettings.Instance = new PropertiesCompilerSettings();
@@ -65,16 +65,6 @@ namespace TikzEdt
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-        }
-
-        private  void RewireSettingsProvider(ApplicationSettingsBase settings)
-        {
-            var portableSettingsProvider = 
-                new TESettingsProvider(Path.Combine( Helper.GetAppdataPath(),  "TikzEdt.settings"));
-            settings.Providers.Add(portableSettingsProvider);
-            foreach (System.Configuration.SettingsProperty prop in settings.Properties)
-                prop.Provider = portableSettingsProvider;
-            settings.Reload();
         }
 
 

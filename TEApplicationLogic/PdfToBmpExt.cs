@@ -27,7 +27,7 @@ namespace TikzEdt
         {
 			if (!File.Exists(PdfFile))
 			{
-				GlobalUI.UI.AddStatusLine(this, "Couldn't render pdf. No pdf file to render.", true);
+				//GlobalUI.UI.AddStatusLine(this, "Couldn't render pdf. No pdf file to render.", true);
 				return false;
 			}
 				
