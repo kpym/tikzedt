@@ -467,12 +467,14 @@ namespace TikzEdtWForms
                 {
                     TextBox tx = (TextBox)ctrl;
                     tx.Copy();
-                }
-
-                if (ctrl is ComboBox)
+                } else if (ctrl is ComboBox)
                 {
                     ComboBox cb = (ComboBox)ctrl;
                     cb.Copy();
+                }
+                else
+                {
+                    txtCode.ActiveTextAreaControl.TextArea.ClipboardHandler.Copy(sender, e);
                 }
 
             }
@@ -484,21 +486,18 @@ namespace TikzEdtWForms
 
             if (ctrl != null)
             {
-
-                string copied = "";
-
-                int sPos;
-
                 if (ctrl is TextBox)
                 {
                     TextBox tx = (TextBox)ctrl;
                     tx.Cut();
-                }
-
-                if (ctrl is ComboBox)
+                } else if (ctrl is ComboBox)
                 {
                     ComboBox cb = (ComboBox)ctrl;
                     cb.Cut();
+                }
+                else
+                {
+                    txtCode.ActiveTextAreaControl.TextArea.ClipboardHandler.Cut(sender, e);
                 }
             }
         }
@@ -513,16 +512,14 @@ namespace TikzEdtWForms
                 {
                     TextBox tx = (TextBox)ctrl;
                     tx.Paste();
-                }
-
-                if (ctrl is ComboBox)
+                } else if (ctrl is ComboBox)
                 {
                     ComboBox cb = (ComboBox)ctrl;
                     cb.Paste();
                 }
-                else if (ctrl is TextArea)
+                else
                 {
-                    
+                    txtCode.ActiveTextAreaControl.TextArea.ClipboardHandler.Paste(sender, e);
                 }
 
             }
@@ -545,7 +542,7 @@ namespace TikzEdtWForms
                 cb.Undo();
 
             }
-            else if (ctrl is TextArea)
+            else
             {
                 txtCode.Undo();
             }
@@ -560,11 +557,14 @@ namespace TikzEdtWForms
                 TextBox tx = (TextBox)ctrl;
                 //tx.Redo();
             }
-
-            if (ctrl is ComboBox)
+            else if (ctrl is ComboBox)
             {
                 ComboBox cb = (ComboBox)ctrl;
                 //cb.Redo();
+            }
+            else
+            {
+                txtCode.Redo();
             }
         }
 
