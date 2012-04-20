@@ -45,11 +45,11 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.chkShowLineNr = new System.Windows.Forms.CheckBox();
-            this.chkWordWrap = new System.Windows.Forms.CheckBox();
             this.chkCodeCompletion = new System.Windows.Forms.CheckBox();
             this.chkBeginCompletion = new System.Windows.Forms.CheckBox();
             this.chkShowSnippetThumbs = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.cmdFont = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label8 = new System.Windows.Forms.Label();
@@ -74,7 +74,6 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdSave = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.cmdFont = new System.Windows.Forms.Button();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -273,7 +272,6 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 97F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 76.61098F));
             this.tableLayoutPanel2.Controls.Add(this.chkShowLineNr, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.chkWordWrap, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.chkCodeCompletion, 1, 2);
             this.tableLayoutPanel2.Controls.Add(this.chkBeginCompletion, 1, 3);
             this.tableLayoutPanel2.Controls.Add(this.chkShowSnippetThumbs, 1, 4);
@@ -304,20 +302,10 @@
             this.chkShowLineNr.Text = "Show line numbers";
             this.chkShowLineNr.UseVisualStyleBackColor = true;
             // 
-            // chkWordWrap
-            // 
-            this.chkWordWrap.AutoSize = true;
-            this.chkWordWrap.Location = new System.Drawing.Point(100, 26);
-            this.chkWordWrap.Name = "chkWordWrap";
-            this.chkWordWrap.Size = new System.Drawing.Size(78, 17);
-            this.chkWordWrap.TabIndex = 1;
-            this.chkWordWrap.Text = "Word wrap";
-            this.chkWordWrap.UseVisualStyleBackColor = true;
-            // 
             // chkCodeCompletion
             // 
             this.chkCodeCompletion.AutoSize = true;
-            this.chkCodeCompletion.Location = new System.Drawing.Point(100, 49);
+            this.chkCodeCompletion.Location = new System.Drawing.Point(100, 26);
             this.chkCodeCompletion.Name = "chkCodeCompletion";
             this.chkCodeCompletion.Size = new System.Drawing.Size(140, 17);
             this.chkCodeCompletion.TabIndex = 2;
@@ -327,7 +315,7 @@
             // chkBeginCompletion
             // 
             this.chkBeginCompletion.AutoSize = true;
-            this.chkBeginCompletion.Location = new System.Drawing.Point(100, 72);
+            this.chkBeginCompletion.Location = new System.Drawing.Point(100, 49);
             this.chkBeginCompletion.Name = "chkBeginCompletion";
             this.chkBeginCompletion.Size = new System.Drawing.Size(155, 17);
             this.chkBeginCompletion.TabIndex = 3;
@@ -337,7 +325,7 @@
             // chkShowSnippetThumbs
             // 
             this.chkShowSnippetThumbs.AutoSize = true;
-            this.chkShowSnippetThumbs.Location = new System.Drawing.Point(100, 95);
+            this.chkShowSnippetThumbs.Location = new System.Drawing.Point(100, 72);
             this.chkShowSnippetThumbs.Name = "chkShowSnippetThumbs";
             this.chkShowSnippetThumbs.Size = new System.Drawing.Size(143, 17);
             this.chkShowSnippetThumbs.TabIndex = 4;
@@ -347,11 +335,23 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 115);
+            this.label6.Location = new System.Drawing.Point(3, 92);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(28, 13);
             this.label6.TabIndex = 5;
             this.label6.Text = "Font";
+            // 
+            // cmdFont
+            // 
+            this.cmdFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdFont.Location = new System.Drawing.Point(100, 95);
+            this.cmdFont.Name = "cmdFont";
+            this.cmdFont.Size = new System.Drawing.Size(288, 23);
+            this.cmdFont.TabIndex = 6;
+            this.cmdFont.Text = "The quick brown fox jumps over the lazy dog. ";
+            this.cmdFont.UseVisualStyleBackColor = true;
+            this.cmdFont.Click += new System.EventHandler(this.cmdFont_Click);
             // 
             // tabPage3
             // 
@@ -617,18 +617,6 @@
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
             // 
-            // cmdFont
-            // 
-            this.cmdFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdFont.Location = new System.Drawing.Point(100, 118);
-            this.cmdFont.Name = "cmdFont";
-            this.cmdFont.Size = new System.Drawing.Size(288, 23);
-            this.cmdFont.TabIndex = 6;
-            this.cmdFont.Text = "The quick brown fox jumps over the lazy dog. ";
-            this.cmdFont.UseVisualStyleBackColor = true;
-            this.cmdFont.Click += new System.EventHandler(this.cmdFont_Click);
-            // 
             // SettingsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -683,7 +671,6 @@
         private System.Windows.Forms.NumericUpDown numTimeoutCompile;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.CheckBox chkShowLineNr;
-        private System.Windows.Forms.CheckBox chkWordWrap;
         private System.Windows.Forms.CheckBox chkCodeCompletion;
         private System.Windows.Forms.CheckBox chkBeginCompletion;
         private System.Windows.Forms.CheckBox chkShowSnippetThumbs;

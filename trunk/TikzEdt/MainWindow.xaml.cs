@@ -2186,7 +2186,7 @@ namespace TikzEdt
         {            
             if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
             {
-                int count = cmbZoom.Items.Count;
+                //int count = cmbZoom.Items.Count;
                 double factor = e.Delta > 0 ? 1.1 : .9;
                 TheVM.TheDocument.Resolution *= factor;
 

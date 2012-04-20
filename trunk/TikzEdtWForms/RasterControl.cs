@@ -15,6 +15,7 @@ namespace TikzEdtWForms
     public partial class RasterControl : Control, IRasterControlView, ITikzDisplayView, TikzEdt.Overlay.IPdfOverlayView, TikzEdt.Overlay.IOverlayShapeFactory
     {
         public RasterControlModel TheRasterModel;
+        ToolTip toolTip1 = new ToolTip();
 
         public RasterControl()
         {
@@ -22,6 +23,10 @@ namespace TikzEdtWForms
 
             if (DesignMode)
                 return;
+
+            disablerPanel = new Panel() { Dock = DockStyle.Fill, BackColor = Color.Transparent, Visible= false, Cursor=Cursors.No };
+            toolTip1.SetToolTip(disablerPanel, "Overlay out of sync. WYSIWYG editing is disabled");
+            this.Controls.Add(disablerPanel);
 
             //this.CanFocus = true;
             this.SetStyle(  ControlStyles.AllPaintingInWmPaint |  ControlStyles.UserPaint |  ControlStyles.DoubleBuffer | ControlStyles.Selectable, true);

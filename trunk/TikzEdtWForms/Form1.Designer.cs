@@ -64,6 +64,7 @@
             this.compileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recompileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.abortCompilationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoCompilationOnChangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.regeneratePrecompiledHeadersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recompileSnippetThumbnailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,6 +79,9 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripZoomCtrlItem1 = new TikzEdtWForms.ToolStripZoomCtrlItem();
+            this.lblMousePos = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -141,16 +145,17 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-//            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-  //          ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-         //   ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -421,6 +426,7 @@
             this.compileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.recompileToolStripMenuItem,
             this.abortCompilationToolStripMenuItem,
+            this.autoCompilationOnChangeToolStripMenuItem,
             this.toolStripMenuItem2,
             this.regeneratePrecompiledHeadersToolStripMenuItem,
             this.recompileSnippetThumbnailsToolStripMenuItem});
@@ -431,6 +437,7 @@
             // recompileToolStripMenuItem
             // 
             this.recompileToolStripMenuItem.Name = "recompileToolStripMenuItem";
+            this.recompileToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.recompileToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
             this.recompileToolStripMenuItem.Text = "Recompile";
             this.recompileToolStripMenuItem.Click += new System.EventHandler(this.cmdCompile_Click);
@@ -441,6 +448,13 @@
             this.abortCompilationToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
             this.abortCompilationToolStripMenuItem.Text = "Abort Compilation";
             this.abortCompilationToolStripMenuItem.Click += new System.EventHandler(this.cmdAbortCompile_Click);
+            // 
+            // autoCompilationOnChangeToolStripMenuItem
+            // 
+            this.autoCompilationOnChangeToolStripMenuItem.CheckOnClick = true;
+            this.autoCompilationOnChangeToolStripMenuItem.Name = "autoCompilationOnChangeToolStripMenuItem";
+            this.autoCompilationOnChangeToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
+            this.autoCompilationOnChangeToolStripMenuItem.Text = "Auto compilation on text change";
             // 
             // toolStripMenuItem2
             // 
@@ -536,11 +550,34 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1,
+            this.toolStripZoomCtrlItem1,
+            this.lblMousePos});
             this.statusStrip1.Location = new System.Drawing.Point(0, 614);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1105, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(939, 17);
+            this.toolStripStatusLabel1.Spring = true;
+            // 
+            // toolStripZoomCtrlItem1
+            // 
+            this.toolStripZoomCtrlItem1.AutoSize = false;
+            this.toolStripZoomCtrlItem1.Name = "toolStripZoomCtrlItem1";
+            this.toolStripZoomCtrlItem1.Size = new System.Drawing.Size(120, 20);
+            this.toolStripZoomCtrlItem1.Text = "tsZoom";
+            // 
+            // lblMousePos
+            // 
+            this.lblMousePos.AutoSize = false;
+            this.lblMousePos.Name = "lblMousePos";
+            this.lblMousePos.Size = new System.Drawing.Size(80, 17);
             // 
             // toolStripContainer1
             // 
@@ -1209,6 +1246,8 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.ContentPanel.PerformLayout();
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
@@ -1216,14 +1255,14 @@
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
-     //       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
-    //        ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
-    //        ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -1353,6 +1392,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem commentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uncommentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem autoCompilationOnChangeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private ToolStripZoomCtrlItem toolStripZoomCtrlItem1;
+        private System.Windows.Forms.ToolStripStatusLabel lblMousePos;
     }
 }
 

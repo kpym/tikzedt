@@ -143,6 +143,24 @@ namespace TikzEdt.ViewModels
             }
         }
 
+        private bool _AutoCompileOnDocumentChange = true;
+        /// <summary>
+        /// Determines whether the document is automatically recompiled upon text change.
+        /// </summary>
+        public bool AutoCompileOnDocumentChange
+        {
+            get { return _AutoCompileOnDocumentChange; }
+            set
+            {
+                if (value != _AutoCompileOnDocumentChange)
+                {
+                    _AutoCompileOnDocumentChange = value;
+                    NotifyPropertyChanged("AutoCompileOnDocumentChange");
+                }
+            }
+        }
+
+        
         #endregion
 
         //ObservableCollection<AvalonDock.DocumentContent> _DocumentsAD = new ObservableCollection<AvalonDock.DocumentContent>();

@@ -763,5 +763,17 @@ namespace TikzEdt.Properties {
                 this["Editor_FontSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoCompileOnDocumentChange {
+            get {
+                return ((bool)(this["AutoCompileOnDocumentChange"]));
+            }
+            set {
+                this["AutoCompileOnDocumentChange"] = value;
+            }
+        }
     }
 }
