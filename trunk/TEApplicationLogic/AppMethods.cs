@@ -63,12 +63,14 @@ namespace TikzEdt
         /// <param name="settings"></param>
         public static void RewireSettingsProvider(ApplicationSettingsBase settings)
         {
-            var portableSettingsProvider =
-                new TESettingsProvider(Path.Combine(Helper.GetAppdataPath(), "TikzEdt.settings"));
+            string SettingsFile = Path.Combine(Helper.GetAppdataPath(), "TikzEdt.settings");
+            var portableSettingsProvider = new TESettingsProvider(SettingsFile);
             settings.Providers.Add(portableSettingsProvider);
             foreach (System.Configuration.SettingsProperty prop in settings.Properties)
                 prop.Provider = portableSettingsProvider;
-            settings.Reload();
+
+            if (File.Exists(SettingsFile))  // mono throws an exception if one reloads w/o file present for some unknown reason
+                settings.Reload();
         }
 
 
