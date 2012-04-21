@@ -157,7 +157,6 @@
     <Compile Include="DynPreamble\DynPreambleView.xaml.cs">
       <DependentUpon>DynPreambleView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DynPreamble\DynPreambleVM.cs" />
     <Compile Include="ExportCompiler\ExportCompileDialog.xaml.cs">
       <DependentUpon>ExportCompileDialog.xaml</DependentUpon>
     </Compile>

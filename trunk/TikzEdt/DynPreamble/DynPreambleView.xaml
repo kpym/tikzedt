@@ -9,21 +9,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" >
     <UserControl.Resources>
-        <Style x:Key="FlatButtonStyle" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
-            <Setter Property="Focusable" Value="False" />
-        </Style>
-        <Style x:Key="SeparatorStyle" TargetType="{x:Type Separator}">
-            <Setter Property="Height" Value="20"/>
-            <Setter Property="Margin" Value="2,0,2,0"/>
-            <Setter Property="Focusable" Value="false"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Separator}">
-                        <Border BorderBrush="LightSlateGray" BorderThickness="1"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <ResourceDictionary 
+                  Source="../Resources/ResourceDict.xaml">
+        </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel Name="MainPanel">
         <TextBlock DockPanel.Dock="Top" Text="Current Dynamic Preamble:" Padding="3" FontWeight="Bold" Background="Gainsboro" ToolTipService.ShowDuration="15000">
@@ -40,21 +28,21 @@
                                HDFile="{x:Static myApp:Consts.SyntaxFileFullPath}" />
         <myC:DockPanelSplitter DockPanel.Dock="Top" Thickness="5" Background="Gainsboro" />
         <StackPanel FlowDirection="LeftToRight" Orientation="Horizontal"  DockPanel.Dock="Top" Margin="2">
-            <Button Command="{Binding AddCommand}" ToolTip="Add Element" Style="{StaticResource FlatButtonStyle}">
+            <Button Command="{Binding AddCommand, Converter={StaticResource TERCRCC}}" ToolTip="Add Element" Style="{StaticResource FlatButtonStyle}">
                 <Image Source="/TikzEdt;component/Images/112_Plus_Green_16x16_72.png" Width="16" Height="16" />
             </Button>
-            <Button Command="{Binding DeleteCommand}" ToolTip="Remove Element" Style="{StaticResource FlatButtonStyle}">
+            <Button Command="{Binding DeleteCommand, Converter={StaticResource TERCRCC}}" ToolTip="Remove Element" Style="{StaticResource FlatButtonStyle}">
                 <Image Source="/TikzEdt;component/Images/112_Minus_Green_16x16_72.png" Width="16" Height="16" />
             </Button>
             <Separator Style="{StaticResource SeparatorStyle}"/>
-            <Button Command="{Binding EditCommand}" ToolTip="Edit Dynamic Preamble" Style="{StaticResource FlatButtonStyle}">
+            <Button Command="{Binding EditCommand, Converter={StaticResource TERCRCC}}" ToolTip="Edit Dynamic Preamble" Style="{StaticResource FlatButtonStyle}">
                 <Image Source="/TikzEdt;component/Images/126_Edit_16x16_72.png" Width="16" Height="16" />
             </Button>
             <Separator Style="{StaticResource SeparatorStyle}"/>
-            <Button Command="{Binding MoveUpCommand}" ToolTip="Move Up" Style="{StaticResource FlatButtonStyle}">
+            <Button Command="{Binding MoveUpCommand, Converter={StaticResource TERCRCC}}" ToolTip="Move Up" Style="{StaticResource FlatButtonStyle}">
                 <Image Source="/TikzEdt;component/Images/112_UpArrowShort_Green_16x16_72.png" Width="16" Height="16" />
             </Button>
-            <Button Command="{Binding MoveDownCommand}" ToolTip="Move Down" Style="{StaticResource FlatButtonStyle}">
+            <Button Command="{Binding MoveDownCommand, Converter={StaticResource TERCRCC}}" ToolTip="Move Down" Style="{StaticResource FlatButtonStyle}">
                 <Image Source="/TikzEdt;component/Images/112_DownArrowShort_Green_16x16_72.png" Width="16" Height="16" />
             </Button>
       <!--      <Separator Style="{StaticResource SeparatorStyle}"/>

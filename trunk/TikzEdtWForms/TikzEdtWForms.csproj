@@ -82,7 +82,6 @@
     <Compile Include="InputDialog.Designer.cs">
       <DependentUpon>InputDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyBinding.cs" />
     <Compile Include="OverlayShapeViews.cs" />
     <Compile Include="PdfOverlay.cs">
       <SubType>Component</SubType>
