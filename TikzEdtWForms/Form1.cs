@@ -20,6 +20,7 @@ namespace TikzEdtWForms
 
         RasterControl rasterControl1;
         SnippetList snippetList1;
+        FileViewer fileViewer;
         //PdfOverlay pdfOverlay1;
 
         public Form1()
@@ -75,12 +76,14 @@ namespace TikzEdtWForms
             cmbNodeStyle.DropDown += (s, e) => { cmbNodeStyle.Items.Clear(); cmbNodeStyle.Items.AddRange(TheVM.TheDocument.TikzStyles.ToArray()); };
 
             snippetList1 = new SnippetList();
-            snippetList1.Parent = splitContainer1.Panel1;
             snippetList1.Visible = true;
             snippetList1.Dock = DockStyle.Fill;
             snippetList1.OnInsert += new EventHandler<TikzEdt.Snippets.InsertEventArgs>(snippetList1_OnInsert);
             snippetList1.OnUseStyles += new EventHandler<TikzEdt.Snippets.UseStylesEventArgs>(snippetList1_OnUseStyles);
+            splitContainer1.Panel1.Controls.Add(snippetList1);
 
+            fileViewer = new FileViewer() { Dock = DockStyle.Fill, Visible=false };
+            splitContainer1.Panel1.Controls.Add(fileViewer);
 
 
             //TheVM.NewCommandHandler(this, new System.Windows.Input.ExecutedRoutedEventArgs()) ;
@@ -556,6 +559,7 @@ namespace TikzEdtWForms
             splitContainer1.Panel1Collapsed = ToolPaneButtons.TrueForAll(b => !b.Checked);
 
             snippetList1.Visible = cmdSnippets.Checked;
+            fileViewer.Visible = cmdFiles.Checked;
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
