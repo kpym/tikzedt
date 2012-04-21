@@ -56,6 +56,12 @@
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </Compile>
     <Compile Include="CompletionHandler.cs" />
+    <Compile Include="DynPreambleDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DynPreambleDialog.Designer.cs">
+      <DependentUpon>DynPreambleDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="FileViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -109,6 +115,12 @@
     <Compile Include="SnippetList.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DynamicPreamble.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DynamicPreamble.Designer.cs">
+      <DependentUpon>DynamicPreamble.cs</DependentUpon>
+    </Compile>
     <Compile Include="TextEditorDocumentWrapper.cs" />
     <Compile Include="TikzDisplay.cs">
       <SubType>UserControl</SubType>
@@ -124,6 +136,12 @@
     </Compile>
     <EmbeddedResource Include="AboutBox1.resx">
       <DependentUpon>AboutBox1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DynamicPreamble.resx">
+      <DependentUpon>DynamicPreamble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DynPreambleDialog.resx">
+      <DependentUpon>DynPreambleDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FileViewer.resx">
       <DependentUpon>FileViewer.cs</DependentUpon>

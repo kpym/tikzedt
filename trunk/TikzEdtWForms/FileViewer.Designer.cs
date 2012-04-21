@@ -36,9 +36,10 @@
             this.cmbFilter = new System.Windows.Forms.ToolStripComboBox();
             this.txtPath = new System.Windows.Forms.TextBox();
             this.lstFiles = new System.Windows.Forms.ListView();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,6 +64,7 @@
             this.cmdUp.Name = "cmdUp";
             this.cmdUp.Size = new System.Drawing.Size(23, 22);
             this.cmdUp.Text = "toolStripButton1";
+            this.cmdUp.ToolTipText = "Up";
             this.cmdUp.Click += new System.EventHandler(this.cmdUp_Click);
             // 
             // cmdHome
@@ -73,6 +75,7 @@
             this.cmdHome.Name = "cmdHome";
             this.cmdHome.Size = new System.Drawing.Size(23, 22);
             this.cmdHome.Text = "toolStripButton2";
+            this.cmdHome.ToolTipText = "Home";
             this.cmdHome.Click += new System.EventHandler(this.cmdHome_Click);
             // 
             // cmbFilter
@@ -105,13 +108,6 @@
             this.lstFiles.View = System.Windows.Forms.View.Details;
             this.lstFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstFiles_MouseDoubleClick);
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Folder_16x16.png");
-            this.imageList1.Images.SetKeyName(1, "DocumentHS.png");
-            // 
             // columnHeader1
             // 
             this.columnHeader1.Text = "Filename";
@@ -120,6 +116,13 @@
             // columnHeader3
             // 
             this.columnHeader3.Text = "Last mod.";
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "Folder_16x16.png");
+            this.imageList1.Images.SetKeyName(1, "DocumentHS.png");
             // 
             // FileViewer
             // 
@@ -148,5 +151,6 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
