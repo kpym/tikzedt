@@ -28,6 +28,8 @@ namespace TikzEdtWForms
             toolTip1.SetToolTip(disablerPanel, "Overlay out of sync. WYSIWYG editing is disabled");
             this.Controls.Add(disablerPanel);
 
+            CreateContextMenu();
+
             //this.CanFocus = true;
             this.SetStyle(  ControlStyles.AllPaintingInWmPaint |  ControlStyles.UserPaint |  ControlStyles.DoubleBuffer | ControlStyles.Selectable, true);
 
@@ -40,6 +42,61 @@ namespace TikzEdtWForms
             // listen to Bitmap changes
             MyBindings.Add( BindingFactory.CreateBinding(TheDisplayModel, "Bmp", (o)=>this.Invalidate(), null) );
 
+        }
+
+        OverlayShape PopupSource = null;
+        bool PreventContextMenuOpening = false;
+        private void CreateContextMenu()
+        {
+            var m = ContextMenu = new ContextMenu();
+            var i = new MenuItem("Jump to source");
+            i.Click += (s, e) => { JumpToSourceDoIt(PopupSource); };
+            m.MenuItems.Add(i);
+            i = new MenuItem("Edit this scope");
+            i.Click += (s, e) => {  };
+            m.MenuItems.Add(i);
+
+            var mm = new MenuItem("Assign style");
+            i = new MenuItem("Assign new style...");
+            i.Click += (s, e) => TheOverlayModel.AssignStyle(PdfOverlayModel.AssignStyleType.AssignNewStyle);
+            mm.MenuItems.Add(i);
+            i = new MenuItem("Assign current node style");
+            i.Click += (s, e) => TheOverlayModel.AssignStyle(PdfOverlayModel.AssignStyleType.AssignCurrentNodeStyle);
+            mm.MenuItems.Add(i);
+            i = new MenuItem("Change style to new style...");
+            i.Click += (s, e) => TheOverlayModel.AssignStyle(PdfOverlayModel.AssignStyleType.ChangeToNewStyle);
+            mm.MenuItems.Add(i);
+            i = new MenuItem("Change style to current node style");
+            i.Click += (s, e) => TheOverlayModel.AssignStyle(PdfOverlayModel.AssignStyleType.ChangeToCurrentNodeStyle);
+            mm.MenuItems.Add(i);
+            m.MenuItems.Add(mm);
+
+            mm = new MenuItem("Selection");
+            i = new MenuItem("Copy");
+            i.Click += (s, e) => { };
+            mm.MenuItems.Add(i);
+            i = new MenuItem("Copy enscoped");
+            i.Click += (s, e) => { };
+            mm.MenuItems.Add(i);
+            i = new MenuItem("Cut");
+            i.Click += (s, e) => {  };
+            mm.MenuItems.Add(i);
+            i = new MenuItem("Cut enscoped");
+            i.Click += (s, e) => {  };
+            mm.MenuItems.Add(i);
+            i = new MenuItem("Delete");
+            i.Click += (s, e) => {  };
+            mm.MenuItems.Add(i);
+            i = new MenuItem("Collect");
+            i.Click += (s, e) => {  };
+            mm.MenuItems.Add(i);
+            i = new MenuItem("Collect and enscope");
+            i.Click += (s, e) => {  };
+            mm.MenuItems.Add(i);
+            m.MenuItems.Add(mm);
+
+            m.Popup += (s, e) => { PopupSource = ObjectAtCursor; };
+            
         }
 
         List<object> MyBindings = new List<object>();

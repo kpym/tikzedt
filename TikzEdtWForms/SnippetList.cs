@@ -11,7 +11,7 @@ namespace TikzEdtWForms
 {
     class SnippetList : FlowLayoutPanel, ISnippetListView
     {
-        SnippetListModel TheModel {get; set; }
+        public SnippetListModel TheModel {get; private set; }
 
         #region Exposed Events
         //public delegate void InsertEventHandler(string code, string dependencies);
@@ -42,6 +42,41 @@ namespace TikzEdtWForms
 
         #endregion
 
+        ContextMenu TheContextMenu;
+        private void CreateContextMenu()
+        {
+            var m = TheContextMenu = new ContextMenu();
+            var i = new MenuItem("Insert Snippet");
+            i.Click += (s, e) => { if (PopupSource != null) TheModel.HandleInsertSnippetClick(PopupSource.TheSnippet.Row); };
+            m.MenuItems.Add(i);
+            i = new MenuItem("Insert full Code Sample");
+            i.Click += (s, e) => { if (PopupSource != null) TheModel.HandleInsertFullCodeClick(PopupSource.TheSnippet.Row); };
+            m.MenuItems.Add(i);
+            i = new MenuItem("Insert Dependencies");
+            i.Click += (s, e) => { if (PopupSource != null) TheModel.HandleInsertDependenciesClick(PopupSource.TheSnippet.Row); };
+            m.MenuItems.Add(i);
+            m.MenuItems.Add(new MenuItem("-"));
+
+            var mm = new MenuItem("Thumbnails");
+            i = new MenuItem("Off");
+            i.Click += (s, e) => ShowThumbnails = false;
+            mm.MenuItems.Add(i);
+            i = new MenuItem("Small");
+            i.Click += (s, e) => { ShowThumbnails = true; ThumbnailSize = 40; };
+            mm.MenuItems.Add(i);
+            i = new MenuItem("Middle");
+            i.Click += (s, e) => { ShowThumbnails = true; ThumbnailSize = 70; };
+            mm.MenuItems.Add(i);
+            i = new MenuItem("Large");
+            i.Click += (s, e) => { ShowThumbnails = true; ThumbnailSize = 150; };
+            mm.MenuItems.Add(i);
+            m.MenuItems.Add(mm);
+            m.Popup += (s, e) => PopupSource = TheContextMenu.SourceControl as SnippetEntry;
+            
+        }
+        SnippetEntry PopupSource = null;
+
+
         public SnippetList()
         {
             this.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;  //Orientation = Orientation.Vertical;
@@ -60,6 +95,8 @@ namespace TikzEdtWForms
             TheModel.Reload();
 
             TheModel.CheckForThumbnails();
+
+            CreateContextMenu();
 
             ((ISnippetListView)this).Refresh();
  
@@ -114,6 +151,9 @@ namespace TikzEdtWForms
                     o.Width = ClientSize.Width;
                     o.Margin = new Padding(0);
                     o.ImgWidth = ThumbnailSize;
+
+                    o.ContextMenu = TheContextMenu;
+                    
                     o.DblClick += new EventHandler(o_MouseDoubleClick);
                     o.UseStyle += new EventHandler(o_UseStyle);
                     o.InsertAsStyle += new EventHandler(o_InsertAsStyle);

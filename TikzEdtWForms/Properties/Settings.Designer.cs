@@ -923,7 +923,7 @@ namespace TikzEdtWForms.Properties
 
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Courier New; 10pt")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Courier New, 10pt")]
         public global::System.Drawing.Font Editor_Font
         {
             get
