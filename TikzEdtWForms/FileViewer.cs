@@ -20,8 +20,10 @@ namespace TikzEdtWForms
             if (DesignMode)
                 return;
 
-            cmbFilter.Items.Add("*.tex");, "*.tikz", "*.*"
-
+            cmbFilter.Items.Add("*.tex;*.tikz"); cmbFilter.Items.Add("*.tex"); cmbFilter.Items.Add("*.tikz"); cmbFilter.Items.Add("*.*");
+            cmbFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbFilter.SelectedIndex = 0;
+            cmbFilter.SelectedIndexChanged += (s, e) => PopulateList();
             CurrentFolder = Directory.GetCurrentDirectory();
 
         }
@@ -36,16 +38,7 @@ namespace TikzEdtWForms
             { 
                 _CurrentFolder = value;
                 txtPath.Text = _CurrentFolder;
-                PopulateList();
-            }
-        }
-
-        public string Filter
-        {
-            get { return _Filter; }
-            set
-            {
-                _Filter = value;
+                toolTip1.SetToolTip(txtPath, txtPath.Text);
                 PopulateList();
             }
         }
@@ -72,7 +65,8 @@ namespace TikzEdtWForms
             try
             {
                 var Dirs = Directory.GetDirectories(CurrentFolder);
-                var Files = Directory.GetFiles(CurrentFolder);
+                var filters = cmbFilter.Text.Split(';');
+                var Files = filters.SelectMany(f => Directory.GetFiles(CurrentFolder, f)).OrderBy(s => s);
 
 
                 foreach (var d in Dirs.Select(dd => Path.GetFileName(dd)) )
