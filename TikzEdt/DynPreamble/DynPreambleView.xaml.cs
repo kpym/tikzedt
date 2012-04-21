@@ -19,7 +19,15 @@ namespace TikzEdt.DynPreamble
     /// </summary>
     public partial class DynPreambleView : UserControl
     {
-        private DynPreambleVM TheVM = new DynPreambleVM();
+        private DynPreambleVM TheVM = new DynPreambleVM((vm) =>
+            {
+                string name, code;
+                if (DynPreambleEditDialog.ShowDynPreambleEditDialog(vm.Name, vm.Code, out name, out code) == true)
+                {
+                    vm.Code = code;
+                    vm.Name = name;
+                }
+            });
         public DynPreambleView()
         {
             InitializeComponent();
