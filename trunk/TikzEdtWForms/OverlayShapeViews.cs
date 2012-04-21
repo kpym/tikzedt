@@ -308,7 +308,6 @@ namespace TikzEdtWForms
         public void Refresh()
         {
             TheCanvas.Invalidate();
-            GlobalUI.UI.AddStatusLine(this, "R" + DateTime.Now.Ticks);
         }
 
         public Pen ThePen = null;

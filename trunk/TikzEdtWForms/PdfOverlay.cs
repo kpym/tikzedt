@@ -390,7 +390,7 @@ namespace TikzEdtWForms
         List<OverlayShapeView> OSViews = new List<OverlayShapeView>();
         List<WFShapeBase> PreviewShapes = new List<WFShapeBase>();
 
-        PdfOverlayModel TheOverlayModel;
+        public PdfOverlayModel TheOverlayModel {get; private set;}
 
         Panel disablerPanel;
 
@@ -401,7 +401,26 @@ namespace TikzEdtWForms
             get { return _ShowOverlay; }
             set { _ShowOverlay = value; Invalidate(); }
         }
-        
+
+        #region events
+        /// <summary>
+        /// This event is called when user selectes Jump To Source on an Overlay item.
+        /// The parameter sender will contain the TikzParseItem the user wants to jump to.
+        /// (Call its StartPosition() method to determine the text offset.)
+        /// The MainWindow should subscribe to this event and mark the appropriate segment in the text editor.
+        /// </summary>
+        public event EventHandler<JumpToSourceEventArgs> JumpToSource;
+        public class JumpToSourceEventArgs : EventArgs
+        {
+            public int JumpToPos;
+            public int SelectionLength;
+        }
+
+        /// <summary>
+        /// Called whenever the tool changes.
+        /// </summary>
+        public event EventHandler ToolChanged;
+        #endregion
 
         #region Mouse and Keyboard Event handling
 
@@ -704,7 +723,6 @@ namespace TikzEdtWForms
                 
             }
         }
-        public event EventHandler ToolChanged;
 
         public TikzEdt.TEModifierKeys KeyboardModifiers
         {
@@ -720,12 +738,16 @@ namespace TikzEdtWForms
 
         public void MarkObject(IOverlayShapeView v)
         {
-            throw new NotImplementedException();
+            // todo
         }
 
         public void JumpToSourceDoIt(OverlayShape o)
         {
-            throw new NotImplementedException();
+            if (o != null)
+            {
+                if (JumpToSource != null)
+                    JumpToSource(this, new JumpToSourceEventArgs() { JumpToPos=o.item.StartPosition(), SelectionLength=o.item.text.Length });
+            }
         }
 
         public void Clear()

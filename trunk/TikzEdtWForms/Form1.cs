@@ -38,6 +38,8 @@ namespace TikzEdtWForms
             ToolButtons = new List<ToolStripButton> { cmdMove, cmdNode, cmdEdge, cmdPath, cmdSmoothCurve, cmdBezier, cmdRectangle, cmdEllipse, cmdGrid, cmdArc, cmdArcEdit };
             ToolPaneButtons = new List<ToolStripButton> { cmdSnippets, cmdFiles, cmdDynPreamble };
 
+            CreateContextMenu();
+            lblCompileInfo.TextAlign = ContentAlignment.MiddleLeft;
             splitContainer2.Panel2.BackColor = Color.FromArgb(0x30,0x30,0x30 );
             rasterControl1 = new RasterControl();
             splitContainer2.Panel2.Controls.Add(rasterControl1);
@@ -65,6 +67,7 @@ namespace TikzEdtWForms
       //      tikzDisplay1.Resize += new EventHandler(Panel2_Resize);
             rasterControl1.MouseMove += new MouseEventHandler(rasterControl1_MouseMove);
             rasterControl1.MouseWheel += new MouseEventHandler(rasterControl1_MouseWheel);
+            rasterControl1.JumpToSource += new EventHandler<RasterControl.JumpToSourceEventArgs>(rasterControl1_JumpToSource);
 
             cmbEdgeStyle.TextChanged += (s, e) => TheVM.TheDocument.EdgeStyle = cmbEdgeStyle.Text;
             cmbNodeStyle.TextChanged += (s, e) => TheVM.TheDocument.NodeStyle = cmbNodeStyle.Text;
@@ -217,6 +220,42 @@ namespace TikzEdtWForms
             //txtCode.
         }
 
+        void rasterControl1_JumpToSource(object sender, RasterControl.JumpToSourceEventArgs e)
+        {
+            txtCode.ActiveTextAreaControl.SelectionManager.SetSelection(
+                txtCode.Document.OffsetToPosition(e.JumpToPos),
+                txtCode.Document.OffsetToPosition(e.JumpToPos+e.SelectionLength) );
+
+            // Move cursor to end of selection.
+            txtCode.ActiveTextAreaControl.Caret.Position = txtCode.Document.OffsetToPosition(e.JumpToPos + e.SelectionLength);
+
+        }
+
+        private void CreateContextMenu()
+        {
+            var m = txtCode.ContextMenu = new ContextMenu();
+            var i = new MenuItem("Copy");
+            i.Click += (s,e) => txtCode.ActiveTextAreaControl.TextArea.ClipboardHandler.Copy(s, e);
+            m.MenuItems.Add(i);
+            i = new MenuItem("Cut");
+            i.Click += (s, e) => txtCode.ActiveTextAreaControl.TextArea.ClipboardHandler.Cut(s, e);
+            m.MenuItems.Add(i);
+            i = new MenuItem("Paste");
+            i.Click += (s, e) => txtCode.ActiveTextAreaControl.TextArea.ClipboardHandler.Paste(s, e);
+            m.MenuItems.Add(i);
+            m.MenuItems.Add(new MenuItem("-"));
+            i = new MenuItem("Comment");
+            i.Click += (s, e) => commentToolStripMenuItem_Click(s,e);
+            m.MenuItems.Add(i);
+            i = new MenuItem("Uncomment");
+            i.Click += (s, e) => uncommentToolStripMenuItem_Click(s,e);
+            m.MenuItems.Add(i);
+            m.MenuItems.Add(new MenuItem("-"));
+            i = new MenuItem("Mark object in overlay (if possible)");
+            i.Click += (s, e) => rasterControl1.TheOverlayModel.MarkObjectAt(txtCode.ActiveTextAreaControl.TextArea.Caret.Offset);
+            m.MenuItems.Add(i);
+        }
+
         void rasterControl1_MouseWheel(object sender, MouseEventArgs e)
         {
             if (Control.ModifierKeys.HasFlag(Keys.Control))
@@ -333,12 +372,14 @@ namespace TikzEdtWForms
                 return;
 			
 			AddStatusLine("Welcome to TikzEdt!");
+            AddStatusLine("This software is under development. All help/feedback/feature requests/error reports are welcome.");
 			AddStatusLine("Application data is stored in "+Helper.GetAppdataPath()+".");
-				
+			AddStatusLine("Working directory is now: " + Helper.GetCurrentWorkingDir());
 			
             GlobalUI.UI.OnGlobalStatus += new EventHandler<GlobalStatusEventData>(UI_OnGlobalStatus);
             TheCompiler.Instance.OnTexOutput += new EventHandler<TexCompiler.CompileEventArgs>(Instance_OnTexOutput);
             TheCompiler.Instance.OnCompileEvent += new EventHandler<TexCompiler.CompileEventArgs>(Instance_OnCompileEvent);
+            TikzToBMPFactory.Instance.JobNumberChanged += new EventHandler(Instance_JobNumberChanged);
 
             //txtCode.SetHighlighting("C#");
             //ICSharpCode.TextEditor.Document.IDocument doc;
@@ -355,6 +396,25 @@ namespace TikzEdtWForms
             
             //txtCode.Refresh();
             //txtCode.LoadFile(
+
+            if (!String.IsNullOrWhiteSpace( AppMethods.StartupFile ))
+                TheVM.LoadFile(AppMethods.StartupFile);
+        }
+
+        void Instance_JobNumberChanged(object sender, EventArgs e)
+        {
+            if (TikzToBMPFactory.Instance.JobsInQueue == 0)
+            {
+                ProgressCompile.Style = ProgressBarStyle.Continuous;
+                ProgressCompile.Visible = true;
+                lblCompileInfo.Text = "Thumbnail compilation complete.";
+            }
+            else
+            {
+                ProgressCompile.Style = ProgressBarStyle.Marquee;
+                lblCompileInfo.Text = "Compiling thumbnails... (" + TikzToBMPFactory.Instance.JobsInQueue + " to go)";
+                ProgressCompile.Visible = true;
+            }
         }
 
         void doc_DocumentChanged(object sender, ICSharpCode.TextEditor.Document.DocumentEventArgs e)
@@ -704,6 +764,11 @@ namespace TikzEdtWForms
             SettingsDialog sd = new SettingsDialog();
             sd.ShowDialog();
             sd.Dispose();
+        }
+
+        private void recompileSnippetThumbnailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            snippetList1.TheModel.CompileSnippets();
         }
 
 

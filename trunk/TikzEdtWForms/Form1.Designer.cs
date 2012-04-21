@@ -79,7 +79,8 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ProgressCompile = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblCompileInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripZoomCtrlItem1 = new TikzEdtWForms.ToolStripZoomCtrlItem();
             this.lblMousePos = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
@@ -149,13 +150,13 @@
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-     //       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-      //      ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-       //     ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -473,6 +474,7 @@
             this.recompileSnippetThumbnailsToolStripMenuItem.Name = "recompileSnippetThumbnailsToolStripMenuItem";
             this.recompileSnippetThumbnailsToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
             this.recompileSnippetThumbnailsToolStripMenuItem.Text = "Recompile snippet thumbnails";
+            this.recompileSnippetThumbnailsToolStripMenuItem.Click += new System.EventHandler(this.recompileSnippetThumbnailsToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -551,7 +553,8 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
+            this.ProgressCompile,
+            this.lblCompileInfo,
             this.toolStripZoomCtrlItem1,
             this.lblMousePos});
             this.statusStrip1.Location = new System.Drawing.Point(0, 614);
@@ -560,11 +563,18 @@
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // ProgressCompile
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(939, 17);
-            this.toolStripStatusLabel1.Spring = true;
+            this.ProgressCompile.Name = "ProgressCompile";
+            this.ProgressCompile.Size = new System.Drawing.Size(100, 16);
+            this.ProgressCompile.Value = 100;
+            this.ProgressCompile.Visible = false;
+            // 
+            // lblCompileInfo
+            // 
+            this.lblCompileInfo.Name = "lblCompileInfo";
+            this.lblCompileInfo.Size = new System.Drawing.Size(890, 17);
+            this.lblCompileInfo.Spring = true;
             // 
             // toolStripZoomCtrlItem1
             // 
@@ -1255,14 +1265,14 @@
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
-        //    ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
-       //     ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
-       //     ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -1393,10 +1403,11 @@
         private System.Windows.Forms.ToolStripMenuItem commentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uncommentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoCompilationOnChangeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel lblCompileInfo;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private ToolStripZoomCtrlItem toolStripZoomCtrlItem1;
         private System.Windows.Forms.ToolStripStatusLabel lblMousePos;
+        private System.Windows.Forms.ToolStripProgressBar ProgressCompile;
     }
 }
 

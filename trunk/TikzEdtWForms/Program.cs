@@ -27,7 +27,7 @@ namespace TikzEdtWForms
                 Helper.SetAppdataPath(Helper.AppdataPathOptions.AppData);
 
             // load/store settings at a sensible location (not the standard cryptic one)
-            //AppMethods.RewireSettingsProvider(Properties.Settings.Default);
+            AppMethods.RewireSettingsProvider(Properties.Settings.Default);
 			TouchAllSettings();
 			
             // tie settings to Viewmodels (TODO... maybe change to std dependency injection pattern)

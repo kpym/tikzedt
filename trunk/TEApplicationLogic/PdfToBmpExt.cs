@@ -77,7 +77,7 @@ namespace TikzEdt
         public bool IsEmpty()
         {
             // HACK
-            return File.Exists(PdfFile);
+            return !File.Exists(PdfFile);
         }
 
     }
