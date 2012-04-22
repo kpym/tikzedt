@@ -22,6 +22,7 @@ namespace TikzEdtWForms
         SnippetList snippetList1;
         FileViewer fileViewer;
         DynamicPreamble dynamicPreamble;
+        FindReplaceNoWPF.FindReplaceMgr findReplaceMgr;
         //PdfOverlay pdfOverlay1;
 
         public Form1()
@@ -39,6 +40,12 @@ namespace TikzEdtWForms
             // The order should be exactly the same as that in the OverlayToolType enum!!!
             ToolButtons = new List<ToolStripButton> { cmdMove, cmdNode, cmdEdge, cmdPath, cmdSmoothCurve, cmdBezier, cmdRectangle, cmdEllipse, cmdGrid, cmdArc, cmdArcEdit };
             ToolPaneButtons = new List<ToolStripButton> { cmdSnippets, cmdFiles, cmdDynPreamble };
+
+            findReplaceMgr = new FindReplaceNoWPF.FindReplaceMgr();
+            //findReplaceMgr.Editors = new object[] { new FindReplaceNoWPF.TextEditorAdapter(txtCode) };
+            findReplaceMgr.CurrentEditor = new FindReplaceNoWPF.TextEditorAdapter(txtCode);
+            findReplaceMgr.SearchIn = FindReplaceNoWPF.FindReplaceMgr.SearchScope.CurrentDocument;
+            findReplaceMgr.OwnerWindow = this;
 
             CreateContextMenu();
             lblCompileInfo.TextAlign = ContentAlignment.MiddleLeft;
@@ -780,6 +787,21 @@ namespace TikzEdtWForms
         private void recompileSnippetThumbnailsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             snippetList1.TheModel.CompileSnippets();
+        }
+
+        private void findToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            findReplaceMgr.ShowAsFind();
+        }
+
+        private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            findReplaceMgr.ShowAsReplace();
+        }
+
+        private void findNextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            findReplaceMgr.FindNext();
         }
 
 

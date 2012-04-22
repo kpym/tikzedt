@@ -385,6 +385,7 @@
             this.findToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
             this.findToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.findToolStripMenuItem.Text = "Find...";
+            this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
             // 
             // replaceToolStripMenuItem
             // 
@@ -392,6 +393,7 @@
             this.replaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.replaceToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.replaceToolStripMenuItem.Text = "Replace...";
+            this.replaceToolStripMenuItem.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
             // 
             // findNextToolStripMenuItem
             // 
@@ -399,6 +401,7 @@
             this.findNextToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
             this.findNextToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.findNextToolStripMenuItem.Text = "Find next";
+            this.findNextToolStripMenuItem.Click += new System.EventHandler(this.findNextToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
@@ -782,7 +785,7 @@
             this.txtTexOutput.Name = "txtTexOutput";
             this.txtTexOutput.ReadOnly = true;
             this.txtTexOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtTexOutput.Size = new System.Drawing.Size(414, 134);
+            this.txtTexOutput.Size = new System.Drawing.Size(417, 134);
             this.txtTexOutput.TabIndex = 0;
             // 
             // tlbToolPane
