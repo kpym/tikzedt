@@ -50,6 +50,7 @@
 *TODO*
   * create all icons of correct size
   * wforms version parser error mark overlay
+  * Inport settings etc. from previous version
 
 === Vague things ===
   * improve workflow
