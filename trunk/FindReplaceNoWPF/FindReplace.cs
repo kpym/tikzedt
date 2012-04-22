@@ -4,21 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using ICSharpCode.AvalonEdit;
-using ICSharpCode.AvalonEdit.Document;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Collections;
 using System.ComponentModel;
+using System.Windows.Forms;
 
-namespace FindReplace
+namespace FindReplaceNoWPF
 {
 
     /// <summary>
@@ -26,9 +18,10 @@ namespace FindReplace
     /// 
     /// We need two-way binding, otherwise we could just make all properties static properties of the window
     /// </summary>
-    public class FindReplaceMgr : DependencyObject
+    public class FindReplaceMgr : INotifyPropertyChanged
     {
         private FindReplaceDialog _dialog = null;
+
         /// <summary>
         /// Instance of the dialog window
         /// </summary>
@@ -46,187 +39,96 @@ namespace FindReplace
                 return _dialog;
             }
         }
+        public Form OwnerWindow = null;
 
         public FindReplaceMgr()
         {
             ReplacementText = "";
-            
+            TextToFind = "";
+
             SearchIn = SearchScope.CurrentDocument;
             ShowSearchIn = true;
         }
 
-        #region Exposed CommandBindings
-        public CommandBinding FindBinding
-        {
-            get { return new CommandBinding(ApplicationCommands.Find, (s, e) => ShowAsFind()); }
-        }
-        public CommandBinding FindNextBinding
-        {
-            get { return new CommandBinding(NavigationCommands.Search, (s, e) => FindNext(e.Parameter == null ? false : true)); }
-        }
-        public CommandBinding ReplaceBinding
-        {
-            get { return new CommandBinding(ApplicationCommands.Replace, (s, e) => { if (AllowReplace) ShowAsReplace(); }); }
-        }
-        #endregion
-
         #region Public Properties
+
         /// <summary>
         /// The list of editors in which the search should take place.
         /// The elements must either implement the IEditor interface, or 
         /// InterfaceConverter should bne set.
-        /// </summary>       
+        /// </summary>   
         public IEnumerable Editors
         {
-            get { return (IEnumerable)GetValue(EditorsProperty); }
-            set { SetValue(EditorsProperty, value); }
+            get { return _Editors; }
+            set 
+            {
+                if (value != _Editors)
+                {
+                    _Editors = value;
+                    NotifyPropertyChanged("Editors");
+                }
+            }
         }
-        public static readonly DependencyProperty EditorsProperty =
-            DependencyProperty.Register("Editors", typeof(IEnumerable), typeof(FindReplaceMgr), new PropertyMetadata(null));
-
+        private IEnumerable _Editors = null;
 
         /// <summary>
         /// The editor in which the current search operation takes place.
         /// </summary>
         public object CurrentEditor
         {
-            get { return (object)GetValue(CurrentEditorProperty); }
-            set { SetValue(CurrentEditorProperty, value); }
+            get { return _CurrentEditor; }
+            set
+            {
+                if (value != _CurrentEditor)
+                {
+                    _CurrentEditor = value;
+                    NotifyPropertyChanged("CurrentEditor");
+                }
+            }
         }
-        public static readonly DependencyProperty CurrentEditorProperty =
-            DependencyProperty.Register("CurrentEditor", typeof(object), typeof(FindReplaceMgr), new PropertyMetadata(0));
-
+        private object _CurrentEditor = null;
 
         /// <summary>
         /// Objects in the Editors list that do not implement the IEditor interface are converted to IEditor using this converter.
         /// </summary>
-        public IValueConverter InterfaceConverter
-        {
-            get { return (IValueConverter)GetValue(InterfaceConverterProperty); }
-            set { SetValue(InterfaceConverterProperty, value); }
-        }
-        public static readonly DependencyProperty InterfaceConverterProperty =
-            DependencyProperty.Register("InterfaceConverter", typeof(IValueConverter), typeof(FindReplaceMgr), new PropertyMetadata(null));
+        public Func<object, IEditor> Converter = null;
 
-        public static readonly DependencyProperty TextToFindProperty =
-        DependencyProperty.Register("TextToFind", typeof(string),
-        typeof(FindReplaceMgr), new UIPropertyMetadata(""));
-        public string TextToFind
-        {
-            get { return (string)GetValue(TextToFindProperty); }
-            set { SetValue(TextToFindProperty, value); }
-        }
+        /// <summary>
+        /// The text to be found.
+        /// </summary>
+        public string TextToFind { get; set; }
+        public string ReplacementText { get; set; }
 
-       // public string ReplacementText { get; set; }
-        public string ReplacementText
-        {
-            get { return (string)GetValue(ReplacementTextProperty); }
-            set { SetValue(ReplacementTextProperty, value); }
-        }
+        public bool UseWildcards { get; set; }
 
-        // Using a DependencyProperty as the backing store for ReplacementText.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ReplacementTextProperty =
-            DependencyProperty.Register("ReplacementText", typeof(string), typeof(FindReplaceMgr), new UIPropertyMetadata(""));
+        public bool SearchUp { get; set; }
+        
+        public bool CaseSensitive {get; set;}
 
+        public bool UseRegEx {get; set;}
+       
+        public bool WholeWord {get; set;}
         
 
-        public bool UseWildcards
-        {
-            get { return (bool)GetValue(UseWildcardsProperty); }
-            set { SetValue(UseWildcardsProperty, value); }
-        }
-        public static readonly DependencyProperty UseWildcardsProperty =
-            DependencyProperty.Register("UseWildcards", typeof(bool), typeof(FindReplaceMgr), new UIPropertyMetadata(false));
-
-        public bool SearchUp
-        {
-            get { return (bool)GetValue(SearchUpProperty); }
-            set { SetValue(SearchUpProperty, value); }
-        }
-        public static readonly DependencyProperty SearchUpProperty =
-            DependencyProperty.Register("SearchUp", typeof(bool), typeof(FindReplaceMgr), new UIPropertyMetadata(false));
+        public bool AcceptsReturn {get; set;}
         
-        public bool CaseSensitive
-        {
-            get { return (bool )GetValue(CaseSensitiveProperty); }
-            set { SetValue(CaseSensitiveProperty, value); }
-        }
-        public static readonly DependencyProperty CaseSensitiveProperty =
-            DependencyProperty.Register("CaseSensitive", typeof(bool ), typeof(FindReplaceMgr), new UIPropertyMetadata(false));
-
-        public bool UseRegEx
-        {
-            get { return (bool)GetValue(UseRegExProperty); }
-            set { SetValue(UseRegExProperty, value); }
-        }
-        public static readonly DependencyProperty UseRegExProperty =
-            DependencyProperty.Register("UseRegEx", typeof(bool), typeof(FindReplaceMgr), new UIPropertyMetadata(false));
-
-        public bool WholeWord
-        {
-            get { return (bool)GetValue(WholeWordProperty); }
-            set { SetValue(WholeWordProperty, value); }
-        }
-        public static readonly DependencyProperty WholeWordProperty =
-            DependencyProperty.Register("WholeWord", typeof(bool), typeof(FindReplaceMgr), new UIPropertyMetadata(false));
-
-        public bool AcceptsReturn
-        {
-            get { return (bool)GetValue(AcceptsReturnProperty); }
-            set { SetValue(AcceptsReturnProperty, value); }
-        }
-        public static readonly DependencyProperty AcceptsReturnProperty =
-            DependencyProperty.Register("AcceptsReturn", typeof(bool), typeof(FindReplaceMgr), new UIPropertyMetadata(false));
 
         public enum SearchScope { CurrentDocument, AllDocuments }
-        public SearchScope SearchIn
-        {
-            get { return (SearchScope)GetValue(SearchInProperty); }
-            set { SetValue(SearchInProperty, value); }
-        }
-        public static readonly DependencyProperty SearchInProperty =
-            DependencyProperty.Register("SearchIn", typeof(SearchScope), typeof(FindReplaceMgr), new UIPropertyMetadata(SearchScope.CurrentDocument));
+        public SearchScope SearchIn { get; set; }
+        
 
         
         /// <summary>
         /// Determines whether to display the Search in combo box
         /// </summary>
-        public bool ShowSearchIn
-        {
-            get { return (bool)GetValue(ShowSearchInProperty); }
-            set { SetValue(ShowSearchInProperty, value); }
-        }
-        public static readonly DependencyProperty ShowSearchInProperty =
-            DependencyProperty.Register("ShowSearchIn", typeof(bool), typeof(FindReplaceMgr), new UIPropertyMetadata(true));
+        public bool ShowSearchIn { get; set; }
 
 
         /// <summary>
         /// Determines whether the "Replace"-page in the dialog in shown or not.
         /// </summary>
-        public bool AllowReplace
-        {
-            get { return (bool)GetValue(AllowReplaceProperty); }
-            set { SetValue(AllowReplaceProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for AllowReplace.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty AllowReplaceProperty =
-            DependencyProperty.Register("AllowReplace", typeof(bool), typeof(FindReplaceMgr), new UIPropertyMetadata(true));
-
-        
-        
-        /// <summary>
-        /// The Window that serves as the parent of the Find/Replace dialog
-        /// </summary>
-        public Window OwnerWindow
-        {
-            get { return (Window)GetValue(OwnerWindowProperty); }
-            set { SetValue(OwnerWindowProperty, value); }
-        }
-        public static readonly DependencyProperty OwnerWindowProperty =
-            DependencyProperty.Register("OwnerWindow", typeof(Window), typeof(FindReplaceMgr), new UIPropertyMetadata(null));
-
-        
+        public bool AllowReplace { get; set; }
+              
 
         #endregion
 
@@ -237,10 +139,10 @@ namespace FindReplace
                 return null;
             if (CurrentEditor is IEditor)
                 return CurrentEditor as IEditor;
-            if (InterfaceConverter == null)
+            if (Converter == null)
                 return null;
 
-            return InterfaceConverter.Convert(CurrentEditor, typeof(IEditor), null, CultureInfo.CurrentCulture) as IEditor;
+            return Converter(CurrentEditor);
         }
         IEditor GetNextEditor(bool previous = false)
         {
@@ -292,7 +194,7 @@ namespace FindReplace
             if (CE == null) return;
 
             if (!AskBefore || MessageBox.Show("Do you really want to replace all occurences of '" + TextToFind + "' with '" + ReplacementText + "'?",
-                "Replace all", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
+                "Replace all", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
                 object InitialEditor = CurrentEditor;
                 // loop through all editors, until we are back at the starting editor                
@@ -317,32 +219,22 @@ namespace FindReplace
         /// </summary>
         public void ShowAsFind()
         {
-            dialog.tabMain.SelectedIndex = 0;
+            dialog.ActivateFind();
             dialog.Show();
             dialog.Activate();
-            dialog.txtFind.Focus();
-        }
-        public void ShowAsFind(TextEditor target)
-        {
-            CurrentEditor = target;
-            ShowAsFind();
+            dialog.txtTextToFind.Focus();
         }
         /// <summary>
         /// Shows this instance of FindReplaceDialog, with the Replace page active
         /// </summary>
         public void ShowAsReplace()
         {
-            dialog.tabMain.SelectedIndex = 1;
+            dialog.ActivateReplace();
             dialog.Show();
             dialog.Activate();
-            dialog.txtFind2.Focus();
+            dialog.txtTextToFind.Focus();
         }
-        public void ShowAsReplace(object target)
-        {
-            CurrentEditor = target;
-            ShowAsReplace();
-        }
-        //static TextEditor txtCode;
+        
         public void FindNext(object target, bool InvertLeftRight = false)
         {
             CurrentEditor = target;
@@ -427,36 +319,16 @@ namespace FindReplace
         {
             dialog.Close();
         }
-    }
 
-    public class SearchScopeToInt : IValueConverter
-    {
-        object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void NotifyPropertyChanged(String info)
         {
-            return (int)value;
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
         }
-
-        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return (FindReplaceMgr.SearchScope)value;
-        }
-
-    }
-
-    public class BoolToInt : IValueConverter
-    {
-        object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if ((bool)value)
-                return 1;
-            return 0;
-        }
-
-        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotSupportedException();
-        }
-
     }
 
     public interface IEditor

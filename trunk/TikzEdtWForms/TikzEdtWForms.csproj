@@ -211,6 +211,10 @@
       <Project>{2D18BE89-D210-49EB-A9DD-2246FBB3DF6D}</Project>
       <Name>ICSharpCode.TextEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FindReplaceNoWPF\FindReplaceNoWPF.csproj">
+      <Project>{89056DA8-4C2E-4B65-942A-B9DD115EEAB3}</Project>
+      <Name>FindReplaceNoWPF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TEApplicationLogic\TEApplicationLogic.csproj">
       <Project>{EB03FD23-3941-4B4B-964C-29CB265BA5EA}</Project>
       <Name>TEApplicationLogic</Name>
