@@ -5,8 +5,9 @@ using System.Text;
 using System.ComponentModel;
 using System.Collections.Specialized;
 using System.Collections;
+using System.Linq;
 
-namespace TikzEdtWForms
+namespace TikzEdt
 {
     public class MyBinding<T> where T : class, INotifyPropertyChanged
     {
@@ -118,7 +119,8 @@ namespace TikzEdtWForms
 
         protected override void  OnSourceChanged()
         {
- 	         Source_CollectionChanged(Source, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+ 	         Source_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+             //Source_CollectionChanged(Source, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Source));
         }
 
         protected virtual void Source_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -131,19 +133,71 @@ namespace TikzEdtWForms
     /// <summary>
     /// T is the type of the binding source.
     /// S is the type of the items in the binding source.
+    /// U is the type of the items in the target list
+    /// 
+    /// TODO: when source changes, the list currently is cleared, but the elements of the new source are not automatically added.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="S"></typeparam>
-    public class MyIListBinding<T, S> : MyCollectionBinding<T> where T : class, INotifyPropertyChanged, INotifyCollectionChanged
+    /// <typeparam name="T">the type of the binding source.</typeparam>
+    /// <typeparam name="S">the type of the items in the binding source.</typeparam>
+    /// <typeparam name="U">the type of the items in the target list.</typeparam>
+    public class MyIListBinding<T, S, U> : MyCollectionBinding<T> 
+        where T : class, INotifyPropertyChanged, INotifyCollectionChanged, IEnumerable<S>
     {
-        public MyIListBinding(IList Target, Func<S, object> Creator)
+        IList Target = null;
+        Func<S, U> Creator = null;
+        Func<U, S> Query = null;
+
+        public MyIListBinding(IList Target, Func<S, U> Creator, Func<U, S> Query)
             : base(null)
         {
-            
+            this.Target = Target;
+            this.Creator = Creator;
+            this.Query = Query;
+        }
+
+        protected override void Source_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (Target == null || Creator == null)
+                return;
+
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    var ToInsert = e.NewItems.OfType<S>().Select(x => Creator(x));
+                    if (e.NewStartingIndex >= 0)
+                        Target.InsertRange(e.NewStartingIndex, ToInsert);
+                    else
+                        Target.AddRange(ToInsert);
+                    break;
+
+                case NotifyCollectionChangedAction.Move:
+                case NotifyCollectionChangedAction.Replace:
+                    Source_CollectionChanged(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, e.OldItems));
+                    Source_CollectionChanged(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, e.NewItems, e.NewStartingIndex));
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    var ToRemove = Target.OfType<U>().Where( u => e.OldItems.Contains( Query(u) ) );
+                    Target.RemoveRange(ToRemove);
+                    break;
+
+                case NotifyCollectionChangedAction.Reset:
+                    Target.Clear();
+                    break;
+            }
+        }
+
+        protected override void OnSourceChanged()
+        {
+            Source_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            if (Source != null && Source.Count() > 0)
+                Source_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, Source.ToList()));
         }
     }
 
-    public class SourceProvider<T,U> : MyBinding<T> where T : class,INotifyPropertyChanged where U : class, INotifyPropertyChanged
+    public class SourceProvider<T,U> : MyBinding<T> 
+        where T : class,INotifyPropertyChanged 
+        where U : class, INotifyPropertyChanged
     {
         List<MyBinding<U>> Children = new List<MyBinding<U>>();
         Func<T, U> Provider;
@@ -189,15 +243,24 @@ namespace TikzEdtWForms
         }
     }
 
+    /// <summary>
+    /// Usually bindings are added to the internal ist of all bindings.
+    /// 
+    /// ...unless the optional parameter is supplied...
+    /// </summary>
     public static class BindingFactory
     {
         static List<object> AllBindings = new List<object>();
 
-        public static MyBinding<T> CreateBinding<T>(T Source, string Key, Action<T> Fire, Action Fail) where T : class,INotifyPropertyChanged
+        public static MyBinding<T> CreateBinding<T>(T Source, string Key, Action<T> Fire, Action Fail, bool AddToGlobalList = true) 
+            where T : class,INotifyPropertyChanged
         {
             var b = new MyBinding<T>(Key, Fire, Fail);
             b.Source = Source;
-            AllBindings.Add(b);
+
+            if (AddToGlobalList)
+                AllBindings.Add(b);
+
             return b;
         }
 
@@ -239,6 +302,18 @@ namespace TikzEdtWForms
             var b = new MyCollectionBinding<T>(Handler);
             SrcProvider.Add(b);
             AllBindings.Add(b);
+            return b;
+        }
+
+        public static MyIListBinding<SType, SItem, TItem> CreateIListBinding<SType, SItem, TItem>(SType Source, IList Target, Func<SItem, TItem> Creator, Func<TItem, SItem> Query, bool AddToGlobalList = true)
+            where SType : class,INotifyPropertyChanged, INotifyCollectionChanged, IEnumerable<SItem>
+        {
+            var b = new MyIListBinding<SType, SItem, TItem>(Target, Creator, Query);
+            b.Source = Source;
+
+            if (AddToGlobalList)
+                AllBindings.Add(b);
+
             return b;
         }
     }

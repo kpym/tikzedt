@@ -640,7 +640,7 @@
             // 
             this.splitContainer2.Panel2.AutoScroll = true;
             this.splitContainer2.Size = new System.Drawing.Size(865, 540);
-            this.splitContainer2.SplitterDistance = 432;
+            this.splitContainer2.SplitterDistance = 431;
             this.splitContainer2.TabIndex = 0;
             // 
             // splitContainer3
@@ -658,7 +658,7 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer3.Size = new System.Drawing.Size(432, 540);
+            this.splitContainer3.Size = new System.Drawing.Size(431, 540);
             this.splitContainer3.SplitterDistance = 370;
             this.splitContainer3.TabIndex = 0;
             // 
@@ -668,7 +668,7 @@
             this.txtCode.IsReadOnly = false;
             this.txtCode.Location = new System.Drawing.Point(0, 0);
             this.txtCode.Name = "txtCode";
-            this.txtCode.Size = new System.Drawing.Size(432, 370);
+            this.txtCode.Size = new System.Drawing.Size(431, 370);
             this.txtCode.TabIndex = 0;
             this.txtCode.Text = "textEditorControl1";
             // 
@@ -681,7 +681,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(432, 166);
+            this.tabControl1.Size = new System.Drawing.Size(431, 166);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -690,7 +690,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(424, 140);
+            this.tabPage1.Size = new System.Drawing.Size(423, 140);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Status";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -702,7 +702,7 @@
             this.txtStatus.Location = new System.Drawing.Point(3, 3);
             this.txtStatus.Name = "txtStatus";
             this.txtStatus.ReadOnly = true;
-            this.txtStatus.Size = new System.Drawing.Size(418, 134);
+            this.txtStatus.Size = new System.Drawing.Size(417, 134);
             this.txtStatus.TabIndex = 0;
             this.txtStatus.Text = "";
             // 
@@ -712,7 +712,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(424, 140);
+            this.tabPage2.Size = new System.Drawing.Size(423, 140);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Errors";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -728,7 +728,7 @@
             this.lstErrors.Location = new System.Drawing.Point(3, 3);
             this.lstErrors.MultiSelect = false;
             this.lstErrors.Name = "lstErrors";
-            this.lstErrors.Size = new System.Drawing.Size(418, 134);
+            this.lstErrors.Size = new System.Drawing.Size(414, 134);
             this.lstErrors.SmallImageList = this.imageList1;
             this.lstErrors.StateImageList = this.imageList1;
             this.lstErrors.TabIndex = 0;
@@ -768,7 +768,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(424, 140);
+            this.tabPage3.Size = new System.Drawing.Size(423, 140);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "PdfLaTeX Output";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -782,7 +782,7 @@
             this.txtTexOutput.Name = "txtTexOutput";
             this.txtTexOutput.ReadOnly = true;
             this.txtTexOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtTexOutput.Size = new System.Drawing.Size(418, 134);
+            this.txtTexOutput.Size = new System.Drawing.Size(414, 134);
             this.txtTexOutput.TabIndex = 0;
             // 
             // tlbToolPane
