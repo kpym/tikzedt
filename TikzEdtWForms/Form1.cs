@@ -21,6 +21,7 @@ namespace TikzEdtWForms
         RasterControl rasterControl1;
         SnippetList snippetList1;
         FileViewer fileViewer;
+        DynamicPreamble dynamicPreamble;
         //PdfOverlay pdfOverlay1;
 
         public Form1()
@@ -84,20 +85,23 @@ namespace TikzEdtWForms
 
             fileViewer = new FileViewer() { Dock = DockStyle.Fill, Visible=false };
             splitContainer1.Panel1.Controls.Add(fileViewer);
-
+            dynamicPreamble = new DynamicPreamble() { Dock = DockStyle.Fill, Visible = false , PreamblesFile=Consts.DynPreamblesFileFullPath};
+            splitContainer1.Panel1.Controls.Add(dynamicPreamble);
+            dynamicPreamble.PreambleChanged += (s,e) => TheVM.DynamicPreamble = dynamicPreamble.Preamble;
+            TheVM.DynamicPreamble = dynamicPreamble.Preamble;
 
             //TheVM.NewCommandHandler(this, new System.Windows.Input.ExecutedRoutedEventArgs()) ;
             TheVM.CreateNewFile(false);
             
             // add bindings
-            var bs = new BindingSource(TheVM, null);
-            Binding b = new Binding("Document", bs, "TheDocument.Document", true, DataSourceUpdateMode.Never);
+            //var bs = new BindingSource(TheVM, null);
+       /*     Binding b = new Binding("Document", bs, "TheDocument.Document", true, DataSourceUpdateMode.Never);
             b.Format += new ConvertEventHandler((s,e) => 
             {
                 TextEditorDocumentWrapper W = e.Value as TextEditorDocumentWrapper;
                 if (W == null) e.Value = null;
                 else e.Value = W.Document;
-            });
+            });*/
       //      txtCode.DataBindings.Add(b);
       //      txtCode.Document = TheVM.TheDocument.Document.Document;
 
@@ -144,6 +148,7 @@ namespace TikzEdtWForms
             //TheVM.TheDocument.Parse
             //pdfOverlay1.Pars
 
+            // Note that the TheDocument.Document property is bound "automatically" by the hack described in the TextEditorDocumentWrapper class.
             var sp = BindingFactory.CreateProvider(TheVM, "TheDocument", vm => vm.TheDocument);
             BindingFactory.CreateBindingSP(sp, "ParseTree", doc => rasterControl1.ParseTree = doc.ParseTree, () => rasterControl1.ParseTree = null);
 			
@@ -193,7 +198,7 @@ namespace TikzEdtWForms
             }
             catch (Exception) { }
             splitContainer2.SplitterMoved += (s, e) => Properties.Settings.Default.OverlayCanvasCol2WidthSetting = splitContainer2.SplitterDistance;
-            splitContainer1.SplitterMoved += (s, e) => Properties.Settings.Default.LeftToolsColSelectedIndex = splitContainer1.SplitterDistance;
+            splitContainer1.SplitterMoved += (s, e) => Properties.Settings.Default.LeftToolsColWidthSetting = splitContainer1.SplitterDistance;
 
             BindingFactory.CreateBinding(S, "Editor_ShowLineNumbers", s => txtCode.ShowLineNumbers = s.Editor_ShowLineNumbers, null);
             BindingFactory.CreateBinding(S, "Editor_Font", s => txtCode.Font = s.Editor_Font, null);
@@ -208,6 +213,7 @@ namespace TikzEdtWForms
                 {
                     S.AutoCompileOnDocumentChange = TheVM.AutoCompileOnDocumentChange = autoCompilationOnChangeToolStripMenuItem.Checked;
                 };
+
 
 
             //BindingFactory.CreateBinding(S, "Snippets_ShowThumbs", s => snippetList1.ShowThumbnails = s.thu, null);
@@ -560,6 +566,7 @@ namespace TikzEdtWForms
 
             snippetList1.Visible = cmdSnippets.Checked;
             fileViewer.Visible = cmdFiles.Checked;
+            dynamicPreamble.Visible = cmdDynPreamble.Checked;
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)

@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CmdLineArgumentParser.cs" />
+    <Compile Include="CommonExtensions.cs" />
     <Compile Include="FileDownloader.cs" />
     <Compile Include="MyBinding.cs" />
     <Compile Include="MySettingsProvider.cs" />

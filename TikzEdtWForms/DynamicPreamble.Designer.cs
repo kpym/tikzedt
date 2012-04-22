@@ -28,20 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DynamicPreamble));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.textEditorControl1 = new ICSharpCode.TextEditor.TextEditorControl();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.txtPreamble = new ICSharpCode.TextEditor.TextEditorControl();
+            this.lstItems = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.cmdAdd = new System.Windows.Forms.ToolStripButton();
+            this.cmdRemove = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmdEdit = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmdUp = new System.Windows.Forms.ToolStripButton();
+            this.cmdDown = new System.Windows.Forms.ToolStripButton();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -58,39 +60,42 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.textEditorControl1);
+            this.splitContainer1.Panel1.Controls.Add(this.txtPreamble);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.listView1);
+            this.splitContainer1.Panel2.Controls.Add(this.lstItems);
             this.splitContainer1.Panel2.Controls.Add(this.toolStrip1);
             this.splitContainer1.Size = new System.Drawing.Size(302, 459);
             this.splitContainer1.SplitterDistance = 171;
             this.splitContainer1.TabIndex = 0;
             // 
-            // textEditorControl1
+            // txtPreamble
             // 
-            this.textEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textEditorControl1.IsReadOnly = false;
-            this.textEditorControl1.Location = new System.Drawing.Point(0, 0);
-            this.textEditorControl1.Name = "textEditorControl1";
-            this.textEditorControl1.Size = new System.Drawing.Size(302, 171);
-            this.textEditorControl1.TabIndex = 0;
-            this.textEditorControl1.Text = "textEditorControl1";
+            this.txtPreamble.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtPreamble.IsReadOnly = false;
+            this.txtPreamble.Location = new System.Drawing.Point(0, 0);
+            this.txtPreamble.Name = "txtPreamble";
+            this.txtPreamble.Size = new System.Drawing.Size(302, 171);
+            this.txtPreamble.TabIndex = 0;
+            this.txtPreamble.Text = "textEditorControl1";
             // 
-            // listView1
+            // lstItems
             // 
-            this.listView1.CheckBoxes = true;
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.lstItems.CheckBoxes = true;
+            this.lstItems.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.Location = new System.Drawing.Point(0, 25);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(302, 259);
-            this.listView1.TabIndex = 1;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.lstItems.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstItems.FullRowSelect = true;
+            this.lstItems.Location = new System.Drawing.Point(0, 25);
+            this.lstItems.MultiSelect = false;
+            this.lstItems.Name = "lstItems";
+            this.lstItems.Size = new System.Drawing.Size(302, 259);
+            this.lstItems.TabIndex = 1;
+            this.lstItems.UseCompatibleStateImageBehavior = false;
+            this.lstItems.View = System.Windows.Forms.View.Details;
+            this.lstItems.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lstItems_ItemChecked);
             // 
             // columnHeader1
             // 
@@ -106,73 +111,78 @@
             // 
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
-            this.toolStripButton2,
+            this.cmdAdd,
+            this.cmdRemove,
             this.toolStripSeparator2,
-            this.toolStripButton3,
+            this.cmdEdit,
             this.toolStripSeparator1,
-            this.toolStripButton4,
-            this.toolStripButton5});
+            this.cmdUp,
+            this.cmdDown});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(302, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // cmdAdd
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
+            this.cmdAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.cmdAdd.Image = ((System.Drawing.Image)(resources.GetObject("cmdAdd.Image")));
+            this.cmdAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cmdAdd.Name = "cmdAdd";
+            this.cmdAdd.Size = new System.Drawing.Size(23, 22);
+            this.cmdAdd.Text = "toolStripButton1";
+            this.cmdAdd.ToolTipText = "Add";
             // 
-            // toolStripButton2
+            // cmdRemove
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.Text = "toolStripButton2";
+            this.cmdRemove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.cmdRemove.Image = ((System.Drawing.Image)(resources.GetObject("cmdRemove.Image")));
+            this.cmdRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cmdRemove.Name = "cmdRemove";
+            this.cmdRemove.Size = new System.Drawing.Size(23, 22);
+            this.cmdRemove.Text = "toolStripButton2";
+            this.cmdRemove.ToolTipText = "Remove";
             // 
-            // toolStripButton3
+            // toolStripSeparator2
             // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton3.Text = "toolStripButton3";
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // cmdEdit
+            // 
+            this.cmdEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.cmdEdit.Image = ((System.Drawing.Image)(resources.GetObject("cmdEdit.Image")));
+            this.cmdEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cmdEdit.Name = "cmdEdit";
+            this.cmdEdit.Size = new System.Drawing.Size(23, 22);
+            this.cmdEdit.Text = "toolStripButton3";
+            this.cmdEdit.ToolTipText = "Edit";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton4
+            // cmdUp
             // 
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton4.Text = "toolStripButton4";
+            this.cmdUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.cmdUp.Image = ((System.Drawing.Image)(resources.GetObject("cmdUp.Image")));
+            this.cmdUp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cmdUp.Name = "cmdUp";
+            this.cmdUp.Size = new System.Drawing.Size(23, 22);
+            this.cmdUp.Text = "toolStripButton4";
+            this.cmdUp.ToolTipText = "Move up";
             // 
-            // toolStripButton5
+            // cmdDown
             // 
-            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton5.Text = "toolStripButton5";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.cmdDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.cmdDown.Image = ((System.Drawing.Image)(resources.GetObject("cmdDown.Image")));
+            this.cmdDown.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cmdDown.Name = "cmdDown";
+            this.cmdDown.Size = new System.Drawing.Size(23, 22);
+            this.cmdDown.Text = "toolStripButton5";
+            this.cmdDown.ToolTipText = "Move down";
             // 
             // DynamicPreamble
             // 
@@ -195,17 +205,18 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private ICSharpCode.TextEditor.TextEditorControl textEditorControl1;
-        private System.Windows.Forms.ListView listView1;
+        private ICSharpCode.TextEditor.TextEditorControl txtPreamble;
+        private System.Windows.Forms.ListView lstItems;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton cmdAdd;
+        private System.Windows.Forms.ToolStripButton cmdRemove;
+        private System.Windows.Forms.ToolStripButton cmdEdit;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
+        private System.Windows.Forms.ToolStripButton cmdUp;
+        private System.Windows.Forms.ToolStripButton cmdDown;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
