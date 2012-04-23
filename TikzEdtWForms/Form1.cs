@@ -92,6 +92,8 @@ namespace TikzEdtWForms
 
             fileViewer = new FileViewer() { Dock = DockStyle.Fill, Visible=false };
             splitContainer1.Panel1.Controls.Add(fileViewer);
+            fileViewer.OnFileSelect += new EventHandler<FileViewer.FileSelectEventArgs>(fileViewer_OnFileSelect);
+
             dynamicPreamble = new DynamicPreamble() { Dock = DockStyle.Fill, Visible = false , PreamblesFile=Consts.DynPreamblesFileFullPath};
             splitContainer1.Panel1.Controls.Add(dynamicPreamble);
             dynamicPreamble.PreambleChanged += (s,e) => TheVM.DynamicPreamble = dynamicPreamble.Preamble;
@@ -168,6 +170,7 @@ namespace TikzEdtWForms
 			BindingFactory.CreateBindingSP(sp, "NodeStyle", doc => rasterControl1.NodeStyle = doc.NodeStyle, null);
             BindingFactory.CreateBindingSP(sp, "Resolution", doc => toolStripZoomCtrlItem1.ZoomCtrl.Value = Convert.ToInt32(doc.Resolution), null);
             toolStripZoomCtrlItem1.ZoomCtrl.ValueChanged += (s, e) => TheVM.TheDocument.Resolution = toolStripZoomCtrlItem1.ZoomCtrl.Value;
+            BindingFactory.CreateBindingSP(sp, "DisplayString", doc => this.Text = "TikzEdt - " + doc.DisplayString, ()=> this.Text = "TikzEdt");
 
 			BindingFactory.CreateBinding(TheVM, "CurrentTool", vm => rasterControl1.Tool = vm.CurrentTool, null);
 			rasterControl1.ToolChanged += (sender, e) => TheVM.CurrentTool = rasterControl1.Tool;
@@ -236,6 +239,23 @@ namespace TikzEdtWForms
             //txtCode.
         }
 
+        void fileViewer_OnFileSelect(object sender, FileViewer.FileSelectEventArgs e)
+        {
+            if (e.InExternalViewer)
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(e.FileName);
+                }
+                catch (Exception)
+                {
+                    GlobalUI.UI.ShowMessageBox("Couldn't open file: " + e.FileName + ".", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                }
+            }
+            else
+                TheVM.Open(e.FileName, e.InNewInstance);
+        }
+
         void rasterControl1_JumpToSource(object sender, RasterControl.JumpToSourceEventArgs e)
         {
             txtCode.ActiveTextAreaControl.SelectionManager.SetSelection(
@@ -265,6 +285,9 @@ namespace TikzEdtWForms
             m.MenuItems.Add(i);
             i = new MenuItem("Uncomment");
             i.Click += (s, e) => uncommentToolStripMenuItem_Click(s,e);
+            m.MenuItems.Add(i);
+            i = new MenuItem("En-scope");
+            i.Click += (s, e) => enscopeToolStripMenuItem_Click(s, e);
             m.MenuItems.Add(i);
             m.MenuItems.Add(new MenuItem("-"));
             i = new MenuItem("Mark object in overlay (if possible)");
@@ -804,6 +827,15 @@ namespace TikzEdtWForms
             findReplaceMgr.FindNext();
         }
 
+        private void enscopeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (txtCode.SelectionLength() > 0)
+                txtCode.Document.Replace(txtCode.SelectionStart(), txtCode.SelectionLength(),
+                    "\\begin{scope}[]\r\n" + txtCode.SelectedText() + "\r\n\\end{scope}");
+            else
+                txtCode.Document.Insert(txtCode.CaretOffset(), "\\begin{scope}[]\r\n\r\n\\end{scope}");
+        }
+
 
 
 
@@ -859,6 +891,33 @@ namespace TikzEdtWForms
             }
 
         }
+
+
+        public static int SelectionStart(this TextEditorControl T)
+        {
+                if (T.ActiveTextAreaControl.TextArea.SelectionManager.HasSomethingSelected)
+                    return T.ActiveTextAreaControl.TextArea.SelectionManager.SelectionCollection[0].Offset;
+                else
+                    return T.ActiveTextAreaControl.Caret.Offset;
+        }
+        public static int SelectionLength(this TextEditorControl T)
+        {
+                if (T.ActiveTextAreaControl.TextArea.SelectionManager.HasSomethingSelected)
+                    return T.ActiveTextAreaControl.TextArea.SelectionManager.SelectionCollection[0].Length;
+                else
+                    return 0;
+        }
+
+        public static string SelectedText(this TextEditorControl T)
+        {
+                return T.ActiveTextAreaControl.TextArea.SelectionManager.SelectedText;
+        }
+
+        public static int CaretOffset(this TextEditorControl T)
+        {
+                return T.ActiveTextAreaControl.Caret.Offset;
+        }
+
     }
 
     /// <summary>

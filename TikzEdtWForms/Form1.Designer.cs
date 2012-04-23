@@ -61,6 +61,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.commentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uncommentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enscopeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.compileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recompileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.abortCompilationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -320,7 +321,8 @@
             this.findNextToolStripMenuItem,
             this.toolStripMenuItem3,
             this.commentToolStripMenuItem,
-            this.uncommentToolStripMenuItem});
+            this.uncommentToolStripMenuItem,
+            this.enscopeToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "&Edit";
@@ -424,6 +426,13 @@
             this.uncommentToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.uncommentToolStripMenuItem.Text = "Uncomment";
             this.uncommentToolStripMenuItem.Click += new System.EventHandler(this.uncommentToolStripMenuItem_Click);
+            // 
+            // enscopeToolStripMenuItem
+            // 
+            this.enscopeToolStripMenuItem.Name = "enscopeToolStripMenuItem";
+            this.enscopeToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.enscopeToolStripMenuItem.Text = "En-scope";
+            this.enscopeToolStripMenuItem.Click += new System.EventHandler(this.enscopeToolStripMenuItem_Click);
             // 
             // compileToolStripMenuItem
             // 
@@ -1411,6 +1420,7 @@
         private ToolStripZoomCtrlItem toolStripZoomCtrlItem1;
         private System.Windows.Forms.ToolStripStatusLabel lblMousePos;
         private System.Windows.Forms.ToolStripProgressBar ProgressCompile;
+        private System.Windows.Forms.ToolStripMenuItem enscopeToolStripMenuItem;
     }
 }
 

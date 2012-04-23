@@ -285,7 +285,7 @@ namespace TikzEdt.ViewModels
         } */
 
         /// <summary>
-        /// Tries to create a new file. Is the command parameter is true, then a new instance of TikzEdt is opened.
+        /// Tries to open file (a file open dialog is displayed). Is the parameter is true, then a new instance of TikzEdt is opened.
         /// If the current file is unsaved, the user has to be asked to save.
         /// </summary>
         public void Open(bool InNewInstance = false)
@@ -306,6 +306,20 @@ namespace TikzEdt.ViewModels
                         LoadFile(filename);
             }
         }
+        public void Open(string FileName, bool InNewInstance = false)
+        {
+            if (InNewInstance)
+            {
+                // open a new instance
+                StartNewTEInstance("\"" + FileName + "\"");
+            }
+            else
+            {
+                if (TheDocument == null || TheDocument.TryDisposeFile())
+                    LoadFile(FileName);
+            }
+        }
+
 
         public void Save() { TheDocument.SaveCurFile(); }
         public void SaveAs() { TheDocument.SaveCurFile(true); }

@@ -173,7 +173,7 @@ namespace TikzEdtWForms
             BB.Height = Height;
         }
 
-        bool IsAdornerVisible = false;
+        public bool IsAdornerVisible = false;
         public void ShowAdorner()
         {
             IsAdornerVisible = true; Parent.Invalidate();
