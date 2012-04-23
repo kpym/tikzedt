@@ -42,7 +42,8 @@
             this.savePdfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.savePdfAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparatorMRU = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openInExternalViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -198,11 +199,13 @@
             this.savePdfToolStripMenuItem,
             this.savePdfAsToolStripMenuItem,
             this.exportToolStripMenuItem,
-            this.toolStripSeparator1,
+            this.toolStripSeparatorMRU,
+            this.toolStripMenuItem4,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
+            this.fileToolStripMenuItem.DropDownOpening += new System.EventHandler(this.fileToolStripMenuItem_DropDownOpening);
             // 
             // newToolStripMenuItem
             // 
@@ -278,10 +281,15 @@
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.exportToolStripMenuItem.Text = "Export...";
             // 
-            // toolStripSeparator1
+            // toolStripSeparatorMRU
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(194, 6);
+            this.toolStripSeparatorMRU.Name = "toolStripSeparatorMRU";
+            this.toolStripSeparatorMRU.Size = new System.Drawing.Size(194, 6);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(194, 6);
             // 
             // exitToolStripMenuItem
             // 
@@ -564,6 +572,7 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.BackColor = System.Drawing.Color.Gainsboro;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProgressCompile,
             this.lblCompileInfo,
@@ -740,7 +749,7 @@
             this.lstErrors.Location = new System.Drawing.Point(3, 3);
             this.lstErrors.MultiSelect = false;
             this.lstErrors.Name = "lstErrors";
-            this.lstErrors.Size = new System.Drawing.Size(414, 134);
+            this.lstErrors.Size = new System.Drawing.Size(417, 134);
             this.lstErrors.SmallImageList = this.imageList1;
             this.lstErrors.StateImageList = this.imageList1;
             this.lstErrors.TabIndex = 0;
@@ -1311,7 +1320,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorMRU;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
@@ -1421,6 +1430,7 @@
         private System.Windows.Forms.ToolStripStatusLabel lblMousePos;
         private System.Windows.Forms.ToolStripProgressBar ProgressCompile;
         private System.Windows.Forms.ToolStripMenuItem enscopeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
     }
 }
 

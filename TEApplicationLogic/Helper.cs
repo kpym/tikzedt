@@ -63,8 +63,8 @@ namespace TikzEdt
         public const string cSnippetsFile = "TheSnippets.xml";
         public const string cDynPreamblesFile = "DynPreambles.xml";
         public const string cSnippetThumbsDir = "img";
-        public const string cMRUFile = "T2GMRU.xml";    // not used
-        public const int MaxMRU = 10;// not used
+        //public const string cMRUFile = "T2GMRU.xml";    // not used
+        //public const int MaxMRU = 10;// not used
        // public const string cStyleRepoFile = "StyleRepo.dat";
 
         //public const string CoordinateVertexStyleName = "helper";
@@ -138,6 +138,7 @@ namespace TikzEdt
         public static string SyntaxFileFullPath { get { return Path.Combine( Helper.GetAppdataPath() , Consts.cSettingsDir , Consts.cSyntaxFile); } }
         public static string CompletionsFileFullPath { get { return Path.Combine(Helper.GetAppdataPath() , Consts.cSettingsDir , Consts.cCompletionsFile); } }
         public static string DynPreamblesFileFullPath { get { return Path.Combine(Helper.GetAppdataPath() , Consts.cSettingsDir , Consts.cDynPreamblesFile); } }
+        public static string MRUFileFullPath { get { return Path.Combine(Helper.GetAppdataPath(), "RecentFiles.txt"); } }
 
         // TE preprocessor commands
         public static string PreProc_Comment = "%!TE%";

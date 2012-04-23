@@ -55,6 +55,8 @@ namespace TikzEdtWForms
       //      tikzDisplay1.Visible = false;
      //       tikzDisplay1.Parent = rasterControl1;
 
+            GlobalUI.UI.OnRecentFileEvent += (s, e) => { if (e.IsInsert) MyMRU.Insert(e.FileName); else MyMRU.Remove(e.FileName); };
+            MyMRU.OnFileOpen += (s, e) => TheVM.Open(e.FileName, ModifierKeys.HasFlag(Keys.Control));    
 
        /*     pdfOverlay1 = new PdfOverlay();
             pdfOverlay1.Left = 0;
@@ -77,6 +79,7 @@ namespace TikzEdtWForms
             rasterControl1.MouseMove += new MouseEventHandler(rasterControl1_MouseMove);
             rasterControl1.MouseWheel += new MouseEventHandler(rasterControl1_MouseWheel);
             rasterControl1.JumpToSource += new EventHandler<RasterControl.JumpToSourceEventArgs>(rasterControl1_JumpToSource);
+            rasterControl1.ReplaceText += new EventHandler<TikzEdt.Overlay.ReplaceTextEventArgs>(rasterControl1_ReplaceText);
 
             cmbEdgeStyle.TextChanged += (s, e) => TheVM.TheDocument.EdgeStyle = cmbEdgeStyle.Text;
             cmbNodeStyle.TextChanged += (s, e) => TheVM.TheDocument.NodeStyle = cmbNodeStyle.Text;
@@ -237,6 +240,19 @@ namespace TikzEdtWForms
  * */
             txtCode.SetHighlighting("Tikz");
             //txtCode.
+        }
+
+        void rasterControl1_ReplaceText(object sender, TikzEdt.Overlay.ReplaceTextEventArgs e)
+        {
+            txtCode.BeginUpdate();
+
+            // Note: we assume that the replacements are already brought into correct order !!
+            foreach (var r in e.Replacements)
+                txtCode.Document.Replace(r.StartPosition, r.Length, r.ReplacementText);
+
+            txtCode.EndUpdate();
+            txtCode.Refresh();
+        
         }
 
         void fileViewer_OnFileSelect(object sender, FileViewer.FileSelectEventArgs e)
@@ -834,6 +850,11 @@ namespace TikzEdtWForms
                     "\\begin{scope}[]\r\n" + txtCode.SelectedText() + "\r\n\\end{scope}");
             else
                 txtCode.Document.Insert(txtCode.CaretOffset(), "\\begin{scope}[]\r\n\r\n\\end{scope}");
+        }
+
+        private void fileToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            MyMRU.UpdateMenu(fileToolStripMenuItem, toolStripSeparatorMRU);
         }
 
 

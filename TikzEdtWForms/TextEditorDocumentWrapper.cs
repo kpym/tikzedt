@@ -36,6 +36,7 @@ namespace TikzEdtWForms
 
             TheOneAndOnly.ResetText();
             Document.UndoStack.ClearAll();
+            TheOneAndOnly.Refresh();
 
             Document.DocumentChanged += new DocumentEventHandler(Document_DocumentChanged);
         }

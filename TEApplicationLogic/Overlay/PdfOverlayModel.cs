@@ -25,6 +25,7 @@ namespace TikzEdt.Overlay
 
         void MarkObject(IOverlayShapeView v);
         void JumpToSourceDoIt(OverlayShape o);
+        void RaiseReplaceText(ReplaceTextEventArgs e);
         void Clear();
         void SetCursor(Cursor cursor);
 
@@ -131,6 +132,27 @@ namespace TikzEdt.Overlay
         /// </summary>
         bool IsDashed { set; }
     }
+
+
+    public class ReplaceTextEventArgs : EventArgs
+    {
+        public struct ReplaceData
+        {
+            public int StartPosition;
+            public int Length;
+            public string ReplacementText;
+        }
+        public IEnumerable<ReplaceData> Replacements;
+
+        public ReplaceTextEventArgs() { }
+        public ReplaceTextEventArgs( int tStartPosition, int tLength, string tReplacementText) 
+        {
+            var l = new List<ReplaceData>();
+            l.Add(new ReplaceData() { StartPosition = tStartPosition, Length=tLength, ReplacementText=tReplacementText });
+            Replacements = l;
+        } 
+    }
+
 
     public class PdfOverlayModel : ViewModels.ViewModelBase, OverlayInterface
     {
@@ -309,6 +331,94 @@ namespace TikzEdt.Overlay
 
             EndUpdate();        // Make sure EndUpdate() is always called (..if Beginupdate() was)!
         }
+
+
+        public enum CodeBlockAction { Copy, CopyEnscoped, Cut, CutEnscoped, Delete, Collect, CollectEnscoped }
+        /// <summary>
+        /// Performs some action on the currently selected items.
+        /// 
+        /// If necessary, raises the ReplaceText event (via calling RaiseRelaceText) to request text changes.
+        /// This is necessary since the Parsetree currently does not support deletions.
+        /// Ideally, we would directly do the changes to the Parsetree instead of firing the ReplaceText event.
+        /// </summary>
+        public void PerformCodeBlockOperation(CodeBlockAction action)
+        {
+            // The operations are only valid when the select tool is active
+            if (View.Tool != OverlayToolType.move)
+                return;
+
+            List<TikzParseItem> FullSelection = TikzParseTreeHelper.GetFullSelection(selectionTool.SelItems.Select(ols => ols.item));
+
+            if (!FullSelection.Any())
+                return;
+
+            // get codeblock text
+            string cbtext = "", cbtextE = "";
+            foreach (var tpi in FullSelection)
+                cbtext += tpi.ToString() + Environment.NewLine;
+
+            // if the selected items are within a path, enscope by adding { }. If they are within another scope or the tikzpicture, enscope by \begin{scope} \end{scope}
+            TikzContainerParseItem tc = FullSelection.First().parent;
+            if (tc is Tikz_Picture || tc is Tikz_Scope)
+                cbtextE = "\\begin{scope}[]" + Environment.NewLine + cbtext + Environment.NewLine + "\\end{scope}" + Environment.NewLine;
+            else
+                cbtextE = " { " + cbtext + " } ";
+
+
+            var ReplacementList = new List<ReplaceTextEventArgs.ReplaceData>();
+
+            if (action == CodeBlockAction.Copy)
+            {
+                Clipboard.SetText(cbtext);
+            }
+            else if (action == CodeBlockAction.CopyEnscoped)
+            {
+                Clipboard.SetText(cbtextE);
+            }
+            else if (action == CodeBlockAction.Delete || action == CodeBlockAction.Cut || action == CodeBlockAction.CutEnscoped)
+            {
+                foreach (var tpi in FullSelection)
+                    ReplacementList.Insert(0, new ReplaceTextEventArgs.ReplaceData() { StartPosition = tpi.StartPosition(), Length = tpi.Length, ReplacementText = "" });
+
+                if (action == CodeBlockAction.Cut)
+                    Clipboard.SetText(cbtext);
+                else if (action == CodeBlockAction.CutEnscoped)
+                    Clipboard.SetText(cbtextE);
+
+                View.RaiseReplaceText(new ReplaceTextEventArgs() { Replacements = ReplacementList });
+
+            }
+            else if (action == CodeBlockAction.Collect || action == CodeBlockAction.CollectEnscoped)
+            {
+                // Text to delete ... mind the order
+                foreach (var tpi in FullSelection)
+                    ReplacementList.Insert(0, new ReplaceTextEventArgs.ReplaceData() { StartPosition = tpi.StartPosition(), Length = tpi.Length, ReplacementText = "" });
+
+                // text to insert (text of selected nodes, gathered together, optionally enscoped
+                if (action == CodeBlockAction.Collect)
+                {
+                    ReplacementList.Add(new ReplaceTextEventArgs.ReplaceData()
+                    {
+                        StartPosition = FullSelection.First().StartPosition(),
+                        Length = 0,
+                        ReplacementText = cbtext
+                    });
+                }
+                else
+                {
+                    ReplacementList.Add(new ReplaceTextEventArgs.ReplaceData()
+                    {
+                        StartPosition = FullSelection.First().StartPosition(),
+                        Length = 0,
+                        ReplacementText = cbtextE
+                    });
+                }
+
+                View.RaiseReplaceText(new ReplaceTextEventArgs() { Replacements = ReplacementList });
+
+            }
+        }
+
 
         /// <summary>
         /// This recomputes the positions of all OverlayItems.

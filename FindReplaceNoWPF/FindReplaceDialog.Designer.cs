@@ -272,6 +272,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.panel1);
             this.Name = "FindReplaceDialog";
+            this.ShowIcon = false;
             this.Text = "Find/Replace";
             this.Deactivate += new System.EventHandler(this.FindReplaceDialog_Deactivate);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindReplaceDialog_KeyDown);

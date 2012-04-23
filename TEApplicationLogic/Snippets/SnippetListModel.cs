@@ -120,14 +120,17 @@ namespace TikzEdt.Snippets
 
             GlobalUI.UI.AddStatusLine(this, "Unzipping snippet thumbnails from file " + zipfile + "....");
 
-            Thread UnzipThread = new Thread(() =>
+            ZipWorker = new TESharedComponents.MyBackgroundWorker();
+            ZipWorker.DoWork += (s,e)=>
                 {
+                    string _zipfile = (e.Argument as Pair<string, string>).First;
+                    string _tgt = (e.Argument as Pair<string, string>).Second;
                     try
                     {
                         //Console.WriteLine("Unzipping...");
-                        using (var z = ZipFile.Read(zipfile))
+                        using (var z = ZipFile.Read(_zipfile))
                         {
-                            z.ExtractAll(tgt, ExtractExistingFileAction.OverwriteSilently);
+                            z.ExtractAll(_tgt, ExtractExistingFileAction.OverwriteSilently);
                         }
                         GlobalUI.UI.AddStatusLine(null, "Snippet Thimbnails unzipped successfully.");
                     }
@@ -136,11 +139,13 @@ namespace TikzEdt.Snippets
                         //Console.WriteLine("Couldn't unzip: " + ex.Message);
                         GlobalUI.UI.AddStatusLine(null, "Couldn't unzip snippets thumbnails: " + ex.Message, true);
                     }
-                });
-            UnzipThread.Start();
+                };
+
+            ZipWorker.RunWorkerAsync(new Pair<string,string>(zipfile, tgt));
 
             return true;
         }
+        private TESharedComponents.MyBackgroundWorker ZipWorker;
 
         /// <summary>
         /// Runs the Unzipper external program (must be present) to unzip

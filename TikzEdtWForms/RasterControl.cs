@@ -26,6 +26,15 @@ namespace TikzEdtWForms
 
             disablerPanel = new Panel() { Dock = DockStyle.Fill, BackColor = Color.Transparent, Visible= false, Cursor=Cursors.No };
             toolTip1.SetToolTip(disablerPanel, "Overlay out of sync. WYSIWYG editing is disabled");
+            //toolTip1.SetToolTip(this, "The WYSIWYG area");
+            //toolTip1.Popup += new PopupEventHandler(toolTip1_Popup);
+            //toolTip1.ReshowDelay = 50;
+            //toolTip1.InitialDelay = 100;
+            //toolTip1.ShowAlways = true;
+            toolTip1.Active = true;
+
+            this.MouseHover += new EventHandler(RasterControl_MouseHover);
+
             this.Controls.Add(disablerPanel);
 
             CreateContextMenu();
@@ -45,6 +54,18 @@ namespace TikzEdtWForms
             // listen to Bitmap changes
             MyBindings.Add( BindingFactory.CreateBinding(TheDisplayModel, "Bmp", (o)=>this.Invalidate(), null) );
 
+        }
+
+        void RasterControl_MouseHover(object sender, EventArgs e)
+        {
+            // display the proper tooltip
+            if (ObjectAtCursor != null && !String.IsNullOrWhiteSpace((ObjectAtCursor.View as OverlayShapeView).ToolTip))
+            {
+                var s = (ObjectAtCursor.View as OverlayShapeView).ToolTip;
+                toolTip1.Show(s, this, PointToClient(Control.MousePosition).X, PointToClient(Control.MousePosition).Y + 20);
+            }
+
+            ResetMouseEventArgs(); // not a very good solution
         }
 
         void MarkObject_Timer_Tick(object sender, EventArgs e)
@@ -92,25 +113,25 @@ namespace TikzEdtWForms
 
             mm = new MenuItem("Selection");
             i = new MenuItem("Copy");
-            i.Click += (s, e) => { };
+            i.Click += (s, e) => TheOverlayModel.PerformCodeBlockOperation(PdfOverlayModel.CodeBlockAction.Copy);
             mm.MenuItems.Add(i);
             i = new MenuItem("Copy enscoped");
-            i.Click += (s, e) => { };
+            i.Click += (s, e) => TheOverlayModel.PerformCodeBlockOperation(PdfOverlayModel.CodeBlockAction.CopyEnscoped);
             mm.MenuItems.Add(i);
             i = new MenuItem("Cut");
-            i.Click += (s, e) => {  };
+            i.Click += (s, e) => TheOverlayModel.PerformCodeBlockOperation(PdfOverlayModel.CodeBlockAction.Cut);
             mm.MenuItems.Add(i);
             i = new MenuItem("Cut enscoped");
-            i.Click += (s, e) => {  };
+            i.Click += (s, e) => TheOverlayModel.PerformCodeBlockOperation(PdfOverlayModel.CodeBlockAction.CutEnscoped);
             mm.MenuItems.Add(i);
             i = new MenuItem("Delete");
-            i.Click += (s, e) => {  };
+            i.Click += (s, e) => TheOverlayModel.PerformCodeBlockOperation(PdfOverlayModel.CodeBlockAction.Delete);
             mm.MenuItems.Add(i);
             i = new MenuItem("Collect");
-            i.Click += (s, e) => {  };
+            i.Click += (s, e) => TheOverlayModel.PerformCodeBlockOperation(PdfOverlayModel.CodeBlockAction.Collect);
             mm.MenuItems.Add(i);
             i = new MenuItem("Collect and enscope");
-            i.Click += (s, e) => {  };
+            i.Click += (s, e) => TheOverlayModel.PerformCodeBlockOperation(PdfOverlayModel.CodeBlockAction.CollectEnscoped);
             mm.MenuItems.Add(i);
             m.MenuItems.Add(mm);
 
@@ -132,18 +153,19 @@ namespace TikzEdtWForms
             // Draw the raster
             Matrix t = TheRasterModel.GetTikzToScreenTransform().ToMatrix();
             //t.Freeze();
-            
-            Pen pen = new Pen(Brushes.WhiteSmoke, 0.000001f);
-            //pen.Freeze();   
-            dc.Transform = t;
 
-            TheRasterModel.DrawRaster(
-                (p1, p2) => dc.DrawLine(pen, p1.ToPointF(), p2.ToPointF()),
-                (r1, r2) =>
-                {
-                    float rr1=(float)r1, rr2=(float)r2;
-                    dc.DrawEllipse(pen, -rr1, -rr2, 2*rr1, 2*rr2);
-                });
+            using (Pen pen = new Pen(Brushes.WhiteSmoke, 0.000001f))
+            {
+                dc.Transform = t;
+
+                TheRasterModel.DrawRaster(
+                    (p1, p2) => dc.DrawLine(pen, p1.ToPointF(), p2.ToPointF()),
+                    (r1, r2) =>
+                    {
+                        float rr1 = (float)r1, rr2 = (float)r2;
+                        dc.DrawEllipse(pen, -rr1, -rr2, 2 * rr1, 2 * rr2);
+                    });
+            }
 
             dc.ResetTransform();
 
