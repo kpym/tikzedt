@@ -297,12 +297,7 @@ namespace TikzEdt
    * */
             txtStatus.Document.Blocks.Clear();
 
-            RecentFileList.MenuClick += (s, e) => {
-                if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
-                    MainWindowVM<AvalonDocumentWrapper>.StartNewTEInstance( "\"" + e.Filepath + "\"");
-                else if (TheVM.TheDocument.TryDisposeFile()) 
-                    TheVM.LoadFile(e.Filepath); 
-            };            
+            RecentFileList.MenuClick += (s, e) => TheVM.Open(e.Filepath, Keyboard.Modifiers.HasFlag(ModifierKeys.Control));
 
             //cmbGrid.SelectedIndex = 4;
         }
@@ -2319,7 +2314,7 @@ namespace TikzEdt
             Clipboard.SetText(text);
         }
 
-        private void pdfOverlay1_ReplaceText(object sender, PdfOverlay.ReplaceTextEventArgs e)
+        private void pdfOverlay1_ReplaceText(object sender, TikzEdt.Overlay.ReplaceTextEventArgs e)
         {
             txtCode.BeginChange();
 

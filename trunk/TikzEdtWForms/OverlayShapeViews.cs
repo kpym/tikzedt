@@ -29,7 +29,7 @@ namespace TikzEdtWForms
             return new System.Windows.Rect(BB.X, Parent.Height - BB.Y - BB.Height, BB.Width, BB.Height);
         }
 
-        string ToolTip { get; set; }
+        public string ToolTip { get; set; }
         public void SetToolTip(string Text)
         {
             this.ToolTip = Text;
@@ -86,7 +86,8 @@ namespace TikzEdtWForms
         public void SetStdColor() { IsSelected = false; Parent.Invalidate(); }
         public void SetSelColor() { IsSelected = true; Parent.Invalidate(); }
 
-        protected Pen StdPen, SelPen;
+        protected abstract Pen StdPen { get ; }
+        protected abstract Pen SelPen { get; }
 
         public OverlayShapeView(Control Parent)
         {
@@ -126,8 +127,15 @@ namespace TikzEdtWForms
             BB.Width = 10;
             BB.Height = 10;
 
-            SelPen = Pens.Red;
-            StdPen = Pens.Green;
+        }
+
+        protected override Pen SelPen
+        {
+            get { return PensAndBrushes.OverlayNodeSelPen; }
+        }
+        protected override Pen StdPen
+        {
+            get { return PensAndBrushes.OverlayNodePen; }
         }
     }
 
@@ -151,9 +159,14 @@ namespace TikzEdtWForms
 
         public OverlayScopeView(Control Parent) : base(Parent)
         {
-            SelPen = new Pen(Brushes.LightGoldenrodYellow, 5);
-            StdPen = new Pen(Brushes.LightBlue, 5);
-
+        }
+        protected override Pen SelPen
+        {
+            get { return PensAndBrushes.OverlayScopeSelPen; }
+        }
+        protected override Pen StdPen
+        {
+            get { return PensAndBrushes.OverlayScopePen; }
         }
 
         public override double HitTest(double x, double y)
@@ -217,9 +230,14 @@ namespace TikzEdtWForms
         {
             BB.Width = 10;
             BB.Height = 10;
-
-            SelPen = Pens.Red;
-            StdPen = Pens.Green;
+        }
+        protected override Pen SelPen
+        {
+            get { return PensAndBrushes.OverlayNodeSelPen; }
+        }
+        protected override Pen StdPen
+        {
+            get { return PensAndBrushes.OverlayNodePen; }
         }
 
         public void SetOrigin1(double Left, double Top, double CanvasHeight)
@@ -243,7 +261,7 @@ namespace TikzEdtWForms
 
         }*/
 
-        static Pen DashedPen = new Pen(Brushes.Gray) { DashPattern = new float[] { 4, 4 } };
+        static Pen DashedPen = PensAndBrushes.DashedPenGray;
         public override void Draw(Graphics dc)
         {
             Pen p = IsSelected ? SelPen : StdPen;
@@ -459,7 +477,7 @@ namespace TikzEdtWForms
     class WFPreviewGridShape : WFRectangleShape
     {
 
-        static Pen DashedPen = new Pen(Brushes.Black) { DashPattern = new float[] { 4, 4 } };
+        static Pen DashedPen = PensAndBrushes.DashedPen;
 
         /// <summary>
         /// Draw a Grid
@@ -485,8 +503,6 @@ namespace TikzEdtWForms
         public bool IsPie { get; set; }
         public bool IsLargeArc { get; set; }
 
-        static Pen DashedPen = new Pen(Brushes.Black) { DashPattern = new float[] { 4, 4 } };
-
         double r { get { return (p1 - center).Length; } }
 
         public bool IsDashed
@@ -503,7 +519,7 @@ namespace TikzEdtWForms
 
         public override void Draw(Graphics dc)
         {
-            Pen p = IsDashed ? DashedPen : ThePen;
+            Pen p = IsDashed ? PensAndBrushes.DashedPen : ThePen;
             float R = (float) (center-p1).Length;   // the radius of the circle
             var diag = new System.Windows.Vector(R,R);
             RectangleF re = new System.Windows.Rect(center+diag, center-diag).ToRectangleF();  // BB of the circle
@@ -543,5 +559,58 @@ namespace TikzEdtWForms
         }
     }
 
-    
+    public static class PensAndBrushes
+    {
+        public static Pen DashedPen;
+        public static Pen OverlayScopePen;
+        public static Pen OverlayScopeSelPen;
+        public static Pen OverlayNodePen;
+        public static Pen OverlayNodeSelPen;
+        public static Pen DashedPenGray;
+        public static Brush SelectionRectFill;
+
+
+        static PensAndBrushes()
+        {
+            CreatePens();
+            DashedPen = new Pen(Brushes.Black) { DashPattern = new float[] { 4, 4 } };
+            DashedPenGray = new Pen(Brushes.Gray) { DashPattern = new float[] { 4, 4 } };
+            SelectionRectFill = new SolidBrush(Color.FromArgb(0x23, 0x00, 0x8A, 0xCA));
+
+            Properties.Settings.Default.PropertyChanged += (s, e) =>
+                {
+                    var names = new string[] { "Overlay_ScopeColor", "Overlay_ScopeSelColor", "Overlay_CoordColor", "Overlay_CoordSelColor" };
+                    if (names.Contains(e.PropertyName))
+                        PensAndBrushes.RecreatePens();
+                };
+        }
+
+
+        static void CreatePens()
+        {
+            OverlayScopePen = new Pen(Properties.Settings.Default.Overlay_ScopeColor);
+            OverlayScopeSelPen = new Pen(Properties.Settings.Default.Overlay_ScopeSelColor);
+            OverlayNodePen = new Pen(Properties.Settings.Default.Overlay_CoordColor);
+            OverlayNodeSelPen = new Pen(Properties.Settings.Default.Overlay_CoordSelColor);
+        }
+
+        static void DisposePens()
+        {
+            //if (DashedPen != null)          { DashedPen.Dispose(); DashedPen = null; }
+            //if (DashedPenGray != null)      { DashedPenGray.Dispose(); DashedPenGray = null; }
+            if (OverlayScopePen != null)    { OverlayScopePen.Dispose(); OverlayScopePen = null; }
+            if (OverlayScopeSelPen != null) { OverlayScopeSelPen.Dispose(); OverlayScopeSelPen = null; }
+            if (OverlayNodePen != null)     { OverlayNodePen.Dispose(); OverlayNodePen = null; }
+            if (OverlayNodeSelPen != null)  { OverlayNodeSelPen.Dispose(); OverlayNodeSelPen = null; }
+        }
+
+        public static void RecreatePens()
+        {
+            DisposePens(); 
+            CreatePens();
+        }
+
+
+    }
+
 }

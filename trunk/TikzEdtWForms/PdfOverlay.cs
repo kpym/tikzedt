@@ -34,6 +34,10 @@ namespace TikzEdtWForms
             
         }
 
+        void IPdfOverlayView.RaiseReplaceText(ReplaceTextEventArgs e)
+        {
+        }
+
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
@@ -425,6 +429,13 @@ namespace TikzEdtWForms
         }
 
         /// <summary>
+        /// This event is called when the user requests some edits to the text that cannot be done by editing the parsetree.
+        /// (Note: currently the parsetree does not support deleting nodes.)
+        /// The Codeblock-commands use this event
+        /// </summary>
+        public event EventHandler<ReplaceTextEventArgs> ReplaceText;
+
+        /// <summary>
         /// Called whenever the tool changes.
         /// </summary>
         public event EventHandler ToolChanged;
@@ -583,7 +594,7 @@ namespace TikzEdtWForms
         {
             var o = new WFRectangleShape(this);
             o.ThePen = Pens.Blue;
-            o.TheFill = new SolidBrush(Color.FromArgb(0x23, 0x00, 0x8A, 0xCA));
+            o.TheFill = PensAndBrushes.SelectionRectFill;
             PreviewShapes.Add(o);
             return o;
         }
@@ -661,6 +672,11 @@ namespace TikzEdtWForms
             }
         }
 
+        void IPdfOverlayView.RaiseReplaceText(ReplaceTextEventArgs e)
+        {
+            if (ReplaceText != null)
+                ReplaceText(this, e);
+        }
 
         private string _EdgeStyle;
 
@@ -780,6 +796,9 @@ namespace TikzEdtWForms
             get { return Capture; }
         }
 
+        /// <summary>
+        /// The cursor position, in top left centric coordinates
+        /// </summary>
         public System.Windows.Point CursorPosition
         {
             get { return PointToClient(Control.MousePosition).ToPoint(); }
