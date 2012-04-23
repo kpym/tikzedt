@@ -390,6 +390,14 @@ namespace TikzEdtWForms
         List<OverlayShapeView> OSViews = new List<OverlayShapeView>();
         List<WFShapeBase> PreviewShapes = new List<WFShapeBase>();
 
+        /// <summary>
+        /// Controls where the object marker is shown if the object needs to be marked.
+        /// </summary>
+        IOverlayShapeView MarkObject_Marked = null;
+        bool MarkObject_ShowMarker = false;
+        System.Windows.Forms.Timer MarkObject_Timer = new Timer();
+        int MarkObject_BlinkCount = 0;
+
         public PdfOverlayModel TheOverlayModel {get; private set;}
 
         Panel disablerPanel;
@@ -738,7 +746,12 @@ namespace TikzEdtWForms
 
         public void MarkObject(IOverlayShapeView v)
         {
-            // todo
+            MarkObject_Timer.Stop();
+            MarkObject_BlinkCount = 0;
+            MarkObject_Marked = v;
+            MarkObject_ShowMarker = true;
+            MarkObject_Timer.Start();
+            Invalidate();
         }
 
         public void JumpToSourceDoIt(OverlayShape o)

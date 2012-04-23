@@ -5,6 +5,8 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows;
+using System.Threading;
+using Ionic.Zip;
 
 namespace TikzEdt.Snippets
 {
@@ -98,31 +100,80 @@ namespace TikzEdt.Snippets
             if (!Directory.Exists(Helper.GetSnippetsPath()))
             {
                 // first try to unzip snippets
-                string zip = System.IO.Path.Combine(Helper.GetAppDir(), Consts.cSnippetThumbsZipfile);
-                string unzipper = System.IO.Path.Combine(Helper.GetAppDir(), Consts.cUnzipper);
-                if (File.Exists(zip) && File.Exists(unzipper))
+                if ( !UnzipSnippetsMySelf() )
+                    CompileSnippets(); // if failed-> ask the user to recompile
+            }
+
+        }
+
+        /// <summary>
+        /// Unzips the snippets using the zip library, in a new thread.
+        /// </summary>
+        /// <returns></returns>
+        private bool UnzipSnippetsMySelf()
+        {
+            string zipfile = System.IO.Path.Combine(Helper.GetAppDir(), Consts.cSnippetThumbsZipfile);
+            string tgt = Helper.GetAppdataPath();
+
+            if (!File.Exists(zipfile))
+                return false;
+
+            GlobalUI.UI.AddStatusLine(this, "Unzipping snippet thumbnails from file " + zipfile + "....");
+
+            Thread UnzipThread = new Thread(() =>
                 {
                     try
                     {
-                        GlobalUI.UI.AddStatusLine(this, "Unzipping snippet thumbnails from file " + zip + "....");
-                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                        //Console.WriteLine("Unzipping...");
+                        using (var z = ZipFile.Read(zipfile))
                         {
-                            UseShellExecute = false,
-                            FileName = unzipper,
-                            Arguments = "\"" + zip + "\" \"" + Helper.GetAppdataPath() + "\"",
-                            CreateNoWindow = true
-                        });
+                            z.ExtractAll(tgt, ExtractExistingFileAction.OverwriteSilently);
+                        }
+                        GlobalUI.UI.AddStatusLine(null, "Snippet Thimbnails unzipped successfully.");
                     }
                     catch (Exception ex)
                     {
-                        GlobalUI.UI.AddStatusLine(this, "Unzipping snippet thumbnails failed: " + ex.Message, true);
-                        CompileSnippets();  // in case of failure, try to recompile snippets
+                        //Console.WriteLine("Couldn't unzip: " + ex.Message);
+                        GlobalUI.UI.AddStatusLine(null, "Couldn't unzip snippets thumbnails: " + ex.Message, true);
                     }
+                });
+            UnzipThread.Start();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Runs the Unzipper external program (must be present) to unzip
+        /// </summary>
+        /// <returns>true if Unzipper could be started, false if a problem occurred</returns>
+        private bool UnzipSnippetsViaUnzipper()
+        {
+            string zip = System.IO.Path.Combine(Helper.GetAppDir(), Consts.cSnippetThumbsZipfile);
+            string unzipper = System.IO.Path.Combine(Helper.GetAppDir(), Consts.cUnzipper);
+            if (File.Exists(zip) && File.Exists(unzipper))
+            {
+                try
+                {
+                    GlobalUI.UI.AddStatusLine(this, "Unzipping snippet thumbnails from file " + zip + "....");
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                    {
+                        UseShellExecute = false,
+                        FileName = unzipper,
+                        Arguments = "\"" + zip + "\" \"" + Helper.GetAppdataPath() + "\"",
+                        CreateNoWindow = true
+                    });
+
+                    return true;
                 }
-                else
-                    CompileSnippets();
+                catch (Exception ex)
+                {
+                    GlobalUI.UI.AddStatusLine(this, "Unzipping snippet thumbnails failed: " + ex.Message, true);
+                    CompileSnippets();  // in case of failure, try to recompile snippets
+                }
+
             }
 
+            return false;
         }
 
 

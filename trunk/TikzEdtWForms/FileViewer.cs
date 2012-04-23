@@ -26,6 +26,55 @@ namespace TikzEdtWForms
             cmbFilter.SelectedIndexChanged += (s, e) => PopulateList();
             CurrentFolder = Directory.GetCurrentDirectory();
 
+            CreateContextMenu();
+
+        }
+
+        private void CreateContextMenu()
+        {
+            var m = lstFiles.ContextMenu = new ContextMenu();
+            var i = new MenuItem("Open");
+            i.DefaultItem = true;
+            i.Click += (s,e) => lstFiles_MouseDoubleClick(s,e);
+            m.MenuItems.Add(i);
+            i = new MenuItem("Open in new instance");
+            i.Click += (s,e) => RaiseSelectEvent(true, false);
+            m.MenuItems.Add(i);
+            i = new MenuItem("Open externally");
+            i.Click += (s, e) => RaiseSelectEvent(false, true);
+            m.MenuItems.Add(i);
+            i = new MenuItem("-");
+            m.MenuItems.Add(i);
+            i = new MenuItem("Explore current folder");
+            i.Click += (s, e) =>
+            {
+                if (OnFileSelect != null)
+                    OnFileSelect(this, new FileSelectEventArgs()
+                    {
+                        FileName = CurrentFolder, // + (CurrentFolder.EndsWith(Path.DirectorySeparatorChar.ToString()) ? "" : Path.DirectorySeparatorChar.ToString()),
+                        InNewInstance = false,
+                        InExternalViewer = true
+                    });
+            };
+            m.MenuItems.Add(i);
+        }
+
+        void RaiseSelectEvent(bool NewInstance, bool ExternalViewer)
+        {
+            if (lstFiles.SelectedItems.Count == 1)
+            {
+                if (lstFiles.SelectedItems[0].ImageIndex == 1)   // file
+                {
+                    if (OnFileSelect != null)
+                        OnFileSelect(this, new FileSelectEventArgs()
+                        {
+                            FileName = Path.Combine(CurrentFolder, lstFiles.SelectedItems[0].Text),
+                            InNewInstance = NewInstance,
+                            InExternalViewer = ExternalViewer
+                        });
+
+                }
+            }
         }
 
         #region properties
@@ -55,6 +104,11 @@ namespace TikzEdtWForms
         public class FileSelectEventArgs : EventArgs
         {
             public string FileName;
+            /// <summary>
+            /// If true, file should be opened in external viewer regardless of the InNewInstance value. 
+            /// </summary>
+            public bool InExternalViewer = false;
+            public bool InNewInstance = false;
         }
 
         #endregion
@@ -102,7 +156,7 @@ namespace TikzEdtWForms
             CurrentFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         }
 
-        private void lstFiles_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void lstFiles_MouseDoubleClick(object sender, EventArgs e)
         {
             if (lstFiles.SelectedItems.Count == 1)
             {
@@ -113,7 +167,10 @@ namespace TikzEdtWForms
                 else  // file
                 {
                     if (OnFileSelect != null)
-                        OnFileSelect(this, new FileSelectEventArgs() { FileName = Path.Combine(CurrentFolder, lstFiles.SelectedItems[0].Text) });
+                        OnFileSelect(this, new FileSelectEventArgs() 
+                        { 
+                            FileName = Path.Combine(CurrentFolder, lstFiles.SelectedItems[0].Text), 
+                            InNewInstance = Control.ModifierKeys.HasFlag(Keys.Control) });
 
                 }
             }

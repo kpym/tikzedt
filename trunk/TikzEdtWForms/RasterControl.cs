@@ -39,9 +39,28 @@ namespace TikzEdtWForms
 
             TheOverlayModel = new PdfOverlayModel(this, this);
 
+            MarkObject_Timer.Interval = 500;
+            MarkObject_Timer.Tick += new EventHandler(MarkObject_Timer_Tick);
+
             // listen to Bitmap changes
             MyBindings.Add( BindingFactory.CreateBinding(TheDisplayModel, "Bmp", (o)=>this.Invalidate(), null) );
 
+        }
+
+        void MarkObject_Timer_Tick(object sender, EventArgs e)
+        {
+            MarkObject_BlinkCount++;
+            if (MarkObject_BlinkCount < 10)
+            {
+                MarkObject_ShowMarker = !MarkObject_ShowMarker;
+            }
+            else
+            {
+                MarkObject_ShowMarker = false;
+                MarkObject_Timer.Enabled = false;
+                MarkObject_Marked = null;
+            }
+            Invalidate();
         }
 
         OverlayShape PopupSource = null;
@@ -144,6 +163,7 @@ namespace TikzEdtWForms
                 dc.DrawImageUnscaled(TheDisplayModel.Bmp, p);
             }
 
+            // draw the overlay
             if (ShowOverlay)
             {
                 // draw shapes from parsetree
@@ -155,6 +175,34 @@ namespace TikzEdtWForms
                     ps.Draw(pe.Graphics);
 
             }
+
+            // draw adorner(s)
+            foreach (var scope in this.OSViews.OfType<OverlayScopeView>().Where(v => v.IsAdornerVisible))
+            {
+                System.Windows.Rect ShowAt = scope.GetBB();
+                ShowAt.Inflate(6, 6);
+
+                using (var b = new HatchBrush(HatchStyle.ForwardDiagonal, Color.Black))
+                {
+                    using (var p = new Pen(b, 5))
+                    {
+                        dc.DrawRectangle(p, ShowAt.ToRectangleF());
+                    }
+                }
+            }
+
+
+            // draw the object marker
+            if (MarkObject_ShowMarker && MarkObject_Marked != null)
+            {
+                System.Windows.Rect ShowAt = MarkObject_Marked.GetBB();
+                ShowAt.Inflate(15,15);
+                using (Pen p = new Pen(Brushes.Red, 6))
+                {
+                    dc.DrawEllipse(p, ShowAt.ToRectangleF());
+                }
+            }
+
         }
 
         /// <summary>

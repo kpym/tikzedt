@@ -2292,11 +2292,13 @@ namespace TikzEdt
             // open file, either in this window or in a new instance, depending on the command parameter
             if (e.CommandParameter == null)
             {
-                if (TheVM.TheDocument.TryDisposeFile())
-                    TheVM.LoadFile(e.FileName);
+                //if (TheVM.TheDocument.TryDisposeFile())
+                //    TheVM.LoadFile(e.FileName);
+                TheVM.Open(e.FileName);
             }
             else if ((string)e.CommandParameter == "newinstance")
-                MainWindowVM<AvalonDocumentWrapper>.StartNewTEInstance( "\"" + e.FileName + "\"");
+                TheVM.Open(e.FileName, true);
+            //MainWindowVM<AvalonDocumentWrapper>.StartNewTEInstance( "\"" + e.FileName + "\"");
             else if ((string)e.CommandParameter == "externalviewer")
             {
                 try
