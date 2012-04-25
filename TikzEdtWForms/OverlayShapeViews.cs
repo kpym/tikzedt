@@ -24,7 +24,7 @@ namespace TikzEdtWForms
         protected Control Parent;
 
         // in upside down coordinates
-        public virtual System.Windows.Rect GetBB()
+        public virtual System.Windows.Rect GetBB(double CanvasHeight)
         {
             return new System.Windows.Rect(BB.X, Parent.Height - BB.Y - BB.Height, BB.Width, BB.Height);
         }
@@ -45,7 +45,7 @@ namespace TikzEdtWForms
         /// <returns></returns>
         public virtual double HitTest(double x, double y)
         {
-            var lBB = GetBB();
+            var lBB = GetBB(Parent.Height);
             if (lBB.Contains(x, y))
             {
                 return (new System.Windows.Point(x, y) - lBB.Center()).Length;
@@ -117,7 +117,7 @@ namespace TikzEdtWForms
         public override void Draw(Graphics dc)
         {
             Pen p = IsSelected ? SelPen : StdPen;
-            RectangleF lBB = GetBB().ToRectangleF();
+            RectangleF lBB = GetBB(Parent.Height).ToRectangleF();
             dc.DrawLine(p, lBB.TopLeft(), lBB.BottomRight());
             dc.DrawLine(p, lBB.BottomLeft(), lBB.TopRight());
         }
@@ -171,8 +171,8 @@ namespace TikzEdtWForms
 
         public override double HitTest(double x, double y)
         {
-            var lBB = GetBB();
-            var lBBs = GetBB();
+            var lBB = GetBB(Parent.Height);
+            var lBBs = GetBB(Parent.Height);
             lBBs.Inflate(10,10);
             if (lBB.Contains(x, y) && lBBs.Contains(x, y))
                 return 10;
@@ -209,7 +209,7 @@ namespace TikzEdtWForms
 
         public override void Draw(Graphics dc)
         {
-            RectangleF lBB = GetBB().ToRectangleF();
+            RectangleF lBB = GetBB(Parent.Height).ToRectangleF();
             Pen p = IsSelected ? SelPen : StdPen;
 
             dc.DrawRectangle(p, lBB.X, lBB.Y, lBB.Width, lBB.Height);
@@ -265,7 +265,7 @@ namespace TikzEdtWForms
         public override void Draw(Graphics dc)
         {
             Pen p = IsSelected ? SelPen : StdPen;
-            RectangleF lBB = GetBB().ToRectangleF();
+            RectangleF lBB = GetBB(Parent.Height).ToRectangleF();
 
             // draw lines
             if (L1Visible)
@@ -568,6 +568,7 @@ namespace TikzEdtWForms
         public static Pen OverlayNodeSelPen;
         public static Pen DashedPenGray;
         public static Brush SelectionRectFill;
+        public static Pen AdornerPen;
 
 
         static PensAndBrushes()
@@ -576,6 +577,7 @@ namespace TikzEdtWForms
             DashedPen = new Pen(Brushes.Black) { DashPattern = new float[] { 4, 4 } };
             DashedPenGray = new Pen(Brushes.Gray) { DashPattern = new float[] { 4, 4 } };
             SelectionRectFill = new SolidBrush(Color.FromArgb(0x23, 0x00, 0x8A, 0xCA));
+            AdornerPen = new Pen(new System.Drawing.Drawing2D.HatchBrush(System.Drawing.Drawing2D.HatchStyle.ForwardDiagonal, Color.Black, Color.White), 5);
 
             Properties.Settings.Default.PropertyChanged += (s, e) =>
                 {
@@ -588,8 +590,8 @@ namespace TikzEdtWForms
 
         static void CreatePens()
         {
-            OverlayScopePen = new Pen(Properties.Settings.Default.Overlay_ScopeColor);
-            OverlayScopeSelPen = new Pen(Properties.Settings.Default.Overlay_ScopeSelColor);
+            OverlayScopePen = new Pen(Properties.Settings.Default.Overlay_ScopeColor, 5);
+            OverlayScopeSelPen = new Pen(Properties.Settings.Default.Overlay_ScopeSelColor, 5);
             OverlayNodePen = new Pen(Properties.Settings.Default.Overlay_CoordColor);
             OverlayNodeSelPen = new Pen(Properties.Settings.Default.Overlay_CoordSelColor);
         }

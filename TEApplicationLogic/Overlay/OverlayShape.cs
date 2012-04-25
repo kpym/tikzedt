@@ -11,7 +11,7 @@ namespace TikzEdt.Overlay
     {
         public IOverlayShapeView View;
 
-        public Rect getBB() { return View.GetBB(); }
+        public Rect getBB() { return View.GetBB(pol.Height); }
 
         public PdfOverlayModel pol;
         /// <summary>
@@ -36,7 +36,7 @@ namespace TikzEdt.Overlay
 
     public class OverlayScope : OverlayShape
     {
-        public new IOverlayScopeView View;
+        public IOverlayScopeView ScopeView;
         public List<OverlayShape> children = new List<OverlayShape>();
         public Tikz_Scope tikzitem;
         public override TikzParseItem item { get { return tikzitem; } }
@@ -51,7 +51,7 @@ namespace TikzEdt.Overlay
             foreach (OverlayShape o in children)
             {
                 o.AdjustPosition(Resolution);
-                Rect rr = o.View.GetBB();
+                Rect rr = o.View.GetBB(pol.Height);
                 if (hasone)
                     r.Union(rr);
                 else
@@ -64,8 +64,8 @@ namespace TikzEdt.Overlay
             {
                 r.Inflate(20, 20);
                 //r = new Rect(10, 10, 100, 100);
-                View.SetSize( r.Width, r.Height);
-                View.SetPosition(r.X, r.Y);
+                ScopeView.SetSize(r.Width, r.Height);
+                ScopeView.SetPosition(r.X, r.Y);
                 return true;
             }
             else return false;
@@ -90,7 +90,7 @@ namespace TikzEdt.Overlay
 
         public OverlayScope(IOverlayScopeView View)
         {
-            this.View = View;
+            this.View = this.ScopeView= View;
             View.TheUnderlyingShape = this;
         }
     }

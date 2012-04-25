@@ -14,6 +14,8 @@ namespace TikzEdtWForms
         [STAThread]
         static void Main()
         {
+            Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
+
             string[] Args = Environment.GetCommandLineArgs();
 
             GlobalUI.UI = new GlobalUIWinForms();
@@ -45,6 +47,59 @@ namespace TikzEdtWForms
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
         }
+
+        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            // Global exception handler
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                // in debug mode, let the debugger handle the exception
+            }
+            else
+            {
+                if (e == null || e.Exception == null)
+                    return;
+
+                System.Windows.Forms.DialogResult result = System.Windows.Forms.DialogResult.Cancel;
+                try
+                {
+                    result = AppMethods.ShowThreadExceptionDialog(e.Exception);
+                }
+                catch
+                {
+                    try
+                    {
+                        MessageBox.Show("An error occurred in TikzEdt. Sorry for the inconvenience. Please save and restart TikzEdt."+Environment.NewLine +
+                            (e.Exception != null? e.Exception.Message : ""), "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    }
+                    catch (Exception)
+                    { }
+                    finally
+                    {
+                        //System.Environment.Exit(1);
+                        //Application.Current.MainWindow.Close();
+                    }
+                }
+
+                try
+                {
+                    // Exits the program when the user clicks Abort.
+                    if (result == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        System.Environment.Exit(1);
+                    }
+                    else if (result == System.Windows.Forms.DialogResult.No)
+                    {
+                        
+                    }
+
+                }
+                catch (Exception)
+                { }
+
+                
+            }            
+        }
 		
 		/// <summary>
 		/// This is a workaround to cope with a Mono bug, not writing the default settings to file.
@@ -73,7 +128,8 @@ namespace TikzEdtWForms
 			S.OverlayCanvasCol2WidthSetting = S.OverlayCanvasCol2WidthSetting;
 			S.Overlay_CoordColor = S.Overlay_CoordColor;
 			S.Overlay_CoordSelColor = S.Overlay_CoordSelColor;
-			S.Overlay_ScopeColor = S.Overlay_ScopeSelColor;
+			S.Overlay_ScopeColor = S.Overlay_ScopeColor;
+            S.Overlay_ScopeSelColor = S.Overlay_ScopeSelColor;
 			S.Path_externalviewer = S.Path_externalviewer;
 			S.Path_htlatex = S.Path_htlatex;
 			S.Path_pdflatex = S.Path_pdflatex;

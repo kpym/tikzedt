@@ -23,6 +23,9 @@ namespace TikzEdtWForms
         FileViewer fileViewer;
         DynamicPreamble dynamicPreamble;
         FindReplaceNoWPF.FindReplaceMgr findReplaceMgr;
+        ToolStripLabel lblStandAlone;
+        ToolStripTextBox  txtRadialOffset, txtRadialSteps;
+        ToolStripComboBox cmbGrid;
         //PdfOverlay pdfOverlay1;
 
         public Form1()
@@ -40,6 +43,20 @@ namespace TikzEdtWForms
             // The order should be exactly the same as that in the OverlayToolType enum!!!
             ToolButtons = new List<ToolStripButton> { cmdMove, cmdNode, cmdEdge, cmdPath, cmdSmoothCurve, cmdBezier, cmdRectangle, cmdEllipse, cmdGrid, cmdArc, cmdArcEdit };
             ToolPaneButtons = new List<ToolStripButton> { cmdSnippets, cmdFiles, cmdDynPreamble };
+
+            lblStandAlone = new ToolStripLabel("[Document is standalone]") {  Visible= false };
+            statusStrip1.Items.Insert(2, lblStandAlone);
+            statusStrip1.Items.Insert(3, new ToolStripLabel("Grid:"));
+            cmbGrid = new ToolStripComboBox() { Width=50 };
+            cmbGrid.ComboBox.MaximumSize = new Size(50, 0);
+            cmbGrid.ComboBox.Items.AddRange(new double[] { 0, 0.1, 0.2, 0.5, 1, 2, 5 });
+            statusStrip1.Items.Insert(4, cmbGrid);
+            statusStrip1.Items.Insert(5, new ToolStripLabel("RS:"));
+            txtRadialSteps = new ToolStripTextBox();
+            statusStrip1.Items.Insert(6, txtRadialSteps);
+            statusStrip1.Items.Insert(7, new ToolStripLabel("RO:"));
+            txtRadialOffset = new ToolStripTextBox();
+            statusStrip1.Items.Insert(8, txtRadialOffset);
 
             findReplaceMgr = new FindReplaceNoWPF.FindReplaceMgr();
             //findReplaceMgr.Editors = new object[] { new FindReplaceNoWPF.TextEditorAdapter(txtCode) };
@@ -106,59 +123,8 @@ namespace TikzEdtWForms
             TheVM.CreateNewFile(false);
             
             // add bindings
-            //var bs = new BindingSource(TheVM, null);
-       /*     Binding b = new Binding("Document", bs, "TheDocument.Document", true, DataSourceUpdateMode.Never);
-            b.Format += new ConvertEventHandler((s,e) => 
-            {
-                TextEditorDocumentWrapper W = e.Value as TextEditorDocumentWrapper;
-                if (W == null) e.Value = null;
-                else e.Value = W.Document;
-            });*/
-      //      txtCode.DataBindings.Add(b);
-      //      txtCode.Document = TheVM.TheDocument.Document.Document;
-
-     //       b = new Binding("ReloadPdf", bs, "TheDocument.ReloadPdf", false, DataSourceUpdateMode.Never);
-     //       rasterControl1.DataBindings.Add(b);
-            //TheVM.TheDocument.
-            //tikzDisplay1.Bou
-     //       b = new Binding("PdfPath", bs, "TheDocument.PdfPath", false, DataSourceUpdateMode.Never);
-     //       rasterControl1.DataBindings.Add(b);
-        //    b = new Binding("Resolution", bs, "TheDocument.Resolution", false, DataSourceUpdateMode.Never);
-       //     tikzDisplay1.DataBindings.Add(b);
-
-            
-     //       b = new Binding("Resolution", bs, "TheDocument.Resolution", false, DataSourceUpdateMode.Never);
-     //       rasterControl1.DataBindings.Add(b);
-     //       b = new Binding("BB", bs, "TheDocument.CurrentBB", false, DataSourceUpdateMode.Never);
-     //       rasterControl1.DataBindings.Add(b);
-
-        //    b = new Binding("BB", bs, "TheDocument.CurrentBB", false, DataSourceUpdateMode.Never);
-        //    pdfOverlay1.DataBindings.Add(b);
-       //     b = new Binding("Tool", bs, "CurrentTool", false, DataSourceUpdateMode.OnPropertyChanged);
-       //     rasterControl1.DataBindings.Add(b);
-     //       b = new Binding("Resolution", bs, "TheDocument.Resolution", false, DataSourceUpdateMode.Never);
-      //      pdfOverlay1.DataBindings.Add(b);
-      //      b = new Binding("AllowEditing", bs, "TheDocument.AllowEditing", false, DataSourceUpdateMode.Never);
-      //      rasterControl1.DataBindings.Add(b);
-
-      //      b = new Binding("EdgeStyle", bs, "TheDocument.EdgeStyle", false, DataSourceUpdateMode.Never);
-      //      rasterControl1.DataBindings.Add(b);
-      //      b = new Binding("NodeStyle", bs, "TheDocument.NodeStyle", false, DataSourceUpdateMode.Never);
-      //      rasterControl1.DataBindings.Add(b);
-
             rasterControl1.DataBindings.Add("ShowOverlay", cmdShowOverlay, "Checked");
             rasterControl1.DataBindings.Add("UsePolarCoordinates", chkUsePolar, "Checked");
-            
-
-      //      b = new Binding("Text", bs, "TheDocument.EdgeStyle", false, DataSourceUpdateMode.Never);
-      //      cmbEdgeStyle.DataBindings.Add(b);
-      //      b = new Binding("Text", bs, "TheDocument.NodeStyle", false, DataSourceUpdateMode.Never);
-      //      cmbNodeStyle.DataBindings.Add(b);
-
-            //b = new Binding("ParseTree", bs, "TheDocument.ParseTree", false, DataSourceUpdateMode.Never);
-            //pdfOverlay1.DataBindings.Add(b);
-            //TheVM.TheDocument.Parse
-            //pdfOverlay1.Pars
 
             // Note that the TheDocument.Document property is bound "automatically" by the hack described in the TextEditorDocumentWrapper class.
             var sp = BindingFactory.CreateProvider(TheVM, "TheDocument", vm => vm.TheDocument);
@@ -174,10 +140,37 @@ namespace TikzEdtWForms
             BindingFactory.CreateBindingSP(sp, "Resolution", doc => toolStripZoomCtrlItem1.ZoomCtrl.Value = Convert.ToInt32(doc.Resolution), null);
             toolStripZoomCtrlItem1.ZoomCtrl.ValueChanged += (s, e) => TheVM.TheDocument.Resolution = toolStripZoomCtrlItem1.ZoomCtrl.Value;
             BindingFactory.CreateBindingSP(sp, "DisplayString", doc => this.Text = "TikzEdt - " + doc.DisplayString, ()=> this.Text = "TikzEdt");
+            BindingFactory.CreateBindingSP(sp, "IsStandAlone", doc => lblStandAlone.Visible = doc.IsStandAlone, () => lblStandAlone.Visible = false);
 
-			BindingFactory.CreateBinding(TheVM, "CurrentTool", vm => rasterControl1.Tool = vm.CurrentTool, null);
+
+            BindingFactory.CreateBinding(TheVM, "RasterRadialOffset", vm =>
+                    { txtRadialOffset.TextBox.Text = vm.RasterRadialOffset.ToString(); rasterControl1.RadialOffset = vm.RasterRadialOffset;  }, null);
+            BindingFactory.CreateBinding(TheVM, "RasterSteps", vm =>
+                    { txtRadialSteps.TextBox.Text = vm.RasterSteps.ToString(); rasterControl1.RasterRadialSteps = (uint)vm.RasterSteps; }, null);
+            BindingFactory.CreateBinding(TheVM, "RasterWidth", vm =>
+                    { cmbGrid.ComboBox.Text = vm.RasterWidth.ToString(); rasterControl1.RasterWidth = vm.RasterWidth; }, null);
+            txtRadialOffset.TextChanged += (s, e) => { 
+                double d; 
+                if (Double.TryParse(txtRadialOffset.TextBox.Text, out d)) 
+                    TheVM.RasterRadialOffset = d; };
+            txtRadialSteps.TextChanged += (s, e) => {
+                uint d; 
+                if (UInt32.TryParse(txtRadialSteps.TextBox.Text, out d)) 
+                    TheVM.RasterSteps = (int)d; };
+            cmbGrid.ComboBox.TextChanged += (s, e) => {
+                double d; 
+                if (Double.TryParse(cmbGrid.ComboBox.Text, out d)) 
+                    TheVM.RasterWidth = d; };
+
 			rasterControl1.ToolChanged += (sender, e) => TheVM.CurrentTool = rasterControl1.Tool;
-			
+
+            BindingFactory.CreateBinding(TheVM, "EditorMode", vm =>
+                {
+                    wYSIWYGToolStripMenuItem.Checked = vm.EditorMode == TEMode.Wysiwyg;
+                    productionToolStripMenuItem.Checked = vm.EditorMode == TEMode.Production;
+                    previewToolStripMenuItem.Checked = vm.EditorMode == TEMode.Preview;
+                }, null);
+
             var errlistsp = BindingFactory.CreateProviderSP(sp, "TexErrors", doc => doc.TexErrors);
             BindingFactory.CreateCollectionBindingSP(errlistsp, (s, e) => FillErrorsList());
 
@@ -742,13 +735,13 @@ namespace TikzEdtWForms
                 {
                     txtCode.ActiveTextAreaControl.TextArea.ClipboardHandler.Paste(sender, e);
                 }
-
+                
             }
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Control ctrl = this.ActiveControl;
+            /*Control ctrl = this.ActiveControl;
 
             if (ctrl is TextBox)
             {
@@ -763,7 +756,7 @@ namespace TikzEdtWForms
                 cb.Undo();
 
             }
-            else
+            else*/
             {
                 txtCode.Undo();
             }
@@ -771,7 +764,7 @@ namespace TikzEdtWForms
 
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Control ctrl = this.ActiveControl;
+            /*Control ctrl = this.ActiveControl;
 
             if (ctrl is TextBox)
             {
@@ -783,7 +776,7 @@ namespace TikzEdtWForms
                 ComboBox cb = (ComboBox)ctrl;
                 //cb.Redo();
             }
-            else
+            else */
             {
                 txtCode.Redo();
             }
@@ -857,6 +850,17 @@ namespace TikzEdtWForms
             MyMRU.UpdateMenu(fileToolStripMenuItem, toolStripSeparatorMRU);
         }
 
+        private void wYSIWYGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender == wYSIWYGToolStripMenuItem)
+                TheVM.EditorMode = TEMode.Wysiwyg;
+            else if (sender == previewToolStripMenuItem)
+                TheVM.EditorMode = TEMode.Preview;
+            else if (sender == productionToolStripMenuItem)
+                TheVM.EditorMode = TEMode.Production;
+        }
+
+
 
 
 
@@ -867,7 +871,7 @@ namespace TikzEdtWForms
     {
         public static void Undo(this ComboBox cb)
         {
-            // not supported
+            
         }
 
         public static void Copy(this ComboBox cb)
@@ -942,7 +946,7 @@ namespace TikzEdtWForms
     }
 
     /// <summary>
-    /// Adds trackbar to toolstrip stuff
+    /// Adds ZoomCtrl to toolstrip stuff
     /// </summary>
     [
     ToolStripItemDesignerAvailability
@@ -957,6 +961,36 @@ namespace TikzEdtWForms
         }
 
         public readonly ZoomCtrl ZoomCtrl;
+    }
+
+    [
+ToolStripItemDesignerAvailability
+    (ToolStripItemDesignerAvailability.ToolStrip | ToolStripItemDesignerAvailability.StatusStrip)
+]
+    public class ToolStripComboBox : ToolStripControlHost
+    {
+        public ToolStripComboBox()
+            : base(new ComboBox())
+        {
+            ComboBox = this.Control as ComboBox;
+        }
+
+        public readonly ComboBox ComboBox;
+    }
+
+    [
+ToolStripItemDesignerAvailability
+    (ToolStripItemDesignerAvailability.ToolStrip | ToolStripItemDesignerAvailability.StatusStrip)
+]
+    public class ToolStripTextBox : ToolStripControlHost
+    {
+        public ToolStripTextBox()
+            : base(new TextBox())
+        {
+            TextBox = this.Control as TextBox;
+        }
+
+        public readonly TextBox TextBox;
     }
 
 

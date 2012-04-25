@@ -19,11 +19,14 @@ namespace TikzEdt
         /// </summary>
         public OverlayShape TheUnderlyingShape {get; set; }
 
-        // in upside down coordinates
-        public virtual Rect GetBB()
+        public virtual Rect GetBB(double CanvasHeight)
         {
-            return System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(this); ;
+            double x = Canvas.GetLeft(this), y = CanvasHeight - Canvas.GetBottom(this);
+            return new Rect(x, y, Width, Height);
         }
+        //{
+        //    return System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(this); ;
+        //}
 
         public void SetToolTip(string Text)
         {

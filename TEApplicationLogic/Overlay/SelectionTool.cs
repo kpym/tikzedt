@@ -420,7 +420,7 @@ namespace TikzEdt
         {
             foreach (OverlayShape o in overlay.GetAllDescendants())
             {
-                Rect r = o.View.GetBB();////System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(o);
+                Rect r = o.View.GetBB(overlay.Height);////System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(o);
                 bool nowsel = r.IntersectsWith(SelectionRect);
                 // for overlayscope, we do not want to select it when it it contains the selection rect completely.
                 if (o is OverlayScope)
