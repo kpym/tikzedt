@@ -86,9 +86,10 @@ namespace TikzEdtWForms
 
         OverlayShape PopupSource = null;
         bool PreventContextMenuOpening = false;
+        ContextMenu TheContextMenu;
         private void CreateContextMenu()
         {
-            var m = ContextMenu = new ContextMenu();
+            var m = TheContextMenu = new ContextMenu();
             var i = new MenuItem("Jump to source");
             i.Click += (s, e) => { JumpToSourceDoIt(PopupSource); };
             m.MenuItems.Add(i);
@@ -201,23 +202,17 @@ namespace TikzEdtWForms
             // draw adorner(s)
             foreach (var scope in this.OSViews.OfType<OverlayScopeView>().Where(v => v.IsAdornerVisible))
             {
-                System.Windows.Rect ShowAt = scope.GetBB();
+                System.Windows.Rect ShowAt = scope.GetBB(Height);
                 ShowAt.Inflate(6, 6);
 
-                using (var b = new HatchBrush(HatchStyle.ForwardDiagonal, Color.Black))
-                {
-                    using (var p = new Pen(b, 5))
-                    {
-                        dc.DrawRectangle(p, ShowAt.ToRectangleF());
-                    }
-                }
+                dc.DrawRectangle(PensAndBrushes.AdornerPen, ShowAt.ToRectangleF());
             }
 
 
             // draw the object marker
             if (MarkObject_ShowMarker && MarkObject_Marked != null)
             {
-                System.Windows.Rect ShowAt = MarkObject_Marked.GetBB();
+                System.Windows.Rect ShowAt = MarkObject_Marked.GetBB(Height);
                 ShowAt.Inflate(15,15);
                 using (Pen p = new Pen(Brushes.Red, 6))
                 {

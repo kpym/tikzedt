@@ -50,7 +50,7 @@ namespace TikzEdt.Overlay
         /// <summary>
         /// In top left centric coordinates.
         /// </summary>
-        Rect GetBB();
+        Rect GetBB(double CanvasHeight);
         void SetStdColor();
         void SetSelColor();
         void SetToolTip(string Text);
@@ -201,12 +201,12 @@ namespace TikzEdt.Overlay
                 if (_CurEditing != null)
                 {
                     // remove adorner
-                    _CurEditing.View.RemoveAdorner();
+                    _CurEditing.ScopeView.RemoveAdorner();
                 }
                 _CurEditing = value;
                 if (_CurEditing != null)
                 {
-                    _CurEditing.View.ShowAdorner();
+                    _CurEditing.ScopeView.ShowAdorner();
                 }
 
                 SetCorrectRaster(CurEditing); // todo: correct? ,true

@@ -477,6 +477,11 @@ namespace TikzEdtWForms
                             TheOverlayModel.CurEditing = null;
                             //PreventContextMenuOpening = true;
                         }
+                        else
+                        {
+                            // right click not consumed yet -> open context menu
+                            TheContextMenu.Show(this, e.Location);
+                        }
                     }
                     else
                     {
@@ -484,8 +489,6 @@ namespace TikzEdtWForms
                         //PreventContextMenuOpening = true;
                     }
                 }
-                else ;
-                //PreventContextMenuOpening = true;
             }
 
         }
@@ -545,6 +548,15 @@ namespace TikzEdtWForms
                 if (e.KeyCode == Keys.Escape)
                     TheOverlayModel.ActivateDefaultTool();
 
+                if (e.KeyCode == Keys.C && e.Control)
+                    TheOverlayModel.PerformCodeBlockOperation(PdfOverlayModel.CodeBlockAction.Copy);
+                else if (e.KeyCode == Keys.X && e.Control)
+                    TheOverlayModel.PerformCodeBlockOperation(PdfOverlayModel.CodeBlockAction.Cut);
+                else if (e.KeyCode == Keys.V && e.Control)
+                    GlobalUI.UI.ShowMessageBox( "Currently pasting directly in the WYSIWYG area is not possible. However, you can paste into the code (text) field.",
+                                                "Paste not possible", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else if (e.KeyCode == Keys.Delete)
+                    TheOverlayModel.PerformCodeBlockOperation(PdfOverlayModel.CodeBlockAction.Delete);
             }
 
         }
