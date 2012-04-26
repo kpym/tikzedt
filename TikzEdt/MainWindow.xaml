@@ -185,16 +185,16 @@
             <ToolBar  Height="28" Name="tlbMain"  Band="{Binding Source={x:Static p:Settings.Default}, Path=TLB_FilesBand, Mode=TwoWay}"
                       Visibility="{Binding Source={x:Static p:Settings.Default}, Path=TLB_ShowFiles, Converter={StaticResource boolToVis}}">
                 <Button Command="ApplicationCommands.New" ToolTip="New file">
-                    <Image Source="/TikzEdt;component/Images/NewDocument_32x32.png" Stretch="Fill" Height="16" Width="16" />
+                    <Image Source="/TikzEdt;component/Images/DocumentHS.png" Stretch="Fill" Height="16" Width="16" />
                 </Button>
                 <Button Command="ApplicationCommands.New" CommandParameter="true" ToolTip="Create a new file in a new Instance of TikzEdt">
-                    <Image Source="/TikzEdt;component/Images/NewDocument_32x32newwin.png" Stretch="Fill" Height="16" Width="16"/>
+                    <Image Source="/TikzEdt;component/Images/newinnew2.png" Stretch="Fill" Height="16" Width="16"/>
                 </Button>
                 <Button Command="ApplicationCommands.Open"  ToolTip="Open file" >
                     <Image Source="/TikzEdt;component/Images/openfolderHS.png"  Stretch="Fill" Height="16" Width="16"/>
                 </Button>
                 <Button Command="ApplicationCommands.Open" CommandParameter="true" ToolTip="Open a file in a new Instance of TikzEdt">
-                    <Image Source="/TikzEdt;component/Images/openfolderHSnewwin.png"  Stretch="Fill" Height="16" Width="16"/>
+                    <Image Source="/TikzEdt;component/Images/openinnew.png"  Stretch="Fill" Height="16" Width="16"/>
                 </Button>
                 <Button Command="ApplicationCommands.Save"  ToolTip="Save file">
                     <Image Source="/TikzEdt;component/Images/saveHS.png"  Stretch="Fill" Height="16" Width="16" />
