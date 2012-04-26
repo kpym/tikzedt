@@ -929,7 +929,7 @@
             this.cmdShowOverlay});
             this.tlbMain.Location = new System.Drawing.Point(3, 0);
             this.tlbMain.Name = "tlbMain";
-            this.tlbMain.Size = new System.Drawing.Size(411, 25);
+            this.tlbMain.Size = new System.Drawing.Size(380, 25);
             this.tlbMain.TabIndex = 0;
             // 
             // newToolStripButton
