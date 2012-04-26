@@ -542,11 +542,15 @@ namespace TikzEdtWForms
 
                 switch (err.severity)
                 {
-                    case Severity.PARSERERROR: // todo: set status image
+                    case Severity.PARSERERROR: 
+                        lvi.ImageIndex = 2;
+                        break;
                     case Severity.ERROR:
                         lvi.ImageIndex = 0;
                         break;
                     case Severity.PARSERWARNING:
+                        lvi.ImageIndex = 3;
+                        break;
                     case Severity.WARNING:
                         lvi.ImageIndex = 1;
                         break;

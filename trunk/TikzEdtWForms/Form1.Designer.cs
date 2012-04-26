@@ -641,7 +641,7 @@
             // lblCompileInfo
             // 
             this.lblCompileInfo.Name = "lblCompileInfo";
-            this.lblCompileInfo.Size = new System.Drawing.Size(757, 17);
+            this.lblCompileInfo.Size = new System.Drawing.Size(890, 17);
             this.lblCompileInfo.Spring = true;
             // 
             // toolStripZoomCtrlItem1
@@ -829,6 +829,8 @@
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "109_AllAnnotations_Error_16x16_72.png");
             this.imageList1.Images.SetKeyName(1, "109_AllAnnotations_Warning_16x16_72.png");
+            this.imageList1.Images.SetKeyName(2, "errorparser.png");
+            this.imageList1.Images.SetKeyName(3, "warningparser.png");
             // 
             // tabPage3
             // 
@@ -927,7 +929,7 @@
             this.cmdShowOverlay});
             this.tlbMain.Location = new System.Drawing.Point(3, 0);
             this.tlbMain.Name = "tlbMain";
-            this.tlbMain.Size = new System.Drawing.Size(380, 25);
+            this.tlbMain.Size = new System.Drawing.Size(411, 25);
             this.tlbMain.TabIndex = 0;
             // 
             // newToolStripButton
