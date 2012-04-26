@@ -230,6 +230,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="install_linux.txt" />
     <Content Include="tikzedt48.ico" />
     <EmbeddedResource Include="Images\042b_AddCategory_32x32_72.png" />
     <Content Include="Images\112_ArrowReturnLeft_Blue_48x48_72.png" />
