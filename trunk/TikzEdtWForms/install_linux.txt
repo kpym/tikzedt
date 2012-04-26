@@ -1,0 +1,10 @@
+﻿TikzEdt needs several TikZ related LaTeX packages:
+
+pgf, ms, xcolor, preview, mptopdf, circuitikz, pgfopts, pgfplots
+
+If you do not have them, compilation can sometimes or always fail.
+
+Ubuntu users can install these packages by running:
+
+sudo apt-get install 
+
