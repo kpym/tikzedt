@@ -1,10 +1,17 @@
-﻿TikzEdt needs several TikZ related LaTeX packages:
-
+﻿TikzEdt needs Mono, Latex and the following LaTeX packages:
 pgf, ms, xcolor, preview, mptopdf, circuitikz, pgfopts, pgfplots
 
-If you do not have them, compilation can sometimes or always fail.
+On Ubuntu, you can install the basic prerequisites by running:
 
-Ubuntu users can install these packages by running:
+sudo apt-get install mono-complete
+sudo apt-get install texlive
+sudo apt-get install preview-latex-style
 
-sudo apt-get install 
+
+It is however recommended to replace the last two commands by 
+
+sudo apt-get install texlive-full
+
+
+
 
