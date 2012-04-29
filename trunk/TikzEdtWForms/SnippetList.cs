@@ -106,7 +106,7 @@ namespace TikzEdtWForms
         {
 			SuspendLayout();
             foreach (var c in this.Controls)
-                (c as Control).Width = ClientSize.Width * 98 / 100;
+                (c as Control).Width = ClientSize.Width * 95 / 100;
 			ResumeLayout();
         }
 
