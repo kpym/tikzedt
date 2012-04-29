@@ -39,7 +39,7 @@ namespace TikzEdtWForms
                 return;
 
             TextEditorDocumentWrapper.TheOneAndOnly = txtCode;
-            
+
             // The order should be exactly the same as that in the OverlayToolType enum!!!
             ToolButtons = new List<ToolStripButton> { cmdMove, cmdNode, cmdEdge, cmdPath, cmdSmoothCurve, cmdBezier, cmdRectangle, cmdEllipse, cmdGrid, cmdArc, cmdArcEdit };
             ToolPaneButtons = new List<ToolStripButton> { cmdSnippets, cmdFiles, cmdDynPreamble };
@@ -423,7 +423,7 @@ namespace TikzEdtWForms
             AddStatusLine("This software is under development. All help/feedback/feature requests/error reports are welcome.");
 			AddStatusLine("Application data is stored in "+Helper.GetAppdataPath()+".");
 			AddStatusLine("Working directory is now: " + Helper.GetCurrentWorkingDir());
-			
+
             GlobalUI.UI.OnGlobalStatus += new EventHandler<GlobalStatusEventData>(UI_OnGlobalStatus);
             TheCompiler.Instance.OnTexOutput += new EventHandler<TexCompiler.CompileEventArgs>(Instance_OnTexOutput);
             TheCompiler.Instance.OnCompileEvent += new EventHandler<TexCompiler.CompileEventArgs>(Instance_OnCompileEvent);

@@ -73,11 +73,26 @@ namespace TikzEdt
         public event EventHandler<GlobalStatusEventData> OnGlobalStatus;
         public event EventHandler<ExportCompileEventData> OnExportCompile;
 
+        /// <summary>
+        /// Stores messages that arrive before a listener is connected.
+        /// </summary>
+        private static List<Pair<object, GlobalStatusEventData>> StatusLineBuffer = new List<Pair<object, GlobalStatusEventData>>();
 
         public void AddStatusLine(object sender, string line, bool error = false)
         {
             if (OnGlobalStatus != null)
+            {
+                if (StatusLineBuffer.Count > 0)
+                {
+                    // send pending messages first
+                    foreach (var p in StatusLineBuffer)
+                        OnGlobalStatus(p.First, p.Second);
+                    StatusLineBuffer.Clear();
+                }
+
                 OnGlobalStatus(sender, new GlobalStatusEventData() { StatusLine = line, IsError = error });
+            }
+            else StatusLineBuffer.Add(new Pair<object, GlobalStatusEventData>(sender, new GlobalStatusEventData() { StatusLine = line, IsError = error }));
         }
 
         public void RaiseRecentFileEvent(object sender, string file, bool insert)
