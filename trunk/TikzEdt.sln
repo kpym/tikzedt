@@ -1023,7 +1023,7 @@ Global
 		{2D18BE89-D210-49EB-A9DD-2246FBB3DF6D} = {DC045806-07EE-42C9-9BA6-698052B94C34}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = TikzEdtWForms\TikzEdtWForms.csproj
+		StartupItem = TikzEdtGTK\TikzEdtGTK.csproj
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = TikzEdt1.vsmdi

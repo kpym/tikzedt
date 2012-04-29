@@ -17,7 +17,7 @@ namespace MakeWebsiteStatic
 
         static void Main(string[] args)
         {
-            string localbasedir = @"C:\Downloads\xampp\htdocs\website\";
+            string localbasedir = @"C:\Users\alw\Documents\Thomas2\xampp\htdocs\website\";
             string localbasedirimg = localbasedir+"img\\";
             string targetdir = localbasedir+"static\\";
             string targetimgdir = localbasedir + "static\\img\\";
