@@ -43,11 +43,28 @@ namespace TikzEdtWForms
             // The order should be exactly the same as that in the OverlayToolType enum!!!
             ToolButtons = new List<ToolStripButton> { cmdMove, cmdNode, cmdEdge, cmdPath, cmdSmoothCurve, cmdBezier, cmdRectangle, cmdEllipse, cmdGrid, cmdArc, cmdArcEdit };
             ToolPaneButtons = new List<ToolStripButton> { cmdSnippets, cmdFiles, cmdDynPreamble };
-			
-            lblStandAlone = new ToolStripLabel("[Document is standalone]") {  Visible= false };
+
+            SetupComponents();
+
+            SetupBindings();
+
+            GlobalUI.UI.OnRecentFileEvent += (s, e) => { if (e.IsInsert) MyMRU.Insert(e.FileName); else MyMRU.Remove(e.FileName); };
+            MyMRU.OnFileOpen += (s, e) => TheVM.Open(e.FileName, ModifierKeys.HasFlag(Keys.Control));    
+
+            TheVM.CreateNewFile(false);
+
+            
+        }
+
+        /// <summary>
+        /// Create those controls that are not set u via the designer.
+        /// </summary>
+        void SetupComponents()
+        {
+            lblStandAlone = new ToolStripLabel("[Document is standalone]") { Visible = false };
             statusStrip1.Items.Insert(2, lblStandAlone);
             statusStrip1.Items.Insert(3, new ToolStripLabel("Grid:"));
-            cmbGrid = new ToolStripComboBox() { Width=50 };
+            cmbGrid = new ToolStripComboBox() { Width = 50 };
             cmbGrid.ComboBox.MaximumSize = new Size(50, 0);
             cmbGrid.ComboBox.Items.AddRange(new double[] { 0, 0.1, 0.2, 0.5, 1, 2, 5 });
             statusStrip1.Items.Insert(4, cmbGrid);
@@ -57,11 +74,11 @@ namespace TikzEdtWForms
             statusStrip1.Items.Insert(7, new ToolStripLabel("RO:"));
             txtRadialOffset = new ToolStripTextBox();
             statusStrip1.Items.Insert(8, txtRadialOffset);
-			toolStripZoomCtrlItem1.Width = 110;
-			toolStripZoomCtrlItem1.Height = 20;
-			toolStripZoomCtrlItem1.Visible = true;
-			//toolStripZoomCtrlItem1.MinimumSize = new Size(110, 20);
-			
+            toolStripZoomCtrlItem1.Width = 110;
+            toolStripZoomCtrlItem1.Height = 20;
+            toolStripZoomCtrlItem1.Visible = true;
+            //toolStripZoomCtrlItem1.MinimumSize = new Size(110, 20);
+
             findReplaceMgr = new FindReplaceNoWPF.FindReplaceMgr();
             //findReplaceMgr.Editors = new object[] { new FindReplaceNoWPF.TextEditorAdapter(txtCode) };
             findReplaceMgr.CurrentEditor = new FindReplaceNoWPF.TextEditorAdapter(txtCode);
@@ -70,34 +87,41 @@ namespace TikzEdtWForms
 
             CreateContextMenu();
             lblCompileInfo.TextAlign = ContentAlignment.MiddleLeft;
-            splitContainer2.Panel2.BackColor = Color.FromArgb(0x30,0x30,0x30 );
+            splitContainer2.Panel2.BackColor = Color.FromArgb(0x30, 0x30, 0x30);
             rasterControl1 = new RasterControl();
             splitContainer2.Panel2.Controls.Add(rasterControl1);
-      //      tikzDisplay1.Visible = false;
-     //       tikzDisplay1.Parent = rasterControl1;
 
-            GlobalUI.UI.OnRecentFileEvent += (s, e) => { if (e.IsInsert) MyMRU.Insert(e.FileName); else MyMRU.Remove(e.FileName); };
-            MyMRU.OnFileOpen += (s, e) => TheVM.Open(e.FileName, ModifierKeys.HasFlag(Keys.Control));    
-
-       /*     pdfOverlay1 = new PdfOverlay();
-            pdfOverlay1.Left = 0;
-            pdfOverlay1.Top = 0;
-            pdfOverlay1.Parent = tikzDisplay1;
-            pdfOverlay1.BringToFront();
-            pdfOverlay1.Visible = true; */
-            //pdfOverlay1.Rasterizer = rasterControl1.TheRasterModel;
             rasterControl1.Rasterizer = rasterControl1.TheRasterModel;
 
             rasterControl1.Visible = true;
-            //rasterControl1.Anchor = AnchorStyles.None;
-            //rasterControl1.OverrideWithZeroGridWidth = true;
-            //rasterControl1.Left = 0;
-            //rasterControl1.Top = 0;
 
+            snippetList1 = new SnippetList();
+            snippetList1.Visible = true;
+            snippetList1.Dock = DockStyle.Fill;
+            snippetList1.OnInsert += new EventHandler<TikzEdt.Snippets.InsertEventArgs>(snippetList1_OnInsert);
+            snippetList1.OnUseStyles += new EventHandler<TikzEdt.Snippets.UseStylesEventArgs>(snippetList1_OnUseStyles);
+            splitContainer1.Panel1.Controls.Add(snippetList1);
+
+            fileViewer = new FileViewer() { Dock = DockStyle.Fill, Visible = false };
+            splitContainer1.Panel1.Controls.Add(fileViewer);
+            fileViewer.OnFileSelect += new EventHandler<FileViewer.FileSelectEventArgs>(fileViewer_OnFileSelect);
+
+            dynamicPreamble = new DynamicPreamble() { Dock = DockStyle.Fill, Visible = false, PreamblesFile = Consts.DynPreamblesFileFullPath };
+            splitContainer1.Panel1.Controls.Add(dynamicPreamble);
+
+            txtCode.SetHighlighting("Tikz");
+
+        }
+
+        /// <summary>
+        /// Wire controls to viewmodels (etc).
+        /// </summary>
+        void SetupBindings()
+        {
             splitContainer2.Panel2.ClientSizeChanged += new EventHandler(Panel2_Resize);
-			
+
             //rasterControl1.Resize += new EventHandler(Panel2_Resize);
-			rasterControl1.SizeChanged += new EventHandler(Panel2_Resize);
+            rasterControl1.SizeChanged += new EventHandler(Panel2_Resize);
             rasterControl1.MouseMove += new MouseEventHandler(rasterControl1_MouseMove);
             rasterControl1.MouseWheel += new MouseEventHandler(rasterControl1_MouseWheel);
             rasterControl1.JumpToSource += new EventHandler<RasterControl.JumpToSourceEventArgs>(rasterControl1_JumpToSource);
@@ -108,25 +132,13 @@ namespace TikzEdtWForms
             cmbEdgeStyle.DropDown += (s, e) => { cmbEdgeStyle.Items.Clear(); cmbEdgeStyle.Items.AddRange(TheVM.TheDocument.TikzStyles.ToArray()); };
             cmbNodeStyle.DropDown += (s, e) => { cmbNodeStyle.Items.Clear(); cmbNodeStyle.Items.AddRange(TheVM.TheDocument.TikzStyles.ToArray()); };
 
-            snippetList1 = new SnippetList();
-            snippetList1.Visible = true;
-            snippetList1.Dock = DockStyle.Fill;
-            snippetList1.OnInsert += new EventHandler<TikzEdt.Snippets.InsertEventArgs>(snippetList1_OnInsert);
-            snippetList1.OnUseStyles += new EventHandler<TikzEdt.Snippets.UseStylesEventArgs>(snippetList1_OnUseStyles);
-            splitContainer1.Panel1.Controls.Add(snippetList1);
 
-            fileViewer = new FileViewer() { Dock = DockStyle.Fill, Visible=false };
-            splitContainer1.Panel1.Controls.Add(fileViewer);
-            fileViewer.OnFileSelect += new EventHandler<FileViewer.FileSelectEventArgs>(fileViewer_OnFileSelect);
-
-            dynamicPreamble = new DynamicPreamble() { Dock = DockStyle.Fill, Visible = false , PreamblesFile=Consts.DynPreamblesFileFullPath};
-            splitContainer1.Panel1.Controls.Add(dynamicPreamble);
-            dynamicPreamble.PreambleChanged += (s,e) => TheVM.DynamicPreamble = dynamicPreamble.Preamble;
+            dynamicPreamble.PreambleChanged += (s, e) => TheVM.DynamicPreamble = dynamicPreamble.Preamble;
             TheVM.DynamicPreamble = dynamicPreamble.Preamble;
 
             //TheVM.NewCommandHandler(this, new System.Windows.Input.ExecutedRoutedEventArgs()) ;
-            TheVM.CreateNewFile(false);
             
+
             // add bindings
             rasterControl1.DataBindings.Add("ShowOverlay", cmdShowOverlay, "Checked");
             rasterControl1.DataBindings.Add("UsePolarCoordinates", chkUsePolar, "Checked");
@@ -134,47 +146,53 @@ namespace TikzEdtWForms
             // Note that the TheDocument.Document property is bound "automatically" by the hack described in the TextEditorDocumentWrapper class.
             var sp = BindingFactory.CreateProvider(TheVM, "TheDocument", vm => vm.TheDocument);
             BindingFactory.CreateBindingSP(sp, "ParseTree", doc => rasterControl1.ParseTree = doc.ParseTree, () => rasterControl1.ParseTree = null);
-			
-			BindingFactory.CreateBindingSP(sp, "PdfPath", doc => rasterControl1.PdfPath = doc.PdfPath, () => rasterControl1.PdfPath = "");
-			BindingFactory.CreateBindingSP(sp, "ReloadPdf", doc => rasterControl1.ReloadPdf = doc.ReloadPdf, null);
-			BindingFactory.CreateBindingSP(sp, "Resolution", doc => rasterControl1.Resolution = doc.Resolution, null);
-			BindingFactory.CreateBindingSP(sp, "CurrentBB", doc => rasterControl1.BB = doc.CurrentBB, null);
-			BindingFactory.CreateBindingSP(sp, "AllowEditing", doc => rasterControl1.AllowEditing = doc.AllowEditing, null);
-			BindingFactory.CreateBindingSP(sp, "EdgeStyle", doc => rasterControl1.EdgeStyle = doc.EdgeStyle, null);
-			BindingFactory.CreateBindingSP(sp, "NodeStyle", doc => rasterControl1.NodeStyle = doc.NodeStyle, null);
+
+            BindingFactory.CreateBindingSP(sp, "PdfPath", doc => rasterControl1.PdfPath = doc.PdfPath, () => rasterControl1.PdfPath = "");
+            BindingFactory.CreateBindingSP(sp, "ReloadPdf", doc => rasterControl1.ReloadPdf = doc.ReloadPdf, null);
+            BindingFactory.CreateBindingSP(sp, "Resolution", doc => rasterControl1.Resolution = doc.Resolution, null);
+            BindingFactory.CreateBindingSP(sp, "CurrentBB", doc => rasterControl1.BB = doc.CurrentBB, null);
+            BindingFactory.CreateBindingSP(sp, "AllowEditing", doc => rasterControl1.AllowEditing = doc.AllowEditing, null);
+            BindingFactory.CreateBindingSP(sp, "EdgeStyle", doc => rasterControl1.EdgeStyle = doc.EdgeStyle, null);
+            BindingFactory.CreateBindingSP(sp, "NodeStyle", doc => rasterControl1.NodeStyle = doc.NodeStyle, null);
             BindingFactory.CreateBindingSP(sp, "Resolution", doc => toolStripZoomCtrlItem1.ZoomCtrl.Value = Convert.ToInt32(doc.Resolution), null);
             toolStripZoomCtrlItem1.ZoomCtrl.ValueChanged += (s, e) => TheVM.TheDocument.Resolution = toolStripZoomCtrlItem1.ZoomCtrl.Value;
-            BindingFactory.CreateBindingSP(sp, "DisplayString", doc => this.Text = "TikzEdt - " + doc.DisplayString, ()=> this.Text = "TikzEdt");
+            BindingFactory.CreateBindingSP(sp, "DisplayString", doc => this.Text = "TikzEdt - " + doc.DisplayString, () => this.Text = "TikzEdt");
             BindingFactory.CreateBindingSP(sp, "IsStandAlone", doc => lblStandAlone.Visible = doc.IsStandAlone, () => lblStandAlone.Visible = false);
 
 
             BindingFactory.CreateBinding(TheVM, "RasterRadialOffset", vm =>
-                    { txtRadialOffset.TextBox.Text = vm.RasterRadialOffset.ToString(); rasterControl1.RadialOffset = vm.RasterRadialOffset;  }, null);
+            { txtRadialOffset.TextBox.Text = vm.RasterRadialOffset.ToString(); rasterControl1.RadialOffset = vm.RasterRadialOffset; }, null);
             BindingFactory.CreateBinding(TheVM, "RasterSteps", vm =>
-                    { txtRadialSteps.TextBox.Text = vm.RasterSteps.ToString(); rasterControl1.RasterRadialSteps = (uint)vm.RasterSteps; }, null);
+            { txtRadialSteps.TextBox.Text = vm.RasterSteps.ToString(); rasterControl1.RasterRadialSteps = (uint)vm.RasterSteps; }, null);
             BindingFactory.CreateBinding(TheVM, "RasterWidth", vm =>
-                    { cmbGrid.ComboBox.Text = vm.RasterWidth.ToString(); rasterControl1.RasterWidth = vm.RasterWidth; }, null);
-            txtRadialOffset.TextChanged += (s, e) => { 
-                double d; 
-                if (Double.TryParse(txtRadialOffset.TextBox.Text, out d)) 
-                    TheVM.RasterRadialOffset = d; };
-            txtRadialSteps.TextChanged += (s, e) => {
-                uint d; 
-                if (UInt32.TryParse(txtRadialSteps.TextBox.Text, out d)) 
-                    TheVM.RasterSteps = (int)d; };
-            cmbGrid.ComboBox.TextChanged += (s, e) => {
-                double d; 
-                if (Double.TryParse(cmbGrid.ComboBox.Text, out d)) 
-                    TheVM.RasterWidth = d; };
+            { cmbGrid.ComboBox.Text = vm.RasterWidth.ToString(); rasterControl1.RasterWidth = vm.RasterWidth; }, null);
+            txtRadialOffset.TextChanged += (s, e) =>
+            {
+                double d;
+                if (Double.TryParse(txtRadialOffset.TextBox.Text, out d))
+                    TheVM.RasterRadialOffset = d;
+            };
+            txtRadialSteps.TextChanged += (s, e) =>
+            {
+                uint d;
+                if (UInt32.TryParse(txtRadialSteps.TextBox.Text, out d))
+                    TheVM.RasterSteps = (int)d;
+            };
+            cmbGrid.ComboBox.TextChanged += (s, e) =>
+            {
+                double d;
+                if (Double.TryParse(cmbGrid.ComboBox.Text, out d))
+                    TheVM.RasterWidth = d;
+            };
 
-			rasterControl1.ToolChanged += (sender, e) => TheVM.CurrentTool = rasterControl1.Tool;
+            rasterControl1.ToolChanged += (sender, e) => TheVM.CurrentTool = rasterControl1.Tool;
 
             BindingFactory.CreateBinding(TheVM, "EditorMode", vm =>
-                {
-                    wYSIWYGToolStripMenuItem.Checked = vm.EditorMode == TEMode.Wysiwyg;
-                    productionToolStripMenuItem.Checked = vm.EditorMode == TEMode.Production;
-                    previewToolStripMenuItem.Checked = vm.EditorMode == TEMode.Preview;
-                }, null);
+            {
+                wYSIWYGToolStripMenuItem.Checked = vm.EditorMode == TEMode.Wysiwyg;
+                productionToolStripMenuItem.Checked = vm.EditorMode == TEMode.Production;
+                previewToolStripMenuItem.Checked = vm.EditorMode == TEMode.Preview;
+            }, null);
 
             var errlistsp = BindingFactory.CreateProviderSP(sp, "TexErrors", doc => doc.TexErrors);
             BindingFactory.CreateCollectionBindingSP(errlistsp, (s, e) => FillErrorsList());
@@ -183,12 +201,13 @@ namespace TikzEdtWForms
                 vm =>
                 {
                     ToolButtons.Each((tsb, i) => tsb.Checked = ((int)vm.CurrentTool == i));
-					rasterControl1.Tool = vm.CurrentTool;
+                    rasterControl1.Tool = vm.CurrentTool;
                 }, null);
 
-            BindingFactory.CreateBinding(TheCompiler.Instance, "Compiling", 
+            BindingFactory.CreateBinding(TheCompiler.Instance, "Compiling",
                 (c) => { cmdAbortCompile.Enabled = abortCompilationToolStripMenuItem.Enabled = c.Compiling; },
                 () => { cmdAbortCompile.Enabled = abortCompilationToolStripMenuItem.Enabled = true; });
+
 
             // load settings
             var S = Properties.Settings.Default;
@@ -201,7 +220,7 @@ namespace TikzEdtWForms
             LocationChanged += (s, e) => { Properties.Settings.Default.Window_Top = Top; Properties.Settings.Default.Window_Left = Left; };
 
             WindowState = S.Window_State;
-            ClientSizeChanged += (s,e) => Properties.Settings.Default.Window_State = this.WindowState;
+            ClientSizeChanged += (s, e) => Properties.Settings.Default.Window_State = this.WindowState;
 
             try
             {
@@ -222,23 +241,9 @@ namespace TikzEdtWForms
                 TheVM.AutoCompileOnDocumentChange = s.AutoCompileOnDocumentChange;
             }, null);
             autoCompilationOnChangeToolStripMenuItem.CheckedChanged += (s, e) =>
-                {
-                    S.AutoCompileOnDocumentChange = TheVM.AutoCompileOnDocumentChange = autoCompilationOnChangeToolStripMenuItem.Checked;
-                };
-
-
-
-            //BindingFactory.CreateBinding(S, "Snippets_ShowThumbs", s => snippetList1.ShowThumbnails = s.thu, null);
-
-            //BindingFactory.CreateBinding(S, "Editor_ShowLineNumbers", s => txtCode.ShowLineNumbers = s.Editor_ShowLineNumbers, null);
-
-			//test
-			//TheVM.TheDocument.OnPdfReady += (sender, e) => rasterControl1.ReloadPdf++;
-			
-/* * 
- * */
-            txtCode.SetHighlighting("Tikz");
-            //txtCode.
+            {
+                S.AutoCompileOnDocumentChange = TheVM.AutoCompileOnDocumentChange = autoCompilationOnChangeToolStripMenuItem.Checked;
+            };
         }
 
         void rasterControl1_ReplaceText(object sender, TikzEdt.Overlay.ReplaceTextEventArgs e)
@@ -482,7 +487,7 @@ namespace TikzEdtWForms
             }
         }
 
-        void doc_DocumentChanged(object sender, ICSharpCode.TextEditor.Document.DocumentEventArgs e)
+     /*   void doc_DocumentChanged(object sender, ICSharpCode.TextEditor.Document.DocumentEventArgs e)
         {
             GlobalUI.UI.AddStatusLine(this, "changed");
         }
@@ -491,11 +496,11 @@ namespace TikzEdtWForms
         {
             GlobalUI.UI.AddStatusLine(this, "changed");
         }
-
+        
         private void toolStripButton6_Click(object sender, EventArgs e)
         {
             MessageBox.Show(TheVM.TheDocument.Document.Text);
-        }
+        }*/
 
         private void recompileToolStripMenuItem_Click(object sender, EventArgs e)
         {
