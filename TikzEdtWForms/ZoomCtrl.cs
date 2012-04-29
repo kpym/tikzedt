@@ -28,7 +28,7 @@ namespace TikzEdtWForms
         public ZoomCtrl()
         {
             InitializeComponent();
-			tb.MinimumSize = new Size(110, 20);
+			//tb.MinimumSize = new Size(110, 20);
 			
         }
 
