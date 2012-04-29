@@ -94,9 +94,10 @@ namespace TikzEdtWForms
             //rasterControl1.Left = 0;
             //rasterControl1.Top = 0;
 
-            splitContainer2.Panel2.Resize += new EventHandler(Panel2_Resize);
-            rasterControl1.Resize += new EventHandler(Panel2_Resize);
-      //      tikzDisplay1.Resize += new EventHandler(Panel2_Resize);
+            splitContainer2.Panel2.ClientSizeChanged += new EventHandler(Panel2_Resize);
+			
+            //rasterControl1.Resize += new EventHandler(Panel2_Resize);
+			rasterControl1.SizeChanged += new EventHandler(Panel2_Resize);
             rasterControl1.MouseMove += new MouseEventHandler(rasterControl1_MouseMove);
             rasterControl1.MouseWheel += new MouseEventHandler(rasterControl1_MouseWheel);
             rasterControl1.JumpToSource += new EventHandler<RasterControl.JumpToSourceEventArgs>(rasterControl1_JumpToSource);
@@ -378,8 +379,19 @@ namespace TikzEdtWForms
 
             rasterControl1.Left = (splitContainer2.Panel2.ClientSize.Width - rasterControl1.Width) / 2;
             rasterControl1.Top = (splitContainer2.Panel2.ClientSize.Height - rasterControl1.Height) / 2;
-
-
+			
+			/*if (!IsHandleCreated) return;
+			splitContainer2.Panel2.PerformLayout();
+			splitContainer2.Panel2.Update();
+			splitContainer2.Panel2.Refresh();
+			splitContainer2.Panel2.Invalidate();
+			splitContainer2.Invalidate();
+			splitContainer2.Refresh();
+			//splitContainer2.SplitterDistance = splitContainer2.SplitterDistance+1;
+			//splitContainer2.SplitterDistance = splitContainer2.SplitterDistance-1;
+			*/
+			//GlobalUI.UI.AddStatusLine(this, " L T "+rasterControl1.Left +" , "+ rasterControl1.Top);
+			//GlobalUI.UI.AddStatusLine(this, " W H "+splitContainer2.Panel2.ClientSize.Width +" , "+ splitContainer2.Panel2.ClientSize.Height);
         }
 
         void Instance_OnCompileEvent(object sender, TexCompiler.CompileEventArgs e)
