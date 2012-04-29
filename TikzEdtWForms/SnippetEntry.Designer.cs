@@ -52,6 +52,7 @@
             // 
             this.lblName.AutoEllipsis = true;
             this.lblName.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lblName.Padding = new System.Windows.Forms.Padding(4,0,4,0);
             this.lblName.Location = new System.Drawing.Point(72, 5);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(153, 33);

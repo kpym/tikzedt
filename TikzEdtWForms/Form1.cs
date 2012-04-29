@@ -43,7 +43,7 @@ namespace TikzEdtWForms
             // The order should be exactly the same as that in the OverlayToolType enum!!!
             ToolButtons = new List<ToolStripButton> { cmdMove, cmdNode, cmdEdge, cmdPath, cmdSmoothCurve, cmdBezier, cmdRectangle, cmdEllipse, cmdGrid, cmdArc, cmdArcEdit };
             ToolPaneButtons = new List<ToolStripButton> { cmdSnippets, cmdFiles, cmdDynPreamble };
-
+			
             lblStandAlone = new ToolStripLabel("[Document is standalone]") {  Visible= false };
             statusStrip1.Items.Insert(2, lblStandAlone);
             statusStrip1.Items.Insert(3, new ToolStripLabel("Grid:"));
@@ -57,7 +57,11 @@ namespace TikzEdtWForms
             statusStrip1.Items.Insert(7, new ToolStripLabel("RO:"));
             txtRadialOffset = new ToolStripTextBox();
             statusStrip1.Items.Insert(8, txtRadialOffset);
-
+			toolStripZoomCtrlItem1.Width = 110;
+			toolStripZoomCtrlItem1.Height = 20;
+			toolStripZoomCtrlItem1.Visible = true;
+			//toolStripZoomCtrlItem1.MinimumSize = new Size(110, 20);
+			
             findReplaceMgr = new FindReplaceNoWPF.FindReplaceMgr();
             //findReplaceMgr.Editors = new object[] { new FindReplaceNoWPF.TextEditorAdapter(txtCode) };
             findReplaceMgr.CurrentEditor = new FindReplaceNoWPF.TextEditorAdapter(txtCode);
@@ -178,6 +182,7 @@ namespace TikzEdtWForms
                 vm =>
                 {
                     ToolButtons.Each((tsb, i) => tsb.Checked = ((int)vm.CurrentTool == i));
+					rasterControl1.Tool = vm.CurrentTool;
                 }, null);
 
             BindingFactory.CreateBinding(TheCompiler.Instance, "Compiling", 
@@ -490,6 +495,7 @@ namespace TikzEdtWForms
         {
             OverlayToolType t = (OverlayToolType)ToolButtons.IndexOf(sender as ToolStripButton);
             TheVM.CurrentTool = t;
+			//AddStatusLine("Hallowelt"+t.ToString());
         }
 
         private void cmdSavePdf_Click(object sender, EventArgs e)

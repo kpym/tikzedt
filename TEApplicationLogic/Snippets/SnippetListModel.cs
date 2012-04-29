@@ -115,7 +115,7 @@ namespace TikzEdt.Snippets
         private bool UnzipSnippetsMySelf()
         {
             string zipfile = System.IO.Path.Combine(Helper.GetAppDir(), Consts.cSnippetThumbsZipfile);
-            string tgt = Helper.GetAppdataPath();
+            string tgt = Helper.GetAppdataPath() + Path.DirectorySeparatorChar;
 
             if (!File.Exists(zipfile))
                 return false;
