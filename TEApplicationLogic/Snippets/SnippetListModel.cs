@@ -6,7 +6,9 @@ using System.IO;
 using System.Windows.Forms;
 using System.Windows;
 using System.Threading;
-using Ionic.Zip;
+//using Ionic.Zip;
+using ICSharpCode.SharpZipLib;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace TikzEdt.Snippets
 {
@@ -121,17 +123,63 @@ namespace TikzEdt.Snippets
             GlobalUI.UI.AddStatusLine(this, "Unzipping snippet thumbnails from file " + zipfile + "....");
 
             ZipWorker = new TESharedComponents.MyBackgroundWorker();
-            ZipWorker.DoWork += (s,e)=>
+            ZipWorker.DoWork += (se,e)=>
                 {
                     string _zipfile = (e.Argument as Pair<string, string>).First;
                     string _tgt = (e.Argument as Pair<string, string>).Second;
                     try
                     {
-                        //Console.WriteLine("Unzipping...");
+                        /* Ionic.Zip code... not working in linux (works fine in windows)
+                         * //Console.WriteLine("Unzipping...");
                         using (var z = ZipFile.Read(_zipfile))
                         {
                             z.ExtractAll(_tgt, ExtractExistingFileAction.OverwriteSilently);
                         }
+                        */
+                        using (ZipInputStream s = new ZipInputStream(File.OpenRead(_zipfile)))
+                        {
+
+                            ZipEntry theEntry;
+                            while ((theEntry = s.GetNextEntry()) != null)
+                            {
+
+                                Console.WriteLine(theEntry.Name);
+
+                                string directoryName = Path.GetDirectoryName(theEntry.Name);
+                                string directoryFullPath = Path.Combine(_tgt, directoryName); 
+                                string fileName = Path.GetFileName(theEntry.Name);
+                                string filePath = Path.Combine(_tgt, theEntry.Name);
+
+                                // create directory
+                                if (!Directory.Exists(directoryFullPath))
+                                {
+                                    Directory.CreateDirectory(directoryFullPath);
+                                }
+
+                                if (fileName != String.Empty)
+                                {
+                                    using (FileStream streamWriter = File.Create(filePath))
+                                    {
+
+                                        int size = 2048;
+                                        byte[] data = new byte[2048];
+                                        while (true)
+                                        {
+                                            size = s.Read(data, 0, data.Length);
+                                            if (size > 0)
+                                            {
+                                                streamWriter.Write(data, 0, size);
+                                            }
+                                            else
+                                            {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         GlobalUI.UI.AddStatusLine(null, "Snippet Thimbnails unzipped successfully.");
                     }
                     catch (Exception ex)
