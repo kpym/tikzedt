@@ -13,6 +13,17 @@ using Gtk;
 
 namespace TikzEdtGTK
 {
+    public class RasterControlBox : EventBox
+    {
+        public RasterControl RasterControl;
+        public RasterControlBox()
+        {
+            RasterControl = new RasterControl(this);
+            Add(RasterControl);
+        }
+    }
+
+
     public partial class RasterControl : DrawingArea, IRasterControlView, ITikzDisplayView, TikzEdt.Overlay.IPdfOverlayView, TikzEdt.Overlay.IOverlayShapeFactory
     {
 
@@ -21,8 +32,11 @@ namespace TikzEdtGTK
         public RasterControlModel TheRasterModel;
         ToolTip toolTip1 = new ToolTip();
 
-        public RasterControl()
+        EventBox ParentBox;
+
+        public RasterControl(EventBox parent)
         {
+            ParentBox = parent;
 
             disablerPanel = new DrawingArea() ;//{ Opacit = Color.Transparent, Visible = false, Curso = Cursors.No }; 
             disablerPanel.TooltipText = "Overlay out of sync. WYSIWYG editing is disabled";
@@ -59,6 +73,11 @@ namespace TikzEdtGTK
             // listen to Bitmap changes
             MyBindings.Add(BindingFactory.CreateBinding(TheDisplayModel, "Bmp", (o) => this.Invalidate(), null));
 
+            parent.ButtonPressEvent += OnButtonPress;
+            parent.ButtonReleaseEvent += OnButtonRelease;
+            parent.MotionNotifyEvent +=  OnMotionNotify;
+            parent.KeyPressEvent += OnKeyPress;
+            parent.KeyReleaseEvent += OnKeyRelease;
         }
 
         public void Invalidate() { this.QueueDraw(); }
@@ -207,8 +226,8 @@ namespace TikzEdtGTK
             {
                 Point p = new Point((Allocation.Width - TheDisplayModel.Bmp.Width) / 2, (Allocation.Height - TheDisplayModel.Bmp.Height) / 2);
                 //dc.DrawImageUnscaled(TheDisplayModel.Bmp, p);
-                dc.SetSource(TheDisplayModel.Bmp, 0,0);
-                dc.Rectangle(p.X, p.Y, TheDisplayModel.Bmp.Width, TheDisplayModel.Bmp.Height);
+                dc.SetSource(TheDisplayModel.Bmp, p.X,p.Y);
+                //dc.Rectangle(p.X, p.Y, TheDisplayModel.Bmp.Width, TheDisplayModel.Bmp.Height);
                 dc.Paint();
             }
 
@@ -521,14 +540,12 @@ namespace TikzEdtGTK
 
         
 
-
-        
-
-        protected override bool OnButtonPressEvent(Gdk.EventButton e)
+        void OnButtonPress(object sender, ButtonPressEventArgs eee)
         {
+            var e = eee.Event;
            // base.OnMouseDown(e);
           //  this.Focus(); // todo
-
+            GlobalUI.UI.AddStatusLine(this, " Press " + e.Button);
             if (e.Button == MouseButtonConsts.Left )
             {
                 // call left down-method in the current tool
@@ -572,13 +589,14 @@ namespace TikzEdtGTK
                 }
             }
 
-            return true;
+            //return base.OnButtonPressEvent(e);
         }
         
-        protected override bool OnMotionNotifyEvent(Gdk.EventMotion e)
+        void OnMotionNotify(object sender, MotionNotifyEventArgs eee)
         {
            // base.OnMouseMove(e);
-            
+            var e = eee.Event;
+
             var mousep = e.Location();
             // convert to bottom left coordinates
             var p = new System.Windows.Point(mousep.X, Height - mousep.Y);
@@ -588,12 +606,12 @@ namespace TikzEdtGTK
             //GlobalUI.UI.AddStatusLine(this, "mm " + mousep+" " + CursorPosition);
             //e.Handled = ee.Handled;
 
-            return true;
+            //return true;
         }
 
-        protected override bool OnButtonReleaseEvent(Gdk.EventButton e)
+        void OnButtonRelease(object sender, ButtonReleaseEventArgs eee)
         {
-
+            var e = eee.Event;
           //  base.OnMouseUp(e);
 
             if (e.Button == MouseButtonConsts.Left)
@@ -611,11 +629,12 @@ namespace TikzEdtGTK
 
             }
 
-            return true;
+            //return true;
         }
 
-        protected override bool OnKeyPressEvent(Gdk.EventKey e)
+        void OnKeyPress(object sender, Gtk.KeyPressEventArgs eee)
         {
+            var e = eee.Event;
             //base.OnKeyDown(e);
             TEKeyArgs ee = e.ToTEKeyArgs();
             TheOverlayModel.CurrentTool.KeyDown(ee);
@@ -649,15 +668,15 @@ namespace TikzEdtGTK
                     TheOverlayModel.PerformCodeBlockOperation(PdfOverlayModel.CodeBlockAction.Delete);
             }
 
-            return true;
+            //return true;
         }
 
 
 
-        protected override bool OnKeyReleaseEvent(Gdk.EventKey e)
+        void OnKeyRelease(object sender, KeyReleaseEventArgs eeee)
         {
             //base.OnKeyUp(e);
-
+            var e = eeee.Event;
             // route event to current tool
             TEKeyArgs ee = e.ToTEKeyArgs();
             TheOverlayModel.CurrentTool.KeyUp(ee);
@@ -670,7 +689,7 @@ namespace TikzEdtGTK
             if (e.Key == Gdk.Key.Alt_L || e.Key == Gdk.Key.Alt_R)
                 ee.Handled = true;
 
-            return true;
+            //return true;
         }
 
         #endregion
@@ -1138,7 +1157,9 @@ namespace TikzEdtGTK
         {
             return new TEMouseArgs()
             {
-                ClickCount = 1,
+                ClickCount =    e.Type == Gdk.EventType.ButtonPress ? 1 : 
+                                e.Type == Gdk.EventType.TwoButtonPress ? 2 : 
+                                e.Type == Gdk.EventType.ThreeButtonPress ? 3 : 0,
                 Handled = false,
                 LeftButtonPressed = e.Button == MouseButtonConsts.Left,
                 RightButtonPressed = e.Button == MouseButtonConsts.Right,
@@ -1155,7 +1176,9 @@ namespace TikzEdtGTK
         {
             return new TEMouseArgs()
             {
-                ClickCount = 1,
+                ClickCount =    e.Type == Gdk.EventType.ButtonPress ? 1 :
+                                e.Type == Gdk.EventType.TwoButtonPress ? 2 :
+                                e.Type == Gdk.EventType.ThreeButtonPress ? 3 : 0,
                 Handled = false,
                 //LeftButtonPressed = e. == MouseButtonConsts.Left, // todo
                 //RightButtonPressed = e.Button == MouseButtonConsts.Right,
