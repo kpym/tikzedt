@@ -122,7 +122,7 @@
     </Compile>
     <Compile Include="TextEditorDocumentWrapper.cs" />
     <Compile Include="TikzDisplay.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="TikzDisplay.Designer.cs">
       <DependentUpon>TikzDisplay.cs</DependentUpon>
