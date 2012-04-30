@@ -21,6 +21,8 @@ namespace TikzEdtGTK
         Toolbar mainToolbar = new Toolbar(), toolsToolbar = new Toolbar(), toolsPaneBar = new Toolbar();
         Statusbar statusBar = new Statusbar();
 
+        RasterControl rasterControl1 = new RasterControl();
+
         HPaned hSplitter1 = new HPaned();
         HPaned hSplitter2 = new HPaned();
         VPaned vSplitter1 = new VPaned();
@@ -40,7 +42,9 @@ namespace TikzEdtGTK
             (GlobalUI.UI as GlobalUIGTK).MainForm = this;
             ScintillaDocumentWrapper.TheOneAndOnly = txtCode;
             TheVM = new MainWindowVM<ScintillaDocumentWrapper>(TheCompiler.Instance);
-            
+
+            rasterControl1.Rasterizer = rasterControl1.TheRasterModel;
+
 
             Resize(800, 600);
             Destroyed += (s, e) => Application.Quit();
@@ -69,7 +73,9 @@ namespace TikzEdtGTK
             vSplitter1.Position = 400;
 
             hSplitter1.Add1(vSplitter1);
-            hSplitter1.Add2(myLabel);
+            var sw = new ScrolledWindow();
+            sw.Add(rasterControl1);
+            hSplitter1.Add2(sw);
             hSplitter1.Position = 350;
 
             hSplitter2.Add1(new TextView() );
