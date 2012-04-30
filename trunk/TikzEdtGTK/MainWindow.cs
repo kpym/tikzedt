@@ -21,6 +21,7 @@ namespace TikzEdtGTK
         Menu fileMenu = new Menu(), editMenu = new Menu(), helpMenu = new Menu(), compileMenu = new Menu(), settingsMenu= new Menu();
         Toolbar mainToolbar = new Toolbar(), toolsToolbar = new Toolbar(), toolsPaneBar = new Toolbar();
         Statusbar statusBar = new Statusbar();
+        ScrolledWindow txtStatusWnd;
 
         ToolButton cmdAbortCompile;
         List<ToolButton> ToolButtons = new List<ToolButton>();
@@ -31,7 +32,8 @@ namespace TikzEdtGTK
 
         Label lblStandAlone = new Label("[Standalone]") { Visible = false };
 
-        RasterControl rasterControl1 = new RasterControl();
+        RasterControlBox rasterControl1Box = new RasterControlBox();
+        RasterControl rasterControl1;
 
         HScale scZoom = new HScale(5, 200, 3) { };
 
@@ -58,8 +60,12 @@ namespace TikzEdtGTK
             ScintillaDocumentWrapper.TheOneAndOnly = txtCode;
             TheVM = new MainWindowVM<ScintillaDocumentWrapper>(TheCompiler.Instance);
 
+            rasterControl1 = rasterControl1Box.RasterControl;
             rasterControl1.Rasterizer = rasterControl1.TheRasterModel;
 
+            txtStatus.Buffer.TagTable.Add(new TextTag("red") { Foreground="red" });
+            //txtCode.LexerLanguage = "html";
+            txtCode.Lexer = 4; // html
 
             Resize(800, 600);
             Destroyed += (s, e) => Application.Quit();
@@ -76,7 +82,7 @@ namespace TikzEdtGTK
             HBox hb = new HBox(false, 0);
             hb.PackStart(toolsPaneBar, false, false, 0);
 
-            ScrolledWindow scrw = new ScrolledWindow();
+            ScrolledWindow scrw = txtStatusWnd = new ScrolledWindow();
             scrw.Add(txtStatus);
             statusTabPanel.AppendPage(scrw, new Label("Status"));
 
@@ -93,6 +99,9 @@ namespace TikzEdtGTK
 
             hSplitter1.Add1(vSplitter1);
             var sw = new ScrolledWindow();
+            sw.HscrollbarPolicy = Gtk.PolicyType.Automatic;
+			sw.VscrollbarPolicy = Gtk.PolicyType.Automatic;
+            //sw.Placement = CornerType.
 			//Alignment a = new Alignment(0.5f,0.5f,0,0);
             //var vv = new Table(1,1,false);
             //vv.Attach(rasterControl1, 0, 0, 1,1,AttachOptions.Expand, AttachOptions.Expand, 0,0);
@@ -101,7 +110,7 @@ namespace TikzEdtGTK
             vv.PackStart(rasterControl1, true, false, 0);
             vh.PackStart(vv, true, false, 0);*/
             Alignment al = new Alignment(.5f, .5f, 0, 0);
-            al.Add(rasterControl1);
+            al.Add(rasterControl1Box);
             sw.Add(al);
             hSplitter1.Add2(sw);
             hSplitter1.Position = 350;
@@ -340,7 +349,14 @@ namespace TikzEdtGTK
         {
             Application.Invoke(delegate
             {
-                txtStatus.Buffer.Text += StatusLine + Environment.NewLine;
+                TextIter t = txtStatus.Buffer.EndIter;
+                if (IsError)
+                    txtStatus.Buffer.InsertWithTagsByName(ref t, StatusLine + Environment.NewLine, "red");
+                else
+                    txtStatus.Buffer.Text += StatusLine + Environment.NewLine;
+
+                txtStatusWnd.Vadjustment.Value = txtStatusWnd.Vadjustment.Upper;
+
                 /*int length = txtStatus.TextLength;  // at end of text
                 string toAppend = StatusLine + Environment.NewLine;
                 txtStatus.AppendText(toAppend);

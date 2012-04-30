@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.ComponentModel;
+using TikzEdt;
 
 namespace TikzEdtGTK
 {
@@ -62,8 +63,11 @@ namespace TikzEdtGTK
         {
             get
             {
-                StringBuilder sb = new StringBuilder(TheOneAndOnly.TextLength);
-                TheOneAndOnly.GetText(TheOneAndOnly.TextLength, sb);
+                StringBuilder sb = new StringBuilder(TheOneAndOnly.TextLength+1);
+                TheOneAndOnly.GetText(TheOneAndOnly.TextLength+1, sb);
+
+                //GlobalUI.UI.AddStatusLine(this, sb.ToString());
+
                 return sb.ToString();
             }
             set
