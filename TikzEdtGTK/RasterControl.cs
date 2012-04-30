@@ -164,7 +164,7 @@ namespace TikzEdtGTK
             //Graphics dc = pe.Graphics;
             dc.IdentityMatrix();
             
-            dc.SetSourceRGB(1.0, 1.0, 0.72);
+            dc.SetSourceRGB(1.0, 1.0, 1.0);
             dc.Rectangle(0, 0, Allocation.Width, Allocation.Height);
             dc.Fill();
 
@@ -172,6 +172,9 @@ namespace TikzEdtGTK
             Cairo.Matrix t = TheRasterModel.GetTikzToScreenTransform().ToCairoMatrix();
             //t.Freeze();
 
+            dc.Save();
+
+            dc.LineWidth = 0.01; // todo: always 1 pixel
             dc.SetSourceRGB(0.7, 0.7, 0.7); // whitesmoke?
             {
                 dc.Transform( t );
@@ -184,7 +187,7 @@ namespace TikzEdtGTK
                     });
             }
 
-            dc.IdentityMatrix();
+            dc.Restore();
 
             // draw unavailable note
             if (TheDisplayModel.IsUnavailable)
@@ -212,6 +215,7 @@ namespace TikzEdtGTK
             // draw the overlay
             if (ShowOverlay)
             {
+                dc.SetSourceRGB(0, 0, 0);
                 // draw shapes from parsetree
                 foreach (var osv in OSViews)
                     osv.Draw(dc);
@@ -225,6 +229,8 @@ namespace TikzEdtGTK
             // draw adorner(s)
             foreach (var scope in this.OSViews.OfType<OverlayScopeView>().Where(v => v.IsAdornerVisible))
             {
+                dc.SetSourceRGB(0.5, 0.5, 0.5);
+                dc.LineWidth = 5;
                 System.Windows.Rect ShowAt = scope.GetBB(Allocation.Height);
                 ShowAt.Inflate(6, 6);
 
@@ -238,9 +244,10 @@ namespace TikzEdtGTK
             {
                 System.Windows.Rect ShowAt = MarkObject_Marked.GetBB(Allocation.Height);
                 ShowAt.Inflate(15, 15);
-                using (Pen p = new Pen(Brushes.Red, 6))
+                //using (Pen p = new Pen(Brushes.Red, 6))
                 {
                     dc.SetSourceRGB(1, 0, 0);
+                    dc.LineWidth = 6;
                     dc.DrawEllipse(ShowAt);//p, 
                 }
             }
@@ -512,33 +519,29 @@ namespace TikzEdtGTK
 
         public double Height { get { return Allocation.Height; } }
 
-        protected override bool OnButtonPressEvent(Gdk.EventButton evnt)
-        {
-            return base.OnButtonPressEvent(evnt);
-        }
-        protected override bool OnButtonReleaseEvent(Gdk.EventButton evnt)
-        {
-            return base.OnButtonReleaseEvent(evnt);
-        }
+        
 
-        protected void OnMouseDown(MouseEventArgs e)
+
+        
+
+        protected override bool OnButtonPressEvent(Gdk.EventButton e)
         {
            // base.OnMouseDown(e);
           //  this.Focus(); // todo
 
-            if (e.Button.HasFlag(MouseButtons.Left))
+            if (e.Button == MouseButtonConsts.Left )
             {
                 // call left down-method in the current tool
-                var mousep = e.Location.ToPoint();
+                var mousep = e.Location();
                 var oo = ObjectAtCursor;
                 TEMouseArgs ee = e.ToTEMouseArgs();
                 TheOverlayModel.CurrentTool.OnLeftMouseButtonDown(oo, new System.Windows.Point(mousep.X, Height - mousep.Y), ee);
                 //e.Handled = ee.Handled;
             }
-            else if (e.Button.HasFlag(MouseButtons.Right))
+            else if (e.Button == MouseButtonConsts.Right)
             {
                 // call right down-method in the current tool
-                var mousep = e.Location.ToPoint();
+                var mousep = e.Location();
                 var oo = ObjectAtCursor;
                 TEMouseArgs ee = e.ToTEMouseArgs();
                 TheOverlayModel.CurrentTool.OnRightMouseButtonDown(oo, new System.Windows.Point(mousep.X, Height - mousep.Y), ee);
@@ -569,13 +572,14 @@ namespace TikzEdtGTK
                 }
             }
 
+            return true;
         }
         
-        protected void OnMouseMove(MouseEventArgs e)
+        protected override bool OnMotionNotifyEvent(Gdk.EventMotion e)
         {
            // base.OnMouseMove(e);
-
-            var mousep = e.Location.ToPoint();
+            
+            var mousep = e.Location();
             // convert to bottom left coordinates
             var p = new System.Windows.Point(mousep.X, Height - mousep.Y);
 
@@ -583,83 +587,90 @@ namespace TikzEdtGTK
             TheOverlayModel.CurrentTool.OnMouseMove(p, ee);
             //GlobalUI.UI.AddStatusLine(this, "mm " + mousep+" " + CursorPosition);
             //e.Handled = ee.Handled;
+
+            return true;
         }
 
-        protected  void OnMouseUp(MouseEventArgs e)
+        protected override bool OnButtonReleaseEvent(Gdk.EventButton e)
         {
+
           //  base.OnMouseUp(e);
 
-            if (e.Button.HasFlag(MouseButtons.Left))
+            if (e.Button == MouseButtonConsts.Left)
             {
                 if (MouseCaptured)
                     MouseCaptured = false;  // release mouse capture here to make sure the tools cannot forget
-                var mousep = e.Location.ToPoint();
+                var mousep = e.Location();
                 TEMouseArgs ee = e.ToTEMouseArgs();
                 TheOverlayModel.CurrentTool.OnLeftMouseButtonUp(new System.Windows.Point(mousep.X, Height - mousep.Y), ee);
                 //e.Handled = ee.Handled;
 
             }
-            else if (e.Button.HasFlag(MouseButtons.Right))
+            else if (e.Button == MouseButtonConsts.Right)
             {
 
             }
 
+            return true;
         }
-        protected override bool OnKeyPressEvent(Gdk.EventKey evnt)
-        {
-            return base.OnKeyPressEvent(evnt);
-        }
-        protected  void OnKeyDown(KeyEventArgs e)
+
+        protected override bool OnKeyPressEvent(Gdk.EventKey e)
         {
             //base.OnKeyDown(e);
             TEKeyArgs ee = e.ToTEKeyArgs();
             TheOverlayModel.CurrentTool.KeyDown(ee);
-            e.Handled = ee.Handled;
+            //e.Handled = ee.Handled;
 
             // turn off raster on Alt
             Rasterizer.View.OverrideWithZeroGridWidth = Control.ModifierKeys.HasFlag(Keys.Alt) && !Control.ModifierKeys.HasFlag(Keys.Shift);
             Rasterizer.View.OverrideWithHalfGridWidth = Control.ModifierKeys.HasFlag(Keys.Alt) && Control.ModifierKeys.HasFlag(Keys.Shift);
 
-            if (e.KeyCode == Keys.Alt)
-                e.Handled = true;
+            if (e.Key == Gdk.Key.Alt_L || e.Key == Gdk.Key.Alt_R)
+                ee.Handled = true;
 
-            if (!e.Handled)
+            if (!ee.Handled)
             {
+                var ModMask = Gtk.Accelerator.DefaultModMask;
+                var nState = e.State & ModMask;
+
                 // escape cancels current operation
-                if (e.KeyCode == Keys.Escape)
+                if (e.Key == Gdk.Key.Escape)
                     TheOverlayModel.ActivateDefaultTool();
 
-                if (e.KeyCode == Keys.C && e.Control)
+
+                if (e.Key == Gdk.Key.C && nState == Gdk.ModifierType.ControlMask)
                     TheOverlayModel.PerformCodeBlockOperation(PdfOverlayModel.CodeBlockAction.Copy);
-                else if (e.KeyCode == Keys.X && e.Control)
+                else if (e.Key == Gdk.Key.X && nState == Gdk.ModifierType.ControlMask)
                     TheOverlayModel.PerformCodeBlockOperation(PdfOverlayModel.CodeBlockAction.Cut);
-                else if (e.KeyCode == Keys.V && e.Control)
+                else if (e.Key == Gdk.Key.V && nState == Gdk.ModifierType.ControlMask)
                     GlobalUI.UI.ShowMessageBox("Currently pasting directly in the WYSIWYG area is not possible. However, you can paste into the code (text) field.",
                                                 "Paste not possible", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else if (e.KeyCode == Keys.Delete)
+                else if (e.Key == Gdk.Key.Delete)
                     TheOverlayModel.PerformCodeBlockOperation(PdfOverlayModel.CodeBlockAction.Delete);
             }
 
+            return true;
         }
-        protected override bool OnKeyReleaseEvent(Gdk.EventKey evnt)
-        {
-            return base.OnKeyReleaseEvent(evnt);
-        }
-        protected  void OnKeyUp(KeyEventArgs e)
+
+
+
+        protected override bool OnKeyReleaseEvent(Gdk.EventKey e)
         {
             //base.OnKeyUp(e);
 
             // route event to current tool
             TEKeyArgs ee = e.ToTEKeyArgs();
             TheOverlayModel.CurrentTool.KeyUp(ee);
-            e.Handled = ee.Handled;
+            //e.Handled = ee.Handled;
 
             // turn on raster on Alt released
             Rasterizer.View.OverrideWithZeroGridWidth = Control.ModifierKeys.HasFlag(Keys.Alt) && !Control.ModifierKeys.HasFlag(Keys.Shift);
             Rasterizer.View.OverrideWithHalfGridWidth = Control.ModifierKeys.HasFlag(Keys.Alt) && Control.ModifierKeys.HasFlag(Keys.Shift);
 
-            if (e.KeyCode == Keys.Alt)
-                e.Handled = true;
+            if (e.Key == Gdk.Key.Alt_L || e.Key == Gdk.Key.Alt_R)
+                ee.Handled = true;
+
+            return true;
         }
 
         #endregion
@@ -885,7 +896,8 @@ namespace TikzEdtGTK
         void IPdfOverlayView.SetCursor(Cursor cursor)
         {
             //Cursor = cursor;
-            this.GdkWindow.Cursor = new Gdk.Cursor(cursor.ToGdkCursorType());
+            if (this.GdkWindow != null)
+                this.GdkWindow.Cursor = new Gdk.Cursor(cursor.ToGdkCursorType());
         }
 
         public bool MouseCaptured  // TODOOOO
@@ -974,7 +986,7 @@ namespace TikzEdtGTK
 
             dc.Restore();
         }
-        public static void DrawEllipse(this Cairo.Context dc, System.Windows.Rect r )
+        public static void DrawEllipse(this Cairo.Context dc, System.Windows.Rect r)
         {
             dc.DrawEllipse(r.Center().X, r.Center().Y, r.Width, r.Height);
         }
@@ -1021,7 +1033,7 @@ namespace TikzEdtGTK
         }
         public static Cairo.Rectangle ToCairoRectangle(this System.Windows.Rect r)
         {
-            return new Cairo.Rectangle(r.X,r.Y, r.Width, r.Height);
+            return new Cairo.Rectangle(r.X, r.Y, r.Width, r.Height);
         }
 
         public static void DrawLine(this Cairo.Context dc, System.Windows.Point p1, System.Windows.Point p2)
@@ -1117,6 +1129,39 @@ namespace TikzEdtGTK
             };
         }
 
+        public static System.Windows.Point Location(this Gdk.EventButton e)
+        {
+            return new System.Windows.Point(e.X, e.Y);
+        }
+
+        public static TEMouseArgs ToTEMouseArgs(this Gdk.EventButton e)
+        {
+            return new TEMouseArgs()
+            {
+                ClickCount = 1,
+                Handled = false,
+                LeftButtonPressed = e.Button == MouseButtonConsts.Left,
+                RightButtonPressed = e.Button == MouseButtonConsts.Right,
+                MiddleButtonPressed = e.Button == MouseButtonConsts.Middle
+            };
+        }
+
+        public static System.Windows.Point Location(this Gdk.EventMotion e)
+        {
+            return new System.Windows.Point(e.X, e.Y);
+        }
+
+        public static TEMouseArgs ToTEMouseArgs(this Gdk.EventMotion e)
+        {
+            return new TEMouseArgs()
+            {
+                ClickCount = 1,
+                Handled = false,
+                //LeftButtonPressed = e. == MouseButtonConsts.Left, // todo
+                //RightButtonPressed = e.Button == MouseButtonConsts.Right,
+                //MiddleButtonPressed = e.Button == MouseButtonConsts.Middle
+            };
+        }
         public static TEKeyArgs ToTEKeyArgs(this KeyEventArgs e)
         {
             return new TEKeyArgs()
@@ -1125,5 +1170,21 @@ namespace TikzEdtGTK
                 KeyCode = e.KeyCode
             };
         }
-}
+
+        public static TEKeyArgs ToTEKeyArgs(this Gdk.EventKey e)
+        {
+            return new TEKeyArgs()
+            {
+                Handled = false,
+                KeyCode = (Keys)e.HardwareKeycode
+            };
+        }
+    }
+
+    static class MouseButtonConsts
+    {
+        public static uint Left = 1;
+        public static uint Middle = 2;
+        public static uint Right = 3;
+    }
 }

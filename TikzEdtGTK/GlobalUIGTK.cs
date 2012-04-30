@@ -22,7 +22,7 @@ namespace TikzEdtGTK
 
         public DialogResult ShowMessageBox(string Text, string Caption, MessageBoxButtons Button, MessageBoxIcon Icon)
         {
-            var m = new MessageDialog(MainForm, DialogFlags.Modal, MessageType.Warning, ButtonsType.Ok, "Hallo Welt");
+            var m = new MessageDialog(MainForm, DialogFlags.Modal, MessageType.Warning, ButtonsType.Ok, Text);
             m.Run();
             m.Destroy();
             return DialogResult.OK;

@@ -32,6 +32,12 @@ namespace TikzEdtGTK
   //              MessageBox.Show("File " + missingfile + " not found. Please re-install program or provide file manually.", "File missing", MessageBoxButtons.OK,
   //                  MessageBoxIcon.Error);
 
+            // check that necessary config files are in place
+            string missingfile = "";
+            if (false == AppMethods.FirstRunPreparations(out missingfile))
+                GlobalUI.UI.ShowMessageBox("File " + missingfile + " not found. Please re-install program or provide file manually.", "File missing", System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Error);
+
             Window myWin = new MainWindow();
 
             Gtk.Application.Run();
@@ -63,13 +69,10 @@ namespace TikzEdtGTK
             CompilerSettings.Instance = new PropertiesCompilerSettings();
             TikzEdt.Parser.ParserSettings.Instance = new PropertiesParserSettings();
 
-            // check that necessary config files are in place
-            string missingfile = "";
-            if (false == AppMethods.FirstRunPreparations(out missingfile))
-                MessageBox.Show("File " + missingfile + " not found. Please re-install program or provide file manually.", "File missing", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+           */
 
 
+            /*
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());*/
