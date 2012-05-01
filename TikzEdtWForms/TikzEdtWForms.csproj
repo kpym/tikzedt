@@ -61,6 +61,12 @@
     <Compile Include="DynPreambleDialog.Designer.cs">
       <DependentUpon>DynPreambleDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExportCompileDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExportCompileDialog.Designer.cs">
+      <DependentUpon>ExportCompileDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="FileViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -141,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DynPreambleDialog.resx">
       <DependentUpon>DynPreambleDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExportCompileDialog.resx">
+      <DependentUpon>ExportCompileDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FileViewer.resx">
       <DependentUpon>FileViewer.cs</DependentUpon>

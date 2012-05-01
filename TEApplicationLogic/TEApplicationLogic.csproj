@@ -106,6 +106,7 @@
     <Compile Include="UpdateChecker.cs" />
     <Compile Include="ViewModels\DynPreambleElementVM.cs" />
     <Compile Include="ViewModels\DynPreambleVM.cs" />
+    <Compile Include="ViewModels\ExportCompileVM.cs" />
     <Compile Include="ViewModels\ITEDoc.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="ViewModels\TEDocument.cs" />

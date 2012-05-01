@@ -11,6 +11,7 @@ using TikzEdt;
 using System.Diagnostics;
 using ICSharpCode.TextEditor;
 using System.Windows.Forms.Design;
+//using TikzEdt.Parser;
 
 namespace TikzEdtWForms
 {
@@ -447,6 +448,7 @@ namespace TikzEdtWForms
 			AddStatusLine("Working directory is now: " + Helper.GetCurrentWorkingDir());
 
             GlobalUI.UI.OnGlobalStatus += new EventHandler<GlobalStatusEventData>(UI_OnGlobalStatus);
+            GlobalUI.UI.OnExportCompile += (s, ee) => ExportCompileDialog.Export(ee.Code, ee.File);
             TheCompiler.Instance.OnTexOutput += new EventHandler<TexCompiler.CompileEventArgs>(Instance_OnTexOutput);
             TheCompiler.Instance.OnCompileEvent += new EventHandler<TexCompiler.CompileEventArgs>(Instance_OnCompileEvent);
             TikzToBMPFactory.Instance.JobNumberChanged += new EventHandler(Instance_JobNumberChanged);
@@ -885,6 +887,16 @@ namespace TikzEdtWForms
                 TheVM.EditorMode = TEMode.Preview;
             else if (sender == productionToolStripMenuItem)
                 TheVM.EditorMode = TEMode.Production;
+        }
+
+        private void toolStripButton10_Click(object sender, EventArgs e)
+        {
+            TikzEdt.Parser.TikzParseTreeHelper.UniquefyNodeNames(TheVM.TheDocument.ParseTree);
+        }
+
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TheVM.TheDocument.ExportFile();
         }
 
 

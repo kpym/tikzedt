@@ -4,18 +4,25 @@
         Title="Compiling for export..." Height="200" Width="300"
         Closing="Window_Closing"
         Margin="5">
+    <Window.Resources>
+        <ResourceDictionary Source="../Resources/ResourceDict.xaml">
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <DockPanel>
             <!-- <TextBlock Text="Compiling for export..." DockPanel.Dock="Top" Margin="0 5"/>-->
             <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
-                <Button Name="cmdExit" DockPanel.Dock="Right" Margin="5" Width="70" IsDefault="True" IsCancel="True" Click="cmdExit_Click">
-                    Abort
+                <Button Name="cmdExit" DockPanel.Dock="Right" Margin="5" Width="70" IsDefault="True" IsCancel="True" Click="cmdExit_Click" Content="{Binding CloseButtonText}">
                 </Button>
-                <ProgressBar Width="60" IsIndeterminate="True" Margin="5" VerticalAlignment="Center" Height="10" Name="pbProgress"/>
-                <TextBlock Foreground="Red" Text="Compilation failed" DockPanel.Dock="Left" VerticalAlignment="Center" Visibility="Collapsed" Name="lblFailed" Margin="5 0"/>
-                <TextBlock Text="Export successful" DockPanel.Dock="Left" VerticalAlignment="Center" Visibility="Collapsed" Name="lblSuccess" Margin="5 0"/>                
+                <ProgressBar Width="60" IsIndeterminate="True" Margin="5" VerticalAlignment="Center" Height="10" Name="pbProgress"
+                             Visibility="{Binding ProgressBarVisible, Converter={StaticResource boolToVis}}"/>
+                <TextBlock Foreground="Red" Text="Compilation failed" DockPanel.Dock="Left" VerticalAlignment="Center"  Name="lblFailed" Margin="5 0"
+                           Visibility="{Binding FailedLabelVisible, Converter={StaticResource boolToVis}}"/>
+                <TextBlock Text="Export successful" DockPanel.Dock="Left" VerticalAlignment="Center" Name="lblSuccess" Margin="5 0"
+                           Visibility="{Binding SuccessLabelVisible, Converter={StaticResource boolToVis}}"/>                
             </DockPanel>
-            <TextBox Name="txtOutput" Background="Black" Foreground="White" FontFamily="Courier New" IsReadOnly="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+            <TextBox Name="txtOutput" Background="Black" Foreground="White" FontFamily="Courier New" IsReadOnly="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                     Text="{Binding StatusText}" TextChanged="txtOutput_TextChanged"/>
             
         </DockPanel>
     </Grid>
