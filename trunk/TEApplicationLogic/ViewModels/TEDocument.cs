@@ -1013,7 +1013,7 @@ namespace TikzEdt.ViewModels
         /// Displays an Export As dialog and, if successful, exports the current tikzpicture 
         /// as either bmp, jpeg, tiff or png.
         /// </summary>
-        void ExportFile()
+        public void ExportFile()
         {
             if (!File.Exists(PdfPath))
             {
