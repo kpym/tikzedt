@@ -61,6 +61,7 @@
 
 === For later ===
 *TODO*
+  * Updatechecker: Mind the separate versions!!!
   * Allow to set resolution before exporting file.
   * outsorce (and publish) code completions as separate lib
   * pdflatex hangs sometimes (??how to reproduce??)(pdf file access problem?)
