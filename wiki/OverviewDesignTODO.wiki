@@ -61,6 +61,7 @@
 
 === For later ===
 *TODO*
+  * Move snippet compilation display to VM and check abort is handled correctly
   * Updatechecker: Mind the separate versions!!!
   * Allow to set resolution before exporting file.
   * outsorce (and publish) code completions as separate lib
