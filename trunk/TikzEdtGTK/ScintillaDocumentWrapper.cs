@@ -100,5 +100,22 @@ namespace TikzEdtGTK
         {
             TheOneAndOnly.Modified -= new Sansguerre.ModifiedHandler(TheOneAndOnly_Modified);
         }
+
+
+        public int LineFromOffset(int offset)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int OffsetFromLine(int line)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public string GetLine(int line)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

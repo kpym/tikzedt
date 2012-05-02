@@ -784,13 +784,48 @@ namespace TikzEdt.ViewModels
         }
 
 
- /*       public void Reload()
+        /// <summary>
+        /// Comments out the lines intersecting the specified segment.
+        /// </summary>
+        /// <param name="startoffset"></param>
+        /// <param name="endoffset"></param>
+        public void CommentSegment(int startoffset, int endoffset)
         {
-            if (FilePath != null)
-                LoadFile(FilePath);
-            Document = new TextDocument("Hallo Welt");
+            if (startoffset < 0 || startoffset > Document.Text.Length || endoffset < 0 || endoffset > Document.Text.Length)
+                return;
+            Document.BeginUpdate();
+            int startline = Document.LineFromOffset(startoffset),
+                endline = Document.LineFromOffset(endoffset);
+            for (int i = startline; i <= endline; i++)
+                Document.Insert(Document.OffsetFromLine(i), "% ");
+            Document.EndUpdate();
         }
-        */
+
+        /// <summary>
+        /// Removes comment marks from the lines intersecting the specified segment.
+        /// </summary>
+        /// <param name="startoffset"></param>
+        /// <param name="endoffset"></param>
+        public void UnCommentSegment(int startoffset, int endoffset)
+        {
+            if (startoffset < 0 || startoffset > Document.Text.Length || endoffset < 0 || endoffset > Document.Text.Length)
+                return;
+            Document.BeginUpdate();
+            int startline = Document.LineFromOffset(startoffset),
+                endline = Document.LineFromOffset(endoffset);
+            for (int i = startline; i <= endline; i++)
+            {
+                int offset = Document.OffsetFromLine(i);
+                string s = Document.GetLine(i);// GetText(offset, txtCode.Document.Lines[i - 1].Length);
+                if (s.StartsWith("% "))
+                    Document.Remove(offset, 2);
+                else if (s.StartsWith("%"))
+                    Document.Remove(offset, 1);
+            }
+            Document.EndUpdate();
+        }
+
+
         public override string ToString()
         {
             return DisplayString;
@@ -1091,76 +1126,6 @@ namespace TikzEdt.ViewModels
             GlobalUI.UI.AddStatusLine(this, "File exported as " + outFileName);
         }
 
-        /// <summary>
-        /// Comments out the selected lines TODO
-        /// </summary>
-        /// <param name="SelectionStart"></param>
-        /// <param name="SelectionLength"></param>
-        public void CommentLines(int SelectionStart, int SelectionLength)
-        {
-           /* Document.BeginUpdate();
-            int startline = Document.GetLocation(SelectionStart).Line,
-                endline = Document.GetLocation(SelectionStart + SelectionLength).Line;
-            for (int i = startline; i <= endline; i++)
-                Document.Replace(Document.Lines[i - 1].Offset, 0, "% ");
-            Document.EndUpdate();*/
-        }
-
-  /*      private string SavePdf(bool SaveAs)
-        {
-            if (SaveAs == false && CurFileNeverSaved)
-            {
-                MainWindow.AddStatusLine("Please save document first", true);
-                return "";
-            }
-
-            string s = Helper.GetCurrentWorkingDir();
-            string t = Helper.GetPreviewFilename();
-            string PreviewPdfFilePath = System.IO.Path.GetFullPath(CurFile) + t + ".pdf";
-            string PdfFilePath = Helper.RemoveFileExtension(System.IO.Path.GetFullPath(CurFile)) + ".pdf";
-            //            string PreviewPdfFilePath = s + "\\" + CurFile + t + ".pdf";
-            //            string PdfFilePath = s + "\\" + Helper.RemoveFileExtension(CurFile) + ".pdf";
-
-            if (SaveAs == true)
-            {
-                SaveFileDialog sfd = new SaveFileDialog();
-
-                sfd.Filter = "Pdf Files|*.pdf" +
-             "|All Files|*.*";
-                sfd.OverwritePrompt = true;
-                sfd.ValidateNames = true;
-
-                sfd.FileName = System.IO.Path.GetFileName(CurFile);
-                // change file extension to .pdf
-                sfd.FileName = Helper.RemoveFileExtension(sfd.FileName) + ".pdf";
-                sfd.InitialDirectory = System.IO.Path.GetDirectoryName(CurFile);
-                if (sfd.ShowDialog() != true)
-                    return "";
-                PdfFilePath = sfd.FileName;
-            }
-
-            try
-            {
-                File.Copy(PreviewPdfFilePath, PdfFilePath, true);
-            }
-            catch (Exception Ex)
-            {
-                AddStatusLine("Could not save PDF. " + Ex.Message, true);
-                return "";
-            }
-
-            AddStatusLine("Preview PDF file saved as " + PdfFilePath);
-            return PdfFilePath;
-        } */
-
-    
-
-        // this is called upon latex error,... the error is extracted from the latex output in the TexCompiler class
- /*       void addProblemMarker(object sender, TexCompiler.CompileEventArgs e)
-        {
-            addProblemMarker(sender, e.Error, e.job);
-        }
-  */      
         void addProblemMarker(TexOutputParser.TexError err, TexCompiler.Job job = null) //String error, int linenr, TexCompiler.Severity severity)
         {
             // if job = null, the error was generated by the parser => always display

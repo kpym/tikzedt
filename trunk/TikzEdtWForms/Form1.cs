@@ -27,6 +27,8 @@ namespace TikzEdtWForms
         ToolStripLabel lblStandAlone;
         ToolStripTextBox  txtRadialOffset, txtRadialSteps;
         ToolStripComboBox cmbGrid;
+
+        TESharedComponents.UpdateChecker updateChecker = new TESharedComponents.UpdateChecker() { VersionInfoURL = Consts.VersionInfoURL };
         //PdfOverlay pdfOverlay1;
 
         public Form1()
@@ -813,6 +815,7 @@ namespace TikzEdtWForms
 
         private void commentToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            TheVM.TheDocument.CommentSegment(txtCode.SelectionStart(), txtCode.SelectionStart() + txtCode.SelectionLength());
             /*
             txtCode.BeginUpdate();
             int startline = txtCode.Document.GetLocation(txtCode.SelectionStart).Line,
@@ -824,6 +827,7 @@ namespace TikzEdtWForms
 
         private void uncommentToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            TheVM.TheDocument.UnCommentSegment(txtCode.SelectionStart(), txtCode.SelectionStart() + txtCode.SelectionLength());
           /*  txtCode.BeginChange();
             int startline = txtCode.Document.GetLocation(txtCode.SelectionStart).Line,
                 endline = txtCode.Document.GetLocation(txtCode.SelectionStart + txtCode.SelectionLength).Line;
@@ -900,6 +904,16 @@ namespace TikzEdtWForms
         }
 
 
+
+        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            updateChecker.CheckForUpdatesAsync();
+        }
+
+        private void abortSnippetCompilationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TikzToBMPFactory.Instance.AbortCompilation();
+        }
 
 
 
