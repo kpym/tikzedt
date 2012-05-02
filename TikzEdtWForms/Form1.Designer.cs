@@ -154,6 +154,7 @@
             this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.abortSnippetCompilationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -495,6 +496,7 @@
             this.compileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.recompileToolStripMenuItem,
             this.abortCompilationToolStripMenuItem,
+            this.abortSnippetCompilationToolStripMenuItem,
             this.autoCompilationOnChangeToolStripMenuItem,
             this.toolStripMenuItem2,
             this.regeneratePrecompiledHeadersToolStripMenuItem,
@@ -605,6 +607,7 @@
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
             this.searchToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.searchToolStripMenuItem.Text = "&Check for Updates";
+            this.searchToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
@@ -1336,6 +1339,13 @@
             this.toolStripButton10.ToolTipText = "Unique-ify node names";
             this.toolStripButton10.Click += new System.EventHandler(this.toolStripButton10_Click);
             // 
+            // abortSnippetCompilationToolStripMenuItem
+            // 
+            this.abortSnippetCompilationToolStripMenuItem.Name = "abortSnippetCompilationToolStripMenuItem";
+            this.abortSnippetCompilationToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
+            this.abortSnippetCompilationToolStripMenuItem.Text = "Abort snippet compilation";
+            this.abortSnippetCompilationToolStripMenuItem.Click += new System.EventHandler(this.abortSnippetCompilationToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1513,6 +1523,7 @@
         private System.Windows.Forms.ToolStripMenuItem wYSIWYGToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem previewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem productionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem abortSnippetCompilationToolStripMenuItem;
     }
 }
 

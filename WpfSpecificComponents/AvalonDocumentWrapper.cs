@@ -57,5 +57,22 @@ namespace TikzEdt
         {
             get { return Document.LineCount; }
         }
+
+
+        public int LineFromOffset(int offset)
+        {
+            return Document.GetLocation(offset).Line;
+        }
+
+        public int OffsetFromLine(int line)
+        {
+            return Document.Lines[line - 1].Offset;
+        }
+
+
+        public string GetLine(int line)
+        {
+            return Document.GetText(Document.Lines[line - 1].Offset, Document.Lines[line - 1].Length);
+        }
     }
 }

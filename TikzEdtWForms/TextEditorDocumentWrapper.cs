@@ -103,5 +103,22 @@ namespace TikzEdtWForms
         {
             Document.DocumentChanged -= new DocumentEventHandler(Document_DocumentChanged);
         }
+
+
+        public int LineFromOffset(int offset)
+        {
+            return Document.GetLineNumberForOffset(offset);
+        }
+
+        public int OffsetFromLine(int line)
+        {
+            return Document.GetLineSegment(line).Offset;
+        }
+
+
+        public string GetLine(int line)
+        {
+            return Document.GetText( Document.GetLineSegment(line) );
+        }
     }
 }
