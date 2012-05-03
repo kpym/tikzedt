@@ -61,7 +61,7 @@
 === Linux issues ===
   * mac version
   * middle button pan
-  * right button deselect not always working
+  * right button deselect not always working (?or cursor not updated)
 
 
 === For later ===
