@@ -63,6 +63,7 @@
   * middle button pan
   * right button deselect not always working (?or cursor not updated)
   * make snippet use as style etc invisible if not available
+  * mac installer package???
 
 === For later ===
 *TODO*
