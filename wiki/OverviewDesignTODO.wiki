@@ -58,9 +58,15 @@
   * solution for different paths
   * add more snippets
 
+=== Linux issues ===
+  * mac version
+  * middle button pan
+  * right button deselect not always working
+
 
 === For later ===
 *TODO*
+  * change rendering mode built in <--> external,... allow to specify ext. program
   * Move snippet compilation display to VM and check abort is handled correctly
   * Updatechecker: Mind the separate versions!!!
   * Allow to set resolution before exporting file.
