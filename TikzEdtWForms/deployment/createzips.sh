@@ -21,6 +21,8 @@ cp -r temp/* linuxx86files
 cp -r temp/* linuxamd64files
 cp -r temp/* macfiles
 
+cp -r macfiles/* TikzEdt.app/Contents/MacOS
+
 cd linuxx86files
 tar -zcvf ../$lin32 *
 cd ../linuxamd64files
@@ -29,6 +31,8 @@ cd ../macfiles
 tar -zcvf ../$mac *
 
 cd $p
+
+tar -zcvf TikzEdt.tar.gz TikzEdt.app
 
 #cp $lin32 $lin64
 #cp $lin32 $mac
