@@ -16,6 +16,7 @@ namespace ICSharpCode.TextEditor.Document
 		After
 	}
 	
+
 	public class DefaultTextEditorProperties : ITextEditorProperties
 	{
 		int                   tabIndent             = 4;

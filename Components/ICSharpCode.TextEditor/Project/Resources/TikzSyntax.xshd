@@ -7,7 +7,7 @@
 
   <RuleSets>
     <RuleSet ignorecase = "false">
-      <Delimiters>&amp;~!@%^*()-+=|\#/{}[]:;"'&lt;&gt; , .?</Delimiters>
+      <Delimiters>&amp;~!@%^*()-+=|#/{}[]:;"'&lt;&gt; , .?</Delimiters>
 
       <Span name = "LineComment" bold = "false" italic = "true" color = "SlateGray" stopateol = "true">
         <Begin>%</Begin>
@@ -22,15 +22,8 @@
         <End>\]</End>
       </Span>
 
-      <!-- \... commands -->
-      <MarkFollowing markmarker ="true" bold = "true" italic = "false" color = "MidnightBlue">\</MarkFollowing>
-
-      <!-- some commands must be handled specially -->
-      <KeyWords name = "Keyword1" bold = "false" italic = "false" color = "Blue">
-        <Key word = "\$" />
-        <Key word = "\\" />
-        <Key word = "\%" />
-      </KeyWords>
+      <!-- \... commands 
+      <MarkFollowing markmarker ="true" bold = "true" italic = "false" color = "Blue">\</MarkFollowing>-->
 
       <KeyWords name = "KeyWords2" bold="true" italic="false" color="Green">
         <Key word = ")" />
@@ -95,6 +88,14 @@
         <!-- ... -->
       </KeyWords>
 
+      <!-- some commands must be handled specially -->
+      <KeyWords name = "Keyword1" bold = "false" italic = "false" color = "Blue">
+        <Key word = "\$" />
+     <!--    <Key word = "\\" /> -->
+        <Key word = "\%" />
+      </KeyWords>
+
+
       <KeyWords name="TikzCommands" bold="true" italic="false" color="Blue">
         <Key word = "\begin" />
         <Key word = "\end" />
@@ -115,7 +116,8 @@
         <Key word = "\definecolor" />
         <!-- ... -->
       </KeyWords>
-      
+
+
     </RuleSet>
 
     <RuleSet name = "MathMode" ignorecase = "false">

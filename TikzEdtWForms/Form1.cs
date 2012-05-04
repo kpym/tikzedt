@@ -27,7 +27,7 @@ namespace TikzEdtWForms
 
         Panel ScrollPanel = new Panel() { AutoScroll = true, Dock=DockStyle.Fill};
 
-        TESharedComponents.UpdateChecker updateChecker = new TESharedComponents.UpdateChecker() { VersionInfoURL = Consts.VersionInfoURL };
+        TESharedComponents.UpdateChecker updateChecker = new TESharedComponents.UpdateChecker() { VersionInfoURL = Consts.WFormsVersionInfoURL };
         //PdfOverlay pdfOverlay1;
 
         public Form1()
@@ -115,6 +115,7 @@ namespace TikzEdtWForms
             rasterControl1.MouseWheel += new MouseEventHandler(rasterControl1_MouseWheel);
             rasterControl1.JumpToSource += new EventHandler<RasterControl.JumpToSourceEventArgs>(rasterControl1_JumpToSource);
             rasterControl1.ReplaceText += new EventHandler<TikzEdt.Overlay.ReplaceTextEventArgs>(rasterControl1_ReplaceText);
+            //rasterControl1.MouseDown += (s, e) => { if (e.Button == System.Windows.Forms.MouseButtons.Middle) AddStatusLine("hjhjkh"); };
 
             cmbEdgeStyle.TextChanged += (s, e) => TheVM.TheDocument.EdgeStyle = cmbEdgeStyle.Text;
             cmbNodeStyle.TextChanged += (s, e) => TheVM.TheDocument.NodeStyle = cmbNodeStyle.Text;
@@ -131,7 +132,7 @@ namespace TikzEdtWForms
             // add bindings
             rasterControl1.DataBindings.Add("ShowOverlay", cmdShowOverlay, "Checked");
             rasterControl1.DataBindings.Add("UsePolarCoordinates", chkUsePolar, "Checked");
-
+            
             // Note that the TheDocument.Document property is bound "automatically" by the hack described in the TextEditorDocumentWrapper class.
             var sp = BindingFactory.CreateProvider(TheVM, "TheDocument", vm => vm.TheDocument);
             BindingFactory.CreateBindingSP(sp, "ParseTree", doc => rasterControl1.ParseTree = doc.ParseTree, () => rasterControl1.ParseTree = null);
@@ -147,7 +148,7 @@ namespace TikzEdtWForms
             zoomCtrl.ValueChanged += (s, e) => TheVM.TheDocument.Resolution = zoomCtrl.Value;
             BindingFactory.CreateBindingSP(sp, "DisplayString", doc => this.Text = "TikzEdt - " + doc.DisplayString, () => this.Text = "TikzEdt");
             BindingFactory.CreateBindingSP(sp, "IsStandAlone", doc => lblStandalone.Visible = doc.IsStandAlone, () => lblStandalone.Visible = false);
-
+            
 
             BindingFactory.CreateBinding(TheVM, "RasterRadialOffset", vm =>
             { txtRadialOffset.Value = (decimal)vm.RasterRadialOffset; rasterControl1.RadialOffset = vm.RasterRadialOffset; }, null);
@@ -183,6 +184,11 @@ namespace TikzEdtWForms
                 () => { cmdAbortCompile.Enabled = abortCompilationToolStripMenuItem.Enabled = true; });
 
 
+            txtCode.Document.UndoStack.OperationPushed += UndoStack_OperationPushed;
+            txtCode.Document.UndoStack.ActionRedone += UndoStack_OperationPushed;
+            txtCode.Document.UndoStack.ActionUndone += UndoStack_OperationPushed;
+            BindingFactory.CreateBinding(TheVM, "TheDocument", vm => UndoStack_OperationPushed(this, null), null); // document changed -> update undo state
+
             // load settings
             var S = Properties.Settings.Default;
             Width = S.Window_Width;
@@ -206,10 +212,14 @@ namespace TikzEdtWForms
             splitContainer1.SplitterMoved += (s, e) => Properties.Settings.Default.LeftToolsColWidthSetting = splitContainer1.SplitterDistance;
 
             BindingFactory.CreateBinding(S, "Editor_ShowLineNumbers", s => txtCode.ShowLineNumbers = s.Editor_ShowLineNumbers, null);
-            BindingFactory.CreateBinding(S, "Editor_Font", s => txtCode.Font = s.Editor_Font, null);
-            BindingFactory.CreateBinding(S, "Snippets_ShowThumbs", s => snippetList1.ShowThumbnails = s.Snippets_ShowThumbs, null);
+            BindingFactory.CreateBinding(S, "Editor_Font", s =>
+            {             
+                txtCode.Font = s.Editor_Font;
+            }, null);
+            BindingFactory.CreateBinding(S, "Snippets_ThumbnailSize", s => snippetList1.ThumbnailSize = s.Snippets_ThumbnailSize, null);
+            snippetList1.ThumbnailSizeChanged += (s, e) => Properties.Settings.Default.Snippets_ThumbnailSize = snippetList1.ThumbnailSize;
 
-            BindingFactory.CreateBinding(S, "Snippets_ShowThumbs", s =>
+            BindingFactory.CreateBinding(S, "AutoCompileOnDocumentChange", s =>
             {
                 autoCompilationOnChangeToolStripMenuItem.Checked = s.AutoCompileOnDocumentChange;
                 TheVM.AutoCompileOnDocumentChange = s.AutoCompileOnDocumentChange;
@@ -218,6 +228,13 @@ namespace TikzEdtWForms
             {
                 S.AutoCompileOnDocumentChange = TheVM.AutoCompileOnDocumentChange = autoCompilationOnChangeToolStripMenuItem.Checked;
             };
+        }
+
+        void UndoStack_OperationPushed(object sender, EventArgs e)
+        {
+            cmdUndo.Enabled = undoToolStripMenuItem.Enabled = txtCode.Document.UndoStack.CanUndo;
+            cmdRedo.Enabled = redoToolStripMenuItem.Enabled = txtCode.Document.UndoStack.CanRedo;
+
         }
 
         void rasterControl1_ReplaceText(object sender, TikzEdt.Overlay.ReplaceTextEventArgs e)

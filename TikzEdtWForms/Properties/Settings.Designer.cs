@@ -398,16 +398,16 @@ namespace TikzEdtWForms.Properties
 
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool Snippets_ShowThumbs
+        [global::System.Configuration.DefaultSettingValueAttribute("70")]
+        public int Snippets_ThumbnailSize
         {
             get
             {
-                return ((bool)(this["Snippets_ShowThumbs"]));
+                return ((int)(this["Snippets_ThumbnailSize"]));
             }
             set
             {
-                this["Snippets_ShowThumbs"] = value;
+                this["Snippets_ThumbnailSize"] = value;
             }
         }
 

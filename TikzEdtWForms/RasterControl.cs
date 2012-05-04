@@ -98,11 +98,12 @@ namespace TikzEdtWForms
             var i = new MenuItem("Jump to source");
             i.Click += (s, e) => { JumpToSourceDoIt(PopupSource); };
             m.MenuItems.Add(i);
-            i = new MenuItem("Edit this scope");
-            i.Click += (s, e) => {  };
+            var ieditscope = i = new MenuItem("Edit this scope");
+            i.Click += (s, e) => { TheOverlayModel.CurEditing = PopupSource as OverlayScope; };
             m.MenuItems.Add(i);
 
             var mm = new MenuItem("Assign style");
+            var massignstyle = mm;
             i = new MenuItem("Assign new style...");
             i.Click += (s, e) => TheOverlayModel.AssignStyle(PdfOverlayModel.AssignStyleType.AssignNewStyle);
             mm.MenuItems.Add(i);
@@ -117,7 +118,7 @@ namespace TikzEdtWForms
             mm.MenuItems.Add(i);
             m.MenuItems.Add(mm);
 
-            mm = new MenuItem("Selection");
+            var mselection = mm = new MenuItem("Selection");
             i = new MenuItem("Copy");
             i.Click += (s, e) => TheOverlayModel.PerformCodeBlockOperation(PdfOverlayModel.CodeBlockAction.Copy);
             mm.MenuItems.Add(i);
@@ -141,7 +142,11 @@ namespace TikzEdtWForms
             mm.MenuItems.Add(i);
             m.MenuItems.Add(mm);
 
-            m.Popup += (s, e) => { PopupSource = ObjectAtCursor; };
+            m.Popup += (s, e) => { 
+                PopupSource = ObjectAtCursor;
+                massignstyle.Enabled = mselection.Enabled = TheOverlayModel.selectionTool.SelItems.Count() > 0;
+                ieditscope.Enabled = (PopupSource is OverlayScope);
+            };
             
         }
 

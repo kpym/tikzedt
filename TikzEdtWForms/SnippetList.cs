@@ -21,24 +21,25 @@ namespace TikzEdtWForms
         #endregion
 
         #region Properties
-        private bool _ShowThumbnails = true;
-        public bool ShowThumbnails
-        {
-            get { return _ShowThumbnails; }
-            set { _ShowThumbnails = value; }
-        }
 
-        private int _ThumbnailSize = 40;
+        private int _ThumbnailSize = 70;
         public int ThumbnailSize
         {
             get { return _ThumbnailSize; }
             set 
-            { 
-                _ThumbnailSize = value;
-                foreach (var c in Controls.OfType<SnippetEntry>())
-                    c.ImgWidth = _ThumbnailSize;
+            {
+                if (_ThumbnailSize != value)
+                {
+                    _ThumbnailSize = value;
+                    foreach (var c in Controls.OfType<SnippetEntry>())
+                        c.ImgWidth = _ThumbnailSize;
+                    if (ThumbnailSizeChanged != null)
+                        ThumbnailSizeChanged(this, new EventArgs());
+                }
             }
         }
+
+        public event EventHandler ThumbnailSizeChanged;
 
         #endregion
 
@@ -58,20 +59,27 @@ namespace TikzEdtWForms
             m.MenuItems.Add(new MenuItem("-"));
 
             var mm = new MenuItem("Thumbnails");
-            i = new MenuItem("Off");
-            i.Click += (s, e) => ShowThumbnails = false;
-            mm.MenuItems.Add(i);
-            i = new MenuItem("Small");
-            i.Click += (s, e) => { ShowThumbnails = true; ThumbnailSize = 40; };
-            mm.MenuItems.Add(i);
-            i = new MenuItem("Middle");
-            i.Click += (s, e) => { ShowThumbnails = true; ThumbnailSize = 70; };
-            mm.MenuItems.Add(i);
-            i = new MenuItem("Large");
-            i.Click += (s, e) => { ShowThumbnails = true; ThumbnailSize = 150; };
-            mm.MenuItems.Add(i);
+            var ioff = new MenuItem("Off") { RadioCheck = true };
+            ioff.Click += (s, e) => { ThumbnailSize = 0; };
+            mm.MenuItems.Add(ioff);
+            var ismall = new MenuItem("Small") {RadioCheck = true };
+            ismall.Click += (s, e) => { ThumbnailSize = 40; };
+            mm.MenuItems.Add(ismall);
+            var imiddle = new MenuItem("Medium") { RadioCheck = true };
+            imiddle.Click += (s, e) => { ThumbnailSize = 70; };
+            mm.MenuItems.Add(imiddle);
+            var ilarge = new MenuItem("Large") { RadioCheck = true };
+            ilarge.Click += (s, e) => { ThumbnailSize = 150; };
+            mm.MenuItems.Add(ilarge);
             m.MenuItems.Add(mm);
-            m.Popup += (s, e) => PopupSource = TheContextMenu.SourceControl as SnippetEntry;
+            m.Popup += (s, e) =>
+            {
+                PopupSource = TheContextMenu.SourceControl as SnippetEntry;
+                ioff.Checked = ThumbnailSize == 0;
+                ismall.Checked = ThumbnailSize == 40;
+                imiddle.Checked = ThumbnailSize == 70;
+                ilarge.Checked = ThumbnailSize == 150;
+            };
             
         }
         SnippetEntry PopupSource = null;
@@ -83,6 +91,7 @@ namespace TikzEdtWForms
             BackColor = Color.White;
             this.Padding = new Padding(2);
             this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            //this.CanFocus = true;
 
             this.AutoScroll = true;
             ClientSizeChanged += new EventHandler(SnippetList_Resize);

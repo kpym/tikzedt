@@ -22,6 +22,7 @@ namespace TikzEdt
                 //s.Start();
 
                 BitmapSource ret = GetBitmapSourceFromBitmap(_backbuffer);
+                ret.Freeze();
                 _backbuffer.Dispose();
 
                 //s.Stop();

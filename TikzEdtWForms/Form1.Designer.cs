@@ -131,8 +131,8 @@
             this.cutToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.cmdUndo = new System.Windows.Forms.ToolStripButton();
+            this.cmdRedo = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.cmdCompile = new System.Windows.Forms.ToolStripButton();
             this.cmdAbortCompile = new System.Windows.Forms.ToolStripButton();
@@ -167,13 +167,13 @@
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-            //)(this.splitContainer1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            //)(this.splitContainer2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            //)(this.splitContainer3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -183,9 +183,9 @@
             this.tabPage3.SuspendLayout();
             this.tlbToolPane.SuspendLayout();
             this.statPanel.SuspendLayout();
-            //)(this.txtGrid)).BeginInit();
-            //)(this.txtRadialSteps)).BeginInit();
-            //)(this.txtRadialOffset)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRadialSteps)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRadialOffset)).BeginInit();
             this.tlbMain.SuspendLayout();
             this.tlbWysiwyg.SuspendLayout();
             this.SuspendLayout();
@@ -1068,8 +1068,8 @@
             this.cutToolStripButton,
             this.copyToolStripButton,
             this.pasteToolStripButton,
-            this.toolStripButton3,
-            this.toolStripButton4,
+            this.cmdUndo,
+            this.cmdRedo,
             this.toolStripSeparator1,
             this.cmdCompile,
             this.cmdAbortCompile,
@@ -1178,27 +1178,27 @@
             this.pasteToolStripButton.Text = "&Paste";
             this.pasteToolStripButton.Click += new System.EventHandler(this.pasteToolStripButton_Click);
             // 
-            // toolStripButton3
+            // cmdUndo
             // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton3.Text = "toolStripButton3";
-            this.toolStripButton3.ToolTipText = "Undo";
-            this.toolStripButton3.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
+            this.cmdUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.cmdUndo.Image = ((System.Drawing.Image)(resources.GetObject("cmdUndo.Image")));
+            this.cmdUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cmdUndo.Name = "cmdUndo";
+            this.cmdUndo.Size = new System.Drawing.Size(23, 22);
+            this.cmdUndo.Text = "toolStripButton3";
+            this.cmdUndo.ToolTipText = "Undo";
+            this.cmdUndo.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
-            // toolStripButton4
+            // cmdRedo
             // 
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton4.Text = "toolStripButton4";
-            this.toolStripButton4.ToolTipText = "Redo";
-            this.toolStripButton4.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
+            this.cmdRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.cmdRedo.Image = ((System.Drawing.Image)(resources.GetObject("cmdRedo.Image")));
+            this.cmdRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cmdRedo.Name = "cmdRedo";
+            this.cmdRedo.Size = new System.Drawing.Size(23, 22);
+            this.cmdRedo.Text = "toolStripButton4";
+            this.cmdRedo.ToolTipText = "Redo";
+            this.cmdRedo.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -1273,7 +1273,7 @@
             this.toolStripButton10});
             this.tlbWysiwyg.Location = new System.Drawing.Point(3, 25);
             this.tlbWysiwyg.Name = "tlbWysiwyg";
-            this.tlbWysiwyg.Size = new System.Drawing.Size(763, 25);
+            this.tlbWysiwyg.Size = new System.Drawing.Size(794, 25);
             this.tlbWysiwyg.TabIndex = 1;
             // 
             // cmdMove
@@ -1448,6 +1448,7 @@
             // 
             // chkUsePolar
             // 
+            this.chkUsePolar.CheckOnClick = true;
             this.chkUsePolar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.chkUsePolar.Image = ((System.Drawing.Image)(resources.GetObject("chkUsePolar.Image")));
             this.chkUsePolar.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -1505,14 +1506,14 @@
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
-            //)(this.splitContainer1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
-            //)(this.splitContainer2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
-            //)(this.splitContainer3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -1523,9 +1524,9 @@
             this.tlbToolPane.PerformLayout();
             this.statPanel.ResumeLayout(false);
             this.statPanel.PerformLayout();
-            //)(this.txtGrid)).EndInit();
-            //)(this.txtRadialSteps)).EndInit();
-            //)(this.txtRadialOffset)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRadialSteps)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRadialOffset)).EndInit();
             this.tlbMain.ResumeLayout(false);
             this.tlbMain.PerformLayout();
             this.tlbWysiwyg.ResumeLayout(false);
@@ -1649,8 +1650,8 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripMenuItem enscopeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripButton cmdUndo;
+        private System.Windows.Forms.ToolStripButton cmdRedo;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem modeToolStripMenuItem;

@@ -16,7 +16,7 @@ namespace TikzEdt
     /// This contains all control logic, except the UI Framework specific parts.
     /// 
     /// The type parameter T should be set to the Bitmap of the UI framework.
-    /// The constructor needs to be fed with a converter from the standard Bitmap type to T.
+    /// The constructor needs to be fed with a converter from the Pdf to T.
     /// </summary>
     public class TikzDisplayModel<T> : ViewModels.ViewModelBase where T : class
     {
@@ -62,8 +62,11 @@ namespace TikzEdt
             {
                 if (value != _Bmp)
                 {
+                    T old = _Bmp;
                     _Bmp = value;
                     NotifyPropertyChanged("Bmp");
+                    if (old is IDisposable)
+                        ((IDisposable)old).Dispose();  // free resources
                 }
             }
         }
@@ -85,7 +88,7 @@ namespace TikzEdt
 
         IPdfToBmp<T> myPdfBmpDoc;
 
-        BackgroundWorker AsyncBmpGenerator = new BackgroundWorker();
+        TESharedComponents.MyBackgroundWorker AsyncBmpGenerator = new TESharedComponents.MyBackgroundWorker();
         class AsyncBmpData
         {
             public double Resolution;
@@ -112,26 +115,32 @@ namespace TikzEdt
 
         void AsyncBmpGenerator_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            AsyncBmpData data = e.Result as AsyncBmpData;
-            // if filename has changed while the bmp was generated-> don't display
-            if (data.File == View.PdfPath)
-            {
-                // if returned bitmap null or error -> set unavailable
-                if (e.Error == null && data.bmp != null)
+            // invoke shouldn't be necessary... actually
+
+            //TESharedComponents.MyBackgroundWorker.BeginInvoke(() =>
+            //{
+                AsyncBmpData data = e.Result as AsyncBmpData;
+                // if filename has changed while the bmp was generated-> don't display
+                if (data.File == View.PdfPath)
                 {
-                    Bmp = data.bmp;
-                    IsImageVisible = true;
-                    IsUnavailable = false;
+                    // if returned bitmap null or error -> set unavailable
+                    if (e.Error == null && data.bmp != null)
+                    {
+                        Bmp = data.bmp;
+                        IsImageVisible = true;
+                        IsUnavailable = false;
+                    }
+                    else
+                    {
+                        Bmp = null;
+                        IsImageVisible = false;
+                        IsUnavailable = true;
+                    }
                 }
-                else
-                {
-                    Bmp = null;
-                    IsImageVisible = false;
-                    IsUnavailable = true;
-                }
-            }
-            // restart compilation if job pending
-            NextBmpJob = NextBmpJob;
+                // restart compilation if job pending
+                NextBmpJob = NextBmpJob;
+
+           // });
         }
 
         void AsyncBmpGenerator_DoWork(object sender, DoWorkEventArgs e)

@@ -94,7 +94,8 @@ namespace TikzEdt
 \usepackage{amsmath, amssymb,bm,color}
 ";
 
-        public const string VersionInfoURL = @"https://tikzedt.googlecode.com/svn/trunk/VersionInfo.xml";
+        public const string VersionInfoURL = @"https://tikzedt.googlecode.com/svn/trunk/VersionInfo.xml"; // for wpf version
+        public const string WFormsVersionInfoURL = @"https://tikzedt.googlecode.com/svn/trunk/WFormsVersionInfo.xml"; // for Linux (winforms) version
 
         /// <summary>
         /// The starting code for a new File 

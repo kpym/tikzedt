@@ -364,8 +364,18 @@ namespace TikzEdtWForms
         public bool UsePolarCoordinates
         {
             get { return _UsePolarCoordinates; }
-            set { _UsePolarCoordinates = value; }
+            set 
+            { 
+                if (_UsePolarCoordinates != value)
+                {
+                    _UsePolarCoordinates = value;
+                    if (UsePolarCoordinatesChanged != null)
+                        UsePolarCoordinatesChanged(this, new EventArgs());
+                    Invalidate();
+                }
+            }
         }
+        public event EventHandler UsePolarCoordinatesChanged;
 
         private TikzEdt.OverlayToolType _Tool = OverlayToolType.move;
         public TikzEdt.OverlayToolType Tool
