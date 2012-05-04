@@ -95,8 +95,10 @@ namespace TikzEdtWForms
             splitContainer2.Panel2.Controls.Add(rasterControl1);
 
             rasterControl1.Rasterizer = rasterControl1.TheRasterModel;
-
-            rasterControl1.Visible = true;
+	
+		//splitContainer2.Panel2.Controls.Add(new ZoomCtrl() {Width=200,Visible=true});
+           
+			rasterControl1.Visible = true;
 
             snippetList1 = new SnippetList();
             snippetList1.Visible = true;
