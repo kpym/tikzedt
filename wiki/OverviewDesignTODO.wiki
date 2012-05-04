@@ -47,6 +47,8 @@
 === Misc ===
 *TODO*
   * Inport settings etc. from previous version
+  * usepolarcoordinates is not quite working
+  * unit tests for overlay
 
 === Vague things ===
   * improve workflow
