@@ -42,7 +42,8 @@ namespace TikzEdtWForms
         {
             get
             {
-                return Properties.Settings.Default.UseExternalRenderer;
+                //return Properties.Settings.Default.UseExternalRenderer;
+                return true; // Pdflibnet does not work on linux
             }
         }
     }

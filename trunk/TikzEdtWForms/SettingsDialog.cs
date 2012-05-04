@@ -33,8 +33,9 @@ namespace TikzEdtWForms
                 cmdColorNode.BackColor != S.Overlay_CoordColor ||
                 cmdColorScope.BackColor != S.Overlay_ScopeColor ||
                 cmdColorSNode.BackColor != S.Overlay_CoordSelColor ||
-                cmdColorSScope.BackColor != S.Overlay_ScopeSelColor ||
-                chkExternalRenderer.Checked != S.UseExternalRenderer;
+                cmdColorSScope.BackColor != S.Overlay_ScopeSelColor 
+                //|| chkExternalRenderer.Checked != S.UseExternalRenderer
+                ;
 
             }
             
@@ -67,7 +68,7 @@ namespace TikzEdtWForms
             cmdColorSScope.BackColor = S.Overlay_ScopeSelColor;
 
             cmdFont.Font = S.Editor_Font;
-            chkExternalRenderer.Checked = S.UseExternalRenderer;
+            //chkExternalRenderer.Checked = S.UseExternalRenderer;
 
         }
 
@@ -96,7 +97,7 @@ namespace TikzEdtWForms
             S.Overlay_ScopeColor = cmdColorScope.BackColor;
             S.Overlay_CoordSelColor = cmdColorSNode.BackColor;
             S.Overlay_ScopeSelColor = cmdColorSScope.BackColor;
-            S.UseExternalRenderer = chkExternalRenderer.Checked;
+            //S.UseExternalRenderer = chkExternalRenderer.Checked;
 
             S.Save();
 
