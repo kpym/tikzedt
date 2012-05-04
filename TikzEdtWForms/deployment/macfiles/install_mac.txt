@@ -1,0 +1,14 @@
+﻿To run TikzEdt on Mac OSX you need
+  - Latex  (http://www.tug.org/mactex/2011/)
+  - Mono  (http://www.go-mono.com/mono-downloads/)
+  - X11  (should be installed by default)
+
+Then run 
+
+mono TikzEdtWForms.exe
+
+or 
+
+tikzedt
+
+
