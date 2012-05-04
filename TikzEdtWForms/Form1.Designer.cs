@@ -167,13 +167,13 @@
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-            //)(this.splitContainer1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            //)(this.splitContainer2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            //)(this.splitContainer3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -183,9 +183,9 @@
             this.tabPage3.SuspendLayout();
             this.tlbToolPane.SuspendLayout();
             this.statPanel.SuspendLayout();
-            //)(this.txtGrid)).BeginInit();
-            //)(this.txtRadialSteps)).BeginInit();
-            //)(this.txtRadialOffset)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRadialSteps)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRadialOffset)).BeginInit();
             this.tlbMain.SuspendLayout();
             this.tlbWysiwyg.SuspendLayout();
             this.SuspendLayout();
@@ -1273,7 +1273,7 @@
             this.toolStripButton10});
             this.tlbWysiwyg.Location = new System.Drawing.Point(3, 25);
             this.tlbWysiwyg.Name = "tlbWysiwyg";
-            this.tlbWysiwyg.Size = new System.Drawing.Size(794, 25);
+            this.tlbWysiwyg.Size = new System.Drawing.Size(763, 25);
             this.tlbWysiwyg.TabIndex = 1;
             // 
             // cmdMove
@@ -1506,14 +1506,14 @@
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
-            //)(this.splitContainer1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
-            //)(this.splitContainer2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
-            //)(this.splitContainer3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -1524,9 +1524,9 @@
             this.tlbToolPane.PerformLayout();
             this.statPanel.ResumeLayout(false);
             this.statPanel.PerformLayout();
-            //)(this.txtGrid)).EndInit();
-            //)(this.txtRadialSteps)).EndInit();
-            //)(this.txtRadialOffset)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRadialSteps)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRadialOffset)).EndInit();
             this.tlbMain.ResumeLayout(false);
             this.tlbMain.PerformLayout();
             this.tlbWysiwyg.ResumeLayout(false);
