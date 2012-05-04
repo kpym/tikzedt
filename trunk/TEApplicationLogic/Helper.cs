@@ -171,7 +171,7 @@ namespace TikzEdt
     {
 		public static bool IsLinux()
 		{
-			return Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX;
+			return Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX ;
 		}
 		
         /// <summary>
