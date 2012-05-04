@@ -33,8 +33,16 @@ namespace TikzEdtWForms
             lblName.Text = TheSnippet.Name;
 
             imgImage.ImageLocation = Path.Combine(Helper.GetSnippetsPath() ,  TheSnippet.Key + ".png");
-            
+            //Use this style with WYSIWYG tools&#xa;CTRL to add the style to the current one (rather than replace it)"
+            cmdInsertAsStyle.Visible = cmdUseStyle.Visible = !String.IsNullOrWhiteSpace(S.EdgeStyle) || !String.IsNullOrWhiteSpace(S.NodeStyle);
 
+            // set tooltips
+            toolTip1.SetToolTip(cmdUseStyle, "Use this style with WYSIWYG tools."+Environment.NewLine+"CTRL to add the style to the current one (rather than replace it)");
+            toolTip1.SetToolTip(cmdInsertAsStyle, "Insert as \\tikzstyle{...} command");
+
+            string description = S.Name + Environment.NewLine+ S.Code + Environment.NewLine+ "Sample:" + Environment.NewLine+ S.Example+ Environment.NewLine+ "Needs:" + S.Dependencies ;
+            toolTip1.SetToolTip(lblName, description);
+            toolTip1.SetToolTip(imgImage, description);
         }
 		
 		public void ReloadImage()

@@ -130,6 +130,8 @@ namespace TikzEdtWForms
                     Key = r.ID,
                     Dependencies = r.Dependencies,
                     Category = r.Category,
+                    EdgeStyle = r.IsEdgeStyleNull()?null : r.EdgeStyle,
+                    NodeStyle = r.IsNodeStyleNull()?null : r.NodeStyle,
                     Row = r,
                 };
                 L.Add(S);

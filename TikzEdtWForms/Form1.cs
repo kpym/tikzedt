@@ -25,6 +25,8 @@ namespace TikzEdtWForms
         DynamicPreamble dynamicPreamble;
         FindReplaceNoWPF.FindReplaceMgr findReplaceMgr;
 
+        Panel ScrollPanel = new Panel() { AutoScroll = true, Dock=DockStyle.Fill};
+
         TESharedComponents.UpdateChecker updateChecker = new TESharedComponents.UpdateChecker() { VersionInfoURL = Consts.VersionInfoURL };
         //PdfOverlay pdfOverlay1;
 
@@ -61,24 +63,6 @@ namespace TikzEdtWForms
         /// </summary>
         void SetupComponents()
         {
-            /*lblStandAlone = new ToolStripLabel("[Document is standalone]") { Visible = false };
-            statusStrip1.Items.Insert(2, lblStandAlone);
-            statusStrip1.Items.Insert(3, new ToolStripLabel("Grid:"));
-            cmbGrid = new ToolStripComboBox() { Width = 50 };
-            cmbGrid.ComboBox.MaximumSize = new Size(50, 0);
-            cmbGrid.ComboBox.Items.AddRange(new double[] { 0, 0.1, 0.2, 0.5, 1, 2, 5 });
-            statusStrip1.Items.Insert(4, cmbGrid);
-            statusStrip1.Items.Insert(5, new ToolStripLabel("RS:"));
-            txtRadialSteps = new ToolStripTextBox();
-            statusStrip1.Items.Insert(6, txtRadialSteps);
-            statusStrip1.Items.Insert(7, new ToolStripLabel("RO:"));
-            txtRadialOffset = new ToolStripTextBox();
-            statusStrip1.Items.Insert(8, txtRadialOffset);
-            toolStripZoomCtrlItem1.Width = 110;
-            toolStripZoomCtrlItem1.Height = 20;
-            toolStripZoomCtrlItem1.Visible = true;
-            //toolStripZoomCtrlItem1.MinimumSize = new Size(110, 20);
-            */
             findReplaceMgr = new FindReplaceNoWPF.FindReplaceMgr();
             //findReplaceMgr.Editors = new object[] { new FindReplaceNoWPF.TextEditorAdapter(txtCode) };
             findReplaceMgr.CurrentEditor = new FindReplaceNoWPF.TextEditorAdapter(txtCode);
@@ -87,9 +71,11 @@ namespace TikzEdtWForms
 
             CreateContextMenu();
             lblCompileInfo.TextAlign = ContentAlignment.MiddleLeft;
-            splitContainer2.Panel2.BackColor = Color.FromArgb(0x30, 0x30, 0x30);
+            splitContainer2.Panel2.BackColor = ScrollPanel.BackColor = Color.FromArgb(0x30, 0x30, 0x30);
             rasterControl1 = new RasterControl();
-            splitContainer2.Panel2.Controls.Add(rasterControl1);
+            ScrollPanel.Controls.Add(rasterControl1);
+            splitContainer2.Panel2.Controls.Add(ScrollPanel);
+
 
             rasterControl1.Rasterizer = rasterControl1.TheRasterModel;
 	
@@ -357,7 +343,8 @@ namespace TikzEdtWForms
 
         void snippetList1_OnInsert(object sender, TikzEdt.Snippets.InsertEventArgs e)
         {
-            txtCode.Document.Insert(txtCode.ActiveTextAreaControl.Caret.Offset, e.code);
+            txtCode.Document.Insert(txtCode.CaretOffset(), e.code);
+            txtCode.Refresh();
         }
 
         //List<object> MyBindings = new List<object>();
@@ -369,8 +356,8 @@ namespace TikzEdtWForms
             //tikzDisplay1.Left = (rasterControl1.ClientSize.Width - tikzDisplay1.Width) / 2;
             //tikzDisplay1.Top = (rasterControl1.ClientSize.Height - tikzDisplay1.Height) / 2;
 
-            rasterControl1.Left = (splitContainer2.Panel2.ClientSize.Width - rasterControl1.Width) / 2;
-            rasterControl1.Top = (splitContainer2.Panel2.ClientSize.Height - rasterControl1.Height) / 2;
+            rasterControl1.Left = (ScrollPanel.ClientSize.Width - rasterControl1.Width) / 2;
+            rasterControl1.Top = (ScrollPanel.ClientSize.Height - rasterControl1.Height) / 2;
 			
 			/*if (!IsHandleCreated) return;
 			splitContainer2.Panel2.PerformLayout();

@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SnippetEntry));
             this.imgImage = new System.Windows.Forms.PictureBox();
             this.lblName = new System.Windows.Forms.Label();
             this.cmdUseStyle = new System.Windows.Forms.Button();
             this.cmdInsertAsStyle = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.imgImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,9 +54,9 @@
             // 
             this.lblName.AutoEllipsis = true;
             this.lblName.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lblName.Padding = new System.Windows.Forms.Padding(4,0,4,0);
             this.lblName.Location = new System.Drawing.Point(72, 5);
             this.lblName.Name = "lblName";
+            this.lblName.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblName.Size = new System.Drawing.Size(153, 33);
             this.lblName.TabIndex = 1;
             this.lblName.Text = "label1";
@@ -112,5 +114,6 @@
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Button cmdUseStyle;
         private System.Windows.Forms.Button cmdInsertAsStyle;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
