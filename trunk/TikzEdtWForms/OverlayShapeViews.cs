@@ -284,7 +284,7 @@ namespace TikzEdtWForms
 
     public abstract class WFShapeBase : IPreviewShape
     {
-        Control TheCanvas;
+        protected Control TheCanvas;
         
         public WFShapeBase(Control TheCanvas)
         {
@@ -357,6 +357,9 @@ namespace TikzEdtWForms
         public void SetCenter(double Left, double Bottom)
         {
             Center = new System.Windows.Point(Left, Bottom);
+            // adjust BB
+            BB.X = Center.X - BB.Width / 2;
+            BB.Y = TheCanvas.Height - ( Center.Y + BB.Height / 2 );
         }
 
         

@@ -67,14 +67,14 @@ namespace TikzEdt
                 return;
             if (Source == null)
                 ExecuteFail();
-            //try
+            try
             {
                 Fire(Source);
             } 
-           // catch (Exception)
-          //  {
-           //     ExecuteFail();
-           // }
+            catch (Exception)
+            {
+                ExecuteFail();
+            }
         }
 
         public void ExecuteFail()
@@ -87,7 +87,7 @@ namespace TikzEdt
             } 
             catch (Exception)
             {
-                ExecuteFail();
+                // do nothing
             }
         }
 

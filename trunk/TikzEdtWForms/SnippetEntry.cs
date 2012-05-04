@@ -47,6 +47,7 @@ namespace TikzEdtWForms
 		
 		public void ReloadImage()
 		{
+            AdjustSize();
 			imgImage.Refresh();	
 		}
 
@@ -57,7 +58,13 @@ namespace TikzEdtWForms
         private void imgImage_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
 			// The max () is a workaround for a mono bug... not nec. on windows
-            Height = Math.Max(imgImage.Width * imgImage.Image.Height / imgImage.Image.Width + 3, 35);
+            AdjustSize();
+        }
+
+        void AdjustSize()
+        {
+            if (imgImage.Image != null)
+                Height = Math.Max(imgImage.Width * imgImage.Image.Height / imgImage.Image.Width + 3, 35);
         }
 
         private void cmdInsertAsStyle_Click(object sender, EventArgs e)

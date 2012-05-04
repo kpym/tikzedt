@@ -43,7 +43,7 @@
             this.imgImage.Dock = System.Windows.Forms.DockStyle.Left;
             this.imgImage.Location = new System.Drawing.Point(5, 5);
             this.imgImage.Name = "imgImage";
-            this.imgImage.Size = new System.Drawing.Size(67, 33);
+            this.imgImage.Size = new System.Drawing.Size(70, 33);
             this.imgImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgImage.TabIndex = 0;
             this.imgImage.TabStop = false;
@@ -54,10 +54,10 @@
             // 
             this.lblName.AutoEllipsis = true;
             this.lblName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblName.Location = new System.Drawing.Point(72, 5);
+            this.lblName.Location = new System.Drawing.Point(75, 5);
             this.lblName.Name = "lblName";
             this.lblName.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblName.Size = new System.Drawing.Size(153, 33);
+            this.lblName.Size = new System.Drawing.Size(150, 33);
             this.lblName.TabIndex = 1;
             this.lblName.Text = "label1";
             this.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -88,6 +88,12 @@
             this.cmdInsertAsStyle.Text = "S";
             this.cmdInsertAsStyle.UseVisualStyleBackColor = false;
             this.cmdInsertAsStyle.Click += new System.EventHandler(this.cmdInsertAsStyle_Click);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 15000;
+            this.toolTip1.InitialDelay = 500;
+            this.toolTip1.ReshowDelay = 100;
             // 
             // SnippetEntry
             // 

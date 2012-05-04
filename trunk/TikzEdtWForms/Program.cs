@@ -139,7 +139,7 @@ namespace TikzEdtWForms
 			S.Raster_RadialOffset = S.Raster_RadialOffset;
 			S.Raster_RadSteps = S.Raster_RadSteps;
 			S.RoundToDecimals = S.RoundToDecimals;
-			S.Snippets_ShowThumbs = S.Snippets_ShowThumbs;
+            S.Snippets_ThumbnailSize = S.Snippets_ThumbnailSize;
 			S.Tex_Postamble = S.Tex_Postamble;
 			S.Tex_Preamble = S.Tex_Preamble;
 			S.Window_Height = S.Window_Height;

@@ -126,7 +126,7 @@ namespace TikzEdt
                     Pdf2Bmp = new PdfToBmpExtWPF();
                 else
                     Pdf2Bmp = new PdfToBmpWPF();
-
+                var e = System.Threading.Thread.CurrentThread.ExecutionContext;
                 TheModel = new TikzDisplayModel<BitmapSource>(this, Pdf2Bmp);
                    /* (b) =>
                     {
