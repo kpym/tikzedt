@@ -71,6 +71,7 @@
             this.compileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recompileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.abortCompilationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.abortSnippetCompilationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoCompilationOnChangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.regeneratePrecompiledHeadersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,11 +86,6 @@
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.ProgressCompile = new System.Windows.Forms.ToolStripProgressBar();
-            this.lblCompileInfo = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripZoomCtrlItem1 = new TikzEdtWForms.ToolStripZoomCtrlItem();
-            this.lblMousePos = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -111,6 +107,18 @@
             this.cmdSnippets = new System.Windows.Forms.ToolStripButton();
             this.cmdFiles = new System.Windows.Forms.ToolStripButton();
             this.cmdDynPreamble = new System.Windows.Forms.ToolStripButton();
+            this.statPanel = new System.Windows.Forms.Panel();
+            this.lblCompileInfo = new System.Windows.Forms.Label();
+            this.ProgressCompile = new System.Windows.Forms.ProgressBar();
+            this.lblStandalone = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtGrid = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtRadialSteps = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtRadialOffset = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblMousePos = new System.Windows.Forms.Label();
             this.tlbMain = new System.Windows.Forms.ToolStrip();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
@@ -154,9 +162,8 @@
             this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.abortSnippetCompilationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zoomCtrl = new TikzEdtWForms.ZoomCtrl();
             this.menuStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -175,6 +182,10 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tlbToolPane.SuspendLayout();
+            this.statPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRadialSteps)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRadialOffset)).BeginInit();
             this.tlbMain.SuspendLayout();
             this.tlbWysiwyg.SuspendLayout();
             this.SuspendLayout();
@@ -520,6 +531,13 @@
             this.abortCompilationToolStripMenuItem.Text = "Abort Compilation";
             this.abortCompilationToolStripMenuItem.Click += new System.EventHandler(this.cmdAbortCompile_Click);
             // 
+            // abortSnippetCompilationToolStripMenuItem
+            // 
+            this.abortSnippetCompilationToolStripMenuItem.Name = "abortSnippetCompilationToolStripMenuItem";
+            this.abortSnippetCompilationToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
+            this.abortSnippetCompilationToolStripMenuItem.Text = "Abort snippet compilation";
+            this.abortSnippetCompilationToolStripMenuItem.Click += new System.EventHandler(this.abortSnippetCompilationToolStripMenuItem_Click);
+            // 
             // autoCompilationOnChangeToolStripMenuItem
             // 
             this.autoCompilationOnChangeToolStripMenuItem.CheckOnClick = true;
@@ -621,46 +639,6 @@
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // statusStrip1
-            // 
-            this.statusStrip1.BackColor = System.Drawing.Color.Gainsboro;
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ProgressCompile,
-            this.lblCompileInfo,
-            this.toolStripZoomCtrlItem1,
-            this.lblMousePos});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 614);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1105, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // ProgressCompile
-            // 
-            this.ProgressCompile.Name = "ProgressCompile";
-            this.ProgressCompile.Size = new System.Drawing.Size(100, 16);
-            this.ProgressCompile.Value = 100;
-            this.ProgressCompile.Visible = false;
-            // 
-            // lblCompileInfo
-            // 
-            this.lblCompileInfo.Name = "lblCompileInfo";
-            this.lblCompileInfo.Size = new System.Drawing.Size(890, 17);
-            this.lblCompileInfo.Spring = true;
-            // 
-            // toolStripZoomCtrlItem1
-            // 
-            this.toolStripZoomCtrlItem1.AutoSize = false;
-            this.toolStripZoomCtrlItem1.Name = "toolStripZoomCtrlItem1";
-            this.toolStripZoomCtrlItem1.Size = new System.Drawing.Size(120, 20);
-            this.toolStripZoomCtrlItem1.Text = "tsZoom";
-            // 
-            // lblMousePos
-            // 
-            this.lblMousePos.AutoSize = false;
-            this.lblMousePos.Name = "lblMousePos";
-            this.lblMousePos.Size = new System.Drawing.Size(80, 17);
-            // 
             // toolStripContainer1
             // 
             this.toolStripContainer1.BottomToolStripPanelVisible = false;
@@ -669,13 +647,14 @@
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.tlbToolPane);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1105, 540);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.statPanel);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1105, 562);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 24);
             this.toolStripContainer1.Name = "toolStripContainer1";
             this.toolStripContainer1.RightToolStripPanelVisible = false;
-            this.toolStripContainer1.Size = new System.Drawing.Size(1105, 590);
+            this.toolStripContainer1.Size = new System.Drawing.Size(1105, 612);
             this.toolStripContainer1.TabIndex = 2;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -909,6 +888,162 @@
             this.cmdDynPreamble.Size = new System.Drawing.Size(21, 20);
             this.cmdDynPreamble.Text = "Dynamic Preamble";
             this.cmdDynPreamble.Click += new System.EventHandler(this.cmdSnippets_Click);
+            // 
+            // statPanel
+            // 
+            this.statPanel.Controls.Add(this.lblCompileInfo);
+            this.statPanel.Controls.Add(this.ProgressCompile);
+            this.statPanel.Controls.Add(this.lblStandalone);
+            this.statPanel.Controls.Add(this.label5);
+            this.statPanel.Controls.Add(this.txtGrid);
+            this.statPanel.Controls.Add(this.label4);
+            this.statPanel.Controls.Add(this.txtRadialSteps);
+            this.statPanel.Controls.Add(this.label3);
+            this.statPanel.Controls.Add(this.txtRadialOffset);
+            this.statPanel.Controls.Add(this.label7);
+            this.statPanel.Controls.Add(this.zoomCtrl);
+            this.statPanel.Controls.Add(this.lblMousePos);
+            this.statPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.statPanel.Location = new System.Drawing.Point(0, 540);
+            this.statPanel.Name = "statPanel";
+            this.statPanel.Size = new System.Drawing.Size(1105, 22);
+            this.statPanel.TabIndex = 0;
+            // 
+            // lblCompileInfo
+            // 
+            this.lblCompileInfo.AutoSize = true;
+            this.lblCompileInfo.Location = new System.Drawing.Point(109, 5);
+            this.lblCompileInfo.Name = "lblCompileInfo";
+            this.lblCompileInfo.Size = new System.Drawing.Size(0, 13);
+            this.lblCompileInfo.TabIndex = 3;
+            // 
+            // ProgressCompile
+            // 
+            this.ProgressCompile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.ProgressCompile.Location = new System.Drawing.Point(3, 3);
+            this.ProgressCompile.Name = "ProgressCompile";
+            this.ProgressCompile.Size = new System.Drawing.Size(100, 16);
+            this.ProgressCompile.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.ProgressCompile.TabIndex = 2;
+            this.ProgressCompile.Visible = false;
+            // 
+            // lblStandalone
+            // 
+            this.lblStandalone.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblStandalone.Location = new System.Drawing.Point(518, 0);
+            this.lblStandalone.Name = "lblStandalone";
+            this.lblStandalone.Size = new System.Drawing.Size(127, 22);
+            this.lblStandalone.TabIndex = 7;
+            this.lblStandalone.Text = "[Document is standalone]";
+            this.lblStandalone.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblStandalone.Visible = false;
+            // 
+            // label5
+            // 
+            this.label5.Dock = System.Windows.Forms.DockStyle.Right;
+            this.label5.Location = new System.Drawing.Point(645, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(35, 22);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Grid";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip1.SetToolTip(this.label5, "The spacing between grid lines, in Tikz units");
+            // 
+            // txtGrid
+            // 
+            this.txtGrid.DecimalPlaces = 1;
+            this.txtGrid.Dock = System.Windows.Forms.DockStyle.Right;
+            this.txtGrid.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.txtGrid.Location = new System.Drawing.Point(680, 0);
+            this.txtGrid.Name = "txtGrid";
+            this.txtGrid.Size = new System.Drawing.Size(50, 20);
+            this.txtGrid.TabIndex = 10;
+            // 
+            // label4
+            // 
+            this.label4.Dock = System.Windows.Forms.DockStyle.Right;
+            this.label4.Location = new System.Drawing.Point(730, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(30, 22);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "RS";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip1.SetToolTip(this.label4, "The number of radial steps in polar coordinate mode");
+            // 
+            // txtRadialSteps
+            // 
+            this.txtRadialSteps.Dock = System.Windows.Forms.DockStyle.Right;
+            this.txtRadialSteps.Location = new System.Drawing.Point(760, 0);
+            this.txtRadialSteps.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.txtRadialSteps.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.txtRadialSteps.Name = "txtRadialSteps";
+            this.txtRadialSteps.Size = new System.Drawing.Size(50, 20);
+            this.txtRadialSteps.TabIndex = 9;
+            this.txtRadialSteps.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // label3
+            // 
+            this.label3.Dock = System.Windows.Forms.DockStyle.Right;
+            this.label3.Location = new System.Drawing.Point(810, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(30, 22);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "RO";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip1.SetToolTip(this.label3, "The offset of radial polar coordinate lines (phi=const) in degrees");
+            // 
+            // txtRadialOffset
+            // 
+            this.txtRadialOffset.Dock = System.Windows.Forms.DockStyle.Right;
+            this.txtRadialOffset.Location = new System.Drawing.Point(840, 0);
+            this.txtRadialOffset.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.txtRadialOffset.Minimum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            -2147483648});
+            this.txtRadialOffset.Name = "txtRadialOffset";
+            this.txtRadialOffset.Size = new System.Drawing.Size(50, 20);
+            this.txtRadialOffset.TabIndex = 8;
+            // 
+            // label7
+            // 
+            this.label7.Dock = System.Windows.Forms.DockStyle.Right;
+            this.label7.Location = new System.Drawing.Point(890, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(15, 22);
+            this.label7.TabIndex = 11;
+            // 
+            // lblMousePos
+            // 
+            this.lblMousePos.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblMousePos.Location = new System.Drawing.Point(1025, 0);
+            this.lblMousePos.Name = "lblMousePos";
+            this.lblMousePos.Size = new System.Drawing.Size(80, 22);
+            this.lblMousePos.TabIndex = 0;
+            this.lblMousePos.Text = "(0,0)";
+            this.lblMousePos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tlbMain
             // 
@@ -1339,12 +1474,14 @@
             this.toolStripButton10.ToolTipText = "Unique-ify node names";
             this.toolStripButton10.Click += new System.EventHandler(this.toolStripButton10_Click);
             // 
-            // abortSnippetCompilationToolStripMenuItem
+            // zoomCtrl
             // 
-            this.abortSnippetCompilationToolStripMenuItem.Name = "abortSnippetCompilationToolStripMenuItem";
-            this.abortSnippetCompilationToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
-            this.abortSnippetCompilationToolStripMenuItem.Text = "Abort snippet compilation";
-            this.abortSnippetCompilationToolStripMenuItem.Click += new System.EventHandler(this.abortSnippetCompilationToolStripMenuItem_Click);
+            this.zoomCtrl.Dock = System.Windows.Forms.DockStyle.Right;
+            this.zoomCtrl.Location = new System.Drawing.Point(905, 0);
+            this.zoomCtrl.Name = "zoomCtrl";
+            this.zoomCtrl.Size = new System.Drawing.Size(120, 22);
+            this.zoomCtrl.TabIndex = 1;
+            this.zoomCtrl.Value = 5;
             // 
             // Form1
             // 
@@ -1352,7 +1489,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1105, 636);
             this.Controls.Add(this.toolStripContainer1);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
@@ -1362,8 +1498,6 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.ContentPanel.PerformLayout();
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
@@ -1387,6 +1521,11 @@
             this.tabPage3.PerformLayout();
             this.tlbToolPane.ResumeLayout(false);
             this.tlbToolPane.PerformLayout();
+            this.statPanel.ResumeLayout(false);
+            this.statPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRadialSteps)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRadialOffset)).EndInit();
             this.tlbMain.ResumeLayout(false);
             this.tlbMain.PerformLayout();
             this.tlbWysiwyg.ResumeLayout(false);
@@ -1423,7 +1562,6 @@
         private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
@@ -1508,11 +1646,7 @@
         private System.Windows.Forms.ToolStripMenuItem commentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uncommentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoCompilationOnChangeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripStatusLabel lblCompileInfo;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
-        private ToolStripZoomCtrlItem toolStripZoomCtrlItem1;
-        private System.Windows.Forms.ToolStripStatusLabel lblMousePos;
-        private System.Windows.Forms.ToolStripProgressBar ProgressCompile;
         private System.Windows.Forms.ToolStripMenuItem enscopeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
@@ -1524,6 +1658,19 @@
         private System.Windows.Forms.ToolStripMenuItem previewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem productionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem abortSnippetCompilationToolStripMenuItem;
+        private System.Windows.Forms.Panel statPanel;
+        private System.Windows.Forms.Label lblCompileInfo;
+        private System.Windows.Forms.ProgressBar ProgressCompile;
+        private ZoomCtrl zoomCtrl;
+        private System.Windows.Forms.Label lblMousePos;
+        private System.Windows.Forms.Label lblStandalone;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown txtGrid;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown txtRadialSteps;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown txtRadialOffset;
+        private System.Windows.Forms.Label label7;
     }
 }
 
