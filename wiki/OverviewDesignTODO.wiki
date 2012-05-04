@@ -9,7 +9,6 @@
   * look good 
 
 *TODO:*
-  * Add a matrix tool (nr cols/rows, name, left right, top, bottom delimiter, math nodes etc.)
   
 === Code editor (avalonedit) ===
 *TODO:*
@@ -17,7 +16,6 @@
 == TikzDisplay ==
 *TODO*
   * check mupdf licensing and deploy mudraw correctly
-  * maybe add option to choose between pdflibnet and mudraw rendering
 
 == Rasterizer ==
 *TODO*
@@ -48,8 +46,6 @@
 
 === Misc ===
 *TODO*
-  * create all icons of correct size
-  * wforms version parser error mark overlay
   * Inport settings etc. from previous version
 
 === Vague things ===
@@ -62,18 +58,14 @@
   * mac version
   * middle button pan
   * right button deselect not always working (?or cursor not updated)
-  * make snippet use as style etc invisible if not available
   * mac installer package???
 
 === For later ===
 *TODO*
-  * change rendering mode built in <--> external,... allow to specify ext. program
   * Move snippet compilation display to VM and check abort is handled correctly
-  * Updatechecker: Mind the separate versions!!!
   * Allow to set resolution before exporting file.
   * outsorce (and publish) code completions as separate lib
   * pdflatex hangs sometimes (??how to reproduce??)(pdf file access problem?)
-  * crisp toolbar bitmaps (no aliasing) (solution unknown)
   * "add as new snippet" command
   * support multiple tikzpictures
   * support tikzpictures anywhere on page (using http://tex.stackexchange.com/questions/10343/determining-the-position-of-a-box-e-g-on-a-page)
