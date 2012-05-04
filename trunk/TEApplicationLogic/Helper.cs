@@ -563,6 +563,7 @@ namespace TikzEdt
      
 
     /// <summary>
+    /// The settings service.
     /// Since we are in an assembly different from the main one, we cannot directly access the application settings (w/o doing a hack at least).
     /// To circumvent, all settings access is channeled through this class.
     /// 
@@ -608,6 +609,8 @@ namespace TikzEdt
         public virtual string Path_htlatex { get { return "htlatex"; } }
 
         public virtual uint RoundToDecimals { get { return 4; } }
+
+        public virtual bool UseExternalRenderer { get { return false; } }
     }
    
 

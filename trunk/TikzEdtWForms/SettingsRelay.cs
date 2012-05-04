@@ -38,5 +38,12 @@ namespace TikzEdtWForms
 
 
         public override uint RoundToDecimals { get { return Properties.Settings.Default.RoundToDecimals; } }
+        public override bool UseExternalRenderer
+        {
+            get
+            {
+                return Properties.Settings.Default.UseExternalRenderer;
+            }
+        }
     }
 }

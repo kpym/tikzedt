@@ -11,6 +11,7 @@ namespace TikzEdtWForms
 {
     public partial class ZoomCtrl : UserControl
     {
+
         public int Value
         {
             get
@@ -20,6 +21,7 @@ namespace TikzEdtWForms
             set
             {
                 tb.Value = Math.Min(Math.Max(value, tb.Minimum), tb.Maximum) ;
+                toolTip1.SetToolTip(tb, Value.ToString() + " pts/TikZ unit");
             }
         }
 
@@ -47,6 +49,7 @@ namespace TikzEdtWForms
             if (ValueChanged != null)
                 ValueChanged(this, e);
         }
+
 
     }
 }

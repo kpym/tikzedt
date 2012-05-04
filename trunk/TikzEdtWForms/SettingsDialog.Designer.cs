@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -75,6 +76,8 @@
             this.cmdSave = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
+            this.chkExternalRenderer = new System.Windows.Forms.CheckBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -130,11 +133,13 @@
             this.tableLayoutPanel1.Controls.Add(this.txtExtViewer, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.numTimeOutSnippetCompile, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.numTimeoutCompile, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.chkExternalRenderer, 1, 7);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(2);
-            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowCount = 8;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -617,6 +622,25 @@
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
             // 
+            // chkExternalRenderer
+            // 
+            this.chkExternalRenderer.AutoSize = true;
+            this.chkExternalRenderer.Location = new System.Drawing.Point(171, 135);
+            this.chkExternalRenderer.Name = "chkExternalRenderer";
+            this.chkExternalRenderer.Size = new System.Drawing.Size(215, 17);
+            this.chkExternalRenderer.TabIndex = 12;
+            this.chkExternalRenderer.Text = "Use external Renderer (pdfdraw/mudraw)";
+            this.toolTip1.SetToolTip(this.chkExternalRenderer, "If checked, pdfs are rendered using pdfdraw (Mac/Linux) or mudraw (Win), which mu" +
+        "st be in the app directory.\r\nYou need to restart TikzEdt for this setting to tak" +
+        "e effect.");
+            this.chkExternalRenderer.UseVisualStyleBackColor = true;
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 15000;
+            this.toolTip1.InitialDelay = 500;
+            this.toolTip1.ReshowDelay = 100;
+            // 
             // SettingsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -699,5 +723,7 @@
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Button cmdFont;
         private System.Windows.Forms.FontDialog fontDialog1;
+        private System.Windows.Forms.CheckBox chkExternalRenderer;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

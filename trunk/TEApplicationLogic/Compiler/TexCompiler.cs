@@ -443,7 +443,7 @@ namespace TikzEdt
         //PDFLibNet.PDFWrapper mypdfDoc = null;
         //System.Windows.Forms.Control dummy = new System.Windows.Forms.Control();
         DispatcherTimer timer = new DispatcherTimer();
-        IPdfToBmp<System.Drawing.Bitmap> mypdfDoc = new PdfToBmpExtWinForms();
+        IPdfToBmp<System.Drawing.Bitmap> mypdfDoc;
 
         /// <summary>
         /// If the compilation gets stuck (actually it shouldn't), 
@@ -771,14 +771,18 @@ namespace TikzEdt
 
         public TexCompiler()
         {
+            if (CompilerSettings.Instance.UseExternalRenderer)
+                mypdfDoc = new PdfToBmpExtWinForms();
+            else
+                mypdfDoc = new PdfToBmp();
 
             //texProcess.EnableRaisingEvents = true;
             //texProcess.StartInfo.Arguments = "-quiet -halt-on-error " + Consts.cTempFile + ".tex";
             texProcess.StartInfo.FileName = CompilerSettings.Instance.Path_pdflatex;//"pdflatex";
             texProcess.StartInfo.CreateNoWindow = true;
             texProcess.StartInfo.UseShellExecute = false;
-            
-      //      texProcess.StartInfo.UseShellExecute = true;
+
+            //      texProcess.StartInfo.UseShellExecute = true;
             texProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             texProcess.StartInfo.RedirectStandardOutput = true;
             texProcess.StartInfo.RedirectStandardError = true;

@@ -12,6 +12,7 @@ using System.ComponentModel;
 
 namespace TikzEdt
 {
+
 /// <summary>
 /// The job of this class is to load a pdf file and render it into bitmaps of
 /// possibly varying resolutions. Internally it uses pdflibnet. to do the conversion.

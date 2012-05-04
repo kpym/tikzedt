@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace TikzEdt
 {
-    class PdfToBmpWPF : PdfToBmpBase, IPdfToBmp<BitmapSource>
+    public class PdfToBmpWPF : PdfToBmpBase, IPdfToBmp<BitmapSource>
     {
 
         public BitmapSource GetBitmap(double Resolution, bool Transparent = true)

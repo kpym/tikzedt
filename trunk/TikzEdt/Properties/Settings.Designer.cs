@@ -775,5 +775,17 @@ namespace TikzEdt.Properties {
                 this["AutoCompileOnDocumentChange"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseExternalRenderer {
+            get {
+                return ((bool)(this["UseExternalRenderer"]));
+            }
+            set {
+                this["UseExternalRenderer"] = value;
+            }
+        }
     }
 }

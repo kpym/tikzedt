@@ -118,6 +118,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtRadialOffset = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
+            this.zoomCtrl = new TikzEdtWForms.ZoomCtrl();
             this.lblMousePos = new System.Windows.Forms.Label();
             this.tlbMain = new System.Windows.Forms.ToolStrip();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -162,7 +163,6 @@
             this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.zoomCtrl = new TikzEdtWForms.ZoomCtrl();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -1035,6 +1035,15 @@
             this.label7.Size = new System.Drawing.Size(15, 22);
             this.label7.TabIndex = 11;
             // 
+            // zoomCtrl
+            // 
+            this.zoomCtrl.Dock = System.Windows.Forms.DockStyle.Right;
+            this.zoomCtrl.Location = new System.Drawing.Point(905, 0);
+            this.zoomCtrl.Name = "zoomCtrl";
+            this.zoomCtrl.Size = new System.Drawing.Size(120, 22);
+            this.zoomCtrl.TabIndex = 1;
+            this.zoomCtrl.Value = 5;
+            // 
             // lblMousePos
             // 
             this.lblMousePos.Dock = System.Windows.Forms.DockStyle.Right;
@@ -1043,7 +1052,7 @@
             this.lblMousePos.Size = new System.Drawing.Size(80, 22);
             this.lblMousePos.TabIndex = 0;
             this.lblMousePos.Text = "(0,0)";
-            this.lblMousePos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblMousePos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tlbMain
             // 
@@ -1473,15 +1482,6 @@
             this.toolStripButton10.Text = "toolStripButton10";
             this.toolStripButton10.ToolTipText = "Unique-ify node names";
             this.toolStripButton10.Click += new System.EventHandler(this.toolStripButton10_Click);
-            // 
-            // zoomCtrl
-            // 
-            this.zoomCtrl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.zoomCtrl.Location = new System.Drawing.Point(905, 0);
-            this.zoomCtrl.Name = "zoomCtrl";
-            this.zoomCtrl.Size = new System.Drawing.Size(120, 22);
-            this.zoomCtrl.TabIndex = 1;
-            this.zoomCtrl.Value = 5;
             // 
             // Form1
             // 
