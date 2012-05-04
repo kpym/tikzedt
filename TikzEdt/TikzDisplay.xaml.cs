@@ -121,7 +121,13 @@ namespace TikzEdt
 
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {
-                TheModel = new TikzDisplayModel<BitmapSource>(this, new PdfToBmpExtWPF());
+                IPdfToBmp<BitmapSource> Pdf2Bmp;
+                if (CompilerSettings.Instance.UseExternalRenderer)
+                    Pdf2Bmp = new PdfToBmpExtWPF();
+                else
+                    Pdf2Bmp = new PdfToBmpWPF();
+
+                TheModel = new TikzDisplayModel<BitmapSource>(this, Pdf2Bmp);
                    /* (b) =>
                     {
                         if (b == null) return null;

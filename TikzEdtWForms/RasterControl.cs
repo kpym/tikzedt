@@ -44,7 +44,12 @@ namespace TikzEdtWForms
 
             TheRasterModel = new RasterControlModel(this);
 
-            TheDisplayModel = new TikzDisplayModel<Bitmap>(this, new PdfToBmpExtWinForms());
+            IPdfToBmp<Bitmap> Pdf2Bmp;
+            if (CompilerSettings.Instance.UseExternalRenderer)
+                Pdf2Bmp = new PdfToBmpExtWinForms();
+            else
+                Pdf2Bmp = new PdfToBmp();
+            TheDisplayModel = new TikzDisplayModel<Bitmap>(this, Pdf2Bmp);
 
             TheOverlayModel = new PdfOverlayModel(this, this);
 

@@ -1113,7 +1113,12 @@ namespace TikzEdt.ViewModels
                         return;
                 }
 
-                PdfToBmp p2b = new PdfToBmp();
+                IPdfToBmp<System.Drawing.Bitmap> p2b;
+                if (CompilerSettings.Instance.UseExternalRenderer)
+                    p2b = new PdfToBmpExtWinForms();
+                else
+                    p2b = new PdfToBmp();
+
                 p2b.LoadPdf(PdfPath);
                 p2b.SaveBmp(outFileName, Consts.ptspertikzunit, Transparent, imgFormat);
             }

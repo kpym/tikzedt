@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tb = new System.Windows.Forms.TrackBar();
             this.cmdIn = new System.Windows.Forms.Button();
             this.cmdOut = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.tb)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,5 +98,6 @@
         private System.Windows.Forms.TrackBar tb;
         private System.Windows.Forms.Button cmdOut;
         private System.Windows.Forms.Button cmdIn;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

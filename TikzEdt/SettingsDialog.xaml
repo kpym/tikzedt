@@ -134,7 +134,7 @@
                         </TextBox.ToolTip>
                     </TextBox>
                     <CheckBox Margin="3" Grid.Row="5" Grid.Column="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ShowFullPathInTitle}">Show Full Path in Title </CheckBox>
-                    <TextBlock Margin="3" Grid.Column="0" Grid.Row="6" Text="Compile on" Grid.ColumnSpan="2"></TextBlock>
+             <!--        <TextBlock Margin="3" Grid.Column="0" Grid.Row="6" Text="Compile on" Grid.ColumnSpan="2"></TextBlock>
                     <Grid HorizontalAlignment="Stretch"  Grid.Column="1" Grid.Row="6" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -143,7 +143,7 @@
                         </Grid.ColumnDefinitions>
                         <RadioButton Margin="3" Content="code change" Grid.Column="1" Grid.Row="1" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=CompileOnCodeChangeRadioButton}" />
                         <RadioButton Margin="3" Content="CTRL press" Grid.Column="2" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=CompileOnCTRLPressRadioButton}"/>
-                    </Grid>
+                    </Grid> -->
                     <Button Grid.Column="1" Grid.Row="7" Margin="4" Click="AssociateTikz_Click">
                         <Button.Style>
                             <Style BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
@@ -154,6 +154,9 @@
                     </Button>
                     <CheckBox Margin="3" Grid.Row="8" Grid.Column="1" IsChecked="{Binding FolderView_ShowHidden, Source={x:Static p:Settings.Default}}">Show hidden files in folder panel</CheckBox>
                     <CheckBox Margin="3" Grid.Row="9" Grid.Column="1" IsChecked="{Binding CheckForUpdates, Source={x:Static p:Settings.Default}}">Check for updates on startup</CheckBox>
+                    <CheckBox Margin="3" Grid.Row="10" Grid.Column="1" IsChecked="{Binding UseExternalRenderer, Source={x:Static p:Settings.Default}}">Use External renderer (mudraw.exe)
+                        <CheckBox.ToolTip>Whether rendering should be done with the mupdf renderer mudraw.exe. Must be in the app directory.</CheckBox.ToolTip>
+                    </CheckBox>
                 </Grid>
             </TabItem>
             <TabItem>
