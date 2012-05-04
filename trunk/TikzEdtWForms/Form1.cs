@@ -39,7 +39,8 @@ namespace TikzEdtWForms
 
             if (DesignMode)
                 return;
-
+			
+			
             TextEditorDocumentWrapper.TheOneAndOnly = txtCode;
 
             // The order should be exactly the same as that in the OverlayToolType enum!!!
@@ -49,7 +50,7 @@ namespace TikzEdtWForms
             SetupComponents();
 
             SetupBindings();
-
+							
             GlobalUI.UI.OnRecentFileEvent += (s, e) => { if (e.IsInsert) MyMRU.Insert(e.FileName); else MyMRU.Remove(e.FileName); };
             MyMRU.OnFileOpen += (s, e) => TheVM.Open(e.FileName, ModifierKeys.HasFlag(Keys.Control));    
 
@@ -355,10 +356,15 @@ namespace TikzEdtWForms
             //rasterControl1.Top = (splitContainer2.Panel2.Height - rasterControl1.Height) / 2;
             //tikzDisplay1.Left = (rasterControl1.ClientSize.Width - tikzDisplay1.Width) / 2;
             //tikzDisplay1.Top = (rasterControl1.ClientSize.Height - tikzDisplay1.Height) / 2;
-
-            rasterControl1.Left = (ScrollPanel.ClientSize.Width - rasterControl1.Width) / 2;
-            rasterControl1.Top = (ScrollPanel.ClientSize.Height - rasterControl1.Height) / 2;
 			
+			// defer repositioning ... this is a total hack to work araound mono bugs
+			//if (this.IsHandleCreated)
+			//BeginInvoke( new Action(delegate  {
+            rasterControl1.Left = Math.Max(0, (ScrollPanel.ClientSize.Width - rasterControl1.Width) / 2 );
+            rasterControl1.Top = Math.Max(0, (ScrollPanel.ClientSize.Height - rasterControl1.Height) / 2);
+			
+			//ScrollPanel.Refresh();
+			//rasterControl1.Refresh();
 			/*if (!IsHandleCreated) return;
 			splitContainer2.Panel2.PerformLayout();
 			splitContainer2.Panel2.Update();
@@ -370,8 +376,10 @@ namespace TikzEdtWForms
 			//splitContainer2.SplitterDistance = splitContainer2.SplitterDistance-1;
 			*/
 			//GlobalUI.UI.AddStatusLine(this, " L T "+rasterControl1.Left +" , "+ rasterControl1.Top);
-			//GlobalUI.UI.AddStatusLine(this, " W H "+splitContainer2.Panel2.ClientSize.Width +" , "+ splitContainer2.Panel2.ClientSize.Height);
-        }
+			//GlobalUI.UI.AddStatusLine(this, " W H "+ScrollPanel.ClientSize.Width +" , "+ ScrollPanel.ClientSize.Height);
+        
+			//}));
+		}
 
         void Instance_OnCompileEvent(object sender, TexCompiler.CompileEventArgs e)
         {
@@ -384,6 +392,9 @@ namespace TikzEdtWForms
         {
             this.BeginInvoke(new InvokeDelegate(() =>
             {
+				if (txtStatus.Text.Length > 100000)
+					txtStatus.Text = "";
+				
                 int length = txtStatus.TextLength;  // at end of text
                 string toAppend = StatusLine + Environment.NewLine;
                 txtStatus.AppendText(toAppend);
