@@ -24,9 +24,6 @@ namespace TikzEdtWForms
         FileViewer fileViewer;
         DynamicPreamble dynamicPreamble;
         FindReplaceNoWPF.FindReplaceMgr findReplaceMgr;
-        ToolStripLabel lblStandAlone;
-        ToolStripTextBox  txtRadialOffset, txtRadialSteps;
-        ToolStripComboBox cmbGrid;
 
         TESharedComponents.UpdateChecker updateChecker = new TESharedComponents.UpdateChecker() { VersionInfoURL = Consts.VersionInfoURL };
         //PdfOverlay pdfOverlay1;
@@ -64,7 +61,7 @@ namespace TikzEdtWForms
         /// </summary>
         void SetupComponents()
         {
-            lblStandAlone = new ToolStripLabel("[Document is standalone]") { Visible = false };
+            /*lblStandAlone = new ToolStripLabel("[Document is standalone]") { Visible = false };
             statusStrip1.Items.Insert(2, lblStandAlone);
             statusStrip1.Items.Insert(3, new ToolStripLabel("Grid:"));
             cmbGrid = new ToolStripComboBox() { Width = 50 };
@@ -81,7 +78,7 @@ namespace TikzEdtWForms
             toolStripZoomCtrlItem1.Height = 20;
             toolStripZoomCtrlItem1.Visible = true;
             //toolStripZoomCtrlItem1.MinimumSize = new Size(110, 20);
-
+            */
             findReplaceMgr = new FindReplaceNoWPF.FindReplaceMgr();
             //findReplaceMgr.Editors = new object[] { new FindReplaceNoWPF.TextEditorAdapter(txtCode) };
             findReplaceMgr.CurrentEditor = new FindReplaceNoWPF.TextEditorAdapter(txtCode);
@@ -159,36 +156,21 @@ namespace TikzEdtWForms
             BindingFactory.CreateBindingSP(sp, "AllowEditing", doc => rasterControl1.AllowEditing = doc.AllowEditing, null);
             BindingFactory.CreateBindingSP(sp, "EdgeStyle", doc => rasterControl1.EdgeStyle = doc.EdgeStyle, null);
             BindingFactory.CreateBindingSP(sp, "NodeStyle", doc => rasterControl1.NodeStyle = doc.NodeStyle, null);
-            BindingFactory.CreateBindingSP(sp, "Resolution", doc => toolStripZoomCtrlItem1.ZoomCtrl.Value = Convert.ToInt32(doc.Resolution), null);
-            toolStripZoomCtrlItem1.ZoomCtrl.ValueChanged += (s, e) => TheVM.TheDocument.Resolution = toolStripZoomCtrlItem1.ZoomCtrl.Value;
+            BindingFactory.CreateBindingSP(sp, "Resolution", doc => zoomCtrl.Value = Convert.ToInt32(doc.Resolution), null);
+            zoomCtrl.ValueChanged += (s, e) => TheVM.TheDocument.Resolution = zoomCtrl.Value;
             BindingFactory.CreateBindingSP(sp, "DisplayString", doc => this.Text = "TikzEdt - " + doc.DisplayString, () => this.Text = "TikzEdt");
-            BindingFactory.CreateBindingSP(sp, "IsStandAlone", doc => lblStandAlone.Visible = doc.IsStandAlone, () => lblStandAlone.Visible = false);
+            BindingFactory.CreateBindingSP(sp, "IsStandAlone", doc => lblStandalone.Visible = doc.IsStandAlone, () => lblStandalone.Visible = false);
 
 
             BindingFactory.CreateBinding(TheVM, "RasterRadialOffset", vm =>
-            { txtRadialOffset.TextBox.Text = vm.RasterRadialOffset.ToString(); rasterControl1.RadialOffset = vm.RasterRadialOffset; }, null);
+            { txtRadialOffset.Value = (decimal)vm.RasterRadialOffset; rasterControl1.RadialOffset = vm.RasterRadialOffset; }, null);
             BindingFactory.CreateBinding(TheVM, "RasterSteps", vm =>
-            { txtRadialSteps.TextBox.Text = vm.RasterSteps.ToString(); rasterControl1.RasterRadialSteps = (uint)vm.RasterSteps; }, null);
+            { txtRadialSteps.Value = vm.RasterSteps; rasterControl1.RasterRadialSteps = (uint)vm.RasterSteps; }, null);
             BindingFactory.CreateBinding(TheVM, "RasterWidth", vm =>
-            { cmbGrid.ComboBox.Text = vm.RasterWidth.ToString(); rasterControl1.RasterWidth = vm.RasterWidth; }, null);
-            txtRadialOffset.TextChanged += (s, e) =>
-            {
-                double d;
-                if (Double.TryParse(txtRadialOffset.TextBox.Text, out d))
-                    TheVM.RasterRadialOffset = d;
-            };
-            txtRadialSteps.TextChanged += (s, e) =>
-            {
-                uint d;
-                if (UInt32.TryParse(txtRadialSteps.TextBox.Text, out d))
-                    TheVM.RasterSteps = (int)d;
-            };
-            cmbGrid.ComboBox.TextChanged += (s, e) =>
-            {
-                double d;
-                if (Double.TryParse(cmbGrid.ComboBox.Text, out d))
-                    TheVM.RasterWidth = d;
-            };
+            { txtGrid.Value = (decimal)vm.RasterWidth; rasterControl1.RasterWidth = vm.RasterWidth; }, null);
+            txtRadialOffset.ValueChanged += (s, e) => TheVM.RasterRadialOffset = (double)txtRadialOffset.Value;
+            txtRadialSteps.ValueChanged += (s, e) => TheVM.RasterSteps = Convert.ToInt32(txtRadialSteps.Value);
+            txtGrid.ValueChanged += (s, e) => TheVM.RasterWidth = (double)txtGrid.Value;
 
             rasterControl1.ToolChanged += (sender, e) => TheVM.CurrentTool = rasterControl1.Tool;
 
