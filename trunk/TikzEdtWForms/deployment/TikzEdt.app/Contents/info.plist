@@ -1,22 +1,29 @@
-CFBundleDevelopmentRegion
-English
-CFBundleExecutable
-tikzedt
-CFBundleIconFile
-tikzedt.icns
-CFBundleIdentifier
-org.tikzedt
-CFBundleInfoDictionaryVersion
-0.2.1
-CFBundleName
-TikzEdt
-CFBundlePackageType
-APPL
-CFBundleShortVersionString
-0.2.1
-CFBundleSignature
-xmmd
-CFBundleVersion
-0.2.1
-NSAppleScriptEnabled
-NO
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>tikzedt</string>
+	<key>CFBundleIconFile</key>
+	<string>tikzedt.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.tikzedt</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>TikzEdt</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.2.1</string>
+	<key>CFBundleSignature</key>
+	<string>xmmd</string>
+	<key>CFBundleVersion</key>
+	<string>0.2.1</string>
+	<key>NSAppleScriptEnabled</key>
+	<string>NO</string>
+</dict>
+</plist>
+
