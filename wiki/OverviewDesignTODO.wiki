@@ -61,6 +61,7 @@
   * middle button pan
   * right button deselect not always working (?or cursor not updated)
   * mac installer package???
+  * code completion
 
 === For later ===
 *TODO*
