@@ -49,6 +49,8 @@
   * Inport settings etc. from previous version
   * usepolarcoordinates is not quite working
   * unit tests for overlay
+  * .preview.pdf not deleted, not hidden
+  * bug with scope display. (screwed)
 
 === Vague things ===
   * improve workflow
