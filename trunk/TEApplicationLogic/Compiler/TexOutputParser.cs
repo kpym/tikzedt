@@ -133,8 +133,8 @@ namespace TikzEdt
                     {
                         // trim preview file ending.
                         e.causingSourceFile = e.causingSourceFile.Trim();
-                        if (e.causingSourceFile.EndsWith(Helper.GetPreviewFilename()+Helper.GetPreviewFilenameExt()))
-                            e.causingSourceFile = e.SourceFileName.Substring(0, (e.SourceFileName.Length - Helper.GetPreviewFilename().Length - Helper.GetPreviewFilenameExt().Length));
+                        if (e.causingSourceFile.EndsWith(Consts.PreviewFilename+Consts.PreviewFilenameExt))
+                            e.causingSourceFile = e.SourceFileName.Substring(0, (e.SourceFileName.Length - Consts.PreviewFilename.Length - Consts.PreviewFilenameExt.Length));
                     }
                 }
                 e.Pos = -1;
