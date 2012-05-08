@@ -237,7 +237,7 @@ namespace TikzEdt.Snippets
 
             SnippetsDataSet.SnippetsTableRow r = ((DataRowView)lstSnippets.SelectedItem).Row as SnippetsDataSet.SnippetsTableRow;
             if (!r.IsNull(snippetsTable.SampleCodeColumn))
-                fact.AddJob(r.SampleCode, Helper.GetSnippetsPath() + r.ID + Helper.GetSnippetsExt(), new Rect(0, 0, 0, 0), r.Name, true);
+                fact.AddJob(r.SampleCode, Helper.GetSnippetsPath() + r.ID + Consts.SnippetsExtension, new Rect(0, 0, 0, 0), r.Name, true);
         }
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace TikzEdt.Snippets
                     {
                         string cFile =  Helper.GetSnippetsPath() + r.ID;
                         if (mbres == MessageBoxResult.Yes || !File.Exists(cFile+".png"))
-                            fact.AddJob(r.SampleCode, cFile + Helper.GetSnippetsExt(), new Rect(0, 0, 0, 0), r.Name, true);
+                            fact.AddJob(r.SampleCode, cFile + Consts.SnippetsExtension, new Rect(0, 0, 0, 0), r.Name, true);
                     }
                 }
             }

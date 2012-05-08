@@ -387,8 +387,8 @@ namespace TikzEdt
         {
             Job job = new Job();
             job.code = CompilerSettings.Instance.Tex_Preamble;
-            job.path = Helper.GetPrecompiledHeaderPath() + Helper.GetPrecompiledHeaderFilename();
-            job.name = System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename());
+            job.path = Helper.GetPrecompiledHeaderFMTFilePath();
+            job.name = System.IO.Path.GetFileNameWithoutExtension(Consts.PrecompiledHeaderFilename);
             job.GeneratePrecompiledHeaders = true;
             return job;
         }
@@ -860,13 +860,13 @@ namespace TikzEdt
                     }
                     else if (job.GeneratePrecompiledHeaders == true)
                     {   //if the header should have been generated but it was not
-                        if (!File.Exists(Helper.GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename()) + ".fmt"))
+                        if (!File.Exists(Helper.GetPrecompiledHeaderFMTFilePath() ))
                         {
                             todo_tex.Clear();
                             if (OnCompileEvent != null) OnCompileEvent(this, new CompileEventArgs()
                             {
                                 Message = "Compilation of pre-compiled header succeded but the pre-compiled header file could not be found." +
-                                    " It is supposed to be here: " + Helper.GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(Helper.GetPrecompiledHeaderFilename()) + ".fmt" +
+                                    " It is supposed to be here: " + Helper.GetPrecompiledHeaderFMTFilePath() +
                                     Environment.NewLine + "Compilation of main document stopped. Check settings and read/write permissions!",
                                 Type = CompileEventType.Error
                             });

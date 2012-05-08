@@ -27,6 +27,7 @@ using System.Security;
 using Microsoft.Win32;
 using System.Globalization;
 using System.ComponentModel;
+using System.Diagnostics.Contracts;
 
 //using System.Drawing;
 
@@ -63,6 +64,17 @@ namespace TikzEdt
         public const string cSnippetsFile = "TheSnippets.xml";
         public const string cDynPreamblesFile = "DynPreambles.xml";
         public const string cSnippetThumbsDir = "img";
+        public const string PrecompiledHeaderFilename = "temp_header.tex";
+        
+        /// <summary>
+        /// The file extension to be added to snippet samples before compilation.
+        /// </summary>
+        public const string SnippetsExtension = ".tex";
+
+        public const string PreviewFilename = ".preview";
+        public const string PreviewFilenameExt = ".tex";
+        
+
         //public const string cMRUFile = "T2GMRU.xml";    // not used
         //public const int MaxMRU = 10;// not used
        // public const string cStyleRepoFile = "StyleRepo.dat";
@@ -142,7 +154,7 @@ namespace TikzEdt
         public static string MRUFileFullPath { get { return Path.Combine(Helper.GetAppdataPath(), "RecentFiles.txt"); } }
 
         // TE preprocessor commands
-        public static string PreProc_Comment = "%!TE%";
+        public const string PreProc_Comment = "%!TE%";
         public static string PreProc_CompilerOptions = "%!TEO";
         public static string PreProc_Include = "%!TEI";
         public static string PGFManualDownloadPath = @"http://www.ctan.org/tex-archive/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf";
@@ -169,6 +181,7 @@ namespace TikzEdt
     /// </summary>
     public static class Helper
     {
+        [Pure]
 		public static bool IsLinux()
 		{
 			return Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX ;
@@ -180,6 +193,7 @@ namespace TikzEdt
         /// </summary>
         /// <param name="inputString">the string</param>
         /// <returns>the same string, with the whitespace removed</returns>
+        [System.Diagnostics.Contracts.Pure]
         public static string RemoveMultipleWhitespace(string inputString)
         {
             if (inputString == null)
@@ -198,7 +212,9 @@ namespace TikzEdt
         /// <param name="option">Option to set work dir to.</param>
         /// <param name="file">If WorkingDirOptions.DirFromFile, specify file that shall be in the working dir afterwards.</param>
         public static void SetCurrentWorkingDir(WorkingDirOptions option, string file = "")
-        { 
+        {
+            Contract.Requires(option == WorkingDirOptions.TempDir || (file != null && file != "")); 
+
             if(option==WorkingDirOptions.TempDir)
                 Environment.CurrentDirectory = System.IO.Path.GetTempPath();
             else if (option == WorkingDirOptions.DirFromFile)
@@ -213,17 +229,26 @@ namespace TikzEdt
                     Environment.CurrentDirectory = dir;
             }
         }
+
+        [Pure]
         public static string GetCurrentWorkingDir()
         {
             return Environment.CurrentDirectory;
         }
 
-        public static string GetLayoutConfigFilepath()
+        /*public static string GetLayoutConfigFilepath()
         {
             return Path.Combine ( GetAppdataPath() , "TikzEdtLayout.xml");
-        }
+        }*/
+
         public enum AppdataPathOptions { AppData, ExeDir };
         private static string _AppdataPath = System.Windows.Forms.Application.UserAppDataPath;
+
+        /// <summary>
+        /// The application data may either be stored in the system's appdata folder, or in the program folder (portable version).
+        /// This method must be called on startup to set the folder.
+        /// </summary>
+        /// <param name="option"></param>
         public static void SetAppdataPath(AppdataPathOptions option)
         {
             if (option == AppdataPathOptions.AppData)
@@ -231,21 +256,25 @@ namespace TikzEdt
             else
                 _AppdataPath = GetAppDir();
         }
+
+        /// <summary>
+        /// Returns the path where the application data (snippets, settings, MRU etc.) are stored
+        /// </summary>
+        /// <returns></returns>
+        [Pure]
         public static string GetAppdataPath()
         {
-            if (_AppdataPath == "")
+            if (String.IsNullOrWhiteSpace(_AppdataPath))
             {
                 return System.Windows.Forms.Application.UserAppDataPath;
-                //throw new Exception("AppdataPath not set yet! Do it using SetAppdataPath() before calling GetAppdataPath().");
-                //int DOESNOTLETDESIGNSHOW = 3; //that is why this line is disabled.
             }
             return _AppdataPath;
         }
 
-        public static bool IsAppDirWritable()
+       /* public static bool IsAppDirWritable()
         {           
             return HasWritePermissionOnDir(GetAppDir());
-        }
+        } 
 
         public static bool HasWritePermissionOnDir(string path)
         {
@@ -287,53 +316,25 @@ namespace TikzEdt
             return false;
 
             // this doesn't seem to work on my machine
-      /*      var writeAllow = false;
-            var writeDeny = false;
-            var accessControlList = Directory.GetAccessControl(path);
-            var accessRules = accessControlList.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
 
-            foreach (System.Security.AccessControl.FileSystemAccessRule rule in accessRules)
-            {
-                if ((System.Security.AccessControl.FileSystemRights.Write & rule.FileSystemRights) != System.Security.AccessControl.FileSystemRights.Write) continue;
-
-                if (rule.AccessControlType == System.Security.AccessControl.AccessControlType.Allow)
-                    writeAllow = true;
-                else if (rule.AccessControlType == System.Security.AccessControl.AccessControlType.Deny)
-                    writeDeny = true;
-            }
-
-            return writeAllow && !writeDeny; */
-        }
+        } */
 
         
-        
+        /// <summary>
+        /// Returns the directory of the executable
+        /// </summary>
+        /// <returns></returns>
+        [Pure]
         public static string GetAppDir() // w/o trailing backslash 
         {
             return System.AppDomain.CurrentDomain.BaseDirectory;
-            /*throw new Exception("GetAppDir() is obsolete! Use GetAppdataPath() or GetCurrentWorkingDir() instead.");
-            string appPath = "";
-            try
-            {
-                appPath = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-                //since CodeBase returns a URI formatted string, character '#' has special meaning
-                //(separating base URI from parameters)
-                //however, we have a directory here. '#' is a valid, normal character here.
-                appPath = appPath.Replace("#", "%23");
-                appPath = System.IO.Path.GetDirectoryName(appPath);
-                Uri uriAddress2 = (new Uri(appPath));
-                appPath = uriAddress2.LocalPath;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception: " + ex.ToString());
-            }
-            return appPath;*/
         }
 
         /// <summary>
         /// Path where is configuration files are stored (usually \\Editor)
         /// </summary>
         /// <returns></returns>
+        [Pure]
         public static string GetSettingsPath()
         {
             return Path.Combine( GetAppdataPath() , Consts.cSettingsDir) + Path.DirectorySeparatorChar;
@@ -342,20 +343,17 @@ namespace TikzEdt
         /// Path where the snippet thumbnails are stored (usually \\img)
         /// </summary>
         /// <returns></returns>
+        [Pure]
         public static string GetSnippetsPath()
         {
             return Path.Combine( GetAppdataPath() , Consts.cSnippetThumbsDir)  + Path.DirectorySeparatorChar;
         }
-        /// <summary>
-        /// The file extension to be added to snippet samples before compilation.
+
+      /*  /// <summary>
+        /// This is where the precompiled header file (.fmt) is created.
         /// </summary>
         /// <returns></returns>
-        public static string GetSnippetsExt()
-        {
-            return ".tex";
-        }
-
-        //this is where the .fmt is created.
+        [Pure]
         public static string GetPrecompiledHeaderPath()
         {
             string s = GetAppdataPath();
@@ -363,14 +361,16 @@ namespace TikzEdt
                 return s;
             else
                 return s + Path.DirectorySeparatorChar;
-        }
-        public static string GetPrecompiledHeaderFilename()
-        {
-            return "temp_header.tex";
-        }
+        }*/
+        
+        /// <summary>
+        /// The location of the precompiler header file.
+        /// </summary>
+        /// <returns></returns>
+        [Pure]
         public static string GetPrecompiledHeaderFMTFilePath()
         {
-            return GetPrecompiledHeaderPath() + System.IO.Path.GetFileNameWithoutExtension(GetPrecompiledHeaderFilename()) + ".fmt";
+            return Path.Combine(GetAppdataPath(), System.IO.Path.GetFileNameWithoutExtension(Consts.PrecompiledHeaderFilename) + ".fmt");
         }
 
         /// <summary>
@@ -378,6 +378,7 @@ namespace TikzEdt
         /// 
         /// </summary>
         /// <returns>The full path to the precompiled header file, in DOS format, without extension.</returns>
+        [Pure]
         public static string GetPrecompiledHeaderShortFilePath()
         {
             string path = GetPrecompiledHeaderFMTFilePath();
@@ -386,20 +387,14 @@ namespace TikzEdt
             return path;
         }
 
+        [Pure]
         public static string GetTempFileName()
         {
+            Contract.Ensures( Contract.Result<string>() != null && Contract.Result<string>() != "");
             return Consts.cTempFile + Process.GetCurrentProcess().Id;
         }
 
-        public static string GetPreviewFilename()
-        { 
-            return ".preview";
-        }
-        public static string GetPreviewFilenameExt()
-        {
-            return ".tex";
-        }
-
+        [Pure]
         public static string RemoveFileExtension(string file)
         {
             if (file == null)
@@ -428,7 +423,7 @@ namespace TikzEdt
                     FilesToDelete.Add(RemoveFileExtension(FileName) + ext);
                 //delete all preview files.
                 foreach (string ext in Consts.PreviewFileExt)
-                    FilesToDelete.Add(FileName + GetPreviewFilename() + ext);
+                    FilesToDelete.Add(FileName + Consts.PreviewFilename + ext);
             }
 
             foreach (String file in FilesToDelete)
@@ -451,11 +446,13 @@ namespace TikzEdt
         /// <param name="angle"></param>
         /// <param name="closeto"></param>
         /// <returns></returns>
+        [Pure]
         public static double ClosestPt(double angle, double closeto)
         {
             double diff = angle - closeto;
             return angle - Math.Round(diff / (2 * Math.PI)) * 2 * Math.PI;
         }
+        [Pure]
         public static double ClosestPtDeg(double angle, double closeto)
         {
             double diff = angle - closeto;
@@ -465,6 +462,7 @@ namespace TikzEdt
         /// <summary>
         /// Count occurrences of strings.
         /// </summary>
+        [Pure]
         public static int CountStringOccurrences(string text, string pattern)
         {
             // Loop through all instances of the string 'text'.
@@ -478,7 +476,7 @@ namespace TikzEdt
             return count;
         }
 
-
+        [Pure]
         public static double RotationFromMatrix(Parser.TikzMatrix M)
         {
             return Math.Atan2(M.m[1, 0], M.m[0, 0]);
@@ -494,7 +492,11 @@ namespace TikzEdt
             int shortPathLength
             );
 
-        
+        /// <summary>
+        /// Converts a long path to a DOS short path.
+        /// </summary>
+        /// <param name="LongPath"></param>
+        /// <returns></returns>
         public static string LongPathToShort(string LongPath)
         {
             if (Helper.IsLinux())
@@ -514,9 +516,10 @@ namespace TikzEdt
         /// For instance, -> + >- = >->
         /// (the way it is implemented is a bit of a hack)
         /// </summary>
-        /// <param name="s1"></param>
-        /// <param name="s2"></param>
-        /// <returns></returns>
+        /// <param name="s1">The first style</param>
+        /// <param name="s2">The second style</param>
+        /// <returns>The merged style.</returns>
+        [Pure]
         public static string MergeStyles(string s1, string s2)
         {
 

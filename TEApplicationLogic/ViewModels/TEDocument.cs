@@ -957,7 +957,7 @@ namespace TikzEdt.ViewModels
             // Parse and compile, depending on current mode
             string path;
             if (FilePath != null)
-                path = FilePath + Helper.GetPreviewFilename() + Helper.GetPreviewFilenameExt();
+                path = FilePath + Consts.PreviewFilename + Consts.PreviewFilenameExt;
             else
                 path = "";      // use a temp file
             

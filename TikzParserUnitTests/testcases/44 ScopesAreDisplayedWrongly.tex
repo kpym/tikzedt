@@ -1,0 +1,173 @@
+\begin{tikzpicture}[scale=.7]
+\tikzstyle{w}=[circle, draw, minimum size=3, inner sep=1]
+\tikzstyle{b}=[circle, draw, fill, minimum size=3, inner sep=1]
+
+\begin{scope}[shift={(-7,6)}]
+\node [b] (v1) at (2,-1) {};
+\node [w] (v2) at (1.5,0) {1};
+\node [w] (v3) at (1.5,1) {2};
+\node [w] (v5) at (2.5,0) {3};
+\node [w] (v6) at (2.5,1) {4};
+\draw (v1) edge (v2);
+\draw (v1)--+(0,-1);
+\draw (v2) edge (v3);
+\draw (v1) edge (v5);
+\draw (v5) edge (v6);
+\end{scope}
+\begin{scope}[shift={(-2.5,6)}]
+\node [w] (v1) at (2,-1) {1};
+\node [w] (v2) at (1.5,0) {2};;
+\node [w] (v5) at (2.5,0) {3};
+\node [w] (v6) at (2.5,1) {4};
+\draw (v1) edge (v2);
+\draw (v1)--+(0,-1);
+\draw (v1) edge (v5);
+\draw (v5) edge (v6);
+\end{scope}
+\begin{scope}[shift={(0.5,6)}]
+\node [w] (v1) at (2,-1) {3};
+\node [w] (v2) at (1.5,0) {1};
+\node [w] (v3) at (1.5,1) {2};
+\node [w] (v5) at (2.5,0) {4};
+\draw (v1) edge (v2);
+\draw (v1)--+(0,-1);
+\draw (v2) edge (v3);
+\draw (v1) edge (v5);
+\end{scope}
+
+\node at (8.75,0.75) {$+$};
+\node at (7,0.75) {$+$};
+\node at (10.25,0.75) {$+$};
+\node at (-1.25,0.75) {$+$};
+\node at (-2.75,0.75) {$+$};
+\node at (-4.25,0.75) {$+$};
+\node at (-5.75,0.75) {$+$};
+\node at (-7.25,0.75) {$+$};
+\node at (2.25,1) {$\dots$};
+\draw[-triangle 60](-3.5,5.5) -- node[above] {$\delta_1^*$} (-2,5.5);
+\node at (1,5.5) {$+$};
+\node at (8.5,5.5) {$+$};
+\draw[-triangle 60](4,5.5) --  (5.5,5.5);
+\draw[-triangle 60](4.5,1) --  (3,1);
+\draw[-triangle 60](1.5,1) --  (0,1);
+\draw[-triangle 60](8.5,4) --  (8.5,3);
+\begin{scope}[]
+\node [w] (v7) at (6.5,5) {1};
+\node [w] (v9) at (6,6.5) {2};
+\node [w] (v10) at (7,6.5) {3};
+\node [w] (v11) at (7,7.5) {4};
+\node [b] (v8) at (6.5,5.75) {};
+\draw (v7)--+(0,-1);
+\draw (v7) edge (v8);
+\draw (v8) edge (v9);
+\draw (v8) edge (v10);
+\draw (v10) edge (v11);
+\end{scope}
+\begin{scope}[shift={(3.5,0)}]
+\node [w] (v7) at (6.5,5) {3};
+\node [w] (v9) at (6,6.5) {1};
+\node [w] (v10) at (7,6.5) {4};
+\node [w] (v11) at (6,7.5) {2};
+\node [b] (v8) at (6.5,5.75) {};
+\draw (v7)--+(0,-1);
+\draw (v7) edge (v8);
+\draw (v8) edge (v9);
+\draw (v8) edge (v10);
+\draw (v9) edge (v11);
+\end{scope}
+
+
+\begin{scope}[]
+\node [w] (v12) at (9.5,-0.5) {1};
+\node [w] (v13) at (9.5,0.5) {2};
+\node [w] (v14) at (9.5,1.5) {3};
+\node [w] (v15) at (9.5,2.5) {4};
+\node [w] (v16) at (11,-0.5) {3};
+\node [w] (v17) at (11,0.5) {4};
+\node [w] (v18) at (11,1.5) {1};
+\node [w] (v19) at (11,2.5) {2};
+\draw (v12) edge (v13);
+\draw (v13) edge (v14);
+\draw (v14) edge (v15);
+\draw (v16) edge (v17);
+\draw (v17) edge (v18);
+\draw (v18) edge (v19);
+\draw (v12)--+(0,-1);
+\draw (v16)--+(0,-1);
+\end{scope}
+\begin{scope}[xshift=1cm, shift={(-18.5,0)}]
+\node [w] (v12) at (9.5,-0.5) {1};
+\node [w] (v13) at (9.5,0.5) {2};
+\node [w] (v14) at (9.5,1.5) {3};
+\node [w] (v15) at (9.5,2.5) {4};
+\node [w] (v16) at (11,-0.5) {3};
+\node [w] (v17) at (11,0.5) {4};
+\node [w] (v18) at (11,1.5) {1};
+\node [w] (v19) at (11,2.5) {2};
+\draw (v12) edge (v13);
+\draw (v13) edge (v14);
+\draw (v14) edge (v15);
+\draw (v16) edge (v17);
+\draw (v17) edge (v18);
+\draw (v18) edge (v19);
+\draw (v12)--+(0,-1);
+\draw (v16)--+(0,-1);
+\end{scope}
+\begin{scope}[shift={(-0.5,-5)}]
+\node [w] (v7) at (6.5,5) {1};
+\node [w] (v9) at (6,6.5) {2};
+\node [w] (v10) at (7,6.5) {4};
+\node [w] (v8) at (6.5,5.75) {3};
+\draw (v7)--+(0,-1);
+\draw (v7) edge (v8);
+\draw (v8) edge (v9);
+\draw (v8) edge (v10);
+\end{scope}
+\begin{scope}[shift={(1.5,-5)}]
+\node [w] (v7) at (6.5,5) {3};
+\node [w] (v9) at (6,6.5) {2};
+\node [w] (v10) at (7,6.5) {4};
+\node [w] (v8) at (6.5,5.75) {1};
+\draw (v7)--+(0,-1);
+\draw (v7) edge (v8);
+\draw (v8) edge (v9);
+\draw (v8) edge (v10);
+\end{scope}
+
+\begin{scope}[shift={(-11.5,0)}]
+\node [w] (v12) at (9.5,-0.5) {3};
+\node [w] (v13) at (9.5,0.5) {1};
+\node [w] (v14) at (9.5,1.5) {2};
+\node [w] (v15) at (9.5,2.5) {4};
+\node [w] (v16) at (11,-0.5) {3};
+\node [w] (v17) at (11,0.5) {1};
+\node [w] (v18) at (11,1.5) {4};
+\node [w] (v19) at (11,2.5) {2};
+\draw (v12) edge (v13);
+\draw (v13) edge (v14);
+\draw (v14) edge (v15);
+\draw (v16) edge (v17);
+\draw (v17) edge (v18);
+\draw (v18) edge (v19);
+\draw (v12)--+(0,-1);
+\draw (v16)--+(0,-1);
+\end{scope}
+\begin{scope}[shift={(-14.5,0)}]
+\node [w] (v12) at (9.5,-0.5) {1};
+\node [w] (v13) at (9.5,0.5) {3};
+\node [w] (v14) at (9.5,1.5) {2};
+\node [w] (v15) at (9.5,2.5) {4};
+\node [w] (v16) at (11,-0.5) {1};
+\node [w] (v17) at (11,0.5) {3};
+\node [w] (v18) at (11,1.5) {4};
+\node [w] (v19) at (11,2.5) {2};
+\draw (v12) edge (v13);
+\draw (v13) edge (v14);
+\draw (v14) edge (v15);
+\draw (v16) edge (v17);
+\draw (v17) edge (v18);
+\draw (v18) edge (v19);
+\draw (v12)--+(0,-1);
+\draw (v16)--+(0,-1);
+\end{scope}
+\end{tikzpicture}
