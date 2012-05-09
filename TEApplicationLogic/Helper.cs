@@ -177,7 +177,7 @@ namespace TikzEdt
     }
 
     /// <summary>
-    /// This purely static class is host to functions of global interest (or those which have no home).
+    /// This purely static class is host to functions of global interest (or those which have no home elsewhere).
     /// </summary>
     public static class Helper
     {
@@ -575,7 +575,12 @@ namespace TikzEdt
     /// </summary>
     public class CompilerSettings
     {
-        public static CompilerSettings Instance;
+        /// <summary>
+        /// This field holds the global compiler settings service.
+        /// It must be set on application init, before the compiler is used.
+        /// </summary>
+        public static CompilerSettings Instance {get; set;}
+
         static CompilerSettings()
         {
              Instance = new CompilerSettings();
@@ -617,7 +622,11 @@ namespace TikzEdt
         public virtual bool UseExternalRenderer { get { return false; } }
     }
    
-
+    /// <summary>
+    /// Note: consider to use Tuple instead.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="U"></typeparam>
     public class Pair<T, U>
     {
         public Pair()

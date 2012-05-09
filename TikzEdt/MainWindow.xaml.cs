@@ -71,7 +71,7 @@ namespace TikzEdt
 
         FindReplace.FindReplaceMgr FindReplaceManager = new FindReplace.FindReplaceMgr();
 
-        public TESharedComponents.UpdateChecker updateChecker = new TESharedComponents.UpdateChecker() { VersionInfoURL = Consts.VersionInfoURL };
+        public TESharedComponents.UpdateChecker updateChecker = new TESharedComponents.UpdateChecker( Consts.VersionInfoURL );
 
  /*       System.ComponentModel.BackgroundWorker AsyncParser = new System.ComponentModel.BackgroundWorker();
         class AsyncParserJob

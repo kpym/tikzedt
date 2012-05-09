@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.Xml;
+using System.Diagnostics.Contracts;
 
 namespace TESharedComponents
 {
     /// <summary>
-    /// This class downloads an XMl file from the web and parses it to 
+    /// This class downloads an XML file from the web and parses it to 
     /// determine whether there is a new version, and, if so, provides the download link.
     /// 
     /// The format of the xml file is like this:
@@ -29,9 +30,9 @@ namespace TESharedComponents
         /// This is the URL of the XML file containing the version information.
         /// For file format, see above.
         /// </summary>
-        public string VersionInfoURL { get; set; }
+        private readonly string VersionInfoURL;
 
-        private MyBackgroundWorker worker = new MyBackgroundWorker();
+        private readonly MyBackgroundWorker worker = new MyBackgroundWorker();
         //private Random random = new Random();
 
         /// <summary>
@@ -69,10 +70,13 @@ namespace TESharedComponents
             public bool HasFailed;
         }
         public event EventHandler<SuccessEventArgs> Success;
-        public event EventHandler<StatusEventArgs> Status;        
+        public event EventHandler<StatusEventArgs> Status;
 
-        public UpdateChecker()
+        public UpdateChecker(string VersionInfoURL)
         {
+            Contract.Requires(!String.IsNullOrWhiteSpace(VersionInfoURL));
+
+            this.VersionInfoURL = VersionInfoURL;
             worker.WorkerReportsProgress = true;
             worker.DoWork += new System.ComponentModel.DoWorkEventHandler(worker_DoWork);
             worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
@@ -121,7 +125,7 @@ namespace TESharedComponents
             string url = e.Argument as string;
             SuccessEventArgs result = new SuccessEventArgs();
 
-            MyBackgroundWorker bgw = sender as MyBackgroundWorker;
+            MyBackgroundWorker bgw = worker; //sender as MyBackgroundWorker;
             bgw.ReportProgress(0, "Checking for new version ...");
 
             // Download xml file            

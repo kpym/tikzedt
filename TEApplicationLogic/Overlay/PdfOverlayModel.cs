@@ -8,132 +8,11 @@ using System.Windows.Forms;
 
 namespace TikzEdt.Overlay
 {
-    public interface IPdfOverlayView
-    {
-        bool AllowEditing { get; set; }
-        System.Windows.Rect BB { get; set; }
-        string EdgeStyle { get; set; }
-        string NewNodeModifier { get; set; }
-        string NodeStyle { get; set; }
-        TikzEdt.Parser.Tikz_ParseTree ParseTree { get; set; }
-        TikzEdt.RasterControlModel Rasterizer { get; set; }
-        double Resolution { get; set; }
-        bool UsePolarCoordinates { get; set; }
-        OverlayToolType Tool { get; set; }
 
-        TEModifierKeys KeyboardModifiers { get; }
-
-        void MarkObject(IOverlayShapeView v);
-        void JumpToSourceDoIt(OverlayShape o);
-        void RaiseReplaceText(ReplaceTextEventArgs e);
-        void Clear();
-        void SetCursor(Cursor cursor);
-
-        bool MouseCaptured { set; }
-        Point CursorPosition { get; }
-        OverlayShape ObjectAtCursor { get; }
-    }
-
-    public interface IOverlayShapeView
-    {
-        /// <summary>
-        /// Sets the position of the shape on screen.
-        /// For Nodes, this is the center of the node. For scopes, the lower right.
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="bottom"></param>
-        /// <param name="Relative"></param>
-        void SetPosition(double left, double bottom, bool Relative=false);
-        double GetLeft();
-        double GetBottom();
-        
-        /// <summary>
-        /// In top left centric coordinates.
-        /// </summary>
-        Rect GetBB(double CanvasHeight);
-        void SetStdColor();
-        void SetSelColor();
-        void SetToolTip(string Text);
-
-        /// <summary>
-        /// The underlying OverlayShape. Mustbe filled by the OverlayShape that creates the View.
-        /// </summary>
-        OverlayShape TheUnderlyingShape { get; set; }
-    }
-    public interface IOverlayScopeView : IOverlayShapeView
-    {
-        void SetSize(double Width, double Height);
-        void ShowAdorner();
-        void RemoveAdorner();
-    }
-    public interface IOverlayCPView : IOverlayShapeView
-    {
-        /// <summary>
-        /// Sets the second endpoint of the line connecting the control point with its origin.
-        /// </summary>
-        /// <param name="Left"></param>
-        /// <param name="Bottom"></param>
-        void SetOrigin1(double Left, double Top, double CanvasHeight);
-        void SetOrigin2(double Left, double Top, double CanvasHeight);
-    }
-
-    public interface IOverlayShapeFactory
-    {
-        // the following methods create views of objects in the parse tree
-        IOverlayShapeView NewNodeView();
-        IOverlayScopeView NewScopeView();
-        IOverlayCPView NewCPView();
-
-        // the following methods produce geometric shapes for (preview) use in the tools
-        // they are not backed by an object in the parsetree
-        IRectangleShape GetSelectionRect();
-        IRectangleShape GetCPCircle();
-        IRectangleShape GetPreviewEllipse();
-        IRectangleShape GetPreviewRectangle();
-        IFanShape GetPreviewFan();
-        IRectangleShape GetPreviewGrid();
-        IArcShape GetPreviewArc();
-        IArcShape GetPreviewPie();
-    }
-
-    public interface IPreviewShape
-    {
-        Rect GetBB();
-        bool Visible { get; set; }
-        /// <summary>
-        /// Determines the rotation of the shape in radians.
-        /// </summary>
-        double Rotation { set; }
-
-        void Refresh();
-    }
-
-    public interface IRectangleShape : IPreviewShape
-    {
-        void SetPosition(double Left, double Top, double Width, double Height);
-        void SetCenter(double Left, double Bottom);
-    }
-
-    public interface IFanShape : IPreviewShape
-    {
-        double R { get; set; }
-        Point Center { get; set; }
-        List<double> Spokes { get; set; } 
-    }
-
-    public interface IArcShape : IPreviewShape
-    {
-        Point p1 {get; set;} 
-        Point p2 {get; set;} 
-        Point center {get; set;}
-        bool IsLargeArc { get; set; }
-        /// <summary>
-        /// Makes shape dashed and Gray instead of solid black
-        /// </summary>
-        bool IsDashed { set; }
-    }
-
-
+    /// <summary>
+    /// A request for some text change from the overlay control to the UI.
+    /// (UI shall in response modify the text in the editor control).
+    /// </summary>
     public class ReplaceTextEventArgs : EventArgs
     {
         public struct ReplaceData
@@ -154,9 +33,29 @@ namespace TikzEdt.Overlay
     }
 
 
-    public class PdfOverlayModel : ViewModels.ViewModelBase, OverlayInterface
+    /// <summary>
+    /// The control model for the overlay control.
+    /// 
+    /// The overlay control is the central part of TikzEdt. It displays the overlay on top of the pdf
+    /// and is responsible for all WYSIWYG editing.
+    /// 
+    /// It has the following duties:
+    ///     1) It takes the current ParseTree, extracts the elements to be shown in the overlay (nodes and scopes essentially) 
+    ///        and builds a display tree consisting of OverlayShapes.
+    ///        
+    ///     2) It provides methods to update the display tree once the parsetree is modified (note: currently there is no automatic update)
+    ///     
+    ///     3) It keeps a list of tools, which must be subclasses of the abstract class OverlayTool. In case events relevant for tools fire,
+    ///        (mouse, keyboard etc.) these events are forwarded to the active tool.
+    /// 
+    ///     4) To the overlay tools, PdfOverlayModel provides UI framework independent access to the overlay drawing area and to the ParseTree.
+    ///        The overlay tools may modify the ParseTree and display something (previewshapes etc.) on the overlay control.
+    ///        The tools see PdfOverlayModel through the IOverlayInterface.
+    /// 
+    /// </summary>
+    public class PdfOverlayModel : ViewModels.ViewModelBase, IOverlayInterface
     {
-        IPdfOverlayView View { get; set; }
+        IPdfOverlayView View { get; private set; }
         public IOverlayShapeFactory ShapeFactory { get; set; }
 
         /// <summary>

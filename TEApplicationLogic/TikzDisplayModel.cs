@@ -3,10 +3,13 @@ using System.ComponentModel;
 using System.Drawing;
 namespace TikzEdt
 {
+    /// <summary>
+    /// The interface through which the TikzDisplayModel accesses the View.
+    /// </summary>
     public interface ITikzDisplayView
     {
         string PdfPath { get; set; }
-        int ReloadPdf { get; set; }
+       // int ReloadPdf { get; set; }
         bool RenderTransparent { get; set; }
         double Resolution { get; set; }
     }
@@ -15,7 +18,10 @@ namespace TikzEdt
     /// The control model for the TikzDisplay control.
     /// This contains all control logic, except the UI Framework specific parts.
     /// 
-    /// The type parameter T should be set to the Bitmap of the UI framework.
+    /// The TikzDisplay control is responsible for creating an image from the compiled pdf
+    /// and displaying it on screen.
+    /// 
+    /// The type parameter T should be set to the Image type of the UI framework (e.g., it could be Bitmap in Winforms or BitmapSource in WPF).
     /// The constructor needs to be fed with a converter from the Pdf to T.
     /// </summary>
     public class TikzDisplayModel<T> : ViewModels.ViewModelBase where T : class
@@ -54,7 +60,7 @@ namespace TikzEdt
             }
         }
 
-        private T _Bmp;
+        
         public T Bmp
         {
             get { return _Bmp; }
@@ -70,6 +76,7 @@ namespace TikzEdt
                 }
             }
         }
+        private T _Bmp;
 
         #endregion
 
@@ -86,9 +93,9 @@ namespace TikzEdt
             AsyncBmpGenerator.RunWorkerCompleted += new RunWorkerCompletedEventHandler(AsyncBmpGenerator_RunWorkerCompleted);
         }
 
-        IPdfToBmp<T> myPdfBmpDoc;
+        readonly IPdfToBmp<T> myPdfBmpDoc;
 
-        TESharedComponents.MyBackgroundWorker AsyncBmpGenerator = new TESharedComponents.MyBackgroundWorker();
+        readonly TESharedComponents.MyBackgroundWorker AsyncBmpGenerator = new TESharedComponents.MyBackgroundWorker();
         class AsyncBmpData
         {
             public double Resolution;
@@ -154,15 +161,6 @@ namespace TikzEdt
             //data.bmp = myPdfBmpDoc.GetBitmapSource(data.Resolution, data.RenderTransparent);
 
             data.bmp = myPdfBmpDoc.GetBitmap(data.Resolution, data.RenderTransparent);
-          /*  if (_backbuffer != null)
-            {
-                T ret = BmpConverter(_backbuffer);
-                _backbuffer.Dispose();
-                data.bmp = ret;
-            }
-            else data.bmp = null;
-            * 
-            */
             e.Result = data;
         }
 

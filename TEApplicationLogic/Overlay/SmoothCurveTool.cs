@@ -25,7 +25,7 @@ namespace TikzEdt
 {
     class SmoothCurveTool : OverlayAdderTool
     {
-        public SmoothCurveTool(OverlayInterface overlay) : base(overlay) { }
+        public SmoothCurveTool(IOverlayInterface overlay) : base(overlay) { }
 
         public override void OnActivate() 
         {
