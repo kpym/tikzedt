@@ -14,7 +14,7 @@ namespace TikzEdtWForms
         /// <summary>
         /// Stores the underlying OverlayShape displayed by this view.
         /// </summary>
-        public OverlayShape TheUnderlyingShape { get; set; }
+        public OverlayShapeVM TheUnderlyingShape { get; set; }
 
         /// <summary>
         ///  In upside down coordinates!

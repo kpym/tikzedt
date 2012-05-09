@@ -58,32 +58,7 @@ namespace TikzEdt.Overlay
         IPdfOverlayView View { get; private set; }
         public IOverlayShapeFactory ShapeFactory { get; set; }
 
-        /// <summary>
-        /// The link to the overlay (display) tree.
-        /// </summary>
-        public List<OverlayShape> TopLevelItems { get; set; }
-
-        /// <summary>
-        /// Gets a list of all descendants of the specified parent in the Display tree, including the parent itself.
-        /// </summary>
-        /// <param name="OfParent">The parent. If null, it is taken to be the root.</param>
-        /// <returns></returns>
-        public IEnumerable<OverlayShape> GetAllDescendants(OverlayShape OfParent = null)
-        {
-            IEnumerable<OverlayShape> src = null;
-            List<OverlayShape> ret = new List<OverlayShape>();
-            if (OfParent != null)
-                ret.Add(OfParent);
-            else src = TopLevelItems;
-
-            if (OfParent is OverlayScope)
-                src = (OfParent as OverlayScope).children;
-
-            if (src != null)
-                ret.AddRange( src.SelectMany( os => GetAllDescendants(os) ) );
-
-            return ret;
-        }
+        readonly TikzDisplayTree DisplayTree = new TikzDisplayTree();
 
         OverlayScope _CurEditing = null;
         /// <summary>
@@ -112,6 +87,9 @@ namespace TikzEdt.Overlay
             }
         }
 
+        /// <summary>
+        /// The currently active WYSIWYG tool
+        /// </summary>
         public OverlayTool CurrentTool
         {
             get
@@ -144,15 +122,16 @@ namespace TikzEdt.Overlay
             // initialize tools
             selectionTool = new SelectionTool(this);
 
-            // must be in the order of ToolType
-            ////ToolList = new OverlayTool[] { selectionTool, nodeTool, edgeTool, pathTool, smoothCurveTool, bezierTool, rectangleTool, ellipseTool, gridTool, arcTool, arcEditTool };
+            // must be in the same order as the ToolType enum
             ToolList = new OverlayTool[] { selectionTool, new NodeTool(this), new EdgeTool(this), new PathTool(this), new SmoothCurveTool(this),
                                            new BezierTool(this), new RectangleTool(this), new EllipseTool(this), new GridTool(this), new ArcTool(this), new ArcEditTool(this) };
-            ////foreach (OverlayTool t in ToolList)
-            ////    t.overlay = this;
         }       
 
         public enum AssignStyleType { AssignNewStyle, ChangeToNewStyle, AssignCurrentNodeStyle, ChangeToCurrentNodeStyle }
+        /// <summary>
+        /// Assigns some style to the current selection.
+        /// </summary>
+        /// <param name="type">Determines how to assign the style.</param>
         public void AssignStyle(AssignStyleType type)
         {
             string cStyle = NodeStyle;
@@ -204,7 +183,7 @@ namespace TikzEdt.Overlay
             }
 
             // loop through selected items and set styles
-            foreach (OverlayShape ols in selectionTool.SelItems)
+            foreach (OverlayShapeVM ols in selectionTool.SelItems)
             {
                 // currently only node styles can be set
                 if (ols.item is Tikz_Node)
@@ -318,18 +297,6 @@ namespace TikzEdt.Overlay
             }
         }
 
-
-        /// <summary>
-        /// This recomputes the positions of all OverlayItems.
-        /// (It does not recreate the displaytree, just adjusts positions.)
-        /// </summary>
-        public void AdjustPositions()
-        {
-            if (TopLevelItems != null)
-                foreach (OverlayShape o in TopLevelItems)
-                    o.AdjustPosition(Resolution);
-        }
-
         /// <summary>
         /// Clears all items from the canvas.
         /// </summary>
@@ -339,16 +306,18 @@ namespace TikzEdt.Overlay
             CurEditing = null;
             ParseTree = null;
             View.Tool = View.Tool;    // this deactivates + reactivates the current tool to reset its status... e.g., it might contain links to some selected objects etc.
-            TopLevelItems = new List<OverlayShape>();
+            //DisplayTree.Clear();
             Rasterizer.ResetRaster();
         }
+
         public void RedrawObjects()
         {
             View.Clear();
             //curSel = null;
             CurEditing = null;
             View.Tool = View.Tool;    // this deactivates + reactivates the current tool to reset its status... TODO: does this really work?
-            TopLevelItems = new List<OverlayShape>();
+            //TopLevelItems = new List<OverlayShapeVM>();
+            DisplayTree.RedrawObjects();
 
             if (ParseTree == null)
             {
@@ -358,8 +327,6 @@ namespace TikzEdt.Overlay
 
             try
             {
-                DrawObject(ParseTree, TopLevelItems);
-                BindControlPointsToOrigins();
                 SetCorrectRaster((TikzParseItem)null);
             }
             catch (Exception e)
@@ -373,104 +340,8 @@ namespace TikzEdt.Overlay
         }
 
         public Point CursorPosition { get { return View.CursorPosition; } }
-        public OverlayShape ObjectAtCursor { get { return View.ObjectAtCursor; } }
+        public OverlayShapeVM ObjectAtCursor { get { return View.ObjectAtCursor; } }
         public TEModifierKeys KeyboardModifiers { get { return View.KeyboardModifiers; } }
-
-        /// <summary>
-        /// Draws the TikzParseItem tpi, if it is drawn, or its children, if they can be drawn, 
-        /// or grandchildren etc..., and adds the drawn items to bag.
-        /// </summary>
-        /// <param name="tpi"></param>
-        /// <param name="bag"></param>
-        public void DrawObject(TikzParseItem tpi, List<OverlayShape> bag)
-        {
-            //BBGatherer bbg = new BBGatherer();
-            if (bag == null)
-                bag = new List<OverlayShape>();  // dummy, it is not used
-            if (tpi is Tikz_Scope)
-            {
-                OverlayScope os = new OverlayScope(ShapeFactory.NewScopeView());
-                os.pol = this;
-                os.tikzitem = tpi as Tikz_Scope;
-                foreach (TikzParseItem t in (tpi as TikzContainerParseItem).Children)
-                    DrawObject(t, os.children);
-
-                // don't draw scopes with no drawable children
-                // (we don't know where to render them)
-                if (os.children.Count > 0)
-                {
-                    bag.Add(os);
-                    os.AdjustPosition(Resolution);
-                    ////canvas1.Children.Add(os);
-                }
-            }
-            else if (tpi is TikzContainerParseItem)
-            {
-                foreach (TikzParseItem t in (tpi as TikzContainerParseItem).Children)
-                    DrawObject(t, bag);
-            }
-            if (tpi is Tikz_XYItem)
-            {
-                if ((tpi as Tikz_XYItem).HasEditableCoordinate())
-                {
-                    OverlayNode el;
-                    if (tpi.parent is Tikz_Controls)
-                        el = new OverlayControlPoint(ShapeFactory.NewCPView());     // control points for Bezier curves
-                    else
-                        el = new OverlayNode(ShapeFactory.NewNodeView());
-                    el.pol = this;
-                    el.tikzitem = tpi as Tikz_XYItem;
-                    //Ellipse el = new Ellipse();                                   
-                    //el.Stroke = Brushes.Red;
-
-                    el.AdjustPosition(Resolution);
-
-                    // add tooltip
-                    Tikz_Node nref = TikzParseTreeHelper.GetReferenceableNode(tpi as Tikz_XYItem, ParseTree.GetTikzPicture());
-                    if (nref != null && !String.IsNullOrWhiteSpace(nref.name) )
-                    {
-                        el.View.SetToolTip(nref.name);                        
-                    }
-
-                    ////canvas1.Children.Add(el);
-                    bag.Add(el);
-
-                    //bbg.Add(new Rect(Canvas.GetLeft(el), Canvas.GetTop(el), el.Width, el.Height));
-                }
-            }
-            else if (tpi is Tikz_Path)
-            {
-                //could this be a possibility to show edges and provide backward search?
-
-                //there are many possibility for draw commands. here we 
-                /* string simpleEdge_RegexString = @"[ \t\s]*\\draw.*\((?<start>.*)\).*\((?<end>.*)\).*";
-                Regex BB_Regex = new Regex(simpleEdge_RegexString);
-                Match m = BB_Regex.Match(tpi.ToString());
-                if (m.Success == true)
-                {
-                    //we just found a LaTex draw cmd, e.g.: \draw[default_edge] (v91) to (v99);
-
-                    //get both nodes
-                    Tikz_Node StartNode = tpi.parent.GetNodeByName(m.Groups[1].Value);
-                    Tikz_Node EndNode = tpi.parent.GetNodeByName(m.Groups[2].Value);
-
-                    if (StartNode != null && EndNode != null)
-                    {
-                        //and determine the position in between both nodes
-                        Point start, end;
-                        if (StartNode.GetAbsPos()
-                        double x = (StartNode.GetAbsPos().X + EndNode.GetAbsPos().X) / 2;
-                        double y = (StartNode.GetAbsPos().Y + EndNode.GetAbsPos().Y) / 2;
-
-                        //draw an arrow at this pos.
-                        //(new Point(x, y));
-                        //and when clicked, jump to AvalonEdit at position tpi.StartPosition                        
-                    }
-
-                }       */
-            }
-
-        }
 
         /// <summary>
         /// The displayed raster changes depending on the currently selected object.
@@ -481,7 +352,7 @@ namespace TikzEdt.Overlay
         /// </summary>
         /// <param name="o">The object. If null, it is taken to be the tikzpicture.</param>
         /// <param name="IsParent">Indicates whether object is to be moved itself, or children added.</param>        
-        public void SetCorrectRaster(OverlayShape o, bool IsParent = false)
+        public void SetCorrectRaster(OverlayShapeVM o, bool IsParent = false)
         {
             SetCorrectRaster(o == null ? null : o.item, IsParent);
         }
@@ -574,44 +445,7 @@ namespace TikzEdt.Overlay
                 Debug.WriteLine("Error in SetCorrectRaster: unsupported type");//Rasterizer.IsCartesian = true;  // should not get here
         }
 
-        /// <summary>
-        /// Adds a single parseitem to the display tree and redraws.
-        /// This is called by tools adding something to the parsetree to refresh the overlay
-        /// without redrawing it completely.
-        /// </summary>
-        /// <param name="tpi">The parseitem to add.</param>
-        public void AddToDisplayTree(TikzParseItem tpi)
-        {
-            List<OverlayShape> l = new List<OverlayShape>();
-            DrawObject(tpi, l);
-            if (CurEditing == null)
-            {
-                //do not redraw if there is nothing to show.
-                if (TopLevelItems == null)
-                    RedrawObjects();
-                TopLevelItems.AddRange(l);
-            }
-            else
-            {
-                CurEditing.children.AddRange(l);
-            }
-            AdjustPositions();
-            BindControlPointsToOrigins();
-        }
-
-        public void BindControlPointsToOrigins()
-        {
-            /* ////for (int i = 0; i < canvas1.Children.Count; i++)
-            {
-                if (canvas1.Children[i] is OverlayControlPoint)
-                {
-                    (canvas1.Children[i] as OverlayControlPoint).BindToOrigin();
-                }
-            }*/
-            foreach (var ocp in GetAllDescendants().OfType<OverlayControlPoint>())
-                ocp.BindToOrigin();
-
-        }
+        
 
         public Point ScreenToTikz(Point p, bool invY = false)
         {
@@ -696,7 +530,7 @@ namespace TikzEdt.Overlay
             get { return View.UsePolarCoordinates; }
         }
 
-        public void JumpToSourceDoIt(OverlayShape o)
+        public void JumpToSourceDoIt(OverlayShapeVM o)
         {
             View.JumpToSourceDoIt(o);
         }
@@ -711,39 +545,11 @@ namespace TikzEdt.Overlay
         /// <param name="offset">The text position.</param>
         public void MarkObjectAt(int offset)
         {
-            OverlayShape ols = ObjectFromOffset(offset, TopLevelItems);
+            OverlayShapeVM ols = DisplayTree.ObjectFromOffset(offset);
             if (ols != null)
             {
                 View.MarkObject(ols.View);
             }
-        }
-
-        /// <summary>
-        /// This method searches recursively among all items in the displaytree for one whose associated code segment
-        /// contains the position offset. In case multiple items match, the deepest (in the tree) one is chosen.
-        /// E.g., if a scope contains a node, and the offset matches the node, it also also lies within the scope,
-        /// but the node is returned.
-        /// </summary>
-        /// <param name="offset">The code position.</param>
-        /// <param name="bag">Overlayshapes to search in.</param>
-        /// <returns></returns>
-        public OverlayShape ObjectFromOffset(int offset, List<OverlayShape> bag)
-        {
-            foreach (OverlayShape ols in bag)
-            {
-                if (ols.item.StartPosition() <= offset && ols.item.StartPosition() + ols.item.ToString().Length > offset)
-                {
-                    // check if there is a child that fits better
-                    if (ols is OverlayScope)
-                    {
-                        OverlayShape olsinner = ObjectFromOffset(offset, (ols as OverlayScope).children);
-                        if (olsinner != null)
-                            return olsinner;
-                    }
-                    return ols;
-                }
-            }
-            return null;
         }
 
 

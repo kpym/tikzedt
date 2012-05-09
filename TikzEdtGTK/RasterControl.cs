@@ -112,7 +112,7 @@ namespace TikzEdtGTK
             Invalidate();
         }
 
-        OverlayShape PopupSource = null;
+        OverlayShapeVM PopupSource = null;
         bool PreventContextMenuOpening = false;
         Gtk.Menu TheContextMenu;
         private void CreateContextMenu()
@@ -897,7 +897,7 @@ namespace TikzEdtGTK
             Invalidate();
         }
 
-        public void JumpToSourceDoIt(OverlayShape o)
+        public void JumpToSourceDoIt(OverlayShapeVM o)
         {
             if (o != null)
             {
@@ -941,7 +941,7 @@ namespace TikzEdtGTK
             }
         }
 
-        public OverlayShape ObjectAtCursor
+        public OverlayShapeVM ObjectAtCursor
         {
             get
             {

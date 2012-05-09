@@ -44,10 +44,10 @@ namespace TikzEdt
             SelectionRect = overlay.ShapeFactory.GetSelectionRect();
         }
 
-        HashSet<OverlayShape> SelectedItems = new HashSet<OverlayShape>();
-        HashSet<OverlayShape> SelectedItemsBak;
+        HashSet<OverlayShapeVM> SelectedItems = new HashSet<OverlayShapeVM>();
+        HashSet<OverlayShapeVM> SelectedItemsBak;
 
-        public IEnumerable<OverlayShape> SelItems
+        public IEnumerable<OverlayShapeVM> SelItems
         {
             get { return SelectedItems.AsEnumerable(); }
         }
@@ -55,7 +55,7 @@ namespace TikzEdt
         Point SelectionRectOrigin;
 
         // all these points are in bottom left centered coordinates (as in LaTeX)
-        OverlayShape curDragged;
+        OverlayShapeVM curDragged;
         Point DragOrigin; // relative to the currently dragged object
         Point DragOriginC; // Mouse position on Canvas when started dragging
         Point DragOriginO; // bottom left of dragged object
@@ -81,7 +81,7 @@ namespace TikzEdt
         /// </summary>
         /// <param name="o">The item to add.</param>
         /// <param name="Exclusive">If Exclusive is set, all other items are unselected.</param>
-        public void AddItem(OverlayShape o, bool Exclusive = false)
+        public void AddItem(OverlayShapeVM o, bool Exclusive = false)
         {
             if (Exclusive)
                 Clear(o);
@@ -93,12 +93,12 @@ namespace TikzEdt
         }
 
 
-        public bool IsItemSelected(OverlayShape o)
+        public bool IsItemSelected(OverlayShapeVM o)
         {
             return SelectedItems.Contains(o);
         }
 
-        void RemoveItem(OverlayShape o)
+        void RemoveItem(OverlayShapeVM o)
         {
             if (SelectedItems.Contains(o))
             {
@@ -112,7 +112,7 @@ namespace TikzEdt
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        public bool ToggleItem(OverlayShape o)
+        public bool ToggleItem(OverlayShapeVM o)
         {
             if (SelectedItems.Contains(o))
             {
@@ -130,9 +130,9 @@ namespace TikzEdt
         /// Clears the list, except possibly the item "except".
         /// </summary>
         /// <param name="except">The thing not to remove.</param>
-        void Clear(OverlayShape except = null)
+        void Clear(OverlayShapeVM except = null)
         {
-            foreach (OverlayShape o in SelectedItems)
+            foreach (OverlayShapeVM o in SelectedItems)
                 if (o != except)
                     o.SetStdColor();
             SelectedItems.RemoveWhere(o => (o != except));
@@ -141,7 +141,7 @@ namespace TikzEdt
 
         public void ShiftSelItemsOnScreen(Point RelShift)
         {
-            foreach (OverlayShape o in SelectedItems)
+            foreach (OverlayShapeVM o in SelectedItems)
             {
                 ////Canvas.SetLeft(o, Canvas.GetLeft(o) + RelShift.X);
                 ////Canvas.SetBottom(o, Canvas.GetBottom(o) + RelShift.Y);
@@ -173,7 +173,7 @@ namespace TikzEdt
                     ShiftSelItemsInParseTree(new Point(x*step, y*step), overlay.TopLevelItems );
                     overlay.EndUpdate();
                     // update overlay positions
-                    foreach (OverlayShape o in overlay.TopLevelItems)
+                    foreach (OverlayShapeVM o in overlay.TopLevelItems)
                         o.AdjustPosition(overlay.Resolution);
 
                     e.Handled = true;
@@ -182,7 +182,7 @@ namespace TikzEdt
             base.KeyDown(e);
         }
 
-        public override void OnLeftMouseButtonDown(OverlayShape item, Point p, TEMouseArgs e)
+        public override void OnLeftMouseButtonDown(OverlayShapeVM item, Point p, TEMouseArgs e)
         {
 
             if (e.ClickCount == 2 && (item is OverlayScope)) // Select for editing
@@ -193,10 +193,10 @@ namespace TikzEdt
             {
                 overlay.JumpToSourceDoIt(item);
             }
-            else if (item is OverlayShape)
+            else if (item is OverlayShapeVM)
             {
                 // initiate a drag/drop operation
-                curDragged = (OverlayShape)item;
+                curDragged = (OverlayShapeVM)item;
                 DragOrigin = (Point)((new Point(item.View.GetLeft(), item.View.GetBottom()))-p); ////e.GetPosition(item);
                 ////DragOrigin = new Point(DragOrigin.X, (item as OverlayShape).Height - DragOrigin.Y);
                 DragOriginC = p;
@@ -346,7 +346,7 @@ namespace TikzEdt
                     curDragged.ShiftItemRelative(pdiff);
                 }*/
                 // update all item's positions
-                foreach (OverlayShape o in overlay.TopLevelItems)
+                foreach (OverlayShapeVM o in overlay.TopLevelItems)
                     o.AdjustPosition(overlay.Resolution);
 
                 // update raster in case it has changed
@@ -366,11 +366,11 @@ namespace TikzEdt
         /// </summary>
         /// <param name="RelShift"></param>
         /// <param name="AllItems"></param>
-        public void ShiftSelItemsInParseTree(Point RelShift, List<OverlayShape> AllItems)
+        public void ShiftSelItemsInParseTree(Point RelShift, List<OverlayShapeVM> AllItems)
         {
             // remember the positions of nodes to which RelShift must be added
             Dictionary<OverlayNode, Point> origPositions = new Dictionary<OverlayNode, Point>();
-            foreach (OverlayShape o in SelectedItems)
+            foreach (OverlayShapeVM o in SelectedItems)
                 if (o is OverlayNode)
                 {
                     Point p;
@@ -385,9 +385,9 @@ namespace TikzEdt
 
         }
 
-        void doShiftSelItemsRelative(Point RelShift, List<OverlayShape> AllItems, Dictionary<OverlayNode, Point> origPositions)
+        void doShiftSelItemsRelative(Point RelShift, List<OverlayShapeVM> AllItems, Dictionary<OverlayNode, Point> origPositions)
         {
-            foreach (OverlayShape o in AllItems)
+            foreach (OverlayShapeVM o in AllItems)
             {
                 if (o is OverlayScope)
                 {
@@ -414,11 +414,11 @@ namespace TikzEdt
             if (!CtrlPressed)
                 Clear();
 
-            SelectedItemsBak = new HashSet<OverlayShape>(SelectedItems);
+            SelectedItemsBak = new HashSet<OverlayShapeVM>(SelectedItems);
         }
         public void UpdateSelection(Rect SelectionRect, bool CtrlPressed)
         {
-            foreach (OverlayShape o in overlay.GetAllDescendants())
+            foreach (OverlayShapeVM o in overlay.GetAllDescendants())
             {
                 Rect r = o.View.GetBB(overlay.Height);////System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(o);
                 bool nowsel = r.IntersectsWith(SelectionRect);
@@ -442,9 +442,9 @@ namespace TikzEdt
                     shouldbeselected = nowsel;
 
                 if (shouldbeselected)
-                    AddItem(o as OverlayShape);
+                    AddItem(o as OverlayShapeVM);
                 else
-                    RemoveItem(o as OverlayShape);
+                    RemoveItem(o as OverlayShapeVM);
 
             }
         }

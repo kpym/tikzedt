@@ -417,7 +417,7 @@ namespace TikzEdtWForms
             Invalidate();
         }
 
-        public void JumpToSourceDoIt(OverlayShape o)
+        public void JumpToSourceDoIt(OverlayShapeVM o)
         {
             if (o != null)
             {
@@ -451,7 +451,7 @@ namespace TikzEdtWForms
             get { return PointToClient(Control.MousePosition).ToPoint(); }
         }
 
-        public OverlayShape ObjectAtCursor
+        public OverlayShapeVM ObjectAtCursor
         {
             get
             {

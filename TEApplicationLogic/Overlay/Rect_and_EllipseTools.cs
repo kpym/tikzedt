@@ -17,7 +17,7 @@ namespace TikzEdt
     {
         // point where the rectangle originates, in screen coordinates
         Point origin;
-        OverlayShape originRef = null;  // the reference to the coordinate at origin... if there is one.
+        OverlayShapeVM originRef = null;  // the reference to the coordinate at origin... if there is one.
 
         /// <summary>
         /// If this flag is set, the first coordinate is bottom left, the second is top right.
@@ -55,7 +55,7 @@ namespace TikzEdt
             PreviewRect.Visible = false;
         }
 
-        public override void OnLeftMouseButtonDown(OverlayShape item, Point p, TEMouseArgs e)
+        public override void OnLeftMouseButtonDown(OverlayShapeVM item, Point p, TEMouseArgs e)
         {
             // initiate drawing process
             Point mousep = overlay.Rasterizer.RasterizePixel(p);
@@ -141,7 +141,7 @@ namespace TikzEdt
                         tc1.nameref = tn.name;
                     }
 
-                    OverlayShape hit = overlay.ObjectAtCursor;
+                    OverlayShapeVM hit = overlay.ObjectAtCursor;
                     if ((hit is OverlayNode) && IsReferenceable(hit as OverlayNode))
                     {
                         Tikz_Node tn = MakeReferenceableNode((hit as OverlayNode).tikzitem);
@@ -233,7 +233,7 @@ namespace TikzEdt
     {
         // point where the rectangle originates, in screen coordinates
         Point origin;
-        OverlayShape originRef = null;  // the reference to the coordinate at origin... if there is one.
+        OverlayShapeVM originRef = null;  // the reference to the coordinate at origin... if there is one.
 
         // the rectangle to be shown on drawing
         IRectangleShape PreviewEllipse;
@@ -255,7 +255,7 @@ namespace TikzEdt
             PreviewEllipse.Visible = false;
         }
 
-        public override void OnLeftMouseButtonDown(OverlayShape item, Point p, TEMouseArgs e)
+        public override void OnLeftMouseButtonDown(OverlayShapeVM item, Point p, TEMouseArgs e)
         {
             // initiate drawing process
             Point mousep = overlay.Rasterizer.RasterizePixel(p);

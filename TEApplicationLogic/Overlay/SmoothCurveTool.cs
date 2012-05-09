@@ -72,7 +72,7 @@ namespace TikzEdt
         }
         Tikz_Option smoothOption; // this has to be changed to smooth cycle for closed curve
 
-        public override void OnLeftMouseButtonDown(OverlayShape item, Point p, TEMouseArgs e) 
+        public override void OnLeftMouseButtonDown(OverlayShapeVM item, Point p, TEMouseArgs e) 
         {
             if (!EnsureParseTreeExists())
                 return;

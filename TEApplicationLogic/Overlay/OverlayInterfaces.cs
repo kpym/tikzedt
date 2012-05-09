@@ -23,14 +23,14 @@ namespace TikzEdt.Overlay
         TEModifierKeys KeyboardModifiers { get; }
 
         void MarkObject(IOverlayShapeView v);
-        void JumpToSourceDoIt(OverlayShape o);
+        void JumpToSourceDoIt(OverlayShapeVM o);
         void RaiseReplaceText(ReplaceTextEventArgs e);
         void Clear();
         void SetCursor(System.Windows.Forms.Cursor cursor);
 
         bool MouseCaptured { set; }
         Point CursorPosition { get; }
-        OverlayShape ObjectAtCursor { get; }
+        OverlayShapeVM ObjectAtCursor { get; }
     }
 
     public interface IOverlayShapeView
@@ -57,7 +57,7 @@ namespace TikzEdt.Overlay
         /// <summary>
         /// The underlying OverlayShape. Mustbe filled by the OverlayShape that creates the View.
         /// </summary>
-        OverlayShape TheUnderlyingShape { get; set; }
+        OverlayShapeVM TheUnderlyingShape { get; set; }
     }
     public interface IOverlayScopeView : IOverlayShapeView
     {

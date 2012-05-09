@@ -89,7 +89,7 @@ namespace TikzEdtWForms
             Invalidate();
         }
 
-        OverlayShape PopupSource = null;
+        OverlayShapeVM PopupSource = null;
         bool PreventContextMenuOpening = false;
         ContextMenu TheContextMenu;
         private void CreateContextMenu()

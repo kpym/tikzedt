@@ -231,7 +231,7 @@ namespace TikzEdt
             set { SetValue(toolProperty, value); }
         }
 
-        public OverlayShape ObjectAtCursor { get { return ObjectAtPosition(Mouse.GetPosition(canvas1)); } }
+        public OverlayShapeVM ObjectAtCursor { get { return ObjectAtPosition(Mouse.GetPosition(canvas1)); } }
 
         public bool MouseCaptured
         {
@@ -511,7 +511,7 @@ namespace TikzEdt
             canvas1.Cursor = c;
         }
 
-        void IPdfOverlayView.JumpToSourceDoIt(OverlayShape o)
+        void IPdfOverlayView.JumpToSourceDoIt(OverlayShapeVM o)
         {
             if (JumpToSource != null)
             {
@@ -620,7 +620,7 @@ namespace TikzEdt
         /// </summary>
         /// <param name="p">The point, in top left centric coordinates.</param>
         /// <returns></returns>
-        private OverlayShape ObjectAtPosition(Point p)
+        private OverlayShapeVM ObjectAtPosition(Point p)
         {
             var o = canvas1.InputHitTest(p);
             var oo = o as IOverlayShapeView;
@@ -649,7 +649,7 @@ namespace TikzEdt
 
             if (mnuJumpSource.Tag != null)
             {
-                TheModel.JumpToSourceDoIt(mnuJumpSource.Tag as OverlayShape);
+                TheModel.JumpToSourceDoIt(mnuJumpSource.Tag as OverlayShapeVM);
             }
         }
 

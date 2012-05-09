@@ -125,6 +125,7 @@
     <Compile Include="Overlay\Rect_and_EllipseTools.cs" />
     <Compile Include="Overlay\SelectionTool.cs" />
     <Compile Include="Overlay\SmoothCurveTool.cs" />
+    <Compile Include="Overlay\TikzDisplayTree.cs" />
     <Compile Include="PdfToBmp.cs" />
     <Compile Include="PdfToBmpExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

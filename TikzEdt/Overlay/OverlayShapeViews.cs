@@ -17,7 +17,7 @@ namespace TikzEdt
         /// <summary>
         /// Stores the underlying OverlayShape displayed by this view.
         /// </summary>
-        public OverlayShape TheUnderlyingShape {get; set; }
+        public OverlayShapeVM TheUnderlyingShape {get; set; }
 
         public virtual Rect GetBB(double CanvasHeight)
         {

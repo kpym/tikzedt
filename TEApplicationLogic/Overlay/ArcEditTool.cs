@@ -42,7 +42,7 @@ namespace TikzEdt
         int curDraggedInd;      // the index of the currently dragged item in nodesOnArc
 
         // all these points are in bottom left centered coordinates (as in LaTeX)
-        OverlayShape curDragged;
+        OverlayShapeVM curDragged;
         Point DragOrigin; // relative to the currently dragged object
         Point DragOriginC; // Mouse position on Canvas when started dragging
         Point DragOriginO; // bottom left of dragged object
@@ -77,13 +77,13 @@ namespace TikzEdt
         }
 
 
-        public override void OnLeftMouseButtonDown(OverlayShape item, Point p, TEMouseArgs e)
+        public override void OnLeftMouseButtonDown(OverlayShapeVM item, Point p, TEMouseArgs e)
         {
 
             if (item != null)
             {
                 // initiate a drag/drop operation
-                curDragged = (OverlayShape)item;
+                curDragged = (OverlayShapeVM)item;
                 DragOrigin = (new Point(item.View.GetLeft(), item.View.GetBottom()))-(Vector)p ;
                 ////DragOrigin = e.GetPosition(item);
                 ////DragOrigin = new Point(DragOrigin.X, (item as OverlayShape).Height - DragOrigin.Y);
@@ -246,7 +246,7 @@ namespace TikzEdt
                     curDragged.ShiftItemRelative(pdiff);
                 }*/
                 // update all item's positions
-                foreach (OverlayShape o in overlay.TopLevelItems)
+                foreach (OverlayShapeVM o in overlay.TopLevelItems)
                     o.AdjustPosition(overlay.Resolution);
 
                 curDragged = null;

@@ -34,7 +34,7 @@ namespace TikzEdt
             Preview_CP1.Visible = Preview_CP2.Visible = false;
         }
 
-        public override void OnLeftMouseButtonDown(OverlayShape item, Point p, TEMouseArgs e)
+        public override void OnLeftMouseButtonDown(OverlayShapeVM item, Point p, TEMouseArgs e)
         {
             if (!EnsureParseTreeExists())
                 return;
