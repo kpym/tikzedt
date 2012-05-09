@@ -7,11 +7,13 @@ using TikzEdt.Parser;
 
 namespace TikzEdt.Overlay
 {
-    public abstract class OverlayShape 
+    public abstract class OverlayShapeVM : ViewModels.ViewModelBase
     {
         public IOverlayShapeView View;
 
         public Rect getBB() { return View.GetBB(pol.Height); }
+
+
 
         public PdfOverlayModel pol;
         /// <summary>
@@ -34,10 +36,10 @@ namespace TikzEdt.Overlay
         public virtual void SetStdColor() { View.SetStdColor(); }
     }
 
-    public class OverlayScope : OverlayShape
+    public class OverlayScope : OverlayShapeVM
     {
         public IOverlayScopeView ScopeView;
-        public List<OverlayShape> children = new List<OverlayShape>();
+        public List<OverlayShapeVM> children = new List<OverlayShapeVM>();
         public Tikz_Scope tikzitem;
         public override TikzParseItem item { get { return tikzitem; } }
 
@@ -48,7 +50,7 @@ namespace TikzEdt.Overlay
         {
             Rect r = new Rect(0, 0, 0, 0);
             bool hasone = false;
-            foreach (OverlayShape o in children)
+            foreach (OverlayShapeVM o in children)
             {
                 o.AdjustPosition(Resolution);
                 Rect rr = o.View.GetBB(pol.Height);
@@ -95,7 +97,7 @@ namespace TikzEdt.Overlay
         }
     }
 
-    public class OverlayNode : OverlayShape
+    public class OverlayNode : OverlayShapeVM
     {        
         public Tikz_XYItem tikzitem;
         public override TikzParseItem item { get { return tikzitem; } }
@@ -160,7 +162,7 @@ namespace TikzEdt.Overlay
             if (tikzitem.parent is Tikz_Controls) //lineToOrigin1 == null && lineToOrigin2 == null &&
             {
                 Tikz_Controls pa = tikzitem.parent as Tikz_Controls;
-                foreach (OverlayShape o in pol.GetAllDescendants(null))
+                foreach (OverlayShapeVM o in pol.GetAllDescendants(null))
                     if (o is OverlayNode)
                     {
                         if ((o as OverlayNode).tikzitem == pa.CoordBefore)

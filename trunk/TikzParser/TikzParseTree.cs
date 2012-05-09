@@ -125,6 +125,16 @@ namespace TikzEdt.Parser
 
     }
 
+    /// <summary>
+    /// The type of change of the parsetree. Currently only Insert is used, Remove is for the future.
+    /// In this case the AffectedItem is the item added.
+    /// </summary>
+    public enum ParseTreeModifiedType { Insert, Remove } 
+    public class ParseTreeModifiedEventArgs : EventArgs
+    {
+        public ParseTreeModifiedType Type;
+        public TikzParseItem AffectedItem;
+    }
 
     /// <summary>
     /// This class is the base class of all nodes in the Parsetree.
@@ -181,6 +191,23 @@ namespace TikzEdt.Parser
         }
 
         /// <summary>
+        ///  Returns the parent, parent of parent etc of this item.
+        /// </summary>
+        public IEnumerator<TikzContainerParseItem> Ancestors
+        {
+            get
+            {
+                TikzContainerParseItem a = parent;
+                while (a != null)
+                {
+                    yield return a;
+                    a = a.parent;
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Indicates whether the current item can change the current position.
         /// </summary>
         /// <returns></returns>
@@ -211,6 +238,19 @@ namespace TikzEdt.Parser
             if (parent != null)
                 parent.RaiseTextChanged(sender, oldtext);
         }
+
+
+        /// <summary>
+        /// This method triggers a ParseTreeModified event in the root of the parse tree.
+        /// </summary>
+        /// <param name="sender">The node which the change applies to.</param>
+        /// <param name="oldtext">the text of the node before the change.</param>
+        public virtual void RaiseParseTreeModified(ParseTreeModifiedEventArgs args)
+        {
+            if (parent != null)
+                parent.RaiseParseTreeModified(args);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1137,6 +1177,7 @@ namespace TikzEdt.Parser
                 Children.Add(tpi);
             // raise event
             RaiseTextChanged(tpi, "");
+            RaiseParseTreeModified(new ParseTreeModifiedEventArgs() { AffectedItem = tpi, Type = ParseTreeModifiedType.Insert });
         }
         public void InsertChildAt(TikzParseItem tpi, int position)
         {
@@ -1144,6 +1185,7 @@ namespace TikzEdt.Parser
             Children.Insert(position, tpi);
             // raise event
             RaiseTextChanged(tpi, "");
+            RaiseParseTreeModified(new ParseTreeModifiedEventArgs() { AffectedItem = tpi, Type = ParseTreeModifiedType.Insert });
         }
 
         /// <summary>
@@ -1160,7 +1202,8 @@ namespace TikzEdt.Parser
             Children.Remove(tpi);
 
             // raise event
-            RaiseTextChanged(new DummyTikzParseItem(startpos), oldtext);            
+            RaiseTextChanged(new DummyTikzParseItem(startpos), oldtext);
+            RaiseParseTreeModified(new ParseTreeModifiedEventArgs() { AffectedItem = tpi, Type = ParseTreeModifiedType.Remove });
         }
 
         /// <summary>
@@ -1382,6 +1425,14 @@ namespace TikzEdt.Parser
         {
             if (TextChanged != null)
                 TextChanged(this, new ParseTreeTextChangedEventArgs() { ChangedItem=sender, OldText=oldtext });
+            //base.RaiseTextChanged(sender, oldtext);
+        }
+
+        public event EventHandler<ParseTreeModifiedEventArgs> ParseTreeModified;
+        public override void RaiseParseTreeModified(ParseTreeModifiedEventArgs args)
+        {
+            if (ParseTreeModified != null)
+                ParseTreeModified(this, args);
             //base.RaiseTextChanged(sender, oldtext);
         }
 

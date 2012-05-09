@@ -71,7 +71,7 @@ namespace TikzEdt
         /// <param name="item">The item at cursor position.</param>
         /// <param name="p">The cursor position, in BOTTOM LEFT CENTERED pixel coordinates.</param>
         /// <param name="e"></param>
-        public virtual void OnLeftMouseButtonDown(OverlayShape item, Point p, TEMouseArgs e) { }
+        public virtual void OnLeftMouseButtonDown(OverlayShapeVM item, Point p, TEMouseArgs e) { }
         /// <summary>
         /// LeftMouseButtonUp event, forwarded from the overlay control.
         /// </summary>
@@ -84,7 +84,7 @@ namespace TikzEdt
         /// <param name="item">The item on which the event occurred.</param>   
         /// <param name="p">The cursor position, in BOTTOM LEFT CENTERED pixel coordinates.</param>
         ///        
-        public virtual void OnRightMouseButtonDown(OverlayShape item, Point p, TEMouseArgs e) { }
+        public virtual void OnRightMouseButtonDown(OverlayShapeVM item, Point p, TEMouseArgs e) { }
         /// <summary>
         /// "Raw" MouseButtonUp event, forwarded from the overlay control.
         /// </summary>
@@ -153,7 +153,7 @@ namespace TikzEdt
         /// </summary>
         void EndUpdate();
 
-        void SetCorrectRaster(OverlayShape o, bool IsParent=false);
+        void SetCorrectRaster(OverlayShapeVM o, bool IsParent=false);
         void SetCorrectRaster(TikzParseItem tpi, bool IsParent = false);
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace TikzEdt
 
         void AddToDisplayTree(Parser.TikzParseItem tpi);
 
-        List<OverlayShape> TopLevelItems { get; }
+        List<OverlayShapeVM> TopLevelItems { get; }
 
 
         ////Canvas canvas { get; }
@@ -187,16 +187,16 @@ namespace TikzEdt
         string NewNodeModifier { get; }
         bool UsePolarCoordinates { get; }
 
-        void JumpToSourceDoIt(OverlayShape o);
+        void JumpToSourceDoIt(OverlayShapeVM o);
 
         IOverlayShapeFactory ShapeFactory { get; }
-        IEnumerable<OverlayShape> GetAllDescendants(OverlayShape OfParent = null);
+        IEnumerable<OverlayShapeVM> GetAllDescendants(OverlayShapeVM OfParent = null);
         void SetCursor(System.Windows.Forms.Cursor cursor);
 
         bool MouseCaptured { set; }
 
         Point CursorPosition { get; }
-        OverlayShape ObjectAtCursor { get; }
+        OverlayShapeVM ObjectAtCursor { get; }
     }
 
   
@@ -212,7 +212,7 @@ namespace TikzEdt
             overlay.SetCursor(System.Windows.Forms.Cursors.Cross);
         }
 
-        public override void OnLeftMouseButtonDown(OverlayShape item, Point p, TEMouseArgs e) 
+        public override void OnLeftMouseButtonDown(OverlayShapeVM item, Point p, TEMouseArgs e) 
         {
             if (!EnsureParseTreeExists())
                 return;
@@ -311,7 +311,7 @@ namespace TikzEdt
             overlay.SetCursor(System.Windows.Forms.Cursors.Cross);
         }
 
-        public override void OnLeftMouseButtonDown(OverlayShape item, Point p, TEMouseArgs e) 
+        public override void OnLeftMouseButtonDown(OverlayShapeVM item, Point p, TEMouseArgs e) 
         {
             if (!EnsureParseTreeExists())
                 return;
@@ -397,7 +397,7 @@ namespace TikzEdt
         }
 
 
-        public override void OnLeftMouseButtonDown(OverlayShape item, Point p, TEMouseArgs e) 
+        public override void OnLeftMouseButtonDown(OverlayShapeVM item, Point p, TEMouseArgs e) 
         {
 
             if (!(item is OverlayNode))
@@ -498,7 +498,7 @@ namespace TikzEdt
             overlay.EndUpdate();
         }
 
-        public override void OnRightMouseButtonDown(OverlayShape item, Point p, TEMouseArgs e)
+        public override void OnRightMouseButtonDown(OverlayShapeVM item, Point p, TEMouseArgs e)
         {
             //base.OnRightMouseButtonDown(item, p, e);
 
@@ -692,7 +692,7 @@ namespace TikzEdt
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        protected bool IsReferenceable(OverlayShape item)
+        protected bool IsReferenceable(OverlayShapeVM item)
         {
             if (!(item is OverlayNode))
                 return false;
