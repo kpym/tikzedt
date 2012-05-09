@@ -11,6 +11,9 @@ namespace TESharedComponents
     /// This is a wrapper around the BackgroundWorker class that allows for 
     /// switching to synchronous execution by setting the static IsSynchronous
     /// switch. This is intended to allow for easy unit testing of asynchronous methods.
+    /// 
+    /// Basically, anything that happens asynchronously should be channeled through this class, so that
+    /// unit tests can be easily used.
     /// </summary>
     public class MyBackgroundWorker
     {

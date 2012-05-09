@@ -51,7 +51,7 @@ namespace TikzEdt
         // in absolute tikz coordinates
         Point center_tikz;
 
-        public ArcEditTool(OverlayInterface overlay)
+        public ArcEditTool(IOverlayInterface overlay)
             : base(overlay)
         {
             PreviewArc = overlay.ShapeFactory.GetPreviewFan();

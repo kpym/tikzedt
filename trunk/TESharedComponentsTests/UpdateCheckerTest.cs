@@ -54,11 +54,6 @@ namespace TESharedComponentsTests
         [TestInitialize()]
         public void MyTestInitialize()
         {
-            target = new UpdateChecker();
-            target.Status += (s, e) => statusargs = e;
-            target.Success += (s, e) => successargs = e;
-            successargs = null;
-            statusargs = null;
 
         
         }
@@ -81,7 +76,11 @@ namespace TESharedComponentsTests
         [TestMethod()]
         public void CheckForUpdatesAsyncTest()
         {
-            target.VersionInfoURL = @"https://tikzedt.googlecode.com/svn/trunk/VersionInfo.xml";
+            target = new UpdateChecker(@"https://tikzedt.googlecode.com/svn/trunk/VersionInfo.xml");
+            target.Status += (s, e) => statusargs = e;
+            target.Success += (s, e) => successargs = e;
+            successargs = null;
+            statusargs = null;
 
             bool expected = true;
             bool actual;
@@ -100,7 +99,11 @@ namespace TESharedComponentsTests
         [TestMethod()]
         public void CheckForUpdatesAsync_Fail_Test()
         {
-            target.VersionInfoURL = @"https://tikzedt.googlecode.com/svn/trunk/junk.junk";
+            target = new UpdateChecker( @"https://tikzedt.googlecode.com/svn/trunk/junk.junk");
+            target.Status += (s, e) => statusargs = e;
+            target.Success += (s, e) => successargs = e;
+            successargs = null;
+            statusargs = null;
 
             bool expected = true;
             bool actual;

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Windows;
+using System.Diagnostics.Contracts;
 namespace TikzEdt
 {
     /// <summary>
-    /// The properties the rastercontrol exposes to the GUI framework.
+    /// The properties the Rastercontrol exposes to the GUI framework and the RasterControlModel.
+    /// 
+    /// A WPF/GTK/WinForms control must implement this interface.
     /// </summary>
     public interface IRasterControlView
     {
@@ -24,9 +27,14 @@ namespace TikzEdt
     /// <summary>
     /// Contains the underlying control logic of the Raster Control.
     /// Should not contain GUI framework dependent methods.
+    /// 
+    /// Note that RasterControlModel itself is stateless. All mutable state is stored in the View.
     /// </summary>
     public class RasterControlModel
     {
+        /// <summary>
+        /// The view that renders the raster control and holds some properties.
+        /// </summary>
         public IRasterControlView View { get; private set; }
         public RasterControlModel(IRasterControlView View)
         {
@@ -49,6 +57,7 @@ namespace TikzEdt
         ///  Estimate size of raster to be drawn, in number of steps.
         /// </summary>
         /// <returns></returns>
+        [Pure]
         int EstimateRasterSteps()
         {
             TikzEdt.Parser.TikzMatrix M = View.CoordinateTransform.Inverse();
@@ -67,6 +76,7 @@ namespace TikzEdt
         /// (Note: Tikz coordinates are bottom left centric, screen coordinates are top left centric.)
         /// </summary>
         /// <returns></returns>
+        [Pure]
         public Parser.TikzMatrix GetTikzToScreenTransform()
         {
             Parser.TikzMatrix AbsTikzToScreen = new Parser.TikzMatrix();
@@ -122,7 +132,7 @@ namespace TikzEdt
         #endregion
 
 
-        #region Derived Properties
+        #region Derived Properties (i.e., properties completely determined by ther properties, without backing field)
 
         /// <summary>
         /// Same as RasterRadialSteps, with modififers (OverrideWithHalfGridWidth) applied.
@@ -167,6 +177,7 @@ namespace TikzEdt
         /// <param name="p">The point, in absolute Cartesian Tikz coordinates.</param>
         /// <param name="IsRelative">Specifies whether the point is a shift, rather than an absolute position.</param>
         /// <returns>The rasterized point, in absolute Cartesian Tikz coordinates.</returns>
+        [Pure]
         public Point Rasterize(Point p, bool IsRelative = false)
         {
             if (GridWidth <= 0)
@@ -196,6 +207,7 @@ namespace TikzEdt
         /// </summary>
         /// <param name="p">The point, in Cartesian screen coordinates. (bottom left centered)</param>
         /// <returns>The rasterized point, in Cartesian screen coordinates. </returns>
+        [Pure]
         public Point RasterizePixel(Point p)
         {
             Point pp = new Point(p.X / View.Resolution + View.BB.X, p.Y / View.Resolution + View.BB.Y); // point in absolute Cartesian tikz coordinates
@@ -207,6 +219,7 @@ namespace TikzEdt
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
+        [Pure]
         public Point RasterizePixelRelative(Point p)
         {
             Point pp = new Point(p.X / View.Resolution, p.Y / View.Resolution);
@@ -220,6 +233,7 @@ namespace TikzEdt
         /// </summary>
         /// <param name="p">The point, in Cartesian screen coordinates</param>
         /// <returns>The rasterized point, in absolute Cartesian Tikz coordinates.</returns>
+        [Pure]
         public Point RasterizePixelToTikz(Point p)
         {
             Point pp = new Point(p.X / View.Resolution + View.BB.X, p.Y / View.Resolution + View.BB.Y);

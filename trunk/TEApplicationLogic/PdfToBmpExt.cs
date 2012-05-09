@@ -8,6 +8,11 @@ using System.IO;
 
 namespace TikzEdt
 {
+    /// <summary>
+    /// TikzEdt may use one of several methods to render a pdf file to an image.
+    /// The Viewmodels access the pdf->image converter through this interface.
+    /// </summary>
+    /// <typeparam name="T">The type of the image to which the pdf is converted.</typeparam>
     public interface IPdfToBmp<T>
     {
         T GetBitmap(double Resolution, bool Transparent = true);
@@ -19,6 +24,10 @@ namespace TikzEdt
 
     }
 
+
+    /// <summary>
+    /// Base class for rendering using an external executable. (Concretely: mudraw/pdfdraw)
+    /// </summary>
     public class PdfToBmpExtBase
     {
         protected string PdfFile;

@@ -39,7 +39,7 @@ namespace TikzEdt
             return overlay.ShapeFactory.GetPreviewRectangle();
         }
 
-        public RectangleTool(OverlayInterface overlay) : base(overlay)
+        public RectangleTool(IOverlayInterface overlay) : base(overlay)
         {
             PreviewRect = CreatePreviewShape();
         }
@@ -238,7 +238,7 @@ namespace TikzEdt
         // the rectangle to be shown on drawing
         IRectangleShape PreviewEllipse;
 
-        public EllipseTool(OverlayInterface overlay)
+        public EllipseTool(IOverlayInterface overlay)
             : base(overlay)
         {
             PreviewEllipse = overlay.ShapeFactory.GetPreviewEllipse();
@@ -429,7 +429,7 @@ namespace TikzEdt
             return ret;
         }
 
-        public GridTool(OverlayInterface overlay)
+        public GridTool(IOverlayInterface overlay)
             : base(overlay)
         {
             codeToInsert = " grid ";

@@ -16,7 +16,7 @@ namespace TikzEdt
         Point center, p1;
         IArcShape PreviewArc, PreviewPie;
 
-        public ArcTool(OverlayInterface overlay) : base(overlay)
+        public ArcTool(IOverlayInterface overlay) : base(overlay)
         {
             PreviewArc = overlay.ShapeFactory.GetPreviewArc();
             PreviewPie = overlay.ShapeFactory.GetPreviewPie();

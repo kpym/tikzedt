@@ -39,7 +39,7 @@ namespace TikzEdt
     {
         IRectangleShape SelectionRect;
 
-        public SelectionTool(OverlayInterface overlay) : base(overlay)
+        public SelectionTool(IOverlayInterface overlay) : base(overlay)
         {
             SelectionRect = overlay.ShapeFactory.GetSelectionRect();
         }

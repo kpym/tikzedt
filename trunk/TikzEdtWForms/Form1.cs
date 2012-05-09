@@ -27,7 +27,7 @@ namespace TikzEdtWForms
 
         Panel ScrollPanel = new Panel() { AutoScroll = true, Dock=DockStyle.Fill};
 
-        TESharedComponents.UpdateChecker updateChecker = new TESharedComponents.UpdateChecker() { VersionInfoURL = Consts.WFormsVersionInfoURL };
+        TESharedComponents.UpdateChecker updateChecker = new TESharedComponents.UpdateChecker( Consts.WFormsVersionInfoURL );
         //PdfOverlay pdfOverlay1;
 
         public Form1()

@@ -42,8 +42,8 @@ namespace TikzEdt
         /// <summary>
         /// Access to the PdfOverlay. It will be set in the constructor.
         /// </summary>
-        protected OverlayInterface overlay;
-        public OverlayTool(OverlayInterface overlay)
+        protected IOverlayInterface overlay;
+        public OverlayTool(IOverlayInterface overlay)
         {
             this.overlay = overlay;
         }
@@ -136,7 +136,7 @@ namespace TikzEdt
     /// It is used to hide the many irrelevant public members of PdfOverlay from
     /// tools.
     /// </summary>
-    public interface OverlayInterface
+    public interface IOverlayInterface
     {
         Parser.Tikz_ParseTree ParseTree { get;  }
         //void SetParseTree(
@@ -204,7 +204,7 @@ namespace TikzEdt
 
     class PathTool : OverlayAdderTool
     {
-        public PathTool(OverlayInterface overlay) : base(overlay) { }
+        public PathTool(IOverlayInterface overlay) : base(overlay) { }
 
         public override void OnActivate() 
         {
@@ -304,7 +304,7 @@ namespace TikzEdt
 
     class NodeTool : OverlayAdderTool
     {
-        public NodeTool(OverlayInterface overlay) : base(overlay) { }
+        public NodeTool(IOverlayInterface overlay) : base(overlay) { }
 
         public override void OnActivate()
         {
@@ -367,7 +367,7 @@ namespace TikzEdt
 
     class EdgeTool : OverlayAdderTool
     {
-        public EdgeTool(OverlayInterface overlay) : base(overlay) { }
+        public EdgeTool(IOverlayInterface overlay) : base(overlay) { }
 
         OverlayNode _curSel;
         /// <summary>
@@ -518,7 +518,7 @@ namespace TikzEdt
     /// </summary>
     class OverlayAdderTool : OverlayTool
     {
-        public OverlayAdderTool(OverlayInterface overlay) : base(overlay) { } 
+        public OverlayAdderTool(IOverlayInterface overlay) : base(overlay) { } 
 
         /// <summary>
         /// When adding multiple things in a row, this remembers the path object

@@ -14,7 +14,7 @@ namespace TikzEdt
         IRectangleShape Preview_CP1, Preview_CP2;
         int CPCount = 0;
 
-        public BezierTool(OverlayInterface overlay) : base(overlay)
+        public BezierTool(IOverlayInterface overlay) : base(overlay)
         {
             Preview_CP1 = overlay.ShapeFactory.GetCPCircle();
             Preview_CP2 = overlay.ShapeFactory.GetCPCircle();

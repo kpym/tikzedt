@@ -15,7 +15,7 @@ namespace TikzEdt
 
 /// <summary>
 /// The job of this class is to load a pdf file and render it into bitmaps of
-/// possibly varying resolutions. Internally it uses pdflibnet. to do the conversion.
+/// possibly varying resolutions. Internally it uses pdflibnet to do the conversion.
 /// </summary>
     public class PdfToBmpBase
     {
@@ -24,16 +24,15 @@ namespace TikzEdt
         /// </summary>
         protected PDFWrapper mypdfDoc = null;
 
-
+        /// <summary>
+        /// Loads a pdf file.
+        /// </summary>
+        /// <param name="cfile"></param>
+        /// <returns></returns>
         public bool LoadPdf(string cfile)
         {
 
-            if (mypdfDoc != null)
-            {
-                mypdfDoc.Dispose();
-                mypdfDoc = null;
-
-            }
+            UnloadPdf();
             mypdfDoc = new PDFLibNet.PDFWrapper();
 
 
@@ -61,85 +60,6 @@ namespace TikzEdt
                 return true;
             }
             return false;
-        }
-
-
-        /// <summary>
-        /// Returns a Bitmap from mypdfDoc. Do not forget to Dispose returned Bitmap!
-        /// </summary>
-        /// <param name="Resolution">Resolution of the Bitmap</param>
-        /// <param name="Transparent">Makes white areas in Bitmap transparent</param>
-        /// <returns></returns>
-        private Bitmap GetBitmapViaFile(double Resolution, bool Transparent = true)
-        {
-            if (mypdfDoc != null && mypdfDoc.PageCount > 0)
-            {
-                double dpi = 72 * Resolution / Consts.ptspertikzunit;
-                PDFPage p = mypdfDoc.Pages[1];
-                double pwidth = p.Width, pheight = p.Height;
-                // the following lines are as in the PDFPage.GetBitmap() function
-                int width = Convert.ToInt32(pwidth * dpi / 254);
-                int height = Convert.ToInt32(pheight * dpi / 254);
-                int safetymargin = 0; // >0 => hack to prevent cropping near boundary
-
-                // if we'd need too much memory -> don't proceed
-                if (width * height > 20e6)
-                {
-                    GlobalUI.UI.AddStatusLine(this, "Pdf rendering aborted: it's too big!", true);
-                    return null;
-                }
-
-
-                mypdfDoc.RenderDPI = 72 * Resolution / Consts.ptspertikzunit;
-
-                //System.Windows.Forms.PictureBox pic = new System.Windows.Forms.PictureBox();
-                mypdfDoc.CurrentPage = 1;
-
-                /*Added since 1.0.6.2*/
-                mypdfDoc.CurrentX = 0;
-                mypdfDoc.CurrentY = 0;
-                mypdfDoc.ClientBounds = new System.Drawing.Rectangle(0, 0, width + safetymargin, height + safetymargin);//new Rectangle(0, 0, mypdfDoc.PageWidth, mypdfDoc.PageHeight);
-
-                string cFile = @"C:\temp\temp.jpg";
-
-                //Stopwatch s = new Stopwatch();
-                //s.Start();
-
-                mypdfDoc.ExportJpg(cFile, 1, 1, mypdfDoc.RenderDPI, 100, -1);
-
-                //s.Stop();
-                //MainWindow.AddStatusLine("ExportJpg took " + s.ElapsedMilliseconds + " ms");
-                //s.Reset();
-
-                // load file 
-                //System.Drawing.Image imgjpg = System.Drawing.Image.FromFile(cFile);
-                //System.Drawing.Bitmap imgbmp = new System.Drawing.Bitmap(cFile);
-
-                //Bitmap bbb = mypdfDoc.Pages[1].GetBitmap(72 * Resolution / Consts.ptspertikzunit, false);                
-                //System.Drawing.Image I = mypdfDoc.Pages[1].GetImage(1);
-                //System.Drawing.Image I2 = mypdfDoc.Pages[1].GetImage(0);
-
-                //if (mypdfDoc.PageWidth * mypdfDoc.PageHeight == 0)
-                if (height * width == 0)
-                    return null;
-                //s.Start();
-                Bitmap _backbuffer = new System.Drawing.Bitmap(cFile);
-
-                if (Transparent)
-                {
-                    _backbuffer.MakeTransparent(System.Drawing.Color.White);
-                    _backbuffer.MakeTransparent(System.Drawing.Color.FromArgb(255, 253, 253, 253));
-                    _backbuffer.MakeTransparent(System.Drawing.Color.FromArgb(255, 254, 254, 254));
-                }
-                //s.Stop();
-                //MainWindow.AddStatusLine("Bitmap generation took " + s.ElapsedMilliseconds + " ms");
-                // test
-                //_backbuffer.Save(@"C:\temp\temp.bmp");
-                //mypdfDoc.ExportJpg(@"C:\temp\temp.jpg",1,1,75,100,9000);
-
-                return _backbuffer;
-            }
-            else return null;
         }
 
         protected Bitmap GetBitmapBase(double Resolution, bool Transparent = true)
