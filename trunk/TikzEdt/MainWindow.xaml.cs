@@ -341,56 +341,18 @@ namespace TikzEdt
 
         void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            if (Properties.Settings.Default.CompileOnCTRLPressRadioButton)
+            /*
+             * if (Properties.Settings.Default.CompileOnCTRLPressRadioButton)
             {
                 if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
                 {
                     TheVM.TheDocument.Recompile();
                 }
             }
+             * */
         }
 
-  /*      void fileWatcher_Changed(object sender, FileSystemEventArgs e)
-        {
-            Dispatcher.Invoke(new Action( delegate() {
-                // there is a well-known issue with filewatcher raising multiple events... so, as a hack, stop wtaching
-                fileWatcher.EnableRaisingEvents = false;
-                // the currently watched file was changed -> ask the user to reload
-                switch (MessageBox.Show("The currently open file was modified outside the editor.\r\nDo you want to reload the file from disk?", 
-                    "Modified outside TikzEdt", MessageBoxButton.YesNo, MessageBoxImage.Warning))
-                {
-                    case MessageBoxResult.Yes:
-                        ChangesMade = false;
-                        LoadFile(Directory.GetCurrentDirectory() + "\\" + CurFile); // here the filewatcher is turned on again implicitly
-                        break;
-                    case MessageBoxResult.No:
-                        ChangesMade = true;
-                        fileWatcher.EnableRaisingEvents = true;
-                        break;
-                } } ));
-        }
-        */
-     /*     void TheCompiler_JobSucceeded(object sender, TexCompiler.Job job)
-        {
-          // it may happen that pdflatex returns after a new document has been created->then don't load the pdf
-            if (job.DocumentID == CurDocumentID)
-            {
-                if (!job.GeneratePrecompiledHeaders)
-                {
-                    // set the currrent BB, if the BB could be determined.
-                    // if not, and we are in preview mode, we have a problem
-                    if (job.hasBB)
-                    {
-                        currentBB = job.BB;
-                    }
-                    BBvalid = job.hasBB;
-                    // (re-)load the pdf to display                
-                    string pdfpath = Helper.RemoveFileExtension(job.path) + ".pdf";
-                    tikzDisplay1.PdfPath = pdfpath;
-                }
-            }
-       
-        }* */
+ 
 
         void TexCompiler_OnCompileEvent(object sender, TexCompiler.CompileEventArgs e)
         {
@@ -404,198 +366,7 @@ namespace TikzEdt
         } 
 
 
-  /*      void AsyncParser_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
-        {
-            AsyncParserResultType Result = e.Result as AsyncParserResultType;
-            if (Result == null)
-                throw new Exception("AsyncParser_RunWorkerCompleted() can only handle e.Result  of type AsyncParserResultType!");
-
-            // in case of outdated parse -> ignore
-            if (Result.DocumentID != CurDocumentID)
-                return;
-
-            //check if error occurred
-            if (Result.Error != null && Result.Error is RecognitionException)
-            {
-                RecognitionException ex = Result.Error as RecognitionException;
-                string errmsg = ANTLRErrorMsg.ToString(ex, simpletikzParser.tokenNames);
-                AddStatusLine("Couldn't parse code. " + errmsg, true);
-                if (ex.Line == 0 && ex.CharPositionInLine == -1)
-                {
-                    addProblemMarker(errmsg, txtCode.LineCount, 0, Severity.ERROR, CurFile); 
-                    
-                }
-                else
-                {
-                    addProblemMarker(errmsg, ex.Line, ex.CharPositionInLine, Severity.ERROR, CurFile); 
-                }
-                pdfOverlay1.SetParseTree(null, currentBB);
-                ClearStyleLists();
-                
-            }
-            else if (Result.Error != null)
-            {
-                string errmsg = Result.Error.GetType().ToString();
-                if(Result.Error is Exception)
-                    errmsg += ":" + ((Exception)Result.Error).Message;
-                AddStatusLine("Couldn't parse code. " + errmsg, true);
-                pdfOverlay1.SetParseTree(null, currentBB);
-                ClearStyleLists();
-            }
-            else
-            {
-                // parsing succesfull
-                Tikz_ParseTree tp = Result.ParseTree as Tikz_ParseTree;
-                pdfOverlay1.SetParseTree(tp, currentBB);
-
-                // if no other changes are pending, we can turn on editing again
-                pdfOverlay1.AllowEditing = true;
-                
-                // fill the style list
-                UpdateStyleLists(tp);
-
-                //now check if a warning occured. That would be a parser error in an included file.                
-                if (Result.Warning != null && Result.Warning is RecognitionException)
-                {
-                    RecognitionException ex = Result.Warning as RecognitionException;
-                    string errmsg = ANTLRErrorMsg.ToString(ex, simpletikzParser.tokenNames);
-                    AddStatusLine("Couldn't parse included file. " + errmsg, true);
-                    if (ex.Line == 0 && ex.CharPositionInLine == -1)
-                    {
-                        addProblemMarker(errmsg, txtCode.LineCount, 0, Severity.WARNING, Result.WarningSource);
-
-                    }
-                    else
-                    {
-                        addProblemMarker(errmsg, ex.Line, ex.CharPositionInLine, Severity.WARNING, Result.WarningSource);                        
-                    }
-
-                }
-                else if (Result.Warning != null && Result.Warning is ParserException)
-                {
-                    ParserException pe = Result.Warning as ParserException;
-                    addProblemMarker(this, pe.e);
-                }
-                else if (Result.Warning != null && Result.Warning is Exception)
-                {
-                    string errmsg = ((Exception)Result.Warning).Message;
-                    AddStatusLine("Couldn't parse included file " + Result.WarningSource + ". " + errmsg, true);
-                }
-            }
-
-            // Restart parser if necessary
-            ParseNeeded = ParseNeeded;
  
-        } */
-
-        /// <summary>
-        /// The this is given from AsyncParser_DoWork() to AsyncParser_RunWorkerCompleted().
-        /// </summary>
-   /*     class AsyncParserResultType { 
-            /// <summary>
-            /// Holds the ParseTree of the main file (shown in txtCode) if successful.
-            /// </summary>
-            public Tikz_ParseTree ParseTree {get; set;}
-            /// <summary>
-            /// Holds an error if parsing of main file was not successful.
-            /// </summary>
-            public Exception Error { get; set; }
-            /// <summary>
-            /// Warning if parsing of an included file was not successful.
-            /// </summary>
-            public Exception Warning { get; set; }
-            /// <summary>
-            /// Name of the included file which could not be parsed.
-            /// </summary>
-            public string WarningSource { get; set; }
-            /// <summary>
-            /// The ID of the document that was parsed.
-            /// </summary>
-            public long DocumentID;
-        }
-        class ParserException : Exception
-        {
-            public ParserException(string message) : base(message) { }
-            public TexOutputParser.TexError e;
-        }
-        // Unfortunately, due to a debugger "bug", the exception has to be caught and transferred into a cancelled event
-        // this cancel event type is AsyncParserResultType. It is passed to AsyncParser_RunWorkerCompleted().
-        void AsyncParser_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {
-            AsyncParserResultType Result = new AsyncParserResultType();
-            //make sure that double typed numbers are converted with decimal point (not comma!) to string
-            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
-
-            try
-            {
-                AsyncParserJob job = e.Argument as AsyncParserJob;
-                Result.DocumentID = job.DocumentID;
-                Tikz_ParseTree tp = TikzParser.Parse(job.code);
-                Result.ParseTree = tp;                
-
-                //include any styles from include files via \input cmd
-                string inputfile = "";
-                try
-                {
-                    //find input files using Regex
-                    Regex InputsRegex = new Regex(@"(^[^%]*|\n[^\n%]*?)\\input{(?<file>.*)}", RegexOptions.Compiled);
-                    MatchCollection files = InputsRegex.Matches(job.code);
-                    foreach (Match file in files)
-                    {
-                        //open, read, parse, and close each included file.
-                        inputfile = file.Groups["file"].ToString();
-                        if (File.Exists(inputfile))
-                        {
-                            StreamReader sr = new StreamReader(inputfile);
-                            string inputcode = sr.ReadToEnd();
-                            sr.Close();
-                            Tikz_ParseTree tp2 = TikzParser.ParseInputFile(inputcode);
-                            //if tp2 == null there probably was nothing useful included.
-                            if (tp2 != null)
-                            {
-                                //every style that was found in included file, add it to parse tree of main file.
-                                foreach (KeyValuePair<string, Tikz_Option> style in tp2.styles)
-                                {
-                                    if(! Result.ParseTree.styles.ContainsKey(style.Key))
-                                    {
-                                        Result.ParseTree.styles.Add(style.Key, style.Value);
-                                    }
-                                    else
-                                    {
-                                        ParserException pe = new ParserException("");
-                                        TexOutputParser.TexError te = new TexOutputParser.TexError();
-                                        te.Message = "Style [" + style.Key + "] is defined multiple times. Check position " + style.Value.StartPosition() + " in " + inputfile + " and this definition.";
-                                        te.pos = Result.ParseTree.styles[style.Key].StartPosition();
-                                        te.severity = Severity.WARNING;
-                                        pe.e = te;
-                                        throw pe;
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    Result.Warning = ex;
-                    Result.WarningSource = inputfile;
-                }
-            }
-            catch (Exception ex)
-            {                
-                //never set e.Cancel = true;
-                //if you do, you cannot access e.Result from AsyncParser_RunWorkerCompleted.
-                Result.Error = ex;
-                Result.WarningSource = CurFile;
-            }
-            finally
-            {
-                e.Result = Result;
-            }
-        }
-        */
         void TikzToBmpFactory_JobNumberChanged(object sender, EventArgs e)
         {
             //Dispatcher.Invoke(new Action(
@@ -617,71 +388,7 @@ namespace TikzEdt
              //   ));
         }
 
-    //    CompletionWindow completionWindow;
-
-  /*      void textEditor_TextArea_TextEntered(object sender, TextCompositionEventArgs e)
-        {
-            if (codeCompleter.CompletionTriggers.Contains(e.Text))
-            {
-                ShowCodeCompletionsCommand.Execute(null, this);
-            }
-        }
-
-        static Regex _beginRegex = new Regex(@"^\\begin\{(?<tag>\s*\w*\s*)\}(?<content>.*)$", RegexOptions.Compiled);
-        void textEditor_TextArea_TextEntering(object sender, TextCompositionEventArgs e)
-        {
-            // The following code auto-completes \begin{something} +<return> by inserting \end{something}
-            // This autocompletion can be turned off in the settings
-            if (e.Text == "\n")
-            {
-                if (Properties.Settings.Default.Editor_CompleteBegins)
-                {
-                    ICSharpCode.AvalonEdit.Document.DocumentLine l = txtCode.Document.GetLineByOffset(txtCode.CaretOffset);
-                    //if (l.LineNumber > 0) //todo 1?
-                    {
-                        //get current line
-                        string s = txtCode.Document.GetText(l.Offset, l.Length).Trim();                        
-                        //and check if it contains \begin{
-                        Match m = _beginRegex.Match(s);
-                        if (m.Success && m.Groups["tag"] != null && m.Groups["content"] != null)
-                        {
-                            string tag = m.Groups["tag"].Value, content = m.Groups["content"].Value;
-                            int cp = txtCode.CaretOffset;
-                            string insert = "\\end{" + tag + "}";
-
-                            //only insert if document does not already hold the corresponding \end{}
-                            if (txtCode.Text.IndexOf(insert, cp) == -1)
-                            {
-                                txtCode.Document.Insert(l.Offset + l.Length, "\r\n" + insert);
-                                txtCode.CaretOffset = cp;
-                            }                            
-                        }
-                    }
-
-                }
-            }
-
-            if (e.Text.Length > 0 && completionWindow != null)
-            {
-                if (!char.IsLetterOrDigit(e.Text[0]))
-                {
-                    // Whenever a non-letter is typed while the completion window is open,
-                    // insert the currently selected element.
-                    completionWindow.CompletionList.RequestInsertion(e);
-                }
-            }
-            // Do not set e.Handled=true.
-            // We still want to insert the character that was typed.
-        }
-        */
-
-      /*  public void SetStandAloneStatus(bool IsStandAlone)
-        {
-            if (IsStandAlone)
-                StandAloneStatusBarItem.Content = "[Document is standalone]";
-            else
-                StandAloneStatusBarItem.Content = "";
-        } */
+ 
 
 
         static void AddStatusLine(string text, bool lError = false)

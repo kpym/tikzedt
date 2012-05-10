@@ -13,6 +13,17 @@ namespace TikzEdt
             return new System.Windows.Point(r.X + r.Width / 2, r.Y + r.Height / 2);
         }
 
+        /// <summary>
+        /// Converts a Rect form bottom left centric to top left centric coordinates.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="Height">The Height of the parent control.</param>
+        /// <returns></returns>
+        public static System.Windows.Rect UpsideDown(this System.Windows.Rect r, double Height)
+        {
+            return new System.Windows.Rect(r.X, Height - r.Y - r.Height, r.Width, r.Height);
+        }
+
         public static System.Windows.Point ScalarMult(this System.Windows.Point p, double Factor)
         {
             return new System.Windows.Point(p.X*Factor, p.Y*Factor);
@@ -63,6 +74,23 @@ namespace TikzEdt
         {
             var i = 0;
             foreach (var e in ie) action(e, i++);
+        }
+
+        public static int GetCount<T>(this IEnumerable<T> ie)
+        {
+            var i = 0;
+            foreach (var e in ie) 
+                i++;
+            return i;
+        }
+
+        public static T ItemAtIndex<T>(this IEnumerable<T> ie, int index)
+        {
+            var i = 0;
+            foreach (var e in ie)
+                if (i++ == index)
+                    return e;
+            throw new ArgumentException("Index must be smaller than collection length");
         }
     }
 }

@@ -264,44 +264,48 @@ namespace TikzEdt
             return b;
         }
 
-        public static MyBinding<T> CreateBindingSP<U, T>(SourceProvider<U, T> SrcProvider, string Key, Action<T> Fire, Action Fail)
+        public static MyBinding<T> CreateBindingSP<U, T>(SourceProvider<U, T> SrcProvider, string Key, Action<T> Fire, Action Fail, bool AddToGlobalList = true)
             where T : class,INotifyPropertyChanged
             where U : class,INotifyPropertyChanged
         {
             var b = new MyBinding<T>(Key, Fire, Fail);
             SrcProvider.Add(b);
-            AllBindings.Add(b);
+            if (AddToGlobalList) 
+                AllBindings.Add(b);
             return b;
         }
 
-        public static SourceProvider<U, T> CreateProvider<U, T>(U Source, string Key, Func<U, T> Provider)
+        public static SourceProvider<U, T> CreateProvider<U, T>(U Source, string Key, Func<U, T> Provider, bool AddToGlobalList = true)
             where T : class,INotifyPropertyChanged
             where U : class,INotifyPropertyChanged
         {
             var p = new SourceProvider<U, T>(Key, Provider);
             p.Source = Source;
-            AllBindings.Add(p);
+            if (AddToGlobalList) 
+                AllBindings.Add(p);
             return p;
         }
 
-        public static SourceProvider<U, T> CreateProviderSP<V, U, T>(SourceProvider<V, U> SrcProvider, string Key, Func<U, T> Provider)
+        public static SourceProvider<U, T> CreateProviderSP<V, U, T>(SourceProvider<V, U> SrcProvider, string Key, Func<U, T> Provider, bool AddToGlobalList = true)
             where T : class,INotifyPropertyChanged
             where U : class,INotifyPropertyChanged
             where V : class,INotifyPropertyChanged
         {
             var p = new SourceProvider<U, T>(Key, Provider);
             SrcProvider.Add(p);
-            AllBindings.Add(p);
+            if (AddToGlobalList) 
+                AllBindings.Add(p);
             return p;
         }
 
-        public static MyCollectionBinding<T> CreateCollectionBindingSP<U, T>(SourceProvider<U, T> SrcProvider, NotifyCollectionChangedEventHandler Handler)
+        public static MyCollectionBinding<T> CreateCollectionBindingSP<U, T>(SourceProvider<U, T> SrcProvider, NotifyCollectionChangedEventHandler Handler, bool AddToGlobalList = true)
             where T : class,INotifyPropertyChanged, INotifyCollectionChanged
             where U : class,INotifyPropertyChanged
         {
             var b = new MyCollectionBinding<T>(Handler);
             SrcProvider.Add(b);
-            AllBindings.Add(b);
+            if (AddToGlobalList) 
+                AllBindings.Add(b);
             return b;
         }
 

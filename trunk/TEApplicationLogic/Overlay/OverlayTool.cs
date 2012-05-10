@@ -161,9 +161,9 @@ namespace TikzEdt
         /// </summary>
         void ActivateDefaultTool();
 
-        void AddToDisplayTree(Parser.TikzParseItem tpi);
+        //void AddToDisplayTree(Parser.TikzParseItem tpi);
 
-        List<OverlayShapeVM> TopLevelItems { get; }
+        //List<OverlayShapeVM> TopLevelItems { get; }
 
 
         ////Canvas canvas { get; }
@@ -190,7 +190,7 @@ namespace TikzEdt
         void JumpToSourceDoIt(OverlayShapeVM o);
 
         IOverlayShapeFactory ShapeFactory { get; }
-        IEnumerable<OverlayShapeVM> GetAllDescendants(OverlayShapeVM OfParent = null);
+        //IEnumerable<OverlayShapeVM> GetAllDescendants(OverlayShapeVM OfParent = null);
         void SetCursor(System.Windows.Forms.Cursor cursor);
 
         bool MouseCaptured { set; }
@@ -291,7 +291,7 @@ namespace TikzEdt
                     //tpict.UpdateText();
 
                     // draw the added object in the overlay
-                    overlay.AddToDisplayTree(tc);
+          //          overlay.AddToDisplayTree(tc);
                 }
             }
 
@@ -360,7 +360,7 @@ namespace TikzEdt
                 //tpict.UpdateText();
 
                 //RedrawObjects();
-                overlay.AddToDisplayTree(tp);
+       //         overlay.AddToDisplayTree(tp);
             }
 
             overlay.EndUpdate();
@@ -381,10 +381,10 @@ namespace TikzEdt
             set
             {
                 if (_curSel != null)
-                    _curSel.SetStdColor();
+                    _curSel.IsSelected = false ;
                 _curSel = value;
                 if (_curSel != null)
-                    _curSel.SetSelectedColor();
+                    _curSel.IsSelected = true;
             }
         }
         public override void OnActivate()

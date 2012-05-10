@@ -130,7 +130,7 @@ namespace TikzEdt
                     //tpict.UpdateText();
 
                     // draw the added object in the overlay
-                    overlay.AddToDisplayTree(tc);
+             //       overlay.AddToDisplayTree(tc);
                 }
             }
 

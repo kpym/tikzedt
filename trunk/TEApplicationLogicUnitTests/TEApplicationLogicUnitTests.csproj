@@ -59,6 +59,7 @@
     <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\lib\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="PDFLibNet">
@@ -70,6 +71,7 @@
       <HintPath>..\lib\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -95,6 +97,7 @@
     <Compile Include="TEDocumentVMTest.cs" />
     <Compile Include="TexCompilerTest.cs" />
     <Compile Include="TexOutputParserTest.cs" />
+    <Compile Include="TikzDisplayTreeTest.cs" />
     <Compile Include="TikzToBMPFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>

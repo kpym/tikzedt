@@ -167,7 +167,7 @@ namespace TikzEdt
         {
             Width = BB.Width * Resolution;
             Height = BB.Height * Resolution;
-            TheModel.AdjustPositions();
+            TheModel.DisplayTree.AdjustPositions();
         }
 
         readonly public static DependencyProperty ResolutionProperty = DependencyProperty.Register(
@@ -254,9 +254,10 @@ namespace TikzEdt
 
         #region MarkObjectAt
 
-        public void MarkObject(IOverlayShapeView vv)
+        public void MarkObject(OverlayShapeVM vv)
         {
-            Shape v = vv as Shape;
+            // Find the shape (view)
+            Shape v = canvas1.Children.OfType<OverlayShapeView>().FirstOrDefault(osv => osv.TheUnderlyingShape == vv) as Shape;
             if (v == null)
                 return;
 
@@ -306,6 +307,8 @@ namespace TikzEdt
 
             TheModel = new Overlay.PdfOverlayModel(this, this); // call this after InitializeComponent() so that UI is available
 
+            TheModel.DisplayTree.DisplayTreeChanged += new EventHandler<TikzDisplayTree.DisplayTreeChangedEventArgs>(DisplayTree_DisplayTreeChanged);
+
             // allow to gain keyboard focus
             canvas1.Focusable = true;
             
@@ -315,6 +318,30 @@ namespace TikzEdt
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, CutCommandHandler));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, PasteCommandHandler));
             
+        }
+
+        void DisplayTree_DisplayTreeChanged(object sender, TikzDisplayTree.DisplayTreeChangedEventArgs e)
+        {
+            // This method is called when the Displaytree changes, i.e., when a new OverlayShapeVM is created.
+            // Add a view to display the OverlayShapeVM
+
+            if (e.Type == TikzDisplayTree.DisplayTreeChangedType.Insert)
+            {
+                foreach (var os in e.AffectedItems)
+                {
+                    if (os is OverlayScope)
+                        NewScopeView(os as OverlayScope);
+                    else if (os is OverlayControlPoint)
+                        NewCPView(os as OverlayControlPoint);
+                    else if (os is OverlayNode)
+                        NewNodeView(os as OverlayNode);
+                }
+            }
+            else if (e.Type == TikzDisplayTree.DisplayTreeChangedType.Clear)
+            {
+                canvas1.Children.Clear();
+            }
+
         }
 
         #region Commandhandlers
@@ -525,23 +552,23 @@ namespace TikzEdt
 
         #region IOverlayShapeFactory
 
-        Overlay.IOverlayShapeView Overlay.IOverlayShapeFactory.NewNodeView()
+        Overlay.IOverlayShapeView NewNodeView(OverlayNode on)
         {
-            OverlayNodeView v = new OverlayNodeView();
+            OverlayNodeView v = new OverlayNodeView(on);
             canvas1.Children.Add(v);
             return v;
         }
 
-        Overlay.IOverlayScopeView Overlay.IOverlayShapeFactory.NewScopeView()
+        Overlay.IOverlayScopeView NewScopeView(OverlayScope os)
         {
-            OverlayScopeView v = new OverlayScopeView();
+            OverlayScopeView v = new OverlayScopeView(os);
             canvas1.Children.Add(v);
             return v;
         }
 
-        Overlay.IOverlayCPView Overlay.IOverlayShapeFactory.NewCPView()
+        Overlay.IOverlayCPView NewCPView(OverlayControlPoint ocp)
         {
-            OverlayCPView v = new OverlayCPView();
+            OverlayCPView v = new OverlayCPView(ocp);
             canvas1.Children.Add(v);
             canvas1.Children.Add(v.lineToOrigin1);
             canvas1.Children.Add(v.lineToOrigin2);

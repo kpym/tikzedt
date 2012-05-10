@@ -152,8 +152,8 @@ namespace TikzEdt
                         tc2.SetAbsPos(secondpoint);
                     }
                     
-                    overlay.AddToDisplayTree(tc1);
-                    overlay.AddToDisplayTree(tc2);
+         //           overlay.AddToDisplayTree(tc1);
+         //           overlay.AddToDisplayTree(tc2);
 
                     curAddTo.UpdateText();
                 }
@@ -340,7 +340,7 @@ namespace TikzEdt
                         tc1.nameref = tn.name;
                     }
                     
-                    overlay.AddToDisplayTree(tc1);
+          //          overlay.AddToDisplayTree(tc1);
 
                     curAddTo.UpdateText();
                 }

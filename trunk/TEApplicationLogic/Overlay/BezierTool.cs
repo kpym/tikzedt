@@ -89,8 +89,8 @@ namespace TikzEdt
                         tcend.UpdateText();
 
                         // draw the added objects in the overlay
-                        overlay.AddToDisplayTree(tcend);
-                        overlay.AddToDisplayTree(tcont);
+                 //       overlay.AddToDisplayTree(tcend);
+                 //       overlay.AddToDisplayTree(tcont);
 
                         CPCount = 0;
                         Preview_CP1.Visible = Preview_CP2.Visible = false;
@@ -106,7 +106,7 @@ namespace TikzEdt
                         tc.SetAbsPos(new Point(p.X, p.Y)); //hack
                         curAddTo.UpdateText();                        
                         // draw the added object in the overlay
-                        overlay.AddToDisplayTree(tc);
+                //        overlay.AddToDisplayTree(tc);
 
                         CPCount = 0;
                     } else 

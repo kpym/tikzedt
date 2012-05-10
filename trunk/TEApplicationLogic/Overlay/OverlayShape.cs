@@ -28,7 +28,7 @@ namespace TikzEdt.Overlay
             {
                 return BB.Center();
             }
-            protected set
+            set
             {
                 BB = new Rect(value.X-BB.Width/2, value.Y-BB.Height/2, BB.Width, BB.Height  );
             }
@@ -90,15 +90,16 @@ namespace TikzEdt.Overlay
         /// <summary>
         /// Sets the position of the Overlay Shape (and its children) according to the position of the underlying parseitem
         /// </summary>
-        /// <param name="Resolution"></param>
+        /// <param name="tikzToScreen"> </param>
         /// <returns></returns>
-        public abstract bool AdjustPosition(double Resolution);
+        public abstract bool AdjustPosition(Func<Point, Point> TikzToScreen);
         /// <summary>
         /// Shifts the underlying parseitem by the indicated amount, by changing the parse tree.
         /// Does not affect BB directly, only after AdjustPosition()
         /// </summary>
         /// <param name="RelShift">The shift, in Tikz units.</param>
-        public abstract void ShiftItemRelative(Point RelShift);
+        public abstract void ShiftItemRelative(Vector RelShift);
+
         /// <summary>
         /// The underlying ParseItem
         /// </summary>
@@ -120,13 +121,13 @@ namespace TikzEdt.Overlay
         /// <summary>
         /// Sets the item's position according to its tikzitem's value
         /// </summary>
-        public override bool AdjustPosition(double Resolution)
+        public override bool AdjustPosition(Func<Point, Point> TikzToScreen)
         {
             Rect r = new Rect(0, 0, 0, 0);
             bool hasone = false;
             foreach (OverlayShapeVM o in children)
             {
-                o.AdjustPosition(Resolution);
+                o.AdjustPosition(TikzToScreen);
                 Rect rr = o.BB;
                 if (hasone)
                     r.Union(rr);
@@ -148,7 +149,7 @@ namespace TikzEdt.Overlay
             else return false;
         }
 
-        public override void ShiftItemRelative(Point RelShift)
+        public override void ShiftItemRelative(Vector RelShift)
         {
             if (RelShift.X != 0 || RelShift.Y != 0)
             {
@@ -164,6 +165,24 @@ namespace TikzEdt.Overlay
                 tikzitem.UpdateText();  // todo: don't update text of ll children
             }
         }
+
+        /// <summary>
+        /// Determines whether the scope is selected for editing.
+        /// The View should in this case display an adorner around the scope to notify the user.
+        /// </summary>
+        public bool IsCurEditing
+        {
+            get { return _IsCurEditing; }
+            set
+            {
+                if (_IsCurEditing != value)
+                {
+                    _IsCurEditing = value;
+                    NotifyPropertyChanged("IsCurEditing");
+                }
+            }
+        }
+        bool _IsCurEditing = false;
 
         public OverlayScope()
         {
@@ -186,15 +205,15 @@ namespace TikzEdt.Overlay
         /// <summary>
         /// Sets the item's position according to its tikzitem's value
         /// </summary>
-        public override bool AdjustPosition(double Resolution)
+        public override bool AdjustPosition(Func<Point, Point> TikzToScreen)
         {
 
             Point p;
             if (tikzitem.GetAbsPos(out p))
             {
-                //Point pp = pol.TikzToScreen(p);
+                Point pp = TikzToScreen(p);
                 //View.SetPosition(pp.X, pp.Y);
-                Center = p.ScalarMult(Resolution);
+                Center = pp;
        //         if (PositionChanged != null)
        //             PositionChanged(this);
                 return true;
@@ -206,7 +225,7 @@ namespace TikzEdt.Overlay
             }
         }
 
-        public override void ShiftItemRelative(Point RelShift)
+        public override void ShiftItemRelative(Vector RelShift)
         {
             Point p;
             if (tikzitem.GetAbsPos(out p))

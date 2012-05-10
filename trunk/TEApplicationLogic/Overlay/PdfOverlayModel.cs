@@ -55,10 +55,11 @@ namespace TikzEdt.Overlay
     /// </summary>
     public class PdfOverlayModel : ViewModels.ViewModelBase, IOverlayInterface
     {
-        IPdfOverlayView View { get; private set; }
+        IPdfOverlayView View { get; set; }
         public IOverlayShapeFactory ShapeFactory { get; set; }
 
-        public readonly TikzDisplayTree DisplayTree = new TikzDisplayTree();
+        readonly TikzDisplayTree _DisplayTree;
+        public TikzDisplayTree DisplayTree { get { return _DisplayTree; } }
 
         OverlayScope _CurEditing = null;
         /// <summary>
@@ -75,12 +76,12 @@ namespace TikzEdt.Overlay
                 if (_CurEditing != null)
                 {
                     // remove adorner
-                    _CurEditing.ScopeView.RemoveAdorner();
+                    _CurEditing.IsCurEditing = false;
                 }
                 _CurEditing = value;
                 if (_CurEditing != null)
                 {
-                    _CurEditing.ScopeView.ShowAdorner();
+                    _CurEditing.IsCurEditing = true;
                 }
 
                 SetCorrectRaster(CurEditing); // todo: correct? ,true
@@ -118,6 +119,7 @@ namespace TikzEdt.Overlay
         {
             this.View = View;
             this.ShapeFactory = ShapeFactory;
+            _DisplayTree = new TikzDisplayTree( p => TikzToScreen(p, false) );
 
             // initialize tools
             selectionTool = new SelectionTool(this);
@@ -317,7 +319,8 @@ namespace TikzEdt.Overlay
             CurEditing = null;
             View.Tool = View.Tool;    // this deactivates + reactivates the current tool to reset its status... TODO: does this really work?
             //TopLevelItems = new List<OverlayShapeVM>();
-            DisplayTree.RedrawObjects();
+            DisplayTree.ParseTree = ParseTree;
+            //DisplayTree.RecreateDisplayTree();
 
             if (ParseTree == null)
             {
@@ -548,7 +551,7 @@ namespace TikzEdt.Overlay
             OverlayShapeVM ols = DisplayTree.ObjectFromOffset(offset);
             if (ols != null)
             {
-                View.MarkObject(ols.View);
+                View.MarkObject(ols);
             }
         }
 

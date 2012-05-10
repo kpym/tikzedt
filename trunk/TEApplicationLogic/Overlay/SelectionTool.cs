@@ -87,7 +87,7 @@ namespace TikzEdt
                 Clear(o);
             if (!SelectedItems.Contains(o))
             {
-                o.SetSelectedColor();
+                o.IsSelected = true;
                 SelectedItems.Add(o);
             }
         }
@@ -103,7 +103,7 @@ namespace TikzEdt
             if (SelectedItems.Contains(o))
             {
                 SelectedItems.Remove(o);
-                o.SetStdColor();
+                o.IsSelected = false;
             }
         }
 
@@ -134,18 +134,18 @@ namespace TikzEdt
         {
             foreach (OverlayShapeVM o in SelectedItems)
                 if (o != except)
-                    o.SetStdColor();
+                    o.IsSelected = false;
             SelectedItems.RemoveWhere(o => (o != except));
             //SelectedItems.Clear();
         }
 
-        public void ShiftSelItemsOnScreen(Point RelShift)
+        public void ShiftSelItemsOnScreen(Vector RelShift)
         {
             foreach (OverlayShapeVM o in SelectedItems)
             {
                 ////Canvas.SetLeft(o, Canvas.GetLeft(o) + RelShift.X);
                 ////Canvas.SetBottom(o, Canvas.GetBottom(o) + RelShift.Y);
-                o.View.SetPosition(RelShift.X, RelShift.Y, true);
+                o.Center += RelShift;
             }
         }
 
@@ -169,12 +169,11 @@ namespace TikzEdt
                     double step = overlay.Rasterizer.GridWidth * .1;
                     if (step == 0)
                         step = 1;
-                    overlay.BeginUpdate();                    
-                    ShiftSelItemsInParseTree(new Point(x*step, y*step), overlay.TopLevelItems );
+                    overlay.BeginUpdate();
+                    ShiftSelItemsInParseTree(new Vector(x * step, y * step), overlay.DisplayTree.TopLevelItems);
                     overlay.EndUpdate();
                     // update overlay positions
-                    foreach (OverlayShapeVM o in overlay.TopLevelItems)
-                        o.AdjustPosition(overlay.Resolution);
+                    overlay.DisplayTree.AdjustPositions();
 
                     e.Handled = true;
                 }
@@ -197,10 +196,10 @@ namespace TikzEdt
             {
                 // initiate a drag/drop operation
                 curDragged = (OverlayShapeVM)item;
-                DragOrigin = (Point)((new Point(item.View.GetLeft(), item.View.GetBottom()))-p); ////e.GetPosition(item);
+                DragOrigin = (Point)(item.Center - p); ////e.GetPosition(item);
                 ////DragOrigin = new Point(DragOrigin.X, (item as OverlayShape).Height - DragOrigin.Y);
                 DragOriginC = p;
-                DragOriginO = new Point(curDragged.View.GetLeft(), curDragged.View.GetBottom());
+                DragOriginO = curDragged.Center;
                 movedenough = false;
                 //MessageBox.Show(o.ToString());
 
@@ -284,10 +283,7 @@ namespace TikzEdt
                     Point relshift_pixel = new Point(p.X - DragOriginC.X, p.Y - DragOriginC.Y);
                     relshift_pixel = overlay.Rasterizer.RasterizePixelRelative(relshift_pixel);
                     // shift yet to be done
-                    Point relshift_tobedone = new Point(
-                         DragOriginO.X + relshift_pixel.X - curDragged.View.GetLeft(),
-                         DragOriginO.Y + relshift_pixel.Y - curDragged.View.GetBottom()
-                        );
+                    Vector relshift_tobedone = (Vector)(DragOriginO + (relshift_pixel - curDragged.Center));
 
                     ShiftSelItemsOnScreen(relshift_tobedone);
                 }
@@ -302,10 +298,7 @@ namespace TikzEdt
                     center_pixel = overlay.Rasterizer.RasterizePixel(center_pixel);
 
                     // shift yet to be done
-                    Point relshift_tobedone = new Point(
-                         center_pixel.X - curDragged.View.GetLeft(),
-                         center_pixel.Y - curDragged.View.GetBottom()
-                        );
+                    Vector relshift_tobedone = center_pixel - curDragged.Center;
                     ShiftSelItemsOnScreen(relshift_tobedone);
 
                 }
@@ -324,9 +317,9 @@ namespace TikzEdt
             {
                 overlay.BeginUpdate();
                 // determine the relative shift
-                Point relshift = new Point(curDragged.View.GetLeft() - DragOriginO.X, curDragged.View.GetBottom() - DragOriginO.Y);
-                Point relshift_tikz = new Point(relshift.X / overlay.Resolution, relshift.Y / overlay.Resolution);
-                ShiftSelItemsInParseTree(relshift_tikz, overlay.TopLevelItems);
+                Vector relshift = curDragged.Center - DragOriginO;
+                Vector relshift_tikz = relshift / overlay.Resolution;
+                ShiftSelItemsInParseTree(relshift_tikz, overlay.DisplayTree.TopLevelItems);
                 /*
                 Point pp = new Point(Canvas.GetLeft(curDragged) + curDragged.Width / 2, Canvas.GetBottom(curDragged) + curDragged.Height / 2);
                 pp = ScreenToTikz(pp);
@@ -346,8 +339,7 @@ namespace TikzEdt
                     curDragged.ShiftItemRelative(pdiff);
                 }*/
                 // update all item's positions
-                foreach (OverlayShapeVM o in overlay.TopLevelItems)
-                    o.AdjustPosition(overlay.Resolution);
+                overlay.DisplayTree.AdjustPositions();
 
                 // update raster in case it has changed
                 overlay.SetCorrectRaster(curDragged);
@@ -366,7 +358,7 @@ namespace TikzEdt
         /// </summary>
         /// <param name="RelShift"></param>
         /// <param name="AllItems"></param>
-        public void ShiftSelItemsInParseTree(Point RelShift, List<OverlayShapeVM> AllItems)
+        public void ShiftSelItemsInParseTree(Vector RelShift, List<OverlayShapeVM> AllItems)
         {
             // remember the positions of nodes to which RelShift must be added
             Dictionary<OverlayNode, Point> origPositions = new Dictionary<OverlayNode, Point>();
@@ -385,7 +377,7 @@ namespace TikzEdt
 
         }
 
-        void doShiftSelItemsRelative(Point RelShift, List<OverlayShapeVM> AllItems, Dictionary<OverlayNode, Point> origPositions)
+        void doShiftSelItemsRelative(Vector RelShift, List<OverlayShapeVM> AllItems, Dictionary<OverlayNode, Point> origPositions)
         {
             foreach (OverlayShapeVM o in AllItems)
             {
@@ -418,9 +410,9 @@ namespace TikzEdt
         }
         public void UpdateSelection(Rect SelectionRect, bool CtrlPressed)
         {
-            foreach (OverlayShapeVM o in overlay.GetAllDescendants())
+            foreach (OverlayShapeVM o in overlay.DisplayTree.AllItems)
             {
-                Rect r = o.View.GetBB(overlay.Height);////System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(o);
+                Rect r = o.BB.UpsideDown(overlay.Height);////System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(o);
                 bool nowsel = r.IntersectsWith(SelectionRect);
                 // for overlayscope, we do not want to select it when it it contains the selection rect completely.
                 if (o is OverlayScope)
