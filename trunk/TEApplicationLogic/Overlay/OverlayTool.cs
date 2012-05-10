@@ -197,6 +197,8 @@ namespace TikzEdt
 
         Point CursorPosition { get; }
         OverlayShapeVM ObjectAtCursor { get; }
+
+        TikzDisplayTree DisplayTree { get; }
     }
 
   

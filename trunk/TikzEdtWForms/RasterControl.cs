@@ -434,7 +434,7 @@ namespace TikzEdtWForms
             return new PointF((float)p.X, (float)p.Y);
         }
 
-        public static System.Windows.Point ToPoint(this Point p)
+        public static System.Windows.Point ToPoint(this System.Drawing.Point p)
         {
             return new System.Windows.Point(p.X,p.Y);
         }
@@ -467,10 +467,6 @@ namespace TikzEdtWForms
         public static System.Drawing.PointF Center(this RectangleF r)
         {
             return new PointF(r.X + r.Width/2, r.Y + r.Height/2);
-        }
-        public static System.Windows.Point Center(this System.Windows.Rect r)
-        {
-            return new System.Windows.Point(r.X + r.Width / 2, r.Y + r.Height / 2);
         }
 
         public static void DrawRectangle(this Graphics G, Pen p, RectangleF r)
