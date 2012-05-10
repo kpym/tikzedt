@@ -58,7 +58,7 @@ namespace TikzEdt.Overlay
         IPdfOverlayView View { get; private set; }
         public IOverlayShapeFactory ShapeFactory { get; set; }
 
-        readonly TikzDisplayTree DisplayTree = new TikzDisplayTree();
+        public readonly TikzDisplayTree DisplayTree = new TikzDisplayTree();
 
         OverlayScope _CurEditing = null;
         /// <summary>

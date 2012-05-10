@@ -192,8 +192,9 @@ namespace TikzEdt.Parser
 
         /// <summary>
         ///  Returns the parent, parent of parent etc of this item.
+        ///  The order is such that more immediate parents come first
         /// </summary>
-        public IEnumerator<TikzContainerParseItem> Ancestors
+        public IEnumerable<TikzContainerParseItem> Ancestors
         {
             get
             {
@@ -204,6 +205,11 @@ namespace TikzEdt.Parser
                     a = a.parent;
                 }
             }
+        }
+
+        public bool IsChildOfOrSelf(TikzParseItem tpi)
+        {
+            return (this == tpi) || Ancestors.Contains(tpi);
         }
 
 

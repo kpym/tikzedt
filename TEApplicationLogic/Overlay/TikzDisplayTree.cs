@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TikzEdt.Parser;
+using System.Diagnostics.Contracts;
 
 namespace TikzEdt.Overlay
 {
@@ -23,7 +25,7 @@ namespace TikzEdt.Overlay
 
         #region events
 
-        enum DisplayTreeChangedType { Clear, Insert }
+        public enum DisplayTreeChangedType { Clear, Insert }
         public class DisplayTreeChangedEventArgs : EventArgs
         {
             public DisplayTreeChangedType Type;
@@ -85,7 +87,31 @@ namespace TikzEdt.Overlay
 
         void _ParseTree_ParseTreeModified(object sender, ParseTreeModifiedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (e.Type == ParseTreeModifiedType.Insert)
+            {
+                // see if the added item is displayed at all
+                var toadd = CreateOverlayShapesFromItem(e.AffectedItem);
+
+                if (toadd.Count() == 0)
+                    return;
+
+                // so we have something to add... find the correct element of the display tree to insert into
+                var parent = e.AffectedItem.Ancestors.FirstOrDefault(tcpi => AllItems.OfType<OverlayScope>().Count(os => os.item == tcpi) > 0);
+                if (parent == null)
+                    TopLevelItems.AddRange(toadd);
+                else
+                {
+                    var scope = AllItems.OfType<OverlayScope>().First(os => os.item == parent);
+                    scope.children.AddRange(toadd);
+                }
+
+                if (DisplayTreeChanged != null)
+                    DisplayTreeChanged(this, new DisplayTreeChangedEventArgs() { Type = DisplayTreeChangedType.Insert, AffectedItems = toadd });
+            }
+            else if (e.Type == ParseTreeModifiedType.Remove)
+            {
+                throw new NotSupportedException(); // maybe support that in the future
+            }
         }
 
         /// <summary>
@@ -121,13 +147,19 @@ namespace TikzEdt.Overlay
             return ret;
         }
 
-
+        /// <summary>
+        /// Creates a display tree from a given parseitem.
+        /// The display tree will contain all displayed subitems and the provided item itself (if displayed).
+        /// </summary>
+        /// <param name="tpi">The parse tree item.</param>
+        /// <returns>The top level displayed items. If tpi is displayed, the list has only one element.</returns>
+        [Pure]
         IEnumerable<OverlayShapeVM> CreateOverlayShapesFromItem(TikzParseItem tpi)
         {
             var ret = new List<OverlayShapeVM>();
             if (tpi is Tikz_Scope)
             {
-                OverlayScope os = new OverlayScope(ShapeFactory.NewScopeView());
+                OverlayScope os = new OverlayScope();
                 //os.pol = this;
                 os.tikzitem = tpi as Tikz_Scope;
 
@@ -156,9 +188,9 @@ namespace TikzEdt.Overlay
                 {
                     OverlayNode el;
                     if (tpi.parent is Tikz_Controls)
-                        el = new OverlayControlPoint(ShapeFactory.NewCPView());     // control points for Bezier curves
+                        el = new OverlayControlPoint();     // control points for Bezier curves
                     else
-                        el = new OverlayNode(ShapeFactory.NewNodeView());
+                        el = new OverlayNode();
                     //el.pol = this;
                     el.tikzitem = tpi as Tikz_XYItem;
 
@@ -168,7 +200,7 @@ namespace TikzEdt.Overlay
                     Tikz_Node nref = TikzParseTreeHelper.GetReferenceableNode(tpi as Tikz_XYItem, ParseTree.GetTikzPicture());
                     if (nref != null && !String.IsNullOrWhiteSpace(nref.name))
                     {
-                        el.View.SetToolTip(nref.name);
+                        el.ToolTip = nref.name;
                     }
 
                     ////canvas1.Children.Add(el);
@@ -205,7 +237,7 @@ namespace TikzEdt.Overlay
                 DisplayTreeChanged(this, new DisplayTreeChangedEventArgs() { AffectedItems = null, Type = DisplayTreeChangedType.Clear });
         }
 
-        /// <summary>
+ /*       /// <summary>
         /// Recreates the display tree
         /// </summary>
         public void RedrawObjects()
@@ -228,11 +260,11 @@ namespace TikzEdt.Overlay
                 if (DisplayError != null)
                     DisplayError(this, new DisplayErrorEventArgs() { Message = "Error in Overlay rendering: '" + e.Message });
             }
-        }
+        } */
 
 
 
-        /// <summary>
+ /*       /// <summary>
         /// Adds the TikzParseItem tpi, if it is displayed, or its children, if they can are displayed, 
         /// or grandchildren etc..., and adds the drawn items to bag.
         /// </summary>
@@ -245,9 +277,9 @@ namespace TikzEdt.Overlay
                 bag = new List<OverlayShapeVM>();  // dummy, it is not used
             if (tpi is Tikz_Scope)
             {
-                //OverlayScope os = new OverlayScope(ShapeFactory.NewScopeView());
+                OverlayScope os = new OverlayScope();
                 //os.pol = this;
-                //os.tikzitem = tpi as Tikz_Scope;
+                os.tikzitem = tpi as Tikz_Scope;
                 foreach (TikzParseItem t in (tpi as TikzContainerParseItem).Children)
                     DrawObject(t, os.children);
 
@@ -299,36 +331,12 @@ namespace TikzEdt.Overlay
                 //could this be a possibility to show edges and provide backward search?
 
                 //there are many possibility for draw commands. here we 
-                /* string simpleEdge_RegexString = @"[ \t\s]*\\draw.*\((?<start>.*)\).*\((?<end>.*)\).*";
-                Regex BB_Regex = new Regex(simpleEdge_RegexString);
-                Match m = BB_Regex.Match(tpi.ToString());
-                if (m.Success == true)
-                {
-                    //we just found a LaTex draw cmd, e.g.: \draw[default_edge] (v91) to (v99);
 
-                    //get both nodes
-                    Tikz_Node StartNode = tpi.parent.GetNodeByName(m.Groups[1].Value);
-                    Tikz_Node EndNode = tpi.parent.GetNodeByName(m.Groups[2].Value);
-
-                    if (StartNode != null && EndNode != null)
-                    {
-                        //and determine the position in between both nodes
-                        Point start, end;
-                        if (StartNode.GetAbsPos()
-                        double x = (StartNode.GetAbsPos().X + EndNode.GetAbsPos().X) / 2;
-                        double y = (StartNode.GetAbsPos().Y + EndNode.GetAbsPos().Y) / 2;
-
-                        //draw an arrow at this pos.
-                        //(new Point(x, y));
-                        //and when clicked, jump to AvalonEdit at position tpi.StartPosition                        
-                    }
-
-                }       */
             }
 
-        }
+        } */
 
-        /// <summary>
+   /*     /// <summary>
         /// Adds a single parseitem to the display tree and redraws.
         /// This is called by tools adding something to the parsetree to refresh the overlay
         /// without redrawing it completely.
@@ -351,14 +359,14 @@ namespace TikzEdt.Overlay
             }
             AdjustPositions();
             BindControlPointsToOrigins();
-        }
+        }*/
 
         public void BindControlPointsToOrigins()
         {
             foreach (var ocp in AllItems.OfType<OverlayControlPoint>())
-                ocp.BindToOrigin();
+                ocp.BindToOrigin(AllItems);
         }
-
+        
         /// <summary>
         /// This method searches recursively among all items in the displaytree for one whose associated code segment
         /// contains the position offset. In case multiple items match, the deepest (in the tree) one is chosen.
@@ -392,13 +400,35 @@ namespace TikzEdt.Overlay
 
         private void RecreateDisplayTree()
         {
-            throw new NotImplementedException();
+            Clear();
+
+            try
+            {
+                var allitems = this.CreateOverlayShapesFromItem(ParseTree);
+                TopLevelItems.AddRange(allitems);
+                BindControlPointsToOrigins();
+                //DrawObject(ParseTree, TopLevelItems);
+                if (DisplayTreeChanged != null)
+                    DisplayTreeChanged(this, new DisplayTreeChangedEventArgs() { AffectedItems = AllItems, Type = DisplayTreeChangedType.Insert });
+            }
+            catch (Exception e)
+            {
+                // we should really not come here.... but there are conceivable tex files with cyclic references that might 
+                // produce errors.
+                Clear();
+                //        View.AllowEditing = false; // todo
+                GlobalUI.UI.AddStatusLine(this, "Error in Overlay rendering: '" + e.Message + "' Overlay disabled for now.", true);
+
+                if (DisplayError != null)
+                    DisplayError(this, new DisplayErrorEventArgs() { Message = "Error in Overlay rendering: '" + e.Message });
+            }
         }
 
 
         void _ParseTree_TextChanged(object sender, ParseTreeTextChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            foreach (var os in AllItems.Where(os => os.item.IsChildOfOrSelf(e.ChangedItem)))
+                os.AdjustPosition(Resolution);
         }
     }
 }
