@@ -84,11 +84,11 @@ namespace TikzEdt
             {
                 // initiate a drag/drop operation
                 curDragged = (OverlayShapeVM)item;
-                DragOrigin = (new Point(item.View.GetLeft(), item.View.GetBottom()))-(Vector)p ;
+                DragOrigin = (new Point(item.Center.X, item.Center.Y)) - (Vector)p;
                 ////DragOrigin = e.GetPosition(item);
                 ////DragOrigin = new Point(DragOrigin.X, (item as OverlayShape).Height - DragOrigin.Y);
                 DragOriginC = p;
-                DragOriginO = new Point(curDragged.View.GetLeft(), curDragged.View.GetBottom());
+                DragOriginO = new Point(curDragged.Center.X, curDragged.Center.Y);
                 movedenough = false;
                 //MessageBox.Show(o.ToString());
 
@@ -158,12 +158,12 @@ namespace TikzEdt
 
                     // shift yet to be done
                     Point relshift_tobedone = new Point(
-                         center_pixel.X - curDragged.View.GetLeft(),
-                         center_pixel.Y - curDragged.View.GetBottom() 
+                         center_pixel.X - curDragged.Center.X,
+                         center_pixel.Y - curDragged.Center.Y 
                         );
                     //ShiftSelItemsOnScreen(relshift_tobedone);
 
-                    curDragged.View.SetPosition(center_pixel.X, center_pixel.Y);
+                    curDragged.Center = center_pixel;
 
                     AdjustPreviewPos(center_pixel);
                     
@@ -186,7 +186,7 @@ namespace TikzEdt
 
                 overlay.BeginUpdate();
                 // determine the relative shift
-                Vector relshift = new Vector(curDragged.View.GetLeft() - DragOriginO.X, curDragged.View.GetBottom() - DragOriginO.Y);
+                Vector relshift = new Vector(curDragged.Center.X - DragOriginO.X, curDragged.Center.Y - DragOriginO.Y);
                 Vector relshift_tikz = relshift / overlay.Resolution;
 
                 // compute new radius 
@@ -246,8 +246,7 @@ namespace TikzEdt
                     curDragged.ShiftItemRelative(pdiff);
                 }*/
                 // update all item's positions
-                foreach (OverlayShapeVM o in overlay.TopLevelItems)
-                    o.AdjustPosition(overlay.Resolution);
+                overlay.DisplayTree.AdjustPositions();
 
                 curDragged = null;
                 PreviewArc.Spokes = null;

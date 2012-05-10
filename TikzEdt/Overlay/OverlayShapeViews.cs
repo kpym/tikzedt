@@ -65,6 +65,14 @@ namespace TikzEdt
         public abstract void SetStdColor();
         public abstract void SetSelColor();
 
+        protected List<object> MyBindings = new List<object>();
+
+        public OverlayShapeView(OverlayShapeVM osv)
+        {
+            TheUnderlyingShape = osv;
+            MyBindings.Add(BindingFactory.CreateBinding(osv, "BB", vm => { Canvas.SetLeft(this, vm.BB.X); Canvas.SetBottom(this, vm.BB.Y); }, null, false));
+            MyBindings.Add(BindingFactory.CreateBinding(osv, "IsSelected", vm => { if (vm.IsSelected) SetSelColor(); else SetStdColor(); }, null, false));
+        }
     }
 
     class OverlayNodeView : OverlayShapeView, Overlay.IOverlayShapeView
@@ -126,12 +134,11 @@ namespace TikzEdt
             context.LineTo(new Point(0, 10), true, true);
         }
 
-        public OverlayNodeView()
+        public OverlayNodeView(OverlayNode on) : base(on)
         {
             Width = 10;
             Height = 10;
             Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)); // necessary?
-            SetStdColor();
         }
     }
 
@@ -194,11 +201,14 @@ namespace TikzEdt
 
         }
 
-        public OverlayScopeView()
+        public OverlayScopeView(OverlayScope os) : base(os)
         {
             SetStdColor(); //os.Stroke = new SolidColorBrush(Color.FromArgb(100, 0, 255, 0));
             StrokeThickness = 10;
             //os.Fill = new SolidColorBrush(Color.FromArgb(100, 0, 255, 0));
+
+            MyBindings.Add(BindingFactory.CreateBinding(os, "IsCurEditing", vm => { if (vm.IsCurEditing) ShowAdorner(); else RemoveAdorner(); }, null, false));
+            MyBindings.Add(BindingFactory.CreateBinding(os, "BB", vm => { Width = vm.BB.Width; Height = vm.BB.Height; }, null, false));
         }
 
         public void SetSize(double Width, double Height)
@@ -258,7 +268,7 @@ namespace TikzEdt
             }
         }
 
-        public OverlayCPView()
+        public OverlayCPView(OverlayControlPoint ocp) : base(ocp)
         {
             Width = 10;
             Height = 10;
@@ -266,7 +276,38 @@ namespace TikzEdt
             SetStdColor();
             Canvas.SetZIndex(lineToOrigin1, -1);
             Canvas.SetZIndex(lineToOrigin2, -1);
+
+            var sp1 = BindingFactory.CreateProvider(ocp, "Origin1", oc => oc.Origin1, false);
+            var sp2 = BindingFactory.CreateProvider(ocp, "Origin2", oc => oc.Origin2, false);
+            MyBindings.Add(sp1); MyBindings.Add(sp2);
+            MyBindings.Add(BindingFactory.CreateBindingSP(sp1, "BB", vm => UpdateLinePos(lineToOrigin1, vm.Center), () => lineToOrigin1.Visibility = Visibility.Collapsed, false));
+            MyBindings.Add(BindingFactory.CreateBindingSP(sp2, "BB", vm => UpdateLinePos(lineToOrigin2, vm.Center), () => lineToOrigin2.Visibility = Visibility.Collapsed, false));
+            
+            MyBindings.Add(BindingFactory.CreateBinding(ocp, "BB", vm => 
+                { 
+                    if (vm.Origin1 != null) UpdateLinePos(lineToOrigin1, vm.Origin1.Center);
+                    if (vm.Origin2 != null) UpdateLinePos(lineToOrigin2, vm.Origin2.Center);
+                }, null , false ) );
+
         }
+
+        /// <summary>
+        /// Adjusts the line position so that it points from the center of self to p.
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="p"></param>
+        void UpdateLinePos(Line line, Point p)
+        {
+            var q = TheUnderlyingShape.Center;
+            line.X1 = Math.Max(0, q.X-p.X); line.Y1=Math.Max(0, -(q.Y-p.Y));
+            line.X2 = Math.Max(0, -(q.X-p.X)); line.Y2=Math.Max(0,q.Y-p.Y);
+
+            Canvas.SetLeft(line, Math.Min(p.X, q.X));
+            Canvas.SetBottom(line, Math.Min(p.Y, q.Y));
+
+            line.Visibility = Visibility.Visible;
+        }
+
 
         public void SetOrigin1(double Left, double Top, double CanvasHeight)
         {

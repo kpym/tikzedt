@@ -22,7 +22,7 @@ namespace TikzEdt.Overlay
 
         TEModifierKeys KeyboardModifiers { get; }
 
-        void MarkObject(IOverlayShapeView v);
+        void MarkObject(OverlayShapeVM v);
         void JumpToSourceDoIt(OverlayShapeVM o);
         void RaiseReplaceText(ReplaceTextEventArgs e);
         void Clear();
@@ -79,9 +79,9 @@ namespace TikzEdt.Overlay
     public interface IOverlayShapeFactory
     {
         // the following methods create views of objects in the parse tree
-        IOverlayShapeView NewNodeView();
-        IOverlayScopeView NewScopeView();
-        IOverlayCPView NewCPView();
+        //IOverlayShapeView NewNodeView();
+        //IOverlayScopeView NewScopeView();
+        //IOverlayCPView NewCPView();
 
         // the following methods produce geometric shapes for (preview) use in the tools
         // they are not backed by an object in the parsetree

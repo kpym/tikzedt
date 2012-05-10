@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using TikzEdt.Parser;
 using System.Diagnostics.Contracts;
+using System.Windows;
 
 namespace TikzEdt.Overlay
 {
@@ -20,8 +21,18 @@ namespace TikzEdt.Overlay
     ///        The overlay control will subscribe to this event and change the attached views accordingly. 
     ///     4) Provide some convenience methods for accessing the display tree.
     /// </summary>
-    class TikzDisplayTree
+    public class TikzDisplayTree
     {
+        /// <summary>
+        /// The conversion from Tikz to screen coordinates
+        /// </summary>
+        Func<Point, Point> TikzToScreen;
+
+        public TikzDisplayTree(Func<Point, Point> TikzToScreen)
+        {
+            TopLevelItems = new List<OverlayShapeVM>();
+            this.TikzToScreen = TikzToScreen;
+        }
 
         #region events
 
@@ -105,6 +116,12 @@ namespace TikzEdt.Overlay
                     scope.children.AddRange(toadd);
                 }
 
+
+                //var cplist = toadd.SelectMany(tpi => GetAllDescendants(tpi)).OfType<OverlayControlPoint>();
+                //foreach (var cp in cplist)
+                //    cp.BindToOrigin(AllItems);
+                BindControlPointsToOrigins(); // slightly inefficient ... but who cares
+
                 if (DisplayTreeChanged != null)
                     DisplayTreeChanged(this, new DisplayTreeChangedEventArgs() { Type = DisplayTreeChangedType.Insert, AffectedItems = toadd });
             }
@@ -117,7 +134,7 @@ namespace TikzEdt.Overlay
         /// <summary>
         /// The link to the overlay (display) tree.
         /// </summary>
-        public List<OverlayShapeVM> TopLevelItems { get; set; }
+        public List<OverlayShapeVM> TopLevelItems { get; private set; }
 
         public IEnumerable<OverlayShapeVM> AllItems { get { return GetAllDescendants(); } }
 
@@ -144,6 +161,8 @@ namespace TikzEdt.Overlay
             if (src != null)
                 ret.AddRange(src.SelectMany(os => GetAllDescendants(os)));
 
+            
+
             return ret;
         }
 
@@ -156,6 +175,7 @@ namespace TikzEdt.Overlay
         [Pure]
         IEnumerable<OverlayShapeVM> CreateOverlayShapesFromItem(TikzParseItem tpi)
         {
+
             var ret = new List<OverlayShapeVM>();
             if (tpi is Tikz_Scope)
             {
@@ -174,7 +194,7 @@ namespace TikzEdt.Overlay
                 if (os.children.Count > 0)
                 {
                     ret.Add(os);
-                    os.AdjustPosition(Resolution);
+                    os.AdjustPosition(TikzToScreen);
                     
                 }
             }
@@ -194,15 +214,17 @@ namespace TikzEdt.Overlay
                     //el.pol = this;
                     el.tikzitem = tpi as Tikz_XYItem;
 
-                    el.AdjustPosition(Resolution);
+                    el.AdjustPosition(TikzToScreen);
 
                     // add tooltip
-                    Tikz_Node nref = TikzParseTreeHelper.GetReferenceableNode(tpi as Tikz_XYItem, ParseTree.GetTikzPicture());
-                    if (nref != null && !String.IsNullOrWhiteSpace(nref.name))
+                    if (ParseTree != null)
                     {
-                        el.ToolTip = nref.name;
+                        Tikz_Node nref = TikzParseTreeHelper.GetReferenceableNode(tpi as Tikz_XYItem, ParseTree.GetTikzPicture());
+                        if (nref != null && !String.IsNullOrWhiteSpace(nref.name))
+                        {
+                            el.ToolTip = nref.name;
+                        }
                     }
-
                     ////canvas1.Children.Add(el);
                     ret.Add(el);
 
@@ -224,7 +246,7 @@ namespace TikzEdt.Overlay
         {
             if (TopLevelItems != null)
                 foreach (OverlayShapeVM o in TopLevelItems)
-                    o.AdjustPosition(Resolution);
+                    o.AdjustPosition(TikzToScreen);
         }
 
         /// <summary>
@@ -398,7 +420,7 @@ namespace TikzEdt.Overlay
         #endregion
 
 
-        private void RecreateDisplayTree()
+        public void RecreateDisplayTree()
         {
             Clear();
 
@@ -428,7 +450,7 @@ namespace TikzEdt.Overlay
         void _ParseTree_TextChanged(object sender, ParseTreeTextChangedEventArgs e)
         {
             foreach (var os in AllItems.Where(os => os.item.IsChildOfOrSelf(e.ChangedItem)))
-                os.AdjustPosition(Resolution);
+                os.AdjustPosition(TikzToScreen);
         }
     }
 }
