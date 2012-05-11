@@ -24,6 +24,11 @@ namespace TikzEdt
             return new System.Windows.Rect(r.X, Height - r.Y - r.Height, r.Width, r.Height);
         }
 
+        public static System.Windows.Point UpsideDown(this System.Windows.Point p, double Height)
+        {
+            return new System.Windows.Point(p.X, Height - p.Y );
+        }
+
         public static System.Windows.Point ScalarMult(this System.Windows.Point p, double Factor)
         {
             return new System.Windows.Point(p.X*Factor, p.Y*Factor);

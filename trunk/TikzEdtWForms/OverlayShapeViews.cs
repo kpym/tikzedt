@@ -9,6 +9,102 @@ using TikzEdt;
 
 namespace TikzEdtWForms
 {
+
+    /// <summary>
+    /// Provides drawing and hit test methods for overlay shapes
+    /// </summary>
+    public static class OverlayShapeExtensions
+    {
+        public static void Draw(this OverlayShapeVM os, Graphics dc, int Height)
+        {
+
+                if (os is OverlayScope)
+                    (os as OverlayScope).Draw(dc, Height);
+                else if (os is OverlayControlPoint)
+                    (os as OverlayControlPoint).Draw(dc, Height);
+                else if (os is OverlayNode)
+                    (os as OverlayNode).Draw(dc, Height);
+
+        }
+
+
+        public static void Draw(this OverlayControlPoint ocp, Graphics dc, int Height)
+        {
+            Pen p = ocp.IsSelected ? PensAndBrushes.OverlayNodeSelPen : PensAndBrushes.OverlayNodePen;
+            RectangleF lBB = ocp.BB.UpsideDown(Height).ToRectangleF();
+
+            // draw lines
+            if (ocp.Origin1 != null)
+            {
+                var L1Origin = ocp.Origin1.Center.UpsideDown(Height);
+                dc.DrawLine(PensAndBrushes.DashedPen, L1Origin.ToPointF(), lBB.Center());
+            }
+            if (ocp.Origin2 != null)
+            {
+                var L2Origin = ocp.Origin2.Center.UpsideDown(Height);
+                dc.DrawLine(PensAndBrushes.DashedPen, L2Origin.ToPointF(), lBB.Center());
+            }
+
+            // draw CP
+            dc.FillEllipse(Brushes.Gray, lBB);
+            dc.DrawEllipse(p, lBB);
+        }
+
+
+        public static void Draw(this OverlayScope os, Graphics dc, int Height)
+        {
+            RectangleF lBB = os.BB.UpsideDown(Height).ToRectangleF();
+            Pen p = os.IsSelected ? PensAndBrushes.OverlayScopeSelPen : PensAndBrushes.OverlayScopePen;
+
+            dc.DrawRectangle(p, lBB.X, lBB.Y, lBB.Width, lBB.Height);
+
+            // todo: draw adorner
+        }
+
+        public static void Draw(this OverlayNode on, Graphics dc, int Height)
+        {
+            Pen p = on.IsSelected ? PensAndBrushes.OverlayNodeSelPen : PensAndBrushes.OverlayNodePen;
+            RectangleF lBB = on.BB.UpsideDown(Height).ToRectangleF();
+            dc.DrawLine(p, lBB.TopLeft(), lBB.BottomRight());
+            dc.DrawLine(p, lBB.BottomLeft(), lBB.TopRight());
+        }
+
+
+        /// <summary>
+        /// Tests whether the point p (in TL centric coordinates) lies within the object.
+        /// If yes returns a "distance", based on which the object is selected. (smallest distance wins)
+        /// If no returns a large value (1000000)
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static double HitTest(this OverlayShapeVM os, double x, double y, double Height)
+        {
+            // no overloading for extensions in c# -> we have to forward the call
+            if (os is OverlayScope)
+                return (os as OverlayScope).HitTest(x,y,Height);
+
+            var lBB = os.BB.UpsideDown(Height);
+            if (lBB.Contains(x, y))
+            {
+                return (new System.Windows.Point(x, y) - lBB.Center()).Length;
+            }
+            else return 1000000;
+        }
+
+
+        public static double HitTest(this OverlayScope os, double x, double y, double Height)
+        {
+            var lBB = os.BB.UpsideDown(Height);
+            var lBBs = os.BB.UpsideDown(Height);
+            lBBs.Inflate(10, 10);
+            if (lBB.Contains(x, y) && !lBBs.Contains(x, y))
+                return 10;
+            else
+                return 1000000;
+        }
+
+    }
+
     abstract class OverlayShapeView : IOverlayShapeView
     {
         /// <summary>
@@ -279,6 +375,8 @@ namespace TikzEdtWForms
 
 
         }
+
+
     }
 
 
