@@ -52,6 +52,7 @@ namespace TikzEdtWForms
             TheDisplayModel = new TikzDisplayModel<Bitmap>(this, Pdf2Bmp);
 
             TheOverlayModel = new PdfOverlayModel(this, this);
+            TheOverlayModel.DisplayTree.DisplayTreeChanged += new EventHandler<TikzDisplayTree.DisplayTreeChangedEventArgs>(DisplayTree_DisplayTreeChanged);
 
             MarkObject_Timer.Interval = 500;
             MarkObject_Timer.Tick += new EventHandler(MarkObject_Timer_Tick);
@@ -61,12 +62,33 @@ namespace TikzEdtWForms
 
         }
 
+
+        List<MyBinding<OverlayShapeVM>> DisplayTreeBindings = new List<MyBinding<OverlayShapeVM>>();
+        void DisplayTree_DisplayTreeChanged(object sender, TikzDisplayTree.DisplayTreeChangedEventArgs e)
+        {
+            if (e.Type == TikzDisplayTree.DisplayTreeChangedType.Clear)
+            {
+                // clear bindings
+                foreach (var b in DisplayTreeBindings)
+                    b.Source = null;
+                DisplayTreeBindings.Clear();
+                Invalidate();
+            } if (e.Type == TikzDisplayTree.DisplayTreeChangedType.Insert)
+            {
+                // listen to BB changed to redraw if necessary
+                foreach (var os in e.AffectedItems)
+                    DisplayTreeBindings.Add(BindingFactory.CreateBinding(os, "BB", o => this.Invalidate(), null));
+
+                Invalidate();
+            }
+        }
+
         void RasterControl_MouseHover(object sender, EventArgs e)
         {
             // display the proper tooltip
-            if (ObjectAtCursor != null && !String.IsNullOrWhiteSpace((ObjectAtCursor.View as OverlayShapeView).ToolTip))
+            if (ObjectAtCursor != null && !String.IsNullOrWhiteSpace(ObjectAtCursor.ToolTip))
             {
-                var s = (ObjectAtCursor.View as OverlayShapeView).ToolTip;
+                var s = ObjectAtCursor.ToolTip;
                 toolTip1.Show(s, this, PointToClient(Control.MousePosition).X, PointToClient(Control.MousePosition).Y + 20);
             }
 
@@ -200,8 +222,10 @@ namespace TikzEdtWForms
             if (ShowOverlay)
             {
                 // draw shapes from parsetree
-                foreach (var osv in OSViews)
-                    osv.Draw(pe.Graphics);
+                //foreach (var osv in OSViews)
+                    //osv.Draw(pe.Graphics);
+                foreach (var os in TheOverlayModel.DisplayTree.AllItems)
+                    os.Draw(dc, Height);
 
                 // draw (visible) auxiliary shapes
                 foreach (var ps in PreviewShapes.Where(o => o.Visible))
@@ -210,9 +234,9 @@ namespace TikzEdtWForms
             }
 
             // draw adorner(s)
-            foreach (var scope in this.OSViews.OfType<OverlayScopeView>().Where(v => v.IsAdornerVisible))
+            foreach (var scope in this.TheOverlayModel.DisplayTree.AllItems.OfType<OverlayScope>().Where(v => v.IsCurEditing))
             {
-                System.Windows.Rect ShowAt = scope.GetBB(Height);
+                System.Windows.Rect ShowAt = scope.BB.UpsideDown(Height);
                 ShowAt.Inflate(6, 6);
 
                 dc.DrawRectangle(PensAndBrushes.AdornerPen, ShowAt.ToRectangleF());
@@ -222,7 +246,7 @@ namespace TikzEdtWForms
             // draw the object marker
             if (MarkObject_ShowMarker && MarkObject_Marked != null)
             {
-                System.Windows.Rect ShowAt = MarkObject_Marked.GetBB(Height);
+                System.Windows.Rect ShowAt = MarkObject_Marked.BB.UpsideDown(Height);
                 ShowAt.Inflate(15,15);
                 using (Pen p = new Pen(Brushes.Red, 6))
                 {
@@ -245,7 +269,7 @@ namespace TikzEdtWForms
             Width = Convert.ToInt32(Resolution * BB.Width);
             Height = Convert.ToInt32(Resolution * BB.Height);
             DrawRaster();
-            TheOverlayModel.AdjustPositions();
+            TheOverlayModel.DisplayTree.AdjustPositions();
         }
 
         #region Properties

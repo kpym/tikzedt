@@ -22,7 +22,7 @@ namespace TikzEdtWForms
         /// <summary>
         /// Controls where the object marker is shown if the object needs to be marked.
         /// </summary>
-        IOverlayShapeView MarkObject_Marked = null;
+        OverlayShapeVM MarkObject_Marked = null;
         bool MarkObject_ShowMarker = false;
         System.Windows.Forms.Timer MarkObject_Timer = new Timer();
         int MarkObject_BlinkCount = 0;
@@ -206,7 +206,8 @@ namespace TikzEdtWForms
         #endregion
 
         #region IOverlayShapeFactory
-        IOverlayShapeView IOverlayShapeFactory.NewNodeView()
+        
+        /*IOverlayShapeView IOverlayShapeFactory.NewNodeView()
         {
             var o = new OverlayNodeView(this);
             OSViews.Add(o);
@@ -225,7 +226,7 @@ namespace TikzEdtWForms
             var o = new OverlayCPView(this);
             OSViews.Add(o);
             return o;
-        }
+        } */
 
         IRectangleShape IOverlayShapeFactory.GetSelectionRect()
         {
@@ -407,7 +408,7 @@ namespace TikzEdtWForms
             }
         }
 
-        public void MarkObject(IOverlayShapeView v)
+        public void MarkObject(OverlayShapeVM v)
         {
             MarkObject_Timer.Stop();
             MarkObject_BlinkCount = 0;
@@ -455,15 +456,16 @@ namespace TikzEdtWForms
         {
             get
             {
-                if (OSViews.Count == 0)
+                var l = TheOverlayModel.DisplayTree.AllItems;
+                if (!l.Any())
                     return null;
 
                 var p = CursorPosition;
-                var res = OSViews.MinBy(o => o.HitTest(p.X, p.Y));
+                var res = l.MinBy(o => o.HitTest(p.X, p.Y, Height));
 
                 if (res.Second > 10000)
                     return null;
-                else return res.First.TheUnderlyingShape;
+                else return res.First;
             }
         }
 
