@@ -29,6 +29,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using TESharedComponents;
 using System.Windows.Forms;
+using System.Diagnostics.Contracts;
 
 namespace TikzEdt
 {
@@ -971,8 +972,12 @@ namespace TikzEdt
         /// 3) if it starts with string "%&amp;". (Precompiled header)
         /// </summary>
         /// <returns></returns>
+        [Pure]
         public static bool IsStandalone(string code)
         {
+            if (String.IsNullOrWhiteSpace(code))
+                return false;
+
             bool ret;
             RegexOptions ro = new RegexOptions();
             ro = ro | RegexOptions.IgnoreCase;
@@ -992,8 +997,12 @@ namespace TikzEdt
             return ret;
         }
 
+        [Pure]
         public static bool ContainsPreviewEnvironment(string code)
         {
+            if (String.IsNullOrWhiteSpace(code))
+                return false;
+
             RegexOptions ro = new RegexOptions();
             ro = ro | RegexOptions.IgnoreCase;
             ro = ro | RegexOptions.Multiline;
@@ -1005,8 +1014,13 @@ namespace TikzEdt
             else
                 return false; 
         }
+
+        [Pure]
         public static bool ContainsDoNotInsertPreviewEnvironment(string code)
         {
+            if (String.IsNullOrWhiteSpace(code))
+                return false;
+
             RegexOptions ro = new RegexOptions();
             ro = ro | RegexOptions.IgnoreCase;
             ro = ro | RegexOptions.Multiline;
@@ -1017,23 +1031,7 @@ namespace TikzEdt
                 return true;
             else
                 return false;
-        }
-        
-            
-
-        /*void texProcess_ErrorDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            string s = "ErrorDataReceived: " + e.Data;
-            Dispatcher.Invoke(
-                new Action(
-                    delegate()
-                    {
-                        if (OnTexOutput != null)
-                            OnTexOutput(s);
-                    }
-                )
-            );
-        }*/        
+        }      
 
     }
 

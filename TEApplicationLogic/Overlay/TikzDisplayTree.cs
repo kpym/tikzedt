@@ -30,6 +30,8 @@ namespace TikzEdt.Overlay
 
         public TikzDisplayTree(Func<Point, Point> TikzToScreen)
         {
+            Contract.Requires(TikzToScreen != null);
+
             TopLevelItems = new List<OverlayShapeVM>();
             this.TikzToScreen = TikzToScreen;
         }
@@ -133,7 +135,8 @@ namespace TikzEdt.Overlay
         /// <param name="offset">The code position.</param>
         /// <param name="bag">Overlayshapes to search in.</param>
         /// <returns></returns>
-        public OverlayShapeVM ObjectFromOffset(int offset, List<OverlayShapeVM> bag)
+        [Pure]
+        OverlayShapeVM ObjectFromOffset(int offset, List<OverlayShapeVM> bag)
         {
             foreach (OverlayShapeVM ols in bag)
             {
@@ -151,12 +154,27 @@ namespace TikzEdt.Overlay
             }
             return null;
         }
+        /// <summary>
+        /// This method searches recursively among all items in the displaytree for one whose associated code segment
+        /// contains the position offset. In case multiple items match, the deepest (in the tree) one is chosen.
+        /// E.g., if a scope contains a node, and the offset matches the node, it also also lies within the scope,
+        /// but the node is returned.
+        /// </summary>
+        /// <param name="offset">The code position.</param>
+        /// <returns></returns>
+        [Pure]
         public OverlayShapeVM ObjectFromOffset(int offset) { return ObjectFromOffset(offset, TopLevelItems); }
 
 
+        /// <summary>
+        /// Clears the current display tree and rebuilds it from the current parse tree.
+        /// </summary>
         public void RecreateDisplayTree()
         {
             Clear();
+
+            if (ParseTree == null)
+                return;
 
             try
             {
@@ -183,11 +201,13 @@ namespace TikzEdt.Overlay
         #endregion
 
         #region private methods
+
         /// <summary>
         /// Gets a list of all descendants of the specified parent in the Display tree, including the parent itself.
         /// </summary>
         /// <param name="OfParent">The parent. If null, it is taken to be the root.</param>
         /// <returns></returns>
+        [Pure]
         IEnumerable<OverlayShapeVM> GetAllDescendants(OverlayShapeVM OfParent = null)
         {
             IEnumerable<OverlayShapeVM> src = null;
@@ -201,8 +221,6 @@ namespace TikzEdt.Overlay
 
             if (src != null)
                 ret.AddRange(src.SelectMany(os => GetAllDescendants(os)));
-
-            
 
             return ret;
         }

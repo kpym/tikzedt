@@ -552,21 +552,21 @@ namespace TikzEdt
 
         #region IOverlayShapeFactory
 
-        Overlay.IOverlayShapeView NewNodeView(OverlayNode on)
+        OverlayNodeView NewNodeView(OverlayNode on)
         {
             OverlayNodeView v = new OverlayNodeView(on);
             canvas1.Children.Add(v);
             return v;
         }
 
-        Overlay.IOverlayScopeView NewScopeView(OverlayScope os)
+        OverlayScopeView NewScopeView(OverlayScope os)
         {
             OverlayScopeView v = new OverlayScopeView(os);
             canvas1.Children.Add(v);
             return v;
         }
 
-        Overlay.IOverlayCPView NewCPView(OverlayControlPoint ocp)
+        OverlayCPView NewCPView(OverlayControlPoint ocp)
         {
             OverlayCPView v = new OverlayCPView(ocp);
             canvas1.Children.Add(v);
@@ -650,7 +650,7 @@ namespace TikzEdt
         private OverlayShapeVM ObjectAtPosition(Point p)
         {
             var o = canvas1.InputHitTest(p);
-            var oo = o as IOverlayShapeView;
+            var oo = o as OverlayShapeView;
             if (oo == null)
                 return null;
             else return oo.TheUnderlyingShape;

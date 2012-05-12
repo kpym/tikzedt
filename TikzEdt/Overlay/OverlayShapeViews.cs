@@ -12,7 +12,7 @@ using System.Collections.Generic;
 namespace TikzEdt
 {
 
-    abstract class OverlayShapeView : Shape, IOverlayShapeView
+    abstract class OverlayShapeView : Shape //, IOverlayShapeView
     {
         /// <summary>
         /// Stores the underlying OverlayShape displayed by this view.
@@ -75,7 +75,7 @@ namespace TikzEdt
         }
     }
 
-    class OverlayNodeView : OverlayShapeView, Overlay.IOverlayShapeView
+    class OverlayNodeView : OverlayShapeView //, Overlay.IOverlayShapeView
     {
 
    /*     public void SetPosition(double left, double bottom)
@@ -142,7 +142,7 @@ namespace TikzEdt
         }
     }
 
-    class OverlayScopeView : OverlayShapeView, Overlay.IOverlayScopeView
+    class OverlayScopeView : OverlayShapeView //, Overlay.IOverlayScopeView
     {
 
         public override void SetSelColor()
@@ -247,7 +247,7 @@ namespace TikzEdt
         }
     }
 
-    class OverlayCPView : OverlayShapeView, Overlay.IOverlayCPView
+    class OverlayCPView : OverlayShapeView //, Overlay.IOverlayCPView
     {
         public Line lineToOrigin1 = new Line() { Stroke = Brushes.Gray, StrokeDashArray = new DoubleCollection(new double[] { 4, 4 }) };
         public Line lineToOrigin2 = new Line() { Stroke = Brushes.Gray, StrokeDashArray = new DoubleCollection(new double[] { 4, 4 }) };

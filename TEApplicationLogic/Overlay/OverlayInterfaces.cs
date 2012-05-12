@@ -3,10 +3,90 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using TikzEdt.Parser;
 
 namespace TikzEdt.Overlay
 {
 
+    /// <summary>
+    /// Overlay Tools access the PdfOverlay control through this interface.
+    /// It is used to hide the many irrelevant public members of PdfOverlay from
+    /// tools.
+    /// </summary>
+    public interface IOverlayInterface
+    {
+        Parser.Tikz_ParseTree ParseTree { get; }
+
+        bool AllowEditing { get; }
+
+        TEModifierKeys KeyboardModifiers { get; }
+
+        /// <summary>
+        /// The tool must call this method before it makes changes to the parsetree.
+        /// </summary>
+        void BeginUpdate();
+        /// <summary>
+        /// The tool must call this method after all (...possibly multiple) changes to the parsetree are done.
+        /// </summary>
+        void EndUpdate();
+
+        void SetCorrectRaster(OverlayShapeVM o, bool IsParent = false);
+        void SetCorrectRaster(TikzParseItem tpi, bool IsParent = false);
+
+        /// <summary>
+        /// De-activates the current tool, and activates the default tool (i.e., select/move)
+        /// </summary>
+        void ActivateDefaultTool();
+
+        RasterControlModel Rasterizer { get; }
+
+        OverlayScope CurEditing { get; set; }
+        double Resolution { get; }
+
+        string NodeStyle { get; }
+        string EdgeStyle { get; }
+
+        Point ScreenToTikz(Point p, bool invY = false);
+        Point TikzToScreen(Point p, bool invY = false);
+
+        double Height { get; }
+        double Width { get; }
+
+        /// <summary>
+        /// Determines whether to use absolute "", or relative "+" or "++" coordinates
+        /// </summary>
+        string NewNodeModifier { get; }
+        /// <summary>
+        /// Whether newly placed nodes shall be written in polar or euclidean coordinates.
+        /// </summary>
+        bool UsePolarCoordinates { get; }
+
+        /// <summary>
+        /// Jumps to the offset (in the code editor) of the provided overlayshape.
+        /// </summary>
+        /// <param name="o">Jumps to the TikzParseItem represented by o.</param>
+        void JumpToSourceDoIt(OverlayShapeVM o);
+
+        /// <summary>
+        /// Provides (auxiliary) shapes that the tools may use for drawing, like the selection rectangle.
+        /// </summary>
+        IOverlayShapeFactory ShapeFactory { get; }
+
+
+        void SetCursor(System.Windows.Forms.Cursor cursor);
+
+        bool MouseCaptured { set; }
+
+        Point CursorPosition { get; }
+
+        OverlayShapeVM ObjectAtCursor { get; }
+
+        TikzDisplayTree DisplayTree { get; }
+    }
+
+    /// <summary>
+    /// The PdfOverlayModel accesses some properties in the view (i.e., the PdfOverlay control) through this interface.
+    /// </summary>
     public interface IPdfOverlayView
     {
         bool AllowEditing { get; set; }
@@ -33,6 +113,7 @@ namespace TikzEdt.Overlay
         OverlayShapeVM ObjectAtCursor { get; }
     }
 
+    /*
     public interface IOverlayShapeView
     {
         /// <summary>
@@ -74,15 +155,16 @@ namespace TikzEdt.Overlay
         /// <param name="Bottom"></param>
         void SetOrigin1(double Left, double Top, double CanvasHeight);
         void SetOrigin2(double Left, double Top, double CanvasHeight);
-    }
+    }*/
 
+    /// <summary>
+    /// The OverlayShapeFactory is used by the tools to create auxiliary (preview) shapes for drawing,
+    /// like the selection rectangle.
+    /// 
+    /// It is not used to create the views for overlay shapes.
+    /// </summary>
     public interface IOverlayShapeFactory
     {
-        // the following methods create views of objects in the parse tree
-        //IOverlayShapeView NewNodeView();
-        //IOverlayScopeView NewScopeView();
-        //IOverlayCPView NewCPView();
-
         // the following methods produce geometric shapes for (preview) use in the tools
         // they are not backed by an object in the parsetree
         IRectangleShape GetSelectionRect();
@@ -94,6 +176,9 @@ namespace TikzEdt.Overlay
         IArcShape GetPreviewArc();
         IArcShape GetPreviewPie();
     }
+
+    // the interfaces for shapes that are created by the OverlayShapeFactory
+    #region previewshapes
 
     public interface IPreviewShape
     {
@@ -132,5 +217,5 @@ namespace TikzEdt.Overlay
         bool IsDashed { set; }
     }
 
-
+    #endregion
 }

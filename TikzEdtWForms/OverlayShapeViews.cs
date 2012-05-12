@@ -105,6 +105,7 @@ namespace TikzEdtWForms
 
     }
 
+    /*
     abstract class OverlayShapeView : IOverlayShapeView
     {
         /// <summary>
@@ -195,16 +196,6 @@ namespace TikzEdtWForms
 
     class OverlayNodeView : OverlayShapeView
     {
-        /*
-        public override void SetSelColor()
-        {
-            Stroke = new SolidColorBrush(Properties.Settings.Default.Overlay_CoordSelColor);
-        }
-        public override void SetStdColor()
-        {
-            Stroke = new SolidColorBrush(Properties.Settings.Default.Overlay_CoordColor);
-        }
-        */
        
         /// <summary>
         /// Draw an X
@@ -350,12 +341,6 @@ namespace TikzEdtWForms
             Parent.Invalidate();
         }
 
-  /*      public void SetPosition(double left, double bottom)
-        {
-            Canvas.SetLeft(this, left - Width / 2);
-            Canvas.SetBottom(this, bottom - Height / 2);
-
-        }*/
 
         static Pen DashedPen = PensAndBrushes.DashedPenGray;
         public override void Draw(Graphics dc)
@@ -379,7 +364,7 @@ namespace TikzEdtWForms
 
     }
 
-
+    */
     public abstract class WFShapeBase : IPreviewShape
     {
         protected Control TheCanvas;
