@@ -83,10 +83,6 @@ namespace TikzEdt
 
                 PreviewPie.center = PreviewArc.center = new Point(p.X, overlay.Height - p.Y);
 
-                ////if (!overlay.canvas.Children.Contains(PreviewArc))
-                ////    overlay.canvas.Children.Add(PreviewArc);
-                ////if (!overlay.canvas.Children.Contains(PreviewPie))
-                ////    overlay.canvas.Children.Add(PreviewPie);
             }
             else if (pointcount == 1)
             {

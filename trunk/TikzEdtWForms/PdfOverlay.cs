@@ -16,7 +16,7 @@ namespace TikzEdtWForms
     public partial class RasterControl : Control
     {
         ToolTip toolTip;
-        List<OverlayShapeView> OSViews = new List<OverlayShapeView>();
+        //List<OverlayShapeView> OSViews = new List<OverlayShapeView>();
         List<WFShapeBase> PreviewShapes = new List<WFShapeBase>();
 
         /// <summary>
@@ -429,7 +429,7 @@ namespace TikzEdtWForms
 
         public void Clear()
         {
-            OSViews.Clear();
+            //OSViews.Clear();
             Invalidate();
         }
 

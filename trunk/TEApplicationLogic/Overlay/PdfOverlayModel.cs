@@ -354,7 +354,7 @@ namespace TikzEdt.Overlay
         ///                              In this case the relevant transf. is that at the end of o, since new items are inserted at the end.
         /// </summary>
         /// <param name="o">The object. If null, it is taken to be the tikzpicture.</param>
-        /// <param name="IsParent">Indicates whether object is to be moved itself, or children added.</param>        
+        /// <param name="IsParent">Indicates whether object is to be modified (=moved) itself, or children added.</param>        
         public void SetCorrectRaster(OverlayShapeVM o, bool IsParent = false)
         {
             SetCorrectRaster(o == null ? null : o.item, IsParent);
@@ -426,7 +426,8 @@ namespace TikzEdt.Overlay
                     Point curPointAtEnd;
                     if (!ts.GetCurrentTransformAt(null, out M))  // todo
                         M = new TikzMatrix(); // broken coords-> take unity as backup
-                    if (ts.GetAbsOffset(out curPointAtEnd, null))
+                    // When using relative coordinates, the raster should be positioned relative to the reference point (obtained using GetAbsOffset)
+                    if (ts.GetAbsOffset(out curPointAtEnd, null) && NewNodeModifier != "" )
                     {
                         M.m[0, 2] = curPointAtEnd.X;
                         M.m[1, 2] = curPointAtEnd.Y;

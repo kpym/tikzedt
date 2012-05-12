@@ -1541,7 +1541,7 @@ namespace TikzEdt.Parser
         /// <summary>
         /// Gets the offset, i.e., the current drawing position at some
         /// position along the path. (in absolute Cartesian coordinates)
-        /// This is used to determine the absoulte position of items specified with relative 
+        /// This is used to determine the absolute position of items specified with relative 
         /// coordinates like +(1,1).
         /// 
         /// Note that in Tikz two offsets are relevant:
@@ -2446,7 +2446,7 @@ namespace TikzEdt.Parser
         public override bool GetAbsPos(out Point ret, bool OnlyOffset = false)
         {
             ret = new Point(0, 0);
-            if (IsBroken)                       
+            if (IsBroken || !(parent is Tikz_Path) || (r1 == null) || (phi1 == null) || (phi2 == null))                       
                 return false;
 
             if (OnlyOffset)
@@ -2483,6 +2483,7 @@ namespace TikzEdt.Parser
             ret = new Point(offset.X + relp.X, offset.Y + relp.Y);
             return true;
         }
+
         public override bool HasEditableCoordinate()
         {
             Point pdummy;

@@ -118,6 +118,7 @@
     <Compile Include="Overlay\ArcEditTool.cs" />
     <Compile Include="Overlay\ArcTool.cs" />
     <Compile Include="Overlay\BezierTool.cs" />
+    <Compile Include="Overlay\OverlayAdderTools.cs" />
     <Compile Include="Overlay\OverlayInterfaces.cs" />
     <Compile Include="Overlay\OverlayShape.cs" />
     <Compile Include="Overlay\OverlayTool.cs" />
