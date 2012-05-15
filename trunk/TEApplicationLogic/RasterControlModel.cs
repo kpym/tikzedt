@@ -52,7 +52,6 @@ namespace TikzEdt
             View.CoordinateTransform = new Parser.TikzMatrix(); // unit matrix            
         }
 
-
         /// <summary>
         ///  Estimate size of raster to be drawn, in number of steps.
         /// </summary>
@@ -123,8 +122,8 @@ namespace TikzEdt
                 // draw radial lines
                 for (int i = 0; i < RadialSteps; i++)
                 {
-                    LineDrawMethod( new Point(0, 0),new Point(rasterwidth * GridWidth * Math.Cos(View.RadialOffset + i * 2 * Math.PI / RadialSteps),
-                                                            rasterwidth * GridWidth * Math.Sin(View.RadialOffset + i * 2 * Math.PI / RadialSteps)) );
+                    LineDrawMethod( new Point(0, 0),new Point(rasterwidth * GridWidth * Math.Cos(View.RadialOffset * Math.PI/180 + i * 2 * Math.PI / RadialSteps),
+                                                            rasterwidth * GridWidth * Math.Sin(View.RadialOffset * Math.PI / 180 + i * 2 * Math.PI / RadialSteps)));
                 }
             }
         }
@@ -194,7 +193,7 @@ namespace TikzEdt
             {
                 Point polar = TikzEdt.Parser.Helper.CartToPol(pstd);
                 polar = new Point(Math.Round(polar.X / GridWidth) * GridWidth,
-                                   Math.Round((polar.Y - View.RadialOffset) / (2 * Math.PI / RadialSteps)) * (2 * Math.PI / RadialSteps) + View.RadialOffset
+                                   Math.Round((polar.Y - View.RadialOffset * Math.PI / 180) / (2 * Math.PI / RadialSteps)) * (2 * Math.PI / RadialSteps) + View.RadialOffset * Math.PI / 180
                                    );
                 if (View.ForceRadiusTo >= 0)
                     polar = new Point(View.ForceRadiusTo, polar.Y);
