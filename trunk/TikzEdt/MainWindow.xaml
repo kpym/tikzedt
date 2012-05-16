@@ -843,9 +843,11 @@
                         <ComboBoxItem Content="5"/>
                     </ComboBox>
                     <TextBlock Margin="3 0 3 0" VerticalAlignment="Center" FontSize="11" ToolTip="The number of coordinate lines of constant angular parameter shown in polar coordinate mode">RS:</TextBlock>
-                    <TextBox Width ="30" Name="txtRadialSteps2" Text="{Binding RasterSteps}" FontSize="9" />
+                    <extToolkit:IntegerUpDown  FontSize="9" Width="45"  BorderThickness="0" Value="{Binding RasterSteps, UpdateSourceTrigger=PropertyChanged}" Minimum="1" Maximum="100000"/>
+                    <!-- <TextBox Width ="30" Name="txtRadialSteps2" Text="{Binding RasterSteps}" FontSize="9" /></extToolkit:ButtonSpinner> -->
                     <TextBlock Margin="3 0 3 0" FontSize="11" VerticalAlignment="Center" ToolTip="The offset (in degrees) of the first coordinate line of constant angular parameter shown in polar coordinate mode">RO:</TextBlock>
-                    <TextBox Width ="30" Name="txtRadialOffset2" Text="{Binding RasterRadialOffset}"  FontSize="9" />
+                    <extToolkit:IntegerUpDown  FontSize="9" Width="45"  BorderThickness="0" Value="{Binding RasterRadialOffset, UpdateSourceTrigger=PropertyChanged}" Minimum="-100000" Maximum="100000"/>
+                    <!--<TextBox Width ="30" Name="txtRadialOffset2" Text="{Binding RasterRadialOffset}"  FontSize="9" />-->
                 </StackPanel>
             </StatusBarItem>
 
