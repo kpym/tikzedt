@@ -32,6 +32,9 @@ namespace TikzEdtWForms
 
         public Form1()
         {
+            //make sure that double to string is converted with decimal point (not comma!)       
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
+
             (GlobalUI.UI as GlobalUIWinForms).MainForm = this;
             TheVM = new MainWindowVM<TextEditorDocumentWrapper>(TheCompiler.Instance);
 
