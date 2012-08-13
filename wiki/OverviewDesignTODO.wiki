@@ -53,6 +53,7 @@
   * unit tests for overlay
   * .preview.pdf not deleted, not hidden
   * bug with scope display. (screwed)
+  * changing compiler requires restart... notify user or remove  
 
 === Vague things ===
   * improve workflow
