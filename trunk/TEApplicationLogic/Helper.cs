@@ -364,13 +364,23 @@ namespace TikzEdt
         }*/
         
         /// <summary>
-        /// The location of the precompiler header file.
+        /// The location of the precompiled header file.
         /// </summary>
         /// <returns></returns>
         [Pure]
         public static string GetPrecompiledHeaderFMTFilePath()
         {
             return Path.Combine(GetAppdataPath(), System.IO.Path.GetFileNameWithoutExtension(Consts.PrecompiledHeaderFilename) + ".fmt");
+        }
+
+        /// <summary>
+        /// The location of the precompiled header source file.
+        /// </summary>
+        /// <returns></returns>
+        [Pure]
+        public static string GetPrecompiledHeaderTexFilePath()
+        {
+            return Path.Combine(GetAppdataPath(), Consts.PrecompiledHeaderFilename);
         }
 
         /// <summary>
