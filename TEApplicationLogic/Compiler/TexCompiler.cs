@@ -388,7 +388,7 @@ namespace TikzEdt
         {
             Job job = new Job();
             job.code = CompilerSettings.Instance.Tex_Preamble;
-            job.path = Helper.GetPrecompiledHeaderFMTFilePath();
+            job.path = Helper.GetPrecompiledHeaderTexFilePath();
             job.name = System.IO.Path.GetFileNameWithoutExtension(Consts.PrecompiledHeaderFilename);
             job.GeneratePrecompiledHeaders = true;
             return job;
