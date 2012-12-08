@@ -1818,7 +1818,8 @@ namespace TikzEdt
                 if (files.Length == 1)
                 {
                     //warn user about wrong file extension
-                    if (System.IO.Path.GetExtension(files[0]) != ".tex")
+                    string[] AllowedExtensions = new string[] { ".tex" , "*.tikz"};
+                    if (AllowedExtensions.Contains(System.IO.Path.GetExtension(files[0]).ToLower()))
                     {
                         MessageBoxResult r = MessageBox.Show(this, "File does not seem to be a LaTeX-file. Proceed opening?", "Wrong file extension",
                             MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
@@ -2053,7 +2054,7 @@ namespace TikzEdt
             //Helper.UpdateWindow(windowHandle);
             UpdateLayout();
             InvalidateProperty(WidthProperty);
-        }
+        } /**/
 
         private void OpenInExplorer_Click(object sender, RoutedEventArgs e)
         {
