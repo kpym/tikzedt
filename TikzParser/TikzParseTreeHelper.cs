@@ -361,6 +361,70 @@ namespace TikzEdt.Parser
             }
         }
 
+
+   /*     /// <summary>
+        /// Takes an XYItem (like (2,2) or a node) and tries to make it into a referenceable node
+        /// (i.e, one with a name)
+        /// 
+        /// Concretely, the routine does the following:
+        ///     - if item is a named node, return item.
+        ///     - if item is an unnamed node, give it a unique name and return item.
+        ///     - if item is a coordinate, see if there is a node at this coordinate
+        ///         (algorithm: see if next non-tikz_something item is a node)
+        ///         - if yes, start anew with item=this node
+        ///         - if no, add a named node at the specified coordinate
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        protected Tikz_Node MakeReferenceableNode(Tikz_XYItem item, Tikz_Picture tpict)
+        {
+            if (item == null || tpict == null)
+                return null;
+
+            if (item is Tikz_Node)
+            {
+                Tikz_Node n = item as Tikz_Node;
+                if (n.name == "")
+                {
+                    n.SetName(tpict.GetUniqueName());
+                    n.UpdateText();
+                }
+                return n;
+            }
+            else if (item is Tikz_Coord)
+            {
+                // find the next node
+                for (int i = item.parent.Children.IndexOf(item) + 1; i < item.parent.Children.Count; i++)
+                {
+                    if (item.parent.Children[i] is Tikz_Node)
+                    {
+                        // check if the node is really at the same position as the coordinate item
+                        if ((item.parent.Children[i] as Tikz_Node).coord == null)
+                            return MakeReferenceableNode(item.parent.Children[i] as Tikz_Node, tpict);
+                        else
+                            break;
+                    }
+
+                    if (!(item.parent.Children[i] is Tikz_Something))
+                        break;
+                }
+
+                // if we get here, nothing was found => add a new node
+                Tikz_Something ws = new Tikz_Something(" ");
+                Tikz_Node n = new Tikz_Node();
+                n.coord = null;
+
+                item.parent.InsertChildAt(ws, item.parent.Children.IndexOf(item) + 1);
+                item.parent.InsertChildAt(n, item.parent.Children.IndexOf(item) + 2);
+                n.SetName(tpict.GetUniqueName());
+                n.UpdateText();
+
+                return n;
+            }
+            else
+                return null; // throw new NotImplementedException("MakeReferenceableNode not implemented for this type");
+        }*/
+
         /// <summary>
         /// Removes whitespace from name. Note that multiple whitespace chars can also occur inside the string.
         /// E.g. " bla    bla   " is mapped to "bla bla"        

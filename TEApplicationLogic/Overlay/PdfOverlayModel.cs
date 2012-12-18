@@ -184,18 +184,23 @@ namespace TikzEdt.Overlay
                 BeginUpdate();
             }
 
+            bool SomeStylesCouldNotBeSet = false;
+
             // loop through selected items and set styles
             foreach (OverlayShapeVM ols in selectionTool.SelItems)
             {
                 // currently only node styles can be set
-                Tikz_Node tn;
+                Tikz_Node tn = null;
                 if (ols.item is Tikz_XYItem)
                 {
                     tn = TikzParseTreeHelper.GetReferenceableNode(ols.item as Tikz_XYItem, ParseTree.GetTikzPicture());
-                    if (tn == null)
-                        continue;
                 }
-                else continue;
+
+                if (tn == null)
+                {
+                    SomeStylesCouldNotBeSet = true;
+                    continue;
+                }
 
                     if (tn.options == "" || type  == AssignStyleType.ChangeToCurrentNodeStyle || type == AssignStyleType.ChangeToNewStyle)
                     {
@@ -216,6 +221,11 @@ namespace TikzEdt.Overlay
             }
 
             EndUpdate();        // Make sure EndUpdate() is always called (..if Beginupdate() was)!
+
+            if (SomeStylesCouldNotBeSet)
+            {
+                GlobalUI.UI.ShowMessageBox("Sorry, TikzEdt could not assign the styles of one or more of the selected objects automatically. Please do it manually.", "Assign Style", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
         }
 
 

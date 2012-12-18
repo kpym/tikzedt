@@ -1030,8 +1030,8 @@ Global
 		{1AE2C692-4852-4A72-9BE2-2D10BE0A5598}.DVD-5|x86.Build.0 = Debug
 		{1AE2C692-4852-4A72-9BE2-2D10BE0A5598}.Release|Any CPU.ActiveCfg = ReleaseRaw
 		{1AE2C692-4852-4A72-9BE2-2D10BE0A5598}.Release|Any CPU.Build.0 = ReleaseRaw
-		{1AE2C692-4852-4A72-9BE2-2D10BE0A5598}.Release|Mixed Platforms.ActiveCfg = ReleaseRaw
-		{1AE2C692-4852-4A72-9BE2-2D10BE0A5598}.Release|Mixed Platforms.Build.0 = ReleaseRaw
+		{1AE2C692-4852-4A72-9BE2-2D10BE0A5598}.Release|Mixed Platforms.ActiveCfg = Release
+		{1AE2C692-4852-4A72-9BE2-2D10BE0A5598}.Release|Mixed Platforms.Build.0 = Release
 		{1AE2C692-4852-4A72-9BE2-2D10BE0A5598}.Release|x64.ActiveCfg = ReleaseRaw
 		{1AE2C692-4852-4A72-9BE2-2D10BE0A5598}.Release|x64.Build.0 = ReleaseRaw
 		{1AE2C692-4852-4A72-9BE2-2D10BE0A5598}.Release|x86.ActiveCfg = ReleaseRaw
