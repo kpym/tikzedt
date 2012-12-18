@@ -610,8 +610,10 @@ namespace TikzEdt
 \usetikzlibrary{calc}
 
 \PreviewEnvironment{tikzpicture}
-"; 
-        } }
+";
+        }
+            set { }
+        }
 
         public virtual string Tex_Postamble
         {
@@ -619,9 +621,10 @@ namespace TikzEdt
             {
                 return @"\end{document}";
             }
+            set { }
         }
 
-        public virtual string PrecompiledHeaderCompileCommand { get { return "-ini -jobname=\"$JOBNAME$\" \"&pdflatex $FILENAME$\\dump\" "; } }
+        public virtual string PrecompiledHeaderCompileCommand { get { return "-ini -jobname=\"$JOBNAME$\" \"&pdflatex $FILENAME$\\dump\" "; } set { }  }
         public virtual int Compiler_SnippetTimeout { get { return 0; } }
         public virtual int Compiler_Timeout { get { return 0; } }
         public virtual string Path_pdflatex { get { return "pdflatex"; } }
@@ -630,6 +633,18 @@ namespace TikzEdt
         public virtual uint RoundToDecimals { get { return 4; } }
 
         public virtual bool UseExternalRenderer { get { return false; } }
+
+        public virtual object GetDefaultSetting(string name) { return null;  }
+
+        /// <summary>
+        /// Resets the compiler related (user editable) settings to their default values
+        /// </summary>
+        public void ResetCompilerSettings()
+        {
+            Tex_Preamble = GetDefaultSetting("Tex_Preamble") as string;
+            Tex_Postamble = GetDefaultSetting("Tex_Postamble") as string;
+            PrecompiledHeaderCompileCommand = GetDefaultSetting("PrecompiledHeaderCompileCommand") as string;
+        }
     }
    
     /// <summary>

@@ -120,5 +120,17 @@ namespace TikzEdt
 
             }
         }
+
+        private void ResetCompilerSettingsClick(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show(this, "Reset settings on this page?", "Reset", MessageBoxButton.YesNoCancel, MessageBoxImage.Question) 
+                            == MessageBoxResult.Yes)
+            {
+                CompilerSettings.Instance.ResetCompilerSettings();
+                txtPostamble.Text = Properties.Settings.Default.Tex_Postamble;
+                txtPreamble.Text = Properties.Settings.Default.Tex_Preamble;
+
+            }
+        }
     }
 }

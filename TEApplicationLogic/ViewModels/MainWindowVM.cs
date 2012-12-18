@@ -252,8 +252,6 @@ namespace TikzEdt.ViewModels
             }
         }
 
-        
-
         /// <summary>
         /// Starts a new instance of TikzEdt
         /// </summary>
