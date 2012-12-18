@@ -188,9 +188,15 @@ namespace TikzEdt.Overlay
             foreach (OverlayShapeVM ols in selectionTool.SelItems)
             {
                 // currently only node styles can be set
-                if (ols.item is Tikz_Node)
+                Tikz_Node tn;
+                if (ols.item is Tikz_XYItem)
                 {
-                    Tikz_Node tn = ols.item as Tikz_Node;
+                    tn = TikzParseTreeHelper.GetReferenceableNode(ols.item as Tikz_XYItem, ParseTree.GetTikzPicture());
+                    if (tn == null)
+                        continue;
+                }
+                else continue;
+
                     if (tn.options == "" || type  == AssignStyleType.ChangeToCurrentNodeStyle || type == AssignStyleType.ChangeToNewStyle)
                     {
                         tn.options = "[" + cStyle + "]";
@@ -206,7 +212,7 @@ namespace TikzEdt.Overlay
                         tn.options = o;
                     }
                     tn.UpdateText();
-                }
+                
             }
 
             EndUpdate();        // Make sure EndUpdate() is always called (..if Beginupdate() was)!
