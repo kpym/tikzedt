@@ -73,7 +73,7 @@ namespace TESharedComponentsTests
             //FileDownloader target = new FileDownloader(); // TODO: Initialize to an appropriate value
             //target.
             //target.Start();
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+          //  Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
     }
 }

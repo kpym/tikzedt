@@ -74,7 +74,7 @@ namespace TESharedComponentsTests
             //CLAParser.CLAParser target = new CLAParser.CLAParser(NamespaceOfResX); // TODO: Initialize to an appropriate value
             //string[] Arguments = null; // TODO: Initialize to an appropriate value
             //target.Parse();
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+           // Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
     }
 }

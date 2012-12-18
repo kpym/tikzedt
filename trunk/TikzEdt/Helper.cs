@@ -153,10 +153,12 @@ namespace TikzEdt
         public override double BB_Std_W { get { return Properties.Settings.Default.BB_Std_W; } }
         public override double BB_Std_H { get { return Properties.Settings.Default.BB_Std_H; } }
         public override double BB_Margin { get { return Properties.Settings.Default.BB_Margin; } }
-        public override string Tex_Preamble { get { return Properties.Settings.Default.Tex_Preamble; } }
-        public override string Tex_Postamble { get { return Properties.Settings.Default.Tex_Postamble; } }
+        public override string Tex_Preamble { get { return Properties.Settings.Default.Tex_Preamble; } set { Properties.Settings.Default.Tex_Preamble = value; } }
+        public override string Tex_Postamble { get { return Properties.Settings.Default.Tex_Postamble; } set { Properties.Settings.Default.Tex_Postamble = value; } }
 
-        public override string PrecompiledHeaderCompileCommand { get { return Properties.Settings.Default.PrecompiledHeaderCompileCommand;  } }
+        public override string PrecompiledHeaderCompileCommand { get { return Properties.Settings.Default.PrecompiledHeaderCompileCommand;  }
+            set { Properties.Settings.Default.PrecompiledHeaderCompileCommand = value; }
+        }
         public override int Compiler_SnippetTimeout { get { return Properties.Settings.Default.Compiler_SnippetTimeout; } }
         public override int Compiler_Timeout { get { return Properties.Settings.Default.Compiler_Timeout; } }
         public override string Path_pdflatex { get { return Properties.Settings.Default.Path_pdflatex; } }
@@ -164,6 +166,11 @@ namespace TikzEdt
 
 
         public override uint RoundToDecimals { get { return Properties.Settings.Default.RoundToDecimals; } }
+
+        public override object GetDefaultSetting(string name)
+        {
+            return Properties.Settings.Default.Properties[name].DefaultValue;
+        }
 
         public override bool UseExternalRenderer
         {
