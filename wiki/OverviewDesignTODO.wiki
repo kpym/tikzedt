@@ -80,3 +80,4 @@
   * better error recovery: if error on \path is detected-> just drop this path instead of stopping parsing of whole file.
   * 3d support? (=ignore it automatically)
   * check math expressions in arc are handled correctly
+  * SVG import (?)
