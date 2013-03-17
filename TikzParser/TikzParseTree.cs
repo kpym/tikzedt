@@ -22,6 +22,7 @@ using System.Windows;
 
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
+using System.Globalization;
 
 namespace TikzEdt.Parser
 {
@@ -990,7 +991,7 @@ namespace TikzEdt.Parser
         {
             try
             {
-                number = Double.Parse(t.GetChild(0).Text);
+                number = Double.Parse(t.GetChild(0).Text, CultureInfo.InvariantCulture);
             }
             catch (FormatException)
             {
