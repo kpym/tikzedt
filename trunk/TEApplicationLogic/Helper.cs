@@ -419,6 +419,8 @@ namespace TikzEdt
         /// <param name="FileName"></param>
         public static void DeleteTemporaryFiles(string FileName, bool IsTempFile = false)
         {
+           // return;
+
             List<String> FilesToDelete = new List<string>();
             if (IsTempFile)
             {

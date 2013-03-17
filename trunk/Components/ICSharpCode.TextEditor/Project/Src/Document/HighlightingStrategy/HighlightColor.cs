@@ -97,7 +97,7 @@ namespace ICSharpCode.TextEditor.Document
 			
 			if (cNames.Length == 2) {
 				// hack : can't figure out how to parse doubles with '.' (culture info might set the '.' to ',')
-				double factor = Double.Parse(cNames[1]) / 100;
+                double factor = Double.Parse(cNames[1], CultureInfo.InvariantCulture) / 100;
 				c = Color.FromArgb((int)((double)c.R * factor), (int)((double)c.G * factor), (int)((double)c.B * factor));
 			}
 			

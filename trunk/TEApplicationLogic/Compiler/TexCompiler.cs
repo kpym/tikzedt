@@ -30,6 +30,7 @@ using System.Threading;
 using TESharedComponents;
 using System.Windows.Forms;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 
 namespace TikzEdt
 {
@@ -934,6 +935,7 @@ namespace TikzEdt
         void ReadBBFromFile(Job job)
         {
             string cMetaFile = Helper.RemoveFileExtension(job.path) + "_BB.txt";
+            //GlobalUI.UI.AddStatusLine(null, "Readng bounding box...: ");
             if (File.Exists(cMetaFile))
             {
                 try
@@ -941,24 +943,40 @@ namespace TikzEdt
                     using (StreamReader sr = new StreamReader(cMetaFile))
                     {
                         string s = sr.ReadLine();
+                        //GlobalUI.UI.AddStatusLine(null, "Read bounding box file: " + s);
                         string[] arr = s.Split(new string[] { ",", " ", "pt" }, StringSplitOptions.RemoveEmptyEntries);
                         if (arr.Length == 4)
                         {
-                            Point p1 = new Point(Double.Parse(arr[0]) / Consts.ptspertikzunit, Double.Parse(arr[1]) / Consts.ptspertikzunit);
-                            Point p2 = new Point(Double.Parse(arr[2]) / Consts.ptspertikzunit, Double.Parse(arr[3]) / Consts.ptspertikzunit);
+                            Point p1 = new Point(Double.Parse(arr[0], CultureInfo.InvariantCulture) / Consts.ptspertikzunit, Double.Parse(arr[1], CultureInfo.InvariantCulture) / Consts.ptspertikzunit);
+                            Point p2 = new Point(Double.Parse(arr[2], CultureInfo.InvariantCulture) / Consts.ptspertikzunit, Double.Parse(arr[3], CultureInfo.InvariantCulture) / Consts.ptspertikzunit);
 
                             job.BB = new Rect(p1, p2);
                             if (job.BB.Width < 500 && job.BB.Height < 500)
+                            {
                                 job.hasBB = true;
+                                //GlobalUI.UI.AddStatusLine(null, "Read bounding box: "+p1.X + " "+ p1.Y + " " + p2.X + " " + p2.Y);
+                            }
                             else
+                            {
+                                GlobalUI.UI.AddStatusLine(null, "Couldn't read bounding box: bogus values read from file.", true);
                                 job.hasBB = false;
+                            }
 
+                        }
+                        else
+                        {
+                            GlobalUI.UI.AddStatusLine(null, "Couldn't read bounding box: incorrect file format.", true);
                         }
                     }
                 }
-                catch(Exception )
+                catch (Exception)
                 {
+                    GlobalUI.UI.AddStatusLine(null, "Couldn't read bounding box: exception while reading from file.", true);
                 }
+            }
+            else
+            {
+                GlobalUI.UI.AddStatusLine(null, "Couldn't read bounding box: file not found.", true);
             }
         }
 
