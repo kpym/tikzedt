@@ -245,25 +245,25 @@ tikzpicture
 	;
 
 tikzbody
-	:	( tikzscope | tikzpath | tikznode_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body_nobr! )  // necessary to prevent conflict with options
-		( tikzscope | tikzpath | tikznode_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body! )*
+	:	( tikzscope | tikzpath | tikznode_ext | tikzdef_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body_nobr! )  // necessary to prevent conflict with options
+		( tikzscope | tikzpath | tikznode_ext | tikzdef_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body! )*
 	;
 tikzbody2
-	:	( tikzscope | tikzpath | tikznode_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body_nobr2! )  // necessary to prevent conflict with options
-		( tikzscope | tikzpath | tikznode_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body2! )*
+	:	( tikzscope | tikzpath | tikznode_ext | tikzdef_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body_nobr2! )  // necessary to prevent conflict with options
+		( tikzscope | tikzpath | tikznode_ext | tikzdef_ext | tikzmatrix_ext | tikzcoordinate_ext | tikz_set | tikz_style | otherbegin! | otherend! | dontcare_body2! )*
 	;
 	
 dontcare_body_nobr2
-	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\pattern' | '\\shade' | '\\shadedraw' | '\\useasboundingbox' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '[' |'{' | '}' ))	// necessary to prevent conflict with options
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\def' | '\\filldraw' | '\\pattern' | '\\shade' | '\\shadedraw' | '\\useasboundingbox' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '[' |'{' | '}' ))	// necessary to prevent conflict with options
 	;	
 dontcare_body2
-	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\pattern' | '\\shade' | '\\shadedraw' | '\\useasboundingbox' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' |'{' | '}'))   
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\def' | '\\filldraw' | '\\pattern' | '\\shade' | '\\shadedraw' | '\\useasboundingbox' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' |'{' | '}'))   
 	;
 dontcare_body_nobr
-	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\pattern' | '\\shade' | '\\shadedraw' | '\\useasboundingbox' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '[' ))	// necessary to prevent conflict with options
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\def' | '\\filldraw' | '\\pattern' | '\\shade' | '\\shadedraw' | '\\useasboundingbox' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' | '[' ))	// necessary to prevent conflict with options
 	;	
 dontcare_body
-	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\filldraw' | '\\pattern' | '\\shade' | '\\shadedraw' | '\\useasboundingbox' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' ))   
+	:	(~ ('\\begin' | '\\end' | '\\node' | '\\matrix' | '\\coordinate' | '\\draw' | '\\path' | '\\def' | '\\filldraw' | '\\pattern' | '\\shade' | '\\shadedraw' | '\\useasboundingbox' | '\\fill' | '\\clip' | '\\tikzstyle' | '\\tikzset' ))   
 	;
 otherend
 	:	'\\end' '{' idd2 '}'
@@ -344,6 +344,9 @@ controls		// for bezier path, e.g.,  .. (1,1) and (2,2) ..
 	
 tikznode_ext
 	:	node_start tikznode_core tikzpath_element* semicolon_end	-> ^(IM_PATH node_start tikznode_core tikzpath_element* semicolon_end)
+	;
+tikzdef_ext
+	:	def_start tikzpath_element* semicolon_end	-> ^(IM_PATH def_start tikzpath_element* semicolon_end)
 	;
 	
 tikzmatrix_ext
@@ -557,11 +560,17 @@ path_start
 node_start
 	:	node_start_tag -> ^(IM_STARTTAG node_start_tag)
 	;
+def_start
+	:	def_start_tag -> ^(IM_STARTTAG def_start_tag)
+	;
 matrix_start
 	:	matrix_start_tag -> ^(IM_STARTTAG matrix_start_tag)
 	;
 node_start_tag
 	:	'\\node'
+	;
+def_start_tag
+	:	'\\def'
 	;
 matrix_start_tag
 	:	'\\matrix'
