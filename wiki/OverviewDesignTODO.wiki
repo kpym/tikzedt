@@ -53,7 +53,9 @@
   * unit tests for overlay
   * .preview.pdf not deleted, not hidden
   * bug with scope display. (screwed)
-  * changing compiler requires restart... notify user or remove  
+  * changing compiler requires restart... notify user or remove 
+  * style parsing after dynamic preamble change
+  * tooltips on nodes don't seem to work any more 
 
 === Vague things ===
   * improve workflow
