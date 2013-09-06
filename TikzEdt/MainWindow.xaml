@@ -95,7 +95,10 @@
         <KeyBinding Command="{x:Static custom:MainWindow.ShowPdfCommand}" Key="F6"/>
         <KeyBinding Command="{Binding TheDocument.SavePdfCommand, Converter={StaticResource TERCRCC}}" Key="S" Modifiers="Ctrl+Shift"/>
         <KeyBinding Command="{x:Static custom:MainWindow.OpenPgfManualCommand}" Key="F2"/>
-    
+
+        <KeyBinding Command="ApplicationCommands.New" CommandParameter="true" Key="N" Modifiers="Ctrl+Shift"/>
+        <KeyBinding Command="ApplicationCommands.Open" CommandParameter="true" Key="O" Modifiers="Ctrl+Shift"/>
+
     </Window.InputBindings>
     <Grid>
             <Grid.RowDefinitions>
@@ -109,8 +112,8 @@
             <MenuItem Header="_File" >
                 <MenuItem Header="Open..." Command="ApplicationCommands.Open" />
                 <MenuItem Header="New" Command="ApplicationCommands.New" />
-                <MenuItem Header="Open in new instance..." Command="ApplicationCommands.Open" CommandParameter="true"/>
-                <MenuItem Header="New in new instance..." Command="ApplicationCommands.New" CommandParameter="true"/>
+                <MenuItem Header="Open in new instance..." Command="ApplicationCommands.Open" CommandParameter="true" InputGestureText="Ctrl+Shift+O"/>
+                <MenuItem Header="New in new instance..." Command="ApplicationCommands.New" CommandParameter="true"  InputGestureText="Ctrl+Shift+N"/>
                 <MenuItem Header="Save" Command="ApplicationCommands.Save" />
                 <MenuItem Header="Save As..."  Command="ApplicationCommands.SaveAs" />
                 <Separator/>
