@@ -1818,7 +1818,7 @@ namespace TikzEdt
                 if (files.Length == 1)
                 {
                     //warn user about wrong file extension
-                    string[] AllowedExtensions = new string[] { ".tex" , "*.tikz"};
+                    string[] AllowedExtensions = new string[] { "*.tex" , "*.tikz"};
                     if (AllowedExtensions.Contains(System.IO.Path.GetExtension(files[0]).ToLower()))
                     {
                         MessageBoxResult r = MessageBox.Show(this, "File does not seem to be a LaTeX-file. Proceed opening?", "Wrong file extension",
