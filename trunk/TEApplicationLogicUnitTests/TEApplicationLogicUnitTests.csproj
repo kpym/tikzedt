@@ -97,7 +97,6 @@
     <Compile Include="TEDocumentVMTest.cs" />
     <Compile Include="TexCompilerTest.cs" />
     <Compile Include="TexOutputParserTest.cs" />
-    <Compile Include="TikzDisplayTreeTest.cs" />
     <Compile Include="TikzToBMPFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
