@@ -91,7 +91,7 @@ namespace TikzParserUnitTests
         {
             foreach (string file in Directory.EnumerateFiles("..\\..\\..\\TikzParserUnitTests\\testcases", "*.tex"))
             {
-
+                Console.Out.WriteLine("Processing file " + file + " ...");
                 string code = File.ReadAllText(file);
                 
                 Tikz_ParseTree actual;
@@ -99,6 +99,7 @@ namespace TikzParserUnitTests
                 try
                 {
                     actual = TikzParser.Parse(code);
+                    Console.Out.WriteLine("... has " + actual.Children.Count + " child" + (actual.Children.Count==1?"":"ren") + ". OK.");
                 }
                 catch (Exception ex)
                 {
