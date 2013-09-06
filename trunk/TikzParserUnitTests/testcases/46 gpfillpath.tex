@@ -1,6 +1,27 @@
+\documentclass{standalone}
+\usepackage{tikz,amsmath, amssymb,bm,color}
+\usepackage{standalone}
+\usepackage[margin=0cm,nohead]{geometry}
+\usepackage[active,tightpage]{preview}
+\usetikzlibrary{shapes,arrows}
+% needed for BB
+\usetikzlibrary{calc}
+
+\PreviewEnvironment{tikzpicture}
+
+%This use-case tests coordinates defined via \def
+%This is done by tex-files create by gnuplot.
+%Gnuplot requires package gnuplot-lua-tikz:
+\usepackage{packages/gnuplot-lua-tikz}
+
+
+\begin{document}
+
 \begin{tikzpicture}
 
 \def\gpfillpath{(34.483,13.844)--(35.399,13.844)--(35.399,13.998)--(34.483,13.998)--cycle}
-\gpfill{color=gpbgfillcolor} \gpfillpath;
+\gpfill{color=red} \gpfillpath;
 
 \end{tikzpicture}
+
+\end{document}
