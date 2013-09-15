@@ -187,7 +187,22 @@ namespace FindReplace
         public static readonly DependencyProperty SearchInProperty =
             DependencyProperty.Register("SearchIn", typeof(SearchScope), typeof(FindReplaceMgr), new UIPropertyMetadata(SearchScope.CurrentDocument));
 
-        
+        public double WindowLeft
+        {
+            get { return (double)GetValue(WindowLeftProperty); }
+            set { SetValue(WindowLeftProperty, value); }
+        }
+        public static readonly DependencyProperty WindowLeftProperty =
+            DependencyProperty.Register("WindowLeft", typeof(double), typeof(FindReplaceMgr), new UIPropertyMetadata(100.0));
+
+        public double WindowTop
+        {
+            get { return (double)GetValue(WindowTopProperty); }
+            set { SetValue(WindowTopProperty, value); }
+        }
+        public static readonly DependencyProperty WindowTopProperty =
+            DependencyProperty.Register("WindowTop", typeof(double), typeof(FindReplaceMgr), new UIPropertyMetadata(100.0));
+
         /// <summary>
         /// Determines whether to display the Search in combo box
         /// </summary>
@@ -321,6 +336,7 @@ namespace FindReplace
             dialog.Show();
             dialog.Activate();
             dialog.txtFind.Focus();
+            dialog.txtFind.SelectAll();
         }
         public void ShowAsFind(TextEditor target)
         {
@@ -336,6 +352,7 @@ namespace FindReplace
             dialog.Show();
             dialog.Activate();
             dialog.txtFind2.Focus();
+            dialog.txtFind2.SelectAll();
         }
         public void ShowAsReplace(object target)
         {
