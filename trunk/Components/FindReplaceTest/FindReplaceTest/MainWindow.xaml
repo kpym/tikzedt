@@ -12,7 +12,8 @@
         <FR:FindReplaceMgr x:Key="FRep" InterfaceConverter="{StaticResource IEC}" 
                           Editors="{Binding Source={StaticResource ViewData}, Path=Views}"
                           CurrentEditor="{Binding Source={StaticResource ViewData}, Path=ActiveView, Mode=TwoWay}" 
-                           AllowReplace="True"/>
+                           AllowReplace="True"
+                           DialogWindowCreated="FindReplaceMgr_DialogWindowCreated"/>
     </Window.Resources>
     <Window.CommandBindings>
         <my:StaticResourceEx ResourceKey="FRep" Path="FindBinding" />

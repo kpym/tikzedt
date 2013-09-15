@@ -42,6 +42,9 @@ namespace FindReplace
                     _dialog.Closed += delegate { _dialog = null; };
                     if (OwnerWindow != null)
                         _dialog.Owner = OwnerWindow;
+
+                    if (DialogWindowCreated != null)
+                        DialogWindowCreated(this, new DialogWindowCreatedEventArgs() { Dialog = _dialog });
                 }
                 return _dialog;
             }
@@ -54,6 +57,16 @@ namespace FindReplace
             SearchIn = SearchScope.CurrentDocument;
             ShowSearchIn = true;
         }
+
+        #region Events
+        public class DialogWindowCreatedEventArgs : EventArgs { public FindReplaceDialog Dialog; }
+
+        /// <summary>
+        /// This event is called after the Find/Replace dialog window is (re-)created, but before it is shown.
+        /// Not that the event does not fire when an existing window is activated.
+        /// </summary>
+        public event EventHandler<DialogWindowCreatedEventArgs> DialogWindowCreated;
+        #endregion
 
         #region Exposed CommandBindings
         public CommandBinding FindBinding

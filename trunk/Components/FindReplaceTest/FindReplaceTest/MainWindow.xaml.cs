@@ -49,6 +49,18 @@ namespace FindReplaceTest
         {
             Application.Current.Shutdown();
         }
+
+        private void FindReplaceMgr_DialogWindowCreated(object sender, FindReplaceMgr.DialogWindowCreatedEventArgs e)
+        {
+            // register command bindings so hotkeys work when dialog window is active
+            var s = sender as FindReplaceMgr;
+            if (s == null) 
+                return;
+            e.Dialog.CommandBindings.Add(s.FindBinding);
+            e.Dialog.CommandBindings.Add(s.FindNextBinding);
+            e.Dialog.CommandBindings.Add(s.ReplaceBinding);
+            e.Dialog.InputBindings.Add(new KeyBinding(NavigationCommands.Search, new KeyGesture(Key.F3, ModifierKeys.Shift)));
+        }
     }
 
     public class MyViewData : DependencyObject
