@@ -29,8 +29,8 @@ namespace FindReplace
 
         public FindReplaceDialog(FindReplaceMgr theVM)
         {            
+            DataContext = TheVM = theVM;  
             InitializeComponent();
-            DataContext = TheVM = theVM;             
         }
 
         private void FindNextClick(object sender, RoutedEventArgs e)

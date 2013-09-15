@@ -3,7 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:my="clr-namespace:FindReplace"
         Title="Find And Replace" Height="Auto" Width="300" ResizeMode="NoResize" SizeToContent="Height" KeyDown="Window_KeyDown" WindowStyle="ToolWindow" ShowInTaskbar="False" Topmost="False"
-        FocusManager.IsFocusScope="True">
+        FocusManager.IsFocusScope="True"
+        
+        Left="{Binding WindowLeft, Mode=TwoWay}"
+        Top="{Binding WindowTop, Mode=TwoWay}">
     <Window.Resources>
         <my:SearchScopeToInt x:Key="searchScopeToInt"/>
         <BooleanToVisibilityConverter x:Key="boolToVis" />
