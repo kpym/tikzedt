@@ -1,0 +1,1 @@
+pdflatex -ini -jobname="pcheaders" "&pdflatex pcheaders.tex\dump"
