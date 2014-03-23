@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "texcompiler.h"
+#include "pdfimageprovider.h"
 #include "teglobals.h"
 #include <QApplication>
 
@@ -10,9 +11,13 @@ int main(int argc, char *argv[])
 
     // wire up signals
     QObject::connect(&TexCompiler::Instance, SIGNAL(statusMessage(QString, bool)),
-                     &w, SLOT(StatusMessage(QString,bool)) );
+            &w, SLOT(StatusMessage(QString,bool)) );
     QObject::connect(&TexCompiler::Instance, SIGNAL(compilationComplete(CompilationResult)),
-                     &w, SLOT(CompilationComplete(CompilationResult)) );
+            &w, SLOT(CompilationComplete(CompilationResult)) );
+    QObject::connect(&PdfImageProvider::Instance, SIGNAL(statusMessage(QString, bool)),
+            &w, SLOT(StatusMessage(QString,bool)) );
+    QObject::connect(&TexCompiler::Instance, SIGNAL(compilationComplete(CompilationResult)),
+            &PdfImageProvider::Instance, SLOT(pdfReady(CompilationResult)) );
 
     w.show();
     w.StatusMessage("Welcome to TikzEdt", false);

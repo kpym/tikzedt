@@ -66,7 +66,7 @@ void TexCompiler::compile(CompileJob job)
     emit statusMessage("Compile job received", false);
 
     pendingJob = job;
-    pendingJob.id = ++jobId;
+    pendingJob.job_id = ++jobId;
     startPendingJob();
 
 }
@@ -107,7 +107,7 @@ void TexCompiler::compileHeaders()
 
 void TexCompiler::startPendingJob()
 {
-    if (pendingJob.id != currentJob.id
+    if (pendingJob.job_id != currentJob.job_id
             && process.state() == QProcess::NotRunning)
     {
         currentJob = pendingJob;
@@ -163,7 +163,7 @@ void TexCompiler::startPendingJob()
             // save code to temp file
             QString tempPath(TEGlobals::appendPath( QDir::tempPath(),(QString)"tetemp.tex"));
 
-            currentResult.outFile = TEGlobals::appendPath( QDir::tempPath(),(QString)"tetemp"+currentJob.id+".svg");
+            currentResult.outFile = TEGlobals::appendPath( QDir::tempPath(),(QString)"tetemp"+currentJob.document_id+".svg");
 
             QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
             env.insert("PATH", env.value("PATH") + ":/usr/texbin");
