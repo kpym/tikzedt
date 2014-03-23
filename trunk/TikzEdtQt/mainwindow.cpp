@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     pic = new PictureScene();
-    connect(&PdfImageProvider::Instance, SIGNAL(pdfReady(const QPixmap&)),
+    QObject::connect(&PdfImageProvider::Instance, SIGNAL(pixmapReady(const QPixmap&)),
             pic, SLOT(onPdfImageReady(const QPixmap &)));
     ui->imgView->setScene(pic);
 }

@@ -35,7 +35,10 @@ void PdfImageProvider::render()
         QImage image = doc->page(0)
                       ->renderToImage(theresolution, theresolution);
 
+        image.save("test.png");
+
         emit pixmapReady(QPixmap::fromImage(image));
+        emit statusMessage("rendered pdf", false);
     }
     else
     {
@@ -79,7 +82,7 @@ void PdfImageProvider::setDocumentId(int id)
 
 void PdfImageProvider::pdfReady(CompilationResult res)
 {
-    if (res.job.document_id == document_id)
+    //if (res.job.document_id == document_id)
         setDocument(res.outFile);
 
     emit statusMessage("Received Pdf ready.", false);

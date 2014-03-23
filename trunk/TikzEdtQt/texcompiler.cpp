@@ -163,7 +163,7 @@ void TexCompiler::startPendingJob()
             // save code to temp file
             QString tempPath(TEGlobals::appendPath( QDir::tempPath(),(QString)"tetemp.tex"));
 
-            currentResult.outFile = TEGlobals::appendPath( QDir::tempPath(),(QString)"tetemp"+currentJob.document_id+".svg");
+            currentResult.outFile = TEGlobals::appendPath( QDir::tempPath(),(QString)"tetemp.pdf");
 
             QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
             env.insert("PATH", env.value("PATH") + ":/usr/texbin");

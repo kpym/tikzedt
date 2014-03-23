@@ -8,6 +8,7 @@ TEGlobals::TEGlobals(QObject *parent) :
   //  if (!QFile::exists(shfile))
    //     QFile::copy(appendPath(getAppDirectory(), "make_headers.sh"),
      //           shfile);
+
 }
 
  TEGlobals TEGlobals::Instance;
