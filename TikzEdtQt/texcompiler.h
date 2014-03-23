@@ -15,7 +15,9 @@ struct CompileJob
 
     CompileJobType job_type;
 
-    int id;
+
+    int document_id;
+    int job_id;
     QString code;
     QString file;
 

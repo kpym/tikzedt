@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "texcompiler.h"
+#include "picturescene.h"
 
 namespace Ui {
 class MainWindow;
@@ -28,6 +29,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    PictureScene *pic;
 };
 
 #endif // MAINWINDOW_H

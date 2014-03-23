@@ -20,14 +20,18 @@ SOURCES += main.cpp\
     texhighlighter.cpp \
     svgview.cpp \
     texcompiler.cpp \
-    teglobals.cpp
+    teglobals.cpp \
+    picturescene.cpp \
+    pdfimageprovider.cpp
 
 HEADERS  += mainwindow.h \
     mycodeeditor.h \
     texhighlighter.h \
     svgview.h \
     texcompiler.h \
-    teglobals.h
+    teglobals.h \
+    picturescene.h \
+    pdfimageprovider.h
 
 FORMS    += mainwindow.ui
 
@@ -36,3 +40,6 @@ RESOURCES += \
 
 OTHER_FILES += \
     make_headers.sh
+
+INCLUDEPATH  += /usr/include/poppler/qt5
+LIBS         += -L/usr/lib -lpoppler-qt5

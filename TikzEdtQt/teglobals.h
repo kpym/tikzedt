@@ -38,7 +38,8 @@ public:
 
     QString getPdfLatexPath()
     {
-        return "/usr/texbin/pdflatex";
+        //return "/usr/texbin/pdflatex";
+        return "pdlatex";
     }
 
     QString getHtLatexPath()

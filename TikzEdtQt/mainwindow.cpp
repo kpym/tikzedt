@@ -1,12 +1,18 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "texcompiler.h"
+#include "pdfimageprovider.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    pic = new PictureScene();
+    connect(&PdfImageProvider::Instance, SIGNAL(pdfReady(const QPixmap&)),
+            pic, SLOT(onPdfImageReady(const QPixmap &)));
+    ui->imgView->setScene(pic);
 }
 
 MainWindow::~MainWindow()
