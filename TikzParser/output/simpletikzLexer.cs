@@ -1,4 +1,4 @@
-// $ANTLR 3.1.1 C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g 2013-07-01 14:00:50
+// $ANTLR 3.1.1 E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g 2016-09-21 11:07:05
 
 using System;
 using Antlr.Runtime;
@@ -8,98 +8,99 @@ using Stack 		= Antlr.Runtime.Collections.StackList;
 
 
 public partial class simpletikzLexer : Lexer {
-    public const int EXPONENT = 34;
-    public const int TIKZEDT_CMD_COMMENT = 27;
-    public const int IM_PATH = 4;
-    public const int IM_ID = 18;
-    public const int IM_DONTCARE = 25;
-    public const int SOMETHING = 37;
-    public const int EOF = -1;
-    public const int IM_ARC = 26;
-    public const int COMMAND = 29;
-    public const int IM_ENDTAG = 14;
-    public const int T__93 = 93;
-    public const int T__94 = 94;
-    public const int T__91 = 91;
-    public const int T__92 = 92;
-    public const int IM_DOCUMENT = 11;
-    public const int IM_STRING = 21;
-    public const int T__90 = 90;
-    public const int IM_TIKZSET = 19;
-    public const int COMMENT = 33;
-    public const int SOMETHING1 = 38;
+    public const int T__50 = 50;
+    public const int IM_NUMBERUNIT = 9;
     public const int IM_OPTIONS = 15;
-    public const int T__80 = 80;
-    public const int T__81 = 81;
-    public const int IM_OPTION_STYLE = 16;
-    public const int T__82 = 82;
-    public const int T__83 = 83;
-    public const int IM_COORD = 6;
-    public const int INT = 31;
-    public const int T__85 = 85;
-    public const int T__84 = 84;
-    public const int T__87 = 87;
-    public const int T__86 = 86;
-    public const int T__89 = 89;
-    public const int IM_NODE = 5;
-    public const int T__88 = 88;
-    public const int IM_STYLE = 22;
-    public const int WS = 32;
-    public const int T__71 = 71;
-    public const int T__72 = 72;
-    public const int T__70 = 70;
-    public const int T__76 = 76;
-    public const int T__75 = 75;
-    public const int T__74 = 74;
-    public const int T__73 = 73;
-    public const int T__79 = 79;
-    public const int T__78 = 78;
-    public const int T__77 = 77;
-    public const int T__68 = 68;
-    public const int T__69 = 69;
-    public const int T__66 = 66;
-    public const int T__67 = 67;
-    public const int T__64 = 64;
-    public const int T__65 = 65;
-    public const int IM_STARTTAG = 13;
-    public const int T__62 = 62;
-    public const int T__63 = 63;
-    public const int IM_CONTROLS = 23;
-    public const int T__61 = 61;
-    public const int ID = 28;
-    public const int T__60 = 60;
-    public const int MATHSTRING = 36;
+    public const int IM_PATH = 4;
+    public const int T__59 = 59;
     public const int T__55 = 55;
-    public const int IM_USETIKZLIB = 20;
+    public const int IM_TIKZEDT_CMD = 24;
     public const int T__56 = 56;
     public const int T__57 = 57;
+    public const int IM_SCOPE = 12;
     public const int T__58 = 58;
-    public const int ESC_SEQ = 35;
+    public const int ID = 28;
     public const int T__51 = 51;
     public const int T__52 = 52;
+    public const int IM_NODENAME = 8;
     public const int T__53 = 53;
     public const int T__54 = 54;
-    public const int T__59 = 59;
-    public const int IM_OPTION_KV = 17;
-    public const int T__50 = 50;
-    public const int IM_TIKZEDT_CMD = 24;
-    public const int T__42 = 42;
-    public const int T__43 = 43;
-    public const int T__40 = 40;
-    public const int T__41 = 41;
-    public const int T__46 = 46;
-    public const int T__47 = 47;
-    public const int T__44 = 44;
-    public const int T__45 = 45;
+    public const int T__60 = 60;
+    public const int T__61 = 61;
+    public const int SOMETHING1 = 38;
+    public const int SOMETHING = 37;
+    public const int T__66 = 66;
+    public const int T__67 = 67;
+    public const int T__68 = 68;
+    public const int T__69 = 69;
+    public const int T__62 = 62;
+    public const int T__63 = 63;
+    public const int T__64 = 64;
+    public const int T__65 = 65;
+    public const int IM_ID = 18;
+    public const int COMMENT = 33;
+    public const int IM_SIZE = 7;
+    public const int T__39 = 39;
+    public const int IM_NODE = 5;
+    public const int COMMAND = 29;
+    public const int IM_DOCUMENT = 11;
+    public const int IM_STARTTAG = 13;
+    public const int IM_ARC = 26;
     public const int T__48 = 48;
     public const int T__49 = 49;
-    public const int IM_PICTURE = 10;
-    public const int IM_NUMBERUNIT = 9;
-    public const int IM_SCOPE = 12;
-    public const int T__39 = 39;
-    public const int IM_SIZE = 7;
-    public const int IM_NODENAME = 8;
+    public const int T__44 = 44;
+    public const int T__45 = 45;
+    public const int EXPONENT = 34;
+    public const int T__46 = 46;
+    public const int T__47 = 47;
+    public const int T__40 = 40;
+    public const int T__41 = 41;
+    public const int IM_TIKZSET = 19;
+    public const int T__42 = 42;
+    public const int T__43 = 43;
+    public const int T__91 = 91;
+    public const int T__92 = 92;
+    public const int T__93 = 93;
+    public const int T__94 = 94;
+    public const int T__90 = 90;
+    public const int IM_ENDTAG = 14;
+    public const int IM_STRING = 21;
+    public const int MATHSTRING = 36;
+    public const int T__95 = 95;
+    public const int IM_COORD = 6;
+    public const int IM_USETIKZLIB = 20;
     public const int FLOAT_WO_EXP = 30;
+    public const int IM_PICTURE = 10;
+    public const int IM_DONTCARE = 25;
+    public const int T__70 = 70;
+    public const int T__71 = 71;
+    public const int T__72 = 72;
+    public const int IM_OPTION_STYLE = 16;
+    public const int INT = 31;
+    public const int IM_OPTION_KV = 17;
+    public const int T__77 = 77;
+    public const int T__78 = 78;
+    public const int ESC_SEQ = 35;
+    public const int T__79 = 79;
+    public const int T__73 = 73;
+    public const int WS = 32;
+    public const int EOF = -1;
+    public const int T__74 = 74;
+    public const int T__75 = 75;
+    public const int T__76 = 76;
+    public const int T__80 = 80;
+    public const int T__81 = 81;
+    public const int T__82 = 82;
+    public const int T__83 = 83;
+    public const int TIKZEDT_CMD_COMMENT = 27;
+    public const int T__88 = 88;
+    public const int T__89 = 89;
+    public const int T__84 = 84;
+    public const int T__85 = 85;
+    public const int IM_STYLE = 22;
+    public const int T__86 = 86;
+    public const int T__87 = 87;
+    public const int IM_CONTROLS = 23;
 
         //@Override
         public override void ReportError(RecognitionException e) {
@@ -139,7 +140,7 @@ public partial class simpletikzLexer : Lexer {
     
     override public string GrammarFileName
     {
-    	get { return "C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g";} 
+    	get { return "E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g";} 
     }
 
     // $ANTLR start "T__39"
@@ -149,8 +150,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__39;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:28:7: ( '\\\\begin' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:28:9: '\\\\begin'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:28:7: ( '\\\\begin' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:28:9: '\\\\begin'
             {
             	Match("\\begin"); 
 
@@ -173,8 +174,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__40;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:29:7: ( '\\\\tikzstyle' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:29:9: '\\\\tikzstyle'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:29:7: ( '\\\\tikzstyle' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:29:9: '\\\\tikzstyle'
             {
             	Match("\\tikzstyle"); 
 
@@ -197,8 +198,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__41;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:30:7: ( '\\\\tikzset' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:30:9: '\\\\tikzset'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:30:7: ( '\\\\tikzset' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:30:9: '\\\\tikzset'
             {
             	Match("\\tikzset"); 
 
@@ -221,8 +222,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__42;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:31:7: ( '\\\\tikz' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:31:9: '\\\\tikz'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:31:7: ( '\\\\tikz' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:31:9: '\\\\tikz'
             {
             	Match("\\tikz"); 
 
@@ -245,8 +246,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__43;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:32:7: ( '{' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:32:9: '{'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:32:7: ( '{' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:32:9: '{'
             {
             	Match('{'); 
 
@@ -268,8 +269,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__44;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:33:7: ( '}' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:33:9: '}'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:33:7: ( '}' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:33:9: '}'
             {
             	Match('}'); 
 
@@ -291,8 +292,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__45;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:34:7: ( '=' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:34:9: '='
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:34:7: ( '=' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:34:9: '='
             {
             	Match('='); 
 
@@ -314,8 +315,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__46;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:35:7: ( '+=' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:35:9: '+='
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:35:7: ( '+=' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:35:9: '+='
             {
             	Match("+="); 
 
@@ -338,8 +339,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__47;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:36:7: ( ',' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:36:9: ','
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:36:7: ( ',' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:36:9: ','
             {
             	Match(','); 
 
@@ -361,8 +362,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__48;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:37:7: ( ':' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:37:9: ':'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:37:7: ( ':' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:37:9: ':'
             {
             	Match(':'); 
 
@@ -384,8 +385,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__49;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:38:7: ( '/.style' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:38:9: '/.style'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:38:7: ( '/.style' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:38:9: '/.style'
             {
             	Match("/.style"); 
 
@@ -408,8 +409,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__50;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:39:7: ( '/.append' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:39:9: '/.append'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:39:7: ( '/.append' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:39:9: '/.append'
             {
             	Match("/.append"); 
 
@@ -432,8 +433,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__51;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:40:7: ( 'style' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:40:9: 'style'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:40:7: ( 'style' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:40:9: 'style'
             {
             	Match("style"); 
 
@@ -456,10 +457,11 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__52;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:41:7: ( '(' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:41:9: '('
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:41:7: ( 'args' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:41:9: 'args'
             {
-            	Match('('); 
+            	Match("args"); 
+
 
             }
 
@@ -479,10 +481,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__53;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:42:7: ( ')' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:42:9: ')'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:42:7: ( '(' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:42:9: '('
             {
-            	Match(')'); 
+            	Match('('); 
 
             }
 
@@ -502,10 +504,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__54;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:43:7: ( '[' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:43:9: '['
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:43:7: ( ')' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:43:9: ')'
             {
-            	Match('['); 
+            	Match(')'); 
 
             }
 
@@ -525,10 +527,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__55;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:44:7: ( ']' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:44:9: ']'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:44:7: ( '[' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:44:9: '['
             {
-            	Match(']'); 
+            	Match('['); 
 
             }
 
@@ -548,10 +550,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__56;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:45:7: ( ';' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:45:9: ';'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:45:7: ( ']' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:45:9: ']'
             {
-            	Match(';'); 
+            	Match(']'); 
 
             }
 
@@ -571,11 +573,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__57;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:46:7: ( 'cm' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:46:9: 'cm'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:46:7: ( ';' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:46:9: ';'
             {
-            	Match("cm"); 
-
+            	Match(';'); 
 
             }
 
@@ -595,10 +596,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__58;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:47:7: ( 'in' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:47:9: 'in'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:47:7: ( 'cm' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:47:9: 'cm'
             {
-            	Match("in"); 
+            	Match("cm"); 
 
 
             }
@@ -619,10 +620,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__59;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:48:7: ( 'ex' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:48:9: 'ex'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:48:7: ( 'in' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:48:9: 'in'
             {
-            	Match("ex"); 
+            	Match("in"); 
 
 
             }
@@ -643,10 +644,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__60;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:49:7: ( 'mm' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:49:9: 'mm'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:49:7: ( 'ex' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:49:9: 'ex'
             {
-            	Match("mm"); 
+            	Match("ex"); 
 
 
             }
@@ -667,10 +668,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__61;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:50:7: ( 'pt' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:50:9: 'pt'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:50:7: ( 'mm' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:50:9: 'mm'
             {
-            	Match("pt"); 
+            	Match("mm"); 
 
 
             }
@@ -691,10 +692,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__62;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:51:7: ( 'em' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:51:9: 'em'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:51:7: ( 'pt' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:51:9: 'pt'
             {
-            	Match("em"); 
+            	Match("pt"); 
 
 
             }
@@ -715,10 +716,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__63;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:52:7: ( '\\\\end' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:52:9: '\\\\end'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:52:7: ( 'em' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:52:9: 'em'
             {
-            	Match("\\end"); 
+            	Match("em"); 
 
 
             }
@@ -739,10 +740,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__64;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:53:7: ( '\\\\node' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:53:9: '\\\\node'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:53:7: ( '\\\\end' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:53:9: '\\\\end'
             {
-            	Match("\\node"); 
+            	Match("\\end"); 
 
 
             }
@@ -763,10 +764,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__65;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:54:7: ( '\\\\matrix' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:54:9: '\\\\matrix'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:54:7: ( '\\\\node' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:54:9: '\\\\node'
             {
-            	Match("\\matrix"); 
+            	Match("\\node"); 
 
 
             }
@@ -787,10 +788,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__66;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:55:7: ( '\\\\coordinate' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:55:9: '\\\\coordinate'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:55:7: ( '\\\\matrix' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:55:9: '\\\\matrix'
             {
-            	Match("\\coordinate"); 
+            	Match("\\matrix"); 
 
 
             }
@@ -811,10 +812,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__67;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:56:7: ( '\\\\draw' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:56:9: '\\\\draw'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:56:7: ( '\\\\coordinate' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:56:9: '\\\\coordinate'
             {
-            	Match("\\draw"); 
+            	Match("\\coordinate"); 
 
 
             }
@@ -835,10 +836,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__68;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:57:7: ( '\\\\path' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:57:9: '\\\\path'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:57:7: ( '\\\\draw' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:57:9: '\\\\draw'
             {
-            	Match("\\path"); 
+            	Match("\\draw"); 
 
 
             }
@@ -859,10 +860,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__69;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:58:7: ( '\\\\def' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:58:9: '\\\\def'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:58:7: ( '\\\\path' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:58:9: '\\\\path'
             {
-            	Match("\\def"); 
+            	Match("\\path"); 
 
 
             }
@@ -883,10 +884,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__70;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:59:7: ( '\\\\filldraw' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:59:9: '\\\\filldraw'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:59:7: ( '\\\\def' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:59:9: '\\\\def'
             {
-            	Match("\\filldraw"); 
+            	Match("\\def"); 
 
 
             }
@@ -907,10 +908,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__71;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:60:7: ( '\\\\pattern' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:60:9: '\\\\pattern'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:60:7: ( '\\\\filldraw' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:60:9: '\\\\filldraw'
             {
-            	Match("\\pattern"); 
+            	Match("\\filldraw"); 
 
 
             }
@@ -931,10 +932,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__72;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:61:7: ( '\\\\shade' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:61:9: '\\\\shade'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:61:7: ( '\\\\pattern' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:61:9: '\\\\pattern'
             {
-            	Match("\\shade"); 
+            	Match("\\pattern"); 
 
 
             }
@@ -955,10 +956,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__73;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:62:7: ( '\\\\shadedraw' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:62:9: '\\\\shadedraw'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:62:7: ( '\\\\shade' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:62:9: '\\\\shade'
             {
-            	Match("\\shadedraw"); 
+            	Match("\\shade"); 
 
 
             }
@@ -979,10 +980,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__74;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:63:7: ( '\\\\useasboundingbox' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:63:9: '\\\\useasboundingbox'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:63:7: ( '\\\\shadedraw' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:63:9: '\\\\shadedraw'
             {
-            	Match("\\useasboundingbox"); 
+            	Match("\\shadedraw"); 
 
 
             }
@@ -1003,10 +1004,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__75;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:64:7: ( '\\\\fill' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:64:9: '\\\\fill'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:64:7: ( '\\\\useasboundingbox' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:64:9: '\\\\useasboundingbox'
             {
-            	Match("\\fill"); 
+            	Match("\\useasboundingbox"); 
 
 
             }
@@ -1027,10 +1028,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__76;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:65:7: ( '\\\\clip' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:65:9: '\\\\clip'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:65:7: ( '\\\\fill' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:65:9: '\\\\fill'
             {
-            	Match("\\clip"); 
+            	Match("\\fill"); 
 
 
             }
@@ -1051,10 +1052,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__77;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:66:7: ( 'let' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:66:9: 'let'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:66:7: ( '\\\\clip' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:66:9: '\\\\clip'
             {
-            	Match("let"); 
+            	Match("\\clip"); 
 
 
             }
@@ -1075,10 +1076,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__78;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:67:7: ( 'and' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:67:9: 'and'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:67:7: ( 'let' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:67:9: 'let'
             {
-            	Match("and"); 
+            	Match("let"); 
 
 
             }
@@ -1099,10 +1100,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__79;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:68:7: ( 'coordinate' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:68:9: 'coordinate'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:68:7: ( 'and' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:68:9: 'and'
             {
-            	Match("coordinate"); 
+            	Match("and"); 
 
 
             }
@@ -1123,10 +1124,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__80;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:69:7: ( 'node' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:69:9: 'node'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:69:7: ( 'coordinate' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:69:9: 'coordinate'
             {
-            	Match("node"); 
+            	Match("coordinate"); 
 
 
             }
@@ -1147,10 +1148,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__81;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:70:7: ( 'at' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:70:9: 'at'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:70:7: ( 'node' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:70:9: 'node'
             {
-            	Match("at"); 
+            	Match("node"); 
 
 
             }
@@ -1171,10 +1172,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__82;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:71:7: ( 'circle' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:71:9: 'circle'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:71:7: ( 'at' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:71:9: 'at'
             {
-            	Match("circle"); 
+            	Match("at"); 
 
 
             }
@@ -1195,10 +1196,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__83;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:72:7: ( 'ellipse' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:72:9: 'ellipse'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:72:7: ( 'circle' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:72:9: 'circle'
             {
-            	Match("ellipse"); 
+            	Match("circle"); 
 
 
             }
@@ -1219,10 +1220,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__84;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:73:7: ( 'arc' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:73:9: 'arc'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:73:7: ( 'ellipse' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:73:9: 'ellipse'
             {
-            	Match("arc"); 
+            	Match("ellipse"); 
 
 
             }
@@ -1243,10 +1244,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__85;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:74:7: ( '--' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:74:9: '--'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:74:7: ( 'arc' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:74:9: 'arc'
             {
-            	Match("--"); 
+            	Match("arc"); 
 
 
             }
@@ -1267,10 +1268,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__86;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:75:7: ( '->' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:75:9: '->'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:75:7: ( '--' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:75:9: '--'
             {
-            	Match("->"); 
+            	Match("--"); 
 
 
             }
@@ -1291,10 +1292,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__87;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:76:7: ( '|-' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:76:9: '|-'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:76:7: ( '->' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:76:9: '->'
             {
-            	Match("|-"); 
+            	Match("->"); 
 
 
             }
@@ -1315,10 +1316,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__88;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:77:7: ( '-|' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:77:9: '-|'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:77:7: ( '|-' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:77:9: '|-'
             {
-            	Match("-|"); 
+            	Match("|-"); 
 
 
             }
@@ -1339,10 +1340,11 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__89;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:78:7: ( '+' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:78:9: '+'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:78:7: ( '-|' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:78:9: '-|'
             {
-            	Match('+'); 
+            	Match("-|"); 
+
 
             }
 
@@ -1362,11 +1364,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__90;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:79:7: ( '++' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:79:9: '++'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:79:7: ( '+' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:79:9: '+'
             {
-            	Match("++"); 
-
+            	Match('+'); 
 
             }
 
@@ -1386,10 +1387,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__91;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:80:7: ( '..' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:80:9: '..'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:80:7: ( '++' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:80:9: '++'
             {
-            	Match(".."); 
+            	Match("++"); 
 
 
             }
@@ -1410,10 +1411,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__92;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:81:7: ( 'controls' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:81:9: 'controls'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:81:7: ( '..' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:81:9: '..'
             {
-            	Match("controls"); 
+            	Match(".."); 
 
 
             }
@@ -1434,10 +1435,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__93;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:82:7: ( 'tikzpicture' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:82:9: 'tikzpicture'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:82:7: ( 'controls' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:82:9: 'controls'
             {
-            	Match("tikzpicture"); 
+            	Match("controls"); 
 
 
             }
@@ -1458,10 +1459,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = T__94;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:83:7: ( 'scope' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:83:9: 'scope'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:83:7: ( 'tikzpicture' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:83:9: 'tikzpicture'
             {
-            	Match("scope"); 
+            	Match("tikzpicture"); 
 
 
             }
@@ -1475,6 +1476,30 @@ public partial class simpletikzLexer : Lexer {
     }
     // $ANTLR end "T__94"
 
+    // $ANTLR start "T__95"
+    public void mT__95() // throws RecognitionException [2]
+    {
+    		try
+    		{
+            int _type = T__95;
+    	int _channel = DEFAULT_TOKEN_CHANNEL;
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:84:7: ( 'scope' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:84:9: 'scope'
+            {
+            	Match("scope"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally 
+    	{
+        }
+    }
+    // $ANTLR end "T__95"
+
     // $ANTLR start "ID"
     public void mID() // throws RecognitionException [2]
     {
@@ -1482,8 +1507,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = ID;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:585:5: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '.' | '!' )* )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:585:7: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '.' | '!' )*
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:585:5: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '.' | '!' )* )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:585:7: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '.' | '!' )*
             {
             	if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z') || input.LA(1) == '_' || (input.LA(1) >= 'a' && input.LA(1) <= 'z') ) 
             	{
@@ -1496,7 +1521,7 @@ public partial class simpletikzLexer : Lexer {
             	    Recover(mse);
             	    throw mse;}
 
-            	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:585:31: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '.' | '!' )*
+            	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:585:31: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '.' | '!' )*
             	do 
             	{
             	    int alt1 = 2;
@@ -1511,7 +1536,7 @@ public partial class simpletikzLexer : Lexer {
             	    switch (alt1) 
             		{
             			case 1 :
-            			    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:
+            			    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:
             			    {
             			    	if ( input.LA(1) == '!' || input.LA(1) == '.' || (input.LA(1) >= '0' && input.LA(1) <= '9') || (input.LA(1) >= 'A' && input.LA(1) <= 'Z') || input.LA(1) == '_' || (input.LA(1) >= 'a' && input.LA(1) <= 'z') ) 
             			    	{
@@ -1555,10 +1580,10 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = INT;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:588:5: ( ( '-' )? ( '0' .. '9' )+ )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:588:7: ( '-' )? ( '0' .. '9' )+
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:588:5: ( ( '-' )? ( '0' .. '9' )+ )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:588:7: ( '-' )? ( '0' .. '9' )+
             {
-            	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:588:7: ( '-' )?
+            	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:588:7: ( '-' )?
             	int alt2 = 2;
             	int LA2_0 = input.LA(1);
 
@@ -1569,7 +1594,7 @@ public partial class simpletikzLexer : Lexer {
             	switch (alt2) 
             	{
             	    case 1 :
-            	        // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:588:7: '-'
+            	        // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:588:7: '-'
             	        {
             	        	Match('-'); 
 
@@ -1578,7 +1603,7 @@ public partial class simpletikzLexer : Lexer {
 
             	}
 
-            	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:588:12: ( '0' .. '9' )+
+            	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:588:12: ( '0' .. '9' )+
             	int cnt3 = 0;
             	do 
             	{
@@ -1594,7 +1619,7 @@ public partial class simpletikzLexer : Lexer {
             	    switch (alt3) 
             		{
             			case 1 :
-            			    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:588:12: '0' .. '9'
+            			    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:588:12: '0' .. '9'
             			    {
             			    	MatchRange('0','9'); 
 
@@ -1632,7 +1657,7 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = FLOAT_WO_EXP;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:600:5: ( ( '-' )? ( '0' .. '9' )+ '.' ( '0' .. '9' )* | ( '-' )? '.' ( '0' .. '9' )+ )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:600:5: ( ( '-' )? ( '0' .. '9' )+ '.' ( '0' .. '9' )* | ( '-' )? '.' ( '0' .. '9' )+ )
             int alt9 = 2;
             switch ( input.LA(1) ) 
             {
@@ -1640,13 +1665,13 @@ public partial class simpletikzLexer : Lexer {
             	{
                 int LA9_1 = input.LA(2);
 
-                if ( (LA9_1 == '.') )
-                {
-                    alt9 = 2;
-                }
-                else if ( ((LA9_1 >= '0' && LA9_1 <= '9')) )
+                if ( ((LA9_1 >= '0' && LA9_1 <= '9')) )
                 {
                     alt9 = 1;
+                }
+                else if ( (LA9_1 == '.') )
+                {
+                    alt9 = 2;
                 }
                 else 
                 {
@@ -1686,9 +1711,9 @@ public partial class simpletikzLexer : Lexer {
             switch (alt9) 
             {
                 case 1 :
-                    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:600:9: ( '-' )? ( '0' .. '9' )+ '.' ( '0' .. '9' )*
+                    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:600:9: ( '-' )? ( '0' .. '9' )+ '.' ( '0' .. '9' )*
                     {
-                    	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:600:9: ( '-' )?
+                    	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:600:9: ( '-' )?
                     	int alt4 = 2;
                     	int LA4_0 = input.LA(1);
 
@@ -1699,7 +1724,7 @@ public partial class simpletikzLexer : Lexer {
                     	switch (alt4) 
                     	{
                     	    case 1 :
-                    	        // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:600:9: '-'
+                    	        // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:600:9: '-'
                     	        {
                     	        	Match('-'); 
 
@@ -1708,7 +1733,7 @@ public partial class simpletikzLexer : Lexer {
 
                     	}
 
-                    	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:600:14: ( '0' .. '9' )+
+                    	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:600:14: ( '0' .. '9' )+
                     	int cnt5 = 0;
                     	do 
                     	{
@@ -1724,7 +1749,7 @@ public partial class simpletikzLexer : Lexer {
                     	    switch (alt5) 
                     		{
                     			case 1 :
-                    			    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:600:15: '0' .. '9'
+                    			    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:600:15: '0' .. '9'
                     			    {
                     			    	MatchRange('0','9'); 
 
@@ -1744,7 +1769,7 @@ public partial class simpletikzLexer : Lexer {
                     		;	// Stops C# compiler whinging that label 'loop5' has no statements
 
                     	Match('.'); 
-                    	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:600:30: ( '0' .. '9' )*
+                    	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:600:30: ( '0' .. '9' )*
                     	do 
                     	{
                     	    int alt6 = 2;
@@ -1759,7 +1784,7 @@ public partial class simpletikzLexer : Lexer {
                     	    switch (alt6) 
                     		{
                     			case 1 :
-                    			    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:600:31: '0' .. '9'
+                    			    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:600:31: '0' .. '9'
                     			    {
                     			    	MatchRange('0','9'); 
 
@@ -1778,9 +1803,9 @@ public partial class simpletikzLexer : Lexer {
                     }
                     break;
                 case 2 :
-                    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:601:9: ( '-' )? '.' ( '0' .. '9' )+
+                    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:601:9: ( '-' )? '.' ( '0' .. '9' )+
                     {
-                    	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:601:9: ( '-' )?
+                    	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:601:9: ( '-' )?
                     	int alt7 = 2;
                     	int LA7_0 = input.LA(1);
 
@@ -1791,7 +1816,7 @@ public partial class simpletikzLexer : Lexer {
                     	switch (alt7) 
                     	{
                     	    case 1 :
-                    	        // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:601:9: '-'
+                    	        // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:601:9: '-'
                     	        {
                     	        	Match('-'); 
 
@@ -1801,7 +1826,7 @@ public partial class simpletikzLexer : Lexer {
                     	}
 
                     	Match('.'); 
-                    	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:601:18: ( '0' .. '9' )+
+                    	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:601:18: ( '0' .. '9' )+
                     	int cnt8 = 0;
                     	do 
                     	{
@@ -1817,7 +1842,7 @@ public partial class simpletikzLexer : Lexer {
                     	    switch (alt8) 
                     		{
                     			case 1 :
-                    			    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:601:19: '0' .. '9'
+                    			    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:601:19: '0' .. '9'
                     			    {
                     			    	MatchRange('0','9'); 
 
@@ -1857,14 +1882,14 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = TIKZEDT_CMD_COMMENT;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:605:5: ( '%' WS '!TIKZEDT' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:605:9: '%' WS '!TIKZEDT' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:605:5: ( '%' WS '!TIKZEDT' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:605:9: '%' WS '!TIKZEDT' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
             {
             	Match('%'); 
             	mWS(); 
             	Match("!TIKZEDT"); 
 
-            	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:605:29: (~ ( '\\n' | '\\r' ) )*
+            	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:605:29: (~ ( '\\n' | '\\r' ) )*
             	do 
             	{
             	    int alt10 = 2;
@@ -1879,7 +1904,7 @@ public partial class simpletikzLexer : Lexer {
             	    switch (alt10) 
             		{
             			case 1 :
-            			    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:605:29: ~ ( '\\n' | '\\r' )
+            			    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:605:29: ~ ( '\\n' | '\\r' )
             			    {
             			    	if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t') || (input.LA(1) >= '\u000B' && input.LA(1) <= '\f') || (input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) 
             			    	{
@@ -1904,7 +1929,7 @@ public partial class simpletikzLexer : Lexer {
             	loop10:
             		;	// Stops C# compiler whining that label 'loop10' has no statements
 
-            	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:605:43: ( '\\r' )?
+            	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:605:43: ( '\\r' )?
             	int alt11 = 2;
             	int LA11_0 = input.LA(1);
 
@@ -1915,7 +1940,7 @@ public partial class simpletikzLexer : Lexer {
             	switch (alt11) 
             	{
             	    case 1 :
-            	        // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:605:43: '\\r'
+            	        // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:605:43: '\\r'
             	        {
             	        	Match('\r'); 
 
@@ -1944,16 +1969,16 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = COMMENT;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:609:5: ( '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' | '%/*' ( options {greedy=false; } : . )* '%*/' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:609:5: ( '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' | '%/*' ( options {greedy=false; } : . )* '%*/' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
             int alt17 = 2;
             alt17 = dfa17.Predict(input);
             switch (alt17) 
             {
                 case 1 :
-                    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:609:9: '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+                    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:609:9: '%' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
                     {
                     	Match('%'); 
-                    	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:609:13: (~ ( '\\n' | '\\r' ) )*
+                    	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:609:13: (~ ( '\\n' | '\\r' ) )*
                     	do 
                     	{
                     	    int alt12 = 2;
@@ -1968,7 +1993,7 @@ public partial class simpletikzLexer : Lexer {
                     	    switch (alt12) 
                     		{
                     			case 1 :
-                    			    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:609:13: ~ ( '\\n' | '\\r' )
+                    			    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:609:13: ~ ( '\\n' | '\\r' )
                     			    {
                     			    	if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t') || (input.LA(1) >= '\u000B' && input.LA(1) <= '\f') || (input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) 
                     			    	{
@@ -1993,7 +2018,7 @@ public partial class simpletikzLexer : Lexer {
                     	loop12:
                     		;	// Stops C# compiler whining that label 'loop12' has no statements
 
-                    	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:609:27: ( '\\r' )?
+                    	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:609:27: ( '\\r' )?
                     	int alt13 = 2;
                     	int LA13_0 = input.LA(1);
 
@@ -2004,7 +2029,7 @@ public partial class simpletikzLexer : Lexer {
                     	switch (alt13) 
                     	{
                     	    case 1 :
-                    	        // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:609:27: '\\r'
+                    	        // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:609:27: '\\r'
                     	        {
                     	        	Match('\r'); 
 
@@ -2019,11 +2044,11 @@ public partial class simpletikzLexer : Lexer {
                     }
                     break;
                 case 2 :
-                    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:610:9: '%/*' ( options {greedy=false; } : . )* '%*/' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+                    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:610:9: '%/*' ( options {greedy=false; } : . )* '%*/' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
                     {
                     	Match("%/*"); 
 
-                    	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:610:15: ( options {greedy=false; } : . )*
+                    	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:610:15: ( options {greedy=false; } : . )*
                     	do 
                     	{
                     	    int alt14 = 2;
@@ -2031,7 +2056,7 @@ public partial class simpletikzLexer : Lexer {
                     	    switch (alt14) 
                     		{
                     			case 1 :
-                    			    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:610:43: .
+                    			    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:610:43: .
                     			    {
                     			    	MatchAny(); 
 
@@ -2048,7 +2073,7 @@ public partial class simpletikzLexer : Lexer {
 
                     	Match("%*/"); 
 
-                    	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:610:54: (~ ( '\\n' | '\\r' ) )*
+                    	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:610:54: (~ ( '\\n' | '\\r' ) )*
                     	do 
                     	{
                     	    int alt15 = 2;
@@ -2063,7 +2088,7 @@ public partial class simpletikzLexer : Lexer {
                     	    switch (alt15) 
                     		{
                     			case 1 :
-                    			    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:610:54: ~ ( '\\n' | '\\r' )
+                    			    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:610:54: ~ ( '\\n' | '\\r' )
                     			    {
                     			    	if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t') || (input.LA(1) >= '\u000B' && input.LA(1) <= '\f') || (input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) 
                     			    	{
@@ -2088,7 +2113,7 @@ public partial class simpletikzLexer : Lexer {
                     	loop15:
                     		;	// Stops C# compiler whining that label 'loop15' has no statements
 
-                    	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:610:68: ( '\\r' )?
+                    	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:610:68: ( '\\r' )?
                     	int alt16 = 2;
                     	int LA16_0 = input.LA(1);
 
@@ -2099,7 +2124,7 @@ public partial class simpletikzLexer : Lexer {
                     	switch (alt16) 
                     	{
                     	    case 1 :
-                    	        // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:610:68: '\\r'
+                    	        // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:610:68: '\\r'
                     	        {
                     	        	Match('\r'); 
 
@@ -2131,8 +2156,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = WS;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:613:5: ( ( ' ' | '\\t' | '\\r' | '\\n' ) )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:613:9: ( ' ' | '\\t' | '\\r' | '\\n' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:613:5: ( ( ' ' | '\\t' | '\\r' | '\\n' ) )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:613:9: ( ' ' | '\\t' | '\\r' | '\\n' )
             {
             	if ( (input.LA(1) >= '\t' && input.LA(1) <= '\n') || input.LA(1) == '\r' || input.LA(1) == ' ' ) 
             	{
@@ -2163,8 +2188,8 @@ public partial class simpletikzLexer : Lexer {
     {
     		try
     		{
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:620:19: ( ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:620:21: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:620:19: ( ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:620:21: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
             {
             	if ( input.LA(1) == 'E' || input.LA(1) == 'e' ) 
             	{
@@ -2177,7 +2202,7 @@ public partial class simpletikzLexer : Lexer {
             	    Recover(mse);
             	    throw mse;}
 
-            	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:620:31: ( '+' | '-' )?
+            	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:620:31: ( '+' | '-' )?
             	int alt18 = 2;
             	int LA18_0 = input.LA(1);
 
@@ -2188,7 +2213,7 @@ public partial class simpletikzLexer : Lexer {
             	switch (alt18) 
             	{
             	    case 1 :
-            	        // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:
+            	        // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:
             	        {
             	        	if ( input.LA(1) == '+' || input.LA(1) == '-' ) 
             	        	{
@@ -2207,7 +2232,7 @@ public partial class simpletikzLexer : Lexer {
 
             	}
 
-            	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:620:42: ( '0' .. '9' )+
+            	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:620:42: ( '0' .. '9' )+
             	int cnt19 = 0;
             	do 
             	{
@@ -2223,7 +2248,7 @@ public partial class simpletikzLexer : Lexer {
             	    switch (alt19) 
             		{
             			case 1 :
-            			    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:620:43: '0' .. '9'
+            			    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:620:43: '0' .. '9'
             			    {
             			    	MatchRange('0','9'); 
 
@@ -2259,11 +2284,11 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = MATHSTRING;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:627:2: ( '$' ( ESC_SEQ | ~ ( '\\\\' | '$' ) )* '$' )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:627:4: '$' ( ESC_SEQ | ~ ( '\\\\' | '$' ) )* '$'
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:627:2: ( '$' ( ESC_SEQ | ~ ( '\\\\' | '$' ) )* '$' )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:627:4: '$' ( ESC_SEQ | ~ ( '\\\\' | '$' ) )* '$'
             {
             	Match('$'); 
-            	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:627:8: ( ESC_SEQ | ~ ( '\\\\' | '$' ) )*
+            	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:627:8: ( ESC_SEQ | ~ ( '\\\\' | '$' ) )*
             	do 
             	{
             	    int alt20 = 3;
@@ -2282,14 +2307,14 @@ public partial class simpletikzLexer : Lexer {
             	    switch (alt20) 
             		{
             			case 1 :
-            			    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:627:10: ESC_SEQ
+            			    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:627:10: ESC_SEQ
             			    {
             			    	mESC_SEQ(); 
 
             			    }
             			    break;
             			case 2 :
-            			    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:627:20: ~ ( '\\\\' | '$' )
+            			    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:627:20: ~ ( '\\\\' | '$' )
             			    {
             			    	if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '#') || (input.LA(1) >= '%' && input.LA(1) <= '[') || (input.LA(1) >= ']' && input.LA(1) <= '\uFFFF') ) 
             			    	{
@@ -2334,8 +2359,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = COMMAND;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:638:2: ( '\\\\' ID )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:638:4: '\\\\' ID
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:638:2: ( '\\\\' ID )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:638:4: '\\\\' ID
             {
             	Match('\\'); 
             	mID(); 
@@ -2358,8 +2383,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = ESC_SEQ;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:643:5: ( '\\\\' . )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:643:9: '\\\\' .
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:643:5: ( '\\\\' . )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:643:9: '\\\\' .
             {
             	Match('\\'); 
             	MatchAny(); 
@@ -2382,8 +2407,8 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = SOMETHING;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:649:2: ( . )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:649:5: .
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:649:2: ( . )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:649:5: .
             {
             	MatchAny(); 
 
@@ -2405,12 +2430,12 @@ public partial class simpletikzLexer : Lexer {
     		{
             int _type = SOMETHING1;
     	int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:653:2: ( '/.' ( 'a' .. 'z' | 'A' .. 'Z' )* )
-            // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:653:7: '/.' ( 'a' .. 'z' | 'A' .. 'Z' )*
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:653:2: ( '/.' ( 'a' .. 'z' | 'A' .. 'Z' )* )
+            // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:653:7: '/.' ( 'a' .. 'z' | 'A' .. 'Z' )*
             {
             	Match("/."); 
 
-            	// C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:653:12: ( 'a' .. 'z' | 'A' .. 'Z' )*
+            	// E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:653:12: ( 'a' .. 'z' | 'A' .. 'Z' )*
             	do 
             	{
             	    int alt21 = 2;
@@ -2425,7 +2450,7 @@ public partial class simpletikzLexer : Lexer {
             	    switch (alt21) 
             		{
             			case 1 :
-            			    // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:
+            			    // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:
             			    {
             			    	if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z') || (input.LA(1) >= 'a' && input.LA(1) <= 'z') ) 
             			    	{
@@ -2464,475 +2489,482 @@ public partial class simpletikzLexer : Lexer {
 
     override public void mTokens() // throws RecognitionException 
     {
-        // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:8: ( T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | ID | INT | FLOAT_WO_EXP | TIKZEDT_CMD_COMMENT | COMMENT | WS | MATHSTRING | COMMAND | ESC_SEQ | SOMETHING | SOMETHING1 )
-        int alt22 = 67;
+        // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:8: ( T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | ID | INT | FLOAT_WO_EXP | TIKZEDT_CMD_COMMENT | COMMENT | WS | MATHSTRING | COMMAND | ESC_SEQ | SOMETHING | SOMETHING1 )
+        int alt22 = 68;
         alt22 = dfa22.Predict(input);
         switch (alt22) 
         {
             case 1 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:10: T__39
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:10: T__39
                 {
                 	mT__39(); 
 
                 }
                 break;
             case 2 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:16: T__40
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:16: T__40
                 {
                 	mT__40(); 
 
                 }
                 break;
             case 3 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:22: T__41
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:22: T__41
                 {
                 	mT__41(); 
 
                 }
                 break;
             case 4 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:28: T__42
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:28: T__42
                 {
                 	mT__42(); 
 
                 }
                 break;
             case 5 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:34: T__43
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:34: T__43
                 {
                 	mT__43(); 
 
                 }
                 break;
             case 6 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:40: T__44
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:40: T__44
                 {
                 	mT__44(); 
 
                 }
                 break;
             case 7 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:46: T__45
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:46: T__45
                 {
                 	mT__45(); 
 
                 }
                 break;
             case 8 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:52: T__46
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:52: T__46
                 {
                 	mT__46(); 
 
                 }
                 break;
             case 9 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:58: T__47
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:58: T__47
                 {
                 	mT__47(); 
 
                 }
                 break;
             case 10 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:64: T__48
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:64: T__48
                 {
                 	mT__48(); 
 
                 }
                 break;
             case 11 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:70: T__49
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:70: T__49
                 {
                 	mT__49(); 
 
                 }
                 break;
             case 12 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:76: T__50
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:76: T__50
                 {
                 	mT__50(); 
 
                 }
                 break;
             case 13 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:82: T__51
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:82: T__51
                 {
                 	mT__51(); 
 
                 }
                 break;
             case 14 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:88: T__52
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:88: T__52
                 {
                 	mT__52(); 
 
                 }
                 break;
             case 15 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:94: T__53
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:94: T__53
                 {
                 	mT__53(); 
 
                 }
                 break;
             case 16 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:100: T__54
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:100: T__54
                 {
                 	mT__54(); 
 
                 }
                 break;
             case 17 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:106: T__55
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:106: T__55
                 {
                 	mT__55(); 
 
                 }
                 break;
             case 18 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:112: T__56
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:112: T__56
                 {
                 	mT__56(); 
 
                 }
                 break;
             case 19 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:118: T__57
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:118: T__57
                 {
                 	mT__57(); 
 
                 }
                 break;
             case 20 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:124: T__58
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:124: T__58
                 {
                 	mT__58(); 
 
                 }
                 break;
             case 21 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:130: T__59
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:130: T__59
                 {
                 	mT__59(); 
 
                 }
                 break;
             case 22 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:136: T__60
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:136: T__60
                 {
                 	mT__60(); 
 
                 }
                 break;
             case 23 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:142: T__61
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:142: T__61
                 {
                 	mT__61(); 
 
                 }
                 break;
             case 24 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:148: T__62
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:148: T__62
                 {
                 	mT__62(); 
 
                 }
                 break;
             case 25 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:154: T__63
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:154: T__63
                 {
                 	mT__63(); 
 
                 }
                 break;
             case 26 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:160: T__64
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:160: T__64
                 {
                 	mT__64(); 
 
                 }
                 break;
             case 27 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:166: T__65
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:166: T__65
                 {
                 	mT__65(); 
 
                 }
                 break;
             case 28 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:172: T__66
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:172: T__66
                 {
                 	mT__66(); 
 
                 }
                 break;
             case 29 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:178: T__67
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:178: T__67
                 {
                 	mT__67(); 
 
                 }
                 break;
             case 30 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:184: T__68
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:184: T__68
                 {
                 	mT__68(); 
 
                 }
                 break;
             case 31 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:190: T__69
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:190: T__69
                 {
                 	mT__69(); 
 
                 }
                 break;
             case 32 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:196: T__70
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:196: T__70
                 {
                 	mT__70(); 
 
                 }
                 break;
             case 33 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:202: T__71
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:202: T__71
                 {
                 	mT__71(); 
 
                 }
                 break;
             case 34 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:208: T__72
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:208: T__72
                 {
                 	mT__72(); 
 
                 }
                 break;
             case 35 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:214: T__73
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:214: T__73
                 {
                 	mT__73(); 
 
                 }
                 break;
             case 36 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:220: T__74
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:220: T__74
                 {
                 	mT__74(); 
 
                 }
                 break;
             case 37 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:226: T__75
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:226: T__75
                 {
                 	mT__75(); 
 
                 }
                 break;
             case 38 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:232: T__76
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:232: T__76
                 {
                 	mT__76(); 
 
                 }
                 break;
             case 39 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:238: T__77
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:238: T__77
                 {
                 	mT__77(); 
 
                 }
                 break;
             case 40 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:244: T__78
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:244: T__78
                 {
                 	mT__78(); 
 
                 }
                 break;
             case 41 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:250: T__79
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:250: T__79
                 {
                 	mT__79(); 
 
                 }
                 break;
             case 42 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:256: T__80
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:256: T__80
                 {
                 	mT__80(); 
 
                 }
                 break;
             case 43 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:262: T__81
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:262: T__81
                 {
                 	mT__81(); 
 
                 }
                 break;
             case 44 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:268: T__82
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:268: T__82
                 {
                 	mT__82(); 
 
                 }
                 break;
             case 45 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:274: T__83
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:274: T__83
                 {
                 	mT__83(); 
 
                 }
                 break;
             case 46 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:280: T__84
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:280: T__84
                 {
                 	mT__84(); 
 
                 }
                 break;
             case 47 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:286: T__85
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:286: T__85
                 {
                 	mT__85(); 
 
                 }
                 break;
             case 48 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:292: T__86
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:292: T__86
                 {
                 	mT__86(); 
 
                 }
                 break;
             case 49 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:298: T__87
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:298: T__87
                 {
                 	mT__87(); 
 
                 }
                 break;
             case 50 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:304: T__88
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:304: T__88
                 {
                 	mT__88(); 
 
                 }
                 break;
             case 51 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:310: T__89
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:310: T__89
                 {
                 	mT__89(); 
 
                 }
                 break;
             case 52 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:316: T__90
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:316: T__90
                 {
                 	mT__90(); 
 
                 }
                 break;
             case 53 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:322: T__91
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:322: T__91
                 {
                 	mT__91(); 
 
                 }
                 break;
             case 54 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:328: T__92
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:328: T__92
                 {
                 	mT__92(); 
 
                 }
                 break;
             case 55 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:334: T__93
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:334: T__93
                 {
                 	mT__93(); 
 
                 }
                 break;
             case 56 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:340: T__94
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:340: T__94
                 {
                 	mT__94(); 
 
                 }
                 break;
             case 57 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:346: ID
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:346: T__95
+                {
+                	mT__95(); 
+
+                }
+                break;
+            case 58 :
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:352: ID
                 {
                 	mID(); 
 
                 }
                 break;
-            case 58 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:349: INT
+            case 59 :
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:355: INT
                 {
                 	mINT(); 
 
                 }
                 break;
-            case 59 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:353: FLOAT_WO_EXP
+            case 60 :
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:359: FLOAT_WO_EXP
                 {
                 	mFLOAT_WO_EXP(); 
 
                 }
                 break;
-            case 60 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:366: TIKZEDT_CMD_COMMENT
+            case 61 :
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:372: TIKZEDT_CMD_COMMENT
                 {
                 	mTIKZEDT_CMD_COMMENT(); 
 
                 }
                 break;
-            case 61 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:386: COMMENT
+            case 62 :
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:392: COMMENT
                 {
                 	mCOMMENT(); 
 
                 }
                 break;
-            case 62 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:394: WS
+            case 63 :
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:400: WS
                 {
                 	mWS(); 
 
                 }
                 break;
-            case 63 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:397: MATHSTRING
+            case 64 :
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:403: MATHSTRING
                 {
                 	mMATHSTRING(); 
 
                 }
                 break;
-            case 64 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:408: COMMAND
+            case 65 :
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:414: COMMAND
                 {
                 	mCOMMAND(); 
 
                 }
                 break;
-            case 65 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:416: ESC_SEQ
+            case 66 :
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:422: ESC_SEQ
                 {
                 	mESC_SEQ(); 
 
                 }
                 break;
-            case 66 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:424: SOMETHING
+            case 67 :
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:430: SOMETHING
                 {
                 	mSOMETHING(); 
 
                 }
                 break;
-            case 67 :
-                // C:\\_TUHH\\SVN\\projects\\wsn\\dibus\\SvgMap\\SvgNaviMap\\bargraph\\tikzedt\\TikzParser\\simpletikz.g:1:434: SOMETHING1
+            case 68 :
+                // E:\\Promotion\\svn\\tikz\\tikzedt\\TikzParser\\simpletikz.g:1:440: SOMETHING1
                 {
                 	mSOMETHING1(); 
 
@@ -2962,17 +2994,17 @@ public partial class simpletikzLexer : Lexer {
     const string DFA17_eofS =
         "\x12\uffff";
     const string DFA17_minS =
-        "\x01\x25\x02\x00\x01\uffff\x05\x00\x01\uffff\x04\x00\x01\uffff"+
-        "\x03\x00";
+        "\x01\x25\x02\x00\x01\uffff\x05\x00\x01\uffff\x03\x00\x01\uffff"+
+        "\x04\x00";
     const string DFA17_maxS =
-        "\x01\x25\x02\uffff\x01\uffff\x05\uffff\x01\uffff\x04\uffff\x01"+
-        "\uffff\x03\uffff";
+        "\x01\x25\x02\uffff\x01\uffff\x05\uffff\x01\uffff\x03\uffff\x01"+
+        "\uffff\x04\uffff";
     const string DFA17_acceptS =
-        "\x03\uffff\x01\x01\x05\uffff\x01\x02\x04\uffff\x01\x01\x03\uffff";
+        "\x03\uffff\x01\x01\x05\uffff\x01\x02\x03\uffff\x01\x01\x04\uffff";
     const string DFA17_specialS =
-        "\x01\uffff\x01\x05\x01\x06\x01\uffff\x01\x0a\x01\x0c\x01\x09\x01"+
-        "\x01\x01\x07\x01\uffff\x01\x03\x01\x02\x01\x04\x01\x0d\x01\uffff"+
-        "\x01\x0b\x01\x00\x01\x08}>";
+        "\x01\uffff\x01\x01\x01\x0c\x01\uffff\x01\x04\x01\x08\x01\x0b\x01"+
+        "\x02\x01\x09\x01\uffff\x01\x03\x01\x0a\x01\x05\x01\uffff\x01\x0d"+
+        "\x01\x07\x01\x00\x01\x06}>";
     static readonly string[] DFA17_transitionS = {
             "\x01\x01",
             "\x2f\x03\x01\x02\uffd0\x03",
@@ -2987,15 +3019,15 @@ public partial class simpletikzLexer : Lexer {
             "",
             "\x0a\x08\x01\x06\x02\x08\x01\x05\x17\x08\x01\x07\x09\x08\x01"+
             "\x0b\uffd0\x08",
-            "\x0a\x0f\x01\x0e\x02\x0f\x01\x0d\x17\x0f\x01\x0c\uffda\x0f",
-            "\x0a\x0f\x01\x0e\x02\x0f\x01\x0d\x17\x0f\x01\x0c\x04\x0f\x01"+
-            "\x10\uffd5\x0f",
-            "\x0a\x09\x01\x0e\ufff5\x09",
+            "\x0a\x0f\x01\x0d\x02\x0f\x01\x0c\x17\x0f\x01\x0e\uffda\x0f",
+            "\x0a\x09\x01\x0d\ufff5\x09",
             "",
-            "\x0a\x0f\x01\x0e\x02\x0f\x01\x0d\x17\x0f\x01\x0c\uffda\x0f",
-            "\x0a\x0f\x01\x0e\x02\x0f\x01\x0d\x17\x0f\x01\x0c\x09\x0f\x01"+
+            "\x0a\x0f\x01\x0d\x02\x0f\x01\x0c\x17\x0f\x01\x0e\x04\x0f\x01"+
+            "\x10\uffd5\x0f",
+            "\x0a\x0f\x01\x0d\x02\x0f\x01\x0c\x17\x0f\x01\x0e\uffda\x0f",
+            "\x0a\x0f\x01\x0d\x02\x0f\x01\x0c\x17\x0f\x01\x0e\x09\x0f\x01"+
             "\x11\uffd0\x0f",
-            "\x0a\x0f\x01\x0e\x02\x0f\x01\x0d\x17\x0f\x01\x0c\uffda\x0f"
+            "\x0a\x0f\x01\x0d\x02\x0f\x01\x0c\x17\x0f\x01\x0e\uffda\x0f"
     };
 
     static readonly short[] DFA17_eot = DFA.UnpackEncodedString(DFA17_eotS);
@@ -3042,17 +3074,27 @@ public partial class simpletikzLexer : Lexer {
                    	s = -1;
                    	if ( (LA17_16 == '/') ) { s = 17; }
 
-                   	else if ( (LA17_16 == '\r') ) { s = 13; }
+                   	else if ( (LA17_16 == '\r') ) { s = 12; }
 
-                   	else if ( (LA17_16 == '\n') ) { s = 14; }
+                   	else if ( (LA17_16 == '\n') ) { s = 13; }
 
-                   	else if ( (LA17_16 == '%') ) { s = 12; }
+                   	else if ( (LA17_16 == '%') ) { s = 14; }
 
                    	else if ( ((LA17_16 >= '\u0000' && LA17_16 <= '\t') || (LA17_16 >= '\u000B' && LA17_16 <= '\f') || (LA17_16 >= '\u000E' && LA17_16 <= '$') || (LA17_16 >= '&' && LA17_16 <= '.') || (LA17_16 >= '0' && LA17_16 <= '\uFFFF')) ) { s = 15; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 1 : 
+                   	int LA17_1 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA17_1 == '/') ) { s = 2; }
+
+                   	else if ( ((LA17_1 >= '\u0000' && LA17_1 <= '.') || (LA17_1 >= '0' && LA17_1 <= '\uFFFF')) ) { s = 3; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 2 : 
                    	int LA17_7 = input.LA(1);
 
                    	s = -1;
@@ -3065,20 +3107,6 @@ public partial class simpletikzLexer : Lexer {
                    	else if ( (LA17_7 == '%') ) { s = 7; }
 
                    	else if ( ((LA17_7 >= '\u0000' && LA17_7 <= '\t') || (LA17_7 >= '\u000B' && LA17_7 <= '\f') || (LA17_7 >= '\u000E' && LA17_7 <= '$') || (LA17_7 >= '&' && LA17_7 <= ')') || (LA17_7 >= '+' && LA17_7 <= '\uFFFF')) ) { s = 8; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 2 : 
-                   	int LA17_11 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA17_11 == '%') ) { s = 12; }
-
-                   	else if ( (LA17_11 == '\r') ) { s = 13; }
-
-                   	else if ( (LA17_11 == '\n') ) { s = 14; }
-
-                   	else if ( ((LA17_11 >= '\u0000' && LA17_11 <= '\t') || (LA17_11 >= '\u000B' && LA17_11 <= '\f') || (LA17_11 >= '\u000E' && LA17_11 <= '$') || (LA17_11 >= '&' && LA17_11 <= '\uFFFF')) ) { s = 15; }
 
                    	if ( s >= 0 ) return s;
                    	break;
@@ -3099,80 +3127,6 @@ public partial class simpletikzLexer : Lexer {
                    	if ( s >= 0 ) return s;
                    	break;
                	case 4 : 
-                   	int LA17_12 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA17_12 == '*') ) { s = 16; }
-
-                   	else if ( (LA17_12 == '\r') ) { s = 13; }
-
-                   	else if ( (LA17_12 == '\n') ) { s = 14; }
-
-                   	else if ( (LA17_12 == '%') ) { s = 12; }
-
-                   	else if ( ((LA17_12 >= '\u0000' && LA17_12 <= '\t') || (LA17_12 >= '\u000B' && LA17_12 <= '\f') || (LA17_12 >= '\u000E' && LA17_12 <= '$') || (LA17_12 >= '&' && LA17_12 <= ')') || (LA17_12 >= '+' && LA17_12 <= '\uFFFF')) ) { s = 15; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 5 : 
-                   	int LA17_1 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA17_1 == '/') ) { s = 2; }
-
-                   	else if ( ((LA17_1 >= '\u0000' && LA17_1 <= '.') || (LA17_1 >= '0' && LA17_1 <= '\uFFFF')) ) { s = 3; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 6 : 
-                   	int LA17_2 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA17_2 == '*') ) { s = 4; }
-
-                   	else if ( ((LA17_2 >= '\u0000' && LA17_2 <= ')') || (LA17_2 >= '+' && LA17_2 <= '\uFFFF')) ) { s = 3; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 7 : 
-                   	int LA17_8 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA17_8 == '\r') ) { s = 5; }
-
-                   	else if ( (LA17_8 == '\n') ) { s = 6; }
-
-                   	else if ( (LA17_8 == '%') ) { s = 7; }
-
-                   	else if ( ((LA17_8 >= '\u0000' && LA17_8 <= '\t') || (LA17_8 >= '\u000B' && LA17_8 <= '\f') || (LA17_8 >= '\u000E' && LA17_8 <= '$') || (LA17_8 >= '&' && LA17_8 <= '\uFFFF')) ) { s = 8; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 8 : 
-                   	int LA17_17 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA17_17 == '%') ) { s = 12; }
-
-                   	else if ( (LA17_17 == '\r') ) { s = 13; }
-
-                   	else if ( (LA17_17 == '\n') ) { s = 14; }
-
-                   	else if ( ((LA17_17 >= '\u0000' && LA17_17 <= '\t') || (LA17_17 >= '\u000B' && LA17_17 <= '\f') || (LA17_17 >= '\u000E' && LA17_17 <= '$') || (LA17_17 >= '&' && LA17_17 <= '\uFFFF')) ) { s = 15; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 9 : 
-                   	int LA17_6 = input.LA(1);
-
-                   	s = -1;
-                   	if ( ((LA17_6 >= '\u0000' && LA17_6 <= '\uFFFF')) ) { s = 9; }
-
-                   	else s = 3;
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 10 : 
                    	int LA17_4 = input.LA(1);
 
                    	s = -1;
@@ -3186,37 +3140,115 @@ public partial class simpletikzLexer : Lexer {
 
                    	if ( s >= 0 ) return s;
                    	break;
-               	case 11 : 
+               	case 5 : 
+                   	int LA17_12 = input.LA(1);
+
+                   	s = -1;
+                   	if ( ((LA17_12 >= '\u0000' && LA17_12 <= '\t') || (LA17_12 >= '\u000B' && LA17_12 <= '\uFFFF')) ) { s = 9; }
+
+                   	else if ( (LA17_12 == '\n') ) { s = 13; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 6 : 
+                   	int LA17_17 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA17_17 == '\r') ) { s = 12; }
+
+                   	else if ( (LA17_17 == '\n') ) { s = 13; }
+
+                   	else if ( (LA17_17 == '%') ) { s = 14; }
+
+                   	else if ( ((LA17_17 >= '\u0000' && LA17_17 <= '\t') || (LA17_17 >= '\u000B' && LA17_17 <= '\f') || (LA17_17 >= '\u000E' && LA17_17 <= '$') || (LA17_17 >= '&' && LA17_17 <= '\uFFFF')) ) { s = 15; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 7 : 
                    	int LA17_15 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_15 == '\r') ) { s = 13; }
+                   	if ( (LA17_15 == '\r') ) { s = 12; }
 
-                   	else if ( (LA17_15 == '\n') ) { s = 14; }
+                   	else if ( (LA17_15 == '\n') ) { s = 13; }
 
-                   	else if ( (LA17_15 == '%') ) { s = 12; }
+                   	else if ( (LA17_15 == '%') ) { s = 14; }
 
                    	else if ( ((LA17_15 >= '\u0000' && LA17_15 <= '\t') || (LA17_15 >= '\u000B' && LA17_15 <= '\f') || (LA17_15 >= '\u000E' && LA17_15 <= '$') || (LA17_15 >= '&' && LA17_15 <= '\uFFFF')) ) { s = 15; }
 
                    	if ( s >= 0 ) return s;
                    	break;
-               	case 12 : 
+               	case 8 : 
                    	int LA17_5 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_5 == '\n') ) { s = 6; }
+                   	if ( ((LA17_5 >= '\u0000' && LA17_5 <= '\t') || (LA17_5 >= '\u000B' && LA17_5 <= '\uFFFF')) ) { s = 9; }
 
-                   	else if ( ((LA17_5 >= '\u0000' && LA17_5 <= '\t') || (LA17_5 >= '\u000B' && LA17_5 <= '\uFFFF')) ) { s = 9; }
+                   	else if ( (LA17_5 == '\n') ) { s = 6; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 9 : 
+                   	int LA17_8 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA17_8 == '\r') ) { s = 5; }
+
+                   	else if ( (LA17_8 == '\n') ) { s = 6; }
+
+                   	else if ( (LA17_8 == '%') ) { s = 7; }
+
+                   	else if ( ((LA17_8 >= '\u0000' && LA17_8 <= '\t') || (LA17_8 >= '\u000B' && LA17_8 <= '\f') || (LA17_8 >= '\u000E' && LA17_8 <= '$') || (LA17_8 >= '&' && LA17_8 <= '\uFFFF')) ) { s = 8; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 10 : 
+                   	int LA17_11 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA17_11 == '\r') ) { s = 12; }
+
+                   	else if ( (LA17_11 == '\n') ) { s = 13; }
+
+                   	else if ( (LA17_11 == '%') ) { s = 14; }
+
+                   	else if ( ((LA17_11 >= '\u0000' && LA17_11 <= '\t') || (LA17_11 >= '\u000B' && LA17_11 <= '\f') || (LA17_11 >= '\u000E' && LA17_11 <= '$') || (LA17_11 >= '&' && LA17_11 <= '\uFFFF')) ) { s = 15; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 11 : 
+                   	int LA17_6 = input.LA(1);
+
+                   	s = -1;
+                   	if ( ((LA17_6 >= '\u0000' && LA17_6 <= '\uFFFF')) ) { s = 9; }
+
+                   	else s = 3;
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 12 : 
+                   	int LA17_2 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA17_2 == '*') ) { s = 4; }
+
+                   	else if ( ((LA17_2 >= '\u0000' && LA17_2 <= ')') || (LA17_2 >= '+' && LA17_2 <= '\uFFFF')) ) { s = 3; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 13 : 
-                   	int LA17_13 = input.LA(1);
+                   	int LA17_14 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA17_13 == '\n') ) { s = 14; }
+                   	if ( (LA17_14 == '*') ) { s = 16; }
 
-                   	else if ( ((LA17_13 >= '\u0000' && LA17_13 <= '\t') || (LA17_13 >= '\u000B' && LA17_13 <= '\uFFFF')) ) { s = 9; }
+                   	else if ( (LA17_14 == '\r') ) { s = 12; }
+
+                   	else if ( (LA17_14 == '\n') ) { s = 13; }
+
+                   	else if ( (LA17_14 == '%') ) { s = 14; }
+
+                   	else if ( ((LA17_14 >= '\u0000' && LA17_14 <= '\t') || (LA17_14 >= '\u000B' && LA17_14 <= '\f') || (LA17_14 >= '\u000E' && LA17_14 <= '$') || (LA17_14 >= '&' && LA17_14 <= ')') || (LA17_14 >= '+' && LA17_14 <= '\uFFFF')) ) { s = 15; }
 
                    	if ( s >= 0 ) return s;
                    	break;
@@ -3231,27 +3263,27 @@ public partial class simpletikzLexer : Lexer {
     const string DFA14_eofS =
         "\x0c\uffff";
     const string DFA14_minS =
-        "\x02\x00\x01\uffff\x04\x00\x01\uffff\x02\x00\x02\uffff";
+        "\x02\x00\x01\uffff\x05\x00\x01\uffff\x01\x00\x02\uffff";
     const string DFA14_maxS =
-        "\x02\uffff\x01\uffff\x04\uffff\x01\uffff\x02\uffff\x02\uffff";
+        "\x02\uffff\x01\uffff\x05\uffff\x01\uffff\x01\uffff\x02\uffff";
     const string DFA14_acceptS =
-        "\x02\uffff\x01\x01\x04\uffff\x01\x02\x02\uffff\x02\x02";
+        "\x02\uffff\x01\x01\x05\uffff\x01\x02\x01\uffff\x02\x02";
     const string DFA14_specialS =
-        "\x01\x04\x01\x05\x01\uffff\x01\x07\x01\x01\x01\x03\x01\x06\x01"+
-        "\uffff\x01\x02\x01\x00\x02\uffff}>";
+        "\x01\x00\x01\x05\x01\uffff\x01\x06\x01\x07\x01\x01\x01\x04\x01"+
+        "\x02\x01\uffff\x01\x03\x02\uffff}>";
     static readonly string[] DFA14_transitionS = {
             "\x25\x02\x01\x01\uffda\x02",
             "\x2a\x02\x01\x03\uffd5\x02",
             "",
             "\x2f\x02\x01\x04\uffd0\x02",
-            "\x0a\x08\x01\x07\x02\x08\x01\x06\x17\x08\x01\x05\uffda\x08",
-            "\x0a\x08\x01\x07\x02\x08\x01\x06\x17\x08\x01\x05\x04\x08\x01"+
-            "\x09\uffd5\x08",
-            "\x0a\x02\x01\x07\ufff5\x02",
+            "\x0a\x06\x01\x08\x02\x06\x01\x07\x17\x06\x01\x05\uffda\x06",
+            "\x0a\x06\x01\x08\x02\x06\x01\x07\x17\x06\x01\x05\x04\x06\x01"+
+            "\x09\uffd5\x06",
+            "\x0a\x06\x01\x08\x02\x06\x01\x07\x17\x06\x01\x05\uffda\x06",
+            "\x0a\x02\x01\x08\ufff5\x02",
             "",
-            "\x0a\x08\x01\x0a\x02\x08\x01\x06\x17\x08\x01\x05\uffda\x08",
-            "\x0a\x08\x01\x0a\x02\x08\x01\x06\x17\x08\x01\x05\x09\x08\x01"+
-            "\x0b\uffd0\x08",
+            "\x0a\x06\x01\x0b\x02\x06\x01\x07\x17\x06\x01\x05\x09\x06\x01"+
+            "\x0a\uffd0\x06",
             "",
             ""
     };
@@ -3295,72 +3327,68 @@ public partial class simpletikzLexer : Lexer {
         switch ( s )
         {
                	case 0 : 
-                   	int LA14_9 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA14_9 == '/') ) { s = 11; }
-
-                   	else if ( (LA14_9 == '\r') ) { s = 6; }
-
-                   	else if ( (LA14_9 == '\n') ) { s = 10; }
-
-                   	else if ( (LA14_9 == '%') ) { s = 5; }
-
-                   	else if ( ((LA14_9 >= '\u0000' && LA14_9 <= '\t') || (LA14_9 >= '\u000B' && LA14_9 <= '\f') || (LA14_9 >= '\u000E' && LA14_9 <= '$') || (LA14_9 >= '&' && LA14_9 <= '.') || (LA14_9 >= '0' && LA14_9 <= '\uFFFF')) ) { s = 8; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 1 : 
-                   	int LA14_4 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA14_4 == '%') ) { s = 5; }
-
-                   	else if ( (LA14_4 == '\r') ) { s = 6; }
-
-                   	else if ( (LA14_4 == '\n') ) { s = 7; }
-
-                   	else if ( ((LA14_4 >= '\u0000' && LA14_4 <= '\t') || (LA14_4 >= '\u000B' && LA14_4 <= '\f') || (LA14_4 >= '\u000E' && LA14_4 <= '$') || (LA14_4 >= '&' && LA14_4 <= '\uFFFF')) ) { s = 8; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 2 : 
-                   	int LA14_8 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA14_8 == '\r') ) { s = 6; }
-
-                   	else if ( (LA14_8 == '\n') ) { s = 10; }
-
-                   	else if ( (LA14_8 == '%') ) { s = 5; }
-
-                   	else if ( ((LA14_8 >= '\u0000' && LA14_8 <= '\t') || (LA14_8 >= '\u000B' && LA14_8 <= '\f') || (LA14_8 >= '\u000E' && LA14_8 <= '$') || (LA14_8 >= '&' && LA14_8 <= '\uFFFF')) ) { s = 8; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 3 : 
-                   	int LA14_5 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA14_5 == '*') ) { s = 9; }
-
-                   	else if ( (LA14_5 == '\r') ) { s = 6; }
-
-                   	else if ( (LA14_5 == '\n') ) { s = 7; }
-
-                   	else if ( (LA14_5 == '%') ) { s = 5; }
-
-                   	else if ( ((LA14_5 >= '\u0000' && LA14_5 <= '\t') || (LA14_5 >= '\u000B' && LA14_5 <= '\f') || (LA14_5 >= '\u000E' && LA14_5 <= '$') || (LA14_5 >= '&' && LA14_5 <= ')') || (LA14_5 >= '+' && LA14_5 <= '\uFFFF')) ) { s = 8; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 4 : 
                    	int LA14_0 = input.LA(1);
 
                    	s = -1;
                    	if ( (LA14_0 == '%') ) { s = 1; }
 
                    	else if ( ((LA14_0 >= '\u0000' && LA14_0 <= '$') || (LA14_0 >= '&' && LA14_0 <= '\uFFFF')) ) { s = 2; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 1 : 
+                   	int LA14_5 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA14_5 == '*') ) { s = 9; }
+
+                   	else if ( (LA14_5 == '\r') ) { s = 7; }
+
+                   	else if ( (LA14_5 == '\n') ) { s = 8; }
+
+                   	else if ( (LA14_5 == '%') ) { s = 5; }
+
+                   	else if ( ((LA14_5 >= '\u0000' && LA14_5 <= '\t') || (LA14_5 >= '\u000B' && LA14_5 <= '\f') || (LA14_5 >= '\u000E' && LA14_5 <= '$') || (LA14_5 >= '&' && LA14_5 <= ')') || (LA14_5 >= '+' && LA14_5 <= '\uFFFF')) ) { s = 6; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 2 : 
+                   	int LA14_7 = input.LA(1);
+
+                   	s = -1;
+                   	if ( ((LA14_7 >= '\u0000' && LA14_7 <= '\t') || (LA14_7 >= '\u000B' && LA14_7 <= '\uFFFF')) ) { s = 2; }
+
+                   	else if ( (LA14_7 == '\n') ) { s = 8; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 3 : 
+                   	int LA14_9 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA14_9 == '/') ) { s = 10; }
+
+                   	else if ( (LA14_9 == '\r') ) { s = 7; }
+
+                   	else if ( (LA14_9 == '\n') ) { s = 11; }
+
+                   	else if ( (LA14_9 == '%') ) { s = 5; }
+
+                   	else if ( ((LA14_9 >= '\u0000' && LA14_9 <= '\t') || (LA14_9 >= '\u000B' && LA14_9 <= '\f') || (LA14_9 >= '\u000E' && LA14_9 <= '$') || (LA14_9 >= '&' && LA14_9 <= '.') || (LA14_9 >= '0' && LA14_9 <= '\uFFFF')) ) { s = 6; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 4 : 
+                   	int LA14_6 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA14_6 == '\r') ) { s = 7; }
+
+                   	else if ( (LA14_6 == '\n') ) { s = 8; }
+
+                   	else if ( (LA14_6 == '%') ) { s = 5; }
+
+                   	else if ( ((LA14_6 >= '\u0000' && LA14_6 <= '\t') || (LA14_6 >= '\u000B' && LA14_6 <= '\f') || (LA14_6 >= '\u000E' && LA14_6 <= '$') || (LA14_6 >= '&' && LA14_6 <= '\uFFFF')) ) { s = 6; }
 
                    	if ( s >= 0 ) return s;
                    	break;
@@ -3375,22 +3403,26 @@ public partial class simpletikzLexer : Lexer {
                    	if ( s >= 0 ) return s;
                    	break;
                	case 6 : 
-                   	int LA14_6 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA14_6 == '\n') ) { s = 7; }
-
-                   	else if ( ((LA14_6 >= '\u0000' && LA14_6 <= '\t') || (LA14_6 >= '\u000B' && LA14_6 <= '\uFFFF')) ) { s = 2; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 7 : 
                    	int LA14_3 = input.LA(1);
 
                    	s = -1;
                    	if ( (LA14_3 == '/') ) { s = 4; }
 
                    	else if ( ((LA14_3 >= '\u0000' && LA14_3 <= '.') || (LA14_3 >= '0' && LA14_3 <= '\uFFFF')) ) { s = 2; }
+
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 7 : 
+                   	int LA14_4 = input.LA(1);
+
+                   	s = -1;
+                   	if ( (LA14_4 == '%') ) { s = 5; }
+
+                   	else if ( ((LA14_4 >= '\u0000' && LA14_4 <= '\t') || (LA14_4 >= '\u000B' && LA14_4 <= '\f') || (LA14_4 >= '\u000E' && LA14_4 <= '$') || (LA14_4 >= '&' && LA14_4 <= '\uFFFF')) ) { s = 6; }
+
+                   	else if ( (LA14_4 == '\r') ) { s = 7; }
+
+                   	else if ( (LA14_4 == '\n') ) { s = 8; }
 
                    	if ( s >= 0 ) return s;
                    	break;
@@ -3401,122 +3433,124 @@ public partial class simpletikzLexer : Lexer {
         throw nvae;
     }
     const string DFA22_eotS =
-        "\x01\uffff\x01\x20\x03\uffff\x01\x33\x02\uffff\x01\x20\x01\x39"+
-        "\x05\uffff\x08\x39\x03\x20\x01\x39\x01\uffff\x01\x55\x01\x20\x01"+
-        "\uffff\x01\x20\x01\uffff\x0b\x5d\x0a\uffff\x01\x6c\x02\x39\x06\uffff"+
-        "\x01\x6f\x02\x39\x01\x73\x01\x74\x01\x75\x01\x39\x01\x77\x01\x78"+
-        "\x02\x39\x01\x7b\x02\x39\x04\uffff\x01\x55\x02\uffff\x01\x39\x04"+
-        "\uffff\x01\x56\x02\uffff\x01\x5d\x01\uffff\x0c\x5d\x02\x6c\x01\uffff"+
-        "\x02\x39\x01\uffff\x03\x39\x03\uffff\x01\x39\x02\uffff\x01\u0096"+
-        "\x01\u0097\x01\uffff\x01\u0098\x02\x39\x02\uffff\x02\x5d\x01\u009e"+
-        "\x05\x5d\x01\u00a4\x04\x5d\x02\x6c\x06\x39\x03\uffff\x01\u00b2\x01"+
-        "\x39\x01\uffff\x01\x5d\x01\u00b7\x01\uffff\x01\u00b8\x02\x5d\x01"+
-        "\u00bb\x01\u00bc\x01\uffff\x01\u00bd\x01\x5d\x01\u00c0\x02\x5d\x02"+
-        "\x6c\x01\u00c5\x01\u00c6\x04\x39\x01\uffff\x01\x39\x01\uffff\x01"+
-        "\u00cd\x01\x5d\x02\uffff\x02\x5d\x03\uffff\x02\x5d\x01\uffff\x01"+
-        "\u00d5\x01\x5d\x02\x6c\x02\uffff\x02\x39\x01\u00db\x02\x39\x02\uffff"+
-        "\x02\x5d\x01\u00e1\x04\x5d\x01\uffff\x01\x5d\x01\u00e7\x01\x6c\x02"+
-        "\x39\x01\uffff\x01\u00eb\x01\x39\x01\uffff\x01\x5d\x01\u00ef\x01"+
-        "\uffff\x01\x5d\x01\u00f1\x03\x5d\x01\uffff\x01\u00f5\x01\x39\x01"+
-        "\u00f7\x01\uffff\x01\x39\x01\uffff\x01\x5d\x01\uffff\x01\x5d\x01"+
-        "\uffff\x01\u00fc\x02\x5d\x01\uffff\x01\x39\x01\uffff\x01\x39\x01"+
-        "\uffff\x01\u0102\x01\x5d\x01\uffff\x01\u0104\x01\x5d\x01\u0106\x01"+
-        "\x39\x02\uffff\x01\u010b\x01\uffff\x01\x5d\x01\uffff\x01\u010d\x04"+
-        "\uffff\x01\x5d\x01\uffff\x04\x5d\x01\u0113\x01\uffff";
+        "\x01\uffff\x01\x20\x03\uffff\x01\x33\x02\uffff\x01\x20\x02\x39"+
+        "\x05\uffff\x07\x39\x03\x20\x01\x39\x01\uffff\x01\x55\x01\x20\x01"+
+        "\uffff\x01\x20\x01\uffff\x0b\x5d\x0a\uffff\x01\x6c\x02\x39\x01\uffff"+
+        "\x02\x39\x01\x72\x05\uffff\x01\x73\x02\x39\x01\x77\x01\x78\x01\x79"+
+        "\x01\x39\x01\x7b\x01\x7c\x02\x39\x03\uffff\x01\x55\x03\uffff\x01"+
+        "\x39\x04\uffff\x01\x56\x02\uffff\x01\x5d\x01\uffff\x0c\x5d\x02\x6c"+
+        "\x01\uffff\x03\x39\x01\u0094\x01\u0095\x02\uffff\x03\x39\x03\uffff"+
+        "\x01\x39\x02\uffff\x01\u009a\x02\x39\x02\uffff\x02\x5d\x01\u00a0"+
+        "\x05\x5d\x01\u00a6\x04\x5d\x02\x6c\x02\x39\x01\u00b0\x02\uffff\x04"+
+        "\x39\x01\uffff\x01\u00b5\x01\x39\x01\uffff\x01\x5d\x01\u00ba\x01"+
+        "\uffff\x01\u00bb\x02\x5d\x01\u00be\x01\u00bf\x01\uffff\x01\u00c0"+
+        "\x01\x5d\x01\u00c3\x02\x5d\x02\x6c\x01\u00c8\x01\u00c9\x01\uffff"+
+        "\x04\x39\x01\uffff\x01\x39\x01\uffff\x01\u00d0\x01\x5d\x02\uffff"+
+        "\x02\x5d\x03\uffff\x02\x5d\x01\uffff\x01\u00d8\x01\x5d\x02\x6c\x02"+
+        "\uffff\x02\x39\x01\u00de\x02\x39\x02\uffff\x02\x5d\x01\u00e4\x04"+
+        "\x5d\x01\uffff\x01\x5d\x01\u00ea\x01\x6c\x02\x39\x01\uffff\x01\u00ee"+
+        "\x01\x39\x01\uffff\x01\x5d\x01\u00f2\x01\uffff\x01\x5d\x01\u00f4"+
+        "\x03\x5d\x01\uffff\x01\u00f8\x01\x39\x01\u00fa\x01\uffff\x01\x39"+
+        "\x01\uffff\x01\x5d\x01\uffff\x01\x5d\x01\uffff\x01\u00ff\x02\x5d"+
+        "\x01\uffff\x01\x39\x01\uffff\x01\x39\x01\uffff\x01\u0105\x01\x5d"+
+        "\x01\uffff\x01\u0107\x01\x5d\x01\u0109\x01\x39\x02\uffff\x01\u010e"+
+        "\x01\uffff\x01\x5d\x01\uffff\x01\u0110\x04\uffff\x01\x5d\x01\uffff"+
+        "\x04\x5d\x01\u0116\x01\uffff";
     const string DFA22_eofS =
-        "\u0114\uffff";
+        "\u0117\uffff";
     const string DFA22_minS =
-        "\x02\x00\x03\uffff\x01\x2b\x02\uffff\x01\x2e\x01\x63\x05\uffff"+
-        "\x01\x69\x01\x6e\x01\x6c\x01\x6d\x01\x74\x01\x65\x01\x6e\x01\x6f"+
-        "\x02\x2d\x01\x2e\x01\x69\x01\uffff\x01\x2e\x01\x00\x01\uffff\x01"+
-        "\x00\x01\uffff\x01\x65\x01\x69\x01\x6e\x01\x6f\x01\x61\x01\x6c\x01"+
-        "\x65\x01\x61\x01\x69\x01\x68\x01\x73\x0a\uffff\x01\x61\x01\x79\x01"+
-        "\x6f\x06\uffff\x01\x21\x01\x6e\x01\x72\x03\x21\x01\x6c\x02\x21\x01"+
-        "\x74\x01\x64\x01\x21\x01\x63\x01\x64\x04\uffff\x01\x2e\x02\uffff"+
-        "\x01\x6b\x02\uffff\x01\x00\x01\x0a\x01\x21\x02\uffff\x01\x67\x01"+
-        "\uffff\x01\x6b\x02\x64\x01\x74\x01\x6f\x01\x69\x01\x61\x01\x66\x01"+
-        "\x74\x01\x6c\x01\x61\x01\x65\x01\x74\x01\x70\x01\uffff\x01\x6c\x01"+
-        "\x70\x01\uffff\x01\x72\x01\x74\x01\x63\x03\uffff\x01\x69\x02\uffff"+
-        "\x02\x21\x01\uffff\x01\x21\x01\x65\x01\x7a\x01\x00\x01\uffff\x01"+
-        "\x69\x01\x7a\x01\x21\x01\x65\x02\x72\x01\x70\x01\x77\x01\x21\x01"+
-        "\x68\x01\x6c\x01\x64\x01\x61\x01\x79\x01\x70\x02\x65\x01\x64\x01"+
-        "\x72\x01\x6c\x01\x70\x03\uffff\x01\x21\x01\x70\x01\x00\x01\x6e\x01"+
-        "\x21\x01\uffff\x01\x21\x01\x69\x01\x64\x02\x21\x01\uffff\x01\x21"+
-        "\x01\x65\x01\x21\x01\x65\x01\x73\x01\x6c\x01\x65\x02\x21\x01\x69"+
-        "\x01\x6f\x01\x65\x01\x73\x01\uffff\x01\x69\x01\x00\x01\x21\x01\x65"+
-        "\x02\uffff\x01\x78\x01\x69\x03\uffff\x02\x72\x01\uffff\x01\x21\x01"+
-        "\x62\x01\x65\x01\x6e\x02\uffff\x01\x6e\x01\x6c\x01\x21\x01\x65\x01"+
-        "\x63\x01\x00\x01\uffff\x01\x79\x01\x74\x01\x21\x02\x6e\x01\x61\x01"+
-        "\x72\x01\uffff\x01\x6f\x01\x41\x01\x64\x01\x61\x01\x73\x01\uffff"+
-        "\x01\x21\x01\x74\x01\x00\x01\x6c\x01\x21\x01\uffff\x01\x61\x01\x21"+
-        "\x01\x77\x01\x61\x01\x75\x01\uffff\x01\x41\x01\x74\x01\x21\x01\uffff"+
-        "\x01\x75\x01\x00\x01\x65\x01\uffff\x01\x74\x01\uffff\x01\x21\x01"+
-        "\x77\x01\x6e\x01\uffff\x01\x65\x01\uffff\x01\x72\x01\x00\x01\x21"+
-        "\x01\x65\x01\uffff\x01\x21\x01\x64\x01\x21\x01\x65\x01\x00\x01\uffff"+
-        "\x01\x21\x01\uffff\x01\x69\x01\uffff\x01\x21\x01\x0a\x01\uffff\x01"+
-        "\x00\x01\uffff\x01\x6e\x01\uffff\x01\x67\x01\x62\x01\x6f\x01\x78"+
-        "\x01\x21\x01\uffff";
-    const string DFA22_maxS =
-        "\x02\uffff\x03\uffff\x01\x3d\x02\uffff\x01\x2e\x01\x74\x05\uffff"+
-        "\x01\x6f\x01\x6e\x01\x78\x01\x6d\x01\x74\x01\x65\x01\x74\x01\x6f"+
-        "\x01\x7c\x01\x2d\x01\x39\x01\x69\x01\uffff\x01\x39\x01\uffff\x01"+
-        "\uffff\x01\uffff\x01\uffff\x01\x65\x01\x69\x01\x6e\x01\x6f\x01\x61"+
-        "\x01\x6f\x01\x72\x01\x61\x01\x69\x01\x68\x01\x73\x0a\uffff\x01\x73"+
-        "\x01\x79\x01\x6f\x06\uffff\x01\x7a\x01\x6f\x01\x72\x03\x7a\x01\x6c"+
-        "\x02\x7a\x01\x74\x01\x64\x01\x7a\x01\x63\x01\x64\x04\uffff\x01\x39"+
-        "\x02\uffff\x01\x6b\x02\uffff\x01\uffff\x02\x21\x02\uffff\x01\x67"+
+        "\x02\x00\x03\uffff\x01\x2b\x02\uffff\x01\x2e\x01\x63\x01\x6e\x05"+
+        "\uffff\x01\x69\x01\x6e\x01\x6c\x01\x6d\x01\x74\x01\x65\x01\x6f\x02"+
+        "\x2d\x01\x2e\x01\x69\x01\uffff\x01\x2e\x01\x00\x01\uffff\x01\x00"+
+        "\x01\uffff\x01\x65\x01\x69\x01\x6e\x01\x6f\x01\x61\x01\x6c\x01\x65"+
+        "\x01\x61\x01\x69\x01\x68\x01\x73\x0a\uffff\x01\x61\x01\x79\x01\x6f"+
+        "\x01\uffff\x01\x63\x01\x64\x01\x21\x05\uffff\x01\x21\x01\x6e\x01"+
+        "\x72\x03\x21\x01\x6c\x02\x21\x01\x74\x01\x64\x03\uffff\x01\x2e\x03"+
+        "\uffff\x01\x6b\x02\uffff\x01\x00\x01\x0a\x01\x21\x02\uffff\x01\x67"+
         "\x01\uffff\x01\x6b\x02\x64\x01\x74\x01\x6f\x01\x69\x01\x61\x01\x66"+
         "\x01\x74\x01\x6c\x01\x61\x01\x65\x01\x74\x01\x70\x01\uffff\x01\x6c"+
-        "\x01\x70\x01\uffff\x01\x72\x01\x74\x01\x63\x03\uffff\x01\x69\x02"+
-        "\uffff\x02\x7a\x01\uffff\x01\x7a\x01\x65\x01\x7a\x01\uffff\x01\uffff"+
+        "\x01\x70\x01\x73\x02\x21\x02\uffff\x01\x72\x01\x74\x01\x63\x03\uffff"+
+        "\x01\x69\x02\uffff\x01\x21\x01\x65\x01\x7a\x01\x00\x01\uffff\x01"+
+        "\x69\x01\x7a\x01\x21\x01\x65\x02\x72\x01\x70\x01\x77\x01\x21\x01"+
+        "\x68\x01\x6c\x01\x64\x01\x61\x01\x79\x01\x70\x02\x65\x01\x21\x02"+
+        "\uffff\x01\x64\x01\x72\x01\x6c\x01\x70\x01\uffff\x01\x21\x01\x70"+
+        "\x01\x00\x01\x6e\x01\x21\x01\uffff\x01\x21\x01\x69\x01\x64\x02\x21"+
+        "\x01\uffff\x01\x21\x01\x65\x01\x21\x01\x65\x01\x73\x01\x6c\x01\x65"+
+        "\x02\x21\x01\uffff\x01\x69\x01\x6f\x01\x65\x01\x73\x01\uffff\x01"+
+        "\x69\x01\x00\x01\x21\x01\x65\x02\uffff\x01\x78\x01\x69\x03\uffff"+
+        "\x02\x72\x01\uffff\x01\x21\x01\x62\x01\x65\x01\x6e\x02\uffff\x01"+
+        "\x6e\x01\x6c\x01\x21\x01\x65\x01\x63\x01\x00\x01\uffff\x01\x79\x01"+
+        "\x74\x01\x21\x02\x6e\x01\x61\x01\x72\x01\uffff\x01\x6f\x01\x41\x01"+
+        "\x64\x01\x61\x01\x73\x01\uffff\x01\x21\x01\x74\x01\x00\x01\x6c\x01"+
+        "\x21\x01\uffff\x01\x61\x01\x21\x01\x77\x01\x61\x01\x75\x01\uffff"+
+        "\x01\x41\x01\x74\x01\x21\x01\uffff\x01\x75\x01\x00\x01\x65\x01\uffff"+
+        "\x01\x74\x01\uffff\x01\x21\x01\x77\x01\x6e\x01\uffff\x01\x65\x01"+
+        "\uffff\x01\x72\x01\x00\x01\x21\x01\x65\x01\uffff\x01\x21\x01\x64"+
+        "\x01\x21\x01\x65\x01\x00\x01\uffff\x01\x21\x01\uffff\x01\x69\x01"+
+        "\uffff\x01\x21\x01\x0a\x01\uffff\x01\x00\x01\uffff\x01\x6e\x01\uffff"+
+        "\x01\x67\x01\x62\x01\x6f\x01\x78\x01\x21\x01\uffff";
+    const string DFA22_maxS =
+        "\x02\uffff\x03\uffff\x01\x3d\x02\uffff\x01\x2e\x02\x74\x05\uffff"+
+        "\x01\x6f\x01\x6e\x01\x78\x01\x6d\x01\x74\x01\x65\x01\x6f\x01\x7c"+
+        "\x01\x2d\x01\x39\x01\x69\x01\uffff\x01\x39\x01\uffff\x01\uffff\x01"+
+        "\uffff\x01\uffff\x01\x65\x01\x69\x01\x6e\x01\x6f\x01\x61\x01\x6f"+
+        "\x01\x72\x01\x61\x01\x69\x01\x68\x01\x73\x0a\uffff\x01\x73\x01\x79"+
+        "\x01\x6f\x01\uffff\x01\x67\x01\x64\x01\x7a\x05\uffff\x01\x7a\x01"+
+        "\x6f\x01\x72\x03\x7a\x01\x6c\x02\x7a\x01\x74\x01\x64\x03\uffff\x01"+
+        "\x39\x03\uffff\x01\x6b\x02\uffff\x01\uffff\x02\x21\x02\uffff\x01"+
+        "\x67\x01\uffff\x01\x6b\x02\x64\x01\x74\x01\x6f\x01\x69\x01\x61\x01"+
+        "\x66\x01\x74\x01\x6c\x01\x61\x01\x65\x01\x74\x01\x70\x01\uffff\x01"+
+        "\x6c\x01\x70\x01\x73\x02\x7a\x02\uffff\x01\x72\x01\x74\x01\x63\x03"+
+        "\uffff\x01\x69\x02\uffff\x01\x7a\x01\x65\x01\x7a\x01\uffff\x01\uffff"+
         "\x01\x69\x02\x7a\x01\x65\x02\x72\x01\x70\x01\x77\x01\x7a\x01\x74"+
-        "\x01\x6c\x01\x64\x01\x61\x01\x79\x01\x70\x02\x65\x01\x64\x01\x72"+
-        "\x01\x6c\x01\x70\x03\uffff\x01\x7a\x01\x70\x01\uffff\x01\x6e\x01"+
-        "\x7a\x01\uffff\x01\x7a\x01\x69\x01\x64\x02\x7a\x01\uffff\x01\x7a"+
-        "\x01\x65\x01\x7a\x01\x65\x01\x73\x01\x6c\x01\x65\x02\x7a\x01\x69"+
-        "\x01\x6f\x01\x65\x01\x73\x01\uffff\x01\x69\x01\uffff\x01\x7a\x01"+
-        "\x74\x02\uffff\x01\x78\x01\x69\x03\uffff\x02\x72\x01\uffff\x01\x7a"+
-        "\x01\x62\x01\x65\x01\x6e\x02\uffff\x01\x6e\x01\x6c\x01\x7a\x01\x65"+
-        "\x01\x63\x01\uffff\x01\uffff\x01\x79\x01\x74\x01\x7a\x02\x6e\x01"+
-        "\x61\x01\x72\x01\uffff\x01\x6f\x01\x7a\x01\x64\x01\x61\x01\x73\x01"+
-        "\uffff\x01\x7a\x01\x74\x01\uffff\x01\x6c\x01\x7a\x01\uffff\x01\x61"+
-        "\x01\x7a\x01\x77\x01\x61\x01\x75\x01\uffff\x01\x7a\x01\x74\x01\x7a"+
-        "\x01\uffff\x01\x75\x01\uffff\x01\x65\x01\uffff\x01\x74\x01\uffff"+
-        "\x01\x7a\x01\x77\x01\x6e\x01\uffff\x01\x65\x01\uffff\x01\x72\x01"+
-        "\uffff\x01\x7a\x01\x65\x01\uffff\x01\x7a\x01\x64\x01\x7a\x01\x65"+
-        "\x01\uffff\x01\uffff\x01\x7a\x01\uffff\x01\x69\x01\uffff\x01\x7a"+
-        "\x01\x0a\x01\uffff\x01\uffff\x01\uffff\x01\x6e\x01\uffff\x01\x67"+
-        "\x01\x62\x01\x6f\x01\x78\x01\x7a\x01\uffff";
+        "\x01\x6c\x01\x64\x01\x61\x01\x79\x01\x70\x02\x65\x01\x7a\x02\uffff"+
+        "\x01\x64\x01\x72\x01\x6c\x01\x70\x01\uffff\x01\x7a\x01\x70\x01\uffff"+
+        "\x01\x6e\x01\x7a\x01\uffff\x01\x7a\x01\x69\x01\x64\x02\x7a\x01\uffff"+
+        "\x01\x7a\x01\x65\x01\x7a\x01\x65\x01\x73\x01\x6c\x01\x65\x02\x7a"+
+        "\x01\uffff\x01\x69\x01\x6f\x01\x65\x01\x73\x01\uffff\x01\x69\x01"+
+        "\uffff\x01\x7a\x01\x74\x02\uffff\x01\x78\x01\x69\x03\uffff\x02\x72"+
+        "\x01\uffff\x01\x7a\x01\x62\x01\x65\x01\x6e\x02\uffff\x01\x6e\x01"+
+        "\x6c\x01\x7a\x01\x65\x01\x63\x01\uffff\x01\uffff\x01\x79\x01\x74"+
+        "\x01\x7a\x02\x6e\x01\x61\x01\x72\x01\uffff\x01\x6f\x01\x7a\x01\x64"+
+        "\x01\x61\x01\x73\x01\uffff\x01\x7a\x01\x74\x01\uffff\x01\x6c\x01"+
+        "\x7a\x01\uffff\x01\x61\x01\x7a\x01\x77\x01\x61\x01\x75\x01\uffff"+
+        "\x01\x7a\x01\x74\x01\x7a\x01\uffff\x01\x75\x01\uffff\x01\x65\x01"+
+        "\uffff\x01\x74\x01\uffff\x01\x7a\x01\x77\x01\x6e\x01\uffff\x01\x65"+
+        "\x01\uffff\x01\x72\x01\uffff\x01\x7a\x01\x65\x01\uffff\x01\x7a\x01"+
+        "\x64\x01\x7a\x01\x65\x01\uffff\x01\uffff\x01\x7a\x01\uffff\x01\x69"+
+        "\x01\uffff\x01\x7a\x01\x0a\x01\uffff\x01\uffff\x01\uffff\x01\x6e"+
+        "\x01\uffff\x01\x67\x01\x62\x01\x6f\x01\x78\x01\x7a\x01\uffff";
     const string DFA22_acceptS =
-        "\x02\uffff\x01\x05\x01\x06\x01\x07\x01\uffff\x01\x09\x01\x0a\x02"+
-        "\uffff\x01\x0e\x01\x0f\x01\x10\x01\x11\x01\x12\x0c\uffff\x01\x39"+
-        "\x02\uffff\x01\x3e\x01\uffff\x01\x42\x0b\uffff\x01\x40\x01\x41\x01"+
-        "\x05\x01\x06\x01\x07\x01\x08\x01\x34\x01\x33\x01\x09\x01\x0a\x03"+
-        "\uffff\x01\x39\x01\x0e\x01\x0f\x01\x10\x01\x11\x01\x12\x0e\uffff"+
-        "\x01\x2f\x01\x30\x01\x32\x01\x3b\x01\uffff\x01\x31\x01\x35\x01\uffff"+
-        "\x01\x3a\x01\x3d\x03\uffff\x01\x3e\x01\x3f\x01\uffff\x01\x40\x0e"+
-        "\uffff\x01\x43\x02\uffff\x01\x13\x03\uffff\x01\x14\x01\x15\x01\x18"+
-        "\x01\uffff\x01\x16\x01\x17\x02\uffff\x01\x2b\x04\uffff\x01\x3c\x15"+
-        "\uffff\x01\x27\x01\x28\x01\x2e\x05\uffff\x01\x19\x05\uffff\x01\x1f"+
-        "\x0d\uffff\x01\x2a\x04\uffff\x01\x04\x01\x1a\x02\uffff\x01\x26\x01"+
-        "\x1d\x01\x1e\x02\uffff\x01\x25\x04\uffff\x01\x0d\x01\x38\x06\uffff"+
-        "\x01\x01\x07\uffff\x01\x22\x05\uffff\x01\x2c\x05\uffff\x01\x1b\x05"+
-        "\uffff\x01\x0b\x03\uffff\x01\x2d\x03\uffff\x01\x03\x01\uffff\x01"+
-        "\x21\x03\uffff\x01\x0c\x01\uffff\x01\x36\x04\uffff\x01\x20\x05\uffff"+
-        "\x01\x02\x01\uffff\x01\x23\x01\uffff\x01\x29\x02\uffff\x01\x3c\x01"+
-        "\uffff\x01\x1c\x01\uffff\x01\x37\x05\uffff\x01\x24";
+        "\x02\uffff\x01\x05\x01\x06\x01\x07\x01\uffff\x01\x09\x01\x0a\x03"+
+        "\uffff\x01\x0f\x01\x10\x01\x11\x01\x12\x01\x13\x0b\uffff\x01\x3a"+
+        "\x02\uffff\x01\x3f\x01\uffff\x01\x43\x0b\uffff\x01\x41\x01\x42\x01"+
+        "\x05\x01\x06\x01\x07\x01\x08\x01\x35\x01\x34\x01\x09\x01\x0a\x03"+
+        "\uffff\x01\x3a\x03\uffff\x01\x0f\x01\x10\x01\x11\x01\x12\x01\x13"+
+        "\x0b\uffff\x01\x30\x01\x31\x01\x33\x01\uffff\x01\x3c\x01\x32\x01"+
+        "\x36\x01\uffff\x01\x3b\x01\x3e\x03\uffff\x01\x3f\x01\x40\x01\uffff"+
+        "\x01\x41\x0e\uffff\x01\x44\x05\uffff\x01\x2c\x01\x14\x03\uffff\x01"+
+        "\x15\x01\x16\x01\x19\x01\uffff\x01\x17\x01\x18\x04\uffff\x01\x3d"+
+        "\x12\uffff\x01\x2f\x01\x29\x04\uffff\x01\x28\x05\uffff\x01\x1a\x05"+
+        "\uffff\x01\x20\x09\uffff\x01\x0e\x04\uffff\x01\x2b\x04\uffff\x01"+
+        "\x04\x01\x1b\x02\uffff\x01\x27\x01\x1e\x01\x1f\x02\uffff\x01\x26"+
+        "\x04\uffff\x01\x0d\x01\x39\x06\uffff\x01\x01\x07\uffff\x01\x23\x05"+
+        "\uffff\x01\x2d\x05\uffff\x01\x1c\x05\uffff\x01\x0b\x03\uffff\x01"+
+        "\x2e\x03\uffff\x01\x03\x01\uffff\x01\x22\x03\uffff\x01\x0c\x01\uffff"+
+        "\x01\x37\x04\uffff\x01\x21\x05\uffff\x01\x02\x01\uffff\x01\x24\x01"+
+        "\uffff\x01\x2a\x02\uffff\x01\x3d\x01\uffff\x01\x1d\x01\uffff\x01"+
+        "\x38\x05\uffff\x01\x25";
     const string DFA22_specialS =
-        "\x01\x05\x01\x03\x1b\uffff\x01\x04\x01\uffff\x01\x00\x37\uffff"+
-        "\x01\x02\x27\uffff\x01\x06\x1b\uffff\x01\x07\x18\uffff\x01\x08\x17"+
-        "\uffff\x01\x09\x11\uffff\x01\x0a\x0e\uffff\x01\x0b\x0b\uffff\x01"+
-        "\x0c\x07\uffff\x01\x0d\x08\uffff\x01\x01\x09\uffff}>";
+        "\x01\x00\x01\x01\x1b\uffff\x01\x02\x01\uffff\x01\x04\x37\uffff"+
+        "\x01\x0c\x28\uffff\x01\x05\x1c\uffff\x01\x06\x19\uffff\x01\x07\x17"+
+        "\uffff\x01\x08\x11\uffff\x01\x09\x0e\uffff\x01\x0a\x0b\uffff\x01"+
+        "\x0b\x07\uffff\x01\x0d\x08\uffff\x01\x03\x09\uffff}>";
     static readonly string[] DFA22_transitionS = {
             "\x09\x20\x02\x1e\x02\x20\x01\x1e\x12\x20\x01\x1e\x03\x20\x01"+
-            "\x1f\x01\x1d\x02\x20\x01\x0a\x01\x0b\x01\x20\x01\x05\x01\x06"+
-            "\x01\x17\x01\x19\x01\x08\x0a\x1c\x01\x07\x01\x0e\x01\x20\x01"+
-            "\x04\x03\x20\x1a\x1b\x01\x0c\x01\x01\x01\x0d\x01\x20\x01\x1b"+
-            "\x01\x20\x01\x15\x01\x1b\x01\x0f\x01\x1b\x01\x11\x03\x1b\x01"+
-            "\x10\x02\x1b\x01\x14\x01\x12\x01\x16\x01\x1b\x01\x13\x02\x1b"+
+            "\x1f\x01\x1d\x02\x20\x01\x0b\x01\x0c\x01\x20\x01\x05\x01\x06"+
+            "\x01\x17\x01\x19\x01\x08\x0a\x1c\x01\x07\x01\x0f\x01\x20\x01"+
+            "\x04\x03\x20\x1a\x1b\x01\x0d\x01\x01\x01\x0e\x01\x20\x01\x1b"+
+            "\x01\x20\x01\x0a\x01\x1b\x01\x10\x01\x1b\x01\x12\x03\x1b\x01"+
+            "\x11\x02\x1b\x01\x15\x01\x13\x01\x16\x01\x1b\x01\x14\x02\x1b"+
             "\x01\x09\x01\x1a\x06\x1b\x01\x02\x01\x18\x01\x03\uff82\x20",
             "\x41\x2d\x1a\x2c\x04\x2d\x01\x2c\x01\x2d\x01\x2c\x01\x21\x01"+
             "\x26\x01\x27\x01\x23\x01\x29\x06\x2c\x01\x25\x01\x24\x01\x2c"+
@@ -3529,26 +3563,26 @@ public partial class simpletikzLexer : Lexer {
             "",
             "\x01\x36",
             "\x01\x38\x10\uffff\x01\x37",
+            "\x01\x3b\x03\uffff\x01\x3a\x01\uffff\x01\x3c",
             "",
             "",
             "",
             "",
             "",
-            "\x01\x41\x03\uffff\x01\x3f\x01\uffff\x01\x40",
-            "\x01\x42",
-            "\x01\x45\x01\x44\x0a\uffff\x01\x43",
-            "\x01\x46",
-            "\x01\x47",
-            "\x01\x48",
-            "\x01\x49\x03\uffff\x01\x4b\x01\uffff\x01\x4a",
+            "\x01\x44\x03\uffff\x01\x42\x01\uffff\x01\x43",
+            "\x01\x45",
+            "\x01\x48\x01\x47\x0a\uffff\x01\x46",
+            "\x01\x49",
+            "\x01\x4a",
+            "\x01\x4b",
             "\x01\x4c",
-            "\x01\x4d\x01\x50\x01\uffff\x0a\x51\x04\uffff\x01\x4e\x3d\uffff"+
+            "\x01\x4d\x01\x51\x01\uffff\x0a\x50\x04\uffff\x01\x4e\x3d\uffff"+
             "\x01\x4f",
             "\x01\x52",
-            "\x01\x53\x01\uffff\x0a\x50",
+            "\x01\x53\x01\uffff\x0a\x51",
             "\x01\x54",
             "",
-            "\x01\x50\x01\uffff\x0a\x51",
+            "\x01\x51\x01\uffff\x0a\x50",
             "\x09\x56\x01\x57\x01\x59\x02\x56\x01\x58\x12\x56\x01\x57\uffdf"+
             "\x56",
             "",
@@ -3579,6 +3613,10 @@ public partial class simpletikzLexer : Lexer {
             "\x01\x6d",
             "\x01\x6e",
             "",
+            "\x01\x70\x03\uffff\x01\x6f",
+            "\x01\x71",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "",
             "",
             "",
@@ -3586,43 +3624,38 @@ public partial class simpletikzLexer : Lexer {
             "",
             "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
             "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
-            "\x01\x71\x01\x70",
-            "\x01\x72",
-            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
-            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
-            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
-            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
-            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
-            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\x75\x01\x74",
             "\x01\x76",
             "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
             "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
             "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
-            "\x01\x79",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "\x01\x7a",
             "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
             "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
-            "\x01\x7c",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "\x01\x7d",
-            "",
-            "",
-            "",
-            "",
-            "\x01\x50\x01\uffff\x0a\x51",
-            "",
-            "",
             "\x01\x7e",
             "",
             "",
-            "\x21\x56\x01\x7f\uffde\x56",
-            "\x01\x56\x16\uffff\x01\u0080",
-            "\x01\u0080",
+            "",
+            "\x01\x51\x01\uffff\x0a\x50",
             "",
             "",
+            "",
+            "\x01\x7f",
+            "",
+            "",
+            "\x21\x56\x01\u0080\uffde\x56",
+            "\x01\x56\x16\uffff\x01\u0081",
             "\x01\u0081",
             "",
+            "",
             "\x01\u0082",
+            "",
             "\x01\u0083",
             "\x01\u0084",
             "\x01\u0085",
@@ -3636,44 +3669,44 @@ public partial class simpletikzLexer : Lexer {
             "\x01\u008d",
             "\x01\u008e",
             "\x01\u008f",
-            "",
             "\x01\u0090",
-            "\x01\u0091",
             "",
+            "\x01\u0091",
             "\x01\u0092",
             "\x01\u0093",
-            "\x01\u0094",
-            "",
-            "",
-            "",
-            "\x01\u0095",
-            "",
-            "",
             "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
             "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
             "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "",
-            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
-            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "",
+            "\x01\u0096",
+            "\x01\u0097",
+            "\x01\u0098",
+            "",
+            "",
+            "",
             "\x01\u0099",
-            "\x01\u009a",
-            "\x54\x56\x01\u009b\uffab\x56",
             "",
+            "",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\u009b",
             "\x01\u009c",
-            "\x01\u009d",
+            "\x54\x56\x01\u009d\uffab\x56",
+            "",
+            "\x01\u009e",
+            "\x01\u009f",
             "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
             "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
-            "\x01\u009f",
-            "\x01\u00a0",
             "\x01\u00a1",
             "\x01\u00a2",
             "\x01\u00a3",
+            "\x01\u00a4",
+            "\x01\u00a5",
             "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
             "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
-            "\x01\u00a5\x0b\uffff\x01\u00a6",
-            "\x01\u00a7",
-            "\x01\u00a8",
+            "\x01\u00a7\x0b\uffff\x01\u00a8",
             "\x01\u00a9",
             "\x01\u00aa",
             "\x01\u00ab",
@@ -3681,23 +3714,27 @@ public partial class simpletikzLexer : Lexer {
             "\x01\u00ad",
             "\x01\u00ae",
             "\x01\u00af",
-            "\x01\u00b0",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "",
+            "",
             "\x01\u00b1",
-            "",
-            "",
-            "",
-            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
-            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\u00b2",
             "\x01\u00b3",
-            "\x49\x56\x01\u00b4\uffb6\x56",
-            "\x01\u00b5",
+            "\x01\u00b4",
+            "",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\u00b6",
+            "\x49\x56\x01\u00b7\uffb6\x56",
+            "\x01\u00b8",
             "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
-            "\x5d\x04\uffff\x01\x5d\x01\uffff\x12\x5d\x01\u00b6\x07\x5d",
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x12\x5d\x01\u00b9\x07\x5d",
             "",
             "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
             "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
-            "\x01\u00b9",
-            "\x01\u00ba",
+            "\x01\u00bc",
+            "\x01\u00bd",
             "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
             "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
             "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
@@ -3705,131 +3742,132 @@ public partial class simpletikzLexer : Lexer {
             "",
             "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
             "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
-            "\x01\u00be",
-            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
-            "\x5d\x04\uffff\x01\x5d\x01\uffff\x03\x5d\x01\u00bf\x16\x5d",
             "\x01\u00c1",
-            "\x01\u00c2",
-            "\x01\u00c3",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x03\x5d\x01\u00c2\x16\x5d",
             "\x01\u00c4",
-            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
-            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
-            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
-            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\u00c5",
+            "\x01\u00c6",
             "\x01\u00c7",
-            "\x01\u00c8",
-            "\x01\u00c9",
-            "\x01\u00ca",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "",
+            "\x01\u00ca",
             "\x01\u00cb",
-            "\x4b\x56\x01\u00cc\uffb4\x56",
+            "\x01\u00cc",
+            "\x01\u00cd",
+            "",
+            "\x01\u00ce",
+            "\x4b\x56\x01\u00cf\uffb4\x56",
             "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
             "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
-            "\x01\u00cf\x0e\uffff\x01\u00ce",
+            "\x01\u00d2\x0e\uffff\x01\u00d1",
             "",
             "",
-            "\x01\u00d0",
-            "\x01\u00d1",
-            "",
-            "",
-            "",
-            "\x01\u00d2",
             "\x01\u00d3",
+            "\x01\u00d4",
+            "",
+            "",
+            "",
+            "\x01\u00d5",
+            "\x01\u00d6",
             "",
             "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
-            "\x5d\x04\uffff\x01\x5d\x01\uffff\x03\x5d\x01\u00d4\x16\x5d",
-            "\x01\u00d6",
-            "\x01\u00d7",
-            "\x01\u00d8",
-            "",
-            "",
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x03\x5d\x01\u00d7\x16\x5d",
             "\x01\u00d9",
             "\x01\u00da",
-            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
-            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\u00db",
+            "",
+            "",
             "\x01\u00dc",
             "\x01\u00dd",
-            "\x5a\x56\x01\u00de\uffa5\x56",
-            "",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
             "\x01\u00df",
             "\x01\u00e0",
-            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
-            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
+            "\x5a\x56\x01\u00e1\uffa5\x56",
+            "",
             "\x01\u00e2",
             "\x01\u00e3",
-            "\x01\u00e4",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
             "\x01\u00e5",
-            "",
             "\x01\u00e6",
-            "\x1a\x6c\x06\uffff\x1a\x6c",
+            "\x01\u00e7",
             "\x01\u00e8",
+            "",
             "\x01\u00e9",
-            "\x01\u00ea",
+            "\x1a\x6c\x06\uffff\x1a\x6c",
+            "\x01\u00eb",
+            "\x01\u00ec",
+            "\x01\u00ed",
             "",
             "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
             "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
-            "\x01\u00ec",
-            "\x45\x56\x01\u00ed\uffba\x56",
-            "\x01\u00ee",
+            "\x01\u00ef",
+            "\x45\x56\x01\u00f0\uffba\x56",
+            "\x01\u00f1",
             "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
             "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
             "",
-            "\x01\u00f0",
+            "\x01\u00f3",
             "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
             "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
-            "\x01\u00f2",
-            "\x01\u00f3",
-            "\x01\u00f4",
+            "\x01\u00f5",
+            "\x01\u00f6",
+            "\x01\u00f7",
             "",
             "\x1a\x6c\x06\uffff\x1a\x6c",
-            "\x01\u00f6",
+            "\x01\u00f9",
             "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
             "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
-            "",
-            "\x01\u00f8",
-            "\x44\x56\x01\u00f9\uffbb\x56",
-            "\x01\u00fa",
             "",
             "\x01\u00fb",
-            "",
-            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
-            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
+            "\x44\x56\x01\u00fc\uffbb\x56",
             "\x01\u00fd",
+            "",
             "\x01\u00fe",
             "",
-            "\x01\u00ff",
-            "",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
             "\x01\u0100",
-            "\x54\x56\x01\u0101\uffab\x56",
-            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
-            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
+            "\x01\u0101",
+            "",
+            "\x01\u0102",
+            "",
             "\x01\u0103",
+            "\x54\x56\x01\u0104\uffab\x56",
+            "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
+            "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
+            "\x01\u0106",
             "",
             "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
             "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
-            "\x01\u0105",
+            "\x01\u0108",
             "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
             "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
-            "\x01\u0107",
-            "\x0a\u010a\x01\u0109\x02\u010a\x01\u0108\ufff2\u010a",
+            "\x01\u010a",
+            "\x0a\u010d\x01\u010c\x02\u010d\x01\u010b\ufff2\u010d",
             "",
             "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
             "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
-            "",
-            "\x01\u010c",
-            "",
-            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
-            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
-            "\x01\u0109",
-            "",
-            "\x0a\u010a\x01\u0109\x02\u010a\x01\u0108\ufff2\u010a",
-            "",
-            "\x01\u010e",
             "",
             "\x01\u010f",
-            "\x01\u0110",
+            "",
+            "\x01\x39\x0c\uffff\x01\x39\x01\uffff\x0a\x39\x07\uffff\x1a"+
+            "\x39\x04\uffff\x01\x39\x01\uffff\x1a\x39",
+            "\x01\u010c",
+            "",
+            "\x0a\u010d\x01\u010c\x02\u010d\x01\u010b\ufff2\u010d",
+            "",
             "\x01\u0111",
+            "",
             "\x01\u0112",
+            "\x01\u0113",
+            "\x01\u0114",
+            "\x01\u0115",
             "\x01\x5d\x0c\uffff\x01\x5d\x01\uffff\x0a\x5d\x07\uffff\x1a"+
             "\x5d\x04\uffff\x01\x5d\x01\uffff\x1a\x5d",
             ""
@@ -3861,7 +3899,7 @@ public partial class simpletikzLexer : Lexer {
 
         override public string Description
         {
-            get { return "1:1: Tokens : ( T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | ID | INT | FLOAT_WO_EXP | TIKZEDT_CMD_COMMENT | COMMENT | WS | MATHSTRING | COMMAND | ESC_SEQ | SOMETHING | SOMETHING1 );"; }
+            get { return "1:1: Tokens : ( T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | T__78 | T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | ID | INT | FLOAT_WO_EXP | TIKZEDT_CMD_COMMENT | COMMENT | WS | MATHSTRING | COMMAND | ESC_SEQ | SOMETHING | SOMETHING1 );"; }
         }
 
     }
@@ -3874,38 +3912,76 @@ public partial class simpletikzLexer : Lexer {
         switch ( s )
         {
                	case 0 : 
-                   	int LA22_31 = input.LA(1);
+                   	int LA22_0 = input.LA(1);
 
                    	s = -1;
-                   	if ( ((LA22_31 >= '\u0000' && LA22_31 <= '\uFFFF')) ) { s = 91; }
+                   	if ( (LA22_0 == '\\') ) { s = 1; }
 
-                   	else s = 32;
+                   	else if ( (LA22_0 == '{') ) { s = 2; }
+
+                   	else if ( (LA22_0 == '}') ) { s = 3; }
+
+                   	else if ( (LA22_0 == '=') ) { s = 4; }
+
+                   	else if ( (LA22_0 == '+') ) { s = 5; }
+
+                   	else if ( (LA22_0 == ',') ) { s = 6; }
+
+                   	else if ( (LA22_0 == ':') ) { s = 7; }
+
+                   	else if ( (LA22_0 == '/') ) { s = 8; }
+
+                   	else if ( (LA22_0 == 's') ) { s = 9; }
+
+                   	else if ( (LA22_0 == 'a') ) { s = 10; }
+
+                   	else if ( (LA22_0 == '(') ) { s = 11; }
+
+                   	else if ( (LA22_0 == ')') ) { s = 12; }
+
+                   	else if ( (LA22_0 == '[') ) { s = 13; }
+
+                   	else if ( (LA22_0 == ']') ) { s = 14; }
+
+                   	else if ( (LA22_0 == ';') ) { s = 15; }
+
+                   	else if ( (LA22_0 == 'c') ) { s = 16; }
+
+                   	else if ( (LA22_0 == 'i') ) { s = 17; }
+
+                   	else if ( (LA22_0 == 'e') ) { s = 18; }
+
+                   	else if ( (LA22_0 == 'm') ) { s = 19; }
+
+                   	else if ( (LA22_0 == 'p') ) { s = 20; }
+
+                   	else if ( (LA22_0 == 'l') ) { s = 21; }
+
+                   	else if ( (LA22_0 == 'n') ) { s = 22; }
+
+                   	else if ( (LA22_0 == '-') ) { s = 23; }
+
+                   	else if ( (LA22_0 == '|') ) { s = 24; }
+
+                   	else if ( (LA22_0 == '.') ) { s = 25; }
+
+                   	else if ( (LA22_0 == 't') ) { s = 26; }
+
+                   	else if ( ((LA22_0 >= 'A' && LA22_0 <= 'Z') || LA22_0 == '_' || LA22_0 == 'b' || LA22_0 == 'd' || (LA22_0 >= 'f' && LA22_0 <= 'h') || (LA22_0 >= 'j' && LA22_0 <= 'k') || LA22_0 == 'o' || (LA22_0 >= 'q' && LA22_0 <= 'r') || (LA22_0 >= 'u' && LA22_0 <= 'z')) ) { s = 27; }
+
+                   	else if ( ((LA22_0 >= '0' && LA22_0 <= '9')) ) { s = 28; }
+
+                   	else if ( (LA22_0 == '%') ) { s = 29; }
+
+                   	else if ( ((LA22_0 >= '\t' && LA22_0 <= '\n') || LA22_0 == '\r' || LA22_0 == ' ') ) { s = 30; }
+
+                   	else if ( (LA22_0 == '$') ) { s = 31; }
+
+                   	else if ( ((LA22_0 >= '\u0000' && LA22_0 <= '\b') || (LA22_0 >= '\u000B' && LA22_0 <= '\f') || (LA22_0 >= '\u000E' && LA22_0 <= '\u001F') || (LA22_0 >= '!' && LA22_0 <= '#') || (LA22_0 >= '&' && LA22_0 <= '\'') || LA22_0 == '*' || LA22_0 == '<' || (LA22_0 >= '>' && LA22_0 <= '@') || LA22_0 == '^' || LA22_0 == '`' || (LA22_0 >= '~' && LA22_0 <= '\uFFFF')) ) { s = 32; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 1 : 
-                   	int LA22_266 = input.LA(1);
-
-                   	s = -1;
-                   	if ( (LA22_266 == '\r') ) { s = 264; }
-
-                   	else if ( (LA22_266 == '\n') ) { s = 265; }
-
-                   	else if ( ((LA22_266 >= '\u0000' && LA22_266 <= '\t') || (LA22_266 >= '\u000B' && LA22_266 <= '\f') || (LA22_266 >= '\u000E' && LA22_266 <= '\uFFFF')) ) { s = 266; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 2 : 
-                   	int LA22_87 = input.LA(1);
-
-                   	s = -1;
-                   	if ( ((LA22_87 >= '\u0000' && LA22_87 <= ' ') || (LA22_87 >= '\"' && LA22_87 <= '\uFFFF')) ) { s = 86; }
-
-                   	else if ( (LA22_87 == '!') ) { s = 127; }
-
-                   	if ( s >= 0 ) return s;
-                   	break;
-               	case 3 : 
                    	int LA22_1 = input.LA(1);
 
                    	s = -1;
@@ -3939,7 +4015,7 @@ public partial class simpletikzLexer : Lexer {
 
                    	if ( s >= 0 ) return s;
                    	break;
-               	case 4 : 
+               	case 2 : 
                    	int LA22_29 = input.LA(1);
 
                    	s = -1;
@@ -3955,155 +4031,117 @@ public partial class simpletikzLexer : Lexer {
 
                    	if ( s >= 0 ) return s;
                    	break;
-               	case 5 : 
-                   	int LA22_0 = input.LA(1);
+               	case 3 : 
+                   	int LA22_269 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA22_0 == '\\') ) { s = 1; }
+                   	if ( (LA22_269 == '\r') ) { s = 267; }
 
-                   	else if ( (LA22_0 == '{') ) { s = 2; }
+                   	else if ( (LA22_269 == '\n') ) { s = 268; }
 
-                   	else if ( (LA22_0 == '}') ) { s = 3; }
+                   	else if ( ((LA22_269 >= '\u0000' && LA22_269 <= '\t') || (LA22_269 >= '\u000B' && LA22_269 <= '\f') || (LA22_269 >= '\u000E' && LA22_269 <= '\uFFFF')) ) { s = 269; }
 
-                   	else if ( (LA22_0 == '=') ) { s = 4; }
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 4 : 
+                   	int LA22_31 = input.LA(1);
 
-                   	else if ( (LA22_0 == '+') ) { s = 5; }
+                   	s = -1;
+                   	if ( ((LA22_31 >= '\u0000' && LA22_31 <= '\uFFFF')) ) { s = 91; }
 
-                   	else if ( (LA22_0 == ',') ) { s = 6; }
+                   	else s = 32;
 
-                   	else if ( (LA22_0 == ':') ) { s = 7; }
+                   	if ( s >= 0 ) return s;
+                   	break;
+               	case 5 : 
+                   	int LA22_128 = input.LA(1);
 
-                   	else if ( (LA22_0 == '/') ) { s = 8; }
+                   	s = -1;
+                   	if ( (LA22_128 == 'T') ) { s = 157; }
 
-                   	else if ( (LA22_0 == 's') ) { s = 9; }
-
-                   	else if ( (LA22_0 == '(') ) { s = 10; }
-
-                   	else if ( (LA22_0 == ')') ) { s = 11; }
-
-                   	else if ( (LA22_0 == '[') ) { s = 12; }
-
-                   	else if ( (LA22_0 == ']') ) { s = 13; }
-
-                   	else if ( (LA22_0 == ';') ) { s = 14; }
-
-                   	else if ( (LA22_0 == 'c') ) { s = 15; }
-
-                   	else if ( (LA22_0 == 'i') ) { s = 16; }
-
-                   	else if ( (LA22_0 == 'e') ) { s = 17; }
-
-                   	else if ( (LA22_0 == 'm') ) { s = 18; }
-
-                   	else if ( (LA22_0 == 'p') ) { s = 19; }
-
-                   	else if ( (LA22_0 == 'l') ) { s = 20; }
-
-                   	else if ( (LA22_0 == 'a') ) { s = 21; }
-
-                   	else if ( (LA22_0 == 'n') ) { s = 22; }
-
-                   	else if ( (LA22_0 == '-') ) { s = 23; }
-
-                   	else if ( (LA22_0 == '|') ) { s = 24; }
-
-                   	else if ( (LA22_0 == '.') ) { s = 25; }
-
-                   	else if ( (LA22_0 == 't') ) { s = 26; }
-
-                   	else if ( ((LA22_0 >= 'A' && LA22_0 <= 'Z') || LA22_0 == '_' || LA22_0 == 'b' || LA22_0 == 'd' || (LA22_0 >= 'f' && LA22_0 <= 'h') || (LA22_0 >= 'j' && LA22_0 <= 'k') || LA22_0 == 'o' || (LA22_0 >= 'q' && LA22_0 <= 'r') || (LA22_0 >= 'u' && LA22_0 <= 'z')) ) { s = 27; }
-
-                   	else if ( ((LA22_0 >= '0' && LA22_0 <= '9')) ) { s = 28; }
-
-                   	else if ( (LA22_0 == '%') ) { s = 29; }
-
-                   	else if ( ((LA22_0 >= '\t' && LA22_0 <= '\n') || LA22_0 == '\r' || LA22_0 == ' ') ) { s = 30; }
-
-                   	else if ( (LA22_0 == '$') ) { s = 31; }
-
-                   	else if ( ((LA22_0 >= '\u0000' && LA22_0 <= '\b') || (LA22_0 >= '\u000B' && LA22_0 <= '\f') || (LA22_0 >= '\u000E' && LA22_0 <= '\u001F') || (LA22_0 >= '!' && LA22_0 <= '#') || (LA22_0 >= '&' && LA22_0 <= '\'') || LA22_0 == '*' || LA22_0 == '<' || (LA22_0 >= '>' && LA22_0 <= '@') || LA22_0 == '^' || LA22_0 == '`' || (LA22_0 >= '~' && LA22_0 <= '\uFFFF')) ) { s = 32; }
+                   	else if ( ((LA22_128 >= '\u0000' && LA22_128 <= 'S') || (LA22_128 >= 'U' && LA22_128 <= '\uFFFF')) ) { s = 86; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 6 : 
-                   	int LA22_127 = input.LA(1);
+                   	int LA22_157 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA22_127 == 'T') ) { s = 155; }
+                   	if ( (LA22_157 == 'I') ) { s = 183; }
 
-                   	else if ( ((LA22_127 >= '\u0000' && LA22_127 <= 'S') || (LA22_127 >= 'U' && LA22_127 <= '\uFFFF')) ) { s = 86; }
+                   	else if ( ((LA22_157 >= '\u0000' && LA22_157 <= 'H') || (LA22_157 >= 'J' && LA22_157 <= '\uFFFF')) ) { s = 86; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 7 : 
-                   	int LA22_155 = input.LA(1);
+                   	int LA22_183 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA22_155 == 'I') ) { s = 180; }
+                   	if ( (LA22_183 == 'K') ) { s = 207; }
 
-                   	else if ( ((LA22_155 >= '\u0000' && LA22_155 <= 'H') || (LA22_155 >= 'J' && LA22_155 <= '\uFFFF')) ) { s = 86; }
+                   	else if ( ((LA22_183 >= '\u0000' && LA22_183 <= 'J') || (LA22_183 >= 'L' && LA22_183 <= '\uFFFF')) ) { s = 86; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 8 : 
-                   	int LA22_180 = input.LA(1);
+                   	int LA22_207 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA22_180 == 'K') ) { s = 204; }
+                   	if ( (LA22_207 == 'Z') ) { s = 225; }
 
-                   	else if ( ((LA22_180 >= '\u0000' && LA22_180 <= 'J') || (LA22_180 >= 'L' && LA22_180 <= '\uFFFF')) ) { s = 86; }
+                   	else if ( ((LA22_207 >= '\u0000' && LA22_207 <= 'Y') || (LA22_207 >= '[' && LA22_207 <= '\uFFFF')) ) { s = 86; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 9 : 
-                   	int LA22_204 = input.LA(1);
+                   	int LA22_225 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA22_204 == 'Z') ) { s = 222; }
+                   	if ( (LA22_225 == 'E') ) { s = 240; }
 
-                   	else if ( ((LA22_204 >= '\u0000' && LA22_204 <= 'Y') || (LA22_204 >= '[' && LA22_204 <= '\uFFFF')) ) { s = 86; }
+                   	else if ( ((LA22_225 >= '\u0000' && LA22_225 <= 'D') || (LA22_225 >= 'F' && LA22_225 <= '\uFFFF')) ) { s = 86; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 10 : 
-                   	int LA22_222 = input.LA(1);
+                   	int LA22_240 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA22_222 == 'E') ) { s = 237; }
+                   	if ( (LA22_240 == 'D') ) { s = 252; }
 
-                   	else if ( ((LA22_222 >= '\u0000' && LA22_222 <= 'D') || (LA22_222 >= 'F' && LA22_222 <= '\uFFFF')) ) { s = 86; }
+                   	else if ( ((LA22_240 >= '\u0000' && LA22_240 <= 'C') || (LA22_240 >= 'E' && LA22_240 <= '\uFFFF')) ) { s = 86; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 11 : 
-                   	int LA22_237 = input.LA(1);
+                   	int LA22_252 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA22_237 == 'D') ) { s = 249; }
+                   	if ( (LA22_252 == 'T') ) { s = 260; }
 
-                   	else if ( ((LA22_237 >= '\u0000' && LA22_237 <= 'C') || (LA22_237 >= 'E' && LA22_237 <= '\uFFFF')) ) { s = 86; }
+                   	else if ( ((LA22_252 >= '\u0000' && LA22_252 <= 'S') || (LA22_252 >= 'U' && LA22_252 <= '\uFFFF')) ) { s = 86; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 12 : 
-                   	int LA22_249 = input.LA(1);
+                   	int LA22_87 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA22_249 == 'T') ) { s = 257; }
+                   	if ( (LA22_87 == '!') ) { s = 128; }
 
-                   	else if ( ((LA22_249 >= '\u0000' && LA22_249 <= 'S') || (LA22_249 >= 'U' && LA22_249 <= '\uFFFF')) ) { s = 86; }
+                   	else if ( ((LA22_87 >= '\u0000' && LA22_87 <= ' ') || (LA22_87 >= '\"' && LA22_87 <= '\uFFFF')) ) { s = 86; }
 
                    	if ( s >= 0 ) return s;
                    	break;
                	case 13 : 
-                   	int LA22_257 = input.LA(1);
+                   	int LA22_260 = input.LA(1);
 
                    	s = -1;
-                   	if ( (LA22_257 == '\r') ) { s = 264; }
+                   	if ( (LA22_260 == '\r') ) { s = 267; }
 
-                   	else if ( (LA22_257 == '\n') ) { s = 265; }
+                   	else if ( (LA22_260 == '\n') ) { s = 268; }
 
-                   	else if ( ((LA22_257 >= '\u0000' && LA22_257 <= '\t') || (LA22_257 >= '\u000B' && LA22_257 <= '\f') || (LA22_257 >= '\u000E' && LA22_257 <= '\uFFFF')) ) { s = 266; }
+                   	else if ( ((LA22_260 >= '\u0000' && LA22_260 <= '\t') || (LA22_260 >= '\u000B' && LA22_260 <= '\f') || (LA22_260 >= '\u000E' && LA22_260 <= '\uFFFF')) ) { s = 269; }
 
                    	if ( s >= 0 ) return s;
                    	break;
