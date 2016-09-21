@@ -194,7 +194,7 @@ range
 	: numberunit ':' numberunit	->	^(IM_STRING numberunit ':' numberunit )
 	;	
 option_style
-	:	idd ('/.style' | ('/.append' 'style')  | ('/.style' number 'args')) '=' '{' (option_kv (',' option_kv)*)?  ','? '}'  -> ^(IM_OPTION_STYLE idd option_kv*)  // '{' option '}' todo: optional ,
+	:	idd ('/.style' | ('/.append' 'style') ) ((('n' 'args')=> ('n' 'args') '=' '{' number '}' ) | ('2' 'args')? '=') '{' (option_kv (',' option_kv)*)?  ','? '}'  -> ^(IM_OPTION_STYLE idd option_kv*)  // '{' option '}' todo: optional ,
 	;
 
 
